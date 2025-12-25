@@ -33,17 +33,16 @@ Simule l'addiction au sang et l'influence du Clan ancestral.
 | Bouton | Action |
 |--------|--------|
 | 🩸 Soif | Augmente la Soif de 1 |
-| 🍷 Se nourrir | Réduit la Soif de 1 |
-| 📜 Compulsion | Affiche la compulsion actuelle en MP |
-| 🔄 Rafraîchir | Met à jour le panneau |
-| ❌ Fermer | Ferme le panneau |
+| 🍷 Se nourrir | Restaure complètement la Soif (remet à 0) |
+
+Les compulsions sont affichées directement dans le panneau, avec une intensité progressive selon le niveau de Soif.
 
 ## Système Loup-Garou : La Rage et le Maintien
 
 Simule la colère sacrée des Garous.
 
 - **Rage** : Jauge liée à une **scène** (salon), seuils à 10 (Enragé) et 20 (Primal)
-- **Décroissance automatique** : La rage diminue de 1 à chaque tour de parole
+- **Décroissance automatique** : La rage diminue de 2 à chaque tour de parole
 - **Tours de Parole** : Détection organique des conversations
 - **Maintien** : 2 tours sans augmenter la rage = retour au calme
 - **5 Augures** : Ragabash, Theurge, Philodox, Galliard, Ahroun
@@ -54,11 +53,11 @@ Simule la colère sacrée des Garous.
 | Bouton | Action |
 |--------|--------|
 | 💢 +1 Rage | Affront mineur |
+| 😠 +2 Rage | Affront modéré |
 | 🔥 +3 Rage | Affront majeur |
-| 🧘 -1 Rage | Se calmer volontairement |
 | 🏁 Fin de scène | Clôture la scène (rage = 0) |
-| 🔄 Rafraîchir | Met à jour le panneau |
-| ❌ Fermer | Ferme le panneau |
+
+Les messages de Rage (Enragé, Primal) sont affichés directement dans le panneau.
 
 ### Mécanique des Tours
 
@@ -68,7 +67,7 @@ Un "tour de parole" se termine quand :
 3. Le loup-garou envoie à nouveau un message
 
 À chaque tour :
-- La rage diminue automatiquement de 1
+- La rage diminue automatiquement de 2
 - Si en état Enragé sans ajouter de rage, le compteur de maintien augmente
 - Après 2 tours sans rage ajoutée, le calme revient
 

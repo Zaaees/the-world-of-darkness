@@ -4,7 +4,7 @@ Cog Loup-Garou : Gestion de la Rage et du Maintien via slash command.
 La commande /lycan ouvre un panneau interactif avec des boutons.
 Accessible uniquement aux membres avec le rôle "Loup-garou".
 
-La Rage est liée à une scène (salon) et diminue de 1 à chaque tour de parole.
+La Rage est liée à une scène (salon) et diminue de 2 à chaque tour de parole.
 """
 
 import logging
@@ -69,8 +69,8 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
         if rage_level <= 0:
             return
 
-        # Décrémenter la rage de 1
-        new_rage = await decrement_rage(user_id, guild_id, channel_id, 1)
+        # Décrémenter la rage de 2
+        new_rage = await decrement_rage(user_id, guild_id, channel_id, 2)
 
         # Si enragé, gérer le maintien
         if is_enraged and rage_level >= SEUIL_ENRAGE:
@@ -146,7 +146,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
         2. D'autres personnes ont répondu
         3. Le loup-garou envoie à nouveau un message
 
-        À chaque tour, la rage diminue de 1.
+        À chaque tour, la rage diminue de 2.
         """
         # Ignorer les bots et les messages hors RP
         if message.author.bot:
@@ -164,13 +164,24 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
             message.channel.id,
         )
 
+        logger.debug(f"Message de {message.author.id} dans {message.channel.id}")
+        logger.debug(f"Loups-garous actifs: {[w['user_id'] for w in wolves_in_scene]}")
+
         for wolf_data in wolves_in_scene:
             wolf_id = wolf_data["user_id"]
+            has_last_message = wolf_data.get("last_message_id") is not None
+            others_spoke = wolf_data.get("others_spoke_since", False)
+
+            logger.debug(
+                f"Wolf {wolf_id}: rage={wolf_data.get('rage_level')}, "
+                f"last_msg={has_last_message}, others_spoke={others_spoke}"
+            )
 
             # Si c'est le loup-garou qui parle
             if message.author.id == wolf_id:
                 # Si d'autres ont parlé depuis son dernier message, c'est un nouveau tour
-                if wolf_data.get("others_spoke_since"):
+                if others_spoke:
+                    logger.info(f"Tour complété pour wolf {wolf_id}, décrémentation de rage")
                     await self._process_turn(
                         wolf_id,
                         message.guild.id,
@@ -188,8 +199,11 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
                 )
 
             else:
-                # Quelqu'un d'autre parle, marquer que d'autres ont parlé
-                if wolf_data.get("last_message_id"):
+                # Quelqu'un d'autre parle
+                # Marquer que d'autres ont parlé (même si last_message_id est None)
+                # Car le loup-garou pourrait avoir de la rage sans avoir encore envoyé de message
+                if has_last_message:
+                    logger.debug(f"Autre joueur a parlé, marquage others_spoke_since=True pour wolf {wolf_id}")
                     await set_rage_data(
                         wolf_id,
                         message.guild.id,

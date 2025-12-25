@@ -11,8 +11,8 @@ from utils.database import (
     get_player,
     set_player,
     get_soif,
+    set_soif,
     increment_soif,
-    decrement_soif,
 )
 
 
@@ -46,6 +46,27 @@ class ClanSelectMenu(ui.Select):
             race="vampire",
             clan=clan_key,
         )
+
+        # Attribuer le rôle du clan (créer s'il n'existe pas)
+        clan_name = clan_data["nom"]
+        role = discord.utils.get(interaction.guild.roles, name=clan_name)
+
+        if not role:
+            # Créer le rôle s'il n'existe pas
+            try:
+                role = await interaction.guild.create_role(
+                    name=clan_name,
+                    color=discord.Color.dark_red(),
+                    reason=f"Création automatique du rôle de clan {clan_name}",
+                )
+            except discord.Forbidden:
+                pass  # Le bot n'a pas les permissions
+
+        if role:
+            try:
+                await interaction.user.add_roles(role, reason="Choix du clan vampirique")
+            except discord.Forbidden:
+                pass  # Le bot n'a pas les permissions
 
         embed = discord.Embed(
             title=f"🧛 Bienvenue parmi les {clan_data['nom']}",
@@ -161,7 +182,7 @@ class VampirePanel(ui.View):
 
     @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷")
     async def feed_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Réduit la Soif."""
+        """Restaure complètement la Soif (remet à 0)."""
         if interaction.user.id != self.user_id:
             await interaction.response.send_message(
                 "Ce panneau ne t'appartient pas.", ephemeral=True
@@ -169,6 +190,7 @@ class VampirePanel(ui.View):
             return
 
         if self.soif_level > 0:
-            self.soif_level = await decrement_soif(self.user_id, self.guild_id)
+            await set_soif(self.user_id, self.guild_id, 0)
+            self.soif_level = 0
 
         await interaction.response.edit_message(embed=self.create_embed(), view=self)

@@ -51,6 +51,27 @@ class AuspiceSelectMenu(ui.Select):
             auspice=auspice_key,
         )
 
+        # Attribuer le rôle de l'augure (créer s'il n'existe pas)
+        auspice_name = auspice_data["nom"]
+        role = discord.utils.get(interaction.guild.roles, name=auspice_name)
+
+        if not role:
+            # Créer le rôle s'il n'existe pas
+            try:
+                role = await interaction.guild.create_role(
+                    name=auspice_name,
+                    color=discord.Color.orange(),
+                    reason=f"Création automatique du rôle d'augure {auspice_name}",
+                )
+            except discord.Forbidden:
+                pass  # Le bot n'a pas les permissions
+
+        if role:
+            try:
+                await interaction.user.add_roles(role, reason="Choix de l'augure")
+            except discord.Forbidden:
+                pass  # Le bot n'a pas les permissions
+
         embed = discord.Embed(
             title=f"🐺 Bienvenue parmi les {auspice_data['nom']}",
             description=(
@@ -91,6 +112,7 @@ class LycanPanel(ui.View):
         self.rage_level = rage_data.get("rage_level", 0)
         self.is_enraged = rage_data.get("is_enraged", False)
         self.maintien_counter = rage_data.get("maintien_counter", 0)
+        self.rage_notification = None  # Message de rage à afficher dans le panneau
 
     def _create_rage_bar(self) -> str:
         """Crée une barre visuelle de rage."""
@@ -158,31 +180,26 @@ class LycanPanel(ui.View):
         if self.rage_level > 0:
             embed.add_field(
                 name="💨 Décroissance",
-                value="*La rage diminue de 1 à chaque tour de parole.*",
+                value="*La rage diminue de 2 à chaque tour de parole.*",
+                inline=False,
+            )
+
+        # Message de rage (Enragé ou Primal)
+        if self.rage_notification:
+            embed.add_field(
+                name=self.rage_notification["titre"],
+                value=self.rage_notification["message"][:1024],  # Limite Discord
                 inline=False,
             )
 
         return embed
 
-    async def _send_rage_notification(self, interaction: discord.Interaction, is_primal: bool = False):
-        """Envoie une notification de rage en MP."""
+    def _set_rage_notification(self, is_primal: bool = False):
+        """Définit la notification de rage à afficher dans le panneau."""
         rage_msg = get_rage_message(self.auspice, "primal" if is_primal else "enrage")
 
-        if not rage_msg:
-            return
-
-        color = discord.Color.red() if is_primal else discord.Color.orange()
-
-        embed = discord.Embed(
-            title=rage_msg["titre"],
-            description=rage_msg["message"],
-            color=color,
-        )
-
-        try:
-            await interaction.user.send(embed=embed)
-        except discord.Forbidden:
-            pass
+        if rage_msg:
+            self.rage_notification = rage_msg
 
     async def _announce_primal(self, interaction: discord.Interaction):
         """Annonce publiquement l'état Primal."""
@@ -244,7 +261,7 @@ class LycanPanel(ui.View):
                 is_enraged=True,
                 maintien_counter=0,
             )
-            await self._send_rage_notification(interaction, is_primal=True)
+            self._set_rage_notification(is_primal=True)
             await self._announce_primal(interaction)
 
         elif just_became_enraged:
@@ -256,7 +273,7 @@ class LycanPanel(ui.View):
                 is_enraged=True,
                 maintien_counter=0,
             )
-            await self._send_rage_notification(interaction, is_primal=False)
+            self._set_rage_notification(is_primal=False)
 
         elif self.rage_level >= SEUIL_ENRAGE:
             # Déjà enragé, réinitialiser le maintien
