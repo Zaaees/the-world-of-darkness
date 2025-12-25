@@ -5,6 +5,10 @@ Assistant Narratif pour jeu de rôle écrit
 
 Ce bot agit comme un arbitre invisible qui impose des contraintes narratives
 aux joueurs pour simuler leur perte d'humanité ou de contrôle.
+
+Commandes:
+- /vampire : Panneau de contrôle pour les Vampires (rôle "Vampire" requis)
+- /lycan : Panneau de contrôle pour les Loups-Garous (rôle "Loup-garou" requis)
 """
 
 import asyncio
@@ -61,17 +65,22 @@ class WorldOfDarknessBot(commands.Bot):
         await init_database()
         logger.info("Base de données initialisée")
 
-        # Charger les Cogs
-        cogs_path = Path(__file__).parent / "cogs"
-        for cog_file in cogs_path.glob("*.py"):
-            if cog_file.name.startswith("_"):
-                continue
-            cog_name = f"cogs.{cog_file.stem}"
+        # Charger les Cogs (seulement vampire et werewolf)
+        cogs_to_load = ["cogs.vampire", "cogs.werewolf"]
+
+        for cog_name in cogs_to_load:
             try:
                 await self.load_extension(cog_name)
                 logger.info(f"Cog chargé: {cog_name}")
             except Exception as e:
                 logger.error(f"Erreur lors du chargement de {cog_name}: {e}")
+
+        # Synchroniser les slash commands
+        try:
+            synced = await self.tree.sync()
+            logger.info(f"{len(synced)} commande(s) synchronisée(s)")
+        except Exception as e:
+            logger.error(f"Erreur lors de la synchronisation des commandes: {e}")
 
     async def on_ready(self):
         """Appelé quand le bot est prêt."""
@@ -85,7 +94,7 @@ class WorldOfDarknessBot(commands.Bot):
         await self.change_presence(activity=activity)
 
     async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
-        """Gestion globale des erreurs de commandes."""
+        """Gestion globale des erreurs de commandes préfixées."""
         if isinstance(error, commands.CommandNotFound):
             return  # Ignorer les commandes inconnues
 

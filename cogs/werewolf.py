@@ -1,14 +1,17 @@
 """
-Cog Loup-Garou : Gestion de la Rage et du Maintien
+Cog Loup-Garou : Gestion de la Rage et du Maintien via slash command.
 
-Ce système simule la colère sacrée et la tension de combat des Garous.
-La Rage peut monter très haut avec des seuils critiques à 10 (Enragé) et 20 (Primal).
+La commande /lycan ouvre un panneau interactif avec des boutons.
+Accessible uniquement aux membres avec le rôle "Loup-garou".
+
+La Rage est liée à une scène (salon) et diminue de 1 à chaque tour de parole.
 """
 
 import logging
 from typing import Optional
 
 import discord
+from discord import app_commands
 from discord.ext import commands
 
 from data.auspices import get_auspice, get_rage_message, list_auspices
@@ -16,18 +19,27 @@ from utils.database import (
     get_player,
     get_rage_data,
     set_rage_data,
-    increment_rage,
-    set_rage_calm,
-    get_all_enraged_werewolves,
+    decrement_rage,
+    clear_rage,
+    get_all_enraged_werewolves_in_channel,
 )
-from utils.rp_check import is_rp_channel, delete_command_message
+from utils.rp_check import is_rp_channel
+from views.lycan_panel import LycanPanel, AuspiceSelectView
 
 logger = logging.getLogger(__name__)
+
+# Nom du rôle requis (insensible à la casse)
+LYCAN_ROLE_NAME = "loup-garou"
 
 # Seuils de Rage
 SEUIL_ENRAGE = 10
 SEUIL_PRIMAL = 20
 TOURS_MAINTIEN = 2
+
+
+def has_lycan_role(member: discord.Member) -> bool:
+    """Vérifie si le membre a le rôle Loup-garou."""
+    return any(role.name.lower() == LYCAN_ROLE_NAME for role in member.roles)
 
 
 class WerewolfCog(commands.Cog, name="Loup-Garou"):
@@ -36,234 +48,93 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    def _create_rage_embed(
+    async def _process_turn(
         self,
-        auspice_name: str,
-        rage_level: int,
-        is_primal: bool = False,
-    ) -> discord.Embed:
-        """Crée un embed pour afficher l'état de rage."""
-        rage_data = get_rage_message(auspice_name, "primal" if is_primal else "enrage")
-
-        if not rage_data:
-            # Fallback si l'augure n'est pas trouvé
-            title = "🌕 RAGE PRIMALE" if is_primal else "🌙 RAGE"
-            message = (
-                "La Bête en toi se déchaîne. Tu n'es plus humain."
-                if is_primal
-                else "La Rage monte. Le Garou en toi s'éveille."
-            )
-        else:
-            title = rage_data["titre"]
-            message = rage_data["message"]
-
-        color = discord.Color.gold() if is_primal else discord.Color.orange()
-
-        embed = discord.Embed(
-            title=title,
-            description=message,
-            color=color,
-        )
-
-        # Barre de rage
-        rage_bar = self._create_rage_bar(rage_level)
-        embed.add_field(
-            name="Niveau de Rage",
-            value=f"{rage_bar}\n**{rage_level}** / {SEUIL_PRIMAL}",
-            inline=False,
-        )
-
-        if not is_primal and rage_level >= SEUIL_ENRAGE:
-            embed.add_field(
-                name="⏱️ Compteur de Maintien",
-                value=f"Tu as **{TOURS_MAINTIEN} tours de parole** pour te calmer ou nourrir ta Rage.",
-                inline=False,
-            )
-
-        auspice_data = get_auspice(auspice_name)
-        if auspice_data:
-            embed.set_footer(text=f"{auspice_data['nom']} • {auspice_data['phase']}")
-
-        return embed
-
-    def _create_rage_bar(self, rage_level: int) -> str:
-        """Crée une barre visuelle de rage."""
-        total_segments = 20
-        filled = min(rage_level, total_segments)
-        empty = total_segments - filled
-
-        # Couleurs différentes selon le seuil
-        if rage_level >= SEUIL_PRIMAL:
-            filled_char = "🔴"
-        elif rage_level >= SEUIL_ENRAGE:
-            filled_char = "🟠"
-        else:
-            filled_char = "🟡"
-
-        bar = filled_char * filled + "⚫" * empty
-        return bar
-
-    def _create_status_embed(
-        self,
-        member: discord.Member,
-        auspice_name: str,
-        rage_data: dict,
-    ) -> discord.Embed:
-        """Crée un embed de statut de Rage."""
+        user_id: int,
+        guild_id: int,
+        channel_id: int,
+        channel: Optional[discord.TextChannel] = None,
+    ):
+        """
+        Traite un tour de parole pour un loup-garou.
+        - Décrémente la rage de 1
+        - Incrémente le compteur de maintien si enragé
+        - Calme le loup-garou si le maintien expire
+        """
+        rage_data = await get_rage_data(user_id, guild_id, channel_id)
         rage_level = rage_data.get("rage_level", 0)
         is_enraged = rage_data.get("is_enraged", False)
         maintien = rage_data.get("maintien_counter", 0)
 
-        embed = discord.Embed(
-            title="État de la Rage",
-            color=discord.Color.orange() if is_enraged else discord.Color.dark_gray(),
-        )
-
-        auspice_data = get_auspice(auspice_name)
-        if auspice_data:
-            embed.add_field(
-                name="Augure",
-                value=f"{auspice_data['nom']} ({auspice_data['phase']})",
-                inline=True,
-            )
-
-        rage_bar = self._create_rage_bar(rage_level)
-        embed.add_field(
-            name="Rage",
-            value=f"{rage_bar}\n**{rage_level}** / {SEUIL_PRIMAL}",
-            inline=False,
-        )
-
-        # État actuel
-        if rage_level >= SEUIL_PRIMAL:
-            state = "🔴 **RAGE PRIMALE** — Tu n'es plus humain !"
-        elif is_enraged:
-            state = f"🟠 **ENRAGÉ** — Tours restants: {TOURS_MAINTIEN - maintien}"
-        elif rage_level >= SEUIL_ENRAGE - 2:
-            state = "🟡 Au bord de la Rage — Attention !"
-        else:
-            state = "🟢 Maîtrise — La Bête est sous contrôle."
-
-        embed.add_field(
-            name="État",
-            value=state,
-            inline=False,
-        )
-
-        embed.set_author(
-            name=member.display_name,
-            icon_url=member.display_avatar.url,
-        )
-
-        return embed
-
-    async def _send_rage_notification(
-        self,
-        user: discord.User,
-        auspice_name: str,
-        rage_level: int,
-        is_primal: bool = False,
-    ) -> bool:
-        """Envoie une notification de rage en MP."""
-        embed = self._create_rage_embed(auspice_name, rage_level, is_primal)
-
-        try:
-            await user.send(embed=embed)
-            return True
-        except discord.Forbidden:
-            logger.warning(f"Impossible d'envoyer un MP à {user}")
-            return False
-        except discord.HTTPException as e:
-            logger.error(f"Erreur lors de l'envoi du MP à {user}: {e}")
-            return False
-
-    async def _announce_primal_state(
-        self,
-        channel: discord.TextChannel,
-        member: discord.Member,
-        auspice_name: str,
-    ):
-        """Annonce publiquement l'état Primal d'un Garou."""
-        auspice_data = get_auspice(auspice_name)
-        auspice_display = auspice_data["nom"] if auspice_data else "Garou"
-
-        embed = discord.Embed(
-            title="🐺 LA BÊTE SE DÉCHAÎNE 🐺",
-            description=(
-                f"**{member.display_name}** n'est plus humain.\n\n"
-                f"Le {auspice_display} a atteint la **RAGE PRIMALE**. "
-                f"La créature devant vous n'est plus qu'instinct et fureur."
-            ),
-            color=discord.Color.red(),
-        )
-
-        embed.set_thumbnail(url=member.display_avatar.url)
-        embed.set_footer(text="Que Gaïa ait pitié de vos âmes...")
-
-        try:
-            await channel.send(embed=embed)
-        except discord.Forbidden:
-            logger.warning(f"Impossible d'annoncer l'état Primal dans {channel}")
-
-        # Changer le surnom si possible
-        try:
-            old_nick = member.display_name
-            new_nick = f"🐺 {old_nick} [PRIMAL]"
-            if len(new_nick) <= 32:  # Limite Discord
-                await member.edit(nick=new_nick)
-        except discord.Forbidden:
-            logger.warning(f"Impossible de changer le surnom de {member}")
-
-    async def _check_and_process_maintien(
-        self,
-        user_id: int,
-        guild_id: int,
-        channel: Optional[discord.TextChannel] = None,
-    ):
-        """
-        Vérifie et traite le compteur de maintien.
-        Appelé quand un tour de parole se termine.
-        """
-        rage_data = await get_rage_data(user_id, guild_id)
-
-        if not rage_data.get("is_enraged"):
+        if rage_level <= 0:
             return
 
-        maintien = rage_data.get("maintien_counter", 0) + 1
+        # Décrémenter la rage de 1
+        new_rage = await decrement_rage(user_id, guild_id, channel_id, 1)
 
-        if maintien >= TOURS_MAINTIEN:
-            # Le calme revient
-            await set_rage_calm(user_id, guild_id)
+        # Si enragé, gérer le maintien
+        if is_enraged and rage_level >= SEUIL_ENRAGE:
+            maintien += 1
 
-            # Notifier le joueur
-            try:
-                guild = self.bot.get_guild(guild_id)
-                if guild:
-                    member = guild.get_member(user_id)
-                    if member:
-                        embed = discord.Embed(
-                            title="🌙 Le Calme Revient",
-                            description=(
-                                "Ta Rage s'apaise. Le Garou en toi reprend sa place "
-                                "au fond de ton âme.\n\n"
-                                f"Ta Rage est redescendue à **{SEUIL_ENRAGE - 1}**."
-                            ),
-                            color=discord.Color.blue(),
-                        )
-                        await member.send(embed=embed)
+            if maintien >= TOURS_MAINTIEN:
+                # Le calme revient - ramener sous le seuil
+                new_rage = min(new_rage, SEUIL_ENRAGE - 1)
+                await set_rage_data(
+                    user_id, guild_id, channel_id,
+                    rage_level=new_rage,
+                    is_enraged=False,
+                    maintien_counter=0,
+                    others_spoke_since=False,
+                )
 
-                        # Restaurer le surnom si modifié
-                        if member.nick and "[PRIMAL]" in member.nick:
-                            try:
-                                new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                                await member.edit(nick=new_nick if new_nick else None)
-                            except discord.Forbidden:
-                                pass
-            except Exception as e:
-                logger.error(f"Erreur lors de la notification de calme: {e}")
+                # Notifier le joueur
+                try:
+                    guild = self.bot.get_guild(guild_id)
+                    if guild:
+                        member = guild.get_member(user_id)
+                        if member:
+                            embed = discord.Embed(
+                                title="🌙 Le Calme Revient",
+                                description=(
+                                    "Ta Rage s'apaise. Le Garou en toi reprend sa place "
+                                    "au fond de ton âme.\n\n"
+                                    f"Ta Rage est redescendue à **{new_rage}**."
+                                ),
+                                color=discord.Color.blue(),
+                            )
+                            await member.send(embed=embed)
+
+                            # Restaurer le surnom si modifié
+                            if member.nick and "[PRIMAL]" in member.nick:
+                                try:
+                                    new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
+                                    await member.edit(nick=new_nick if new_nick else None)
+                                except discord.Forbidden:
+                                    pass
+                except Exception as e:
+                    logger.error(f"Erreur notification calme: {e}")
+            else:
+                # Incrémenter le compteur de maintien
+                await set_rage_data(
+                    user_id, guild_id, channel_id,
+                    rage_level=new_rage,
+                    maintien_counter=maintien,
+                )
         else:
-            # Incrémenter le compteur
-            await set_rage_data(user_id, guild_id, maintien_counter=maintien)
+            # Pas enragé ou sous le seuil, juste mettre à jour la rage
+            # Vérifier si on passe sous le seuil
+            if new_rage < SEUIL_ENRAGE and is_enraged:
+                await set_rage_data(
+                    user_id, guild_id, channel_id,
+                    rage_level=new_rage,
+                    is_enraged=False,
+                    maintien_counter=0,
+                )
+            else:
+                await set_rage_data(
+                    user_id, guild_id, channel_id,
+                    rage_level=new_rage,
+                )
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
@@ -274,6 +145,8 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
         1. Le loup-garou a envoyé un/des message(s)
         2. D'autres personnes ont répondu
         3. Le loup-garou envoie à nouveau un message
+
+        À chaque tour, la rage diminue de 1.
         """
         # Ignorer les bots et les messages hors RP
         if message.author.bot:
@@ -285,19 +158,23 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
         if not is_rp_channel(message.channel):
             return
 
-        # Récupérer tous les loups-garous enragés du serveur
-        enraged_wolves = await get_all_enraged_werewolves(message.guild.id)
+        # Récupérer tous les loups-garous avec de la rage dans ce salon
+        wolves_in_scene = await get_all_enraged_werewolves_in_channel(
+            message.guild.id,
+            message.channel.id,
+        )
 
-        for wolf_data in enraged_wolves:
+        for wolf_data in wolves_in_scene:
             wolf_id = wolf_data["user_id"]
 
             # Si c'est le loup-garou qui parle
             if message.author.id == wolf_id:
                 # Si d'autres ont parlé depuis son dernier message, c'est un nouveau tour
                 if wolf_data.get("others_spoke_since"):
-                    await self._check_and_process_maintien(
+                    await self._process_turn(
                         wolf_id,
                         message.guild.id,
+                        message.channel.id,
                         message.channel,
                     )
 
@@ -305,6 +182,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
                 await set_rage_data(
                     wolf_id,
                     message.guild.id,
+                    message.channel.id,
                     last_message_id=message.id,
                     others_spoke_since=False,
                 )
@@ -315,297 +193,217 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
                     await set_rage_data(
                         wolf_id,
                         message.guild.id,
+                        message.channel.id,
                         others_spoke_since=True,
                     )
 
-    @commands.command(name="rage")
-    async def rage_command(self, ctx: commands.Context, amount: int = 1):
+    @app_commands.command(name="lycan", description="Ouvre le panneau de contrôle Loup-Garou")
+    async def lycan_command(self, interaction: discord.Interaction):
         """
-        Augmente ta Rage suite à un affront.
+        Ouvre le panneau Lycan avec les boutons de contrôle de la Rage.
 
-        Cette commande sera supprimée automatiquement.
-
-        Arguments:
-            amount: Points de rage à ajouter (1 par défaut)
+        Accessible uniquement aux membres avec le rôle "Loup-garou".
         """
-        # Supprimer le message immédiatement
-        await delete_command_message(ctx.message)
+        # Vérifier le rôle
+        if not has_lycan_role(interaction.user):
+            await interaction.response.send_message(
+                "❌ Tu dois avoir le rôle **Loup-garou** pour utiliser cette commande.",
+                ephemeral=True,
+            )
+            return
 
         # Vérifier si on est dans un canal RP
-        if not is_rp_channel(ctx.channel):
-            try:
-                await ctx.author.send(
-                    "❌ Cette commande ne fonctionne que dans les catégories **[RP]**."
-                )
-            except discord.Forbidden:
-                pass
+        if not is_rp_channel(interaction.channel):
+            await interaction.response.send_message(
+                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
+                ephemeral=True,
+            )
             return
 
-        # Vérifier que le joueur est un Loup-Garou
-        player = await get_player(ctx.author.id, ctx.guild.id)
-        if not player or player.get("race", "").lower() not in ("loup-garou", "garou", "werewolf"):
-            try:
-                await ctx.author.send(
-                    "❌ Tu n'es pas configuré comme Loup-Garou. "
-                    "Utilise `!config garou <augure>` pour te configurer."
-                )
-            except discord.Forbidden:
-                pass
-            return
+        # Récupérer le profil du joueur
+        player = await get_player(interaction.user.id, interaction.guild.id)
 
-        auspice = player.get("auspice")
-        if not auspice:
-            try:
-                await ctx.author.send(
-                    "❌ Tu n'as pas d'Augure défini. "
-                    "Utilise `!config garou <augure>` pour définir ton augure."
-                )
-            except discord.Forbidden:
-                pass
-            return
-
-        # Récupérer l'état actuel
-        rage_data = await get_rage_data(ctx.author.id, ctx.guild.id)
-        old_rage = rage_data.get("rage_level", 0)
-        was_enraged = rage_data.get("is_enraged", False)
-
-        # Incrémenter la rage
-        new_rage = await increment_rage(ctx.author.id, ctx.guild.id, amount)
-
-        # Vérifier les seuils
-        just_became_enraged = not was_enraged and new_rage >= SEUIL_ENRAGE
-        just_became_primal = old_rage < SEUIL_PRIMAL and new_rage >= SEUIL_PRIMAL
-
-        if just_became_primal:
-            # État Primal atteint
-            await set_rage_data(
-                ctx.author.id,
-                ctx.guild.id,
-                is_enraged=True,
-                maintien_counter=0,
-            )
-            await self._send_rage_notification(ctx.author, auspice, new_rage, is_primal=True)
-            await self._announce_primal_state(ctx.channel, ctx.author, auspice)
-
-        elif just_became_enraged:
-            # Passage en état Enragé
-            await set_rage_data(
-                ctx.author.id,
-                ctx.guild.id,
-                is_enraged=True,
-                maintien_counter=0,
-                last_message_id=ctx.message.id,
-                others_spoke_since=False,
-            )
-            await self._send_rage_notification(ctx.author, auspice, new_rage, is_primal=False)
-
-        elif was_enraged and new_rage < SEUIL_PRIMAL:
-            # Déjà enragé, réinitialiser le compteur de maintien
-            await set_rage_data(
-                ctx.author.id,
-                ctx.guild.id,
-                maintien_counter=0,
-                last_message_id=ctx.message.id,
-                others_spoke_since=False,
-            )
-
-            # Notification de maintien
+        # Si pas d'augure défini, demander de choisir
+        if not player or not player.get("auspice"):
             embed = discord.Embed(
-                title="🔥 La Rage Persiste",
+                title="🐺 Configuration Loup-Garou",
                 description=(
-                    f"Tu nourris ta colère. Ta Rage monte à **{new_rage}**.\n\n"
-                    f"Le compteur de maintien est réinitialisé. "
-                    f"Tu as **{TOURS_MAINTIEN} tours** avant que le calme ne revienne."
+                    "Tu n'as pas encore choisi ton Augure.\n\n"
+                    "Sous quelle lune es-tu né ?"
                 ),
                 color=discord.Color.orange(),
             )
-            embed.add_field(
-                name="Rage",
-                value=self._create_rage_bar(new_rage),
-                inline=False,
+
+            view = AuspiceSelectView()
+            await interaction.response.send_message(
+                embed=embed,
+                view=view,
+                ephemeral=True,
             )
-
-            try:
-                await ctx.author.send(embed=embed)
-            except discord.Forbidden:
-                pass
-
-        else:
-            # Rage normale (sous le seuil)
-            embed = discord.Embed(
-                title="💢 La Rage Monte",
-                description=f"Ta Rage passe de **{old_rage}** à **{new_rage}**.",
-                color=discord.Color.gold(),
-            )
-            embed.add_field(
-                name="Rage",
-                value=self._create_rage_bar(new_rage),
-                inline=False,
-            )
-
-            if new_rage >= SEUIL_ENRAGE - 2:
-                embed.add_field(
-                    name="⚠️ Attention",
-                    value=f"Tu approches du seuil critique ({SEUIL_ENRAGE})...",
-                    inline=False,
-                )
-
-            try:
-                await ctx.author.send(embed=embed)
-            except discord.Forbidden:
-                pass
-
-    @commands.command(name="calme", aliases=["calm"])
-    async def calme_command(self, ctx: commands.Context, amount: int = 1):
-        """
-        Réduit ta Rage volontairement.
-
-        Arguments:
-            amount: Points de rage à réduire (1 par défaut)
-        """
-        # Supprimer le message si dans un canal RP
-        if is_rp_channel(ctx.channel):
-            await delete_command_message(ctx.message)
-
-        # Vérifier que le joueur est un Loup-Garou
-        player = await get_player(ctx.author.id, ctx.guild.id)
-        if not player or player.get("race", "").lower() not in ("loup-garou", "garou", "werewolf"):
-            try:
-                await ctx.author.send("❌ Tu n'es pas configuré comme Loup-Garou.")
-            except discord.Forbidden:
-                pass
             return
 
-        rage_data = await get_rage_data(ctx.author.id, ctx.guild.id)
-        old_rage = rage_data.get("rage_level", 0)
+        auspice = player.get("auspice")
 
-        new_rage = max(0, old_rage - amount)
-        is_enraged = new_rage >= SEUIL_ENRAGE
+        # Vérifier que l'augure existe
+        auspice_data = get_auspice(auspice)
+        if not auspice_data:
+            embed = discord.Embed(
+                title="🐺 Configuration Loup-Garou",
+                description=(
+                    f"Ton augure `{auspice}` n'est plus reconnu.\n\n"
+                    "Choisis un nouvel augure..."
+                ),
+                color=discord.Color.orange(),
+            )
 
-        await set_rage_data(
-            ctx.author.id,
-            ctx.guild.id,
-            rage_level=new_rage,
-            is_enraged=is_enraged,
-            maintien_counter=0 if not is_enraged else rage_data.get("maintien_counter", 0),
+            view = AuspiceSelectView()
+            await interaction.response.send_message(
+                embed=embed,
+                view=view,
+                ephemeral=True,
+            )
+            return
+
+        # Récupérer les données de rage pour ce salon
+        rage_data = await get_rage_data(
+            interaction.user.id,
+            interaction.guild.id,
+            interaction.channel.id,
         )
 
-        # Restaurer le surnom si on quitte l'état Primal
-        if old_rage >= SEUIL_PRIMAL and new_rage < SEUIL_PRIMAL:
-            if ctx.author.nick and "[PRIMAL]" in ctx.author.nick:
+        # Créer et afficher le panneau
+        panel = LycanPanel(
+            user_id=interaction.user.id,
+            guild_id=interaction.guild.id,
+            channel_id=interaction.channel.id,
+            auspice=auspice,
+            rage_data=rage_data,
+        )
+
+        await interaction.response.send_message(
+            embed=panel.create_embed(),
+            view=panel,
+            ephemeral=True,
+        )
+
+    @app_commands.command(
+        name="lycan_config",
+        description="[Admin] Configure un joueur comme Loup-Garou"
+    )
+    @app_commands.describe(
+        member="Le joueur à configurer",
+        auspice="L'augure du loup-garou",
+        rage="Le niveau de Rage dans ce salon"
+    )
+    @app_commands.default_permissions(administrator=True)
+    async def lycan_config_command(
+        self,
+        interaction: discord.Interaction,
+        member: discord.Member,
+        auspice: str = None,
+        rage: int = None,
+    ):
+        """Configure un joueur comme Loup-Garou (commande admin)."""
+        from utils.database import set_player
+
+        if auspice:
+            auspice_lower = auspice.lower().strip()
+            auspice_data = get_auspice(auspice_lower)
+            if not auspice_data:
+                available = ", ".join(list_auspices())
+                await interaction.response.send_message(
+                    f"❌ Augure `{auspice}` non reconnu.\nAugures disponibles: {available}",
+                    ephemeral=True,
+                )
+                return
+
+            await set_player(member.id, interaction.guild.id, race="loup-garou", auspice=auspice_lower)
+
+        if rage is not None:
+            if rage < 0:
+                await interaction.response.send_message(
+                    "❌ Le niveau de Rage ne peut pas être négatif.",
+                    ephemeral=True,
+                )
+                return
+
+            is_enraged = rage >= SEUIL_ENRAGE
+            await set_rage_data(
+                member.id,
+                interaction.guild.id,
+                interaction.channel.id,
+                rage_level=rage,
+                is_enraged=is_enraged,
+                maintien_counter=0,
+            )
+
+            # Gérer le surnom
+            if rage >= SEUIL_PRIMAL:
                 try:
-                    new_nick = ctx.author.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                    await ctx.author.edit(nick=new_nick if new_nick else None)
+                    old_nick = member.display_name
+                    new_nick = f"🐺 {old_nick} [PRIMAL]"
+                    if len(new_nick) <= 32:
+                        await member.edit(nick=new_nick)
+                except discord.Forbidden:
+                    pass
+            elif member.nick and "[PRIMAL]" in member.nick:
+                try:
+                    new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
+                    await member.edit(nick=new_nick if new_nick else None)
                 except discord.Forbidden:
                     pass
 
+        await interaction.response.send_message(
+            f"✅ Configuration de {member.display_name} mise à jour.",
+            ephemeral=True,
+        )
+
+    @app_commands.command(
+        name="fin_scene",
+        description="[Admin] Met fin à une scène et remet la rage de tous à 0"
+    )
+    @app_commands.default_permissions(administrator=True)
+    async def end_scene_admin_command(self, interaction: discord.Interaction):
+        """Met fin à la scène pour tous les loups-garous dans ce salon."""
+        if not is_rp_channel(interaction.channel):
+            await interaction.response.send_message(
+                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
+                ephemeral=True,
+            )
+            return
+
+        wolves = await get_all_enraged_werewolves_in_channel(
+            interaction.guild.id,
+            interaction.channel.id,
+        )
+
+        count = 0
+        for wolf_data in wolves:
+            wolf_id = wolf_data["user_id"]
+
+            # Restaurer le surnom si nécessaire
+            if wolf_data.get("rage_level", 0) >= SEUIL_PRIMAL:
+                try:
+                    member = interaction.guild.get_member(wolf_id)
+                    if member and member.nick and "[PRIMAL]" in member.nick:
+                        new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
+                        await member.edit(nick=new_nick if new_nick else None)
+                except discord.Forbidden:
+                    pass
+
+            await clear_rage(wolf_id, interaction.guild.id, interaction.channel.id)
+            count += 1
+
         embed = discord.Embed(
-            title="🌿 Apaisement",
-            description=f"Ta Rage passe de **{old_rage}** à **{new_rage}**.",
-            color=discord.Color.green(),
-        )
-        embed.add_field(
-            name="Rage",
-            value=self._create_rage_bar(new_rage),
-            inline=False,
+            title="🏁 Scène Terminée",
+            description=(
+                f"La scène est clôturée.\n"
+                f"**{count}** loup(s)-garou(s) ont vu leur rage remise à zéro."
+            ),
+            color=discord.Color.blue(),
         )
 
-        try:
-            await ctx.author.send(embed=embed)
-        except discord.Forbidden:
-            pass
-
-    @commands.command(name="ragestat", aliases=["ragestatus"])
-    async def rage_status_command(self, ctx: commands.Context):
-        """Affiche ton niveau de Rage actuel (en MP)."""
-        # Supprimer le message si dans un canal RP
-        if is_rp_channel(ctx.channel):
-            await delete_command_message(ctx.message)
-
-        # Vérifier que le joueur est un Loup-Garou
-        player = await get_player(ctx.author.id, ctx.guild.id)
-        if not player or player.get("race", "").lower() not in ("loup-garou", "garou", "werewolf"):
-            try:
-                await ctx.author.send(
-                    "❌ Tu n'es pas configuré comme Loup-Garou. "
-                    "Utilise `!config garou <augure>` pour te configurer."
-                )
-            except discord.Forbidden:
-                pass
-            return
-
-        auspice = player.get("auspice", "Inconnu")
-        rage_data = await get_rage_data(ctx.author.id, ctx.guild.id)
-
-        embed = self._create_status_embed(ctx.author, auspice, rage_data)
-
-        try:
-            await ctx.author.send(embed=embed)
-        except discord.Forbidden:
-            await ctx.send(
-                "❌ Je ne peux pas t'envoyer de message privé. "
-                "Vérifie tes paramètres de confidentialité.",
-                delete_after=10,
-            )
-
-    @commands.command(name="setrage")
-    @commands.has_permissions(administrator=True)
-    async def set_rage_command(
-        self,
-        ctx: commands.Context,
-        member: discord.Member,
-        level: int,
-    ):
-        """
-        [ADMIN] Définit le niveau de Rage d'un joueur.
-
-        Arguments:
-            member: Le joueur ciblé
-            level: Le niveau de Rage
-        """
-        if level < 0:
-            await ctx.send("❌ Le niveau de Rage ne peut pas être négatif.", delete_after=10)
-            return
-
-        player = await get_player(member.id, ctx.guild.id)
-        if not player or player.get("race", "").lower() not in ("loup-garou", "garou", "werewolf"):
-            await ctx.send(
-                f"❌ {member.display_name} n'est pas configuré comme Loup-Garou.",
-                delete_after=10,
-            )
-            return
-
-        is_enraged = level >= SEUIL_ENRAGE
-        await set_rage_data(
-            member.id,
-            ctx.guild.id,
-            rage_level=level,
-            is_enraged=is_enraged,
-            maintien_counter=0,
-        )
-
-        # Gérer le surnom
-        if level >= SEUIL_PRIMAL:
-            try:
-                old_nick = member.display_name
-                new_nick = f"🐺 {old_nick} [PRIMAL]"
-                if len(new_nick) <= 32:
-                    await member.edit(nick=new_nick)
-            except discord.Forbidden:
-                pass
-        elif member.nick and "[PRIMAL]" in member.nick:
-            try:
-                new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                await member.edit(nick=new_nick if new_nick else None)
-            except discord.Forbidden:
-                pass
-
-        await ctx.send(
-            f"✅ Rage de {member.display_name} définie à **{level}**.",
-            delete_after=10,
-        )
-
-        await delete_command_message(ctx.message)
+        await interaction.response.send_message(embed=embed)
 
 
 async def setup(bot: commands.Bot):

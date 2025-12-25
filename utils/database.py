@@ -21,39 +21,41 @@ async def init_database():
         # Table des joueurs
         await db.execute("""
             CREATE TABLE IF NOT EXISTS players (
-                user_id INTEGER PRIMARY KEY,
+                user_id INTEGER,
                 guild_id INTEGER NOT NULL,
                 race TEXT,
                 clan TEXT,
                 auspice TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id)
             )
         """)
 
-        # Table de la Soif (Vampires)
+        # Table de la Soif (Vampires) - persistante entre les scènes
         await db.execute("""
             CREATE TABLE IF NOT EXISTS vampire_soif (
-                user_id INTEGER PRIMARY KEY,
+                user_id INTEGER,
                 guild_id INTEGER NOT NULL,
                 soif_level INTEGER DEFAULT 0,
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES players(user_id)
+                PRIMARY KEY (user_id, guild_id)
             )
         """)
 
-        # Table de la Rage (Loups-Garous)
+        # Table de la Rage (Loups-Garous) - liée à une scène (salon)
         await db.execute("""
             CREATE TABLE IF NOT EXISTS werewolf_rage (
-                user_id INTEGER PRIMARY KEY,
+                user_id INTEGER,
                 guild_id INTEGER NOT NULL,
+                channel_id INTEGER NOT NULL,
                 rage_level INTEGER DEFAULT 0,
                 is_enraged BOOLEAN DEFAULT FALSE,
                 maintien_counter INTEGER DEFAULT 0,
                 last_message_id INTEGER,
                 others_spoke_since BOOLEAN DEFAULT FALSE,
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES players(user_id)
+                PRIMARY KEY (user_id, guild_id, channel_id)
             )
         """)
 
@@ -63,6 +65,9 @@ async def init_database():
         )
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_vampire_guild ON vampire_soif(guild_id)"
+        )
+        await db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_werewolf_channel ON werewolf_rage(channel_id)"
         )
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_werewolf_guild ON werewolf_rage(guild_id)"
@@ -182,7 +187,7 @@ async def set_soif(user_id: int, guild_id: int, level: int):
             """
             INSERT INTO vampire_soif (user_id, guild_id, soif_level, last_updated)
             VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-            ON CONFLICT(user_id) DO UPDATE SET
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
                 soif_level = excluded.soif_level,
                 last_updated = CURRENT_TIMESTAMP
         """,
@@ -199,26 +204,27 @@ async def increment_soif(user_id: int, guild_id: int) -> int:
     return new_level
 
 
-async def decrement_soif(user_id: int, guild_id: int) -> int:
+async def decrement_soif(user_id: int, guild_id: int, amount: int = 1) -> int:
     """Décrémente la Soif d'un vampire et retourne le nouveau niveau."""
     current = await get_soif(user_id, guild_id)
-    new_level = max(0, current - 1)
+    new_level = max(0, current - amount)
     await set_soif(user_id, guild_id, new_level)
     return new_level
 
 
 # ============================================
 # Fonctions pour la Rage (Loups-Garous)
+# Liée à une scène (channel_id)
 # ============================================
 
 
-async def get_rage_data(user_id: int, guild_id: int) -> dict:
-    """Récupère toutes les données de Rage d'un loup-garou."""
+async def get_rage_data(user_id: int, guild_id: int, channel_id: int) -> dict:
+    """Récupère les données de Rage d'un loup-garou pour une scène spécifique."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         db.row_factory = aiosqlite.Row
         cursor = await db.execute(
-            "SELECT * FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
+            "SELECT * FROM werewolf_rage WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
+            (user_id, guild_id, channel_id),
         )
         row = await cursor.fetchone()
         if row:
@@ -226,6 +232,7 @@ async def get_rage_data(user_id: int, guild_id: int) -> dict:
         return {
             "user_id": user_id,
             "guild_id": guild_id,
+            "channel_id": channel_id,
             "rage_level": 0,
             "is_enraged": False,
             "maintien_counter": 0,
@@ -237,18 +244,19 @@ async def get_rage_data(user_id: int, guild_id: int) -> dict:
 async def set_rage_data(
     user_id: int,
     guild_id: int,
+    channel_id: int,
     rage_level: Optional[int] = None,
     is_enraged: Optional[bool] = None,
     maintien_counter: Optional[int] = None,
     last_message_id: Optional[int] = None,
     others_spoke_since: Optional[bool] = None,
 ):
-    """Met à jour les données de Rage d'un loup-garou."""
+    """Met à jour les données de Rage d'un loup-garou pour une scène."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         # Récupérer les données actuelles
         cursor = await db.execute(
-            "SELECT * FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
+            "SELECT * FROM werewolf_rage WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
+            (user_id, guild_id, channel_id),
         )
         exists = await cursor.fetchone()
 
@@ -274,9 +282,9 @@ async def set_rage_data(
 
             if updates:
                 updates.append("last_updated = CURRENT_TIMESTAMP")
-                params.extend([user_id, guild_id])
+                params.extend([user_id, guild_id, channel_id])
                 await db.execute(
-                    f"UPDATE werewolf_rage SET {', '.join(updates)} WHERE user_id = ? AND guild_id = ?",
+                    f"UPDATE werewolf_rage SET {', '.join(updates)} WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
                     params,
                 )
         else:
@@ -284,12 +292,13 @@ async def set_rage_data(
             await db.execute(
                 """
                 INSERT INTO werewolf_rage
-                (user_id, guild_id, rage_level, is_enraged, maintien_counter, last_message_id, others_spoke_since)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                (user_id, guild_id, channel_id, rage_level, is_enraged, maintien_counter, last_message_id, others_spoke_since)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
                 (
                     user_id,
                     guild_id,
+                    channel_id,
                     rage_level or 0,
                     is_enraged or False,
                     maintien_counter or 0,
@@ -301,36 +310,67 @@ async def set_rage_data(
         await db.commit()
 
 
-async def increment_rage(user_id: int, guild_id: int, amount: int = 1) -> int:
+async def increment_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 1) -> int:
     """Incrémente la Rage d'un loup-garou et retourne le nouveau niveau."""
-    data = await get_rage_data(user_id, guild_id)
+    data = await get_rage_data(user_id, guild_id, channel_id)
     new_level = data["rage_level"] + amount
-    await set_rage_data(user_id, guild_id, rage_level=new_level)
+    await set_rage_data(user_id, guild_id, channel_id, rage_level=new_level)
     return new_level
 
 
-async def set_rage_calm(user_id: int, guild_id: int):
-    """Calme un loup-garou et remet sa rage sous le seuil critique."""
-    await set_rage_data(
-        user_id,
-        guild_id,
-        rage_level=9,
-        is_enraged=False,
-        maintien_counter=0,
-        others_spoke_since=False,
-    )
+async def decrement_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 1) -> int:
+    """Décrémente la Rage d'un loup-garou et retourne le nouveau niveau."""
+    data = await get_rage_data(user_id, guild_id, channel_id)
+    new_level = max(0, data["rage_level"] - amount)
+    await set_rage_data(user_id, guild_id, channel_id, rage_level=new_level)
+    return new_level
 
 
-async def get_all_enraged_werewolves(guild_id: int) -> list[dict]:
-    """Récupère tous les loups-garous enragés d'un serveur."""
+async def clear_rage(user_id: int, guild_id: int, channel_id: int):
+    """Efface complètement la rage d'un loup-garou pour une scène (fin de scène)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
+            (user_id, guild_id, channel_id),
+        )
+        await db.commit()
+
+
+async def clear_all_rage_for_user(user_id: int, guild_id: int):
+    """Efface toute la rage d'un loup-garou sur toutes les scènes."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        await db.commit()
+
+
+async def get_all_enraged_werewolves_in_channel(guild_id: int, channel_id: int) -> list[dict]:
+    """Récupère tous les loups-garous enragés dans un salon spécifique."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         db.row_factory = aiosqlite.Row
         cursor = await db.execute(
             """
             SELECT * FROM werewolf_rage
-            WHERE guild_id = ? AND is_enraged = TRUE
+            WHERE guild_id = ? AND channel_id = ? AND rage_level > 0
         """,
-            (guild_id,),
+            (guild_id, channel_id),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+
+async def get_active_rage_scenes(user_id: int, guild_id: int) -> list[dict]:
+    """Récupère toutes les scènes actives avec rage pour un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            """
+            SELECT * FROM werewolf_rage
+            WHERE user_id = ? AND guild_id = ? AND rage_level > 0
+        """,
+            (user_id, guild_id),
         )
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
