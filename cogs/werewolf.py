@@ -359,6 +359,70 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
         )
 
     @app_commands.command(
+        name="rage_remove",
+        description="[Admin] Retire de la rage à un joueur"
+    )
+    @app_commands.describe(
+        member="Le joueur ciblé",
+        amount="Quantité de rage à retirer"
+    )
+    @app_commands.default_permissions(administrator=True)
+    async def rage_remove_command(
+        self,
+        interaction: discord.Interaction,
+        member: discord.Member,
+        amount: int,
+    ):
+        """Retire de la rage à un joueur (commande admin)."""
+        if amount < 1:
+            await interaction.response.send_message(
+                "❌ La quantité doit être supérieure à 0.",
+                ephemeral=True,
+            )
+            return
+
+        if not is_rp_channel(interaction.channel):
+            await interaction.response.send_message(
+                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
+                ephemeral=True,
+            )
+            return
+
+        rage_data = await get_rage_data(member.id, interaction.guild.id, interaction.channel.id)
+        old_rage = rage_data.get("rage_level", 0)
+
+        if old_rage == 0:
+            await interaction.response.send_message(
+                f"❌ {member.display_name} n'a pas de rage dans cette scène.",
+                ephemeral=True,
+            )
+            return
+
+        new_rage = await decrement_rage(member.id, interaction.guild.id, interaction.channel.id, amount)
+
+        # Gérer les changements d'état
+        if old_rage >= SEUIL_ENRAGE > new_rage:
+            await set_rage_data(
+                member.id, interaction.guild.id, interaction.channel.id,
+                is_enraged=False,
+                maintien_counter=0,
+            )
+
+        # Restaurer le surnom si on quitte primal
+        if old_rage >= SEUIL_PRIMAL > new_rage:
+            try:
+                if member.nick and "[PRIMAL]" in member.nick:
+                    new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
+                    await member.edit(nick=new_nick if new_nick else None)
+            except discord.Forbidden:
+                pass
+
+        await interaction.response.send_message(
+            f"✅ Rage de {member.display_name} réduite de **{old_rage}** à **{new_rage}** (-{amount}).",
+            ephemeral=True,
+        )
+
+    @app_commands.command(
         name="fin_scene",
         description="[Admin] Met fin à une scène et remet la rage de tous à 0"
     )

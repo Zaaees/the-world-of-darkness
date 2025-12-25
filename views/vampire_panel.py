@@ -5,14 +5,12 @@ Affiche un embed avec des boutons pour gérer la Soif.
 
 import discord
 from discord import ui
-from typing import Optional
 
-from data.clans import get_clan, get_compulsion, list_clans, CLANS
+from data.clans import get_clan, get_compulsion, CLANS
 from utils.database import (
     get_player,
     set_player,
     get_soif,
-    set_soif,
     increment_soif,
     decrement_soif,
 )
@@ -100,9 +98,19 @@ class VampirePanel(ui.View):
         clan_data = get_clan(self.clan)
         clan_name = clan_data["nom"] if clan_data else self.clan.capitalize()
 
+        # Couleur selon le niveau de soif
+        colors = {
+            0: discord.Color.dark_gray(),
+            1: discord.Color.from_rgb(139, 0, 0),
+            2: discord.Color.from_rgb(178, 34, 34),
+            3: discord.Color.from_rgb(220, 20, 60),
+            4: discord.Color.from_rgb(255, 0, 0),
+            5: discord.Color.from_rgb(128, 0, 128),
+        }
+
         embed = discord.Embed(
             title=f"🧛 Panneau Vampire — {clan_name}",
-            color=discord.Color.dark_red(),
+            color=colors.get(self.soif_level, discord.Color.dark_red()),
         )
 
         # Jauge de Soif
@@ -119,61 +127,24 @@ class VampirePanel(ui.View):
             inline=False,
         )
 
-        # Instructions
-        embed.add_field(
-            name="Actions",
-            value=(
-                "🩸 **Soif** — Ta Soif augmente (+1)\n"
-                "🍷 **Se nourrir** — Tu t'es nourri (-1)\n"
-                "📜 **Compulsion** — Voir ta compulsion actuelle"
-            ),
-            inline=False,
-        )
-
-        embed.set_footer(text="Ce panneau n'est visible que par toi.")
+        # Compulsion actuelle (si soif > 0)
+        if self.soif_level > 0:
+            compulsion = get_compulsion(self.clan, self.soif_level)
+            if compulsion:
+                embed.add_field(
+                    name=f"📜 Compulsion — {compulsion['nom']}",
+                    value=compulsion["description"],
+                    inline=False,
+                )
+                embed.add_field(
+                    name="Directive de Jeu",
+                    value=f"*{compulsion['directive']}*",
+                    inline=False,
+                )
 
         return embed
 
-    async def _send_compulsion_dm(self, interaction: discord.Interaction):
-        """Envoie la compulsion en MP."""
-        if self.soif_level < 1:
-            return
-
-        compulsion = get_compulsion(self.clan, self.soif_level)
-        if not compulsion:
-            return
-
-        # Couleurs selon le niveau
-        colors = {
-            1: discord.Color.from_rgb(139, 0, 0),
-            2: discord.Color.from_rgb(178, 34, 34),
-            3: discord.Color.from_rgb(220, 20, 60),
-            4: discord.Color.from_rgb(255, 0, 0),
-            5: discord.Color.from_rgb(128, 0, 128),
-        }
-
-        embed = discord.Embed(
-            title=f"🩸 Soif Niveau {self.soif_level} — {compulsion['nom']}",
-            description=compulsion["description"],
-            color=colors.get(self.soif_level, discord.Color.dark_red()),
-        )
-
-        embed.add_field(
-            name="📜 Directive de Jeu",
-            value=compulsion["directive"],
-            inline=False,
-        )
-
-        clan_data = get_clan(self.clan)
-        clan_name = clan_data["nom"] if clan_data else self.clan.capitalize()
-        embed.set_footer(text=f"Clan {clan_name} • La Bête murmure...")
-
-        try:
-            await interaction.user.send(embed=embed)
-        except discord.Forbidden:
-            pass
-
-    @ui.button(label="Soif", style=discord.ButtonStyle.danger, emoji="🩸", row=0)
+    @ui.button(label="Soif", style=discord.ButtonStyle.danger, emoji="🩸")
     async def soif_button(self, interaction: discord.Interaction, button: ui.Button):
         """Augmente la Soif."""
         if interaction.user.id != self.user_id:
@@ -185,13 +156,10 @@ class VampirePanel(ui.View):
         if self.soif_level < 5:
             self.soif_level = await increment_soif(self.user_id, self.guild_id)
 
-        # Envoyer la compulsion en MP
-        await self._send_compulsion_dm(interaction)
-
         # Mettre à jour l'embed
         await interaction.response.edit_message(embed=self.create_embed(), view=self)
 
-    @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷", row=0)
+    @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷")
     async def feed_button(self, interaction: discord.Interaction, button: ui.Button):
         """Réduit la Soif."""
         if interaction.user.id != self.user_id:
@@ -204,53 +172,3 @@ class VampirePanel(ui.View):
             self.soif_level = await decrement_soif(self.user_id, self.guild_id)
 
         await interaction.response.edit_message(embed=self.create_embed(), view=self)
-
-    @ui.button(label="Compulsion", style=discord.ButtonStyle.secondary, emoji="📜", row=0)
-    async def compulsion_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Affiche la compulsion actuelle."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
-
-        if self.soif_level < 1:
-            await interaction.response.send_message(
-                "Ta Soif est à 0. Tu n'as pas de compulsion active.",
-                ephemeral=True,
-            )
-            return
-
-        await self._send_compulsion_dm(interaction)
-        await interaction.response.send_message(
-            "📜 Compulsion envoyée en message privé.",
-            ephemeral=True,
-        )
-
-    @ui.button(label="Rafraîchir", style=discord.ButtonStyle.primary, emoji="🔄", row=1)
-    async def refresh_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Rafraîchit le panneau."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
-
-        # Recharger les données depuis la base
-        self.soif_level = await get_soif(self.user_id, self.guild_id)
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
-
-    @ui.button(label="Fermer", style=discord.ButtonStyle.secondary, emoji="❌", row=1)
-    async def close_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Ferme le panneau."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
-
-        await interaction.response.edit_message(
-            content="*Panneau fermé.*",
-            embed=None,
-            view=None,
-        )

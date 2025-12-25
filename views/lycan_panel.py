@@ -5,20 +5,15 @@ Affiche un embed avec des boutons pour gérer la Rage.
 
 import discord
 from discord import ui
-from typing import Optional
 
 from data.auspices import get_auspice, get_rage_message, AUSPICES
 from utils.database import (
-    get_player,
     set_player,
     get_rage_data,
     set_rage_data,
     increment_rage,
-    decrement_rage,
     clear_rage,
-    get_active_rage_scenes,
 )
-from utils.rp_check import is_rp_channel
 
 # Seuils de Rage
 SEUIL_ENRAGE = 10
@@ -109,7 +104,7 @@ class LycanPanel(ui.View):
         else:
             filled_char = "🟡"
 
-        # Afficher seulement 10 segments pour la lisibilité
+        # Afficher 10 segments pour la lisibilité
         display_filled = min(filled // 2, 10)
         display_empty = 10 - display_filled
 
@@ -159,19 +154,13 @@ class LycanPanel(ui.View):
             inline=False,
         )
 
-        # Instructions
-        embed.add_field(
-            name="Actions",
-            value=(
-                "💢 **+1 Rage** — Un affront mineur\n"
-                "🔥 **+3 Rage** — Un affront majeur\n"
-                "🧘 **-1 Rage** — Tu te calmes\n"
-                "🏁 **Fin de scène** — Clôture cette scène (rage remise à 0)"
-            ),
-            inline=False,
-        )
-
-        embed.set_footer(text=f"Scène: #{self.channel_id} • Ce panneau n'est visible que par toi.")
+        # Info sur la décroissance
+        if self.rage_level > 0:
+            embed.add_field(
+                name="💨 Décroissance",
+                value="*La rage diminue de 1 à chaque tour de parole.*",
+                inline=False,
+            )
 
         return embed
 
@@ -231,8 +220,18 @@ class LycanPanel(ui.View):
         except discord.Forbidden:
             pass
 
-    async def _update_rage_state(self, interaction: discord.Interaction, old_level: int):
-        """Met à jour l'état de rage et envoie les notifications appropriées."""
+    async def _handle_rage_increase(self, interaction: discord.Interaction, amount: int):
+        """Gère l'augmentation de rage."""
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message(
+                "Ce panneau ne t'appartient pas.", ephemeral=True
+            )
+            return
+
+        old_level = self.rage_level
+        self.rage_level = await increment_rage(self.user_id, self.guild_id, self.channel_id, amount)
+
+        # Vérifier les seuils
         just_became_enraged = old_level < SEUIL_ENRAGE <= self.rage_level < SEUIL_PRIMAL
         just_became_primal = old_level < SEUIL_PRIMAL <= self.rage_level
 
@@ -268,85 +267,24 @@ class LycanPanel(ui.View):
                 maintien_counter=0,
             )
 
-        else:
-            # Sous le seuil
-            if self.is_enraged and self.rage_level < SEUIL_ENRAGE:
-                self.is_enraged = False
-                await set_rage_data(
-                    self.user_id, self.guild_id, self.channel_id,
-                    rage_level=self.rage_level,
-                    is_enraged=False,
-                    maintien_counter=0,
-                )
-            else:
-                await set_rage_data(
-                    self.user_id, self.guild_id, self.channel_id,
-                    rage_level=self.rage_level,
-                )
+        await interaction.response.edit_message(embed=self.create_embed(), view=self)
 
-    @ui.button(label="+1 Rage", style=discord.ButtonStyle.secondary, emoji="💢", row=0)
-    async def rage_small_button(self, interaction: discord.Interaction, button: ui.Button):
+    @ui.button(label="+1", style=discord.ButtonStyle.secondary, emoji="💢")
+    async def rage_1_button(self, interaction: discord.Interaction, button: ui.Button):
         """Augmente la Rage de 1."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
+        await self._handle_rage_increase(interaction, 1)
 
-        old_level = self.rage_level
-        self.rage_level = await increment_rage(self.user_id, self.guild_id, self.channel_id, 1)
-        await self._update_rage_state(interaction, old_level)
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
+    @ui.button(label="+2", style=discord.ButtonStyle.primary, emoji="😠")
+    async def rage_2_button(self, interaction: discord.Interaction, button: ui.Button):
+        """Augmente la Rage de 2."""
+        await self._handle_rage_increase(interaction, 2)
 
-    @ui.button(label="+3 Rage", style=discord.ButtonStyle.danger, emoji="🔥", row=0)
-    async def rage_big_button(self, interaction: discord.Interaction, button: ui.Button):
+    @ui.button(label="+3", style=discord.ButtonStyle.danger, emoji="🔥")
+    async def rage_3_button(self, interaction: discord.Interaction, button: ui.Button):
         """Augmente la Rage de 3."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
+        await self._handle_rage_increase(interaction, 3)
 
-        old_level = self.rage_level
-        self.rage_level = await increment_rage(self.user_id, self.guild_id, self.channel_id, 3)
-        await self._update_rage_state(interaction, old_level)
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
-
-    @ui.button(label="-1 Rage", style=discord.ButtonStyle.success, emoji="🧘", row=0)
-    async def calm_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Réduit la Rage de 1."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
-
-        if self.rage_level > 0:
-            old_level = self.rage_level
-            self.rage_level = await decrement_rage(self.user_id, self.guild_id, self.channel_id, 1)
-
-            # Vérifier si on quitte l'état enragé
-            if old_level >= SEUIL_ENRAGE > self.rage_level:
-                self.is_enraged = False
-                await set_rage_data(
-                    self.user_id, self.guild_id, self.channel_id,
-                    is_enraged=False,
-                    maintien_counter=0,
-                )
-
-            # Restaurer le surnom si on quitte primal
-            if old_level >= SEUIL_PRIMAL > self.rage_level:
-                try:
-                    member = interaction.guild.get_member(self.user_id)
-                    if member and member.nick and "[PRIMAL]" in member.nick:
-                        new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                        await member.edit(nick=new_nick if new_nick else None)
-                except discord.Forbidden:
-                    pass
-
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
-
-    @ui.button(label="Fin de scène", style=discord.ButtonStyle.primary, emoji="🏁", row=1)
+    @ui.button(label="Fin de scène", style=discord.ButtonStyle.success, emoji="🏁")
     async def end_scene_button(self, interaction: discord.Interaction, button: ui.Button):
         """Met fin à la scène et remet la rage à 0."""
         if interaction.user.id != self.user_id:
@@ -383,35 +321,3 @@ class LycanPanel(ui.View):
         )
 
         await interaction.response.edit_message(embed=embed, view=None)
-
-    @ui.button(label="Rafraîchir", style=discord.ButtonStyle.secondary, emoji="🔄", row=1)
-    async def refresh_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Rafraîchit le panneau."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
-
-        # Recharger les données
-        rage_data = await get_rage_data(self.user_id, self.guild_id, self.channel_id)
-        self.rage_level = rage_data.get("rage_level", 0)
-        self.is_enraged = rage_data.get("is_enraged", False)
-        self.maintien_counter = rage_data.get("maintien_counter", 0)
-
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
-
-    @ui.button(label="Fermer", style=discord.ButtonStyle.secondary, emoji="❌", row=1)
-    async def close_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Ferme le panneau."""
-        if interaction.user.id != self.user_id:
-            await interaction.response.send_message(
-                "Ce panneau ne t'appartient pas.", ephemeral=True
-            )
-            return
-
-        await interaction.response.edit_message(
-            content="*Panneau fermé.*",
-            embed=None,
-            view=None,
-        )
