@@ -7,6 +7,7 @@ Synchronise avec Google Sheets pour le site web.
 import aiosqlite
 import aiohttp
 import json
+import urllib.parse
 from pathlib import Path
 from typing import Optional
 import logging
@@ -20,23 +21,30 @@ GOOGLE_SHEETS_API = "https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TN
 async def sync_to_google_sheets(user_id: int, data: dict):
     """Synchronise les données d'un joueur vers Google Sheets."""
     try:
-        params = {
-            "action": "save",
-            "userId": str(user_id),
-            "data": json.dumps(data),
-        }
-        url = f"{GOOGLE_SHEETS_API}?action={params['action']}&userId={params['userId']}&data={params['data']}"
+        # Encoder les données JSON pour l'URL
+        data_json = json.dumps(data)
+        encoded_data = urllib.parse.quote(data_json, safe='')
+
+        url = f"{GOOGLE_SHEETS_API}?action=save&userId={user_id}&data={encoded_data}"
+
+        logger.info(f"Sync Google Sheets: user={user_id}, data={data}")
 
         async with aiohttp.ClientSession() as session:
             async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                response_text = await response.text()
+                logger.info(f"Sync Google Sheets response: {response.status} - {response_text[:200]}")
+
                 if response.status == 200:
-                    result = await response.json()
-                    if result.get("success"):
-                        logger.debug(f"Sync Google Sheets OK pour user {user_id}")
-                    else:
-                        logger.warning(f"Sync Google Sheets échoué: {result}")
+                    try:
+                        result = json.loads(response_text)
+                        if result.get("success"):
+                            logger.info(f"Sync Google Sheets OK pour user {user_id}")
+                        else:
+                            logger.warning(f"Sync Google Sheets échoué: {result}")
+                    except json.JSONDecodeError:
+                        logger.warning(f"Sync Google Sheets réponse invalide: {response_text[:200]}")
                 else:
-                    logger.warning(f"Sync Google Sheets HTTP {response.status}")
+                    logger.warning(f"Sync Google Sheets HTTP {response.status}: {response_text[:200]}")
     except Exception as e:
         logger.warning(f"Erreur sync Google Sheets: {e}")
 
