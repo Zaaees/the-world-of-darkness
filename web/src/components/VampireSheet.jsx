@@ -574,7 +574,7 @@ export default function VampireSheet() {
       } catch (err) {
         console.error('Erreur rafraîchissement auto:', err);
       }
-    }, 30000); // 30 secondes
+    }, 10000); // 10 secondes - rafraîchissement rapide pour détecter les validations
 
     return () => clearInterval(refreshInterval);
   }, [discordUser, loading]);

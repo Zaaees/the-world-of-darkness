@@ -130,24 +130,29 @@ class PersistentActionValidationView(ui.View):
 
         await interaction.response.edit_message(embed=embed, view=self)
 
-        # Notifier le joueur par DM
-        try:
-            member = interaction.guild.get_member(action["user_id"])
-            if member:
-                notify_embed = discord.Embed(
-                    title="✅ Action validée !",
-                    description=f"**{action['action_name']}** a été validée.\n\n+{action['points']} points de saturation",
-                    color=discord.Color.green(),
-                )
-                if result.get("mutated"):
-                    notify_embed.add_field(
-                        name="🩸 MUTATION !",
-                        value=f"Votre sang a atteint la **Puissance {result['blood_potency']}** !",
-                        inline=False,
+        # Notifier le joueur par DM (non-bloquant)
+        async def notify_player():
+            try:
+                member = interaction.guild.get_member(action["user_id"])
+                if member:
+                    notify_embed = discord.Embed(
+                        title="✅ Action validée !",
+                        description=f"**{action['action_name']}** a été validée.\n\n+{action['points']} points de saturation",
+                        color=discord.Color.green(),
                     )
-                await member.send(embed=notify_embed)
-        except discord.Forbidden:
-            pass
+                    if result.get("mutated"):
+                        notify_embed.add_field(
+                            name="🩸 MUTATION !",
+                            value=f"Votre sang a atteint la **Puissance {result['blood_potency']}** !",
+                            inline=False,
+                        )
+                    await member.send(embed=notify_embed)
+            except discord.Forbidden:
+                pass
+            except Exception as e:
+                logger.debug(f"Erreur notification DM: {e}")
+
+        asyncio.create_task(notify_player())
 
     @ui.button(label="Refuser", style=discord.ButtonStyle.danger, emoji="❌", custom_id="blood_action_refuse")
     async def refuse_button(self, interaction: discord.Interaction, button: ui.Button):
@@ -197,18 +202,23 @@ class PersistentActionValidationView(ui.View):
 
         await interaction.response.edit_message(embed=embed, view=self)
 
-        # Notifier le joueur par DM
-        try:
-            member = interaction.guild.get_member(action["user_id"])
-            if member:
-                notify_embed = discord.Embed(
-                    title="❌ Action refusée",
-                    description=f"**{action['action_name']}** a été refusée.",
-                    color=discord.Color.red(),
-                )
-                await member.send(embed=notify_embed)
-        except discord.Forbidden:
-            pass
+        # Notifier le joueur par DM (non-bloquant)
+        async def notify_player():
+            try:
+                member = interaction.guild.get_member(action["user_id"])
+                if member:
+                    notify_embed = discord.Embed(
+                        title="❌ Action refusée",
+                        description=f"**{action['action_name']}** a été refusée.",
+                        color=discord.Color.red(),
+                    )
+                    await member.send(embed=notify_embed)
+            except discord.Forbidden:
+                pass
+            except Exception as e:
+                logger.debug(f"Erreur notification DM: {e}")
+
+        asyncio.create_task(notify_player())
 
 
 async def send_validation_request(

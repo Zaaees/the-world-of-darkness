@@ -45,9 +45,9 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
         self.bot.add_view(PersistentActionValidationView())
         logger.info("Vues persistantes de validation enregistrées")
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(seconds=15)
     async def check_pending_actions(self):
-        """Vérifie les nouvelles actions en attente depuis Google Sheets."""
+        """Vérifie les nouvelles actions en attente depuis Google Sheets (toutes les 15s)."""
         try:
             url = f"{GOOGLE_SHEETS_API}?action=get_pending_actions"
 
