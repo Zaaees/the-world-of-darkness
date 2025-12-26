@@ -535,6 +535,50 @@ export default function VampireSheet() {
     return () => clearTimeout(timer);
   }, [character?.isMutating, character?.mutationEndsAt]);
 
+  // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
+  useEffect(() => {
+    if (!discordUser || loading) return;
+
+    const refreshInterval = setInterval(async () => {
+      try {
+        const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(discordUser.id)}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.success && data.character) {
+          // Mettre à jour seulement si les données importantes ont changé
+          setCharacter(prev => {
+            const newBP = Number(data.character.bloodPotency) || 1;
+            const newSat = Number(data.character.saturationPoints) || 0;
+            const newCompleted = data.character.completedActions || [];
+            const newPending = data.character.pendingActions || [];
+
+            // Vérifier si quelque chose a changé
+            if (prev.bloodPotency !== newBP ||
+                prev.saturationPoints !== newSat ||
+                JSON.stringify(prev.completedActions) !== JSON.stringify(newCompleted) ||
+                JSON.stringify(prev.pendingActions) !== JSON.stringify(newPending)) {
+              return {
+                ...prev,
+                bloodPotency: newBP,
+                saturationPoints: newSat,
+                completedActions: newCompleted,
+                pendingActions: newPending,
+                cooldowns: data.character.cooldowns || prev.cooldowns,
+                clan: data.character.clan || prev.clan,
+              };
+            }
+            return prev;
+          });
+        }
+      } catch (err) {
+        console.error('Erreur rafraîchissement auto:', err);
+      }
+    }, 30000); // 30 secondes
+
+    return () => clearInterval(refreshInterval);
+  }, [discordUser, loading]);
+
   const handleLogin = () => {
     window.location.href = getDiscordAuthUrl();
   };

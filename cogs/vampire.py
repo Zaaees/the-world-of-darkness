@@ -12,19 +12,17 @@ from discord import app_commands
 from discord.ext import commands
 
 from data.clans import get_clan, list_clans
+from data.config import ROLE_VAMPIRE
 from utils.database import get_player, get_soif, get_vampire_data
 from utils.rp_check import is_rp_channel
 from views.vampire_panel import VampirePanel, ClanSelectView
 
 logger = logging.getLogger(__name__)
 
-# Nom du rôle requis (insensible à la casse)
-VAMPIRE_ROLE_NAME = "vampire"
-
 
 def has_vampire_role(member: discord.Member) -> bool:
     """Vérifie si le membre a le rôle Vampire."""
-    return any(role.name.lower() == VAMPIRE_ROLE_NAME for role in member.roles)
+    return any(role.id == ROLE_VAMPIRE for role in member.roles)
 
 
 class VampireCog(commands.Cog, name="Vampire"):

@@ -89,7 +89,7 @@ class WorldOfDarknessBot(commands.Bot):
 
         # Définir le statut du bot
         activity = discord.Activity(
-            type=discord.ActivityType.watching, name="les ténèbres grandir..."
+            type=discord.ActivityType.watching, name="les ténèbres s'étendre..."
         )
         await self.change_presence(activity=activity)
 

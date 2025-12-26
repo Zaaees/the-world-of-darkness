@@ -2,7 +2,16 @@
 Configuration des rôles et salons pour le bot World of Darkness.
 """
 
-# === RÔLES ===
+# === RÔLES DE RACE ===
+
+# Rôle Vampire - pour la commande /vampire
+ROLE_VAMPIRE = 1453870404535058573
+
+# Rôle Loup-garou - pour la commande /lycan
+ROLE_LOUP_GAROU = 1453870972376584192
+
+
+# === RÔLES D'ADMINISTRATION ===
 
 # Fondateur - Tous les droits
 ROLE_FONDATEUR = 1454188379519320196

@@ -15,6 +15,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from data.auspices import get_auspice, get_rage_message, list_auspices
+from data.config import ROLE_LOUP_GAROU
 from utils.database import (
     get_player,
     get_rage_data,
@@ -28,9 +29,6 @@ from views.lycan_panel import LycanPanel, AuspiceSelectView
 
 logger = logging.getLogger(__name__)
 
-# Nom du rôle requis (insensible à la casse)
-LYCAN_ROLE_NAME = "loup-garou"
-
 # Seuils de Rage
 SEUIL_ENRAGE = 10
 SEUIL_PRIMAL = 20
@@ -39,7 +37,7 @@ TOURS_MAINTIEN = 2
 
 def has_lycan_role(member: discord.Member) -> bool:
     """Vérifie si le membre a le rôle Loup-garou."""
-    return any(role.name.lower() == LYCAN_ROLE_NAME for role in member.roles)
+    return any(role.id == ROLE_LOUP_GAROU for role in member.roles)
 
 
 class WerewolfCog(commands.Cog, name="Loup-Garou"):

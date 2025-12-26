@@ -5,6 +5,7 @@ Envoie les demandes d'action dans un salon spécifique avec des boutons
 Valider/Refuser pour les MJ Vampire et Fondateurs.
 """
 
+import asyncio
 import discord
 from discord import ui
 import logging
@@ -84,16 +85,22 @@ class PersistentActionValidationView(ui.View):
             action["points"],
         )
 
-        # Synchroniser vers Google Sheets
-        player = await get_player(action["user_id"], action["guild_id"])
-        if player:
-            vampire_data = await get_vampire_data(action["user_id"], action["guild_id"])
-            await sync_to_google_sheets(action["user_id"], {
-                "clan": player.get("clan", ""),
-                "bloodPotency": result["blood_potency"],
-                "saturationPoints": result["saturation_points"],
-                "soifLevel": vampire_data.get("soif_level", 0),
-            })
+        # Synchroniser vers Google Sheets en arrière-plan (non-bloquant)
+        async def background_sync():
+            try:
+                player = await get_player(action["user_id"], action["guild_id"])
+                if player:
+                    vampire_data = await get_vampire_data(action["user_id"], action["guild_id"])
+                    await sync_to_google_sheets(action["user_id"], {
+                        "clan": player.get("clan", ""),
+                        "bloodPotency": result["blood_potency"],
+                        "saturationPoints": result["saturation_points"],
+                        "soifLevel": vampire_data.get("soif_level", 0),
+                    })
+            except Exception as e:
+                logger.error(f"Erreur sync Google Sheets en arrière-plan: {e}")
+
+        asyncio.create_task(background_sync())
 
         # Mettre à jour l'embed
         embed.color = discord.Color.green()
