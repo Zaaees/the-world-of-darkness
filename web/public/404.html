@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>World of Darkness</title>
+    <script>
+      // Redirige vers index.html en préservant le hash (pour OAuth)
+      var path = window.location.pathname;
+      var hash = window.location.hash;
+      var search = window.location.search;
+
+      // Redirection vers la racine avec le hash préservé
+      if (hash) {
+        window.location.replace('/the-world-of-darkness/' + hash);
+      } else {
+        window.location.replace('/the-world-of-darkness/');
+      }
+    </script>
+  </head>
+  <body>
+    Redirection...
+  </body>
+</html>
