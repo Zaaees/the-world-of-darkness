@@ -168,49 +168,6 @@ class VampireCog(commands.Cog, name="Vampire"):
             ephemeral=True,
         )
 
-    @app_commands.command(
-        name="vampire_reset",
-        description="Réinitialise ton personnage vampire pour en créer un nouveau"
-    )
-    async def vampire_reset_command(self, interaction: discord.Interaction):
-        """Permet à un joueur de réinitialiser son personnage vampire."""
-        # Vérifier le rôle
-        if not has_vampire_role(interaction.user):
-            await interaction.response.send_message(
-                "❌ Tu dois avoir le rôle **Vampire** pour utiliser cette commande.",
-                ephemeral=True,
-            )
-            return
-
-        # Vérifier si le joueur a un personnage
-        player = await get_player(interaction.user.id, interaction.guild.id)
-        if not player or not player.get("clan"):
-            await interaction.response.send_message(
-                "❌ Tu n'as pas encore de personnage vampire à réinitialiser.",
-                ephemeral=True,
-            )
-            return
-
-        # Afficher la sélection de clan (qui fera le reset)
-        embed = discord.Embed(
-            title="🧛 Réincarnation",
-            description=(
-                "⚠️ **Attention !** En choisissant un nouveau clan, tu vas :\n"
-                "• Perdre ton personnage actuel\n"
-                "• Réinitialiser ta Puissance du Sang à 1\n"
-                "• Perdre toutes tes actions accomplies\n\n"
-                "Choisis ton nouveau lignage parmi les Damnés..."
-            ),
-            color=discord.Color.dark_red(),
-        )
-
-        view = ClanSelectView()
-        await interaction.response.send_message(
-            embed=embed,
-            view=view,
-            ephemeral=True,
-        )
-
 
 async def setup(bot: commands.Bot):
     """Charge le Cog Vampire."""

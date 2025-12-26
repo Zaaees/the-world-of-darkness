@@ -73,7 +73,6 @@ const BLOOD_STAGES = {
 const UNIQUE_ACTIONS = [
   { id: "first_frenzy", name: "Première danse avec la Bête", description: "Jouer sa première frénésie", points: 5 },
   { id: "first_kill", name: "Le goût des cendres", description: "Tuer un mortel pour la première fois", points: 8 },
-  { id: "first_diablerie", name: "L'Étreinte inversée", description: "Commettre sa première diablerie", points: 20 },
   { id: "first_sun", name: "Baiser du soleil", description: "Survivre à une exposition au soleil", points: 6 },
   { id: "first_blood_bond", name: "Le Sang qui lie", description: "Créer son premier Lien de Sang sur quelqu'un", points: 4 },
   { id: "last_mortal", name: "Dernier souffle mortel", description: "Revoir un proche de sa vie humaine", points: 5 },
@@ -108,6 +107,7 @@ const VAMPIRE_BLOOD_ACTIONS = [
   { id: "vampire_kiss", name: "Le baiser du prédateur", description: "Boire le sang d'un autre vampire (sans diablerie)", points: 4, cooldownDays: 30 },
   { id: "elder_blood", name: "Sang d'ancien", description: "Boire le sang d'un vampire de Puissance supérieure", points: 6, cooldownDays: 30 },
   { id: "vaulderie", name: "La Vaulderie", description: "Participer à un rituel de partage de sang collectif", points: 5, cooldownDays: 30 },
+  { id: "diablerie", name: "L'Étreinte inversée", description: "Commettre une diablerie sur un vampire de rang supérieur", points: 25, cooldownDays: 30 },
 ];
 
 const CRISIS_ACTIONS = [
@@ -466,14 +466,19 @@ export default function VampireSheet() {
   }, [discordUser, loadCharacter]);
 
   // Sauvegarder vers Google Sheets
+  // Note: On exclut les champs gérés par le bot Discord (completedActions, cooldowns, bloodPotency, saturationPoints)
+  // pour éviter d'écraser les données lors de la sauvegarde automatique
   const saveCharacter = useCallback(async (charData) => {
     if (!discordUser) return;
 
     try {
       setSaving(true);
 
+      // Exclure les champs gérés par le bot pour ne pas les écraser
+      const { completedActions, cooldowns, bloodPotency, saturationPoints, pendingActions, ...safeData } = charData;
+
       const dataToSave = {
-        ...charData,
+        ...safeData,
         visibleName: discordUser.username,
         visibleAvatar: discordUser.avatar,
       };

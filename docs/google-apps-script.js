@@ -133,6 +133,8 @@ function getCharacter(userId) {
 
 /**
  * Sauvegarde les données d'un personnage
+ * Note: Les champs gérés par le bot (completedActions, cooldowns, pendingActions,
+ * bloodPotency, saturationPoints) sont préservés si non fournis
  */
 function saveCharacter(userId, charData) {
   const sheet = getPersonnagesSheet();
@@ -140,24 +142,51 @@ function saveCharacter(userId, charData) {
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
 
-  // Chercher si le personnage existe
+  // Chercher si le personnage existe et récupérer ses données actuelles
   let rowIndex = -1;
+  let existingData = {};
   for (let i = 1; i < data.length; i++) {
     if (data[i][0] === userId) {
       rowIndex = i + 1;
+      // Récupérer les données existantes
+      headers.forEach((header, idx) => {
+        existingData[header] = data[i][idx];
+      });
       break;
     }
   }
 
+  // Champs gérés par le bot - ne pas écraser si non fournis
+  const botManagedFields = ['completedActions', 'cooldowns', 'pendingActions', 'bloodPotency', 'saturationPoints'];
+
   // Préparer la ligne de données
   const row = headers.map(header => {
     if (header === 'userId') return userId;
+
+    // Pour les champs gérés par le bot, garder l'ancienne valeur si pas de nouvelle
+    if (botManagedFields.includes(header)) {
+      if (charData[header] !== undefined) {
+        // Nouvelle valeur fournie
+        if (['completedActions', 'pendingActions', 'cooldowns'].includes(header)) {
+          return JSON.stringify(charData[header] || (header === 'cooldowns' ? {} : []));
+        }
+        return charData[header];
+      } else {
+        // Pas de nouvelle valeur, garder l'ancienne
+        return existingData[header] !== undefined ? existingData[header] : (
+          ['completedActions', 'pendingActions'].includes(header) ? '[]' :
+          header === 'cooldowns' ? '{}' :
+          header === 'bloodPotency' ? 1 : 0
+        );
+      }
+    }
+
     const value = charData[header];
     // Stringify les objets/arrays
-    if (['completedActions', 'pendingActions', 'history', 'cooldowns'].includes(header)) {
-      return JSON.stringify(value || (header === 'cooldowns' ? {} : []));
+    if (header === 'history') {
+      return JSON.stringify(value || []);
     }
-    return value !== undefined ? value : '';
+    return value !== undefined ? value : (existingData[header] || '');
   });
 
   if (rowIndex > 0) {

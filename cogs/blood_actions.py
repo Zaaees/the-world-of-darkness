@@ -24,7 +24,6 @@ from data.blood_actions import (
     VAMPIRE_BLOOD_ACTIONS,
     CRISIS_ACTIONS,
     TORPOR_ACTIONS,
-    GHOUL_ACTIONS,
     get_action_by_id,
     get_clan_action,
 )
@@ -173,6 +172,7 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
         app_commands.Choice(name="Le baiser du prédateur", value="vampire_kiss"),
         app_commands.Choice(name="Sang d'ancien", value="elder_blood"),
         app_commands.Choice(name="La Vaulderie", value="vaulderie"),
+        app_commands.Choice(name="Diablerie (rang supérieur)", value="diablerie"),
         # Actions uniques
         app_commands.Choice(name="Première danse avec la Bête", value="first_frenzy"),
         app_commands.Choice(name="Le goût des cendres", value="first_kill"),

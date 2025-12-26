@@ -24,12 +24,6 @@ UNIQUE_ACTIONS = {
         "points": 8,
         "category": "unique",
     },
-    "first_diablerie": {
-        "name": "L'Étreinte inversée",
-        "description": "Commettre sa première diablerie",
-        "points": 20,
-        "category": "unique",
-    },
     "first_sun": {
         "name": "Baiser du soleil",
         "description": "Survivre à une exposition au soleil",
@@ -200,6 +194,14 @@ VAMPIRE_BLOOD_ACTIONS = {
         "name": "La Vaulderie",
         "description": "Participer à un rituel de partage de sang collectif",
         "points": 5,
+        "cooldown_days": 30,
+        "category": "vampire_blood",
+    },
+    "diablerie": {
+        "id": "diablerie",
+        "name": "L'Étreinte inversée",
+        "description": "Commettre une diablerie sur un vampire de rang supérieur",
+        "points": 25,
         "cooldown_days": 30,
         "category": "vampire_blood",
     },
