@@ -180,8 +180,9 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
 };
 
 // Composant pour une action
-const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, cooldownDate, onSubmit }) => {
+const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, cooldownDate, isSubmitting, onSubmit }) => {
   const getStatusIcon = () => {
+    if (isSubmitting) return <RefreshCw size={14} className="text-yellow-500 animate-spin" />;
     if (isCompleted) return <Check size={14} className="text-green-500" />;
     if (isPending) return <Clock size={14} className="text-yellow-500 animate-pulse" />;
     if (isCooldown) return <Clock size={14} className="text-orange-500" />;
@@ -189,6 +190,7 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
   };
 
   const getStatusText = () => {
+    if (isSubmitting) return "Envoi en cours...";
     if (isCompleted) return "Accompli";
     if (isPending) return "En attente de validation";
     if (isCooldown) return `Disponible le ${new Date(cooldownDate).toLocaleDateString()}`;
@@ -198,10 +200,12 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
   return (
     <button
       onClick={() => onSubmit(action)}
-      disabled={isDisabled || isPending || isCompleted || isCooldown}
+      disabled={isDisabled || isPending || isCompleted || isCooldown || isSubmitting}
       className={`
         w-full text-left p-4 rounded border transition-all relative overflow-hidden group
-        ${isCompleted
+        ${isSubmitting
+          ? 'action-submitting bg-yellow-950/30 border-yellow-700/50 cursor-wait'
+          : isCompleted
           ? 'bg-green-950/20 border-green-900/30 opacity-50 cursor-not-allowed'
           : isPending
           ? 'bg-yellow-950/20 border-yellow-900/30 cursor-wait'
@@ -209,7 +213,7 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
           ? 'bg-orange-950/20 border-orange-900/30 cursor-not-allowed opacity-60'
           : isDisabled
           ? 'bg-transparent border-stone-900/30 opacity-30 cursor-not-allowed'
-          : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900 cursor-pointer'
+          : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900 cursor-pointer active:scale-[0.98]'
         }
       `}
     >
@@ -237,7 +241,7 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
 };
 
 // Composant pour une catégorie d'actions
-const ActionCategory = ({ category, character, completedActions, pendingActions, cooldowns, onSubmitAction }) => {
+const ActionCategory = ({ category, character, completedActions, pendingActions, cooldowns, submittingAction, onSubmitAction }) => {
   const [isOpen, setIsOpen] = useState(category.id === "unique" || category.id === "crisis");
   const CategoryIcon = category.icon;
 
@@ -284,6 +288,7 @@ const ActionCategory = ({ category, character, completedActions, pendingActions,
                 isCompleted={isCompleted}
                 isCooldown={isCooldown}
                 cooldownDate={cooldownDate}
+                isSubmitting={submittingAction === action.id}
                 onSubmit={onSubmitAction}
               />
             );
@@ -747,6 +752,7 @@ export default function VampireSheet() {
               isPending={(character.pendingActions || []).includes(clanAction.id)}
               isCompleted={false}
               isCooldown={false}
+              isSubmitting={submittingAction === clanAction.id}
               onSubmit={handleSubmitAction}
             />
           </section>
@@ -772,6 +778,7 @@ export default function VampireSheet() {
                 completedActions={character.completedActions || []}
                 pendingActions={character.pendingActions || []}
                 cooldowns={character.cooldowns || {}}
+                submittingAction={submittingAction}
                 onSubmitAction={handleSubmitAction}
               />
             ))

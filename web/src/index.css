@@ -22,3 +22,20 @@ body {
 input:focus {
   outline: none;
 }
+
+/* Animation de soumission d'action */
+@keyframes action-submit {
+  0% { transform: scale(1); }
+  15% { transform: scale(0.97); }
+  30% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+
+@keyframes action-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(234, 179, 8, 0.3); }
+}
+
+.action-submitting {
+  animation: action-submit 0.3s ease-out, action-glow 1s ease-in-out infinite;
+}
