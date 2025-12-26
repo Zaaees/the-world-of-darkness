@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+__pycache__
+*.pyc
+*.pyo
+*.db
+bot.log
+web/node_modules
+web/dist
+.venv
+venv

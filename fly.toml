@@ -1,0 +1,15 @@
+app = 'world-of-darkness-bot'
+primary_region = 'cdg'
+
+[build]
+
+[env]
+  COMMAND_PREFIX = '!'
+
+[processes]
+  app = 'python main.py'
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
