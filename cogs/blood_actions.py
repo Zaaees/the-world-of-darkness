@@ -18,7 +18,6 @@ from discord import app_commands
 from discord.ext import commands, tasks
 
 from data.blood_actions import (
-    VALIDATION_CHANNEL_ID,
     UNIQUE_ACTIONS,
     CLAN_ACTIONS,
     RESONANCE_ACTIONS,
@@ -29,6 +28,7 @@ from data.blood_actions import (
     get_action_by_id,
     get_clan_action,
 )
+from data.config import VALIDATION_CHANNEL_ID
 from utils.database import (
     init_blood_actions_tables,
     create_pending_action,

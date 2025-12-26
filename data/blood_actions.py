@@ -11,9 +11,6 @@ Catégories d'actions:
 - torpor: Actions liées à la torpeur
 """
 
-# Salon de validation des actions
-VALIDATION_CHANNEL_ID = 1454182154270670848
-
 # Actions uniques (disparaissent après validation)
 UNIQUE_ACTIONS = {
     "first_frenzy": {

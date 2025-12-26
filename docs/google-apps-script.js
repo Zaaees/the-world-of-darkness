@@ -16,7 +16,9 @@
  * - "ActionsEnAttente" avec les colonnes: rowId | userId | actionId | actionName | points | status | createdAt
  */
 
+// Noms des feuilles (avec fallback pour rétrocompatibilité)
 const SHEET_PERSONNAGES = 'Personnages';
+const SHEET_PERSONNAGES_FALLBACK = 'Feuil1';  // Ancien nom
 const SHEET_ACTIONS = 'ActionsEnAttente';
 
 function doGet(e) {
@@ -69,13 +71,31 @@ function handleRequest(e) {
 }
 
 /**
- * Récupère les données d'un personnage
+ * Récupère la feuille personnages (avec fallback)
  */
-function getCharacter(userId) {
-  const sheet = getOrCreateSheet(SHEET_PERSONNAGES, [
+function getPersonnagesSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  // Essayer d'abord la feuille "Personnages"
+  let sheet = ss.getSheetByName(SHEET_PERSONNAGES);
+  if (sheet) return sheet;
+
+  // Fallback vers "Feuil1" (ancien nom)
+  sheet = ss.getSheetByName(SHEET_PERSONNAGES_FALLBACK);
+  if (sheet) return sheet;
+
+  // Créer la feuille si elle n'existe pas
+  return getOrCreateSheet(SHEET_PERSONNAGES, [
     'userId', 'name', 'clan', 'bloodPotency', 'saturationPoints',
     'completedActions', 'pendingActions', 'cooldowns', 'history'
   ]);
+}
+
+/**
+ * Récupère les données d'un personnage
+ */
+function getCharacter(userId) {
+  const sheet = getPersonnagesSheet();
 
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
@@ -115,10 +135,7 @@ function getCharacter(userId) {
  * Sauvegarde les données d'un personnage
  */
 function saveCharacter(userId, charData) {
-  const sheet = getOrCreateSheet(SHEET_PERSONNAGES, [
-    'userId', 'name', 'clan', 'bloodPotency', 'saturationPoints',
-    'completedActions', 'pendingActions', 'cooldowns', 'history'
-  ]);
+  const sheet = getPersonnagesSheet();
 
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
