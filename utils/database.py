@@ -1,14 +1,44 @@
 """
 Système de persistance pour le bot Monde des Ténèbres.
 Utilise SQLite avec aiosqlite pour les opérations asynchrones.
+Synchronise avec Google Sheets pour le site web.
 """
 
 import aiosqlite
+import aiohttp
+import json
 from pathlib import Path
 from typing import Optional
 import logging
 
 logger = logging.getLogger(__name__)
+
+# URL de l'API Google Sheets
+GOOGLE_SHEETS_API = "https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec"
+
+
+async def sync_to_google_sheets(user_id: int, data: dict):
+    """Synchronise les données d'un joueur vers Google Sheets."""
+    try:
+        params = {
+            "action": "save",
+            "userId": str(user_id),
+            "data": json.dumps(data),
+        }
+        url = f"{GOOGLE_SHEETS_API}?action={params['action']}&userId={params['userId']}&data={params['data']}"
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                if response.status == 200:
+                    result = await response.json()
+                    if result.get("success"):
+                        logger.debug(f"Sync Google Sheets OK pour user {user_id}")
+                    else:
+                        logger.warning(f"Sync Google Sheets échoué: {result}")
+                else:
+                    logger.warning(f"Sync Google Sheets HTTP {response.status}")
+    except Exception as e:
+        logger.warning(f"Erreur sync Google Sheets: {e}")
 
 DATABASE_PATH = Path(__file__).parent.parent / "data" / "world_of_darkness.db"
 
@@ -155,6 +185,16 @@ async def set_player(
 
         await db.commit()
 
+    # Synchroniser vers Google Sheets si c'est un vampire avec un clan
+    if race == "vampire" and clan:
+        vampire_data = await get_vampire_data(user_id, guild_id)
+        await sync_to_google_sheets(user_id, {
+            "clan": clan,
+            "bloodPotency": vampire_data.get("blood_potency", 1),
+            "saturationPoints": vampire_data.get("saturation_points", 0),
+            "soifLevel": vampire_data.get("soif_level", 0),
+        })
+
 
 async def delete_player(user_id: int, guild_id: int):
     """Supprime un joueur et ses données associées."""
@@ -206,6 +246,17 @@ async def set_soif(user_id: int, guild_id: int, level: int):
             (user_id, guild_id, level),
         )
         await db.commit()
+
+    # Synchroniser vers Google Sheets
+    player = await get_player(user_id, guild_id)
+    if player and player.get("race") == "vampire":
+        vampire_data = await get_vampire_data(user_id, guild_id)
+        await sync_to_google_sheets(user_id, {
+            "clan": player.get("clan", ""),
+            "bloodPotency": vampire_data.get("blood_potency", 1),
+            "saturationPoints": vampire_data.get("saturation_points", 0),
+            "soifLevel": level,
+        })
 
 
 async def increment_soif(user_id: int, guild_id: int) -> int:
