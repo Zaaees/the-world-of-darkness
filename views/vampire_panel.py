@@ -89,10 +89,11 @@ class ClanSelectView(ui.View):
 class VampirePanel(ui.View):
     """Panneau principal pour les Vampires."""
 
-    def __init__(self, user_id: int, guild_id: int, clan: str, soif_level: int):
+    def __init__(self, user_id: int, guild_id: int, channel_id: int, clan: str, soif_level: int):
         super().__init__(timeout=300)
         self.user_id = user_id
         self.guild_id = guild_id
+        self.channel_id = channel_id
         self.clan = clan
         self.soif_level = soif_level
 
@@ -165,6 +166,35 @@ class VampirePanel(ui.View):
 
         return embed
 
+    async def _announce_frenzy(self, interaction: discord.Interaction):
+        """Annonce publiquement l'état de Frénésie."""
+        clan_data = get_clan(self.clan)
+        clan_name = clan_data["nom"] if clan_data else "Vampire"
+
+        compulsion = get_compulsion(self.clan, 5)
+        frenzy_name = compulsion["nom"] if compulsion else "FRÉNÉSIE"
+
+        embed = discord.Embed(
+            title=f"🩸 LA BÊTE SE DÉCHAÎNE 🩸",
+            description=(
+                f"**{interaction.user.display_name}** a perdu le contrôle.\n\n"
+                f"Le sang du clan **{clan_name}** a pris le dessus. "
+                f"La créature devant vous n'est plus qu'instinct et faim.\n\n"
+                f"**{frenzy_name}**"
+            ),
+            color=discord.Color.dark_purple(),
+        )
+        embed.set_thumbnail(url=interaction.user.display_avatar.url)
+        embed.set_footer(text="Que Dieu ait pitié de vos âmes...")
+
+        # Envoyer dans le salon actuel
+        try:
+            channel = interaction.guild.get_channel(self.channel_id)
+            if channel:
+                await channel.send(embed=embed)
+        except discord.Forbidden:
+            pass
+
     @ui.button(label="Soif", style=discord.ButtonStyle.danger, emoji="🩸")
     async def soif_button(self, interaction: discord.Interaction, button: ui.Button):
         """Augmente la Soif."""
@@ -174,8 +204,14 @@ class VampirePanel(ui.View):
             )
             return
 
+        old_level = self.soif_level
+
         if self.soif_level < 5:
             self.soif_level = await increment_soif(self.user_id, self.guild_id)
+
+        # Annoncer la frénésie si on vient d'atteindre le niveau 5
+        if old_level < 5 and self.soif_level == 5:
+            await self._announce_frenzy(interaction)
 
         # Mettre à jour l'embed
         await interaction.response.edit_message(embed=self.create_embed(), view=self)

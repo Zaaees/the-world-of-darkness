@@ -107,6 +107,7 @@ class VampireCog(commands.Cog, name="Vampire"):
         panel = VampirePanel(
             user_id=interaction.user.id,
             guild_id=interaction.guild.id,
+            channel_id=interaction.channel.id,
             clan=clan,
             soif_level=soif_level,
         )

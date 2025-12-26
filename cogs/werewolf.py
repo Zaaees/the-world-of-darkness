@@ -4,7 +4,7 @@ Cog Loup-Garou : Gestion de la Rage et du Maintien via slash command.
 La commande /lycan ouvre un panneau interactif avec des boutons.
 Accessible uniquement aux membres avec le rôle "Loup-garou".
 
-La Rage est liée à une scène (salon) et diminue de 2 à chaque tour de parole.
+La Rage est liée à une scène (salon) et diminue de 2 à chaque tour.
 """
 
 import logging
@@ -56,7 +56,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
         channel: Optional[discord.TextChannel] = None,
     ):
         """
-        Traite un tour de parole pour un loup-garou.
+        Traite un tour pour un loup-garou.
         - Décrémente la rage de 1
         - Incrémente le compteur de maintien si enragé
         - Calme le loup-garou si le maintien expire

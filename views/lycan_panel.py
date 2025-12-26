@@ -180,7 +180,7 @@ class LycanPanel(ui.View):
         if self.rage_level > 0:
             embed.add_field(
                 name="💨 Décroissance",
-                value="*La rage diminue de 2 à chaque tour de parole.*",
+                value="*La rage diminue de 2 à chaque tour.*",
                 inline=False,
             )
 

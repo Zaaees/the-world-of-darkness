@@ -42,8 +42,8 @@ Les compulsions sont affichées directement dans le panneau, avec une intensité
 Simule la colère sacrée des Garous.
 
 - **Rage** : Jauge liée à une **scène** (salon), seuils à 10 (Enragé) et 20 (Primal)
-- **Décroissance automatique** : La rage diminue de 2 à chaque tour de parole
-- **Tours de Parole** : Détection organique des conversations
+- **Décroissance automatique** : La rage diminue de 2 à chaque tour
+- **Tours** : Détection organique des conversations
 - **Maintien** : 2 tours sans augmenter la rage = retour au calme
 - **5 Augures** : Ragabash, Theurge, Philodox, Galliard, Ahroun
 - **État Primal** : Annonce publique et changement de surnom
@@ -61,7 +61,7 @@ Les messages de Rage (Enragé, Primal) sont affichés directement dans le pannea
 
 ### Mécanique des Tours
 
-Un "tour de parole" se termine quand :
+Un "tour" se termine quand :
 1. Le loup-garou envoie un/des message(s)
 2. D'autres personnes répondent
 3. Le loup-garou envoie à nouveau un message
