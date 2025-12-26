@@ -580,3 +580,315 @@ async def get_active_rage_scenes(user_id: int, guild_id: int) -> list[dict]:
         )
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
+
+
+# ============================================
+# Fonctions pour les Actions de Puissance du Sang
+# ============================================
+
+
+async def init_blood_actions_tables():
+    """Initialise les tables pour le système d'actions de Puissance du Sang."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Table des actions en attente de validation
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS pending_blood_actions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                action_id TEXT NOT NULL,
+                action_name TEXT NOT NULL,
+                points INTEGER NOT NULL,
+                category TEXT NOT NULL,
+                message_id INTEGER,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                status TEXT DEFAULT 'pending'
+            )
+        """)
+
+        # Table des actions uniques accomplies
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS completed_unique_actions (
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                action_id TEXT NOT NULL,
+                completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id, action_id)
+            )
+        """)
+
+        # Table des cooldowns d'actions
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS action_cooldowns (
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                action_id TEXT NOT NULL,
+                last_used TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id, action_id)
+            )
+        """)
+
+        # Table de l'historique des actions validées
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS blood_action_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                action_id TEXT NOT NULL,
+                action_name TEXT NOT NULL,
+                points INTEGER NOT NULL,
+                validated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                validated_by INTEGER
+            )
+        """)
+
+        await db.commit()
+        logger.info("Tables des actions de sang initialisées")
+
+
+async def create_pending_action(
+    user_id: int,
+    guild_id: int,
+    action_id: str,
+    action_name: str,
+    points: int,
+    category: str,
+) -> int:
+    """Crée une action en attente de validation. Retourne l'ID de l'action."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            INSERT INTO pending_blood_actions (user_id, guild_id, action_id, action_name, points, category)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (user_id, guild_id, action_id, action_name, points, category),
+        )
+        await db.commit()
+        return cursor.lastrowid
+
+
+async def get_pending_action(action_db_id: int) -> Optional[dict]:
+    """Récupère une action en attente par son ID."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE id = ?",
+            (action_db_id,),
+        )
+        row = await cursor.fetchone()
+        return dict(row) if row else None
+
+
+async def update_pending_action_message(action_db_id: int, message_id: int):
+    """Met à jour l'ID du message Discord associé à l'action."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            "UPDATE pending_blood_actions SET message_id = ? WHERE id = ?",
+            (message_id, action_db_id),
+        )
+        await db.commit()
+
+
+async def validate_action(action_db_id: int, validated_by: int) -> Optional[dict]:
+    """
+    Valide une action en attente.
+    Retourne les détails de l'action si validée avec succès.
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+
+        # Récupérer l'action
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE id = ? AND status = 'pending'",
+            (action_db_id,),
+        )
+        action = await cursor.fetchone()
+
+        if not action:
+            return None
+
+        action_dict = dict(action)
+
+        # Marquer comme validée
+        await db.execute(
+            "UPDATE pending_blood_actions SET status = 'validated' WHERE id = ?",
+            (action_db_id,),
+        )
+
+        # Ajouter à l'historique
+        await db.execute(
+            """
+            INSERT INTO blood_action_history (user_id, guild_id, action_id, action_name, points, validated_by)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                action_dict["user_id"],
+                action_dict["guild_id"],
+                action_dict["action_id"],
+                action_dict["action_name"],
+                action_dict["points"],
+                validated_by,
+            ),
+        )
+
+        # Si c'est une action unique, la marquer comme complétée
+        if action_dict["category"] == "unique":
+            await db.execute(
+                """
+                INSERT OR IGNORE INTO completed_unique_actions (user_id, guild_id, action_id)
+                VALUES (?, ?, ?)
+                """,
+                (action_dict["user_id"], action_dict["guild_id"], action_dict["action_id"]),
+            )
+
+        # Si l'action a un cooldown, le mettre à jour
+        if action_dict["category"] == "vampire_blood":
+            await db.execute(
+                """
+                INSERT OR REPLACE INTO action_cooldowns (user_id, guild_id, action_id, last_used)
+                VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+                """,
+                (action_dict["user_id"], action_dict["guild_id"], action_dict["action_id"]),
+            )
+
+        await db.commit()
+        return action_dict
+
+
+async def refuse_action(action_db_id: int) -> Optional[dict]:
+    """Refuse une action en attente."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE id = ? AND status = 'pending'",
+            (action_db_id,),
+        )
+        action = await cursor.fetchone()
+
+        if not action:
+            return None
+
+        await db.execute(
+            "UPDATE pending_blood_actions SET status = 'refused' WHERE id = ?",
+            (action_db_id,),
+        )
+        await db.commit()
+
+        return dict(action)
+
+
+async def is_unique_action_completed(user_id: int, guild_id: int, action_id: str) -> bool:
+    """Vérifie si une action unique a déjà été accomplie."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT 1 FROM completed_unique_actions WHERE user_id = ? AND guild_id = ? AND action_id = ?",
+            (user_id, guild_id, action_id),
+        )
+        return await cursor.fetchone() is not None
+
+
+async def is_action_on_cooldown(user_id: int, guild_id: int, action_id: str, cooldown_days: int) -> tuple[bool, Optional[str]]:
+    """
+    Vérifie si une action est en cooldown.
+    Retourne (is_on_cooldown, date_disponible).
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            SELECT last_used,
+                   datetime(last_used, '+' || ? || ' days') as available_at
+            FROM action_cooldowns
+            WHERE user_id = ? AND guild_id = ? AND action_id = ?
+            """,
+            (cooldown_days, user_id, guild_id, action_id),
+        )
+        row = await cursor.fetchone()
+
+        if not row:
+            return False, None
+
+        # Vérifier si le cooldown est passé
+        cursor = await db.execute(
+            """
+            SELECT datetime(last_used, '+' || ? || ' days') > datetime('now') as is_on_cooldown,
+                   datetime(last_used, '+' || ? || ' days') as available_at
+            FROM action_cooldowns
+            WHERE user_id = ? AND guild_id = ? AND action_id = ?
+            """,
+            (cooldown_days, cooldown_days, user_id, guild_id, action_id),
+        )
+        row = await cursor.fetchone()
+
+        if row and row[0]:
+            return True, row[1]
+
+        return False, None
+
+
+async def has_pending_action(user_id: int, guild_id: int, action_id: str) -> bool:
+    """Vérifie si une action est déjà en attente de validation."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            SELECT 1 FROM pending_blood_actions
+            WHERE user_id = ? AND guild_id = ? AND action_id = ? AND status = 'pending'
+            """,
+            (user_id, guild_id, action_id),
+        )
+        return await cursor.fetchone() is not None
+
+
+async def get_user_completed_unique_actions(user_id: int, guild_id: int) -> list[str]:
+    """Récupère la liste des IDs d'actions uniques accomplies par un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        rows = await cursor.fetchall()
+        return [row[0] for row in rows]
+
+
+async def get_user_action_cooldowns(user_id: int, guild_id: int) -> dict[str, str]:
+    """Récupère les cooldowns actifs pour un joueur. Retourne {action_id: available_at}."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            SELECT action_id, datetime(last_used, '+30 days') as available_at
+            FROM action_cooldowns
+            WHERE user_id = ? AND guild_id = ?
+            AND datetime(last_used, '+30 days') > datetime('now')
+            """,
+            (user_id, guild_id),
+        )
+        rows = await cursor.fetchall()
+        return {row[0]: row[1] for row in rows}
+
+
+async def get_user_pending_actions(user_id: int, guild_id: int) -> list[str]:
+    """Récupère la liste des IDs d'actions en attente pour un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT action_id FROM pending_blood_actions WHERE user_id = ? AND guild_id = ? AND status = 'pending'",
+            (user_id, guild_id),
+        )
+        rows = await cursor.fetchall()
+        return [row[0] for row in rows]
+
+
+async def get_blood_action_history(user_id: int, guild_id: int, limit: int = 20) -> list[dict]:
+    """Récupère l'historique des actions validées pour un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            """
+            SELECT * FROM blood_action_history
+            WHERE user_id = ? AND guild_id = ?
+            ORDER BY validated_at DESC
+            LIMIT ?
+            """,
+            (user_id, guild_id, limit),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]

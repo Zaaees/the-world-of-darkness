@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Skull, Heart, Zap, Moon } from 'lucide-react';
 
 // --- CONFIGURATION ---
 const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
@@ -68,55 +68,70 @@ const BLOOD_STAGES = {
   }
 };
 
-const ACTIONS_NARRATIVE = [
-  {
-    id: 'trauma_survival',
-    minBP: 1,
-    maxBP: 5,
-    points: 4,
-    label: "Reconstruction Corporelle",
-    desc: "Survivre à des dégâts massifs (incapacité physique) qui forcent le sang à reconstruire les tissus."
-  },
-  {
-    id: 'blood_surge_limit',
-    minBP: 1,
-    maxBP: 4,
-    points: 2,
-    label: "Surcharge de Vitae",
-    desc: "Pousser son corps au-delà de ses limites surnaturelles (Exaltation) dans une situation critique."
-  },
-  {
-    id: 'dyscrasia',
-    minBP: 1,
-    maxBP: 4,
-    points: 3,
-    label: "Absorption de Dyscrasie",
-    desc: "Se nourrir d'une humeur intense (Colère pure, Mélancolie profonde) qui modifie chimiquement le sang."
-  },
-  {
-    id: 'supernatural_feeding',
-    minBP: 2,
-    maxBP: 5,
-    points: 6,
-    label: "Sang Surnaturel",
-    desc: "Boire le sang dangereux et puissant d'un Loup-Garou ou d'une Fée."
-  },
-  {
-    id: 'torpor_wake',
-    minBP: 3,
-    maxBP: 5,
-    points: 10,
-    label: "Le Long Sommeil",
-    desc: "Se réveiller d'une Torpeur significative (décennies), le sang ayant mûri pendant le repos."
-  },
-  {
-    id: 'diablerie',
-    minBP: 1,
-    maxBP: 5,
-    points: 25,
-    label: "Diablerie",
-    desc: "L'acte ultime : voler l'âme et la puissance d'un vampire plus âgé. Évolution immédiate et violente."
-  }
+// --- DÉFINITION DES ACTIONS ---
+
+const UNIQUE_ACTIONS = [
+  { id: "first_frenzy", name: "Première danse avec la Bête", description: "Jouer sa première frénésie", points: 5 },
+  { id: "first_kill", name: "Le goût des cendres", description: "Tuer un mortel pour la première fois", points: 8 },
+  { id: "first_diablerie", name: "L'Étreinte inversée", description: "Commettre sa première diablerie", points: 20 },
+  { id: "first_sun", name: "Baiser du soleil", description: "Survivre à une exposition au soleil", points: 6 },
+  { id: "first_blood_bond", name: "Le Sang qui lie", description: "Créer son premier Lien de Sang sur quelqu'un", points: 4 },
+  { id: "last_mortal", name: "Dernier souffle mortel", description: "Revoir un proche de sa vie humaine", points: 5 },
+  { id: "first_ghoul", name: "La première servitude", description: "Créer sa première goule", points: 4 },
+  { id: "ghoul_pack", name: "Maître de la meute", description: "Avoir 3 goules ou plus en même temps", points: 5 },
+];
+
+const CLAN_ACTIONS = {
+  nosferatu: { id: "clan_nosferatu", name: "Le secret qui tue", description: "Révéler une information qui change la donne", points: 4 },
+  brujah: { id: "clan_brujah", name: "Le poing levé", description: "Défendre une cause ou mener une révolte", points: 4 },
+  toreador: { id: "clan_toreador", name: "L'œuvre immortelle", description: "Créer ou inspirer une œuvre marquante", points: 4 },
+  ventrue: { id: "clan_ventrue", name: "La couronne de fer", description: "Asseoir son autorité ou écraser un rival", points: 4 },
+  tremere: { id: "clan_tremere", name: "Le sang qui commande", description: "Accomplir un rituel de sang significatif", points: 4 },
+  malkavian: { id: "clan_malkavian", name: "La vérité dans la folie", description: "Avoir une vision qui s'avère vraie", points: 4 },
+  gangrel: { id: "clan_gangrel", name: "L'appel sauvage", description: "Survivre seul en milieu hostile", points: 4 },
+  lasombra: { id: "clan_lasombra", name: "L'ombre qui dévore", description: "Éliminer un obstacle par ambition", points: 4 },
+  tzimisce: { id: "clan_tzimisce", name: "Chair de ma chair", description: "Modifier sa chair ou défendre son domaine", points: 4 },
+  hecata: { id: "clan_hecata", name: "Murmures d'outre-tombe", description: "Communiquer avec les morts ou accomplir un rite funéraire", points: 4 },
+  ministry: { id: "clan_ministry", name: "La tentation du serpent", description: "Corrompre quelqu'un ou répandre le vice", points: 4 },
+  banu_haqim: { id: "clan_banu_haqim", name: "Le jugement du sang", description: "Exécuter un contrat ou punir un coupable", points: 4 },
+};
+
+const RESONANCE_ACTIONS = [
+  { id: "resonance_choleric", name: "Sang colérique", description: "Se nourrir sur quelqu'un en pleine rage ou violence", points: 2 },
+  { id: "resonance_melancholic", name: "Sang mélancolique", description: "Se nourrir sur quelqu'un en profond désespoir", points: 2 },
+  { id: "resonance_sanguine", name: "Sang sanguin", description: "Se nourrir sur quelqu'un en pleine euphorie ou passion", points: 2 },
+  { id: "resonance_phlegmatic", name: "Sang flegmatique", description: "Se nourrir sur quelqu'un en paix absolue ou apathie", points: 2 },
+  { id: "resonance_dyscrasia", name: "Dyscrasie", description: "Se nourrir sur une émotion extrême, à son paroxysme", points: 5 },
+];
+
+const VAMPIRE_BLOOD_ACTIONS = [
+  { id: "vampire_kiss", name: "Le baiser du prédateur", description: "Boire le sang d'un autre vampire (sans diablerie)", points: 4, cooldownDays: 30 },
+  { id: "elder_blood", name: "Sang d'ancien", description: "Boire le sang d'un vampire de Puissance supérieure", points: 6, cooldownDays: 30 },
+  { id: "vaulderie", name: "La Vaulderie", description: "Participer à un rituel de partage de sang collectif", points: 5, cooldownDays: 30 },
+];
+
+const CRISIS_ACTIONS = [
+  { id: "crisis_near_death", name: "Frôler la Mort Finale", description: "Survivre de justesse à un danger mortel", points: 5 },
+  { id: "crisis_resist_frenzy", name: "Dompter la Bête", description: "Résister à une frénésie en situation critique", points: 3 },
+  { id: "crisis_unleash_beast", name: "La Bête déchaînée", description: "Céder à la frénésie avec conséquences assumées", points: 4 },
+];
+
+const TORPOR_ACTIONS = [
+  { id: "torpor_enter", name: "Le poids des siècles", description: "Entrer en torpeur volontaire (ellipse temporelle)", points: 10 },
+  { id: "torpor_wake", name: "Éveillé", description: "Se réveiller de torpeur", points: 3 },
+];
+
+const GHOUL_ACTIONS = [
+  { id: "ghoul_sacrifice", name: "Sacrifice du serviteur", description: "Perdre une goule (mort ou libération)", points: 3 },
+];
+
+const ACTION_CATEGORIES = [
+  { id: "unique", name: "Premières fois", icon: Star, description: "Actions uniques qui disparaissent après accomplissement", actions: UNIQUE_ACTIONS },
+  { id: "resonance", name: "Résonance du Sang", icon: Heart, description: "Se nourrir de sang émotionnel", actions: RESONANCE_ACTIONS },
+  { id: "vampire_blood", name: "Sang Vampirique", icon: Droplet, description: "Boire le sang d'autres vampires (cooldown: 1 mois)", actions: VAMPIRE_BLOOD_ACTIONS },
+  { id: "crisis", name: "Crises", icon: Zap, description: "Moments de confrontation avec la Bête", actions: CRISIS_ACTIONS },
+  { id: "torpor", name: "Torpeur", icon: Moon, description: "Le long sommeil des anciens", actions: TORPOR_ACTIONS },
+  { id: "ghoul", name: "Goules", icon: Skull, description: "Actions liées à vos serviteurs", actions: GHOUL_ACTIONS },
 ];
 
 // --- COMPOSANTS UI ---
@@ -169,6 +184,121 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
   );
 };
 
+// Composant pour une action
+const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, cooldownDate, onSubmit }) => {
+  const getStatusIcon = () => {
+    if (isCompleted) return <Check size={14} className="text-green-500" />;
+    if (isPending) return <Clock size={14} className="text-yellow-500 animate-pulse" />;
+    if (isCooldown) return <Clock size={14} className="text-orange-500" />;
+    return null;
+  };
+
+  const getStatusText = () => {
+    if (isCompleted) return "Accompli";
+    if (isPending) return "En attente de validation";
+    if (isCooldown) return `Disponible le ${new Date(cooldownDate).toLocaleDateString()}`;
+    return null;
+  };
+
+  return (
+    <button
+      onClick={() => onSubmit(action)}
+      disabled={isDisabled || isPending || isCompleted || isCooldown}
+      className={`
+        w-full text-left p-4 rounded border transition-all relative overflow-hidden group
+        ${isCompleted
+          ? 'bg-green-950/20 border-green-900/30 opacity-50 cursor-not-allowed'
+          : isPending
+          ? 'bg-yellow-950/20 border-yellow-900/30 cursor-wait'
+          : isCooldown
+          ? 'bg-orange-950/20 border-orange-900/30 cursor-not-allowed opacity-60'
+          : isDisabled
+          ? 'bg-transparent border-stone-900/30 opacity-30 cursor-not-allowed'
+          : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900 cursor-pointer'
+        }
+      `}
+    >
+      <div className="flex justify-between items-start relative z-10">
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <span className={`font-serif text-base ${isCompleted ? 'line-through text-stone-600' : 'text-stone-200'}`}>
+              {action.name}
+            </span>
+            {getStatusIcon()}
+          </div>
+          <div className="text-xs text-stone-500 max-w-md mt-1">
+            {getStatusText() || action.description}
+          </div>
+        </div>
+        {!isCompleted && !isCooldown && (
+          <div className="flex flex-col items-center justify-center pl-4 border-l border-stone-800/50 ml-4">
+            <Flame size={14} className="text-red-700 mb-1" />
+            <span className="text-red-500 font-bold font-mono text-sm">+{action.points}</span>
+          </div>
+        )}
+      </div>
+    </button>
+  );
+};
+
+// Composant pour une catégorie d'actions
+const ActionCategory = ({ category, character, completedActions, pendingActions, cooldowns, onSubmitAction }) => {
+  const [isOpen, setIsOpen] = useState(category.id === "unique" || category.id === "crisis");
+  const CategoryIcon = category.icon;
+
+  // Filtrer les actions visibles (ne pas montrer les actions uniques déjà complétées)
+  const visibleActions = category.actions.filter(action => {
+    if (category.id === "unique" && completedActions.includes(action.id)) {
+      return false; // Masquer les actions uniques complétées
+    }
+    return true;
+  });
+
+  if (visibleActions.length === 0) return null;
+
+  return (
+    <div className="mb-6">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center gap-3 py-2 text-left group"
+      >
+        <div className="w-8 h-8 rounded bg-stone-900 border border-stone-800 flex items-center justify-center text-red-600 group-hover:border-red-900 transition-colors">
+          <CategoryIcon size={16} />
+        </div>
+        <div className="flex-1">
+          <h4 className="text-sm font-serif text-stone-300 uppercase tracking-wider">{category.name}</h4>
+          <p className="text-xs text-stone-600">{category.description}</p>
+        </div>
+        {isOpen ? <ChevronUp size={16} className="text-stone-600" /> : <ChevronDown size={16} className="text-stone-600" />}
+      </button>
+
+      {isOpen && (
+        <div className="mt-3 space-y-2 pl-11">
+          {visibleActions.map(action => {
+            const isCompleted = completedActions.includes(action.id);
+            const isPending = pendingActions.includes(action.id);
+            const cooldownDate = cooldowns[action.id];
+            const isCooldown = cooldownDate && new Date(cooldownDate) > new Date();
+
+            return (
+              <ActionButton
+                key={action.id}
+                action={action}
+                isDisabled={character.bloodPotency >= 5}
+                isPending={isPending}
+                isCompleted={isCompleted}
+                isCooldown={isCooldown}
+                cooldownDate={cooldownDate}
+                onSubmit={onSubmitAction}
+              />
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // Données par défaut
 const DEFAULT_CHARACTER = {
   name: "Nouveau Vampire",
@@ -176,6 +306,9 @@ const DEFAULT_CHARACTER = {
   bloodPotency: 1,
   saturationPoints: 0,
   history: [],
+  completedActions: [],
+  pendingActions: [],
+  cooldowns: {},
   isMutating: false,
   mutationEndsAt: null
 };
@@ -228,6 +361,7 @@ export default function VampireSheet() {
   const [lastSaved, setLastSaved] = useState(null);
   const [error, setError] = useState(null);
   const [authError, setAuthError] = useState(null);
+  const [submittingAction, setSubmittingAction] = useState(null);
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -259,7 +393,6 @@ export default function VampireSheet() {
   // Vérifier le token Discord au chargement
   useEffect(() => {
     const init = async () => {
-      // Check for callback token in URL hash
       const hash = window.location.hash;
       console.log('URL hash:', hash);
 
@@ -270,15 +403,12 @@ export default function VampireSheet() {
         if (access_token) {
           console.log('Token found in URL, saving...');
           localStorage.setItem('discord_token', access_token);
-          // Clear hash from URL
           window.history.replaceState(null, '', window.location.pathname);
-          // Fetch user with new token
           await fetchDiscordUser(access_token);
           return;
         }
       }
 
-      // Load saved token
       const savedToken = localStorage.getItem('discord_token');
       console.log('Saved token exists:', !!savedToken);
 
@@ -311,9 +441,11 @@ export default function VampireSheet() {
           name: data.character.name || discordUser.username,
           bloodPotency: Number(data.character.bloodPotency) || 1,
           saturationPoints: Number(data.character.saturationPoints) || 0,
+          completedActions: data.character.completedActions || [],
+          pendingActions: data.character.pendingActions || [],
+          cooldowns: data.character.cooldowns || {},
         });
       } else {
-        // Nouveau personnage avec nom Discord
         setCharacter({
           ...DEFAULT_CHARACTER,
           name: discordUser.username,
@@ -413,35 +545,39 @@ export default function VampireSheet() {
     setCharacter(null);
   };
 
-  const handleAction = async (action) => {
-    if (!character || character.isMutating || character.bloodPotency >= 5) return;
-    if (character.bloodPotency > action.maxBP) return;
+  // Soumettre une action pour validation
+  const handleSubmitAction = async (action) => {
+    if (!character || !discordUser || submittingAction) return;
+    if (character.bloodPotency >= 5) return;
 
-    const max = SATURATION_THRESHOLDS[character.bloodPotency];
-    let newPoints = character.saturationPoints + action.points;
-    let willMutate = false;
-    let mutationEnd = null;
+    setSubmittingAction(action.id);
 
-    if (newPoints >= max) {
-      newPoints = max;
-      willMutate = true;
-      mutationEnd = new Date(Date.now() + 5000);
+    try {
+      const url = `${GOOGLE_SHEETS_API}?action=submit_action&userId=${encodeURIComponent(discordUser.id)}&actionId=${encodeURIComponent(action.id)}&actionName=${encodeURIComponent(action.name)}&points=${action.points}`;
+      const response = await fetch(url);
+      const result = await response.json();
+
+      if (result.success) {
+        // Ajouter à la liste des actions en attente
+        setCharacter(prev => ({
+          ...prev,
+          pendingActions: [...(prev.pendingActions || []), action.id],
+          history: [...(prev.history || []), {
+            text: `Action soumise: ${action.name}`,
+            impact: action.points,
+            date: new Date().toISOString(),
+            type: 'pending'
+          }]
+        }));
+      } else {
+        setError(result.error || 'Erreur lors de la soumission');
+      }
+    } catch (err) {
+      console.error('Erreur soumission action:', err);
+      setError('Erreur de connexion');
+    } finally {
+      setSubmittingAction(null);
     }
-
-    const newHistory = {
-      text: action.label,
-      impact: action.points,
-      date: new Date().toISOString(),
-      type: 'action'
-    };
-
-    setCharacter(prev => ({
-      ...prev,
-      saturationPoints: newPoints,
-      isMutating: willMutate,
-      mutationEndsAt: willMutate ? mutationEnd.toISOString() : null,
-      history: [...(prev.history || []), newHistory]
-    }));
   };
 
   const updateCharacterField = (field, value) => {
@@ -467,6 +603,9 @@ export default function VampireSheet() {
   const avatarUrl = discordUser.avatar
     ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
     : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`;
+
+  // Récupérer l'action de clan
+  const clanAction = character.clan ? CLAN_ACTIONS[character.clan.toLowerCase()] : null;
 
   return (
     <div className="min-h-screen bg-[#0c0a09] text-stone-300 font-sans selection:bg-red-900/50 pb-12">
@@ -550,61 +689,49 @@ export default function VampireSheet() {
           </div>
         </section>
 
-        {/* LISTE D'ACTIONS PHYSIOLOGIQUES */}
+        {/* ACTION DE CLAN */}
+        {clanAction && character.bloodPotency < 5 && (
+          <section>
+            <div className="flex items-center gap-3 mb-4">
+              <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
+              <div className="h-px bg-stone-900 flex-1"></div>
+            </div>
+
+            <ActionButton
+              action={clanAction}
+              isDisabled={character.bloodPotency >= 5}
+              isPending={(character.pendingActions || []).includes(clanAction.id)}
+              isCompleted={false}
+              isCooldown={false}
+              onSubmit={handleSubmitAction}
+            />
+          </section>
+        )}
+
+        {/* ACTIONS PAR CATÉGORIE */}
         <section>
           <div className="flex items-center gap-3 mb-6">
-            <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Facteurs d'Épaississement</h3>
+            <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
             <div className="h-px bg-stone-900 flex-1"></div>
           </div>
 
-          <div className="space-y-3">
-            {ACTIONS_NARRATIVE.map((act) => {
-              const isObsolete = character.bloodPotency > act.maxBP;
-              const isLocked = character.bloodPotency < act.minBP;
-              const isMaxed = character.bloodPotency >= 5;
-              const isDisabled = character.isMutating || isObsolete || isLocked || isMaxed;
-
-              if (isLocked) return null;
-
-              return (
-                <button
-                  key={act.id}
-                  onClick={() => handleAction(act)}
-                  disabled={isDisabled}
-                  className={`
-                    w-full text-left p-4 rounded border transition-all relative overflow-hidden group
-                    ${isObsolete
-                      ? 'bg-transparent border-stone-900/30 opacity-30 cursor-not-allowed grayscale'
-                      : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900'
-                    }
-                  `}
-                >
-                  <div className="flex justify-between items-start relative z-10">
-                    <div>
-                      <div className={`font-serif text-base mb-1 ${isObsolete ? 'line-through text-stone-600' : 'text-stone-200'}`}>
-                        {act.label}
-                      </div>
-                      <div className="text-xs text-stone-500 max-w-md">
-                        {isObsolete ? "Ce stimulus ne suffit plus à provoquer une mutation du sang." : act.desc}
-                      </div>
-                    </div>
-                    {!isObsolete && !isMaxed && (
-                      <div className="flex flex-col items-center justify-center pl-4 border-l border-stone-800/50 ml-4">
-                         <Flame size={14} className="text-red-700 mb-1" />
-                         <span className="text-red-500 font-bold font-mono text-sm">+{act.points}</span>
-                      </div>
-                    )}
-                  </div>
-                </button>
-              )
-            })}
-
-            {character.bloodPotency >= 5 && (
-               <div className="text-center text-xs text-stone-600 italic py-4">
-                 Votre sang a atteint la perfection statique. Il n'évolue plus.
-               </div>
-            )}
-          </div>
+          {character.bloodPotency >= 5 ? (
+            <div className="text-center text-xs text-stone-600 italic py-4">
+              Votre sang a atteint la perfection statique. Il n'évolue plus.
+            </div>
+          ) : (
+            ACTION_CATEGORIES.map(category => (
+              <ActionCategory
+                key={category.id}
+                category={category}
+                character={character}
+                completedActions={character.completedActions || []}
+                pendingActions={character.pendingActions || []}
+                cooldowns={character.cooldowns || {}}
+                onSubmitAction={handleSubmitAction}
+              />
+            ))
+          )}
         </section>
 
         {/* LOG */}
@@ -621,7 +748,11 @@ export default function VampireSheet() {
              <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
                {[...(character.history || [])].reverse().map((h, i) => (
                  <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
-                   <span className={h.type === 'levelup' ? 'text-red-400 font-bold' : 'text-stone-400'}>
+                   <span className={
+                     h.type === 'levelup' ? 'text-red-400 font-bold' :
+                     h.type === 'pending' ? 'text-yellow-500' :
+                     'text-stone-400'
+                   }>
                      {h.text}
                    </span>
                    <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
