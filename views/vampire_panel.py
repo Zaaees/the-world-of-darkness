@@ -13,7 +13,41 @@ from utils.database import (
     get_soif,
     set_soif,
     increment_soif,
+    get_vampire_data,
+    set_vampire_data,
+    get_min_soif,
+    get_saturation_threshold,
+    SATURATION_THRESHOLDS,
 )
+
+# Descriptions narratives des niveaux de Puissance du Sang
+BLOOD_POTENCY_INFO = {
+    1: {
+        "titre": "Sang Fluide",
+        "rang": "Néonate",
+        "description": "Votre sang est encore proche de celui des mortels.",
+    },
+    2: {
+        "titre": "Sang Vif",
+        "rang": "Ancilla Mineur",
+        "description": "Le sang s'épaissit. Seul le sang humain peut vous soutenir.",
+    },
+    3: {
+        "titre": "Sang Fort",
+        "rang": "Ancilla Majeur",
+        "description": "Vous êtes un prédateur abouti. La Soif est plus pressante.",
+    },
+    4: {
+        "titre": "Sang Puissant",
+        "rang": "Ancien",
+        "description": "Votre sang est sombre et visqueux. Il vous faut la chaleur de la vie.",
+    },
+    5: {
+        "titre": "Zénith Sanguin",
+        "rang": "Sommité",
+        "description": "L'apogée. Pour être rassasié, vous devez tuer ou boire le sang de vampires.",
+    },
+}
 
 
 class ClanSelectMenu(ui.Select):
@@ -89,19 +123,49 @@ class ClanSelectView(ui.View):
 class VampirePanel(ui.View):
     """Panneau principal pour les Vampires."""
 
-    def __init__(self, user_id: int, guild_id: int, channel_id: int, clan: str, soif_level: int):
+    def __init__(
+        self,
+        user_id: int,
+        guild_id: int,
+        channel_id: int,
+        clan: str,
+        soif_level: int,
+        blood_potency: int = 1,
+        saturation_points: int = 0,
+    ):
         super().__init__(timeout=300)
         self.user_id = user_id
         self.guild_id = guild_id
         self.channel_id = channel_id
         self.clan = clan
         self.soif_level = soif_level
+        self.blood_potency = blood_potency
+        self.saturation_points = saturation_points
 
     def _create_soif_bar(self) -> str:
         """Crée une barre visuelle de soif."""
-        filled = "🩸" * self.soif_level
-        empty = "⚫" * (5 - self.soif_level)
-        return filled + empty
+        min_soif = get_min_soif(self.blood_potency)
+        bar = ""
+        for i in range(5):
+            if i < self.soif_level:
+                bar += "🩸"
+            elif i < min_soif:
+                bar += "🔒"  # Verrouillé par la Puissance du Sang
+            else:
+                bar += "⚫"
+        return bar
+
+    def _create_saturation_bar(self) -> str:
+        """Crée une barre visuelle de progression de saturation."""
+        threshold = get_saturation_threshold(self.blood_potency)
+        if threshold is None:
+            return "✨ Maximum atteint"
+
+        progress = min(self.saturation_points / threshold, 1.0)
+        filled_segments = int(progress * 10)
+        empty_segments = 10 - filled_segments
+
+        return "▰" * filled_segments + "▱" * empty_segments + f" ({self.saturation_points}/{threshold})"
 
     def _get_state_description(self) -> str:
         """Retourne la description de l'état actuel."""
@@ -120,6 +184,10 @@ class VampirePanel(ui.View):
         clan_data = get_clan(self.clan)
         clan_name = clan_data["nom"] if clan_data else self.clan.capitalize()
 
+        # Infos de Puissance du Sang
+        bp_info = BLOOD_POTENCY_INFO.get(self.blood_potency, BLOOD_POTENCY_INFO[1])
+        min_soif = get_min_soif(self.blood_potency)
+
         # Couleur selon le niveau de soif
         colors = {
             0: discord.Color.dark_gray(),
@@ -132,12 +200,28 @@ class VampirePanel(ui.View):
 
         embed = discord.Embed(
             title=f"🧛 Panneau Vampire — {clan_name}",
+            description=f"*{bp_info['rang']}*",
             color=colors.get(self.soif_level, discord.Color.dark_red()),
         )
 
-        # Jauge de Soif
+        # Puissance du Sang
         embed.add_field(
-            name="Soif",
+            name=f"🩸 Puissance du Sang — {bp_info['titre']}",
+            value=f"**Niveau {self.blood_potency}/5**\n{bp_info['description']}",
+            inline=False,
+        )
+
+        # Progression de Saturation
+        embed.add_field(
+            name="📈 Saturation",
+            value=self._create_saturation_bar(),
+            inline=False,
+        )
+
+        # Jauge de Soif
+        soif_label = f"Soif (min. {min_soif})" if min_soif > 0 else "Soif"
+        embed.add_field(
+            name=soif_label,
             value=f"{self._create_soif_bar()} ({self.soif_level}/5)",
             inline=False,
         )
@@ -218,15 +302,17 @@ class VampirePanel(ui.View):
 
     @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷")
     async def feed_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Restaure complètement la Soif (remet à 0)."""
+        """Restaure la Soif au minimum permis par la Puissance du Sang."""
         if interaction.user.id != self.user_id:
             await interaction.response.send_message(
                 "Ce panneau ne t'appartient pas.", ephemeral=True
             )
             return
 
-        if self.soif_level > 0:
-            await set_soif(self.user_id, self.guild_id, 0)
-            self.soif_level = 0
+        min_soif = get_min_soif(self.blood_potency)
+
+        if self.soif_level > min_soif:
+            await set_soif(self.user_id, self.guild_id, min_soif)
+            self.soif_level = min_soif
 
         await interaction.response.edit_message(embed=self.create_embed(), view=self)

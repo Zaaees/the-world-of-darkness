@@ -38,10 +38,22 @@ async def init_database():
                 user_id INTEGER,
                 guild_id INTEGER NOT NULL,
                 soif_level INTEGER DEFAULT 0,
+                blood_potency INTEGER DEFAULT 1,
+                saturation_points INTEGER DEFAULT 0,
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (user_id, guild_id)
             )
         """)
+
+        # Migration : ajouter les colonnes si elles n'existent pas
+        try:
+            await db.execute("ALTER TABLE vampire_soif ADD COLUMN blood_potency INTEGER DEFAULT 1")
+        except Exception:
+            pass  # Colonne existe déjà
+        try:
+            await db.execute("ALTER TABLE vampire_soif ADD COLUMN saturation_points INTEGER DEFAULT 0")
+        except Exception:
+            pass  # Colonne existe déjà
 
         # Table de la Rage (Loups-Garous) - liée à une scène (salon)
         await db.execute("""
@@ -210,6 +222,141 @@ async def decrement_soif(user_id: int, guild_id: int, amount: int = 1) -> int:
     new_level = max(0, current - amount)
     await set_soif(user_id, guild_id, new_level)
     return new_level
+
+
+# ============================================
+# Fonctions pour la Puissance du Sang (Vampires)
+# ============================================
+
+# Seuils de saturation pour monter en Puissance du Sang
+SATURATION_THRESHOLDS = {
+    1: 30,   # Vers BP 2
+    2: 60,   # Vers BP 3
+    3: 120,  # Vers BP 4
+    4: 250,  # Vers BP 5
+    5: None  # Max atteint
+}
+
+# Seuil minimum de Soif selon la Puissance du Sang
+# Plus le sang est puissant, plus il est difficile de se rassasier
+MIN_SOIF_BY_BP = {
+    1: 0,  # Néonate - peut se rassasier complètement
+    2: 0,  # Ancilla Mineur - peut se rassasier complètement
+    3: 1,  # Ancilla Majeur - soif minimum 1
+    4: 2,  # Ancien - soif minimum 2
+    5: 3,  # Sommité - soif minimum 3
+}
+
+
+def get_min_soif(blood_potency: int) -> int:
+    """Retourne le seuil minimum de Soif selon la Puissance du Sang."""
+    return MIN_SOIF_BY_BP.get(blood_potency, 0)
+
+
+def get_saturation_threshold(blood_potency: int) -> int | None:
+    """Retourne le seuil de saturation pour le niveau de BP actuel."""
+    return SATURATION_THRESHOLDS.get(blood_potency)
+
+
+async def get_vampire_data(user_id: int, guild_id: int) -> dict:
+    """Récupère toutes les données vampire (soif, BP, saturation)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT * FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        if row:
+            return dict(row)
+        return {
+            "user_id": user_id,
+            "guild_id": guild_id,
+            "soif_level": 0,
+            "blood_potency": 1,
+            "saturation_points": 0,
+        }
+
+
+async def set_vampire_data(
+    user_id: int,
+    guild_id: int,
+    soif_level: Optional[int] = None,
+    blood_potency: Optional[int] = None,
+    saturation_points: Optional[int] = None,
+):
+    """Met à jour les données vampire."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT user_id FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        exists = await cursor.fetchone()
+
+        if exists:
+            updates = []
+            params = []
+            if soif_level is not None:
+                updates.append("soif_level = ?")
+                params.append(max(0, min(5, soif_level)))
+            if blood_potency is not None:
+                updates.append("blood_potency = ?")
+                params.append(max(1, min(5, blood_potency)))
+            if saturation_points is not None:
+                updates.append("saturation_points = ?")
+                params.append(max(0, saturation_points))
+
+            if updates:
+                updates.append("last_updated = CURRENT_TIMESTAMP")
+                params.extend([user_id, guild_id])
+                await db.execute(
+                    f"UPDATE vampire_soif SET {', '.join(updates)} WHERE user_id = ? AND guild_id = ?",
+                    params,
+                )
+        else:
+            await db.execute(
+                """
+                INSERT INTO vampire_soif (user_id, guild_id, soif_level, blood_potency, saturation_points, last_updated)
+                VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                """,
+                (
+                    user_id,
+                    guild_id,
+                    soif_level or 0,
+                    blood_potency or 1,
+                    saturation_points or 0,
+                ),
+            )
+
+        await db.commit()
+
+
+async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dict:
+    """
+    Ajoute des points de saturation et gère la montée en Puissance du Sang.
+    Retourne un dict avec les nouvelles valeurs et si une mutation a eu lieu.
+    """
+    data = await get_vampire_data(user_id, guild_id)
+    bp = data.get("blood_potency", 1)
+    current_sat = data.get("saturation_points", 0)
+    threshold = get_saturation_threshold(bp)
+
+    # Si déjà au max, pas d'évolution possible
+    if threshold is None:
+        return {"blood_potency": bp, "saturation_points": current_sat, "mutated": False}
+
+    new_sat = current_sat + points
+    mutated = False
+
+    # Vérifier si on atteint le seuil
+    if new_sat >= threshold:
+        bp = min(bp + 1, 5)
+        new_sat = 0
+        mutated = True
+
+    await set_vampire_data(user_id, guild_id, blood_potency=bp, saturation_points=new_sat)
+
+    return {"blood_potency": bp, "saturation_points": new_sat, "mutated": mutated}
 
 
 # ============================================

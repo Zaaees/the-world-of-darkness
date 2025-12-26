@@ -12,7 +12,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from data.clans import get_clan, list_clans
-from utils.database import get_player, get_soif
+from utils.database import get_player, get_soif, get_vampire_data
 from utils.rp_check import is_rp_channel
 from views.vampire_panel import VampirePanel, ClanSelectView
 
@@ -100,8 +100,11 @@ class VampireCog(commands.Cog, name="Vampire"):
             )
             return
 
-        # Récupérer le niveau de Soif
-        soif_level = await get_soif(interaction.user.id, interaction.guild.id)
+        # Récupérer les données vampiriques complètes
+        vampire_data = await get_vampire_data(interaction.user.id, interaction.guild.id)
+        soif_level = vampire_data.get("soif_level", 0)
+        blood_potency = vampire_data.get("blood_potency", 1)
+        saturation_points = vampire_data.get("saturation_points", 0)
 
         # Créer et afficher le panneau
         panel = VampirePanel(
@@ -110,6 +113,8 @@ class VampireCog(commands.Cog, name="Vampire"):
             channel_id=interaction.channel.id,
             clan=clan,
             soif_level=soif_level,
+            blood_potency=blood_potency,
+            saturation_points=saturation_points,
         )
 
         await interaction.response.send_message(
