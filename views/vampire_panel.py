@@ -17,6 +17,7 @@ from utils.database import (
     set_vampire_data,
     get_min_soif,
     get_saturation_threshold,
+    reset_vampire_data,
     SATURATION_THRESHOLDS,
 )
 
@@ -73,7 +74,25 @@ class ClanSelectMenu(ui.Select):
         clan_key = self.values[0]
         clan_data = get_clan(clan_key)
 
-        # Sauvegarder le clan
+        # Vérifier si le joueur a déjà un clan (cas de reset/mort)
+        existing_player = await get_player(interaction.user.id, interaction.guild.id)
+        old_clan = existing_player.get("clan") if existing_player else None
+
+        # Si le joueur avait un ancien clan, retirer le rôle et reset les données
+        if old_clan and old_clan != clan_key:
+            old_clan_data = get_clan(old_clan)
+            if old_clan_data:
+                old_role = discord.utils.get(interaction.guild.roles, name=old_clan_data["nom"])
+                if old_role:
+                    try:
+                        await interaction.user.remove_roles(old_role, reason="Changement de clan")
+                    except discord.Forbidden:
+                        pass
+
+            # Réinitialiser toutes les données vampire (mort/nouveau personnage)
+            await reset_vampire_data(interaction.user.id, interaction.guild.id, clan_key)
+
+        # Sauvegarder le nouveau clan
         await set_player(
             interaction.user.id,
             interaction.guild.id,
@@ -102,11 +121,23 @@ class ClanSelectMenu(ui.Select):
             except discord.Forbidden:
                 pass  # Le bot n'a pas les permissions
 
-        embed = discord.Embed(
-            title=f"🧛 Bienvenue parmi les {clan_data['nom']}",
-            description=clan_data["description"],
-            color=discord.Color.dark_red(),
-        )
+        # Message de bienvenue
+        if old_clan and old_clan != clan_key:
+            embed = discord.Embed(
+                title=f"🧛 Renaissance parmi les {clan_data['nom']}",
+                description=(
+                    f"{clan_data['description']}\n\n"
+                    f"*Ton ancien personnage a été effacé. Tu repars à zéro avec ce nouveau lignage.*"
+                ),
+                color=discord.Color.dark_red(),
+            )
+        else:
+            embed = discord.Embed(
+                title=f"🧛 Bienvenue parmi les {clan_data['nom']}",
+                description=clan_data["description"],
+                color=discord.Color.dark_red(),
+            )
+
         embed.set_footer(text="Tu peux maintenant utiliser /vampire pour accéder à ton panneau.")
 
         await interaction.response.edit_message(embed=embed, view=None)

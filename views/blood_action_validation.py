@@ -24,6 +24,9 @@ from utils.database import (
     get_player,
     get_vampire_data,
     sync_to_google_sheets,
+    get_user_pending_actions,
+    get_user_completed_unique_actions,
+    get_user_action_cooldowns,
 )
 
 logger = logging.getLogger(__name__)
@@ -91,11 +94,19 @@ class PersistentActionValidationView(ui.View):
                 player = await get_player(action["user_id"], action["guild_id"])
                 if player:
                     vampire_data = await get_vampire_data(action["user_id"], action["guild_id"])
+                    # Récupérer les listes mises à jour
+                    pending = await get_user_pending_actions(action["user_id"], action["guild_id"])
+                    completed = await get_user_completed_unique_actions(action["user_id"], action["guild_id"])
+                    cooldowns = await get_user_action_cooldowns(action["user_id"], action["guild_id"])
+
                     await sync_to_google_sheets(action["user_id"], {
                         "clan": player.get("clan", ""),
                         "bloodPotency": result["blood_potency"],
                         "saturationPoints": result["saturation_points"],
                         "soifLevel": vampire_data.get("soif_level", 0),
+                        "pendingActions": pending,
+                        "completedActions": completed,
+                        "cooldowns": cooldowns,
                     })
             except Exception as e:
                 logger.error(f"Erreur sync Google Sheets en arrière-plan: {e}")

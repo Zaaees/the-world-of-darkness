@@ -7,7 +7,6 @@ Catégories d'actions:
 - resonance: Actions liées à la résonance du sang (répétables, cooldown)
 - vampire: Actions liées au sang vampirique (répétables, cooldown)
 - crisis: Actions de crise (répétables)
-- ghoul: Actions liées aux goules
 - torpor: Actions liées à la torpeur
 """
 
@@ -249,18 +248,6 @@ TORPOR_ACTIONS = {
     },
 }
 
-# Actions de goules (répétables)
-GHOUL_ACTIONS = {
-    "ghoul_sacrifice": {
-        "id": "ghoul_sacrifice",
-        "name": "Sacrifice du serviteur",
-        "description": "Perdre une goule (mort ou libération)",
-        "points": 3,
-        "category": "ghoul",
-    },
-}
-
-
 def get_all_actions():
     """Retourne toutes les actions organisées par catégorie."""
     return {
@@ -270,7 +257,6 @@ def get_all_actions():
         "vampire_blood": VAMPIRE_BLOOD_ACTIONS,
         "crisis": CRISIS_ACTIONS,
         "torpor": TORPOR_ACTIONS,
-        "ghoul": GHOUL_ACTIONS,
     }
 
 
@@ -302,11 +288,6 @@ def get_action_by_id(action_id: str) -> dict | None:
 
     # Chercher dans les actions de torpeur
     for key, action in TORPOR_ACTIONS.items():
-        if action["id"] == action_id:
-            return action
-
-    # Chercher dans les actions de goules
-    for key, action in GHOUL_ACTIONS.items():
         if action["id"] == action_id:
             return action
 
@@ -350,10 +331,5 @@ CATEGORIES = {
         "name": "Torpeur",
         "description": "Le long sommeil des anciens",
         "icon": "💀",
-    },
-    "ghoul": {
-        "name": "Goules",
-        "description": "Actions liées à vos serviteurs",
-        "icon": "🧟",
     },
 }

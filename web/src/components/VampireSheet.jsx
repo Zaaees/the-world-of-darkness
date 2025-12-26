@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Skull, Heart, Zap, Moon } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon } from 'lucide-react';
 
 // --- CONFIGURATION ---
 const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
@@ -121,17 +121,12 @@ const TORPOR_ACTIONS = [
   { id: "torpor_wake", name: "Éveillé", description: "Se réveiller de torpeur", points: 3 },
 ];
 
-const GHOUL_ACTIONS = [
-  { id: "ghoul_sacrifice", name: "Sacrifice du serviteur", description: "Perdre une goule (mort ou libération)", points: 3 },
-];
-
 const ACTION_CATEGORIES = [
   { id: "unique", name: "Premières fois", icon: Star, description: "Actions uniques qui disparaissent après accomplissement", actions: UNIQUE_ACTIONS },
   { id: "resonance", name: "Résonance du Sang", icon: Heart, description: "Se nourrir de sang émotionnel", actions: RESONANCE_ACTIONS },
   { id: "vampire_blood", name: "Sang Vampirique", icon: Droplet, description: "Boire le sang d'autres vampires (cooldown: 1 mois)", actions: VAMPIRE_BLOOD_ACTIONS },
   { id: "crisis", name: "Crises", icon: Zap, description: "Moments de confrontation avec la Bête", actions: CRISIS_ACTIONS },
   { id: "torpor", name: "Torpeur", icon: Moon, description: "Le long sommeil des anciens", actions: TORPOR_ACTIONS },
-  { id: "ghoul", name: "Goules", icon: Skull, description: "Actions liées à vos serviteurs", actions: GHOUL_ACTIONS },
 ];
 
 // --- COMPOSANTS UI ---

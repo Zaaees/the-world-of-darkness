@@ -390,6 +390,59 @@ async def set_vampire_data(
         await db.commit()
 
 
+async def reset_vampire_data(user_id: int, guild_id: int, new_clan: str = None):
+    """
+    Réinitialise toutes les données vampiriques d'un joueur.
+    Utilisé quand un personnage meurt et recommence avec un nouveau vampire.
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Réinitialiser les données de soif/puissance
+        await db.execute(
+            """
+            DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?
+            """,
+            (user_id, guild_id),
+        )
+
+        # Supprimer les actions complétées
+        await db.execute(
+            """
+            DELETE FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?
+            """,
+            (user_id, guild_id),
+        )
+
+        # Supprimer les cooldowns
+        await db.execute(
+            """
+            DELETE FROM action_cooldowns WHERE user_id = ? AND guild_id = ?
+            """,
+            (user_id, guild_id),
+        )
+
+        # Supprimer les actions en attente
+        await db.execute(
+            """
+            DELETE FROM pending_blood_actions WHERE user_id = ? AND guild_id = ?
+            """,
+            (user_id, guild_id),
+        )
+
+        await db.commit()
+        logger.info(f"Données vampire réinitialisées pour user {user_id}")
+
+    # Synchroniser les données réinitialisées vers Google Sheets
+    await sync_to_google_sheets(user_id, {
+        "clan": new_clan or "",
+        "bloodPotency": 1,
+        "saturationPoints": 0,
+        "soifLevel": 0,
+        "pendingActions": [],
+        "completedActions": [],
+        "cooldowns": {},
+    })
+
+
 async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dict:
     """
     Ajoute des points de saturation et gère la montée en Puissance du Sang.
