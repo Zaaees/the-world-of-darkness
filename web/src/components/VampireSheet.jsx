@@ -1,36 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import {
-  getFirestore,
-  doc,
-  onSnapshot,
-  setDoc,
-  updateDoc,
-  arrayUnion
-} from 'firebase/firestore';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw } from 'lucide-react';
 
-// --- CONFIGURATION FIREBASE ---
-// Remplace ces valeurs par ta configuration Firebase
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-key",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "demo.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "demo-project",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "demo.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "000000000000",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "demo-app-id"
+// --- CONFIGURATION GOOGLE SHEETS ---
+const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
+
+// Génère ou récupère un ID utilisateur unique
+const getUserId = () => {
+  let id = localStorage.getItem('vampire_user_id');
+  if (!id) {
+    id = 'user_' + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('vampire_user_id', id);
+  }
+  return id;
 };
-
-// Mode démo si pas de config Firebase
-const isDemoMode = !import.meta.env.VITE_FIREBASE_API_KEY;
-
-let app, auth, db;
-if (!isDemoMode) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-}
 
 // --- LOGIQUE V5 NARRATIVE ---
 
@@ -193,44 +175,84 @@ const DEFAULT_CHARACTER = {
 };
 
 export default function VampireSheet() {
-  const [user, setUser] = useState(null);
-  const [character, setCharacter] = useState(isDemoMode ? DEFAULT_CHARACTER : null);
+  const [userId] = useState(getUserId);
+  const [character, setCharacter] = useState(null);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [loading, setLoading] = useState(!isDemoMode);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState(null);
+  const [error, setError] = useState(null);
 
-  // Auth & Data Sync (uniquement si Firebase est configuré)
-  useEffect(() => {
-    if (isDemoMode) return;
+  // Charger les données depuis Google Sheets
+  const loadCharacter = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-    const init = async () => {
-      await signInAnonymously(auth);
-    };
-    init();
+      const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(userId)}`;
+      const response = await fetch(url);
+      const data = await response.json();
 
-    return onAuthStateChanged(auth, async (u) => {
-      setUser(u);
-      if (u) {
-        const ref = doc(db, 'vampires', u.uid);
-        onSnapshot(ref, (snap) => {
-          if (snap.exists()) {
-            const data = snap.data();
-            if (data.isMutating && data.mutationEndsAt && new Date() > data.mutationEndsAt.toDate()) {
-              finalizeLevelUp(ref, data);
-            } else {
-              setCharacter(data);
-            }
-          } else {
-            setDoc(ref, DEFAULT_CHARACTER);
-          }
-          setLoading(false);
+      if (data.success && data.character) {
+        setCharacter({
+          ...DEFAULT_CHARACTER,
+          ...data.character,
+          bloodPotency: Number(data.character.bloodPotency) || 1,
+          saturationPoints: Number(data.character.saturationPoints) || 0,
         });
+      } else {
+        // Nouveau personnage
+        setCharacter(DEFAULT_CHARACTER);
       }
-    });
-  }, []);
+    } catch (err) {
+      console.error('Erreur chargement:', err);
+      setError('Erreur de connexion. Mode hors-ligne activé.');
+      setCharacter(DEFAULT_CHARACTER);
+    } finally {
+      setLoading(false);
+    }
+  }, [userId]);
 
-  // Vérification mutation en mode démo
+  // Sauvegarder vers Google Sheets
+  const saveCharacter = useCallback(async (charData) => {
+    try {
+      setSaving(true);
+
+      const url = `${GOOGLE_SHEETS_API}?action=save&userId=${encodeURIComponent(userId)}&data=${encodeURIComponent(JSON.stringify(charData))}`;
+      const response = await fetch(url);
+      const result = await response.json();
+
+      if (result.success) {
+        setLastSaved(new Date());
+        setError(null);
+      }
+    } catch (err) {
+      console.error('Erreur sauvegarde:', err);
+      setError('Erreur de sauvegarde');
+    } finally {
+      setSaving(false);
+    }
+  }, [userId]);
+
+  // Chargement initial
   useEffect(() => {
-    if (!isDemoMode || !character?.isMutating) return;
+    loadCharacter();
+  }, [loadCharacter]);
+
+  // Sauvegarde automatique quand le personnage change
+  useEffect(() => {
+    if (character && !loading) {
+      const timer = setTimeout(() => {
+        saveCharacter(character);
+      }, 1000); // Debounce de 1 seconde
+
+      return () => clearTimeout(timer);
+    }
+  }, [character, loading, saveCharacter]);
+
+  // Vérification mutation
+  useEffect(() => {
+    if (!character?.isMutating) return;
 
     const timer = setTimeout(() => {
       if (character.mutationEndsAt && new Date() > new Date(character.mutationEndsAt)) {
@@ -241,7 +263,7 @@ export default function VampireSheet() {
           saturationPoints: 0,
           isMutating: false,
           mutationEndsAt: null,
-          history: [...prev.history, {
+          history: [...(prev.history || []), {
             text: `MÉTAMORPHOSE : ${BLOOD_STAGES[newLevel].title}`,
             impact: 0,
             date: new Date().toISOString(),
@@ -276,48 +298,17 @@ export default function VampireSheet() {
       type: 'action'
     };
 
-    if (isDemoMode) {
-      setCharacter(prev => ({
-        ...prev,
-        saturationPoints: newPoints,
-        isMutating: willMutate,
-        mutationEndsAt: willMutate ? mutationEnd.toISOString() : null,
-        history: [...prev.history, newHistory]
-      }));
-    } else {
-      const ref = doc(db, 'vampires', user.uid);
-      await updateDoc(ref, {
-        saturationPoints: newPoints,
-        isMutating: willMutate,
-        mutationEndsAt: willMutate ? mutationEnd : null,
-        history: arrayUnion(newHistory)
-      });
-    }
-  };
-
-  const finalizeLevelUp = async (ref, data) => {
-    const newLevel = Math.min(data.bloodPotency + 1, 5);
-    await updateDoc(ref, {
-      bloodPotency: newLevel,
-      saturationPoints: 0,
-      isMutating: false,
-      mutationEndsAt: null,
-      history: arrayUnion({
-        text: `MÉTAMORPHOSE : ${BLOOD_STAGES[newLevel].title}`,
-        impact: 0,
-        date: new Date().toISOString(),
-        type: 'levelup'
-      })
-    });
+    setCharacter(prev => ({
+      ...prev,
+      saturationPoints: newPoints,
+      isMutating: willMutate,
+      mutationEndsAt: willMutate ? mutationEnd.toISOString() : null,
+      history: [...(prev.history || []), newHistory]
+    }));
   };
 
   const updateCharacterField = (field, value) => {
-    if (isDemoMode) {
-      setCharacter(prev => ({ ...prev, [field]: value }));
-    } else if (user) {
-      const ref = doc(db, 'vampires', user.uid);
-      updateDoc(ref, { [field]: value });
-    }
+    setCharacter(prev => ({ ...prev, [field]: value }));
   };
 
   if (loading || !character) {
@@ -335,12 +326,27 @@ export default function VampireSheet() {
   return (
     <div className="min-h-screen bg-[#0c0a09] text-stone-300 font-sans selection:bg-red-900/50 pb-12">
 
-      {/* MODE DEMO BANNER */}
-      {isDemoMode && (
-        <div className="bg-amber-900/30 border-b border-amber-700/50 text-amber-200 text-xs text-center py-2">
-          Mode Démonstration — Les données ne sont pas sauvegardées
-        </div>
-      )}
+      {/* STATUS BAR */}
+      <div className={`border-b text-xs text-center py-2 flex items-center justify-center gap-2 ${error ? 'bg-red-900/30 border-red-700/50 text-red-200' : 'bg-stone-900/50 border-stone-800 text-stone-500'}`}>
+        {saving ? (
+          <>
+            <RefreshCw size={12} className="animate-spin" />
+            Sauvegarde en cours...
+          </>
+        ) : error ? (
+          <>
+            {error}
+            <button onClick={loadCharacter} className="underline ml-2">Réessayer</button>
+          </>
+        ) : lastSaved ? (
+          <>
+            <Save size={12} />
+            Sauvegardé à {lastSaved.toLocaleTimeString()}
+          </>
+        ) : (
+          'Connecté à Google Sheets'
+        )}
+      </div>
 
       {/* HEADER FIXE */}
       <header className="bg-stone-950/80 backdrop-blur border-b border-red-900/10 sticky top-0 z-20 px-6 py-4">
@@ -452,7 +458,7 @@ export default function VampireSheet() {
 
            {historyOpen && (
              <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
-               {[...character.history].reverse().map((h, i) => (
+               {[...(character.history || [])].reverse().map((h, i) => (
                  <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
                    <span className={h.type === 'levelup' ? 'text-red-400 font-bold' : 'text-stone-400'}>
                      {h.text}
@@ -460,12 +466,17 @@ export default function VampireSheet() {
                    <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
                  </div>
                ))}
-               {character.history.length === 0 && (
+               {(!character.history || character.history.length === 0) && (
                  <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
                )}
              </div>
            )}
         </section>
+
+        {/* USER ID (pour debug/partage) */}
+        <div className="text-center text-[10px] text-stone-700 pt-4">
+          ID: {userId}
+        </div>
 
       </main>
     </div>
