@@ -121,24 +121,21 @@ class VampireCog(commands.Cog, name="Vampire"):
             ephemeral=True,
         )
 
-    @app_commands.command(
-        name="vampire_config",
-        description="[Admin] Configure un joueur comme Vampire"
-    )
-    @app_commands.describe(
-        member="Le joueur à configurer",
-        clan="Le clan du vampire",
-        soif="Le niveau de Soif (0-5)"
-    )
-    @app_commands.default_permissions(administrator=True)
+    # --- COMMANDES PRÉFIXÉES (ADMIN) ---
+
+    @commands.command(name="vampire_config")
+    @commands.has_permissions(administrator=True)
     async def vampire_config_command(
         self,
-        interaction: discord.Interaction,
+        ctx: commands.Context,
         member: discord.Member,
         clan: str = None,
         soif: int = None,
     ):
-        """Configure un joueur comme Vampire (commande admin)."""
+        """
+        [Admin] Configure un joueur comme Vampire.
+        Usage: !vampire_config @membre [clan] [soif]
+        """
         from utils.database import set_player, set_soif
 
         if clan:
@@ -146,27 +143,18 @@ class VampireCog(commands.Cog, name="Vampire"):
             clan_data = get_clan(clan_lower)
             if not clan_data:
                 available = ", ".join(list_clans())
-                await interaction.response.send_message(
-                    f"❌ Clan `{clan}` non reconnu.\nClans disponibles: {available}",
-                    ephemeral=True,
-                )
+                await ctx.send(f"❌ Clan `{clan}` non reconnu.\nClans disponibles: {available}")
                 return
 
-            await set_player(member.id, interaction.guild.id, race="vampire", clan=clan_lower)
+            await set_player(member.id, ctx.guild.id, race="vampire", clan=clan_lower)
 
         if soif is not None:
             if not 0 <= soif <= 5:
-                await interaction.response.send_message(
-                    "❌ Le niveau de Soif doit être entre 0 et 5.",
-                    ephemeral=True,
-                )
+                await ctx.send("❌ Le niveau de Soif doit être entre 0 et 5.")
                 return
-            await set_soif(member.id, interaction.guild.id, soif)
+            await set_soif(member.id, ctx.guild.id, soif)
 
-        await interaction.response.send_message(
-            f"✅ Configuration de {member.display_name} mise à jour.",
-            ephemeral=True,
-        )
+        await ctx.send(f"✅ Configuration de {member.display_name} mise à jour.")
 
 
 async def setup(bot: commands.Bot):

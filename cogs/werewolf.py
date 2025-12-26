@@ -23,6 +23,7 @@ from utils.database import (
     decrement_rage,
     clear_rage,
     get_all_enraged_werewolves_in_channel,
+    set_player,
 )
 from utils.rp_check import is_rp_channel
 from views.lycan_panel import LycanPanel, AuspiceSelectView
@@ -298,52 +299,35 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
             ephemeral=True,
         )
 
-    @app_commands.command(
-        name="lycan_config",
-        description="[Admin] Configure un joueur comme Loup-Garou"
-    )
-    @app_commands.describe(
-        member="Le joueur à configurer",
-        auspice="L'augure du loup-garou",
-        rage="Le niveau de Rage dans ce salon"
-    )
-    @app_commands.default_permissions(administrator=True)
-    async def lycan_config_command(
-        self,
-        interaction: discord.Interaction,
-        member: discord.Member,
-        auspice: str = None,
-        rage: int = None,
-    ):
-        """Configure un joueur comme Loup-Garou (commande admin)."""
-        from utils.database import set_player
+    # --- COMMANDES PRÉFIXÉES (ADMIN) ---
 
+    @commands.command(name="lycan_config")
+    @commands.has_permissions(administrator=True)
+    async def lycan_config_command(self, ctx: commands.Context, member: discord.Member, auspice: str = None, rage: int = None):
+        """
+        [Admin] Configure un joueur comme Loup-Garou.
+        Usage: !lycan_config @membre [auspice] [rage]
+        """
         if auspice:
             auspice_lower = auspice.lower().strip()
             auspice_data = get_auspice(auspice_lower)
             if not auspice_data:
                 available = ", ".join(list_auspices())
-                await interaction.response.send_message(
-                    f"❌ Augure `{auspice}` non reconnu.\nAugures disponibles: {available}",
-                    ephemeral=True,
-                )
+                await ctx.send(f"❌ Augure `{auspice}` non reconnu.\nAugures disponibles: {available}")
                 return
 
-            await set_player(member.id, interaction.guild.id, race="loup-garou", auspice=auspice_lower)
+            await set_player(member.id, ctx.guild.id, race="loup-garou", auspice=auspice_lower)
 
         if rage is not None:
             if rage < 0:
-                await interaction.response.send_message(
-                    "❌ Le niveau de Rage ne peut pas être négatif.",
-                    ephemeral=True,
-                )
+                await ctx.send("❌ Le niveau de Rage ne peut pas être négatif.")
                 return
 
             is_enraged = rage >= SEUIL_ENRAGE
             await set_rage_data(
                 member.id,
-                interaction.guild.id,
-                interaction.channel.id,
+                ctx.guild.id,
+                ctx.channel.id,
                 rage_level=rage,
                 is_enraged=is_enraged,
                 maintien_counter=0,
@@ -365,121 +349,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
                 except discord.Forbidden:
                     pass
 
-        await interaction.response.send_message(
-            f"✅ Configuration de {member.display_name} mise à jour.",
-            ephemeral=True,
-        )
-
-    @app_commands.command(
-        name="rage_remove",
-        description="[Admin] Retire de la rage à un joueur"
-    )
-    @app_commands.describe(
-        member="Le joueur ciblé",
-        amount="Quantité de rage à retirer"
-    )
-    @app_commands.default_permissions(administrator=True)
-    async def rage_remove_command(
-        self,
-        interaction: discord.Interaction,
-        member: discord.Member,
-        amount: int,
-    ):
-        """Retire de la rage à un joueur (commande admin)."""
-        if amount < 1:
-            await interaction.response.send_message(
-                "❌ La quantité doit être supérieure à 0.",
-                ephemeral=True,
-            )
-            return
-
-        if not is_rp_channel(interaction.channel):
-            await interaction.response.send_message(
-                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
-                ephemeral=True,
-            )
-            return
-
-        rage_data = await get_rage_data(member.id, interaction.guild.id, interaction.channel.id)
-        old_rage = rage_data.get("rage_level", 0)
-
-        if old_rage == 0:
-            await interaction.response.send_message(
-                f"❌ {member.display_name} n'a pas de rage dans cette scène.",
-                ephemeral=True,
-            )
-            return
-
-        new_rage = await decrement_rage(member.id, interaction.guild.id, interaction.channel.id, amount)
-
-        # Gérer les changements d'état
-        if old_rage >= SEUIL_ENRAGE > new_rage:
-            await set_rage_data(
-                member.id, interaction.guild.id, interaction.channel.id,
-                is_enraged=False,
-                maintien_counter=0,
-            )
-
-        # Restaurer le surnom si on quitte primal
-        if old_rage >= SEUIL_PRIMAL > new_rage:
-            try:
-                if member.nick and "[PRIMAL]" in member.nick:
-                    new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                    await member.edit(nick=new_nick if new_nick else None)
-            except discord.Forbidden:
-                pass
-
-        await interaction.response.send_message(
-            f"✅ Rage de {member.display_name} réduite de **{old_rage}** à **{new_rage}** (-{amount}).",
-            ephemeral=True,
-        )
-
-    @app_commands.command(
-        name="fin_scene",
-        description="[Admin] Met fin à une scène et remet la rage de tous à 0"
-    )
-    @app_commands.default_permissions(administrator=True)
-    async def end_scene_admin_command(self, interaction: discord.Interaction):
-        """Met fin à la scène pour tous les loups-garous dans ce salon."""
-        if not is_rp_channel(interaction.channel):
-            await interaction.response.send_message(
-                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
-                ephemeral=True,
-            )
-            return
-
-        wolves = await get_all_enraged_werewolves_in_channel(
-            interaction.guild.id,
-            interaction.channel.id,
-        )
-
-        count = 0
-        for wolf_data in wolves:
-            wolf_id = wolf_data["user_id"]
-
-            # Restaurer le surnom si nécessaire
-            if wolf_data.get("rage_level", 0) >= SEUIL_PRIMAL:
-                try:
-                    member = interaction.guild.get_member(wolf_id)
-                    if member and member.nick and "[PRIMAL]" in member.nick:
-                        new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                        await member.edit(nick=new_nick if new_nick else None)
-                except discord.Forbidden:
-                    pass
-
-            await clear_rage(wolf_id, interaction.guild.id, interaction.channel.id)
-            count += 1
-
-        embed = discord.Embed(
-            title="🏁 Scène Terminée",
-            description=(
-                f"La scène est clôturée.\n"
-                f"**{count}** loup(s)-garou(s) ont vu leur rage remise à zéro."
-            ),
-            color=discord.Color.blue(),
-        )
-
-        await interaction.response.send_message(embed=embed)
+        await ctx.send(f"✅ Configuration de {member.display_name} mise à jour.")
 
 
 async def setup(bot: commands.Bot):
