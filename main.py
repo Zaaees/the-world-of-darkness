@@ -65,8 +65,8 @@ class WorldOfDarknessBot(commands.Bot):
         await init_database()
         logger.info("Base de données initialisée")
 
-        # Charger les Cogs (seulement vampire et werewolf)
-        cogs_to_load = ["cogs.vampire", "cogs.werewolf"]
+        # Charger les Cogs
+        cogs_to_load = ["cogs.vampire", "cogs.werewolf", "cogs.general"]
 
         for cog_name in cogs_to_load:
             try:
