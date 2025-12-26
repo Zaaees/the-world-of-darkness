@@ -19,14 +19,6 @@ const getDiscordAuthUrl = () => {
   return `https://discord.com/api/oauth2/authorize?${params}`;
 };
 
-const parseHashParams = () => {
-  const hash = window.location.hash.substring(1);
-  const params = new URLSearchParams(hash);
-  return {
-    access_token: params.get('access_token'),
-    token_type: params.get('token_type'),
-  };
-};
 
 // --- LOGIQUE V5 NARRATIVE ---
 
@@ -189,7 +181,7 @@ const DEFAULT_CHARACTER = {
 };
 
 // --- PAGE DE LOGIN ---
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, error }) => {
   return (
     <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full text-center">
@@ -201,6 +193,12 @@ const LoginPage = ({ onLogin }) => {
           <p className="text-stone-400 text-sm mb-6">
             Connecte-toi avec Discord pour accéder à ta fiche de personnage et synchroniser tes données avec le bot.
           </p>
+
+          {error && (
+            <div className="bg-red-900/30 border border-red-800 text-red-300 text-sm p-3 rounded mb-4">
+              {error}
+            </div>
+          )}
 
           <button
             onClick={onLogin}
@@ -229,47 +227,70 @@ export default function VampireSheet() {
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
   const [error, setError] = useState(null);
-
-  // Vérifier le token Discord au chargement
-  useEffect(() => {
-    // Check for callback token in URL hash
-    const { access_token } = parseHashParams();
-    if (access_token) {
-      localStorage.setItem('discord_token', access_token);
-      // Clear hash from URL
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-
-    // Load saved token
-    const savedToken = localStorage.getItem('discord_token');
-    if (savedToken) {
-      fetchDiscordUser(savedToken);
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  const [authError, setAuthError] = useState(null);
 
   // Récupérer les infos Discord
-  const fetchDiscordUser = async (token) => {
+  const fetchDiscordUser = useCallback(async (token) => {
     try {
+      console.log('Fetching Discord user with token...');
       const response = await fetch('https://discord.com/api/users/@me', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       if (response.ok) {
         const user = await response.json();
+        console.log('Discord user:', user.username);
         setDiscordUser(user);
+        setLoading(false);
       } else {
-        // Token invalide
+        console.error('Discord API error:', response.status);
         localStorage.removeItem('discord_token');
+        setAuthError('Token Discord invalide');
         setLoading(false);
       }
     } catch (err) {
       console.error('Erreur Discord:', err);
       localStorage.removeItem('discord_token');
+      setAuthError('Erreur de connexion à Discord');
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Vérifier le token Discord au chargement
+  useEffect(() => {
+    const init = async () => {
+      // Check for callback token in URL hash
+      const hash = window.location.hash;
+      console.log('URL hash:', hash);
+
+      if (hash && hash.includes('access_token')) {
+        const params = new URLSearchParams(hash.substring(1));
+        const access_token = params.get('access_token');
+
+        if (access_token) {
+          console.log('Token found in URL, saving...');
+          localStorage.setItem('discord_token', access_token);
+          // Clear hash from URL
+          window.history.replaceState(null, '', window.location.pathname);
+          // Fetch user with new token
+          await fetchDiscordUser(access_token);
+          return;
+        }
+      }
+
+      // Load saved token
+      const savedToken = localStorage.getItem('discord_token');
+      console.log('Saved token exists:', !!savedToken);
+
+      if (savedToken) {
+        await fetchDiscordUser(savedToken);
+      } else {
+        setLoading(false);
+      }
+    };
+
+    init();
+  }, [fetchDiscordUser]);
 
   // Charger les données depuis Google Sheets
   const loadCharacter = useCallback(async () => {
@@ -429,7 +450,7 @@ export default function VampireSheet() {
 
   // Page de login si pas connecté
   if (!discordUser && !loading) {
-    return <LoginPage onLogin={handleLogin} />;
+    return <LoginPage onLogin={handleLogin} error={authError} />;
   }
 
   if (loading || !character) {
