@@ -1,0 +1,27 @@
+name: Deploy Bot to Fly.io
+
+on:
+  push:
+    branches: [main, master, claude/discord-narrative-bot-AoFim]
+    paths:
+      - '*.py'
+      - 'cogs/**'
+      - 'data/**'
+      - 'utils/**'
+      - 'views/**'
+      - 'requirements.txt'
+      - 'Dockerfile'
+      - 'fly.toml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
