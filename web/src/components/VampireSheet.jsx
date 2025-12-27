@@ -388,6 +388,7 @@ export default function VampireSheet() {
   const [error, setError] = useState(null);
   const [authError, setAuthError] = useState(null);
   const [submittingAction, setSubmittingAction] = useState(null);
+  const [notVampire, setNotVampire] = useState(false);
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -455,12 +456,20 @@ export default function VampireSheet() {
     try {
       setLoading(true);
       setError(null);
+      setNotVampire(false);
 
       const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(discordUser.id)}`;
       const response = await fetch(url);
       const data = await response.json();
 
       if (data.success && data.character) {
+        // Vérifier si l'utilisateur est un vampire
+        if (data.character.race !== 'vampire') {
+          setNotVampire(true);
+          setLoading(false);
+          return;
+        }
+
         setCharacter({
           ...DEFAULT_CHARACTER,
           ...data.character,
@@ -472,18 +481,12 @@ export default function VampireSheet() {
           cooldowns: data.character.cooldowns || {},
         });
       } else {
-        setCharacter({
-          ...DEFAULT_CHARACTER,
-          name: discordUser.username,
-        });
+        // Pas de personnage enregistré = pas un vampire
+        setNotVampire(true);
       }
     } catch (err) {
       console.error('Erreur chargement:', err);
       setError('Erreur de connexion.');
-      setCharacter({
-        ...DEFAULT_CHARACTER,
-        name: discordUser.username,
-      });
     } finally {
       setLoading(false);
     }
@@ -662,6 +665,30 @@ export default function VampireSheet() {
   // Page de login si pas connecté
   if (!discordUser && !loading) {
     return <LoginPage onLogin={handleLogin} error={authError} />;
+  }
+
+  // Page si l'utilisateur n'est pas un vampire
+  if (notVampire && !loading) {
+    return (
+      <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
+        <div className="max-w-md w-full text-center">
+          <div className="text-6xl mb-6">🚫</div>
+          <h1 className="text-2xl font-serif text-red-600 mb-4">Accès Refusé</h1>
+          <p className="text-stone-400 mb-6">
+            Tu n'es pas un vampire. Cette fiche est réservée aux Enfants de la Nuit.
+          </p>
+          <p className="text-stone-600 text-sm mb-8">
+            Si tu penses qu'il s'agit d'une erreur, contacte un MJ pour qu'il te configure avec la commande <code className="bg-stone-800 px-2 py-1 rounded">!vampire_config</code>
+          </p>
+          <button
+            onClick={handleLogout}
+            className="bg-stone-800 hover:bg-stone-700 text-stone-300 px-6 py-2 rounded transition-colors"
+          >
+            Se déconnecter
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (loading || !character) {
