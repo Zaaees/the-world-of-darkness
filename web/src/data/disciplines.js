@@ -593,10 +593,10 @@ export const CLAN_DISCIPLINES = {
 
 // Niveau maximum de discipline selon la Puissance du Sang
 export const MAX_DISCIPLINE_LEVEL = {
-  1: 2,  // BP 1: accès aux niveaux 1-2
-  2: 3,  // BP 2: accès aux niveaux 1-3
-  3: 4,  // BP 3: accès aux niveaux 1-4
-  4: 5,  // BP 4: accès aux niveaux 1-5
+  1: 1,  // BP 1: accès au niveau 1
+  2: 2,  // BP 2: accès aux niveaux 1-2
+  3: 3,  // BP 3: accès aux niveaux 1-3
+  4: 4,  // BP 4: accès aux niveaux 1-4
   5: 5   // BP 5: accès aux niveaux 1-5
 };
 
