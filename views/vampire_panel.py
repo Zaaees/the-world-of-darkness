@@ -242,9 +242,9 @@ class VampirePanel(ui.View):
             inline=False,
         )
 
-        # Progression de Saturation
+        # Progression de l'épaississement du sang
         embed.add_field(
-            name="📈 Saturation",
+            name="📈 Épaississement du Sang",
             value=self._create_saturation_bar(),
             inline=False,
         )

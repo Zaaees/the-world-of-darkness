@@ -137,7 +137,7 @@ class PersistentActionValidationView(ui.View):
                 if member:
                     notify_embed = discord.Embed(
                         title="✅ Action validée !",
-                        description=f"**{action['action_name']}** a été validée.\n\n+{action['points']} points de saturation",
+                        description=f"**{action['action_name']}** a été validée.\n\nLe sang s'épaissit... (+{action['points']})",
                         color=discord.Color.green(),
                     )
                     if result.get("mutated"):
@@ -287,8 +287,8 @@ async def send_validation_request(
     )
 
     embed.add_field(
-        name="Points",
-        value=f"+{points} saturation",
+        name="Épaississement",
+        value=f"+{points}",
         inline=True,
     )
 

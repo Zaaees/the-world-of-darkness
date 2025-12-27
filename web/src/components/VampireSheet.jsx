@@ -157,7 +157,7 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
         <Crown className="text-red-600 mb-3 animate-pulse" size={32} />
         <h3 className="text-red-500 font-serif text-lg tracking-widest uppercase">Zénith Atteint</h3>
         <p className="text-stone-500 text-xs mt-2 max-w-xs">
-          Votre sang a atteint sa saturation biologique maximale. Seule la Diablerie ou les siècles peuvent désormais l'altérer.
+          Votre sang a atteint son épaisseur maximale. Seule la Diablerie ou les siècles peuvent désormais l'altérer.
         </p>
       </div>
     );
