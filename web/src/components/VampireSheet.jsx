@@ -70,55 +70,74 @@ const BLOOD_STAGES = {
 
 // --- DÉFINITION DES ACTIONS ---
 
+// Fonction utilitaire pour calculer les points selon le BP
+const getActionPoints = (action, bloodPotency) => {
+  if (action.scaling) {
+    return action.scaling[bloodPotency] ?? action.points;
+  }
+  return action.points;
+};
+
+// Fonction pour vérifier si une action est visible pour un BP donné
+const isActionVisible = (action, bloodPotency) => {
+  const minBp = action.minBp ?? 1;
+  const maxBp = action.maxBp ?? 5;
+  return bloodPotency >= minBp && bloodPotency <= maxBp;
+};
+
 const UNIQUE_ACTIONS = [
-  { id: "first_frenzy", name: "Première danse avec la Bête", description: "Jouer sa première frénésie", points: 5 },
-  { id: "first_kill", name: "Le goût des cendres", description: "Tuer un mortel pour la première fois", points: 8 },
-  { id: "first_sun", name: "Baiser du soleil", description: "Survivre à une exposition au soleil", points: 6 },
-  { id: "first_blood_bond", name: "Le Sang qui lie", description: "Créer son premier Lien de Sang sur quelqu'un", points: 4 },
-  { id: "last_mortal", name: "Dernier souffle mortel", description: "Revoir un proche de sa vie humaine", points: 5 },
-  { id: "first_ghoul", name: "La première servitude", description: "Créer sa première goule", points: 4 },
-  { id: "ghoul_pack", name: "Maître de la meute", description: "Avoir 3 goules ou plus en même temps", points: 5 },
+  { id: "first_frenzy", name: "Première danse avec la Bête", description: "Jouer sa première frénésie", points: 5, minBp: 1, maxBp: 5 },
+  { id: "first_kill", name: "Le goût des cendres", description: "Tuer un mortel pour la première fois", points: 8, minBp: 1, maxBp: 5 },
+  { id: "first_sun", name: "Baiser du soleil", description: "Survivre à une exposition au soleil", points: 6, minBp: 1, maxBp: 5 },
+  { id: "first_blood_bond", name: "Le Sang qui lie", description: "Créer son premier Lien de Sang sur quelqu'un", points: 4, minBp: 1, maxBp: 5 },
+  { id: "last_mortal", name: "Dernier souffle mortel", description: "Revoir un proche de sa vie humaine", points: 5, minBp: 1, maxBp: 3 },
+  { id: "first_ghoul", name: "La première servitude", description: "Créer sa première goule", points: 4, minBp: 1, maxBp: 5 },
+  { id: "ghoul_pack", name: "Maître de la meute", description: "Avoir 3 goules ou plus en même temps", points: 5, minBp: 1, maxBp: 5 },
+  { id: "acceptance", name: "L'Acceptation", description: "Accepter pleinement sa nature de monstre (scène RP significative)", points: 6, minBp: 3, maxBp: 5 },
 ];
 
 const CLAN_ACTIONS = {
-  nosferatu: { id: "clan_nosferatu", name: "Le secret qui tue", description: "Révéler une information qui change la donne", points: 4 },
-  brujah: { id: "clan_brujah", name: "Le poing levé", description: "Défendre une cause ou mener une révolte", points: 4 },
-  toreador: { id: "clan_toreador", name: "L'œuvre immortelle", description: "Créer ou inspirer une œuvre marquante", points: 4 },
-  ventrue: { id: "clan_ventrue", name: "La couronne de fer", description: "Asseoir son autorité ou écraser un rival", points: 4 },
-  tremere: { id: "clan_tremere", name: "Le sang qui commande", description: "Accomplir un rituel de sang significatif", points: 4 },
-  malkavian: { id: "clan_malkavian", name: "La vérité dans la folie", description: "Avoir une vision qui s'avère vraie", points: 4 },
-  gangrel: { id: "clan_gangrel", name: "L'appel sauvage", description: "Survivre seul en milieu hostile", points: 4 },
-  lasombra: { id: "clan_lasombra", name: "L'ombre qui dévore", description: "Éliminer un obstacle par ambition", points: 4 },
-  tzimisce: { id: "clan_tzimisce", name: "Chair de ma chair", description: "Modifier sa chair ou défendre son domaine", points: 4 },
-  hecata: { id: "clan_hecata", name: "Murmures d'outre-tombe", description: "Communiquer avec les morts ou accomplir un rite funéraire", points: 4 },
-  ministry: { id: "clan_ministry", name: "La tentation du serpent", description: "Corrompre quelqu'un ou répandre le vice", points: 4 },
-  banu_haqim: { id: "clan_banu_haqim", name: "Le jugement du sang", description: "Exécuter un contrat ou punir un coupable", points: 4 },
+  nosferatu: { id: "clan_nosferatu", name: "Le secret qui tue", description: "Révéler une information qui change la donne", points: 4, minBp: 1, maxBp: 5 },
+  brujah: { id: "clan_brujah", name: "Le poing levé", description: "Défendre une cause ou mener une révolte", points: 4, minBp: 1, maxBp: 5 },
+  toreador: { id: "clan_toreador", name: "L'œuvre immortelle", description: "Créer ou inspirer une œuvre marquante", points: 4, minBp: 1, maxBp: 5 },
+  ventrue: { id: "clan_ventrue", name: "La couronne de fer", description: "Asseoir son autorité ou écraser un rival", points: 4, minBp: 1, maxBp: 5 },
+  tremere: { id: "clan_tremere", name: "Le sang qui commande", description: "Accomplir un rituel de sang significatif", points: 4, minBp: 1, maxBp: 5 },
+  malkavian: { id: "clan_malkavian", name: "La vérité dans la folie", description: "Avoir une vision qui s'avère vraie", points: 4, minBp: 1, maxBp: 5 },
+  gangrel: { id: "clan_gangrel", name: "L'appel sauvage", description: "Survivre seul en milieu hostile", points: 4, minBp: 1, maxBp: 5 },
+  lasombra: { id: "clan_lasombra", name: "L'ombre qui dévore", description: "Éliminer un obstacle par ambition", points: 4, minBp: 1, maxBp: 5 },
+  tzimisce: { id: "clan_tzimisce", name: "Chair de ma chair", description: "Modifier sa chair ou défendre son domaine", points: 4, minBp: 1, maxBp: 5 },
+  hecata: { id: "clan_hecata", name: "Murmures d'outre-tombe", description: "Communiquer avec les morts ou accomplir un rite funéraire", points: 4, minBp: 1, maxBp: 5 },
+  ministry: { id: "clan_ministry", name: "La tentation du serpent", description: "Corrompre quelqu'un ou répandre le vice", points: 4, minBp: 1, maxBp: 5 },
+  banu_haqim: { id: "clan_banu_haqim", name: "Le jugement du sang", description: "Exécuter un contrat ou punir un coupable", points: 4, minBp: 1, maxBp: 5 },
 };
 
 const RESONANCE_ACTIONS = [
-  { id: "resonance_choleric", name: "Sang colérique", description: "Se nourrir sur quelqu'un en pleine rage ou violence", points: 2 },
-  { id: "resonance_melancholic", name: "Sang mélancolique", description: "Se nourrir sur quelqu'un en profond désespoir", points: 2 },
-  { id: "resonance_sanguine", name: "Sang sanguin", description: "Se nourrir sur quelqu'un en pleine euphorie ou passion", points: 2 },
-  { id: "resonance_phlegmatic", name: "Sang flegmatique", description: "Se nourrir sur quelqu'un en paix absolue ou apathie", points: 2 },
-  { id: "resonance_dyscrasia", name: "Dyscrasie", description: "Se nourrir sur une émotion extrême, à son paroxysme", points: 5 },
+  { id: "resonance_choleric", name: "Sang colérique", description: "Se nourrir sur quelqu'un en pleine rage ou violence", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
+  { id: "resonance_melancholic", name: "Sang mélancolique", description: "Se nourrir sur quelqu'un en profond désespoir", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
+  { id: "resonance_sanguine", name: "Sang sanguin", description: "Se nourrir sur quelqu'un en pleine euphorie ou passion", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
+  { id: "resonance_phlegmatic", name: "Sang flegmatique", description: "Se nourrir sur quelqu'un en paix absolue ou apathie", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
+  { id: "resonance_dyscrasia", name: "Dyscrasie", description: "Se nourrir sur une émotion extrême, à son paroxysme", points: 5, minBp: 1, maxBp: 4, scaling: {1: 5, 2: 5, 3: 5, 4: 3} },
 ];
 
 const VAMPIRE_BLOOD_ACTIONS = [
-  { id: "vampire_kiss", name: "Le baiser du prédateur", description: "Boire le sang d'un autre vampire (sans diablerie)", points: 4, cooldownDays: 30 },
-  { id: "elder_blood", name: "Sang d'ancien", description: "Boire le sang d'un vampire de Puissance supérieure", points: 6, cooldownDays: 30 },
-  { id: "vaulderie", name: "La Vaulderie", description: "Participer à un rituel de partage de sang collectif", points: 5, cooldownDays: 30 },
-  { id: "diablerie", name: "L'Étreinte inversée", description: "Commettre une diablerie sur un vampire de rang supérieur", points: 25, cooldownDays: 30 },
+  { id: "vampire_kiss", name: "Le baiser du prédateur", description: "Boire le sang d'un autre vampire (sans le tuer)", points: 4, cooldownDays: 30, minBp: 1, maxBp: 3 },
+  { id: "elder_blood", name: "Sang d'Ancien", description: "Vider complètement un vampire de Puissance supérieure (le tuer)", points: 8, cooldownDays: 30, minBp: 1, maxBp: 4 },
+  { id: "vaulderie", name: "La Vaulderie", description: "Participer à un rituel de partage de sang collectif", points: 5, cooldownDays: 30, minBp: 1, maxBp: 5 },
+  { id: "diablerie", name: "L'Étreinte inversée", description: "Commettre une diablerie sur un vampire de rang supérieur (absorber son âme)", points: 25, cooldownDays: 30, minBp: 1, maxBp: 4 },
+  { id: "methuselah_blood", name: "Sang de Mathusalem", description: "Boire le sang d'un Mathusalem (vampire millénaire, impossible à tuer)", points: 15, cooldownDays: 30, minBp: 3, maxBp: 5 },
+  { id: "wassail_blood", name: "Vitae Corrompue", description: "Vider complètement un vampire en Wassail (perdu à la Bête)", points: 10, cooldownDays: 30, minBp: 3, maxBp: 5 },
 ];
 
 const CRISIS_ACTIONS = [
-  { id: "crisis_near_death", name: "Frôler la Mort Finale", description: "Survivre de justesse à un danger mortel", points: 5 },
-  { id: "crisis_resist_frenzy", name: "Dompter la Bête", description: "Résister à une frénésie en situation critique", points: 3 },
-  { id: "crisis_unleash_beast", name: "La Bête déchaînée", description: "Céder à la frénésie avec conséquences assumées", points: 4 },
+  { id: "crisis_near_death", name: "Frôler la Mort Finale", description: "Survivre de justesse à un danger mortel", points: 5, minBp: 1, maxBp: 5, scaling: {1: 5, 2: 5, 3: 5, 4: 3, 5: 2} },
+  { id: "crisis_resist_frenzy", name: "Dompter la Bête", description: "Résister à une frénésie en situation critique", points: 3, minBp: 1, maxBp: 4, scaling: {1: 3, 2: 3, 3: 3, 4: 2} },
+  { id: "crisis_unleash_beast", name: "La Bête déchaînée", description: "Céder à la frénésie avec conséquences assumées", points: 4, minBp: 1, maxBp: 4, scaling: {1: 4, 2: 4, 3: 4, 4: 2} },
+  { id: "crisis_final_death", name: "Mort Finale évitée", description: "Survivre à un staking ou une exposition solaire prolongée", points: 12, minBp: 3, maxBp: 5 },
 ];
 
 const TORPOR_ACTIONS = [
-  { id: "torpor_enter", name: "Le poids des siècles", description: "Entrer en torpeur volontaire (ellipse temporelle)", points: 10 },
-  { id: "torpor_wake", name: "Éveillé", description: "Se réveiller de torpeur", points: 3 },
+  { id: "torpor_enter", name: "Le poids des siècles", description: "Entrer en torpeur volontaire (ellipse temporelle)", points: 10, minBp: 1, maxBp: 5 },
+  { id: "torpor_wake", name: "Éveillé", description: "Se réveiller de torpeur", points: 3, minBp: 1, maxBp: 5 },
 ];
 
 const ACTION_CATEGORIES = [
@@ -244,11 +263,17 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
 const ActionCategory = ({ category, character, completedActions, pendingActions, cooldowns, submittingAction, onSubmitAction }) => {
   const [isOpen, setIsOpen] = useState(category.id === "unique" || category.id === "crisis");
   const CategoryIcon = category.icon;
+  const bloodPotency = character.bloodPotency || 1;
 
-  // Filtrer les actions visibles (ne pas montrer les actions uniques déjà complétées)
+  // Filtrer les actions visibles selon le BP et le statut
   const visibleActions = category.actions.filter(action => {
+    // Vérifier la visibilité selon le BP
+    if (!isActionVisible(action, bloodPotency)) {
+      return false;
+    }
+    // Masquer les actions uniques déjà complétées
     if (category.id === "unique" && completedActions.includes(action.id)) {
-      return false; // Masquer les actions uniques complétées
+      return false;
     }
     return true;
   });
@@ -278,11 +303,12 @@ const ActionCategory = ({ category, character, completedActions, pendingActions,
             const isPending = pendingActions.includes(action.id);
             const cooldownDate = cooldowns[action.id];
             const isCooldown = cooldownDate && new Date(cooldownDate) > new Date();
+            const scaledPoints = getActionPoints(action, bloodPotency);
 
             return (
               <ActionButton
                 key={action.id}
-                action={action}
+                action={{...action, points: scaledPoints}}
                 isDisabled={character.bloodPotency >= 5}
                 isPending={isPending}
                 isCompleted={isCompleted}
@@ -739,7 +765,7 @@ export default function VampireSheet() {
         </section>
 
         {/* ACTION DE CLAN */}
-        {clanAction && character.bloodPotency < 5 && (
+        {clanAction && character.bloodPotency < 5 && isActionVisible(clanAction, character.bloodPotency) && (
           <section>
             <div className="flex items-center gap-3 mb-4">
               <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
@@ -747,7 +773,7 @@ export default function VampireSheet() {
             </div>
 
             <ActionButton
-              action={clanAction}
+              action={{...clanAction, points: getActionPoints(clanAction, character.bloodPotency)}}
               isDisabled={character.bloodPotency >= 5}
               isPending={(character.pendingActions || []).includes(clanAction.id)}
               isCompleted={false}
