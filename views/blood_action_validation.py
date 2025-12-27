@@ -100,6 +100,7 @@ class PersistentActionValidationView(ui.View):
                     cooldowns = await get_user_action_cooldowns(action["user_id"], action["guild_id"])
 
                     await sync_to_google_sheets(action["user_id"], {
+                        "race": "vampire",
                         "clan": player.get("clan", ""),
                         "bloodPotency": result["blood_potency"],
                         "saturationPoints": result["saturation_points"],

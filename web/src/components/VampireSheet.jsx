@@ -465,8 +465,9 @@ export default function VampireSheet() {
       const data = await response.json();
 
       if (data.success && data.character) {
-        // Vérifier si l'utilisateur est un vampire
-        if (data.character.race !== 'vampire') {
+        // Vérifier si l'utilisateur est un vampire (race = vampire ou clan défini)
+        const isVampire = data.character.race === 'vampire' || data.character.clan;
+        if (!isVampire) {
           setNotVampire(true);
           setLoading(false);
           return;

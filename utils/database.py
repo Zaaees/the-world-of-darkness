@@ -197,6 +197,7 @@ async def set_player(
     if race == "vampire" and clan:
         vampire_data = await get_vampire_data(user_id, guild_id)
         await sync_to_google_sheets(user_id, {
+            "race": "vampire",
             "clan": clan,
             "bloodPotency": vampire_data.get("blood_potency", 1),
             "saturationPoints": vampire_data.get("saturation_points", 0),
@@ -260,6 +261,7 @@ async def set_soif(user_id: int, guild_id: int, level: int):
     if player and player.get("race") == "vampire":
         vampire_data = await get_vampire_data(user_id, guild_id)
         await sync_to_google_sheets(user_id, {
+            "race": "vampire",
             "clan": player.get("clan", ""),
             "bloodPotency": vampire_data.get("blood_potency", 1),
             "saturationPoints": vampire_data.get("saturation_points", 0),
@@ -433,6 +435,7 @@ async def reset_vampire_data(user_id: int, guild_id: int, new_clan: str = None):
 
     # Synchroniser les données réinitialisées vers Google Sheets
     await sync_to_google_sheets(user_id, {
+        "race": "vampire",
         "clan": new_clan or "",
         "bloodPotency": 1,
         "saturationPoints": 0,
