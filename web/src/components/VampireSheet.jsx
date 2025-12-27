@@ -674,11 +674,8 @@ export default function VampireSheet() {
         <div className="max-w-md w-full text-center">
           <div className="text-6xl mb-6">🚫</div>
           <h1 className="text-2xl font-serif text-red-600 mb-4">Accès Refusé</h1>
-          <p className="text-stone-400 mb-6">
+          <p className="text-stone-400 mb-8">
             Tu n'es pas un vampire. Cette fiche est réservée aux Enfants de la Nuit.
-          </p>
-          <p className="text-stone-600 text-sm mb-8">
-            Si tu penses qu'il s'agit d'une erreur, contacte un MJ pour qu'il te configure avec la commande <code className="bg-stone-800 px-2 py-1 rounded">!vampire_config</code>
           </p>
           <button
             onClick={handleLogout}
