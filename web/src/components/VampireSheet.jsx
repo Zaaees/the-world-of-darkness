@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText } from 'lucide-react';
+import DisciplinesTab from './DisciplinesTab';
 
 // --- CONFIGURATION ---
 const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
@@ -389,6 +390,7 @@ export default function VampireSheet() {
   const [authError, setAuthError] = useState(null);
   const [submittingAction, setSubmittingAction] = useState(null);
   const [notVampire, setNotVampire] = useState(false);
+  const [activeTab, setActiveTab] = useState('sheet'); // 'sheet' ou 'disciplines'
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -767,104 +769,145 @@ export default function VampireSheet() {
         </div>
       </header>
 
+      {/* NAVIGATION PAR ONGLETS */}
+      <div className="bg-stone-950/50 border-b border-stone-800">
+        <div className="max-w-2xl mx-auto flex">
+          <button
+            onClick={() => setActiveTab('sheet')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
+              activeTab === 'sheet'
+                ? 'text-red-500 border-red-600 bg-stone-900/30'
+                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+            }`}
+          >
+            <ScrollText size={16} />
+            Fiche
+          </button>
+          <button
+            onClick={() => setActiveTab('disciplines')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
+              activeTab === 'disciplines'
+                ? 'text-red-500 border-red-600 bg-stone-900/30'
+                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+            }`}
+          >
+            <Sparkles size={16} />
+            Disciplines
+          </button>
+        </div>
+      </div>
+
       <main className="max-w-2xl mx-auto p-6 space-y-10">
 
-        {/* JAUGE & NARRATION */}
-        <section>
-          <BloodGauge current={character.saturationPoints} max={maxPoints} isMutating={character.isMutating} level={character.bloodPotency} />
+        {/* ONGLET FICHE */}
+        {activeTab === 'sheet' && (
+          <>
+            {/* JAUGE & NARRATION */}
+            <section>
+              <BloodGauge current={character.saturationPoints} max={maxPoints} isMutating={character.isMutating} level={character.bloodPotency} />
 
-          <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-4 opacity-5">
-               <CurrentIcon size={100} />
-             </div>
+              <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
+                 <div className="absolute top-0 right-0 p-4 opacity-5">
+                   <CurrentIcon size={100} />
+                 </div>
 
-             <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
-                {currentStage.title}
-             </h2>
+                 <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
+                    {currentStage.title}
+                 </h2>
 
-             <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
-               "{currentStage.description}"
-             </p>
-          </div>
-        </section>
+                 <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
+                   "{currentStage.description}"
+                 </p>
+              </div>
+            </section>
 
-        {/* ACTION DE CLAN */}
-        {clanAction && character.bloodPotency < 5 && isActionVisible(clanAction, character.bloodPotency) && (
-          <section>
-            <div className="flex items-center gap-3 mb-4">
-              <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
-              <div className="h-px bg-stone-900 flex-1"></div>
-            </div>
+            {/* ACTION DE CLAN */}
+            {clanAction && character.bloodPotency < 5 && isActionVisible(clanAction, character.bloodPotency) && (
+              <section>
+                <div className="flex items-center gap-3 mb-4">
+                  <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
+                  <div className="h-px bg-stone-900 flex-1"></div>
+                </div>
 
-            <ActionButton
-              action={{...clanAction, points: getActionPoints(clanAction, character.bloodPotency)}}
-              isDisabled={character.bloodPotency >= 5}
-              isPending={(character.pendingActions || []).includes(clanAction.id)}
-              isCompleted={false}
-              isCooldown={false}
-              isSubmitting={submittingAction === clanAction.id}
-              onSubmit={handleSubmitAction}
-            />
-          </section>
+                <ActionButton
+                  action={{...clanAction, points: getActionPoints(clanAction, character.bloodPotency)}}
+                  isDisabled={character.bloodPotency >= 5}
+                  isPending={(character.pendingActions || []).includes(clanAction.id)}
+                  isCompleted={false}
+                  isCooldown={false}
+                  isSubmitting={submittingAction === clanAction.id}
+                  onSubmit={handleSubmitAction}
+                />
+              </section>
+            )}
+
+            {/* ACTIONS PAR CATÉGORIE */}
+            <section>
+              <div className="flex items-center gap-3 mb-6">
+                <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
+                <div className="h-px bg-stone-900 flex-1"></div>
+              </div>
+
+              {character.bloodPotency >= 5 ? (
+                <div className="text-center text-xs text-stone-600 italic py-4">
+                  Votre sang a atteint la perfection statique. Il n'évolue plus.
+                </div>
+              ) : (
+                ACTION_CATEGORIES.map(category => (
+                  <ActionCategory
+                    key={category.id}
+                    category={category}
+                    character={character}
+                    completedActions={character.completedActions || []}
+                    pendingActions={character.pendingActions || []}
+                    cooldowns={character.cooldowns || {}}
+                    submittingAction={submittingAction}
+                    onSubmitAction={handleSubmitAction}
+                  />
+                ))
+              )}
+            </section>
+
+            {/* LOG */}
+            <section className="border-t border-stone-900 pt-2">
+               <button
+                 onClick={() => setHistoryOpen(!historyOpen)}
+                 className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
+               >
+                 {historyOpen ? <ChevronUp size={12}/> : <ChevronDown size={12}/>}
+                 Mémoire du Sang
+               </button>
+
+               {historyOpen && (
+                 <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
+                   {[...(character.history || [])].reverse().map((h, i) => (
+                     <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
+                       <span className={
+                         h.type === 'levelup' ? 'text-red-400 font-bold' :
+                         h.type === 'pending' ? 'text-yellow-500' :
+                         'text-stone-400'
+                       }>
+                         {h.text}
+                       </span>
+                       <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
+                     </div>
+                   ))}
+                   {(!character.history || character.history.length === 0) && (
+                     <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
+                   )}
+                 </div>
+               )}
+            </section>
+          </>
         )}
 
-        {/* ACTIONS PAR CATÉGORIE */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
-            <div className="h-px bg-stone-900 flex-1"></div>
-          </div>
-
-          {character.bloodPotency >= 5 ? (
-            <div className="text-center text-xs text-stone-600 italic py-4">
-              Votre sang a atteint la perfection statique. Il n'évolue plus.
-            </div>
-          ) : (
-            ACTION_CATEGORIES.map(category => (
-              <ActionCategory
-                key={category.id}
-                category={category}
-                character={character}
-                completedActions={character.completedActions || []}
-                pendingActions={character.pendingActions || []}
-                cooldowns={character.cooldowns || {}}
-                submittingAction={submittingAction}
-                onSubmitAction={handleSubmitAction}
-              />
-            ))
-          )}
-        </section>
-
-        {/* LOG */}
-        <section className="border-t border-stone-900 pt-2">
-           <button
-             onClick={() => setHistoryOpen(!historyOpen)}
-             className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
-           >
-             {historyOpen ? <ChevronUp size={12}/> : <ChevronDown size={12}/>}
-             Mémoire du Sang
-           </button>
-
-           {historyOpen && (
-             <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
-               {[...(character.history || [])].reverse().map((h, i) => (
-                 <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
-                   <span className={
-                     h.type === 'levelup' ? 'text-red-400 font-bold' :
-                     h.type === 'pending' ? 'text-yellow-500' :
-                     'text-stone-400'
-                   }>
-                     {h.text}
-                   </span>
-                   <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
-                 </div>
-               ))}
-               {(!character.history || character.history.length === 0) && (
-                 <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
-               )}
-             </div>
-           )}
-        </section>
+        {/* ONGLET DISCIPLINES */}
+        {activeTab === 'disciplines' && (
+          <DisciplinesTab
+            clan={character.clan}
+            bloodPotency={character.bloodPotency}
+          />
+        )}
 
       </main>
     </div>
