@@ -239,6 +239,60 @@ async def delete_ghoul_handler(request):
         )
 
 
+# --- GUILD DETECTION ---
+
+
+async def get_user_guild_handler(request):
+    """GET /api/guild - Détecter automatiquement le serveur de l'utilisateur."""
+    user_id = request.headers.get("X-Discord-User-ID")
+
+    if not user_id:
+        return web.json_response(
+            {"success": False, "error": "User ID requis"}, status=401
+        )
+
+    try:
+        user_id = int(user_id)
+
+        # Récupérer le bot depuis l'app
+        bot = request.app.get("bot")
+        if not bot:
+            return web.json_response(
+                {"success": False, "error": "Bot non disponible"}, status=500
+            )
+
+        # Trouver le premier serveur où l'utilisateur est membre
+        for guild in bot.guilds:
+            member = guild.get_member(user_id)
+            if not member:
+                try:
+                    member = await guild.fetch_member(user_id)
+                except Exception:
+                    continue
+
+            if member:
+                # Trouvé un serveur
+                return web.json_response({
+                    "success": True,
+                    "guild_id": guild.id,
+                    "guild_name": guild.name,
+                })
+
+        return web.json_response(
+            {"success": False, "error": "Aucun serveur trouvé"}, status=404
+        )
+
+    except ValueError:
+        return web.json_response(
+            {"success": False, "error": "User ID invalide"}, status=400
+        )
+    except Exception as e:
+        logger.error(f"Erreur get_user_guild: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
 # --- MEMBER INFO ---
 
 
@@ -284,6 +338,7 @@ async def get_member_info_handler(request):
             "username": str(member),  # Username global
             "avatar_url": member.display_avatar.url,  # Avatar (serveur ou global)
             "guild_name": guild.name,
+            "guild_id": guild.id,  # ID du serveur
         }
 
         return web.json_response(member_info)
@@ -316,6 +371,7 @@ def create_app(bot=None):
 
     # Routes
     app.router.add_get("/health", health_check)
+    app.router.add_get("/api/guild", get_user_guild_handler)
     app.router.add_get("/api/member", get_member_info_handler)
     app.router.add_get("/api/ghouls", get_ghouls_handler)
     app.router.add_post("/api/ghouls", create_ghoul_handler)
