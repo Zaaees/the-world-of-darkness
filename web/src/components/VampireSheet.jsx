@@ -588,12 +588,24 @@ export default function VampireSheet() {
             setLoading(false);
             return;
           }
+        } else {
+          // Si l'API vampire profile échoue, refuser l'accès par sécurité
+          console.error('Échec API vampire profile:', vampireProfileData);
+          setNotVampire(true);
+          setLoading(false);
+          return;
         }
       } catch (err) {
         console.error('Erreur chargement profil vampire:', err);
+        setNotVampire(true);
+        setLoading(false);
+        return;
       }
     } catch (err) {
       console.error('Erreur chargement member info:', err);
+      setNotVampire(true);
+      setLoading(false);
+      return;
     }
   }, [discordUser]);
 
@@ -776,7 +788,7 @@ export default function VampireSheet() {
   }
 
   // Page de sélection de clan si l'utilisateur a le rôle Vampire mais pas de clan
-  if (needsClanSelection && !loading && memberInfo) {
+  if (needsClanSelection && !loading) {
     const handleClanSelected = async (clanId) => {
       // Recharger les données après sélection du clan
       setNeedsClanSelection(false);
