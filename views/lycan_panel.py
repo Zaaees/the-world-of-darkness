@@ -47,12 +47,32 @@ class AuspiceSelectMenu(ui.Select):
         auspice_data = get_auspice(auspice_key)
 
         # Sauvegarder l'augure
-        await set_player(
-            interaction.user.id,
-            interaction.guild.id,
-            race="loup-garou",
-            auspice=auspice_key,
-        )
+        try:
+            await set_player(
+                interaction.user.id,
+                interaction.guild.id,
+                race="loup-garou",
+                auspice=auspice_key,
+            )
+
+            # Vérifier que la sauvegarde a réussi en relisant
+            import asyncio
+            await asyncio.sleep(0.5)  # Petit délai pour laisser Google Sheets se synchroniser
+
+            from utils.database import get_player
+            verification = await get_player(interaction.user.id, interaction.guild.id)
+            if not verification or verification.get("auspice") != auspice_key:
+                await interaction.edit_original_response(
+                    content="❌ La sauvegarde a échoué. Réessaie avec `/lycan`.",
+                )
+                return
+
+        except Exception as e:
+            # En cas d'erreur, informer l'utilisateur
+            await interaction.edit_original_response(
+                content=f"❌ Erreur lors de la sauvegarde de l'augure: {str(e)}\nRéessaie avec `/lycan`.",
+            )
+            return
 
         # Attribuer le rôle de l'augure (créer s'il n'existe pas)
         auspice_name = auspice_data["nom"]
