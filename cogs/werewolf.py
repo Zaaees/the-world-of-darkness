@@ -217,9 +217,12 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
 
         Accessible uniquement aux membres avec le rôle "Loup-garou".
         """
+        # Defer la réponse pour éviter le timeout Discord lors des appels à Google Sheets
+        await interaction.response.defer(ephemeral=True)
+
         # Vérifier le rôle
         if not has_lycan_role(interaction.user):
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Tu dois avoir le rôle **Loup-garou** pour utiliser cette commande.",
                 ephemeral=True,
             )
@@ -227,7 +230,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
 
         # Vérifier si on est dans un canal RP
         if not is_rp_channel(interaction.channel):
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
                 ephemeral=True,
             )
@@ -248,7 +251,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
             )
 
             view = AuspiceSelectView()
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 embed=embed,
                 view=view,
                 ephemeral=True,
@@ -270,7 +273,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
             )
 
             view = AuspiceSelectView()
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 embed=embed,
                 view=view,
                 ephemeral=True,
@@ -293,7 +296,7 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
             rage_data=rage_data,
         )
 
-        await interaction.response.send_message(
+        await interaction.followup.send(
             embed=panel.create_embed(),
             view=panel,
             ephemeral=True,

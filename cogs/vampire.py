@@ -42,9 +42,12 @@ class VampireCog(commands.Cog, name="Vampire"):
 
         Accessible uniquement aux membres avec le rôle "Vampire".
         """
+        # Defer la réponse pour éviter le timeout Discord lors des appels à Google Sheets
+        await interaction.response.defer(ephemeral=True)
+
         # Vérifier le rôle
         if not has_vampire_role(interaction.user):
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Tu dois avoir le rôle **Vampire** pour utiliser cette commande.",
                 ephemeral=True,
             )
@@ -52,7 +55,7 @@ class VampireCog(commands.Cog, name="Vampire"):
 
         # Vérifier si on est dans un canal RP
         if not is_rp_channel(interaction.channel):
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
                 ephemeral=True,
             )
@@ -88,7 +91,7 @@ class VampireCog(commands.Cog, name="Vampire"):
                 )
             )
 
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 embed=embed,
                 view=view,
                 ephemeral=True,
@@ -110,7 +113,7 @@ class VampireCog(commands.Cog, name="Vampire"):
             )
 
             view = ClanSelectView()
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 embed=embed,
                 view=view,
                 ephemeral=True,
@@ -134,7 +137,7 @@ class VampireCog(commands.Cog, name="Vampire"):
             saturation_points=saturation_points,
         )
 
-        await interaction.response.send_message(
+        await interaction.followup.send(
             embed=panel.create_embed(),
             view=panel,
             ephemeral=True,
