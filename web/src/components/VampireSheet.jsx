@@ -576,6 +576,17 @@ export default function VampireSheet() {
 
         const vampireProfileData = await vampireProfileResponse.json();
 
+        // Debug: afficher les infos de vérification du rôle
+        console.log('=== DEBUG VAMPIRE PROFILE ===');
+        console.log('Réponse API:', vampireProfileData);
+        console.log('has_vampire_role:', vampireProfileData.has_vampire_role);
+        console.log('clan:', vampireProfileData.clan);
+        if (vampireProfileData._debug_expected_role) {
+          console.log('Rôle attendu:', vampireProfileData._debug_expected_role);
+          console.log('Rôles du membre:', vampireProfileData._debug_member_roles);
+        }
+        console.log('=============================');
+
         if (vampireProfileData.success) {
           setVampireProfile(vampireProfileData);
 
