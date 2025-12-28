@@ -237,8 +237,21 @@ async def set_player(
 
 async def delete_player(user_id: int, guild_id: int):
     """Supprime un joueur et toutes ses données associées depuis Google Sheets."""
-    # Sauvegarder un objet vide pour réinitialiser le personnage
-    await save_to_google_sheets(user_id, {})
+    # Sauvegarder un objet avec tous les champs explicitement vides pour réinitialiser
+    cleared_data = {
+        "race": "",
+        "clan": "",
+        "auspice": "",
+        "name": "",
+        "bloodPotency": 0,
+        "saturationPoints": 0,
+        "soif": 0,
+        "completedActions": [],
+        "pendingActions": [],
+        "cooldowns": {},
+        "ghouls": [],
+    }
+    await save_to_google_sheets(user_id, cleared_data)
 
 
 # ============================================
