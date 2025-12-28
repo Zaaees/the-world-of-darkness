@@ -5,13 +5,12 @@ Cog Général : Commandes utilitaires pour tous les joueurs.
 import logging
 
 import discord
-from discord import app_commands
 from discord.ext import commands
 
 from data.clans import CLANS
 from data.auspices import AUSPICES
-from utils.database import get_player, delete_player
-from utils.rp_check import is_rp_channel
+from data.config import ROLE_VAMPIRE, ROLE_LOUP_GAROU
+from utils.database import get_player, delete_player, get_vampire_data, get_rage_data
 
 logger = logging.getLogger(__name__)
 
@@ -22,32 +21,39 @@ class GeneralCog(commands.Cog, name="Général"):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(
-        name="reset",
-        description="Réinitialise ton personnage (supprime clan/augure, soif, rage)"
-    )
-    async def reset_command(self, interaction: discord.Interaction):
+    @commands.command(name="reset")
+    @commands.has_permissions(administrator=True)
+    async def reset_command(self, ctx: commands.Context, member: discord.Member):
         """
-        Réinitialise complètement le personnage du joueur.
+        [Admin] Réinitialise complètement le personnage d'un joueur.
         Supprime le clan/augure, la soif et la rage.
         Retire également les rôles de clan/augure.
-        """
-        player = await get_player(interaction.user.id, interaction.guild.id)
 
-        if not player:
-            await interaction.response.send_message(
-                "❌ Tu n'as pas encore de personnage à réinitialiser.",
-                ephemeral=True,
+        Usage: !reset @membre
+        """
+        # Récupérer les données du joueur
+        player = await get_player(member.id, ctx.guild.id)
+
+        # Vérifier si le joueur a le rôle Vampire ou Loup-garou
+        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
+        has_werewolf_role = any(role.id == ROLE_LOUP_GAROU for role in member.roles)
+
+        # Vérifier s'il y a des données à supprimer
+        vampire_data = await get_vampire_data(member.id, ctx.guild.id) if has_vampire_role else None
+
+        if not player and not vampire_data and not has_vampire_role and not has_werewolf_role:
+            await ctx.send(
+                f"❌ {member.display_name} n'a pas de personnage à réinitialiser.",
             )
             return
 
         # Récupérer les infos avant suppression
-        clan = player.get("clan")
-        auspice = player.get("auspice")
-        race = player.get("race")
+        clan = player.get("clan") if player else None
+        auspice = player.get("auspice") if player else None
+        race = player.get("race") if player else None
 
         # Supprimer les données
-        await delete_player(interaction.user.id, interaction.guild.id)
+        await delete_player(member.id, ctx.guild.id)
 
         # Retirer les rôles de clan/augure
         roles_removed = []
@@ -55,10 +61,10 @@ class GeneralCog(commands.Cog, name="Général"):
         if clan:
             clan_data = CLANS.get(clan)
             if clan_data:
-                role = discord.utils.get(interaction.guild.roles, name=clan_data["nom"])
-                if role and role in interaction.user.roles:
+                role = discord.utils.get(ctx.guild.roles, name=clan_data["nom"])
+                if role and role in member.roles:
                     try:
-                        await interaction.user.remove_roles(role, reason="Réinitialisation du personnage")
+                        await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
                         roles_removed.append(clan_data["nom"])
                     except discord.Forbidden:
                         pass
@@ -66,21 +72,21 @@ class GeneralCog(commands.Cog, name="Général"):
         if auspice:
             auspice_data = AUSPICES.get(auspice)
             if auspice_data:
-                role = discord.utils.get(interaction.guild.roles, name=auspice_data["nom"])
-                if role and role in interaction.user.roles:
+                role = discord.utils.get(ctx.guild.roles, name=auspice_data["nom"])
+                if role and role in member.roles:
                     try:
-                        await interaction.user.remove_roles(role, reason="Réinitialisation du personnage")
+                        await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
                         roles_removed.append(auspice_data["nom"])
                     except discord.Forbidden:
                         pass
 
         # Message de confirmation
-        description = "Ton personnage a été réinitialisé.\n\n"
+        description = f"Le personnage de {member.display_name} a été réinitialisé.\n\n"
         description += "**Données supprimées :**\n"
 
-        if race == "vampire":
+        if race == "vampire" or has_vampire_role or vampire_data:
             description += "• Clan et niveau de Soif\n"
-        elif race == "loup-garou":
+        elif race == "loup-garou" or has_werewolf_role:
             description += "• Augure et Rage (toutes les scènes)\n"
         else:
             description += "• Toutes les données de personnage\n"
@@ -88,7 +94,7 @@ class GeneralCog(commands.Cog, name="Général"):
         if roles_removed:
             description += f"\n**Rôles retirés :** {', '.join(roles_removed)}"
 
-        description += "\n\n*Tu peux maintenant utiliser `/vampire` ou `/lycan` pour créer un nouveau personnage.*"
+        description += "\n\n*Le joueur peut maintenant utiliser `/vampire` ou `/lycan` pour créer un nouveau personnage.*"
 
         embed = discord.Embed(
             title="🔄 Personnage Réinitialisé",
@@ -96,8 +102,8 @@ class GeneralCog(commands.Cog, name="Général"):
             color=discord.Color.blue(),
         )
 
-        await interaction.response.send_message(embed=embed, ephemeral=True)
-        logger.info(f"Personnage réinitialisé pour {interaction.user.id} sur {interaction.guild.id}")
+        await ctx.send(embed=embed)
+        logger.info(f"Personnage réinitialisé pour {member.id} sur {ctx.guild.id} par {ctx.author.id}")
 
 
 async def setup(bot: commands.Bot):
