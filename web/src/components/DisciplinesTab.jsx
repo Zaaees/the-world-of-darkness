@@ -44,10 +44,13 @@ const PowerCard = ({ power, isLocked }) => {
           {power.level}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <h4 className={`font-serif text-sm ${isLocked ? 'text-stone-600' : 'text-stone-200'}`}>
               {power.name}
             </h4>
+            <span className={`text-xs ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
+              • Niveau {power.level}
+            </span>
             {isLocked && <Lock size={12} className="text-stone-600" />}
           </div>
           <p className={`text-xs mt-1 leading-relaxed ${isLocked ? 'text-stone-700' : 'text-stone-400'}`}>
@@ -82,12 +85,7 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel }) => {
           </h3>
           <p className="text-xs text-stone-500">{discipline.description}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-stone-600">
-            Niv. 1-{maxAccessibleLevel}
-          </span>
-          {isOpen ? <ChevronUp size={16} className="text-stone-600" /> : <ChevronDown size={16} className="text-stone-600" />}
-        </div>
+        {isOpen ? <ChevronUp size={16} className="text-stone-600" /> : <ChevronDown size={16} className="text-stone-600" />}
       </button>
 
       {isOpen && (
@@ -151,7 +149,7 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
       {/* Note sur la progression */}
       {bloodPotency < 4 && (
         <div className="text-center text-xs text-stone-600 italic py-4 border-t border-stone-900">
-          Augmentez votre Puissance du Sang pour débloquer des niveaux supérieurs
+          Augmentez votre Puissance du Sang pour débloquer de nouvelles disciplines
         </div>
       )}
     </div>
