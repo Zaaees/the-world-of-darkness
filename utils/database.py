@@ -1037,10 +1037,84 @@ async def get_max_ghouls(vampire_user_id: int, vampire_guild_id: int) -> int:
 # ============================================
 
 
-# Alias pour cogs.vampire
+# Alias pour cogs.vampire et views.vampire_panel
 async def get_soif(user_id: int, guild_id: int) -> int:
     """Alias de get_vampire_soif pour compatibilité."""
     return await get_vampire_soif(user_id, guild_id)
+
+
+async def set_soif(user_id: int, guild_id: int, soif_level: int):
+    """Alias de set_vampire_soif pour compatibilité."""
+    return await set_vampire_soif(user_id, guild_id, soif_level)
+
+
+async def increment_soif(user_id: int, guild_id: int, amount: int = 1):
+    """Incrémente la soif d'un vampire."""
+    current_soif = await get_vampire_soif(user_id, guild_id)
+    new_soif = min(5, current_soif + amount)
+    await set_vampire_soif(user_id, guild_id, new_soif)
+    return new_soif
+
+
+async def set_vampire_data(
+    user_id: int,
+    guild_id: int,
+    soif_level: Optional[int] = None,
+    blood_potency: Optional[int] = None,
+    saturation_points: Optional[int] = None,
+):
+    """Met à jour les données vampire."""
+    if soif_level is not None:
+        await set_vampire_soif(user_id, guild_id, soif_level)
+    if blood_potency is not None:
+        await set_blood_potency(user_id, guild_id, blood_potency)
+    if saturation_points is not None:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            await db.execute(
+                """
+                INSERT INTO vampire_soif (user_id, guild_id, saturation_points)
+                VALUES (?, ?, ?)
+                ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                    saturation_points = excluded.saturation_points
+                """,
+                (user_id, guild_id, saturation_points),
+            )
+            await db.commit()
+
+
+async def get_min_soif(user_id: int, guild_id: int) -> int:
+    """Récupère le minimum de soif selon la Blood Potency."""
+    blood_potency = await get_blood_potency(user_id, guild_id)
+    if blood_potency >= 4:
+        return 2
+    elif blood_potency >= 3:
+        return 1
+    return 0
+
+
+async def get_saturation_threshold(user_id: int, guild_id: int) -> int:
+    """Récupère le seuil de saturation selon la Blood Potency."""
+    blood_potency = await get_blood_potency(user_id, guild_id)
+    thresholds = {1: 30, 2: 60, 3: 120, 4: 250, 5: float("inf")}
+    return thresholds.get(blood_potency, 30)
+
+
+async def reset_vampire_data(user_id: int, guild_id: int):
+    """Réinitialise toutes les données vampire."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            "DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        await db.execute(
+            "DELETE FROM vampire_ghouls WHERE vampire_user_id = ? AND vampire_guild_id = ?",
+            (user_id, guild_id),
+        )
+        await db.commit()
+
+
+# Constante pour views.vampire_panel
+SATURATION_THRESHOLDS = {1: 30, 2: 60, 3: 120, 4: 250, 5: float("inf")}
 
 
 # Alias pour cogs.werewolf et cogs.general
@@ -1070,6 +1144,26 @@ async def set_rage_data(
         last_message_id,
         others_spoke_since,
     )
+
+
+async def increment_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 1):
+    """Incrémente la rage d'un loup-garou dans un salon."""
+    rage_data = await get_werewolf_rage(user_id, guild_id, channel_id)
+    if rage_data:
+        new_rage = min(5, rage_data["rage_level"] + amount)
+        await set_werewolf_rage(
+            user_id,
+            guild_id,
+            channel_id,
+            new_rage,
+            rage_data["is_enraged"],
+            rage_data["maintien_counter"],
+            rage_data["last_message_id"],
+            rage_data["others_spoke_since"],
+        )
+    else:
+        # Initialiser si n'existe pas
+        await set_werewolf_rage(user_id, guild_id, channel_id, amount, False, 0, None, False)
 
 
 async def decrement_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 2):
@@ -1207,3 +1301,70 @@ async def has_pending_action(user_id: int, guild_id: int, action_id: str) -> boo
             (user_id, guild_id, action_id),
         )
         return await cursor.fetchone() is not None
+
+
+# Alias pour views.blood_action_validation
+async def validate_action(submission_id: str, validator_id: int, points_awarded: Optional[int] = None) -> dict:
+    """Alias de validate_blood_action pour compatibilité."""
+    return await validate_blood_action(submission_id, validator_id, points_awarded)
+
+
+async def refuse_action(submission_id: str, validator_id: int, reason: Optional[str] = None):
+    """Alias de refuse_blood_action pour compatibilité."""
+    return await refuse_blood_action(submission_id, validator_id, reason)
+
+
+async def get_pending_action(submission_id: str) -> Optional[dict]:
+    """Récupère une action en attente par son ID."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE submission_id = ?",
+            (submission_id,),
+        )
+        row = await cursor.fetchone()
+        return dict(row) if row else None
+
+
+async def update_pending_action_message(submission_id: str, message_id: int):
+    """Met à jour l'ID du message Discord pour une action en attente."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            "ALTER TABLE pending_blood_actions ADD COLUMN message_id INTEGER DEFAULT NULL"
+        )
+        await db.execute(
+            "UPDATE pending_blood_actions SET message_id = ? WHERE submission_id = ?",
+            (message_id, submission_id),
+        )
+        await db.commit()
+
+
+async def get_user_pending_actions(user_id: int, guild_id: int) -> list[dict]:
+    """Alias de get_pending_actions pour compatibilité."""
+    return await get_pending_actions(user_id, guild_id)
+
+
+async def get_user_completed_unique_actions(user_id: int, guild_id: int) -> list[str]:
+    """Récupère les IDs des actions uniques complétées par un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        rows = await cursor.fetchall()
+        return [row[0] for row in rows]
+
+
+async def get_user_action_cooldowns(user_id: int, guild_id: int) -> dict:
+    """Récupère les cooldowns actifs pour un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            """
+            SELECT action_id, expires_at FROM action_cooldowns
+            WHERE user_id = ? AND guild_id = ? AND expires_at > datetime('now')
+            """,
+            (user_id, guild_id),
+        )
+        rows = await cursor.fetchall()
+        return {row["action_id"]: row["expires_at"] for row in rows}
