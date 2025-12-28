@@ -235,11 +235,23 @@ async def set_player(
     await save_to_google_sheets(user_id, character)
 
 
-async def delete_player(user_id: int, guild_id: int):
-    """Supprime un joueur et toutes ses données associées depuis Google Sheets."""
+async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
+    """
+    Supprime un joueur et toutes ses données associées depuis Google Sheets.
+
+    Args:
+        keep_race: Si True, garde le champ 'race' pour permettre l'accès au site web
+    """
+    # Récupérer la race actuelle si on doit la garder
+    current_race = ""
+    if keep_race:
+        character = await get_from_google_sheets(user_id)
+        if character:
+            current_race = character.get("race", "")
+
     # Sauvegarder un objet avec tous les champs explicitement vides pour réinitialiser
     cleared_data = {
-        "race": "",
+        "race": current_race,  # Garde la race si keep_race=True
         "clan": "",
         "auspice": "",
         "name": "",
@@ -252,6 +264,20 @@ async def delete_player(user_id: int, guild_id: int):
         "ghouls": [],
     }
     await save_to_google_sheets(user_id, cleared_data)
+
+    # Réinitialiser aussi les données de session SQLite
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Réinitialiser vampire_soif
+        await db.execute(
+            "DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        # Réinitialiser werewolf_rage pour tous les canaux
+        await db.execute(
+            "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        await db.commit()
 
 
 # ============================================
