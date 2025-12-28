@@ -109,9 +109,15 @@ class LycanPanel(ui.View):
         self.guild_id = guild_id
         self.channel_id = channel_id
         self.auspice = auspice
-        self.rage_level = rage_data.get("rage_level", 0)
-        self.is_enraged = rage_data.get("is_enraged", False)
-        self.maintien_counter = rage_data.get("maintien_counter", 0)
+        # Gérer le cas où rage_data est None
+        if rage_data:
+            self.rage_level = rage_data.get("rage_level", 0)
+            self.is_enraged = rage_data.get("is_enraged", False)
+            self.maintien_counter = rage_data.get("maintien_counter", 0)
+        else:
+            self.rage_level = 0
+            self.is_enraged = False
+            self.maintien_counter = 0
         self.rage_notification = None  # Message de rage à afficher dans le panneau
 
     def _create_rage_bar(self) -> str:
