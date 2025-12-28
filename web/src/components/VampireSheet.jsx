@@ -477,9 +477,8 @@ export default function VampireSheet() {
     if (!discordUser) return;
 
     try {
-      setLoading(true);
       setError(null);
-      setNotVampire(false);
+      // Note: ne PAS reset notVampire/needsClanSelection ici, loadMemberInfo les gère
 
       const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(discordUser.id)}`;
       const response = await fetch(url);
@@ -525,8 +524,9 @@ export default function VampireSheet() {
   }, [discordUser, memberInfo]);
 
   // Charger les infos du membre sur le serveur et vérifier le profil vampire
+  // Retourne true si l'utilisateur a accès et qu'on doit charger le personnage
   const loadMemberInfo = useCallback(async () => {
-    if (!discordUser) return;
+    if (!discordUser) return false;
 
     try {
       // D'abord, détecter le serveur de l'utilisateur
@@ -540,7 +540,9 @@ export default function VampireSheet() {
 
       if (!guildData.success) {
         console.error('Erreur détection serveur:', guildData.error);
-        return;
+        setNotVampire(true);
+        setLoading(false);
+        return false;
       }
 
       const guildId = guildData.guild_id;
@@ -579,33 +581,36 @@ export default function VampireSheet() {
           if (vampireProfileData.has_vampire_role && !vampireProfileData.clan) {
             setNeedsClanSelection(true);
             setLoading(false);
-            return; // Ne pas charger le character si on doit sélectionner un clan
+            return false; // Ne pas charger le character si on doit sélectionner un clan
           }
 
           // Si l'utilisateur n'a PAS le rôle Vampire, refuser l'accès
           if (!vampireProfileData.has_vampire_role) {
             setNotVampire(true);
             setLoading(false);
-            return;
+            return false;
           }
+
+          // Utilisateur a le rôle vampire ET un clan → continuer
+          return true;
         } else {
           // Si l'API vampire profile échoue, refuser l'accès par sécurité
           console.error('Échec API vampire profile:', vampireProfileData);
           setNotVampire(true);
           setLoading(false);
-          return;
+          return false;
         }
       } catch (err) {
         console.error('Erreur chargement profil vampire:', err);
         setNotVampire(true);
         setLoading(false);
-        return;
+        return false;
       }
     } catch (err) {
       console.error('Erreur chargement member info:', err);
       setNotVampire(true);
       setLoading(false);
-      return;
+      return false;
     }
   }, [discordUser]);
 
@@ -622,20 +627,15 @@ export default function VampireSheet() {
         setNotVampire(false);
         setNeedsClanSelection(false);
 
-        // Charger les infos du membre
-        await loadMemberInfo();
+        // Charger les infos du membre et vérifier l'accès
+        const shouldLoadCharacter = await loadMemberInfo();
 
         // Si le composant est démonté, arrêter
         if (!isActive) return;
 
-        // loadMemberInfo peut avoir set needsClanSelection ou notVampire et mis loading=false
+        // Si loadMemberInfo a retourné false, l'accès est refusé ou sélection de clan requise
         // Dans ce cas, ne PAS appeler loadCharacter
-        // On attend un micro-tick pour que React mette à jour les states
-        await Promise.resolve();
-
-        // Si loading est toujours true après loadMemberInfo, on continue avec loadCharacter
-        // Sinon, c'est que loadMemberInfo a fini le flux (accès refusé ou sélection de clan)
-        if (isActive && loadCharacter) {
+        if (shouldLoadCharacter) {
           await loadCharacter();
         }
 
