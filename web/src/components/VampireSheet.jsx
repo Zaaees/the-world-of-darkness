@@ -264,7 +264,7 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
 
 // Composant pour une catégorie d'actions
 const ActionCategory = ({ category, character, completedActions, pendingActions, cooldowns, submittingAction, onSubmitAction }) => {
-  const [isOpen, setIsOpen] = useState(category.id === "unique" || category.id === "crisis");
+  const [isOpen, setIsOpen] = useState(false); // Toutes les catégories fermées par défaut
   const CategoryIcon = category.icon;
   const bloodPotency = character.bloodPotency || 1;
 
