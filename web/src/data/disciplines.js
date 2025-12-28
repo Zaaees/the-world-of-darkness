@@ -571,6 +571,171 @@ export const DISCIPLINES = {
         description: "La frontière entre illusion et réalité s'efface. Tes créations deviennent horriblement réelles pour ceux qui y croient. Le feu illusoire brûle vraiment, la balle illusoire blesse vraiment, le mur illusoire arrête vraiment - mais seulement pour ceux qui sont convaincus. Si tu crois que le feu te consume, ton corps développe de vraies brûlures psychosomatiques. Si tu crois que l'assassin t'a poignardé, tu saignes. Les dégâts sont réels, potentiellement mortels. Mais si quelqu'un réalise la supercherie, l'illusion perd son pouvoir sur lui. C'est la réalité façonnée par la croyance, le mensonge ultime qui devient vérité."
       }
     ]
+  },
+
+  flight: {
+    id: "flight",
+    name: "Vol",
+    description: "Les ailes de pierre battent. Le ciel nocturne t'appartient, défiant la gravité comme seuls les monstres le peuvent.",
+    powers: [
+      {
+        level: 1,
+        name: "Lévitation",
+        description: "Concentre-toi et tes pieds quittent le sol. Tu flottes à quelques mètres de hauteur, te déplaçant lentement dans les airs comme suspendu par des fils invisibles. Parfait pour atteindre un toit, franchir un gouffre, ou impressionner par ta nature surnaturelle. Mais reste à portée du sol : monter trop haut ou perdre ta concentration te ferait chuter brutalement."
+      },
+      {
+        level: 2,
+        name: "Planer",
+        description: "Lance-toi dans le vide et plane comme un rapace. Tu ne peux pas vraiment voler, mais tu contrôles ta chute avec grâce, glissant sur les courants d'air pour parcourir de grandes distances. Saute d'un immeuble et atterris en douceur trois rues plus loin. Poursuis une cible en sautant de toit en toit sans jamais toucher terre. La ville devient un terrain de chasse tridimensionnel."
+      },
+      {
+        level: 3,
+        name: "Ailes de Nuit",
+        description: "Des ailes de chair et de pierre émergent de ton dos dans un craquement horrible. Tu voles maintenant vraiment, battant des ailes pour t'élever dans le ciel nocturne. Vole au-dessus de la ville, patrouille ton territoire vu d'en haut, fond sur tes ennemis comme un démon ailé. Ta silhouette monstrueuse dans le ciel est une vision de cauchemar médiéval."
+      },
+      {
+        level: 4,
+        name: "Vol Supersonique",
+        description: "Tes ailes sont puissantes. Tu files dans le ciel à une vitesse terrifiante, traversant la ville en minutes. Rattrape une voiture en fuite, voyage entre les cités en une seule nuit, ou frappe depuis les airs avec la force d'une météorite. Le vent hurle autour de toi, ta forme un éclair noir dans la nuit."
+      },
+      {
+        level: 5,
+        name: "Maître du Ciel",
+        description: "Le ciel t'obéit. Vole dans n'importe quelle condition : tempête, vent violent, même à travers les flammes. Tu peux emporter des passagers, voler en portant un poids énorme, ou exécuter des manœuvres impossibles. Plonge en piqué à travers une fenêtre, vole à l'envers sous un pont, reste immobile en vol stationnaire. Tu es aussi à l'aise dans les airs qu'au sol, peut-être plus."
+      }
+    ]
+  },
+
+  visceratika: {
+    id: "visceratika",
+    name: "Visceratika",
+    description: "La pierre coule dans tes veines. Ta chair devient marbre, tes os se tordent en armes vivantes. Le corps comme argile.",
+    powers: [
+      {
+        level: 1,
+        name: "Peau de Marbre",
+        description: "Ta peau durcit, devient grise et lisse comme de la pierre polie. Les coups glissent, les lames rebondissent. Tu encaisses des blessures qui tueraient un mortel : couteaux, balles, chutes. Ta chair résonne d'un bruit sourd et creux quand on te frappe. L'armure naturelle du golem, gravée dans ta chair maudite."
+      },
+      {
+        level: 2,
+        name: "Griffes d'Obsidienne",
+        description: "Tes doigts se tordent, les ongles s'allongent en griffes de pierre noire tranchantes comme du verre volcanique. Taille à travers la chair, déchire le métal, lacère les os. Tes mains deviennent des armes mortelles qui ne se brisent jamais, ne s'émoussent jamais. Le sang glisse sur l'obsidienne comme sur du verre."
+      },
+      {
+        level: 3,
+        name: "Modelage Corporel",
+        description: "Modèle ta chair comme de l'argile. Fait pousser des pointes osseuses de ton dos, transforme ton bras en masse de pierre, ouvre un œil supplémentaire sur ta paume. Chaque transformation est douloureuse, un craquement d'os et un déchirement de chair, mais le résultat est fonctionnel. Armes naturelles, armure supplémentaire, outils organiques - ton corps devient ce dont tu as besoin."
+      },
+      {
+        level: 4,
+        name: "Forme de Gargouille",
+        description: "Transforme-toi complètement : corps massif de pierre grise, ailes membraneuses, griffes et crocs, yeux rouges brûlants. Tu deviens une véritable gargouille, statue vivante et terrifiante. Dans cette forme, tu es incroyablement résistant, les balles ricochent, les lames se brisent. Mais tu es aussi lourd, moins agile. La forme ultime du gardien de pierre."
+      },
+      {
+        level: 5,
+        name: "Âme de Granit",
+        description: "Transforme entièrement en statue de pierre à volonté. Dans cet état, tu es totalement immobile mais pratiquement indestructible. Le feu ne te brûle pas, le soleil ne te consume pas, les siècles peuvent passer sans t'affecter. Perché sur un toit, tu sembles une simple gargouille décorative pendant des années si nécessaire. Reviens à la vie quand tu le décides, explosant de ta prison de pierre dans un déluge de gravats. L'immortalité par pétrification."
+      }
+    ]
+  },
+
+  thanatosis: {
+    id: "thanatosis",
+    name: "Thanatosis",
+    description: "Tu es la mort qui marche. La putréfaction est ton royaume, le tombeau ta demeure. La frontière entre cadavre et vampire s'efface.",
+    powers: [
+      {
+        level: 1,
+        name: "Masque Cadavérique",
+        description: "Concentre-toi et ton apparence devient celle d'un cadavre : peau blafarde et froide, yeux vitreux, rigidité mortelle. Tu sembles mort depuis des heures, assez pour tromper même un médecin. Parfait pour échapper aux chasseurs, infiltrer une morgue, ou simplement terroriser. L'odeur douceâtre de la mort commence même à suinter de ta peau."
+      },
+      {
+        level: 2,
+        name: "Putréfaction",
+        description: "Accélère la décomposition de ta propre chair. Ta peau se couvre de plaies suppurantes, tes doigts noircissent, l'odeur devient insupportable. Mais dans cet état de pourriture avancée, tu deviens résistant aux dégâts : les balles traversent de la chair morte qui ne ressent rien, les coups de couteau ne font que détacher des morceaux qui se régénèrent. Tu es déjà mort, comment te tuer à nouveau ?"
+      },
+      {
+        level: 3,
+        name: "Cri de la Tombe",
+        description: "Pousse un hurlement d'outre-tombe, un son d'agonie et de désespoir qui glace le sang. Tous ceux qui l'entendent sont paralysés par une terreur primale, leur instinct hurlant de fuir la chose morte qui marche. Les mortels s'enfuient en panique ou se figent, tétanisés. Même les vampires doivent lutter contre l'envie de fuir cette chose qui incarne leur propre nature monstrueuse."
+      },
+      {
+        level: 4,
+        name: "Invasion Parasitaire",
+        description: "Ton corps libère un nuage d'insectes nécrophages : mouches, asticots, scarabées. Ils grouillent hors de ta bouche, de tes plaies, de tes yeux. Le nuage obscurcit la vision, les insectes mordent et piquent, s'infiltrent sous les vêtements, dans les oreilles, les narines. Tes ennemis sont aveuglés, dégoûtés, paniqués par ce déluge de vermine. Les insectes te retournent ensuite, rampant sous ta peau."
+      },
+      {
+        level: 5,
+        name: "Mort Simulée Parfaite",
+        description: "Entre en état de mort totale. Ton cœur s'arrête complètement, ta chair devient froide comme la glace, la rigidité cadavérique s'installe. Même un examen médical approfondi confirmera ta mort. Aucun signe vital, aucune réaction aux stimuli, même les tests sanguins montrent un cadavre. Tu peux rester dans cet état indéfiniment, conscient mais immobile, attendant le moment parfait pour 'ressusciter'. Le piège ultime, l'infiltration parfaite, ou simplement un sommeil qui ressemble enfin à la paix de la mort."
+      }
+    ]
+  },
+
+  melpominee: {
+    id: "melpominee",
+    name: "Melpominée",
+    description: "Ta voix porte le pouvoir des sirènes. Le chant devient arme, la mélodie devient sortilège. La musique façonne les âmes.",
+    powers: [
+      {
+        level: 1,
+        name: "Voix Enchanteresse",
+        description: "Chante ou parle et ta voix devient irrésistiblement belle, hypnotique. Ceux qui t'écoutent sont captivés, incapables de détourner leur attention. Un garde oublie sa vigilance pour t'écouter, une foule s'arrête fascinée, une cible baisse sa garde. Ta voix porte une suggestion subtile d'amitié et de confiance. Les gens veulent t'écouter, veulent te croire."
+      },
+      {
+        level: 2,
+        name: "Cri Destructeur",
+        description: "Pousse une note aiguë et surpuissante qui fait trembler l'air. Le verre explose en éclats, les tympans saignent, les structures fragiles se fissurent. Brise des fenêtres à distance, fais s'effondrer un lustre, rend tes ennemis sourds et désorientés. Plus tu maintiens la note, plus les dégâts sont importants. Les murs eux-mêmes peuvent céder à ta voix de destruction."
+      },
+      {
+        level: 3,
+        name: "Sérénade Ensorcelante",
+        description: "Chante une mélodie et implante une émotion spécifique dans le cœur de ton audience. Joie euphorique, tristesse écrasante, terreur paralysante, rage aveugle - tu choisis. Une salle entière peut être plongée dans le désespoir, une foule hostile calmée par la mélancolie, des ennemis terrifiés jusqu'à la fuite. L'émotion semble venir de leur propre cœur, pas de manipulation externe. Ta musique façonne leurs âmes."
+      },
+      {
+        level: 4,
+        name: "Voix du Maître",
+        description: "Chante un commandement et ceux qui t'écoutent obéissent. Comme la Domination mais portée par ta voix de sirène, affectant tous ceux à portée simultanément. 'Dormez', et ils s'effondrent. 'Fuyez', et ils courent. 'Oubliez', et leurs souvenirs s'effacent. Plus l'ordre est simple, plus il est efficace. Une foule entière peut être contrôlée par une seule chanson, transformée en marionnettes dansant sur tes notes."
+      },
+      {
+        level: 5,
+        name: "Requiem de Sang",
+        description: "Chante la note de mort, la fréquence qui fait résonner le sang lui-même. Ceux qui l'entendent sentent leur sang vibrer douloureusement dans leurs veines. Les mortels saignent des yeux, des oreilles, effondrent avec des hémorragies internes massives. Les vampires résistent mieux mais souffrent terriblement, leur Vitae s'agitant contre sa prison de chair. Maintiens la note assez longtemps et les cœurs éclatent, les vaisseaux se rompent, le sang jaillit de chaque orifice. La mort par symphonie."
+      }
+    ]
+  },
+
+  daimoinon: {
+    id: "daimoinon",
+    name: "Daimoinon",
+    description: "Les portes de l'Enfer s'entrouvrent à ton appel. Le feu infernal brûle dans tes veines, les démons murmurent tes noms.",
+    powers: [
+      {
+        level: 1,
+        name: "Flammes de l'Enfer",
+        description: "Invoque des flammes noires et glacées qui brûlent d'un froid surnaturel. Ces feux infernaux consument la chair mais laissent étrangement les objets intacts. Allume un feu dans ta paume pour éclairer les ténèbres d'une lueur sinistre, embrase ta main pour une touche brûlante, ou lance une gerbe de flammes noires. Le feu fait mal même aux vampires, mais toi il t'obéit."
+      },
+      {
+        level: 2,
+        name: "Peur du Vide",
+        description: "Ouvre brièvement un aperçu de l'Abîme dans l'esprit de ta cible. Elle voit, l'espace d'un instant horrible, l'immensité du néant infernal, le vide hurlant où les âmes damnées s'effacent. La terreur existentielle la paralyse. Les mortels s'effondrent, catatoniques. Les vampires luttent pour ne pas fuir en Rötschreck, leur Bête hurlant devant ce qui est pire que la mort. L'aperçu de la damnation véritable."
+      },
+      {
+        level: 3,
+        name: "Malédiction Infernale",
+        description: "Prononce une malédiction et la cible devient marquée par les forces infernales. Rien de dramatique immédiatement, mais sa chance tourne : les accidents s'accumulent, les plans échouent, les alliés le trahissent. Les choses vont mal, constamment. La malédiction dure des semaines, un poids d'infortune qui semble venir de nulle part. Comme si le destin lui-même conspirait contre elle."
+      },
+      {
+        level: 4,
+        name: "Invoquer le Démon Mineur",
+        description: "Ouvre un portail et invoque une créature de l'Enfer. Pas un démon majeur, mais quelque chose de petit et vicieux : une ombre griffue, un diablotin ricanant, une masse de tentacules qui suintent. La créature obéit à tes ordres pour la durée de la nuit - espionner, attaquer, terroriser. Elle pue le soufre et disparaît dans un éclair de feu à l'aube. Mais chaque invocation te marque un peu plus, te lie davantage aux Enfers."
+      },
+      {
+        level: 5,
+        name: "Avatar Infernal",
+        description: "Transforme-toi en incarnation diabolique : cornes torsadées, peau écarlate, yeux de braise, ailes de chauve-souris, queue fouettante. Dans cette forme, tu dégages une aura de terreur primale qui fait fuir même les courageux. Ta force augmente, ta résistance devient surhumaine. Les flammes infernales dansent autour de toi sans te brûler. Tu ressembles à ce que tu es vraiment : une créature damnée, un serviteur des Enfers, un démon fait chair. La vision finale de l'horreur."
+      }
+    ]
   }
 };
 
@@ -585,10 +750,14 @@ export const CLAN_DISCIPLINES = {
   ventrue: ["dominate", "fortitude", "presence"],
   lasombra: ["dominate", "obtenebration", "potence"],
   tzimisce: ["animalism", "auspex", "vicissitude"],
-  hecata: ["auspex", "fortitude", "necromancy"],
-  ministry: ["obfuscate", "presence", "serpentis"],
-  banu_haqim: ["celerity", "obfuscate", "quietus"],
-  ravnos: ["animalism", "chimerstry", "fortitude"]
+  giovanni: ["auspex", "fortitude", "necromancy"],
+  setites: ["obfuscate", "presence", "serpentis"],
+  assamites: ["celerity", "obfuscate", "quietus"],
+  ravnos: ["animalism", "chimerstry", "fortitude"],
+  gargoyles: ["flight", "fortitude", "potence", "visceratika"],
+  samedi: ["fortitude", "obfuscate", "thanatosis"],
+  daughters_of_cacophony: ["fortitude", "melpominee", "presence"],
+  baali: ["daimoinon", "obfuscate", "presence"]
 };
 
 // Niveau maximum de discipline selon la Puissance du Sang

@@ -21,10 +21,14 @@ const CLAN_DISCIPLINES = {
   ventrue: ['Domination', 'Force d\'Âme', 'Présence'],
   lasombra: ['Domination', 'Obténébration', 'Puissance'],
   tzimisce: ['Animalisme', 'Auspex', 'Vicissitude'],
-  assamite: ['Célérité', 'Occultation', 'Quietus'],
-  setite: ['Occultation', 'Présence', 'Serpentis'],
+  giovanni: ['Auspex', 'Force d\'Âme', 'Nécromancie'],
+  setites: ['Occultation', 'Présence', 'Serpentis'],
+  assamites: ['Célérité', 'Occultation', 'Quietus'],
   ravnos: ['Animalisme', 'Chimérie', 'Force d\'Âme'],
-  giovanni: ['Domination', 'Nécromancie', 'Puissance'],
+  gargoyles: ['Vol', 'Force d\'Âme', 'Puissance', 'Visceratika'],
+  samedi: ['Force d\'Âme', 'Occultation', 'Thanatosis'],
+  daughters_of_cacophony: ['Force d\'Âme', 'Melpominée', 'Présence'],
+  baali: ['Daimoinon', 'Occultation', 'Présence']
 };
 
 // Pouvoirs de niveau 1 pour chaque discipline
@@ -46,6 +50,11 @@ const DISCIPLINE_POWERS = {
   'Serpentis': 'Regard Hypnotique',
   'Aliénation': 'Passion',
   'Chimérie': 'Ignis Fatuus',
+  'Vol': 'Lévitation',
+  'Visceratika': 'Peau de Marbre',
+  'Thanatosis': 'Masque Cadavérique',
+  'Melpominée': 'Voix Enchanteresse',
+  'Daimoinon': 'Flammes de l\'Enfer',
 };
 
 export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
