@@ -477,10 +477,13 @@ export default function VampireSheet() {
           return;
         }
 
+        // Utiliser le display name du serveur comme fallback au lieu du username brut
+        const defaultName = memberInfo?.display_name || discordUser.username;
+
         setCharacter({
           ...DEFAULT_CHARACTER,
           ...data.character,
-          name: data.character.name || discordUser.username,
+          name: data.character.name || defaultName,
           bloodPotency: Number(data.character.bloodPotency) || 1,
           saturationPoints: Number(data.character.saturationPoints) || 0,
           completedActions: data.character.completedActions || [],
@@ -498,7 +501,7 @@ export default function VampireSheet() {
     } finally {
       setLoading(false);
     }
-  }, [discordUser]);
+  }, [discordUser, memberInfo]);
 
   // Charger les infos du membre sur le serveur
   const loadMemberInfo = useCallback(async () => {
@@ -539,11 +542,12 @@ export default function VampireSheet() {
     }
   }, [discordUser]);
 
-  // Charger le personnage et les infos du membre quand l'utilisateur Discord est connecté
+  // Charger les infos du membre d'abord, puis le personnage
   useEffect(() => {
     if (discordUser) {
-      loadCharacter();
-      loadMemberInfo();
+      loadMemberInfo().then(() => {
+        loadCharacter();
+      });
     }
   }, [discordUser, loadCharacter, loadMemberInfo]);
 
