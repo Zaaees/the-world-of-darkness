@@ -611,18 +611,51 @@ export default function VampireSheet() {
 
   // Charger les infos du membre d'abord, puis le personnage
   useEffect(() => {
-    if (discordUser) {
-      setLoading(true); // Important: remettre loading à true avant les appels async
-      loadMemberInfo().then(() => {
-        loadCharacter();
-      }).catch((err) => {
+    let isActive = true;
+
+    const loadData = async () => {
+      if (!discordUser) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+        setNotVampire(false);
+        setNeedsClanSelection(false);
+
+        // Charger les infos du membre
+        await loadMemberInfo();
+
+        // Si le composant est démonté, arrêter
+        if (!isActive) return;
+
+        // loadMemberInfo peut avoir set needsClanSelection ou notVampire et mis loading=false
+        // Dans ce cas, ne PAS appeler loadCharacter
+        // On attend un micro-tick pour que React mette à jour les states
+        await Promise.resolve();
+
+        // Si loading est toujours true après loadMemberInfo, on continue avec loadCharacter
+        // Sinon, c'est que loadMemberInfo a fini le flux (accès refusé ou sélection de clan)
+        if (isActive && loadCharacter) {
+          await loadCharacter();
+        }
+
+      } catch (err) {
         console.error('Erreur chargement données:', err);
-        setNotVampire(true);
-        setLoading(false);
-      });
-    }
+        if (isActive) {
+          setError('Erreur de chargement des données');
+          setNotVampire(true);
+          setLoading(false);
+        }
+      }
+    };
+
+    loadData();
+
+    return () => {
+      isActive = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [discordUser]); // On appelle les fonctions directement, pas besoin de les mettre en dépendances
+  }, [discordUser]);
 
   // Sauvegarder vers Google Sheets
   // Note: On exclut les champs gérés par le bot Discord (completedActions, cooldowns, bloodPotency, saturationPoints)
