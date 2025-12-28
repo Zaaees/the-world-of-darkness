@@ -499,42 +499,51 @@ export default function VampireSheet() {
   }, [discordUser]);
 
   // Charger les infos du membre sur le serveur
-  const loadMemberInfo = useCallback(async (guildId) => {
-    if (!discordUser || !guildId) return;
+  const loadMemberInfo = useCallback(async () => {
+    if (!discordUser) return;
 
     try {
-      const response = await fetch(`${API_URL}/api/member`, {
+      // D'abord, détecter le serveur de l'utilisateur
+      const guildResponse = await fetch(`${API_URL}/api/guild`, {
         headers: {
           'X-Discord-User-ID': discordUser.id,
-          'X-Discord-Guild-ID': guildId.toString(),
         },
       });
 
-      const data = await response.json();
+      const guildData = await guildResponse.json();
 
-      if (data.success) {
-        setMemberInfo(data);
+      if (!guildData.success) {
+        console.error('Erreur détection serveur:', guildData.error);
+        return;
+      }
+
+      // Ensuite, charger les infos du membre sur ce serveur
+      const memberResponse = await fetch(`${API_URL}/api/member`, {
+        headers: {
+          'X-Discord-User-ID': discordUser.id,
+          'X-Discord-Guild-ID': guildData.guild_id.toString(),
+        },
+      });
+
+      const memberData = await memberResponse.json();
+
+      if (memberData.success) {
+        setMemberInfo(memberData);
       } else {
-        console.error('Erreur chargement member info:', data.error);
+        console.error('Erreur chargement member info:', memberData.error);
       }
     } catch (err) {
       console.error('Erreur chargement member info:', err);
     }
   }, [discordUser]);
 
-  // Charger le personnage quand l'utilisateur Discord est connecté
+  // Charger le personnage et les infos du membre quand l'utilisateur Discord est connecté
   useEffect(() => {
     if (discordUser) {
       loadCharacter();
+      loadMemberInfo();
     }
-  }, [discordUser, loadCharacter]);
-
-  // Charger les infos du membre quand on a le character avec guild_id
-  useEffect(() => {
-    if (character?.guild_id && !memberInfo) {
-      loadMemberInfo(character.guild_id);
-    }
-  }, [character?.guild_id, memberInfo, loadMemberInfo]);
+  }, [discordUser, loadCharacter, loadMemberInfo]);
 
   // Sauvegarder vers Google Sheets
   // Note: On exclut les champs gérés par le bot Discord (completedActions, cooldowns, bloodPotency, saturationPoints)
@@ -791,8 +800,8 @@ export default function VampireSheet() {
                 {character.clan && `${character.clan} • `}Puissance {character.bloodPotency} • {currentStage.rank}
               </div>
               {memberInfo && (
-                <div className="text-xs text-stone-600 mt-0.5">
-                  {memberInfo.display_name}
+                <div className="text-xs text-stone-400 mt-0.5">
+                  Joué par <span className="font-medium text-stone-300">{memberInfo.display_name}</span>
                 </div>
               )}
             </div>
@@ -823,8 +832,8 @@ export default function VampireSheet() {
                 : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
             }`}
           >
-            <ScrollText size={16} />
-            Fiche
+            <Droplet size={16} />
+            Vitae
           </button>
           <button
             onClick={() => setActiveTab('disciplines')}
@@ -964,10 +973,10 @@ export default function VampireSheet() {
         )}
 
         {/* ONGLET GOULES */}
-        {activeTab === 'ghouls' && (
+        {activeTab === 'ghouls' && memberInfo && (
           <GhoulsTab
             discordUserId={discordUser.id}
-            discordGuildId={character.guild_id || '1'} // TODO: get actual guild_id
+            discordGuildId={memberInfo.guild_id}
             clan={character.clan}
             bloodPotency={character.bloodPotency}
           />

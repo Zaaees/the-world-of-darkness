@@ -306,7 +306,6 @@ export default function GhoulsTab({ discordUserId, discordGuildId, clan, bloodPo
         <ul className="space-y-1 list-disc list-inside">
           <li>Chaque goule reçoit aléatoirement une discipline de ton clan (niveau 1)</li>
           <li>Le nombre maximum de goules augmente avec ta Puissance du Sang</li>
-          <li>Libérer une goule ne génère pas d'action de sang</li>
         </ul>
       </div>
     </div>
