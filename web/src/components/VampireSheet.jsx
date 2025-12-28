@@ -406,7 +406,7 @@ export default function VampireSheet() {
 
       if (response.ok) {
         const user = await response.json();
-        console.log('Discord user:', user.username);
+        console.log('Discord user:', user.username, '| global_name:', user.global_name);
         setDiscordUser(user);
         setLoading(false);
       } else {
