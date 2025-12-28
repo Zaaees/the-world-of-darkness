@@ -69,7 +69,7 @@ class WorldOfDarknessBot(commands.Bot):
         # Démarrer le serveur API pour l'interface web
         api_port = int(os.getenv("API_PORT", "8080"))
         try:
-            await start_api_server(port=api_port)
+            await start_api_server(port=api_port, bot=self)
             logger.info(f"Serveur API démarré sur le port {api_port}")
         except Exception as e:
             logger.error(f"Erreur lors du démarrage du serveur API: {e}")

@@ -9,6 +9,7 @@ const DISCORD_CLIENT_ID = '1453866706546987064';
 const REDIRECT_URI = window.location.hostname === 'localhost'
   ? 'http://localhost:5173/'
   : 'https://zaaees.github.io/the-world-of-darkness/';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 // --- DISCORD AUTH ---
 const getDiscordAuthUrl = () => {
@@ -382,6 +383,7 @@ const LoginPage = ({ onLogin, error }) => {
 
 export default function VampireSheet() {
   const [discordUser, setDiscordUser] = useState(null);
+  const [memberInfo, setMemberInfo] = useState(null);
   const [character, setCharacter] = useState(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -496,12 +498,43 @@ export default function VampireSheet() {
     }
   }, [discordUser]);
 
+  // Charger les infos du membre sur le serveur
+  const loadMemberInfo = useCallback(async (guildId) => {
+    if (!discordUser || !guildId) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/member`, {
+        headers: {
+          'X-Discord-User-ID': discordUser.id,
+          'X-Discord-Guild-ID': guildId.toString(),
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMemberInfo(data);
+      } else {
+        console.error('Erreur chargement member info:', data.error);
+      }
+    } catch (err) {
+      console.error('Erreur chargement member info:', err);
+    }
+  }, [discordUser]);
+
   // Charger le personnage quand l'utilisateur Discord est connecté
   useEffect(() => {
     if (discordUser) {
       loadCharacter();
     }
   }, [discordUser, loadCharacter]);
+
+  // Charger les infos du membre quand on a le character avec guild_id
+  useEffect(() => {
+    if (character?.guild_id && !memberInfo) {
+      loadMemberInfo(character.guild_id);
+    }
+  }, [character?.guild_id, memberInfo, loadMemberInfo]);
 
   // Sauvegarder vers Google Sheets
   // Note: On exclut les champs gérés par le bot Discord (completedActions, cooldowns, bloodPotency, saturationPoints)
@@ -703,9 +736,12 @@ export default function VampireSheet() {
   const currentStage = BLOOD_STAGES[character.bloodPotency] || BLOOD_STAGES[1];
   const maxPoints = SATURATION_THRESHOLDS[character.bloodPotency] || 100;
   const CurrentIcon = currentStage.icon;
-  const avatarUrl = discordUser.avatar
+
+  // Utiliser les infos du membre sur le serveur si disponibles, sinon fallback sur Discord user
+  const displayName = memberInfo?.display_name || discordUser.username;
+  const avatarUrl = memberInfo?.avatar_url || (discordUser.avatar
     ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
-    : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`;
+    : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`);
 
   // Récupérer l'action de clan
   const clanAction = character.clan ? CLAN_ACTIONS[character.clan.toLowerCase()] : null;
@@ -741,7 +777,7 @@ export default function VampireSheet() {
           <div className="flex items-center gap-4">
             <img
               src={avatarUrl}
-              alt={discordUser.username}
+              alt={displayName}
               className="w-12 h-12 rounded-full border-2 border-red-900/50"
             />
             <div>
@@ -754,6 +790,11 @@ export default function VampireSheet() {
               <div className="text-xs text-red-700 uppercase tracking-widest font-bold mt-1">
                 {character.clan && `${character.clan} • `}Puissance {character.bloodPotency} • {currentStage.rank}
               </div>
+              {memberInfo && (
+                <div className="text-xs text-stone-600 mt-0.5">
+                  {memberInfo.display_name}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-3">
