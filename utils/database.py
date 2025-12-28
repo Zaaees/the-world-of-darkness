@@ -11,6 +11,8 @@ import urllib.parse
 from pathlib import Path
 from typing import Optional
 import logging
+import uuid
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -109,6 +111,25 @@ async def init_database():
             )
         """)
 
+        # Table des goules (Vampires)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS vampire_ghouls (
+                id TEXT PRIMARY KEY,
+                vampire_user_id INTEGER NOT NULL,
+                vampire_guild_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                description TEXT,
+                role TEXT,
+                discipline_id TEXT,
+                discipline_name TEXT,
+                discipline_power TEXT,
+                status TEXT DEFAULT 'actif',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                notes TEXT,
+                FOREIGN KEY (vampire_user_id, vampire_guild_id) REFERENCES players(user_id, guild_id)
+            )
+        """)
+
         # Index pour les performances
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_players_guild ON players(guild_id)"
@@ -121,6 +142,9 @@ async def init_database():
         )
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_werewolf_guild ON werewolf_rage(guild_id)"
+        )
+        await db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_ghouls_vampire ON vampire_ghouls(vampire_user_id, vampire_guild_id)"
         )
 
         await db.commit()
@@ -201,35 +225,120 @@ async def set_player(
             "clan": clan,
             "bloodPotency": vampire_data.get("blood_potency", 1),
             "saturationPoints": vampire_data.get("saturation_points", 0),
-            "soifLevel": vampire_data.get("soif_level", 0),
+            "soif": vampire_data.get("soif_level", 0)
         })
 
 
 async def delete_player(user_id: int, guild_id: int):
-    """Supprime un joueur et ses données associées."""
+    """Supprime un joueur et toutes ses données associées."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Supprimer les données de vampire
         await db.execute(
             "DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
             (user_id, guild_id),
         )
+
+        # Supprimer les données de loup-garou
         await db.execute(
             "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
             (user_id, guild_id),
         )
+
+        # Supprimer les goules
+        await db.execute(
+            "DELETE FROM vampire_ghouls WHERE vampire_user_id = ? AND vampire_guild_id = ?",
+            (user_id, guild_id),
+        )
+
+        # Supprimer le joueur
         await db.execute(
             "DELETE FROM players WHERE user_id = ? AND guild_id = ?",
             (user_id, guild_id),
         )
+
         await db.commit()
 
 
 # ============================================
-# Fonctions pour la Soif (Vampires)
+# Fonctions pour les vampires
 # ============================================
 
 
-async def get_soif(user_id: int, guild_id: int) -> int:
-    """Récupère le niveau de Soif d'un vampire."""
+async def get_vampire_data(user_id: int, guild_id: int) -> dict:
+    """Récupère toutes les données vampire d'un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+
+        # Données de base
+        cursor = await db.execute(
+            "SELECT * FROM players WHERE user_id = ? AND guild_id = ? AND race = 'vampire'",
+            (user_id, guild_id),
+        )
+        player = await cursor.fetchone()
+
+        if not player:
+            return {}
+
+        # Données de soif
+        cursor = await db.execute(
+            "SELECT * FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        soif = await cursor.fetchone()
+
+        return {
+            **dict(player),
+            **(dict(soif) if soif else {}),
+        }
+
+
+async def set_vampire_soif(user_id: int, guild_id: int, soif_level: int):
+    """Définit le niveau de soif d'un vampire."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Récupérer la blood potency pour connaître le minimum
+        cursor = await db.execute(
+            "SELECT blood_potency FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        blood_potency = row[0] if row else 1
+
+        # Déterminer le minimum selon la BP
+        min_soif = 0
+        if blood_potency >= 3:
+            min_soif = 1
+        if blood_potency >= 4:
+            min_soif = 2
+
+        # S'assurer que le niveau n'est pas en dessous du minimum
+        soif_level = max(soif_level, min_soif)
+        soif_level = min(soif_level, 5)
+
+        await db.execute(
+            """
+            INSERT INTO vampire_soif (user_id, guild_id, soif_level, last_updated)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                soif_level = excluded.soif_level,
+                last_updated = CURRENT_TIMESTAMP
+            """,
+            (user_id, guild_id, soif_level),
+        )
+        await db.commit()
+
+    # Sync vers Google Sheets
+    vampire_data = await get_vampire_data(user_id, guild_id)
+    await sync_to_google_sheets(user_id, {
+        "race": "vampire",
+        "clan": vampire_data.get("clan"),
+        "bloodPotency": vampire_data.get("blood_potency", 1),
+        "saturationPoints": vampire_data.get("saturation_points", 0),
+        "soif": soif_level
+    })
+
+
+async def get_vampire_soif(user_id: int, guild_id: int) -> int:
+    """Récupère le niveau de soif actuel."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         cursor = await db.execute(
             "SELECT soif_level FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
@@ -239,249 +348,129 @@ async def get_soif(user_id: int, guild_id: int) -> int:
         return row[0] if row else 0
 
 
-async def set_soif(user_id: int, guild_id: int, level: int):
-    """Définit le niveau de Soif d'un vampire."""
-    level = max(0, min(5, level))  # Clamp entre 0 et 5
-
+async def set_blood_potency(user_id: int, guild_id: int, blood_potency: int):
+    """Définit la puissance du sang d'un vampire."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        blood_potency = max(1, min(blood_potency, 5))
+
         await db.execute(
             """
-            INSERT INTO vampire_soif (user_id, guild_id, soif_level, last_updated)
+            INSERT INTO vampire_soif (user_id, guild_id, blood_potency, last_updated)
             VALUES (?, ?, ?, CURRENT_TIMESTAMP)
             ON CONFLICT(user_id, guild_id) DO UPDATE SET
-                soif_level = excluded.soif_level,
+                blood_potency = excluded.blood_potency,
                 last_updated = CURRENT_TIMESTAMP
-        """,
-            (user_id, guild_id, level),
+            """,
+            (user_id, guild_id, blood_potency),
         )
         await db.commit()
 
-    # Synchroniser vers Google Sheets
-    player = await get_player(user_id, guild_id)
-    if player and player.get("race") == "vampire":
-        vampire_data = await get_vampire_data(user_id, guild_id)
-        await sync_to_google_sheets(user_id, {
-            "race": "vampire",
-            "clan": player.get("clan", ""),
-            "bloodPotency": vampire_data.get("blood_potency", 1),
-            "saturationPoints": vampire_data.get("saturation_points", 0),
-            "soifLevel": level,
-        })
+    # Après changement de BP, vérifier et ajuster le niveau de soif si nécessaire
+    current_soif = await get_vampire_soif(user_id, guild_id)
+    await set_vampire_soif(user_id, guild_id, current_soif)
 
 
-async def increment_soif(user_id: int, guild_id: int) -> int:
-    """Incrémente la Soif d'un vampire et retourne le nouveau niveau."""
-    current = await get_soif(user_id, guild_id)
-    new_level = min(5, current + 1)
-    await set_soif(user_id, guild_id, new_level)
-    return new_level
-
-
-async def decrement_soif(user_id: int, guild_id: int, amount: int = 1) -> int:
-    """Décrémente la Soif d'un vampire et retourne le nouveau niveau."""
-    current = await get_soif(user_id, guild_id)
-    new_level = max(0, current - amount)
-    await set_soif(user_id, guild_id, new_level)
-    return new_level
-
-
-# ============================================
-# Fonctions pour la Puissance du Sang (Vampires)
-# ============================================
-
-# Seuils de saturation pour monter en Puissance du Sang
-SATURATION_THRESHOLDS = {
-    1: 30,   # Vers BP 2
-    2: 60,   # Vers BP 3
-    3: 120,  # Vers BP 4
-    4: 250,  # Vers BP 5
-    5: None  # Max atteint
-}
-
-# Seuil minimum de Soif selon la Puissance du Sang
-# Plus le sang est puissant, plus il est difficile de se rassasier
-MIN_SOIF_BY_BP = {
-    1: 0,  # Néonate - peut se rassasier complètement
-    2: 0,  # Ancilla Mineur - peut se rassasier complètement
-    3: 1,  # Ancilla Majeur - soif minimum 1
-    4: 2,  # Ancien - soif minimum 2
-    5: 3,  # Sommité - soif minimum 3
-}
-
-
-def get_min_soif(blood_potency: int) -> int:
-    """Retourne le seuil minimum de Soif selon la Puissance du Sang."""
-    return MIN_SOIF_BY_BP.get(blood_potency, 0)
-
-
-def get_saturation_threshold(blood_potency: int) -> int | None:
-    """Retourne le seuil de saturation pour le niveau de BP actuel."""
-    return SATURATION_THRESHOLDS.get(blood_potency)
-
-
-async def get_vampire_data(user_id: int, guild_id: int) -> dict:
-    """Récupère toutes les données vampire (soif, BP, saturation)."""
+async def get_blood_potency(user_id: int, guild_id: int) -> int:
+    """Récupère la puissance du sang."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
         cursor = await db.execute(
-            "SELECT * FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            "SELECT blood_potency FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
             (user_id, guild_id),
         )
         row = await cursor.fetchone()
-        if row:
-            return dict(row)
-        return {
-            "user_id": user_id,
-            "guild_id": guild_id,
-            "soif_level": 0,
-            "blood_potency": 1,
-            "saturation_points": 0,
-        }
-
-
-async def set_vampire_data(
-    user_id: int,
-    guild_id: int,
-    soif_level: Optional[int] = None,
-    blood_potency: Optional[int] = None,
-    saturation_points: Optional[int] = None,
-):
-    """Met à jour les données vampire."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "SELECT user_id FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        exists = await cursor.fetchone()
-
-        if exists:
-            updates = []
-            params = []
-            if soif_level is not None:
-                updates.append("soif_level = ?")
-                params.append(max(0, min(5, soif_level)))
-            if blood_potency is not None:
-                updates.append("blood_potency = ?")
-                params.append(max(1, min(5, blood_potency)))
-            if saturation_points is not None:
-                updates.append("saturation_points = ?")
-                params.append(max(0, saturation_points))
-
-            if updates:
-                updates.append("last_updated = CURRENT_TIMESTAMP")
-                params.extend([user_id, guild_id])
-                await db.execute(
-                    f"UPDATE vampire_soif SET {', '.join(updates)} WHERE user_id = ? AND guild_id = ?",
-                    params,
-                )
-        else:
-            await db.execute(
-                """
-                INSERT INTO vampire_soif (user_id, guild_id, soif_level, blood_potency, saturation_points, last_updated)
-                VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-                """,
-                (
-                    user_id,
-                    guild_id,
-                    soif_level or 0,
-                    blood_potency or 1,
-                    saturation_points or 0,
-                ),
-            )
-
-        await db.commit()
-
-
-async def reset_vampire_data(user_id: int, guild_id: int, new_clan: str = None):
-    """
-    Réinitialise toutes les données vampiriques d'un joueur.
-    Utilisé quand un personnage meurt et recommence avec un nouveau vampire.
-    """
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Réinitialiser les données de soif/puissance
-        await db.execute(
-            """
-            DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?
-            """,
-            (user_id, guild_id),
-        )
-
-        # Supprimer les actions complétées
-        await db.execute(
-            """
-            DELETE FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?
-            """,
-            (user_id, guild_id),
-        )
-
-        # Supprimer les cooldowns
-        await db.execute(
-            """
-            DELETE FROM action_cooldowns WHERE user_id = ? AND guild_id = ?
-            """,
-            (user_id, guild_id),
-        )
-
-        # Supprimer les actions en attente
-        await db.execute(
-            """
-            DELETE FROM pending_blood_actions WHERE user_id = ? AND guild_id = ?
-            """,
-            (user_id, guild_id),
-        )
-
-        await db.commit()
-        logger.info(f"Données vampire réinitialisées pour user {user_id}")
-
-    # Synchroniser les données réinitialisées vers Google Sheets
-    await sync_to_google_sheets(user_id, {
-        "race": "vampire",
-        "clan": new_clan or "",
-        "bloodPotency": 1,
-        "saturationPoints": 0,
-        "soifLevel": 0,
-        "pendingActions": [],
-        "completedActions": [],
-        "cooldowns": {},
-    })
+        return row[0] if row else 1
 
 
 async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dict:
     """
-    Ajoute des points de saturation et gère la montée en Puissance du Sang.
-    Retourne un dict avec les nouvelles valeurs et si une mutation a eu lieu.
+    Ajoute des points de saturation et gère l'épaississement du sang.
+    Retourne les informations sur la mutation si elle a lieu.
     """
-    data = await get_vampire_data(user_id, guild_id)
-    bp = data.get("blood_potency", 1)
-    current_sat = data.get("saturation_points", 0)
-    threshold = get_saturation_threshold(bp)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Récupérer les données actuelles
+        cursor = await db.execute(
+            "SELECT blood_potency, saturation_points FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
 
-    # Si déjà au max, pas d'évolution possible
-    if threshold is None:
-        return {"blood_potency": bp, "saturation_points": current_sat, "mutated": False}
+        if not row:
+            # Initialiser si n'existe pas
+            await db.execute(
+                "INSERT INTO vampire_soif (user_id, guild_id, blood_potency, saturation_points) VALUES (?, ?, 1, ?)",
+                (user_id, guild_id, points),
+            )
+            await db.commit()
+            return {"mutated": False, "new_bp": 1, "new_saturation": points}
 
-    new_sat = current_sat + points
-    mutated = False
+        current_bp = row[0]
+        current_saturation = row[1]
 
-    # Vérifier si on atteint le seuil
-    if new_sat >= threshold:
-        bp = min(bp + 1, 5)
-        new_sat = 0
-        mutated = True
+        # Seuils par niveau de BP
+        thresholds = {
+            1: 30,
+            2: 60,
+            3: 120,
+            4: 250,
+        }
 
-    await set_vampire_data(user_id, guild_id, blood_potency=bp, saturation_points=new_sat)
+        new_saturation = current_saturation + points
+        new_bp = current_bp
+        mutated = False
 
-    return {"blood_potency": bp, "saturation_points": new_sat, "mutated": mutated}
+        # Vérifier si on franchit un seuil
+        if current_bp < 5 and new_saturation >= thresholds.get(current_bp, float("inf")):
+            new_bp = current_bp + 1
+            new_saturation = 0
+            mutated = True
+
+        # Mettre à jour la base de données
+        await db.execute(
+            """
+            UPDATE vampire_soif
+            SET blood_potency = ?, saturation_points = ?, last_updated = CURRENT_TIMESTAMP
+            WHERE user_id = ? AND guild_id = ?
+            """,
+            (new_bp, new_saturation, user_id, guild_id),
+        )
+        await db.commit()
+
+        # Sync vers Google Sheets
+        vampire_data = await get_vampire_data(user_id, guild_id)
+        await sync_to_google_sheets(user_id, {
+            "race": "vampire",
+            "clan": vampire_data.get("clan"),
+            "bloodPotency": new_bp,
+            "saturationPoints": new_saturation,
+            "soif": vampire_data.get("soif_level", 0)
+        })
+
+        return {
+            "mutated": mutated,
+            "new_bp": new_bp,
+            "new_saturation": new_saturation,
+            "threshold": thresholds.get(new_bp - 1) if mutated else thresholds.get(new_bp),
+        }
+
+
+async def get_saturation_points(user_id: int, guild_id: int) -> int:
+    """Récupère les points de saturation."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT saturation_points FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        return row[0] if row else 0
 
 
 # ============================================
-# Fonctions pour la Rage (Loups-Garous)
-# Liée à une scène (channel_id)
+# Fonctions pour les loups-garous
 # ============================================
 
 
-async def get_rage_data(user_id: int, guild_id: int, channel_id: int) -> dict:
-    """Récupère les données de Rage d'un loup-garou pour une scène spécifique."""
+async def get_werewolf_rage(user_id: int, guild_id: int, channel_id: int) -> dict:
+    """Récupère l'état de rage d'un loup-garou dans un salon."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         db.row_factory = aiosqlite.Row
         cursor = await db.execute(
@@ -489,107 +478,59 @@ async def get_rage_data(user_id: int, guild_id: int, channel_id: int) -> dict:
             (user_id, guild_id, channel_id),
         )
         row = await cursor.fetchone()
-        if row:
-            return dict(row)
-        return {
-            "user_id": user_id,
-            "guild_id": guild_id,
-            "channel_id": channel_id,
-            "rage_level": 0,
-            "is_enraged": False,
-            "maintien_counter": 0,
-            "last_message_id": None,
-            "others_spoke_since": False,
-        }
+        return dict(row) if row else None
 
 
-async def set_rage_data(
+async def set_werewolf_rage(
     user_id: int,
     guild_id: int,
     channel_id: int,
-    rage_level: Optional[int] = None,
-    is_enraged: Optional[bool] = None,
-    maintien_counter: Optional[int] = None,
+    rage_level: int,
+    is_enraged: bool = False,
+    maintien_counter: int = 0,
     last_message_id: Optional[int] = None,
-    others_spoke_since: Optional[bool] = None,
+    others_spoke_since: bool = False,
 ):
-    """Met à jour les données de Rage d'un loup-garou pour une scène."""
+    """Met à jour l'état de rage d'un loup-garou."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Récupérer les données actuelles
-        cursor = await db.execute(
-            "SELECT * FROM werewolf_rage WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
-            (user_id, guild_id, channel_id),
-        )
-        exists = await cursor.fetchone()
+        rage_level = max(0, min(rage_level, 5))
 
-        if exists:
-            # Mise à jour sélective
-            updates = []
-            params = []
-            if rage_level is not None:
-                updates.append("rage_level = ?")
-                params.append(rage_level)
-            if is_enraged is not None:
-                updates.append("is_enraged = ?")
-                params.append(is_enraged)
-            if maintien_counter is not None:
-                updates.append("maintien_counter = ?")
-                params.append(maintien_counter)
-            if last_message_id is not None:
-                updates.append("last_message_id = ?")
-                params.append(last_message_id)
-            if others_spoke_since is not None:
-                updates.append("others_spoke_since = ?")
-                params.append(others_spoke_since)
-
-            if updates:
-                updates.append("last_updated = CURRENT_TIMESTAMP")
-                params.extend([user_id, guild_id, channel_id])
-                await db.execute(
-                    f"UPDATE werewolf_rage SET {', '.join(updates)} WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
-                    params,
-                )
-        else:
-            # Création avec valeurs par défaut
-            await db.execute(
-                """
-                INSERT INTO werewolf_rage
-                (user_id, guild_id, channel_id, rage_level, is_enraged, maintien_counter, last_message_id, others_spoke_since)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-                (
-                    user_id,
-                    guild_id,
-                    channel_id,
-                    rage_level or 0,
-                    is_enraged or False,
-                    maintien_counter or 0,
-                    last_message_id,
-                    others_spoke_since or False,
-                ),
+        await db.execute(
+            """
+            INSERT INTO werewolf_rage (
+                user_id, guild_id, channel_id, rage_level, is_enraged,
+                maintien_counter, last_message_id, others_spoke_since, last_updated
             )
-
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id, channel_id) DO UPDATE SET
+                rage_level = excluded.rage_level,
+                is_enraged = excluded.is_enraged,
+                maintien_counter = excluded.maintien_counter,
+                last_message_id = excluded.last_message_id,
+                others_spoke_since = excluded.others_spoke_since,
+                last_updated = CURRENT_TIMESTAMP
+            """,
+            (
+                user_id,
+                guild_id,
+                channel_id,
+                rage_level,
+                is_enraged,
+                maintien_counter,
+                last_message_id,
+                others_spoke_since,
+            ),
+        )
         await db.commit()
 
 
-async def increment_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 1) -> int:
-    """Incrémente la Rage d'un loup-garou et retourne le nouveau niveau."""
-    data = await get_rage_data(user_id, guild_id, channel_id)
-    new_level = data["rage_level"] + amount
-    await set_rage_data(user_id, guild_id, channel_id, rage_level=new_level)
-    return new_level
+async def reset_werewolf_rage(user_id: int, guild_id: int, channel_id: int):
+    """Réinitialise la rage à 0 dans un salon."""
+    await set_werewolf_rage(user_id, guild_id, channel_id, 0, False, 0, None, False)
 
 
-async def decrement_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 1) -> int:
-    """Décrémente la Rage d'un loup-garou et retourne le nouveau niveau."""
-    data = await get_rage_data(user_id, guild_id, channel_id)
-    new_level = max(0, data["rage_level"] - amount)
-    await set_rage_data(user_id, guild_id, channel_id, rage_level=new_level)
-    return new_level
-
-
-async def clear_rage(user_id: int, guild_id: int, channel_id: int):
-    """Efface complètement la rage d'un loup-garou pour une scène (fin de scène)."""
+async def delete_werewolf_rage(user_id: int, guild_id: int, channel_id: int):
+    """Supprime les données de rage pour un salon."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         await db.execute(
             "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ? AND channel_id = ?",
@@ -598,332 +539,226 @@ async def clear_rage(user_id: int, guild_id: int, channel_id: int):
         await db.commit()
 
 
-async def clear_all_rage_for_user(user_id: int, guild_id: int):
-    """Efface toute la rage d'un loup-garou sur toutes les scènes."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        await db.execute(
-            "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        await db.commit()
-
-
-async def get_all_enraged_werewolves_in_channel(guild_id: int, channel_id: int) -> list[dict]:
-    """Récupère tous les loups-garous enragés dans un salon spécifique."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            """
-            SELECT * FROM werewolf_rage
-            WHERE guild_id = ? AND channel_id = ? AND rage_level > 0
-        """,
-            (guild_id, channel_id),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
-
-
-async def get_active_rage_scenes(user_id: int, guild_id: int) -> list[dict]:
-    """Récupère toutes les scènes actives avec rage pour un joueur."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            """
-            SELECT * FROM werewolf_rage
-            WHERE user_id = ? AND guild_id = ? AND rage_level > 0
-        """,
-            (user_id, guild_id),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
-
-
 # ============================================
-# Fonctions pour les Actions de Puissance du Sang
+# Fonctions pour les actions de sang
 # ============================================
 
 
-async def init_blood_actions_tables():
-    """Initialise les tables pour le système d'actions de Puissance du Sang."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Table des actions en attente de validation
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS pending_blood_actions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                guild_id INTEGER NOT NULL,
-                action_id TEXT NOT NULL,
-                action_name TEXT NOT NULL,
-                points INTEGER NOT NULL,
-                category TEXT NOT NULL,
-                message_id INTEGER,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                status TEXT DEFAULT 'pending'
-            )
-        """)
-
-        # Table des actions uniques accomplies
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS completed_unique_actions (
-                user_id INTEGER NOT NULL,
-                guild_id INTEGER NOT NULL,
-                action_id TEXT NOT NULL,
-                completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (user_id, guild_id, action_id)
-            )
-        """)
-
-        # Table des cooldowns d'actions
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS action_cooldowns (
-                user_id INTEGER NOT NULL,
-                guild_id INTEGER NOT NULL,
-                action_id TEXT NOT NULL,
-                last_used TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (user_id, guild_id, action_id)
-            )
-        """)
-
-        # Table de l'historique des actions validées
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS blood_action_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                guild_id INTEGER NOT NULL,
-                action_id TEXT NOT NULL,
-                action_name TEXT NOT NULL,
-                points INTEGER NOT NULL,
-                validated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                validated_by INTEGER
-            )
-        """)
-
-        await db.commit()
-        logger.info("Tables des actions de sang initialisées")
-
-
-async def create_pending_action(
+async def submit_blood_action(
     user_id: int,
     guild_id: int,
     action_id: str,
     action_name: str,
-    points: int,
     category: str,
-) -> int:
-    """Crée une action en attente de validation. Retourne l'ID de l'action."""
+    points: int,
+    description: Optional[str] = None,
+) -> str:
+    """Soumet une action de sang pour validation."""
+    submission_id = str(uuid.uuid4())
+
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Vérifier s'il existe déjà une action en attente pour cet action_id
         cursor = await db.execute(
             """
-            INSERT INTO pending_blood_actions (user_id, guild_id, action_id, action_name, points, category)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (user_id, guild_id, action_id, action_name, points, category),
-        )
-        await db.commit()
-        return cursor.lastrowid
-
-
-async def get_pending_action(action_db_id: int) -> Optional[dict]:
-    """Récupère une action en attente par son ID."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            "SELECT * FROM pending_blood_actions WHERE id = ?",
-            (action_db_id,),
-        )
-        row = await cursor.fetchone()
-        return dict(row) if row else None
-
-
-async def update_pending_action_message(action_db_id: int, message_id: int):
-    """Met à jour l'ID du message Discord associé à l'action."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        await db.execute(
-            "UPDATE pending_blood_actions SET message_id = ? WHERE id = ?",
-            (message_id, action_db_id),
-        )
-        await db.commit()
-
-
-async def validate_action(action_db_id: int, validated_by: int) -> Optional[dict]:
-    """
-    Valide une action en attente.
-    Retourne les détails de l'action si validée avec succès.
-    """
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-
-        # Récupérer l'action
-        cursor = await db.execute(
-            "SELECT * FROM pending_blood_actions WHERE id = ? AND status = 'pending'",
-            (action_db_id,),
-        )
-        action = await cursor.fetchone()
-
-        if not action:
-            return None
-
-        action_dict = dict(action)
-
-        # Marquer comme validée
-        await db.execute(
-            "UPDATE pending_blood_actions SET status = 'validated' WHERE id = ?",
-            (action_db_id,),
-        )
-
-        # Ajouter à l'historique
-        await db.execute(
-            """
-            INSERT INTO blood_action_history (user_id, guild_id, action_id, action_name, points, validated_by)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (
-                action_dict["user_id"],
-                action_dict["guild_id"],
-                action_dict["action_id"],
-                action_dict["action_name"],
-                action_dict["points"],
-                validated_by,
-            ),
-        )
-
-        # Si c'est une action unique, la marquer comme complétée
-        if action_dict["category"] == "unique":
-            await db.execute(
-                """
-                INSERT OR IGNORE INTO completed_unique_actions (user_id, guild_id, action_id)
-                VALUES (?, ?, ?)
-                """,
-                (action_dict["user_id"], action_dict["guild_id"], action_dict["action_id"]),
-            )
-
-        # Si l'action a un cooldown, le mettre à jour
-        if action_dict["category"] == "vampire_blood":
-            await db.execute(
-                """
-                INSERT OR REPLACE INTO action_cooldowns (user_id, guild_id, action_id, last_used)
-                VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-                """,
-                (action_dict["user_id"], action_dict["guild_id"], action_dict["action_id"]),
-            )
-
-        await db.commit()
-        return action_dict
-
-
-async def refuse_action(action_db_id: int) -> Optional[dict]:
-    """Refuse une action en attente."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-
-        cursor = await db.execute(
-            "SELECT * FROM pending_blood_actions WHERE id = ? AND status = 'pending'",
-            (action_db_id,),
-        )
-        action = await cursor.fetchone()
-
-        if not action:
-            return None
-
-        await db.execute(
-            "UPDATE pending_blood_actions SET status = 'refused' WHERE id = ?",
-            (action_db_id,),
-        )
-        await db.commit()
-
-        return dict(action)
-
-
-async def is_unique_action_completed(user_id: int, guild_id: int, action_id: str) -> bool:
-    """Vérifie si une action unique a déjà été accomplie."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "SELECT 1 FROM completed_unique_actions WHERE user_id = ? AND guild_id = ? AND action_id = ?",
-            (user_id, guild_id, action_id),
-        )
-        return await cursor.fetchone() is not None
-
-
-async def is_action_on_cooldown(user_id: int, guild_id: int, action_id: str, cooldown_days: int) -> tuple[bool, Optional[str]]:
-    """
-    Vérifie si une action est en cooldown.
-    Retourne (is_on_cooldown, date_disponible).
-    """
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            """
-            SELECT last_used,
-                   datetime(last_used, '+' || ? || ' days') as available_at
-            FROM action_cooldowns
-            WHERE user_id = ? AND guild_id = ? AND action_id = ?
-            """,
-            (cooldown_days, user_id, guild_id, action_id),
-        )
-        row = await cursor.fetchone()
-
-        if not row:
-            return False, None
-
-        # Vérifier si le cooldown est passé
-        cursor = await db.execute(
-            """
-            SELECT datetime(last_used, '+' || ? || ' days') > datetime('now') as is_on_cooldown,
-                   datetime(last_used, '+' || ? || ' days') as available_at
-            FROM action_cooldowns
-            WHERE user_id = ? AND guild_id = ? AND action_id = ?
-            """,
-            (cooldown_days, cooldown_days, user_id, guild_id, action_id),
-        )
-        row = await cursor.fetchone()
-
-        if row and row[0]:
-            return True, row[1]
-
-        return False, None
-
-
-async def has_pending_action(user_id: int, guild_id: int, action_id: str) -> bool:
-    """Vérifie si une action est déjà en attente de validation."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            """
-            SELECT 1 FROM pending_blood_actions
+            SELECT submission_id FROM pending_blood_actions
             WHERE user_id = ? AND guild_id = ? AND action_id = ? AND status = 'pending'
             """,
             (user_id, guild_id, action_id),
         )
-        return await cursor.fetchone() is not None
+        existing = await cursor.fetchone()
 
+        if existing:
+            # Retourner l'ID existant au lieu de créer un doublon
+            return existing[0]
 
-async def get_user_completed_unique_actions(user_id: int, guild_id: int) -> list[str]:
-    """Récupère la liste des IDs d'actions uniques accomplies par un joueur."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
+        # Créer la nouvelle soumission
+        await db.execute(
+            """
+            INSERT INTO pending_blood_actions (
+                submission_id, user_id, guild_id, action_id, action_name,
+                category, points, description, status, submitted_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_TIMESTAMP)
+            """,
+            (
+                submission_id,
+                user_id,
+                guild_id,
+                action_id,
+                action_name,
+                category,
+                points,
+                description,
+            ),
         )
-        rows = await cursor.fetchall()
-        return [row[0] for row in rows]
+        await db.commit()
+
+    return submission_id
 
 
-async def get_user_action_cooldowns(user_id: int, guild_id: int) -> dict[str, str]:
-    """Récupère les cooldowns actifs pour un joueur. Retourne {action_id: available_at}."""
+async def get_pending_actions(user_id: int, guild_id: int) -> list[dict]:
+    """Récupère toutes les actions en attente pour un joueur."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
         cursor = await db.execute(
             """
-            SELECT action_id, datetime(last_used, '+30 days') as available_at
-            FROM action_cooldowns
-            WHERE user_id = ? AND guild_id = ?
-            AND datetime(last_used, '+30 days') > datetime('now')
+            SELECT * FROM pending_blood_actions
+            WHERE user_id = ? AND guild_id = ? AND status = 'pending'
+            ORDER BY submitted_at DESC
             """,
             (user_id, guild_id),
         )
         rows = await cursor.fetchall()
-        return {row[0]: row[1] for row in rows}
+        return [dict(row) for row in rows]
 
 
-async def get_user_pending_actions(user_id: int, guild_id: int) -> list[str]:
-    """Récupère la liste des IDs d'actions en attente pour un joueur."""
+async def get_all_pending_actions(guild_id: int) -> list[dict]:
+    """Récupère toutes les actions en attente pour une guilde."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            """
+            SELECT * FROM pending_blood_actions
+            WHERE guild_id = ? AND status = 'pending'
+            ORDER BY submitted_at ASC
+            """,
+            (guild_id,),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+
+async def validate_blood_action(
+    submission_id: str, validator_id: int, points_awarded: Optional[int] = None
+) -> dict:
+    """Valide une action de sang et attribue les points."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+
+        # Récupérer l'action en attente
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE submission_id = ?",
+            (submission_id,),
+        )
+        action = await cursor.fetchone()
+
+        if not action or action["status"] != "pending":
+            return {"success": False, "reason": "Action introuvable ou déjà traitée"}
+
+        action_dict = dict(action)
+        user_id = action_dict["user_id"]
+        guild_id = action_dict["guild_id"]
+        action_id = action_dict["action_id"]
+        category = action_dict["category"]
+
+        # Points à attribuer (utiliser points_awarded s'il est fourni, sinon les points de l'action)
+        points = points_awarded if points_awarded is not None else action_dict["points"]
+
+        # Ajouter les points de saturation
+        mutation_info = await add_saturation_points(user_id, guild_id, points)
+
+        # Marquer l'action comme validée
+        await db.execute(
+            """
+            UPDATE pending_blood_actions
+            SET status = 'validated', validated_by = ?, validated_at = CURRENT_TIMESTAMP
+            WHERE submission_id = ?
+            """,
+            (validator_id, submission_id),
+        )
+
+        # Pour les actions uniques, les ajouter à la liste des actions complétées
+        if category == "unique":
+            await db.execute(
+                """
+                INSERT OR IGNORE INTO completed_unique_actions (user_id, guild_id, action_id, completed_at)
+                VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+                """,
+                (user_id, guild_id, action_id),
+            )
+
+        # Ajouter à l'historique
+        await db.execute(
+            """
+            INSERT INTO blood_action_history (
+                user_id, guild_id, action_id, action_name, category,
+                points, description, validated_by, validated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            """,
+            (
+                user_id,
+                guild_id,
+                action_id,
+                action_dict["action_name"],
+                category,
+                points,
+                action_dict.get("description"),
+                validator_id,
+            ),
+        )
+
+        # Pour les actions vampiriques, ajouter un cooldown
+        if category == "vampire_blood":
+            await db.execute(
+                """
+                INSERT OR REPLACE INTO action_cooldowns (user_id, guild_id, action_id, expires_at)
+                VALUES (?, ?, ?, datetime('now', '+30 days'))
+                """,
+                (user_id, guild_id, action_id),
+            )
+
+        await db.commit()
+
+        return {
+            "success": True,
+            "points_awarded": points,
+            "mutation": mutation_info,
+            "user_id": user_id,
+            "guild_id": guild_id,
+        }
+
+
+async def refuse_blood_action(submission_id: str, validator_id: int, reason: Optional[str] = None):
+    """Refuse une action de sang."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            """
+            UPDATE pending_blood_actions
+            SET status = 'refused', validated_by = ?, validated_at = CURRENT_TIMESTAMP, description = ?
+            WHERE submission_id = ?
+            """,
+            (validator_id, reason, submission_id),
+        )
+        await db.commit()
+
+
+async def is_action_completed(user_id: int, guild_id: int, action_id: str) -> bool:
+    """Vérifie si une action unique a déjà été complétée."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ? AND action_id = ?",
+            (user_id, guild_id, action_id),
+        )
+        return await cursor.fetchone() is not None
+
+
+async def is_action_on_cooldown(user_id: int, guild_id: int, action_id: str) -> Optional[str]:
+    """Vérifie si une action est en cooldown. Retourne la date d'expiration si oui."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            SELECT expires_at FROM action_cooldowns
+            WHERE user_id = ? AND guild_id = ? AND action_id = ? AND expires_at > datetime('now')
+            """,
+            (user_id, guild_id, action_id),
+        )
+        row = await cursor.fetchone()
+        return row[0] if row else None
+
+
+async def get_pending_action_ids(user_id: int, guild_id: int) -> list[str]:
+    """Récupère les IDs des actions en attente pour un joueur."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
         cursor = await db.execute(
             "SELECT action_id FROM pending_blood_actions WHERE user_id = ? AND guild_id = ? AND status = 'pending'",
@@ -948,3 +783,247 @@ async def get_blood_action_history(user_id: int, guild_id: int, limit: int = 20)
         )
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
+
+
+# ============================================
+# Fonctions pour les goules
+# ============================================
+
+# Limites de goules par Blood Potency
+GHOUL_LIMITS = {
+    1: 2,
+    2: 3,
+    3: 5,
+    4: 10,
+    5: 20,
+}
+
+# Mapping des disciplines par clan (doit correspondre à CLAN_DISCIPLINES dans disciplines.js)
+CLAN_DISCIPLINES = {
+    "brujah": ["celerity", "potence", "presence"],
+    "gangrel": ["animalism", "fortitude", "protean"],
+    "malkavian": ["auspex", "dementation", "obfuscate"],
+    "nosferatu": ["animalism", "obfuscate", "potence"],
+    "toreador": ["auspex", "celerity", "presence"],
+    "tremere": ["auspex", "dominate", "thaumaturgy"],
+    "ventrue": ["dominate", "fortitude", "presence"],
+    "lasombra": ["dominate", "obtenebration", "potence"],
+    "tzimisce": ["animalism", "auspex", "vicissitude"],
+    "hecata": ["auspex", "fortitude", "necromancy"],
+    "ministry": ["obfuscate", "presence", "serpentis"],
+    "banu_haqim": ["celerity", "obfuscate", "quietus"],
+    "ravnos": ["animalism", "chimerstry", "fortitude"]
+}
+
+# Noms des disciplines (doit correspondre à disciplines.js)
+DISCIPLINE_NAMES = {
+    "animalism": "Animalisme",
+    "auspex": "Auspex",
+    "celerity": "Célérité",
+    "dominate": "Domination",
+    "fortitude": "Force d'Âme",
+    "obfuscate": "Occultation",
+    "potence": "Puissance",
+    "presence": "Présence",
+    "protean": "Protéisme",
+    "obtenebration": "Obténébration",
+    "thaumaturgy": "Thaumaturgie",
+    "vicissitude": "Vicissitude",
+    "necromancy": "Nécromancie",
+    "quietus": "Quietus",
+    "serpentis": "Serpentis",
+    "dementation": "Aliénation",
+    "chimerstry": "Chimérie"
+}
+
+# Pouvoirs niveau 1 des disciplines (doit correspondre à disciplines.js)
+DISCIPLINE_POWERS = {
+    "animalism": "Murmures Fauves",
+    "auspex": "Sens Accrus",
+    "celerity": "Grâce Féline",
+    "dominate": "Commandement",
+    "fortitude": "Résilience",
+    "obfuscate": "Cape d'Ombre",
+    "potence": "Vigueur",
+    "presence": "Crainte Révérencielle",
+    "protean": "Yeux de la Bête",
+    "obtenebration": "Jeu d'Ombres",
+    "thaumaturgy": "Goût du Sang",
+    "vicissitude": "Modelage Mineur",
+    "necromancy": "Insight",
+    "quietus": "Silence de la Mort",
+    "serpentis": "Regard Hypnotique",
+    "dementation": "Passion",
+    "chimerstry": "Ignis Fatuus"
+}
+
+
+def get_random_discipline_for_clan(clan: str) -> tuple[str, str, str]:
+    """
+    Retourne une discipline aléatoire parmi les 3 du clan.
+    Returns: (discipline_id, discipline_name, discipline_power)
+    """
+    clan_lower = clan.lower()
+    disciplines = CLAN_DISCIPLINES.get(clan_lower, [])
+
+    if not disciplines:
+        return ("", "", "")
+
+    discipline_id = random.choice(disciplines)
+    discipline_name = DISCIPLINE_NAMES.get(discipline_id, "")
+    discipline_power = DISCIPLINE_POWERS.get(discipline_id, "")
+
+    return (discipline_id, discipline_name, discipline_power)
+
+
+async def create_ghoul(
+    vampire_user_id: int,
+    vampire_guild_id: int,
+    name: str,
+    description: str = "",
+    role: str = "",
+    notes: str = ""
+) -> dict:
+    """Crée une nouvelle goule pour un vampire."""
+    # Récupérer le clan du vampire et sa BP
+    vampire_data = await get_vampire_data(vampire_user_id, vampire_guild_id)
+    clan = vampire_data.get("clan", "").lower()
+    blood_potency = vampire_data.get("blood_potency", 1)
+
+    # Vérifier la limite de goules
+    ghoul_count = await get_ghoul_count(vampire_user_id, vampire_guild_id)
+    max_ghouls = GHOUL_LIMITS.get(blood_potency, 2)
+
+    if ghoul_count >= max_ghouls:
+        return {
+            "success": False,
+            "reason": f"Limite de goules atteinte ({ghoul_count}/{max_ghouls} pour BP {blood_potency})"
+        }
+
+    # Assigner une discipline aléatoire parmi celles du clan
+    discipline_id, discipline_name, discipline_power = get_random_discipline_for_clan(clan)
+
+    ghoul_id = str(uuid.uuid4())
+
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            """
+            INSERT INTO vampire_ghouls (
+                id, vampire_user_id, vampire_guild_id, name, description,
+                role, discipline_id, discipline_name, discipline_power,
+                status, created_at, notes
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'actif', CURRENT_TIMESTAMP, ?)
+            """,
+            (
+                ghoul_id,
+                vampire_user_id,
+                vampire_guild_id,
+                name,
+                description,
+                role,
+                discipline_id,
+                discipline_name,
+                discipline_power,
+                notes
+            ),
+        )
+        await db.commit()
+
+    return {
+        "success": True,
+        "ghoul_id": ghoul_id,
+        "discipline_id": discipline_id,
+        "discipline_name": discipline_name,
+        "discipline_power": discipline_power
+    }
+
+
+async def get_ghouls(vampire_user_id: int, vampire_guild_id: int) -> list[dict]:
+    """Récupère toutes les goules d'un vampire."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            """
+            SELECT * FROM vampire_ghouls
+            WHERE vampire_user_id = ? AND vampire_guild_id = ?
+            ORDER BY created_at DESC
+            """,
+            (vampire_user_id, vampire_guild_id),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+
+async def get_ghoul_count(vampire_user_id: int, vampire_guild_id: int) -> int:
+    """Récupère le nombre de goules actives d'un vampire."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            SELECT COUNT(*) FROM vampire_ghouls
+            WHERE vampire_user_id = ? AND vampire_guild_id = ? AND status = 'actif'
+            """,
+            (vampire_user_id, vampire_guild_id),
+        )
+        row = await cursor.fetchone()
+        return row[0] if row else 0
+
+
+async def update_ghoul(
+    ghoul_id: str,
+    name: Optional[str] = None,
+    description: Optional[str] = None,
+    role: Optional[str] = None,
+    notes: Optional[str] = None,
+    status: Optional[str] = None
+) -> bool:
+    """Met à jour les informations d'une goule."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        updates = []
+        params = []
+
+        if name is not None:
+            updates.append("name = ?")
+            params.append(name)
+        if description is not None:
+            updates.append("description = ?")
+            params.append(description)
+        if role is not None:
+            updates.append("role = ?")
+            params.append(role)
+        if notes is not None:
+            updates.append("notes = ?")
+            params.append(notes)
+        if status is not None:
+            updates.append("status = ?")
+            params.append(status)
+
+        if not updates:
+            return False
+
+        params.append(ghoul_id)
+
+        await db.execute(
+            f"UPDATE vampire_ghouls SET {', '.join(updates)} WHERE id = ?",
+            params,
+        )
+        await db.commit()
+
+        return True
+
+
+async def delete_ghoul(ghoul_id: str) -> bool:
+    """Supprime une goule."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "DELETE FROM vampire_ghouls WHERE id = ?",
+            (ghoul_id,),
+        )
+        await db.commit()
+        return cursor.rowcount > 0
+
+
+async def get_max_ghouls(vampire_user_id: int, vampire_guild_id: int) -> int:
+    """Récupère le nombre maximum de goules autorisées selon la BP."""
+    blood_potency = await get_blood_potency(vampire_user_id, vampire_guild_id)
+    return GHOUL_LIMITS.get(blood_potency, 2)

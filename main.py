@@ -21,6 +21,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 from utils.database import init_database
+from api_server import start_api_server
 
 # Configuration du logging
 logging.basicConfig(
@@ -64,6 +65,14 @@ class WorldOfDarknessBot(commands.Bot):
         # Initialiser la base de données
         await init_database()
         logger.info("Base de données initialisée")
+
+        # Démarrer le serveur API pour l'interface web
+        api_port = int(os.getenv("API_PORT", "8080"))
+        try:
+            await start_api_server(port=api_port)
+            logger.info(f"Serveur API démarré sur le port {api_port}")
+        except Exception as e:
+            logger.error(f"Erreur lors du démarrage du serveur API: {e}")
 
         # Charger les Cogs
         cogs_to_load = ["cogs.vampire", "cogs.werewolf", "cogs.general", "cogs.blood_actions"]
