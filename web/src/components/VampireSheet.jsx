@@ -742,7 +742,7 @@ export default function VampireSheet() {
 
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
-    if (!discordUser || loading) return;
+    if (!discordUser || loading || !character || needsClanSelection) return;
 
     const refreshInterval = setInterval(async () => {
       try {
@@ -753,6 +753,7 @@ export default function VampireSheet() {
         if (data.success && data.character) {
           // Mettre à jour seulement si les données importantes ont changé
           setCharacter(prev => {
+            if (!prev) return prev; // Ne pas mettre à jour si character est null
             const newBP = Number(data.character.bloodPotency) || 1;
             const newSat = Number(data.character.saturationPoints) || 0;
             const newCompleted = data.character.completedActions || [];
@@ -782,7 +783,7 @@ export default function VampireSheet() {
     }, 10000); // 10 secondes - rafraîchissement rapide pour détecter les validations
 
     return () => clearInterval(refreshInterval);
-  }, [discordUser, loading]);
+  }, [discordUser, loading, character, needsClanSelection]);
 
   const handleLogin = () => {
     window.location.href = getDiscordAuthUrl();
