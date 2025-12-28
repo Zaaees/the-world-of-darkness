@@ -392,7 +392,14 @@ async def get_vampire_profile_handler(request):
 
         # Vérifier si le membre a le rôle Vampire
         from data.config import ROLE_VAMPIRE
-        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
+        member_role_ids = [role.id for role in member.roles]
+        has_vampire_role = ROLE_VAMPIRE in member_role_ids
+
+        # Log pour debug
+        logger.info(f"Vérification rôle vampire pour {member.display_name} (ID: {user_id})")
+        logger.info(f"  ROLE_VAMPIRE attendu: {ROLE_VAMPIRE}")
+        logger.info(f"  Rôles du membre: {member_role_ids}")
+        logger.info(f"  has_vampire_role: {has_vampire_role}")
 
         # Récupérer les données du joueur
         player = await get_player(user_id, guild_id)
@@ -403,6 +410,9 @@ async def get_vampire_profile_handler(request):
             "success": True,
             "has_vampire_role": has_vampire_role,
             "clan": player.get("clan") if player else None,
+            # Debug info (à retirer en prod)
+            "_debug_expected_role": ROLE_VAMPIRE,
+            "_debug_member_roles": member_role_ids,
             "soif_level": vampire_data.get("soif_level", 0) if vampire_data else 0,
             "blood_potency": vampire_data.get("blood_potency", 1) if vampire_data else 1,
             "saturation_points": vampire_data.get("saturation_points", 0) if vampire_data else 0,
