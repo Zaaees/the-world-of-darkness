@@ -2,7 +2,7 @@ name: Deploy Website to GitHub Pages
 
 on:
   push:
-    branches: [main, master, claude/discord-narrative-bot-AoFim]
+    branches: [main, master, claude/init-project-setup-9CZ8o]
     paths:
       - 'web/**'
   workflow_dispatch:
