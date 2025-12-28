@@ -973,13 +973,26 @@ export default function VampireSheet() {
         )}
 
         {/* ONGLET GOULES */}
-        {activeTab === 'ghouls' && memberInfo && (
-          <GhoulsTab
-            discordUserId={discordUser.id}
-            discordGuildId={memberInfo.guild_id}
-            clan={character.clan}
-            bloodPotency={character.bloodPotency}
-          />
+        {activeTab === 'ghouls' && (
+          <>
+            {!memberInfo ? (
+              <div className="flex items-center justify-center py-12 text-stone-500">
+                <div className="text-center">
+                  <div className="animate-pulse mb-4">Chargement des informations du serveur...</div>
+                  <div className="text-xs text-stone-700">
+                    Si le chargement prend trop de temps, vérifiez que le serveur API est démarré
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <GhoulsTab
+                discordUserId={discordUser.id}
+                discordGuildId={memberInfo.guild_id}
+                clan={character.clan}
+                bloodPotency={character.bloodPotency}
+              />
+            )}
+          </>
         )}
 
       </main>
