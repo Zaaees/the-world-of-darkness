@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users } from 'lucide-react';
 import DisciplinesTab from './DisciplinesTab';
 import GhoulsTab from './GhoulsTab';
+import ClanSelection from './ClanSelection';
 
 // --- CONFIGURATION ---
 const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
@@ -394,6 +395,8 @@ export default function VampireSheet() {
   const [authError, setAuthError] = useState(null);
   const [submittingAction, setSubmittingAction] = useState(null);
   const [notVampire, setNotVampire] = useState(false);
+  const [needsClanSelection, setNeedsClanSelection] = useState(false);
+  const [vampireProfile, setVampireProfile] = useState(null);
   const [activeTab, setActiveTab] = useState('sheet'); // 'sheet' ou 'disciplines'
 
   // Récupérer les infos Discord
@@ -426,6 +429,20 @@ export default function VampireSheet() {
   // Vérifier le token Discord au chargement
   useEffect(() => {
     const init = async () => {
+      // Vérifier s'il y a des paramètres userId et guildId dans l'URL (depuis Discord)
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdParam = urlParams.get('userId');
+      const guildIdParam = urlParams.get('guildId');
+
+      if (userIdParam && guildIdParam) {
+        // L'utilisateur vient depuis Discord sans être authentifié
+        // On stocke ces infos pour plus tard et on demande l'authentification
+        sessionStorage.setItem('pending_clan_selection', JSON.stringify({
+          userId: userIdParam,
+          guildId: guildIdParam
+        }));
+      }
+
       const hash = window.location.hash;
       console.log('URL hash:', hash);
 
@@ -510,7 +527,7 @@ export default function VampireSheet() {
     }
   }, [discordUser, memberInfo]);
 
-  // Charger les infos du membre sur le serveur
+  // Charger les infos du membre sur le serveur et vérifier le profil vampire
   const loadMemberInfo = useCallback(async () => {
     if (!discordUser) return;
 
@@ -529,11 +546,13 @@ export default function VampireSheet() {
         return;
       }
 
+      const guildId = guildData.guild_id;
+
       // Ensuite, charger les infos du membre sur ce serveur
       const memberResponse = await fetch(`${API_URL}/api/member`, {
         headers: {
           'X-Discord-User-ID': discordUser.id,
-          'X-Discord-Guild-ID': guildData.guild_id.toString(),
+          'X-Discord-Guild-ID': guildId.toString(),
         },
       });
 
@@ -543,6 +562,31 @@ export default function VampireSheet() {
         setMemberInfo(memberData);
       } else {
         console.error('Erreur chargement member info:', memberData.error);
+      }
+
+      // Charger le profil vampire pour vérifier si l'utilisateur a le rôle mais pas de clan
+      try {
+        const vampireProfileResponse = await fetch(`${API_URL}/api/vampire/profile`, {
+          headers: {
+            'X-Discord-User-ID': discordUser.id,
+            'X-Discord-Guild-ID': guildId.toString(),
+          },
+        });
+
+        const vampireProfileData = await vampireProfileResponse.json();
+
+        if (vampireProfileData.success) {
+          setVampireProfile(vampireProfileData);
+
+          // Si l'utilisateur a le rôle Vampire mais pas de clan, afficher la sélection de clan
+          if (vampireProfileData.has_vampire_role && !vampireProfileData.clan) {
+            setNeedsClanSelection(true);
+            setLoading(false);
+            return; // Ne pas charger le character si on doit sélectionner un clan
+          }
+        }
+      } catch (err) {
+        console.error('Erreur chargement profil vampire:', err);
       }
     } catch (err) {
       console.error('Erreur chargement member info:', err);
@@ -724,6 +768,24 @@ export default function VampireSheet() {
   // Page de login si pas connecté
   if (!discordUser && !loading) {
     return <LoginPage onLogin={handleLogin} error={authError} />;
+  }
+
+  // Page de sélection de clan si l'utilisateur a le rôle Vampire mais pas de clan
+  if (needsClanSelection && !loading && memberInfo) {
+    const handleClanSelected = async (clanId) => {
+      // Recharger les données après sélection du clan
+      setNeedsClanSelection(false);
+      setLoading(true);
+      await loadCharacter();
+    };
+
+    return (
+      <ClanSelection
+        userId={discordUser.id}
+        guildId={memberInfo.guild_id}
+        onClanSelected={handleClanSelected}
+      />
+    );
   }
 
   // Page si l'utilisateur n'est pas un vampire
