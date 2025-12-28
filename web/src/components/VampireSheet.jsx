@@ -411,7 +411,7 @@ export default function VampireSheet() {
         const user = await response.json();
         console.log('Discord user:', user.username, '| global_name:', user.global_name);
         setDiscordUser(user);
-        setLoading(false);
+        // Ne pas mettre loading=false ici, le useEffect va charger les données
       } else {
         console.error('Discord API error:', response.status);
         localStorage.removeItem('discord_token');
@@ -612,8 +612,13 @@ export default function VampireSheet() {
   // Charger les infos du membre d'abord, puis le personnage
   useEffect(() => {
     if (discordUser) {
+      setLoading(true); // Important: remettre loading à true avant les appels async
       loadMemberInfo().then(() => {
         loadCharacter();
+      }).catch((err) => {
+        console.error('Erreur chargement données:', err);
+        setNotVampire(true);
+        setLoading(false);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
