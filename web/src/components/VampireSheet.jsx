@@ -486,39 +486,36 @@ export default function VampireSheet() {
       const data = await response.json();
 
       if (data.success && data.character) {
-        // Vérifier si l'utilisateur est un vampire (race = vampire ou clan défini)
-        const isVampire = data.character.race === 'vampire' || data.character.clan;
-        if (!isVampire) {
-          setNotVampire(true);
-          setLoading(false);
-          return;
+        // Vérifier si l'utilisateur a un personnage vampire complet
+        // Note: On ne bloque PAS l'accès ici, le rôle Discord sera vérifié via vampireProfile
+        const hasCharacterData = data.character.race === 'vampire' || data.character.clan;
+
+        if (hasCharacterData) {
+          // Utiliser le global_name Discord (avec accents) comme fallback au lieu du username brut
+          // global_name est disponible directement via OAuth2, pas besoin de l'API server
+          const displayName = discordUser.global_name || memberInfo?.display_name || discordUser.username;
+
+          // Si le nom sauvegardé est le username brut (sans accents), le remplacer par le display name
+          let characterName = data.character.name || displayName;
+          if (characterName === discordUser.username && discordUser.global_name) {
+            characterName = discordUser.global_name;
+          }
+
+          setCharacter({
+            ...DEFAULT_CHARACTER,
+            ...data.character,
+            name: characterName,
+            bloodPotency: Number(data.character.bloodPotency) || 1,
+            saturationPoints: Number(data.character.saturationPoints) || 0,
+            completedActions: data.character.completedActions || [],
+            pendingActions: data.character.pendingActions || [],
+            cooldowns: data.character.cooldowns || {},
+            ghouls: data.character.ghouls || [],
+          });
         }
-
-        // Utiliser le global_name Discord (avec accents) comme fallback au lieu du username brut
-        // global_name est disponible directement via OAuth2, pas besoin de l'API server
-        const displayName = discordUser.global_name || memberInfo?.display_name || discordUser.username;
-
-        // Si le nom sauvegardé est le username brut (sans accents), le remplacer par le display name
-        let characterName = data.character.name || displayName;
-        if (characterName === discordUser.username && discordUser.global_name) {
-          characterName = discordUser.global_name;
-        }
-
-        setCharacter({
-          ...DEFAULT_CHARACTER,
-          ...data.character,
-          name: characterName,
-          bloodPotency: Number(data.character.bloodPotency) || 1,
-          saturationPoints: Number(data.character.saturationPoints) || 0,
-          completedActions: data.character.completedActions || [],
-          pendingActions: data.character.pendingActions || [],
-          cooldowns: data.character.cooldowns || {},
-          ghouls: data.character.ghouls || [],
-        });
-      } else {
-        // Pas de personnage enregistré = pas un vampire
-        setNotVampire(true);
+        // Si pas de données de personnage, on laisse vampireProfile gérer (clan selection ou accès refusé)
       }
+      // Si pas de character du tout, on laisse aussi vampireProfile gérer
     } catch (err) {
       console.error('Erreur chargement:', err);
       setError('Erreur de connexion.');
@@ -583,6 +580,13 @@ export default function VampireSheet() {
             setNeedsClanSelection(true);
             setLoading(false);
             return; // Ne pas charger le character si on doit sélectionner un clan
+          }
+
+          // Si l'utilisateur n'a PAS le rôle Vampire, refuser l'accès
+          if (!vampireProfileData.has_vampire_role) {
+            setNotVampire(true);
+            setLoading(false);
+            return;
           }
         }
       } catch (err) {
