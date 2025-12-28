@@ -239,6 +239,62 @@ async def delete_ghoul_handler(request):
         )
 
 
+# --- MEMBER INFO ---
+
+
+async def get_member_info_handler(request):
+    """GET /api/member - Récupérer les infos du membre sur le serveur."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        # Récupérer le bot depuis l'app
+        bot = request.app.get("bot")
+        if not bot:
+            return web.json_response(
+                {"success": False, "error": "Bot non disponible"}, status=500
+            )
+
+        # Récupérer la guild et le membre
+        guild = bot.get_guild(guild_id)
+        if not guild:
+            return web.json_response(
+                {"success": False, "error": "Serveur non trouvé"}, status=404
+            )
+
+        member = guild.get_member(user_id)
+        if not member:
+            # Tenter de fetch si pas en cache
+            try:
+                member = await guild.fetch_member(user_id)
+            except Exception:
+                return web.json_response(
+                    {"success": False, "error": "Membre non trouvé"}, status=404
+                )
+
+        # Construire les infos du membre
+        member_info = {
+            "success": True,
+            "display_name": member.display_name,  # Nom sur le serveur
+            "username": str(member),  # Username global
+            "avatar_url": member.display_avatar.url,  # Avatar (serveur ou global)
+            "guild_name": guild.name,
+        }
+
+        return web.json_response(member_info)
+
+    except Exception as e:
+        logger.error(f"Erreur get_member_info: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
 # --- HEALTH CHECK ---
 
 
@@ -250,12 +306,17 @@ async def health_check(request):
 # --- SETUP ---
 
 
-def create_app():
+def create_app(bot=None):
     """Créer l'application aiohttp."""
     app = web.Application(middlewares=[cors_middleware])
 
+    # Stocker le bot pour y accéder dans les handlers
+    if bot:
+        app["bot"] = bot
+
     # Routes
     app.router.add_get("/health", health_check)
+    app.router.add_get("/api/member", get_member_info_handler)
     app.router.add_get("/api/ghouls", get_ghouls_handler)
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)
@@ -264,9 +325,9 @@ def create_app():
     return app
 
 
-async def start_api_server(port: int = 8080):
+async def start_api_server(port: int = 8080, bot=None):
     """Démarrer le serveur API."""
-    app = create_app()
+    app = create_app(bot=bot)
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, "0.0.0.0", port)
