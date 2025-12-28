@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, AlertTriangle, Sparkles, Crown, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, AlertTriangle, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { getAllClans } from '../data/clanDescriptions';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -136,20 +136,9 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                     </p>
 
                     <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Sparkles className="w-4 h-4 text-green-700 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="text-green-600 font-medium text-xs mb-0.5">Forces</p>
-                          <p className="text-stone-500 text-xs whitespace-pre-line">{clan.strengths}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-2">
-                        <AlertTriangle className="w-4 h-4 text-red-700 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="text-red-600 font-medium text-xs mb-0.5">Faiblesses</p>
-                          <p className="text-stone-500 text-xs whitespace-pre-line">{clan.weaknesses}</p>
-                        </div>
+                      <div className="bg-stone-800/30 p-3 rounded border border-stone-700">
+                        <p className="text-red-600 font-medium text-xs mb-1">Spécificités</p>
+                        <p className="text-stone-400 text-xs whitespace-pre-line">{clan.specificities}</p>
                       </div>
 
                       <div className="bg-stone-800/50 p-3 rounded border border-stone-700">
