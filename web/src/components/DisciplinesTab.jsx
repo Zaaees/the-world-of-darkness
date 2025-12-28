@@ -23,19 +23,8 @@ const DISCIPLINE_ICONS = {
   chimerstry: "✨"
 };
 
-// Niveau de BP requis par niveau de pouvoir
-const BP_REQUIRED = {
-  1: 1,
-  2: 1,
-  3: 2,
-  4: 3,
-  5: 4
-};
-
 // Composant pour un pouvoir individuel
 const PowerCard = ({ power, isLocked }) => {
-  const requiredBP = BP_REQUIRED[power.level] || 1;
-
   return (
     <div className={`
       p-3 rounded border transition-all
@@ -60,7 +49,7 @@ const PowerCard = ({ power, isLocked }) => {
               {power.name}
             </h4>
             <span className={`text-xs ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
-              • Niveau {power.level} (BP {requiredBP}+)
+              • Niveau {power.level}
             </span>
             {isLocked && <Lock size={12} className="text-stone-600" />}
           </div>
@@ -160,7 +149,7 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
       {/* Note sur la progression */}
       {bloodPotency < 4 && (
         <div className="text-center text-xs text-stone-600 italic py-4 border-t border-stone-900">
-          Augmentez votre Puissance du Sang pour débloquer des niveaux supérieurs
+          Augmentez votre Puissance du Sang pour débloquer de nouvelles disciplines
         </div>
       )}
     </div>
