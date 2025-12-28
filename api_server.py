@@ -19,6 +19,8 @@ from utils.database import (
     get_max_ghouls,
     get_ghoul_count,
     get_vampire_data,
+    get_player,
+    set_player,
     update_ghoul,
 )
 
@@ -350,6 +352,161 @@ async def get_member_info_handler(request):
         )
 
 
+# --- VAMPIRE PROFILE ---
+
+
+async def get_vampire_profile_handler(request):
+    """GET /api/vampire/profile - Récupérer le profil complet du vampire."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        # Récupérer le bot depuis l'app
+        bot = request.app.get("bot")
+        if not bot:
+            return web.json_response(
+                {"success": False, "error": "Bot non disponible"}, status=500
+            )
+
+        # Récupérer la guild et le membre
+        guild = bot.get_guild(guild_id)
+        if not guild:
+            return web.json_response(
+                {"success": False, "error": "Serveur non trouvé"}, status=404
+            )
+
+        member = guild.get_member(user_id)
+        if not member:
+            # Tenter de fetch si pas en cache
+            try:
+                member = await guild.fetch_member(user_id)
+            except Exception:
+                return web.json_response(
+                    {"success": False, "error": "Membre non trouvé"}, status=404
+                )
+
+        # Vérifier si le membre a le rôle Vampire
+        from data.config import ROLE_VAMPIRE
+        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
+
+        # Récupérer les données du joueur
+        player = await get_player(user_id, guild_id)
+        vampire_data = await get_vampire_data(user_id, guild_id)
+
+        # Construire le profil
+        profile = {
+            "success": True,
+            "has_vampire_role": has_vampire_role,
+            "clan": player.get("clan") if player else None,
+            "soif_level": vampire_data.get("soif_level", 0) if vampire_data else 0,
+            "blood_potency": vampire_data.get("blood_potency", 1) if vampire_data else 1,
+            "saturation_points": vampire_data.get("saturation_points", 0) if vampire_data else 0,
+            "display_name": member.display_name,
+            "avatar_url": member.display_avatar.url,
+        }
+
+        return web.json_response(profile)
+
+    except Exception as e:
+        logger.error(f"Erreur get_vampire_profile: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
+async def set_vampire_clan_handler(request):
+    """POST /api/vampire/clan - Définir le clan du vampire."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        # Parser le corps de la requête
+        data = await request.json()
+        clan = data.get("clan", "").strip().lower()
+
+        if not clan:
+            return web.json_response(
+                {"success": False, "error": "Le clan est requis"}, status=400
+            )
+
+        # Vérifier que le clan existe
+        from data.clans import get_clan
+        clan_data = get_clan(clan)
+        if not clan_data:
+            return web.json_response(
+                {"success": False, "error": "Clan non reconnu"}, status=400
+            )
+
+        # Récupérer le bot et vérifier le rôle
+        bot = request.app.get("bot")
+        if not bot:
+            return web.json_response(
+                {"success": False, "error": "Bot non disponible"}, status=500
+            )
+
+        guild = bot.get_guild(guild_id)
+        if not guild:
+            return web.json_response(
+                {"success": False, "error": "Serveur non trouvé"}, status=404
+            )
+
+        member = guild.get_member(user_id)
+        if not member:
+            try:
+                member = await guild.fetch_member(user_id)
+            except Exception:
+                return web.json_response(
+                    {"success": False, "error": "Membre non trouvé"}, status=404
+                )
+
+        # Vérifier le rôle Vampire
+        from data.config import ROLE_VAMPIRE
+        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
+
+        if not has_vampire_role:
+            return web.json_response(
+                {"success": False, "error": "Vous devez avoir le rôle Vampire"},
+                status=403
+            )
+
+        # Vérifier que le joueur n'a pas déjà un clan
+        player = await get_player(user_id, guild_id)
+        if player and player.get("clan"):
+            return web.json_response(
+                {"success": False, "error": "Vous avez déjà un clan défini"},
+                status=400
+            )
+
+        # Définir le clan
+        await set_player(user_id, guild_id, race="vampire", clan=clan)
+
+        return web.json_response({
+            "success": True,
+            "clan": clan,
+            "message": f"Vous avez rejoint le clan {clan_data['name']}"
+        })
+
+    except json.JSONDecodeError:
+        return web.json_response(
+            {"success": False, "error": "JSON invalide"}, status=400
+        )
+    except Exception as e:
+        logger.error(f"Erreur set_vampire_clan: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
 # --- HEALTH CHECK ---
 
 
@@ -373,6 +530,8 @@ def create_app(bot=None):
     app.router.add_get("/health", health_check)
     app.router.add_get("/api/guild", get_user_guild_handler)
     app.router.add_get("/api/member", get_member_info_handler)
+    app.router.add_get("/api/vampire/profile", get_vampire_profile_handler)
+    app.router.add_post("/api/vampire/clan", set_vampire_clan_handler)
     app.router.add_get("/api/ghouls", get_ghouls_handler)
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)

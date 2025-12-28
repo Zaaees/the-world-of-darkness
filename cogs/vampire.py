@@ -6,6 +6,7 @@ Accessible uniquement aux membres avec le rôle "Vampire".
 """
 
 import logging
+import os
 
 import discord
 from discord import app_commands
@@ -18,6 +19,9 @@ from utils.rp_check import is_rp_channel
 from views.vampire_panel import VampirePanel, ClanSelectView
 
 logger = logging.getLogger(__name__)
+
+# URL du site web pour la sélection de clan
+WEB_URL = os.getenv("WEB_URL", "https://zaaees.github.io/the-world-of-darkness")
 
 
 def has_vampire_role(member: discord.Member) -> bool:
@@ -57,18 +61,33 @@ class VampireCog(commands.Cog, name="Vampire"):
         # Récupérer le profil du joueur
         player = await get_player(interaction.user.id, interaction.guild.id)
 
-        # Si pas de clan défini, demander de choisir
+        # Si pas de clan défini, rediriger vers le site web
         if not player or not player.get("clan"):
+            # Créer l'URL avec les paramètres d'authentification
+            auth_url = f"{WEB_URL}?userId={interaction.user.id}&guildId={interaction.guild.id}"
+
             embed = discord.Embed(
-                title="🧛 Configuration Vampire",
+                title="🧛 Bienvenue parmi les Damnés",
                 description=(
-                    "Tu n'as pas encore choisi ton Clan.\n\n"
-                    "Choisis ton lignage parmi les Damnés..."
+                    "Tu viens de rejoindre les rangs des vampires, mais ton lignage reste encore à définir.\n\n"
+                    "**Chaque clan porte un héritage millénaire, une malédiction unique, et des disciplines qui te définiront pour l'éternité.**\n\n"
+                    "Clique sur le bouton ci-dessous pour accéder au **Codex des Clans** et choisir ta lignée de sang."
                 ),
                 color=discord.Color.dark_red(),
             )
 
-            view = ClanSelectView()
+            embed.set_footer(text="🩸 Une fois choisi, ton clan façonnera ton destin pour toujours")
+
+            # Créer un bouton pour accéder au site
+            view = discord.ui.View()
+            view.add_item(
+                discord.ui.Button(
+                    label="📖 Consulter le Codex des Clans",
+                    url=auth_url,
+                    style=discord.ButtonStyle.link
+                )
+            )
+
             await interaction.response.send_message(
                 embed=embed,
                 view=view,

@@ -474,6 +474,54 @@
                         abilities: "Perception Augmentée (Auspex), Résistance Tissulaire (Fortitude), Suggestion Neurale (Domination).",
                         elimination: "Risque faible. Capture pour étude biologique recommandée.",
                         type: "clan"
+                    },
+                    {
+                        id: "gargoyles",
+                        name: "Gargouilles",
+                        codeName: "GARDIEN DE PIERRE (SENTINEL)",
+                        threatLevel: "ÉLEVÉ (Aérien/Physique)",
+                        traits: "Apparence monstrueuse, ailes fonctionnelles, peau semblable à la pierre.",
+                        description: "Créations artificielles des Tremere. Esclaves affranchis possédant des capacités de vol et une résistance corporelle exceptionnelle. Leur apparence grotesque (cornes, ailes membraneuses, peau grise) les empêche de se fondre dans la population. Souvent utilisés comme gardes et sentinelles. Depuis la chute de Vienne (2008), plusieurs spécimens ont fui et opèrent en cellules indépendantes.",
+                        modus: "Surveillance aérienne, gardiennage de sites sensibles, vengeance contre leurs anciens maîtres Tremere.",
+                        abilities: "Vol Surnaturel (Flight), Mutation Pierre-Chair (Visceratika), Résistance Tissulaire (Fortitude), Augmentation Musculaire (Potence).",
+                        elimination: "Armement anti-aérien nécessaire. Missiles air-sol recommandés. Les ramener au sol par tous moyens, puis neutralisation par décapitation. Attention aux débris : leur peau peut se pétrifier post-mortem.",
+                        type: "clan"
+                    },
+                    {
+                        id: "samedi",
+                        name: "Samedi",
+                        codeName: "CADAVRE AMBULANT (STIFF)",
+                        threatLevel: "MOYEN (Biologique/Psychologique)",
+                        traits: "État de décomposition avancée permanente, odeur pestilentielle.",
+                        description: "Branche dégénérée des Giovanni ou lignée indépendante (débat en cours). Leur corps reste en état de putréfaction constante : chair nécrosée, plaies ouvertes, odeur de cadavre. Malgré cela, ils fonctionnent normalement. Impossible de les infiltrer dans la société civile à cause de leur apparence. Opèrent principalement dans les morgues, cimetières, et réseaux souterrains. Utilisent leur apparence horrifique comme arme psychologique.",
+                        modus: "Trafic de cadavres, sabotage médico-légal, terrorisme par l'horreur visuelle.",
+                        abilities: "Mimétisme Cadavérique (Thanatosis), Occultation Cognitive (Obfuscate), Résistance Tissulaire (Fortitude).",
+                        elimination: "Masques à gaz obligatoires (odeur insupportable). Incinération complète recommandée. Ne jamais tenter de capture vivante : risque biologique de contamination parasitaire.",
+                        type: "clan"
+                    },
+                    {
+                        id: "daughters_cacophony",
+                        name: "Filles de la Cacophonie",
+                        codeName: "SIRÈNE (DIVA)",
+                        threatLevel: "MOYEN-ÉLEVÉ (Sonique/Influence)",
+                        traits: "Voix surnaturellement puissante, présence scénique irrésistible.",
+                        description: "Lignée mystérieuse centrée autour du pouvoir vocal. Capables de manipuler les émotions et même causer des dégâts physiques par le chant. Infiltrées dans l'industrie musicale mondiale : opéras, concerts, studios d'enregistrements. Utilisent leur célébrité comme couverture et source d'influence. Majoritairement féminines, d'où le nom. Certains mâles existent mais sont rares.",
+                        modus: "Contrôle des masses par la musique, manipulation émotionnelle à grande échelle, assassinats par résonance sonique.",
+                        abilities: "Manipulation Vocale (Melpominée), Résistance Tissulaire (Fortitude), Manipulation Limbique (Présence).",
+                        elimination: "Protection auditive obligatoire (bouchons + casques anti-bruit). Neutraliser avant qu'elles ne puissent émettre un son : bâillons, destruction du larynx, ou élimination à distance.",
+                        type: "clan"
+                    },
+                    {
+                        id: "baali",
+                        name: "Baali",
+                        codeName: "DÉMONOLÂTRE (INFERNALIST)",
+                        threatLevel: "APOCALYPTIQUE (Occulte/Démoniaque)",
+                        traits: "Pactes démoniaques, mutations corporelles, aura de corruption.",
+                        description: "La menace la plus dangereuse identifiée à ce jour. Adorateurs actifs d'entités démoniaques, cherchant activement à déclencher l'apocalypse. Pratiquent des sacrifices rituels de masse, invocations infernales, et corruption systématique des institutions. Éradiqués officiellement au Moyen-Âge par une alliance vampire-humaine, mais des cellules persistent en Orient et Afrique. Toute trace d'activité Baali justifie une réponse militaire immédiate.",
+                        modus: "Cultes apocalyptiques, sacrifices humains, ouverture de portails démoniaques, corruption démoniaque d'individus-clés.",
+                        abilities: "Invocation Infernale (Daimoinon), Occultation Cognitive (Obfuscate), Manipulation Limbique (Présence).",
+                        elimination: "PROTOCOLE ARMAGEDDON : Frappes aériennes si nécessaire. Aucune négociation. Aucune capture. Incinération totale des sites. Exorcismes préventifs pour le personnel exposé. En cas de portail démoniaque actif : évacuation civile immédiate, puis bombardement au phosphore blanc.",
+                        type: "clan"
                     }
                 ]
             },
@@ -551,6 +599,36 @@
                         title: "Alchimie Hématologique",
                         type: "tech_spec",
                         content: "Capacité unique aux 'Sang-Clair' de copier d'autres pouvoirs via des concoctions chimiques instables.<br><strong>Contre-mesure :</strong> Saisie du matériel de laboratoire."
+                    },
+                    {
+                        id: "disc_flight",
+                        title: "Vol Surnaturel (Flight)",
+                        type: "tech_spec",
+                        content: "Capacité aérienne active : ailes fonctionnelles permettant le vol sustained. Le sujet peut se déplacer à des vitesses dépassant 100 km/h en altitude, effectuer des manœuvres d'évasion complexes, et transporter des charges modérées. Les sujets de type Gargouille utilisent cette capacité pour la surveillance de périmètre et les frappes aériennes surprises. Les ailes sont vulnérables aux tirs de précision.<br><strong>Contre-mesure :</strong> Armement anti-aérien (missiles surface-air, mitrailleuses lourdes), drones de combat, interdiction de vol nocturne dans les zones sécurisées. Les filets de capture ne sont efficaces que contre les spécimens de faible expérience."
+                    },
+                    {
+                        id: "disc_visceratika",
+                        title: "Mutation Pierre-Chair (Visceratika)",
+                        type: "tech_spec",
+                        content: "Transformation physique hybride organique-minérale. Le sujet peut modifier la densité de ses tissus pour approcher celle de la roche : peau devenant carapace de pierre, os se renforçant en structure cristalline, excroissances d'armes organiques minéralisées (griffes d'obsidienne, pointes calcifiées). Certains spécimens peuvent entrer en 'stase pétrifiée' complète, devenant indétectable des scanners biologiques. Forme défensive extrême.<br><strong>Contre-mesure :</strong> Explosifs à haute vélocité (la pierre se fragmente), acide concentré, vibrations soniques à haute fréquence (résonance destructive). En stase : détection radar géologique, marteau-piqueur industriel."
+                    },
+                    {
+                        id: "disc_thanatosis",
+                        title: "Mimétisme Cadavérique (Thanatosis)",
+                        type: "tech_spec",
+                        content: "Simulation biologique de la décomposition. Le sujet peut accélérer ou ralentir les processus de nécrose de son propre corps : peau en putréfaction, dégagement de gaz cadavériques (méthane, putrescine, cadavérine), rigidité mortis contrôlée, libération de faune nécrophage (asticots, mouches). Utilisé pour infiltration en morgues, évasion (feindre la destruction), et guerre psychologique. Les spécimens en décomposition avancée deviennent résistants aux dégâts perforants (pas d'organes vitaux intacts à cibler).<br><strong>Contre-mesure :</strong> Vérification post-mortem systématique (décapitation obligatoire), incinération immédiate des 'cadavres' suspects, détecteurs de CO2 expiré (les vrais morts n'expirent pas). Quarantaine biologique du personnel exposé."
+                    },
+                    {
+                        id: "disc_melpominee",
+                        title: "Manipulation Vocale (Melpominée)",
+                        type: "tech_spec",
+                        content: "Projection sonique à effet psycho-émotionnel ou physique. Le sujet module sa voix pour : (1) Influencer émotionnellement les auditeurs (euphorie, terreur, calme, rage), (2) Projeter des ondes destructrices (fréquences capables de briser le verre, perforer les tympans, ou provoquer des hémorragies internes par résonance), (3) Implanter des commandes hypnotiques véhiculées par mélodie. Portée effective : jusqu'à 50 mètres en environnement ouvert. Efficace sur groupes et foules.<br><strong>Contre-mesure :</strong> Protection auditive passive (bouchons + casques antibruit militaires), neutralisation vocale préventive (bâillon, destruction du larynx, gaz paralysant des cordes vocales), brouillage acoustique actif, élimination à distance avant contact verbal."
+                    },
+                    {
+                        id: "disc_daimoinon",
+                        title: "Invocation Infernale (Daimoinon)",
+                        type: "tech_spec",
+                        content: "Manifestation d'énergies extra-planaires de nature démoniaque. Comprend : (1) Projection de flammes 'froides' noires (brûlent la chair mais pas les matériaux inertes, température paradoxale), (2) Induction de terreur existentielle (vision mentale de l'Abîme), (3) Application de malédictions probabilistiques (accumulation statistique d'événements négatifs), (4) Invocation temporaire d'entités mineures non-corporelles (observateurs, saboteurs). Risque de contamination démoniaque du personnel exposé.<br><strong>Contre-mesure :</strong> PROTOCOLE VATICAN : Présence d'un aumônier militaire accrédité, eau bénite en aspersion préventive, symboles religieux consacrés, sel consacré en périmètre de confinement. Neutralisation physique standard applicable, mais exorcisme post-opération recommandé pour toute l'équipe. En cas d'invocation majeure : retrait immédiat, frappes aériennes avec munitions au phosphore, quarantaine spirituelle de la zone."
                     }
                 ]
             },
