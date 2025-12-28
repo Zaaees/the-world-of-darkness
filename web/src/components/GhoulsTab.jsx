@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Users, Plus, Trash2, Edit2, Save, X, Droplet, Shield, AlertCircle } from 'lucide-react';
-
-// Configuration de l'API
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 // Limites de goules par Puissance du Sang
 const GHOUL_LIMITS = {
@@ -13,155 +10,97 @@ const GHOUL_LIMITS = {
   5: 20,
 };
 
-export default function GhoulsTab({ discordUserId, discordGuildId, clan, bloodPotency }) {
-  const [ghouls, setGhouls] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [maxGhouls, setMaxGhouls] = useState(0);
-  const [currentCount, setCurrentCount] = useState(0);
+// Disciplines par clan
+const CLAN_DISCIPLINES = {
+  brujah: ['Célérité', 'Puissance', 'Présence'],
+  gangrel: ['Animalisme', 'Force d\'Âme', 'Protéisme'],
+  malkavian: ['Auspex', 'Aliénation', 'Occultation'],
+  nosferatu: ['Animalisme', 'Occultation', 'Puissance'],
+  toreador: ['Auspex', 'Célérité', 'Présence'],
+  tremere: ['Auspex', 'Domination', 'Thaumaturgie'],
+  ventrue: ['Domination', 'Force d\'Âme', 'Présence'],
+  lasombra: ['Domination', 'Obténébration', 'Puissance'],
+  tzimisce: ['Animalisme', 'Auspex', 'Vicissitude'],
+  assamite: ['Célérité', 'Occultation', 'Quietus'],
+  setite: ['Occultation', 'Présence', 'Serpentis'],
+  ravnos: ['Animalisme', 'Chimérie', 'Force d\'Âme'],
+  giovanni: ['Domination', 'Nécromancie', 'Puissance'],
+};
+
+// Pouvoirs de niveau 1 pour chaque discipline
+const DISCIPLINE_POWERS = {
+  'Animalisme': 'Murmures Fauves',
+  'Auspex': 'Sens Accrus',
+  'Célérité': 'Grâce Féline',
+  'Domination': 'Commandement',
+  'Force d\'Âme': 'Résilience',
+  'Occultation': 'Cape d\'Ombre',
+  'Puissance': 'Vigueur',
+  'Présence': 'Crainte Révérencielle',
+  'Protéisme': 'Yeux de la Bête',
+  'Obténébration': 'Jeu d\'Ombres',
+  'Thaumaturgie': 'Goût du Sang',
+  'Vicissitude': 'Modelage Mineur',
+  'Nécromancie': 'Insight',
+  'Quietus': 'Silence de la Mort',
+  'Serpentis': 'Regard Hypnotique',
+  'Aliénation': 'Passion',
+  'Chimérie': 'Ignis Fatuus',
+};
+
+export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
   const [editingGhoul, setEditingGhoul] = useState(null);
   const [creatingGhoul, setCreatingGhoul] = useState(false);
   const [newGhoul, setNewGhoul] = useState({ name: '', description: '', role: '' });
+  const [error, setError] = useState(null);
 
-  // Charger les goules
-  useEffect(() => {
-    if (discordUserId && discordGuildId) {
-      loadGhouls();
-    }
-  }, [discordUserId, discordGuildId]);
+  const maxGhouls = GHOUL_LIMITS[bloodPotency] || 2;
+  const currentCount = ghouls.length;
 
-  const loadGhouls = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await fetch(`${API_URL}/api/ghouls`, {
-        headers: {
-          'X-Discord-User-ID': discordUserId,
-          'X-Discord-Guild-ID': discordGuildId,
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setGhouls(data.ghouls || []);
-        setMaxGhouls(data.max_ghouls || GHOUL_LIMITS[bloodPotency] || 2);
-        setCurrentCount(data.current_count || 0);
-      } else {
-        setError(data.error || 'Erreur lors du chargement des goules');
-      }
-    } catch (err) {
-      console.error('Erreur chargement goules:', err);
-      setError('Erreur de connexion au serveur');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const createGhoul = async () => {
+  const createGhoul = () => {
     if (!newGhoul.name.trim()) {
       setError('Le nom de la goule est requis');
       return;
     }
 
-    try {
-      setError(null);
+    // Assigner une discipline aléatoire du clan
+    const clanDisciplines = CLAN_DISCIPLINES[clan?.toLowerCase()] || [];
+    const randomDiscipline = clanDisciplines[Math.floor(Math.random() * clanDisciplines.length)];
+    const disciplinePower = DISCIPLINE_POWERS[randomDiscipline] || 'Pouvoir Inconnu';
 
-      const response = await fetch(`${API_URL}/api/ghouls`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Discord-User-ID': discordUserId,
-          'X-Discord-Guild-ID': discordGuildId,
-        },
-        body: JSON.stringify(newGhoul),
-      });
+    const ghoul = {
+      id: `ghoul_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: newGhoul.name.trim(),
+      description: newGhoul.description.trim() || null,
+      role: newGhoul.role.trim() || null,
+      discipline_name: randomDiscipline,
+      discipline_power: disciplinePower,
+      status: 'actif',
+      notes: '',
+      created_at: Date.now(),
+    };
 
-      const data = await response.json();
-
-      if (data.success) {
-        await loadGhouls();
-        setCreatingGhoul(false);
-        setNewGhoul({ name: '', description: '', role: '' });
-      } else {
-        setError(data.error || 'Erreur lors de la création');
-      }
-    } catch (err) {
-      console.error('Erreur création goule:', err);
-      setError('Erreur de connexion au serveur');
-    }
+    onUpdateGhouls([...ghouls, ghoul]);
+    setCreatingGhoul(false);
+    setNewGhoul({ name: '', description: '', role: '' });
+    setError(null);
   };
 
-  const updateGhoul = async (ghoul) => {
-    try {
-      setError(null);
-
-      const response = await fetch(`${API_URL}/api/ghouls/${ghoul.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Discord-User-ID': discordUserId,
-          'X-Discord-Guild-ID': discordGuildId,
-        },
-        body: JSON.stringify({
-          name: ghoul.name,
-          description: ghoul.description,
-          role: ghoul.role,
-          notes: ghoul.notes,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        await loadGhouls();
-        setEditingGhoul(null);
-      } else {
-        setError(data.error || 'Erreur lors de la mise à jour');
-      }
-    } catch (err) {
-      console.error('Erreur mise à jour goule:', err);
-      setError('Erreur de connexion au serveur');
-    }
+  const updateGhoul = (updatedGhoul) => {
+    const updated = ghouls.map(g => g.id === updatedGhoul.id ? updatedGhoul : g);
+    onUpdateGhouls(updated);
+    setEditingGhoul(null);
+    setError(null);
   };
 
-  const deleteGhoul = async (ghoulId) => {
+  const deleteGhoul = (ghoulId) => {
     if (!confirm('Êtes-vous sûr de vouloir libérer cette goule ?')) {
       return;
     }
-
-    try {
-      setError(null);
-
-      const response = await fetch(`${API_URL}/api/ghouls/${ghoulId}`, {
-        method: 'DELETE',
-        headers: {
-          'X-Discord-User-ID': discordUserId,
-          'X-Discord-Guild-ID': discordGuildId,
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        await loadGhouls();
-      } else {
-        setError(data.error || 'Erreur lors de la suppression');
-      }
-    } catch (err) {
-      console.error('Erreur suppression goule:', err);
-      setError('Erreur de connexion au serveur');
-    }
+    const updated = ghouls.filter(g => g.id !== ghoulId);
+    onUpdateGhouls(updated);
+    setError(null);
   };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12 text-stone-500">
-        <div className="animate-pulse">Chargement des goules...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -210,6 +149,7 @@ export default function GhoulsTab({ discordUserId, discordGuildId, clan, bloodPo
               onClick={() => {
                 setCreatingGhoul(false);
                 setNewGhoul({ name: '', description: '', role: '' });
+                setError(null);
               }}
               className="text-stone-500 hover:text-stone-300"
             >
@@ -262,6 +202,7 @@ export default function GhoulsTab({ discordUserId, discordGuildId, clan, bloodPo
               onClick={() => {
                 setCreatingGhoul(false);
                 setNewGhoul({ name: '', description: '', role: '' });
+                setError(null);
               }}
               className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded transition-colors"
             >
@@ -316,7 +257,7 @@ export default function GhoulsTab({ discordUserId, discordGuildId, clan, bloodPo
 function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
   const [editedGhoul, setEditedGhoul] = useState(ghoul);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setEditedGhoul(ghoul);
   }, [ghoul]);
 

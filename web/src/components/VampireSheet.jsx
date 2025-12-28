@@ -339,7 +339,8 @@ const DEFAULT_CHARACTER = {
   pendingActions: [],
   cooldowns: {},
   isMutating: false,
-  mutationEndsAt: null
+  mutationEndsAt: null,
+  ghouls: []
 };
 
 // --- PAGE DE LOGIN ---
@@ -485,6 +486,7 @@ export default function VampireSheet() {
           completedActions: data.character.completedActions || [],
           pendingActions: data.character.pendingActions || [],
           cooldowns: data.character.cooldowns || {},
+          ghouls: data.character.ghouls || [],
         });
       } else {
         // Pas de personnage enregistré = pas un vampire
@@ -974,25 +976,16 @@ export default function VampireSheet() {
 
         {/* ONGLET GOULES */}
         {activeTab === 'ghouls' && (
-          <>
-            {!memberInfo ? (
-              <div className="flex items-center justify-center py-12 text-stone-500">
-                <div className="text-center">
-                  <div className="animate-pulse mb-4">Chargement des informations du serveur...</div>
-                  <div className="text-xs text-stone-700">
-                    Si le chargement prend trop de temps, vérifiez que le serveur API est démarré
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <GhoulsTab
-                discordUserId={discordUser.id}
-                discordGuildId={memberInfo.guild_id}
-                clan={character.clan}
-                bloodPotency={character.bloodPotency}
-              />
-            )}
-          </>
+          <GhoulsTab
+            ghouls={character.ghouls || []}
+            clan={character.clan}
+            bloodPotency={character.bloodPotency}
+            onUpdateGhouls={(updatedGhouls) => {
+              const updated = { ...character, ghouls: updatedGhouls };
+              setCharacter(updated);
+              saveCharacter(updated);
+            }}
+          />
         )}
 
       </main>
