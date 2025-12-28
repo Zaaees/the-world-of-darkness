@@ -386,6 +386,7 @@ const LoginPage = ({ onLogin, error }) => {
 export default function VampireSheet() {
   const [discordUser, setDiscordUser] = useState(null);
   const [memberInfo, setMemberInfo] = useState(null);
+  const [guildId, setGuildId] = useState(null); // Stocké séparément pour éviter crash si memberInfo null
   const [character, setCharacter] = useState(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -545,13 +546,14 @@ export default function VampireSheet() {
         return false;
       }
 
-      const guildId = guildData.guild_id;
+      const detectedGuildId = guildData.guild_id;
+      setGuildId(detectedGuildId); // Sauvegarder dans le state pour ClanSelection
 
       // Ensuite, charger les infos du membre sur ce serveur
       const memberResponse = await fetch(`${API_URL}/api/member`, {
         headers: {
           'X-Discord-User-ID': discordUser.id,
-          'X-Discord-Guild-ID': guildId.toString(),
+          'X-Discord-Guild-ID': detectedGuildId.toString(),
         },
       });
 
@@ -568,7 +570,7 @@ export default function VampireSheet() {
         const vampireProfileResponse = await fetch(`${API_URL}/api/vampire/profile`, {
           headers: {
             'X-Discord-User-ID': discordUser.id,
-            'X-Discord-Guild-ID': guildId.toString(),
+            'X-Discord-Guild-ID': detectedGuildId.toString(),
           },
         });
 
@@ -837,7 +839,7 @@ export default function VampireSheet() {
     return (
       <ClanSelection
         userId={discordUser.id}
-        guildId={memberInfo.guild_id}
+        guildId={guildId}
         onClanSelected={handleClanSelected}
       />
     );

@@ -493,7 +493,7 @@ async def set_vampire_clan_handler(request):
         return web.json_response({
             "success": True,
             "clan": clan,
-            "message": f"Vous avez rejoint le clan {clan_data['name']}"
+            "message": f"Vous avez rejoint le clan {clan_data['nom']}"
         })
 
     except json.JSONDecodeError:
