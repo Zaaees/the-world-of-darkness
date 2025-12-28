@@ -20,7 +20,12 @@ const DISCIPLINE_ICONS = {
   quietus: "🤫",
   serpentis: "🐍",
   dementation: "🌀",
-  chimerstry: "✨"
+  chimerstry: "✨",
+  flight: "🦇",
+  visceratika: "🗿",
+  thanatosis: "⚰️",
+  melpominee: "🎵",
+  daimoinon: "😈"
 };
 
 // Composant pour un pouvoir individuel
