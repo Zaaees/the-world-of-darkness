@@ -480,10 +480,16 @@ export default function VampireSheet() {
         // Utiliser le display name du serveur comme fallback au lieu du username brut
         const defaultName = memberInfo?.display_name || discordUser.username;
 
+        // Si le nom sauvegardé est le username brut (sans accents), le remplacer par le display name
+        let characterName = data.character.name || defaultName;
+        if (characterName === discordUser.username && memberInfo?.display_name) {
+          characterName = memberInfo.display_name;
+        }
+
         setCharacter({
           ...DEFAULT_CHARACTER,
           ...data.character,
-          name: data.character.name || defaultName,
+          name: characterName,
           bloodPotency: Number(data.character.bloodPotency) || 1,
           saturationPoints: Number(data.character.saturationPoints) || 0,
           completedActions: data.character.completedActions || [],
