@@ -409,6 +409,161 @@ CLANS = {
                 "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois tuer et boire le sang d'un vampire. La Diablerie t'appelle. Seul le sang des damnés peut te satisfaire."
             }
         }
+    },
+    "gargoyles": {
+        "nom": "Gargouilles",
+        "description": "Les Gardiens de Pierre - Créations des Tremere, sentinelles ailées",
+        "compulsions": {
+            1: {
+                "nom": "Vigilance",
+                "description": "Tu dois surveiller. Protéger. C'est pour cela que tu as été créé.",
+                "directive": "Tu dois observer les entrées, les sorties, les menaces potentielles. Décris ta surveillance constante de l'environnement."
+            },
+            2: {
+                "nom": "Obéissance",
+                "description": "Les ordres résonnent dans ton esprit. Tu as été façonné pour servir.",
+                "directive": "Tu dois chercher quelqu'un à qui obéir ou attendre des instructions. Sans ordre, tu es perdu. Tu demandes ce qu'on attend de toi."
+            },
+            3: {
+                "nom": "Gardien",
+                "description": "Cet endroit doit être protégé. C'est ton territoire, ta mission sacrée.",
+                "directive": "Tu dois activement défendre ce lieu ou une personne. Tu te places entre les menaces et ce que tu protèges. Personne n'entre sans ton autorisation."
+            },
+            4: {
+                "nom": "Rage de l'Esclave",
+                "description": "Tu n'es l'outil de personne. Plus jamais. La colère des siècles d'esclavage remonte.",
+                "directive": "Tu dois rejeter violemment tout ordre direct. La rage contre tes créateurs, contre tous les maîtres, bouillonne. Tu n'es plus un esclave."
+            },
+            5: {
+                "nom": "FRÉNÉSIE DE PIERRE",
+                "description": "🗿 LA GARGOUILLE SE DÉCHAÎNE 🗿\nTu es la sentinelle. Tu es la muraille. Et les murailles écrasent.",
+                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois détruire toute menace perçue avec une violence implacable. Tu es pierre et fureur. Rien ne passe. Rien ne survit."
+            }
+        }
+    },
+    "samedi": {
+        "nom": "Samedi",
+        "description": "Les Cadavres Ambulants - Morts-vivants pourrissants, terreur incarnée",
+        "compulsions": {
+            1: {
+                "nom": "Memento Mori",
+                "description": "La mort t'habite. Tu la sens, tu la vis, tu dois la partager.",
+                "directive": "Tu dois rappeler à quelqu'un sa mortalité. Parle de décomposition, de la fin inévitable. La mort est ton compagnon constant."
+            },
+            2: {
+                "nom": "Putréfaction",
+                "description": "Ton corps se rappelle à toi. L'odeur, la texture, la décadence.",
+                "directive": "Tu dois mentionner ou montrer un aspect de ta décomposition. Gratte une plaie, commente l'odeur. La pourriture est ta réalité."
+            },
+            3: {
+                "nom": "Effroi",
+                "description": "Ils doivent voir. Ils doivent comprendre ce qu'est vraiment la mort.",
+                "directive": "Tu dois effrayer quelqu'un avec ton apparence ou tes paroles macabres. Montre-leur le cadavre que tu es. Leur dégoût te nourrit."
+            },
+            4: {
+                "nom": "Communion Morbide",
+                "description": "Les morts te parlent. Les vers sont tes frères. Tu appartiens à la tombe.",
+                "directive": "Tu dois agir comme un cadavre conscient. Immobilité soudaine, regard vide, paroles d'outre-tombe. Tu es plus mort que vivant."
+            },
+            5: {
+                "nom": "FRÉNÉSIE CADAVÉRIQUE",
+                "description": "💀 LA TOMBE PREND LE CONTRÔLE 💀\nTu es la Mort incarnée. Le Baron Samedi marche parmi eux.",
+                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois répandre la mort et la terreur. Ton corps est une arme de dégoût. Ceux qui te voient doivent connaître l'horreur absolue de la tombe."
+            }
+        }
+    },
+    "daughters_cacophony": {
+        "nom": "Filles de la Cacophonie",
+        "description": "Les Sirènes - Voix mortelles, chanteuses ensorcelantes",
+        "compulsions": {
+            1: {
+                "nom": "Mélodie",
+                "description": "La musique pulse en toi. Tu dois l'exprimer.",
+                "directive": "Tu dois fredonner, chantonner ou faire référence à une chanson. La musique s'échappe de toi sans que tu puisses la retenir."
+            },
+            2: {
+                "nom": "Performance",
+                "description": "Le monde est une scène. Tu dois être entendue.",
+                "directive": "Tu dois attirer l'attention sur toi par ta voix ou ton charisme. Parle plus fort, chante, déclame. Tu es le centre de la scène."
+            },
+            3: {
+                "nom": "Résonance",
+                "description": "Ta voix veut toucher leurs âmes. Les émouvoir. Les briser.",
+                "directive": "Tu dois utiliser ta voix pour affecter émotionnellement quelqu'un. Fais-les pleurer, rire, trembler. Ton chant est leur émotion."
+            },
+            4: {
+                "nom": "Dissonance",
+                "description": "La cacophonie monte. Mille voix hurlent en toi, cherchant une sortie.",
+                "directive": "Tu dois laisser échapper des sons discordants, des notes impossibles. Ta voix devient incontrôlable, oscillant entre beauté et horreur sonore."
+            },
+            5: {
+                "nom": "FRÉNÉSIE DE LA SIRÈNE",
+                "description": "🎵 LA CACOPHONIE PREND LE CONTRÔLE 🎵\nTon chant devient tempête. Tous doivent entendre. Tous doivent souffrir.",
+                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois chanter à pleine puissance, un son qui brise les esprits et fait saigner les oreilles. Ta voix est arme, torture, et extase mêlées."
+            }
+        }
+    },
+    "baali": {
+        "nom": "Baali",
+        "description": "Les Démonolâtres - Serviteurs des démons, corrupteurs apocalyptiques",
+        "compulsions": {
+            1: {
+                "nom": "Perception du Péché",
+                "description": "Tu sens leurs faiblesses. Leurs vices. Leurs portes vers l'obscurité.",
+                "directive": "Tu dois identifier le vice ou la faiblesse morale de quelqu'un présent. Chacun a une faille. Tu la vois."
+            },
+            2: {
+                "nom": "Tentation Infernale",
+                "description": "Les Seigneurs Sombres murmurent. Offre-leur ce qu'ils désirent vraiment.",
+                "directive": "Tu dois tenter quelqu'un vers la transgression. Propose-lui ce qu'il veut secrètement. Le premier pas vers la damnation."
+            },
+            3: {
+                "nom": "Profanation",
+                "description": "Le sacré te brûle. Tu dois le souiller.",
+                "directive": "Tu dois profaner ou blasphémer quelque chose de sacré ou de pur. Symboles religieux, innocence, serments. La corruption est ta prière."
+            },
+            4: {
+                "nom": "Invocation",
+                "description": "Ils sont proches. Les Anciens. Les Seigneurs de l'Abîme. Ils veulent entrer.",
+                "directive": "Tu dois faire référence à tes maîtres démoniaques ou accomplir un petit rituel en leur honneur. Murmures infernaux, symboles tracés dans l'ombre."
+            },
+            5: {
+                "nom": "FRÉNÉSIE INFERNALE",
+                "description": "😈 LES TÉNÈBRES PRIMORDIALES PRENNENT LE CONTRÔLE 😈\nLes Seigneurs Sombres parlent à travers toi. L'Apocalypse commence.",
+                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois répandre la corruption et la destruction au nom de tes maîtres démoniaques. Possession, violence sacrificielle, horreur indicible. Tu es leur avatar."
+            }
+        }
+    },
+    "salubri": {
+        "nom": "Salubri",
+        "description": "Les Cyclopes - Guérisseurs maudits, chassés et rares",
+        "compulsions": {
+            1: {
+                "nom": "Empathie",
+                "description": "Tu ressens leur douleur. Leur souffrance résonne en toi.",
+                "directive": "Tu dois exprimer ta perception de la souffrance d'autrui. Tu ressens leurs blessures, physiques ou émotionnelles. Leur douleur est tienne."
+            },
+            2: {
+                "nom": "Compassion",
+                "description": "Ils souffrent. Tu dois les aider. C'est ta nature profonde.",
+                "directive": "Tu dois offrir ton aide à quelqu'un qui souffre, même un ennemi. La guérison est ton appel. Tu ne peux pas ignorer la douleur."
+            },
+            3: {
+                "nom": "Œil Ouvert",
+                "description": "Ton troisième œil s'ouvre. Les vérités cachées se révèlent.",
+                "directive": "Tu dois révéler une vérité spirituelle ou émotionnelle sur quelqu'un. Ton œil voit au-delà des masques. Les âmes te sont dévoilées."
+            },
+            4: {
+                "nom": "Paranoïa du Chassé",
+                "description": "Ils te cherchent. Les Tremere. Les autres. Tu es une proie.",
+                "directive": "Tu dois exprimer ta peur d'être découvert et détruit. Surveille les ombres, méfie-toi de tous. Tu es le dernier de ton espèce."
+            },
+            5: {
+                "nom": "FRÉNÉSIE DU CYCLOPE",
+                "description": "👁️ L'ŒIL ANCIEN S'ÉVEILLE 👁️\nLa souffrance du monde te submerge. Ou la rage du guerrier sacré explose.",
+                "directive": "⚠️ FRÉNÉSIE ⚠️ Soit tu absorbes toute la douleur autour de toi jusqu'à l'effondrement, soit le Guerrier Salubri s'éveille et tu deviens destruction sacrée contre ceux qui menacent les innocents."
+            }
+        }
     }
 }
 
