@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users } from 'lucide-react';
 import DisciplinesTab from './DisciplinesTab';
+import GhoulsTab from './GhoulsTab';
 
 // --- CONFIGURATION ---
 const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
@@ -795,6 +796,17 @@ export default function VampireSheet() {
             <Sparkles size={16} />
             Disciplines
           </button>
+          <button
+            onClick={() => setActiveTab('ghouls')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
+              activeTab === 'ghouls'
+                ? 'text-red-500 border-red-600 bg-stone-900/30'
+                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+            }`}
+          >
+            <Users size={16} />
+            Goules
+          </button>
         </div>
       </div>
 
@@ -905,6 +917,16 @@ export default function VampireSheet() {
         {/* ONGLET DISCIPLINES */}
         {activeTab === 'disciplines' && (
           <DisciplinesTab
+            clan={character.clan}
+            bloodPotency={character.bloodPotency}
+          />
+        )}
+
+        {/* ONGLET GOULES */}
+        {activeTab === 'ghouls' && (
+          <GhoulsTab
+            discordUserId={discordUser.id}
+            discordGuildId={character.guild_id || '1'} // TODO: get actual guild_id
             clan={character.clan}
             bloodPotency={character.bloodPotency}
           />
