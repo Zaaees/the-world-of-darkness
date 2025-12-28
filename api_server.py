@@ -289,10 +289,10 @@ async def get_user_guild_handler(request):
                     continue
 
             if member:
-                # Trouvé un serveur
+                # Trouvé un serveur (guild_id en string pour éviter perte de précision JS)
                 return web.json_response({
                     "success": True,
-                    "guild_id": guild.id,
+                    "guild_id": str(guild.id),
                     "guild_name": guild.name,
                 })
 
@@ -349,14 +349,14 @@ async def get_member_info_handler(request):
                     {"success": False, "error": "Membre non trouvé"}, status=404
                 )
 
-        # Construire les infos du membre
+        # Construire les infos du membre (IDs en string pour éviter perte de précision JS)
         member_info = {
             "success": True,
             "display_name": member.display_name,  # Nom sur le serveur
             "username": str(member),  # Username global
             "avatar_url": member.display_avatar.url,  # Avatar (serveur ou global)
             "guild_name": guild.name,
-            "guild_id": guild.id,  # ID du serveur
+            "guild_id": str(guild.id),  # ID du serveur
         }
 
         return web.json_response(member_info)
