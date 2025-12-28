@@ -299,58 +299,6 @@ class WerewolfCog(commands.Cog, name="Loup-Garou"):
             ephemeral=True,
         )
 
-    # --- COMMANDES PRÉFIXÉES (ADMIN) ---
-
-    @commands.command(name="lycan_config")
-    @commands.has_permissions(administrator=True)
-    async def lycan_config_command(self, ctx: commands.Context, member: discord.Member, auspice: str = None, rage: int = None):
-        """
-        [Admin] Configure un joueur comme Loup-Garou.
-        Usage: !lycan_config @membre [auspice] [rage]
-        """
-        if auspice:
-            auspice_lower = auspice.lower().strip()
-            auspice_data = get_auspice(auspice_lower)
-            if not auspice_data:
-                available = ", ".join(list_auspices())
-                await ctx.send(f"❌ Augure `{auspice}` non reconnu.\nAugures disponibles: {available}")
-                return
-
-            await set_player(member.id, ctx.guild.id, race="loup-garou", auspice=auspice_lower)
-
-        if rage is not None:
-            if rage < 0:
-                await ctx.send("❌ Le niveau de Rage ne peut pas être négatif.")
-                return
-
-            is_enraged = rage >= SEUIL_ENRAGE
-            await set_rage_data(
-                member.id,
-                ctx.guild.id,
-                ctx.channel.id,
-                rage_level=rage,
-                is_enraged=is_enraged,
-                maintien_counter=0,
-            )
-
-            # Gérer le surnom
-            if rage >= SEUIL_PRIMAL:
-                try:
-                    old_nick = member.display_name
-                    new_nick = f"🐺 {old_nick} [PRIMAL]"
-                    if len(new_nick) <= 32:
-                        await member.edit(nick=new_nick)
-                except discord.Forbidden:
-                    pass
-            elif member.nick and "[PRIMAL]" in member.nick:
-                try:
-                    new_nick = member.nick.replace(" [PRIMAL]", "").replace("🐺 ", "")
-                    await member.edit(nick=new_nick if new_nick else None)
-                except discord.Forbidden:
-                    pass
-
-        await ctx.send(f"✅ Configuration de {member.display_name} mise à jour.")
-
 
 async def setup(bot: commands.Bot):
     """Charge le Cog Loup-Garou."""
