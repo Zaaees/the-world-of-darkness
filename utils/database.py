@@ -260,74 +260,121 @@ async def delete_player(user_id: int, guild_id: int):
 
 
 async def get_vampire_data(user_id: int, guild_id: int) -> dict:
-    """Récupère toutes les données vampire d'un joueur depuis Google Sheets."""
+    """
+    Récupère toutes les données vampire d'un joueur.
+    - Données persistantes (clan, race) depuis Google Sheets
+    - Données de session (soif, blood potency) depuis SQLite (rapide)
+    """
+    # Récupérer les données persistantes depuis Google Sheets
     character = await get_from_google_sheets(user_id)
     if not character or character.get("race") != "vampire":
         return {}
 
-    # Adapter le format Google Sheets au format attendu par le bot
+    # Récupérer les données de session depuis SQLite (rapide)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT soif_level, blood_potency, saturation_points FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        if row:
+            soif_level, blood_potency, saturation_points = row
+        else:
+            # Initialiser avec les valeurs par défaut si pas encore en SQLite
+            soif_level, blood_potency, saturation_points = 0, 1, 0
+
     return {
         "user_id": user_id,
         "guild_id": guild_id,
         "race": "vampire",
         "clan": character.get("clan"),
-        "soif_level": character.get("soif", 0),
-        "blood_potency": character.get("bloodPotency", 1),
-        "saturation_points": character.get("saturationPoints", 0),
+        "soif_level": soif_level,
+        "blood_potency": blood_potency,
+        "saturation_points": saturation_points,
     }
 
 
 async def set_vampire_soif(user_id: int, guild_id: int, soif_level: int):
-    """Définit le niveau de soif d'un vampire dans Google Sheets."""
-    # Récupérer les données existantes
-    character = await get_from_google_sheets(user_id) or {}
+    """Définit le niveau de soif d'un vampire dans SQLite (rapide, pour interactions temps réel)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Récupérer la blood potency actuelle
+        cursor = await db.execute(
+            "SELECT blood_potency FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        blood_potency = row[0] if row else 1
 
-    blood_potency = character.get("bloodPotency", 1)
+        # Déterminer le minimum selon la BP
+        min_soif = get_min_soif(blood_potency)
 
-    # Déterminer le minimum selon la BP
-    min_soif = 0
-    if blood_potency >= 3:
-        min_soif = 1
-    if blood_potency >= 4:
-        min_soif = 2
+        # S'assurer que le niveau n'est pas en dessous du minimum
+        soif_level = max(soif_level, min_soif)
+        soif_level = min(soif_level, 5)
 
-    # S'assurer que le niveau n'est pas en dessous du minimum
-    soif_level = max(soif_level, min_soif)
-    soif_level = min(soif_level, 5)
-
-    # Mettre à jour la soif
-    character["soif"] = soif_level
-
-    # Sauvegarder dans Google Sheets
-    await save_to_google_sheets(user_id, character)
+        # Mettre à jour ou insérer dans SQLite
+        await db.execute(
+            """
+            INSERT INTO vampire_soif (user_id, guild_id, soif_level, blood_potency, saturation_points, last_updated)
+            VALUES (?, ?, ?, ?, 0, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                soif_level = excluded.soif_level,
+                last_updated = CURRENT_TIMESTAMP
+            """,
+            (user_id, guild_id, soif_level, blood_potency),
+        )
+        await db.commit()
 
 
 async def get_vampire_soif(user_id: int, guild_id: int) -> int:
-    """Récupère le niveau de soif actuel depuis Google Sheets."""
-    character = await get_from_google_sheets(user_id)
-    return character.get("soif", 0) if character else 0
+    """Récupère le niveau de soif actuel depuis SQLite (rapide, pour interactions temps réel)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT soif_level FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        return row[0] if row else 0
 
 
 async def set_blood_potency(user_id: int, guild_id: int, blood_potency: int):
-    """Définit la puissance du sang d'un vampire dans Google Sheets."""
-    # Récupérer les données existantes
-    character = await get_from_google_sheets(user_id) or {}
+    """Définit la puissance du sang d'un vampire dans SQLite (rapide)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        blood_potency = max(1, min(blood_potency, 5))
 
-    blood_potency = max(1, min(blood_potency, 5))
-    character["bloodPotency"] = blood_potency
+        # Mettre à jour ou insérer
+        await db.execute(
+            """
+            INSERT INTO vampire_soif (user_id, guild_id, blood_potency, soif_level, saturation_points, last_updated)
+            VALUES (?, ?, ?, 0, 0, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                blood_potency = excluded.blood_potency,
+                last_updated = CURRENT_TIMESTAMP
+            """,
+            (user_id, guild_id, blood_potency),
+        )
+        await db.commit()
 
-    # Sauvegarder dans Google Sheets
-    await save_to_google_sheets(user_id, character)
-
-    # Après changement de BP, vérifier et ajuster le niveau de soif si nécessaire
-    current_soif = character.get("soif", 0)
-    await set_vampire_soif(user_id, guild_id, current_soif)
+        # Après changement de BP, ajuster le niveau de soif si nécessaire
+        cursor = await db.execute(
+            "SELECT soif_level FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        if row:
+            current_soif = row[0]
+            await set_vampire_soif(user_id, guild_id, current_soif)
 
 
 async def get_blood_potency(user_id: int, guild_id: int) -> int:
-    """Récupère la puissance du sang depuis Google Sheets."""
-    character = await get_from_google_sheets(user_id)
-    return character.get("bloodPotency", 1) if character else 1
+    """Récupère la puissance du sang depuis SQLite (rapide)."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT blood_potency FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        return row[0] if row else 1
 
 
 async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dict:

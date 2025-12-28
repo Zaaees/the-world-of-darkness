@@ -319,9 +319,6 @@ class VampirePanel(ui.View):
             )
             return
 
-        # Defer pour éviter le timeout lors de l'appel à Google Sheets
-        await interaction.response.defer()
-
         old_level = self.soif_level
 
         if self.soif_level < 5:
@@ -331,8 +328,8 @@ class VampirePanel(ui.View):
         if old_level < 5 and self.soif_level == 5:
             await self._announce_frenzy(interaction)
 
-        # Mettre à jour l'embed
-        await interaction.edit_original_response(embed=self.create_embed(), view=self)
+        # Mettre à jour l'embed (rapide avec SQLite)
+        await interaction.response.edit_message(embed=self.create_embed(), view=self)
 
     @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷")
     async def feed_button(self, interaction: discord.Interaction, button: ui.Button):
@@ -343,13 +340,11 @@ class VampirePanel(ui.View):
             )
             return
 
-        # Defer pour éviter le timeout lors de l'appel à Google Sheets
-        await interaction.response.defer()
-
         min_soif = get_min_soif(self.blood_potency)
 
         if self.soif_level > min_soif:
             await set_soif(self.user_id, self.guild_id, min_soif)
             self.soif_level = min_soif
 
-        await interaction.edit_original_response(embed=self.create_embed(), view=self)
+        # Mettre à jour l'embed (rapide avec SQLite)
+        await interaction.response.edit_message(embed=self.create_embed(), view=self)
