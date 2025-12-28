@@ -150,6 +150,9 @@ async def init_database():
         await db.commit()
         logger.info("Base de données initialisée avec succès")
 
+    # Initialiser les tables des actions de sang
+    await init_blood_actions_tables()
+
 
 # ============================================
 # Fonctions pour les joueurs
@@ -1027,3 +1030,180 @@ async def get_max_ghouls(vampire_user_id: int, vampire_guild_id: int) -> int:
     """Récupère le nombre maximum de goules autorisées selon la BP."""
     blood_potency = await get_blood_potency(vampire_user_id, vampire_guild_id)
     return GHOUL_LIMITS.get(blood_potency, 2)
+
+
+# ============================================
+# Alias et fonctions de compatibilité
+# ============================================
+
+
+# Alias pour cogs.vampire
+async def get_soif(user_id: int, guild_id: int) -> int:
+    """Alias de get_vampire_soif pour compatibilité."""
+    return await get_vampire_soif(user_id, guild_id)
+
+
+# Alias pour cogs.werewolf et cogs.general
+async def get_rage_data(user_id: int, guild_id: int, channel_id: int) -> dict:
+    """Alias de get_werewolf_rage pour compatibilité."""
+    return await get_werewolf_rage(user_id, guild_id, channel_id)
+
+
+async def set_rage_data(
+    user_id: int,
+    guild_id: int,
+    channel_id: int,
+    rage_level: int,
+    is_enraged: bool = False,
+    maintien_counter: int = 0,
+    last_message_id: Optional[int] = None,
+    others_spoke_since: bool = False,
+):
+    """Alias de set_werewolf_rage pour compatibilité."""
+    return await set_werewolf_rage(
+        user_id,
+        guild_id,
+        channel_id,
+        rage_level,
+        is_enraged,
+        maintien_counter,
+        last_message_id,
+        others_spoke_since,
+    )
+
+
+async def decrement_rage(user_id: int, guild_id: int, channel_id: int, amount: int = 2):
+    """Décremente la rage d'un loup-garou dans un salon."""
+    rage_data = await get_werewolf_rage(user_id, guild_id, channel_id)
+    if rage_data:
+        new_rage = max(0, rage_data["rage_level"] - amount)
+        await set_werewolf_rage(
+            user_id,
+            guild_id,
+            channel_id,
+            new_rage,
+            rage_data["is_enraged"],
+            rage_data["maintien_counter"],
+            rage_data["last_message_id"],
+            rage_data["others_spoke_since"],
+        )
+
+
+async def clear_rage(user_id: int, guild_id: int, channel_id: int):
+    """Réinitialise la rage dans un salon."""
+    await reset_werewolf_rage(user_id, guild_id, channel_id)
+
+
+async def get_all_enraged_werewolves_in_channel(guild_id: int, channel_id: int) -> list[dict]:
+    """Récupère tous les loups-garous enragés dans un salon."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            """
+            SELECT * FROM werewolf_rage
+            WHERE guild_id = ? AND channel_id = ? AND is_enraged = TRUE
+            """,
+            (guild_id, channel_id),
+        )
+        rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
+
+# Fonctions pour cogs.blood_actions
+async def init_blood_actions_tables():
+    """Initialise les tables pour les actions de sang."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Table des actions en attente
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS pending_blood_actions (
+                submission_id TEXT PRIMARY KEY,
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                action_id TEXT NOT NULL,
+                action_name TEXT NOT NULL,
+                category TEXT NOT NULL,
+                points INTEGER NOT NULL,
+                description TEXT,
+                status TEXT DEFAULT 'pending',
+                submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                validated_by INTEGER,
+                validated_at TIMESTAMP
+            )
+        """)
+
+        # Table des actions uniques complétées
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS completed_unique_actions (
+                user_id INTEGER,
+                guild_id INTEGER,
+                action_id TEXT,
+                completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id, action_id)
+            )
+        """)
+
+        # Table des cooldowns
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS action_cooldowns (
+                user_id INTEGER,
+                guild_id INTEGER,
+                action_id TEXT,
+                expires_at TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id, action_id)
+            )
+        """)
+
+        # Table de l'historique
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS blood_action_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                action_id TEXT NOT NULL,
+                action_name TEXT NOT NULL,
+                category TEXT NOT NULL,
+                points INTEGER NOT NULL,
+                description TEXT,
+                validated_by INTEGER,
+                validated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
+        # Index
+        await db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_pending_actions_user ON pending_blood_actions(user_id, guild_id)"
+        )
+        await db.execute(
+            "CREATE INDEX IF NOT EXISTS idx_pending_actions_status ON pending_blood_actions(status)"
+        )
+
+        await db.commit()
+        logger.info("Tables blood_actions initialisées")
+
+
+async def create_pending_action(
+    user_id: int,
+    guild_id: int,
+    action_id: str,
+    action_name: str,
+    category: str,
+    points: int,
+    description: Optional[str] = None,
+) -> str:
+    """Alias de submit_blood_action pour compatibilité."""
+    return await submit_blood_action(
+        user_id, guild_id, action_id, action_name, category, points, description
+    )
+
+
+async def has_pending_action(user_id: int, guild_id: int, action_id: str) -> bool:
+    """Vérifie si une action est déjà en attente."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            """
+            SELECT submission_id FROM pending_blood_actions
+            WHERE user_id = ? AND guild_id = ? AND action_id = ? AND status = 'pending'
+            """,
+            (user_id, guild_id, action_id),
+        )
+        return await cursor.fetchone() is not None
