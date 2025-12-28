@@ -406,7 +406,7 @@ export default function VampireSheet() {
 
       if (response.ok) {
         const user = await response.json();
-        console.log('Discord user:', user.username);
+        console.log('Discord user:', user.username, '| global_name:', user.global_name);
         setDiscordUser(user);
         setLoading(false);
       } else {
@@ -477,13 +477,14 @@ export default function VampireSheet() {
           return;
         }
 
-        // Utiliser le display name du serveur comme fallback au lieu du username brut
-        const defaultName = memberInfo?.display_name || discordUser.username;
+        // Utiliser le global_name Discord (avec accents) comme fallback au lieu du username brut
+        // global_name est disponible directement via OAuth2, pas besoin de l'API server
+        const displayName = discordUser.global_name || memberInfo?.display_name || discordUser.username;
 
         // Si le nom sauvegardé est le username brut (sans accents), le remplacer par le display name
-        let characterName = data.character.name || defaultName;
-        if (characterName === discordUser.username && memberInfo?.display_name) {
-          characterName = memberInfo.display_name;
+        let characterName = data.character.name || displayName;
+        if (characterName === discordUser.username && discordUser.global_name) {
+          characterName = discordUser.global_name;
         }
 
         setCharacter({
@@ -758,8 +759,8 @@ export default function VampireSheet() {
   const maxPoints = SATURATION_THRESHOLDS[character.bloodPotency] || 100;
   const CurrentIcon = currentStage.icon;
 
-  // Utiliser les infos du membre sur le serveur si disponibles, sinon fallback sur Discord user
-  const displayName = memberInfo?.display_name || discordUser.username;
+  // Utiliser le nom Discord avec accents (global_name) au lieu du username brut
+  const displayName = discordUser.global_name || memberInfo?.display_name || discordUser.username;
   const avatarUrl = memberInfo?.avatar_url || (discordUser.avatar
     ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
     : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`);
