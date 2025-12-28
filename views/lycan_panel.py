@@ -254,6 +254,9 @@ class LycanPanel(ui.View):
             )
             return
 
+        # Defer pour éviter le timeout
+        await interaction.response.defer()
+
         old_level = self.rage_level
         self.rage_level = await increment_rage(self.user_id, self.guild_id, self.channel_id, amount)
 
@@ -293,7 +296,7 @@ class LycanPanel(ui.View):
                 maintien_counter=0,
             )
 
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
+        await interaction.edit_original_response(embed=self.create_embed(), view=self)
 
     @ui.button(label="+1", style=discord.ButtonStyle.secondary, emoji="💢")
     async def rage_1_button(self, interaction: discord.Interaction, button: ui.Button):
@@ -318,6 +321,9 @@ class LycanPanel(ui.View):
                 "Ce panneau ne t'appartient pas.", ephemeral=True
             )
             return
+
+        # Defer pour éviter le timeout
+        await interaction.response.defer()
 
         # Restaurer le surnom si nécessaire
         if self.rage_level >= SEUIL_PRIMAL:
@@ -346,4 +352,4 @@ class LycanPanel(ui.View):
             color=discord.Color.blue(),
         )
 
-        await interaction.response.edit_message(embed=embed, view=None)
+        await interaction.edit_original_response(embed=embed, view=None)
