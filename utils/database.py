@@ -963,28 +963,24 @@ async def set_vampire_data(
     blood_potency: Optional[int] = None,
     saturation_points: Optional[int] = None,
 ):
-    """Met à jour les données vampire."""
+    """Met à jour les données vampire dans Google Sheets."""
+    # Récupérer les données existantes
+    character = await get_from_google_sheets(user_id) or {}
+
+    # Mettre à jour les champs fournis
     if soif_level is not None:
-        await set_vampire_soif(user_id, guild_id, soif_level)
+        character["soif"] = soif_level
     if blood_potency is not None:
-        await set_blood_potency(user_id, guild_id, blood_potency)
+        character["bloodPotency"] = blood_potency
     if saturation_points is not None:
-        async with aiosqlite.connect(DATABASE_PATH) as db:
-            await db.execute(
-                """
-                INSERT INTO vampire_soif (user_id, guild_id, saturation_points)
-                VALUES (?, ?, ?)
-                ON CONFLICT(user_id, guild_id) DO UPDATE SET
-                    saturation_points = excluded.saturation_points
-                """,
-                (user_id, guild_id, saturation_points),
-            )
-            await db.commit()
+        character["saturationPoints"] = saturation_points
+
+    # Sauvegarder dans Google Sheets
+    await save_to_google_sheets(user_id, character)
 
 
-async def get_min_soif(user_id: int, guild_id: int) -> int:
-    """Récupère le minimum de soif selon la Blood Potency."""
-    blood_potency = await get_blood_potency(user_id, guild_id)
+def get_min_soif(blood_potency: int) -> int:
+    """Calcule le minimum de soif selon la Blood Potency."""
     if blood_potency >= 4:
         return 2
     elif blood_potency >= 3:
@@ -992,25 +988,15 @@ async def get_min_soif(user_id: int, guild_id: int) -> int:
     return 0
 
 
-async def get_saturation_threshold(user_id: int, guild_id: int) -> int:
-    """Récupère le seuil de saturation selon la Blood Potency."""
-    blood_potency = await get_blood_potency(user_id, guild_id)
+def get_saturation_threshold(blood_potency: int) -> int:
+    """Calcule le seuil de saturation selon la Blood Potency."""
     thresholds = {1: 30, 2: 60, 3: 120, 4: 250, 5: float("inf")}
     return thresholds.get(blood_potency, 30)
 
 
 async def reset_vampire_data(user_id: int, guild_id: int):
-    """Réinitialise toutes les données vampire."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        await db.execute(
-            "DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        await db.execute(
-            "DELETE FROM vampire_ghouls WHERE vampire_user_id = ? AND vampire_guild_id = ?",
-            (user_id, guild_id),
-        )
-        await db.commit()
+    """Réinitialise toutes les données vampire dans Google Sheets."""
+    await save_to_google_sheets(user_id, {})
 
 
 # Constante pour views.vampire_panel
