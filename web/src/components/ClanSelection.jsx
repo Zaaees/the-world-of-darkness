@@ -81,7 +81,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
         </div>
 
         {/* Grille des clans */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 ${selectedClan ? 'pb-48' : ''}`}>
           {clans.map((clan) => {
             const isSelected = selectedClan?.id === clan.id;
             const isExpanded = expandedClan === clan.id;
