@@ -37,14 +37,30 @@ ALLOWED_ORIGINS = [
 @middleware
 async def cors_middleware(request, handler):
     """Middleware CORS pour autoriser les requêtes depuis le frontend."""
-    # Gérer les requêtes OPTIONS (preflight)
-    if request.method == "OPTIONS":
-        response = web.Response()
-    else:
-        response = await handler(request)
+    origin = request.headers.get("Origin", "")
 
-    # Ajouter les headers CORS
-    origin = request.headers.get("Origin")
+    # Log pour debug
+    logger.debug(f"CORS middleware: {request.method} {request.path} from {origin}")
+
+    # Gérer les requêtes OPTIONS (preflight) - répondre immédiatement
+    if request.method == "OPTIONS":
+        response = web.Response(status=200)
+        # Toujours ajouter les headers CORS pour les preflight
+        if origin in ALLOWED_ORIGINS:
+            response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+            response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Discord-User-ID, X-Discord-Guild-ID"
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+            response.headers["Access-Control-Max-Age"] = "3600"  # Cache preflight 1h
+        return response
+
+    # Pour les autres requêtes, appeler le handler
+    try:
+        response = await handler(request)
+    except web.HTTPException as e:
+        response = e
+
+    # Ajouter les headers CORS à la réponse
     if origin in ALLOWED_ORIGINS:
         response.headers["Access-Control-Allow-Origin"] = origin
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
