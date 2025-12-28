@@ -604,7 +604,8 @@ export default function VampireSheet() {
         loadCharacter();
       });
     }
-  }, [discordUser, loadCharacter, loadMemberInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [discordUser]); // On appelle les fonctions directement, pas besoin de les mettre en dépendances
 
   // Sauvegarder vers Google Sheets
   // Note: On exclut les champs gérés par le bot Discord (completedActions, cooldowns, bloodPotency, saturationPoints)
