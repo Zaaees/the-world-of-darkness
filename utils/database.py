@@ -20,8 +20,40 @@ logger = logging.getLogger(__name__)
 GOOGLE_SHEETS_API = "https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec"
 
 
-async def sync_to_google_sheets(user_id: int, data: dict):
-    """Synchronise les données d'un joueur vers Google Sheets."""
+async def get_from_google_sheets(user_id: int) -> Optional[dict]:
+    """
+    Récupère les données d'un joueur depuis Google Sheets.
+    Retourne None si le joueur n'existe pas.
+    """
+    try:
+        url = f"{GOOGLE_SHEETS_API}?action=get&userId={user_id}"
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                response_text = await response.text()
+
+                if response.status == 200:
+                    try:
+                        result = json.loads(response_text)
+                        if result.get("success") and result.get("character"):
+                            logger.info(f"Lecture Google Sheets OK pour user {user_id}")
+                            return result["character"]
+                        else:
+                            logger.info(f"Pas de données Google Sheets pour user {user_id}")
+                            return None
+                    except json.JSONDecodeError:
+                        logger.warning(f"Google Sheets réponse invalide: {response_text[:200]}")
+                        return None
+                else:
+                    logger.warning(f"Google Sheets HTTP {response.status}: {response_text[:200]}")
+                    return None
+    except Exception as e:
+        logger.error(f"Erreur lecture Google Sheets: {e}")
+        return None
+
+
+async def save_to_google_sheets(user_id: int, data: dict):
+    """Sauvegarde les données d'un joueur vers Google Sheets."""
     try:
         # Encoder les données JSON pour l'URL
         data_json = json.dumps(data)
@@ -29,26 +61,31 @@ async def sync_to_google_sheets(user_id: int, data: dict):
 
         url = f"{GOOGLE_SHEETS_API}?action=save&userId={user_id}&data={encoded_data}"
 
-        logger.info(f"Sync Google Sheets: user={user_id}, data={data}")
+        logger.info(f"Sauvegarde Google Sheets: user={user_id}, data={data}")
 
         async with aiohttp.ClientSession() as session:
             async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
                 response_text = await response.text()
-                logger.info(f"Sync Google Sheets response: {response.status} - {response_text[:200]}")
+                logger.info(f"Sauvegarde Google Sheets response: {response.status} - {response_text[:200]}")
 
                 if response.status == 200:
                     try:
                         result = json.loads(response_text)
                         if result.get("success"):
-                            logger.info(f"Sync Google Sheets OK pour user {user_id}")
+                            logger.info(f"Sauvegarde Google Sheets OK pour user {user_id}")
                         else:
-                            logger.warning(f"Sync Google Sheets échoué: {result}")
+                            logger.warning(f"Sauvegarde Google Sheets échoué: {result}")
                     except json.JSONDecodeError:
-                        logger.warning(f"Sync Google Sheets réponse invalide: {response_text[:200]}")
+                        logger.warning(f"Sauvegarde Google Sheets réponse invalide: {response_text[:200]}")
                 else:
-                    logger.warning(f"Sync Google Sheets HTTP {response.status}: {response_text[:200]}")
+                    logger.warning(f"Sauvegarde Google Sheets HTTP {response.status}: {response_text[:200]}")
     except Exception as e:
-        logger.warning(f"Erreur sync Google Sheets: {e}")
+        logger.warning(f"Erreur sauvegarde Google Sheets: {e}")
+
+
+async def sync_to_google_sheets(user_id: int, data: dict):
+    """Alias de save_to_google_sheets pour compatibilité."""
+    await save_to_google_sheets(user_id, data)
 
 DATABASE_PATH = Path(__file__).parent.parent / "data" / "world_of_darkness.db"
 
@@ -160,15 +197,19 @@ async def init_database():
 
 
 async def get_player(user_id: int, guild_id: int) -> Optional[dict]:
-    """Récupère les informations d'un joueur."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            "SELECT * FROM players WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        row = await cursor.fetchone()
-        return dict(row) if row else None
+    """Récupère les informations d'un joueur depuis Google Sheets."""
+    character = await get_from_google_sheets(user_id)
+    if not character:
+        return None
+
+    # Adapter le format Google Sheets au format attendu par le bot
+    return {
+        "user_id": user_id,
+        "guild_id": guild_id,
+        "race": character.get("race"),
+        "clan": character.get("clan"),
+        "auspice": character.get("auspice"),
+    }
 
 
 async def set_player(
@@ -178,88 +219,26 @@ async def set_player(
     clan: Optional[str] = None,
     auspice: Optional[str] = None,
 ):
-    """Crée ou met à jour un joueur."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Vérifier si le joueur existe
-        cursor = await db.execute(
-            "SELECT user_id FROM players WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        exists = await cursor.fetchone()
+    """Crée ou met à jour un joueur dans Google Sheets."""
+    # Récupérer les données existantes
+    character = await get_from_google_sheets(user_id) or {}
 
-        if exists:
-            # Mise à jour sélective
-            updates = []
-            params = []
-            if race is not None:
-                updates.append("race = ?")
-                params.append(race)
-            if clan is not None:
-                updates.append("clan = ?")
-                params.append(clan)
-            if auspice is not None:
-                updates.append("auspice = ?")
-                params.append(auspice)
+    # Mettre à jour les champs fournis
+    if race is not None:
+        character["race"] = race
+    if clan is not None:
+        character["clan"] = clan
+    if auspice is not None:
+        character["auspice"] = auspice
 
-            if updates:
-                updates.append("updated_at = CURRENT_TIMESTAMP")
-                params.extend([user_id, guild_id])
-                await db.execute(
-                    f"UPDATE players SET {', '.join(updates)} WHERE user_id = ? AND guild_id = ?",
-                    params,
-                )
-        else:
-            # Création
-            await db.execute(
-                """
-                INSERT INTO players (user_id, guild_id, race, clan, auspice)
-                VALUES (?, ?, ?, ?, ?)
-            """,
-                (user_id, guild_id, race, clan, auspice),
-            )
-
-        await db.commit()
-
-    # Synchroniser vers Google Sheets si c'est un vampire avec un clan
-    if race == "vampire" and clan:
-        vampire_data = await get_vampire_data(user_id, guild_id)
-        await sync_to_google_sheets(user_id, {
-            "race": "vampire",
-            "clan": clan,
-            "bloodPotency": vampire_data.get("blood_potency", 1),
-            "saturationPoints": vampire_data.get("saturation_points", 0),
-            "soif": vampire_data.get("soif_level", 0)
-        })
+    # Sauvegarder dans Google Sheets
+    await save_to_google_sheets(user_id, character)
 
 
 async def delete_player(user_id: int, guild_id: int):
-    """Supprime un joueur et toutes ses données associées."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Supprimer les données de vampire
-        await db.execute(
-            "DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-
-        # Supprimer les données de loup-garou
-        await db.execute(
-            "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-
-        # Supprimer les goules
-        await db.execute(
-            "DELETE FROM vampire_ghouls WHERE vampire_user_id = ? AND vampire_guild_id = ?",
-            (user_id, guild_id),
-        )
-
-        # Supprimer le joueur
-        await db.execute(
-            "DELETE FROM players WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-
-        await db.commit()
+    """Supprime un joueur et toutes ses données associées depuis Google Sheets."""
+    # Sauvegarder un objet vide pour réinitialiser le personnage
+    await save_to_google_sheets(user_id, {})
 
 
 # ============================================
@@ -268,120 +247,74 @@ async def delete_player(user_id: int, guild_id: int):
 
 
 async def get_vampire_data(user_id: int, guild_id: int) -> dict:
-    """Récupère toutes les données vampire d'un joueur."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
+    """Récupère toutes les données vampire d'un joueur depuis Google Sheets."""
+    character = await get_from_google_sheets(user_id)
+    if not character or character.get("race") != "vampire":
+        return {}
 
-        # Données de base
-        cursor = await db.execute(
-            "SELECT * FROM players WHERE user_id = ? AND guild_id = ? AND race = 'vampire'",
-            (user_id, guild_id),
-        )
-        player = await cursor.fetchone()
-
-        if not player:
-            return {}
-
-        # Données de soif
-        cursor = await db.execute(
-            "SELECT * FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        soif = await cursor.fetchone()
-
-        return {
-            **dict(player),
-            **(dict(soif) if soif else {}),
-        }
+    # Adapter le format Google Sheets au format attendu par le bot
+    return {
+        "user_id": user_id,
+        "guild_id": guild_id,
+        "race": "vampire",
+        "clan": character.get("clan"),
+        "soif_level": character.get("soif", 0),
+        "blood_potency": character.get("bloodPotency", 1),
+        "saturation_points": character.get("saturationPoints", 0),
+    }
 
 
 async def set_vampire_soif(user_id: int, guild_id: int, soif_level: int):
-    """Définit le niveau de soif d'un vampire."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Récupérer la blood potency pour connaître le minimum
-        cursor = await db.execute(
-            "SELECT blood_potency FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        row = await cursor.fetchone()
-        blood_potency = row[0] if row else 1
+    """Définit le niveau de soif d'un vampire dans Google Sheets."""
+    # Récupérer les données existantes
+    character = await get_from_google_sheets(user_id) or {}
 
-        # Déterminer le minimum selon la BP
-        min_soif = 0
-        if blood_potency >= 3:
-            min_soif = 1
-        if blood_potency >= 4:
-            min_soif = 2
+    blood_potency = character.get("bloodPotency", 1)
 
-        # S'assurer que le niveau n'est pas en dessous du minimum
-        soif_level = max(soif_level, min_soif)
-        soif_level = min(soif_level, 5)
+    # Déterminer le minimum selon la BP
+    min_soif = 0
+    if blood_potency >= 3:
+        min_soif = 1
+    if blood_potency >= 4:
+        min_soif = 2
 
-        await db.execute(
-            """
-            INSERT INTO vampire_soif (user_id, guild_id, soif_level, last_updated)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-            ON CONFLICT(user_id, guild_id) DO UPDATE SET
-                soif_level = excluded.soif_level,
-                last_updated = CURRENT_TIMESTAMP
-            """,
-            (user_id, guild_id, soif_level),
-        )
-        await db.commit()
+    # S'assurer que le niveau n'est pas en dessous du minimum
+    soif_level = max(soif_level, min_soif)
+    soif_level = min(soif_level, 5)
 
-    # Sync vers Google Sheets
-    vampire_data = await get_vampire_data(user_id, guild_id)
-    await sync_to_google_sheets(user_id, {
-        "race": "vampire",
-        "clan": vampire_data.get("clan"),
-        "bloodPotency": vampire_data.get("blood_potency", 1),
-        "saturationPoints": vampire_data.get("saturation_points", 0),
-        "soif": soif_level
-    })
+    # Mettre à jour la soif
+    character["soif"] = soif_level
+
+    # Sauvegarder dans Google Sheets
+    await save_to_google_sheets(user_id, character)
 
 
 async def get_vampire_soif(user_id: int, guild_id: int) -> int:
-    """Récupère le niveau de soif actuel."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "SELECT soif_level FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        row = await cursor.fetchone()
-        return row[0] if row else 0
+    """Récupère le niveau de soif actuel depuis Google Sheets."""
+    character = await get_from_google_sheets(user_id)
+    return character.get("soif", 0) if character else 0
 
 
 async def set_blood_potency(user_id: int, guild_id: int, blood_potency: int):
-    """Définit la puissance du sang d'un vampire."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        blood_potency = max(1, min(blood_potency, 5))
+    """Définit la puissance du sang d'un vampire dans Google Sheets."""
+    # Récupérer les données existantes
+    character = await get_from_google_sheets(user_id) or {}
 
-        await db.execute(
-            """
-            INSERT INTO vampire_soif (user_id, guild_id, blood_potency, last_updated)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-            ON CONFLICT(user_id, guild_id) DO UPDATE SET
-                blood_potency = excluded.blood_potency,
-                last_updated = CURRENT_TIMESTAMP
-            """,
-            (user_id, guild_id, blood_potency),
-        )
-        await db.commit()
+    blood_potency = max(1, min(blood_potency, 5))
+    character["bloodPotency"] = blood_potency
+
+    # Sauvegarder dans Google Sheets
+    await save_to_google_sheets(user_id, character)
 
     # Après changement de BP, vérifier et ajuster le niveau de soif si nécessaire
-    current_soif = await get_vampire_soif(user_id, guild_id)
+    current_soif = character.get("soif", 0)
     await set_vampire_soif(user_id, guild_id, current_soif)
 
 
 async def get_blood_potency(user_id: int, guild_id: int) -> int:
-    """Récupère la puissance du sang."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "SELECT blood_potency FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        row = await cursor.fetchone()
-        return row[0] if row else 1
+    """Récupère la puissance du sang depuis Google Sheets."""
+    character = await get_from_google_sheets(user_id)
+    return character.get("bloodPotency", 1) if character else 1
 
 
 async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dict:
@@ -389,82 +322,49 @@ async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dic
     Ajoute des points de saturation et gère l'épaississement du sang.
     Retourne les informations sur la mutation si elle a lieu.
     """
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        # Récupérer les données actuelles
-        cursor = await db.execute(
-            "SELECT blood_potency, saturation_points FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        row = await cursor.fetchone()
+    # Récupérer les données existantes
+    character = await get_from_google_sheets(user_id) or {}
 
-        if not row:
-            # Initialiser si n'existe pas
-            await db.execute(
-                "INSERT INTO vampire_soif (user_id, guild_id, blood_potency, saturation_points) VALUES (?, ?, 1, ?)",
-                (user_id, guild_id, points),
-            )
-            await db.commit()
-            return {"mutated": False, "new_bp": 1, "new_saturation": points}
+    current_bp = character.get("bloodPotency", 1)
+    current_saturation = character.get("saturationPoints", 0)
 
-        current_bp = row[0]
-        current_saturation = row[1]
+    # Seuils par niveau de BP
+    thresholds = {
+        1: 30,
+        2: 60,
+        3: 120,
+        4: 250,
+    }
 
-        # Seuils par niveau de BP
-        thresholds = {
-            1: 30,
-            2: 60,
-            3: 120,
-            4: 250,
-        }
+    new_saturation = current_saturation + points
+    new_bp = current_bp
+    mutated = False
 
-        new_saturation = current_saturation + points
-        new_bp = current_bp
-        mutated = False
+    # Vérifier si on franchit un seuil
+    if current_bp < 5 and new_saturation >= thresholds.get(current_bp, float("inf")):
+        new_bp = current_bp + 1
+        new_saturation = 0
+        mutated = True
 
-        # Vérifier si on franchit un seuil
-        if current_bp < 5 and new_saturation >= thresholds.get(current_bp, float("inf")):
-            new_bp = current_bp + 1
-            new_saturation = 0
-            mutated = True
+    # Mettre à jour les données
+    character["bloodPotency"] = new_bp
+    character["saturationPoints"] = new_saturation
 
-        # Mettre à jour la base de données
-        await db.execute(
-            """
-            UPDATE vampire_soif
-            SET blood_potency = ?, saturation_points = ?, last_updated = CURRENT_TIMESTAMP
-            WHERE user_id = ? AND guild_id = ?
-            """,
-            (new_bp, new_saturation, user_id, guild_id),
-        )
-        await db.commit()
+    # Sauvegarder dans Google Sheets
+    await save_to_google_sheets(user_id, character)
 
-        # Sync vers Google Sheets
-        vampire_data = await get_vampire_data(user_id, guild_id)
-        await sync_to_google_sheets(user_id, {
-            "race": "vampire",
-            "clan": vampire_data.get("clan"),
-            "bloodPotency": new_bp,
-            "saturationPoints": new_saturation,
-            "soif": vampire_data.get("soif_level", 0)
-        })
-
-        return {
-            "mutated": mutated,
-            "new_bp": new_bp,
-            "new_saturation": new_saturation,
-            "threshold": thresholds.get(new_bp - 1) if mutated else thresholds.get(new_bp),
-        }
+    return {
+        "mutated": mutated,
+        "new_bp": new_bp,
+        "new_saturation": new_saturation,
+        "threshold": thresholds.get(new_bp - 1) if mutated else thresholds.get(new_bp),
+    }
 
 
 async def get_saturation_points(user_id: int, guild_id: int) -> int:
-    """Récupère les points de saturation."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "SELECT saturation_points FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        row = await cursor.fetchone()
-        return row[0] if row else 0
+    """Récupère les points de saturation depuis Google Sheets."""
+    character = await get_from_google_sheets(user_id)
+    return character.get("saturationPoints", 0) if character else 0
 
 
 # ============================================
