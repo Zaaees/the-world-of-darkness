@@ -40,6 +40,9 @@ class AuspiceSelectMenu(ui.Select):
         )
 
     async def callback(self, interaction: discord.Interaction):
+        # Defer pour éviter le timeout lors de l'appel à Google Sheets
+        await interaction.response.defer()
+
         auspice_key = self.values[0]
         auspice_data = get_auspice(auspice_key)
 
@@ -82,7 +85,7 @@ class AuspiceSelectMenu(ui.Select):
         )
         embed.set_footer(text="Tu peux maintenant utiliser /lycan pour accéder à ton panneau.")
 
-        await interaction.response.edit_message(embed=embed, view=None)
+        await interaction.edit_original_response(embed=embed, view=None)
 
 
 class AuspiceSelectView(ui.View):
