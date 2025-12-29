@@ -1301,9 +1301,14 @@ async def get_pending_action(submission_id: str) -> Optional[dict]:
 async def update_pending_action_message(submission_id: str, message_id: int):
     """Met à jour l'ID du message Discord pour une action en attente."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
-        await db.execute(
-            "ALTER TABLE pending_blood_actions ADD COLUMN message_id INTEGER DEFAULT NULL"
-        )
+        try:
+            await db.execute(
+                "ALTER TABLE pending_blood_actions ADD COLUMN message_id INTEGER DEFAULT NULL"
+            )
+        except Exception:
+            # La colonne existe probablement déjà
+            pass
+            
         await db.execute(
             "UPDATE pending_blood_actions SET message_id = ? WHERE submission_id = ?",
             (message_id, submission_id),

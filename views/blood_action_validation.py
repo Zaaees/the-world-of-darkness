@@ -34,6 +34,9 @@ logger = logging.getLogger(__name__)
 
 def has_validation_permission(member: discord.Member) -> bool:
     """Vérifie si le membre peut valider/refuser des actions."""
+    # Permettre aux administrateurs de valider aussi
+    if member.guild_permissions.administrator:
+        return True
     return any(role.id in VALIDATION_ROLES for role in member.roles)
 
 
@@ -62,9 +65,8 @@ class PersistentActionValidationView(ui.View):
             )
             return
 
-        try:
-            action_db_id = int(embed.footer.text.replace("ID: ", ""))
-        except ValueError:
+        action_db_id = embed.footer.text.replace("ID: ", "").strip()
+        if not action_db_id:
             await interaction.response.send_message(
                 "❌ ID d'action invalide.",
                 ephemeral=True,
@@ -174,9 +176,8 @@ class PersistentActionValidationView(ui.View):
             )
             return
 
-        try:
-            action_db_id = int(embed.footer.text.replace("ID: ", ""))
-        except ValueError:
+        action_db_id = embed.footer.text.replace("ID: ", "").strip()
+        if not action_db_id:
             await interaction.response.send_message(
                 "❌ ID d'action invalide.",
                 ephemeral=True,
@@ -226,7 +227,7 @@ async def send_validation_request(
     bot,
     guild_id: int,
     user_id: int,
-    action_db_id: int,
+    action_db_id: str,
     action_id: str,
     action_name: str,
     action_description: str,
