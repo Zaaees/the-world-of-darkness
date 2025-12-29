@@ -137,8 +137,13 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
                     <div className="space-y-2">
                       <div className="bg-stone-800/30 p-3 rounded border border-stone-700">
-                        <p className="text-red-600 font-medium text-xs mb-1">Spécificités</p>
+                        <p className="text-stone-300 font-medium text-xs mb-1">Spécificités</p>
                         <p className="text-stone-400 text-xs whitespace-pre-line">{clan.specificities}</p>
+                      </div>
+
+                      <div className="bg-red-950/30 p-3 rounded border border-red-900/50">
+                        <p className="text-red-500 font-medium text-xs mb-1">Malédiction : {clan.bane}</p>
+                        <p className="text-stone-400 text-xs">{clan.baneDescription}</p>
                       </div>
 
                       <div className="bg-stone-800/50 p-3 rounded border border-stone-700">

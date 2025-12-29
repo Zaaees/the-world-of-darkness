@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull } from 'lucide-react';
 import DisciplinesTab from './DisciplinesTab';
 import GhoulsTab from './GhoulsTab';
 import ClanSelection from './ClanSelection';
+import { getClanDescription } from '../data/clanDescriptions';
 
 // --- CONFIGURATION ---
 const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
@@ -1027,6 +1028,26 @@ export default function VampireSheet() {
                  </p>
               </div>
             </section>
+
+            {/* MALÉDICTION DU CLAN */}
+            {character.clan && getClanDescription(character.clan) && (
+              <section>
+                <div className="flex items-center gap-3 mb-4">
+                  <Skull size={16} className="text-red-700" />
+                  <h3 className="text-sm font-serif text-red-700 uppercase tracking-widest">Malédiction du Clan</h3>
+                  <div className="h-px bg-red-900/30 flex-1"></div>
+                </div>
+
+                <div className="bg-red-950/20 border border-red-900/30 rounded-lg p-5">
+                  <h4 className="text-red-500 font-serif text-lg mb-3">
+                    {getClanDescription(character.clan).bane}
+                  </h4>
+                  <p className="text-stone-400 text-sm leading-relaxed">
+                    {getClanDescription(character.clan).baneDescription}
+                  </p>
+                </div>
+              </section>
+            )}
 
             {/* ACTION DE CLAN */}
             {clanAction && character.bloodPotency < 5 && isActionVisible(clanAction, character.bloodPotency) && (
