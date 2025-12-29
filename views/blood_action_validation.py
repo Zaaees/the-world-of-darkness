@@ -74,31 +74,38 @@ class PersistentActionValidationView(ui.View):
             return
 
         # Valider l'action
-        action = await validate_action(action_db_id, interaction.user.id)
+        action_result = await validate_action(action_db_id, interaction.user.id)
 
-        if not action:
+        if not action_result or not action_result.get("success"):
+            reason = action_result.get("reason", "Action déjà traitée") if action_result else "Action introuvable"
             await interaction.response.send_message(
-                "❌ Cette action a déjà été traitée.",
+                f"❌ Erreur : {reason}",
                 ephemeral=True,
             )
+            # Si l'action a échoué, on désactive quand même les boutons pour éviter le spam
+            # si c'est parce qu'elle est déjà traitée
+            if "déjà traitée" in reason:
+                for child in self.children:
+                    child.disabled = True
+                await interaction.response.edit_message(view=self)
             return
 
         # Récupérer les infos de mutation depuis le résultat de validation
         # (add_saturation_points a déjà été appelé dans validate_action)
-        result = action["mutation"]
+        result = action_result["mutation"]
 
         # Synchroniser vers Google Sheets en arrière-plan (non-bloquant)
         async def background_sync():
             try:
-                player = await get_player(action["user_id"], action["guild_id"])
+                player = await get_player(action_result["user_id"], action_result["guild_id"])
                 if player:
-                    vampire_data = await get_vampire_data(action["user_id"], action["guild_id"])
+                    vampire_data = await get_vampire_data(action_result["user_id"], action_result["guild_id"])
                     # Récupérer les listes mises à jour
-                    pending = await get_user_pending_actions(action["user_id"], action["guild_id"])
-                    completed = await get_user_completed_unique_actions(action["user_id"], action["guild_id"])
-                    cooldowns = await get_user_action_cooldowns(action["user_id"], action["guild_id"])
+                    pending = await get_user_pending_actions(action_result["user_id"], action_result["guild_id"])
+                    completed = await get_user_completed_unique_actions(action_result["user_id"], action_result["guild_id"])
+                    cooldowns = await get_user_action_cooldowns(action_result["user_id"], action_result["guild_id"])
 
-                    await sync_to_google_sheets(action["user_id"], {
+                    await sync_to_google_sheets(action_result["user_id"], {
                         "race": "vampire",
                         "clan": player.get("clan", ""),
                         "bloodPotency": result["new_bp"],
@@ -133,11 +140,11 @@ class PersistentActionValidationView(ui.View):
         # Notifier le joueur par DM (non-bloquant)
         async def notify_player():
             try:
-                member = interaction.guild.get_member(action["user_id"])
+                member = interaction.guild.get_member(action_result["user_id"])
                 if member:
                     notify_embed = discord.Embed(
                         title="✅ Action validée !",
-                        description=f"**{action['action_name']}** a été validée.\n\nLe sang s'épaissit... (+{action['points_awarded']})",
+                        description=f"**{action_result['action_name']}** a été validée.\n\nLe sang s'épaissit... (+{action_result['points_awarded']})",
                         color=discord.Color.green(),
                     )
                     if result.get("mutated"):
