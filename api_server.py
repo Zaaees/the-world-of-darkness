@@ -433,6 +433,9 @@ async def get_character_sheet_handler(request):
         sheet = await get_character_sheet(user_id, guild_id)
         
         if sheet:
+            # Convertir l'ID du post en string pour éviter les problèmes d'arrondi JS
+            if sheet.get("forum_post_id"):
+                sheet["forum_post_id"] = str(sheet["forum_post_id"])
             return web.json_response({"success": True, "exists": True, "data": sheet})
         else:
             return web.json_response({"success": True, "exists": False})

@@ -83,8 +83,9 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
 
         if forum_post_id:
             try:
-                thread = await forum_channel.fetch_thread(forum_post_id)
-            except discord.NotFound:
+                # Les threads sont des channels, on les récupère via la guild
+                thread = await guild.fetch_channel(int(forum_post_id))
+            except (discord.NotFound, ValueError, TypeError):
                 logger.warning(f"Thread {forum_post_id} introuvable, création d'un nouveau.")
                 forum_post_id = None  # On recrée
 
@@ -118,7 +119,8 @@ async def get_or_create_tag(forum_channel: discord.ForumChannel, tag_name: str) 
     # Créer le tag s'il n'existe pas
     try:
         new_tag = discord.ForumTag(name=tag_name, emoji=None)
-        updated_tags = forum_channel.available_tags + [new_tag]
+        # Convertir SequenceProxy en list pour l'addition
+        updated_tags = list(forum_channel.available_tags) + [new_tag]
         await forum_channel.edit(available_tags=updated_tags)
         
         updated_channel = forum_channel.guild.get_channel(forum_channel.id) 
