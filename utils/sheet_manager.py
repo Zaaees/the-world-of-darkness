@@ -140,12 +140,15 @@ def format_paragraph(text: str) -> str:
     if not text:
         return "*Non renseigné*"
     
-    # Découper par ligne, nettoyer, et envelopper chaque ligne non vide dans des *
+    # Découper par ligne
     paragraphs = []
     for line in text.split('\n'):
         clean_line = line.strip()
         if clean_line:
             paragraphs.append(f"*{clean_line}*")
+        else:
+            # Garder les sauts de ligne (Discord les affiche)
+            paragraphs.append("")
     
     return "\n".join(paragraphs)
 
@@ -223,6 +226,7 @@ async def create_new_thread(channel: discord.ForumChannel, title: str, tags: Lis
 
 async def update_existing_thread(thread: discord.Thread, title: str, tags: List[discord.ForumTag], image_url: Optional[str], content_parts: List[str]):
     """Met à jour un thread existant."""
+    logger.info(f"Mise à jour du thread {thread.id} pour {title}")
     
     # Mettre à jour le titre et les tags
     await thread.edit(name=title, applied_tags=tags)
@@ -236,35 +240,34 @@ async def update_existing_thread(thread: discord.Thread, title: str, tags: List[
         if starter_message.content != starter_content:
             await starter_message.edit(content=starter_content)
     except discord.NotFound:
-        # Si message initial introuvable, on continue (ne devrait pas arriver sur un thread)
         pass
 
-    # Supprimer les anciens messages du bot (les parties de texte précédentes)
-    # On garde le starter_message (id == thread.id)
+    # Supprimer les anciens messages du bot
+    # Note: On utilise un after=thread.id pour ne pas toucher au message initial (image)
     bot_id = thread.guild.me.id
     messages_to_delete = []
     
-    async for message in thread.history(limit=50, after=discord.Object(id=thread.id)):
-        if message.author.id == bot_id:
-            messages_to_delete.append(message)
-            
-    # Bulk delete
-    if messages_to_delete:
-        try:
+    try:
+        async for message in thread.history(limit=50, after=discord.Object(id=thread.id)):
+            if message.author.id == bot_id:
+                messages_to_delete.append(message)
+        
+        # Supprimer les messages
+        if messages_to_delete:
+            logger.info(f"Suppression de {len(messages_to_delete)} anciens messages")
             if len(messages_to_delete) > 1:
-                 # Bulk delete (messages < 14 jours)
-                 try:
+                try:
                     await thread.delete_messages(messages_to_delete)
-                 except discord.HTTPException:
-                    # Fallback si messages trop vieux
+                except discord.HTTPException:
                     for msg in messages_to_delete:
                         await msg.delete()
             else:
                 await messages_to_delete[0].delete()
-        except Exception as e:
-             logger.warning(f"Erreur suppression messages précédents: {e}")
+    except Exception as e:
+        logger.error(f"Erreur lors du nettoyage du thread: {e}")
 
     # Poster les nouvelles parties de texte
+    logger.info(f"Envoi de {len(content_parts)} nouveaux messages")
     for part in content_parts:
         await thread.send(content=part)
 

@@ -169,47 +169,42 @@ export default function CharacterSheet({ userId, guildId }) {
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 mb-6">
-          {/* Image - Gauche ou Haut */}
-          {sheetData.image_url && (
-            <div className="md:w-1/3 flex-shrink-0">
-              <img 
-                src={sheetData.image_url} 
-                alt="Personnage" 
-                className="w-full h-auto rounded border border-stone-800 shadow-lg object-cover"
-                style={{ maxHeight: '400px' }}
-              />
-            </div>
-          )}
+        {/* Image - Centrée Haut */}
+        {sheetData.image_url && (
+          <div className="mb-6 flex justify-center">
+            <img 
+              src={sheetData.image_url} 
+              alt="Personnage" 
+              className="max-h-[500px] w-auto rounded border border-stone-800 shadow-lg object-contain bg-black/20"
+            />
+          </div>
+        )}
 
-          {/* Infos & Descriptions - Droite ou Bas */}
-          <div className="flex-1 space-y-4">
-            {/* Identité Compacte */}
-            <div className="bg-stone-900/50 p-3 rounded border border-stone-800 flex flex-wrap gap-6 items-center">
-              <div>
-                <span className="text-stone-500 text-xs uppercase tracking-wider block">Nom</span>
-                <span className="text-lg font-serif text-stone-200">{sheetData.name || "-"}</span>
-              </div>
-              <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
-              <div>
-                <span className="text-stone-500 text-xs uppercase tracking-wider block">Âge</span>
-                <span className="text-base text-stone-300">{sheetData.age || "-"}</span>
-              </div>
-              <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
-              <div>
-                <span className="text-stone-500 text-xs uppercase tracking-wider block">Sexe</span>
-                <span className="text-base text-stone-300">{sheetData.sex || "-"}</span>
-              </div>
-            </div>
+        {/* Identité Compacte */}
+        <div className="bg-stone-900/50 p-3 rounded border border-stone-800 flex flex-wrap gap-6 items-center justify-center mb-6">
+          <div className="text-center">
+            <span className="text-stone-500 text-xs uppercase tracking-wider block">Nom</span>
+            <span className="text-lg font-serif text-stone-200">{sheetData.name || "-"}</span>
+          </div>
+          <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
+          <div className="text-center">
+            <span className="text-stone-500 text-xs uppercase tracking-wider block">Âge</span>
+            <span className="text-base text-stone-300">{sheetData.age || "-"}</span>
+          </div>
+          <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
+          <div className="text-center">
+            <span className="text-stone-500 text-xs uppercase tracking-wider block">Sexe</span>
+            <span className="text-base text-stone-300">{sheetData.sex || "-"}</span>
+          </div>
+        </div>
 
-            {/* Grille des Descriptions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <SectionView title="Description Physique" content={sheetData.physical_desc} />
-              <div className="space-y-4">
-                <SectionView title="Mentalité (Avant l'Etreinte)" content={sheetData.mental_desc_pre} />
-                <SectionView title="Mentalité Corrompue" content={sheetData.mental_desc_post} highlight />
-              </div>
-            </div>
+        {/* Descriptions - Pleine largeur */}
+        <div className="space-y-4 mb-6">
+          <SectionView title="Description Physique" content={sheetData.physical_desc} />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <SectionView title="Mentalité (Avant l'Etreinte)" content={sheetData.mental_desc_pre} />
+            <SectionView title="Mentalité Corrompue" content={sheetData.mental_desc_post} highlight />
           </div>
         </div>
 
