@@ -155,56 +155,66 @@ export default function CharacterSheet({ userId, guildId }) {
   // --- MODE VUE ---
   if (!isEditing) {
     return (
-      <div className="max-w-4xl mx-auto p-4 md:p-6 bg-[#0c0a09] min-h-screen text-stone-200">
-        <div className="flex justify-between items-center mb-6 border-b border-stone-800 pb-4">
-          <h1 className="text-3xl font-serif text-red-600 flex items-center gap-2">
-            <FileText className="w-8 h-8" />
+      <div className="max-w-6xl mx-auto p-4 md:p-6 bg-[#0c0a09] min-h-screen text-stone-300 text-sm">
+        <div className="flex justify-between items-center mb-4 border-b border-stone-800 pb-2">
+          <h1 className="text-xl font-serif text-red-600 flex items-center gap-2">
+            <FileText className="w-5 h-5" />
             Fiche de Personnage
           </h1>
           <button 
             onClick={() => setIsEditing(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-stone-800 hover:bg-stone-700 rounded border border-stone-700 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 bg-stone-800 hover:bg-stone-700 rounded border border-stone-700 transition-colors text-xs"
           >
-            <Edit2 className="w-4 h-4" /> Modifier
+            <Edit2 className="w-3 h-3" /> Modifier
           </button>
         </div>
 
-        {/* Affichage de l'image */}
-        {sheetData.image_url && (
-          <div className="mb-8 flex justify-center">
-            <img 
-              src={sheetData.image_url} 
-              alt="Personnage" 
-              className="max-h-[500px] max-w-full rounded-lg shadow-lg border-2 border-stone-800"
-            />
-          </div>
-        )}
+        <div className="flex flex-col md:flex-row gap-6 mb-6">
+          {/* Image - Gauche ou Haut */}
+          {sheetData.image_url && (
+            <div className="md:w-1/3 flex-shrink-0">
+              <img 
+                src={sheetData.image_url} 
+                alt="Personnage" 
+                className="w-full h-auto rounded border border-stone-800 shadow-lg object-cover"
+                style={{ maxHeight: '400px' }}
+              />
+            </div>
+          )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-stone-900/50 p-4 rounded border border-stone-800">
-            <h3 className="text-stone-500 text-sm font-medium mb-1">Nom</h3>
-            <p className="text-xl font-serif">{sheetData.name || "-"}</p>
-          </div>
-          <div className="bg-stone-900/50 p-4 rounded border border-stone-800">
-             <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h3 className="text-stone-500 text-sm font-medium mb-1">Âge</h3>
-                  <p className="text-lg">{sheetData.age || "-"}</p>
-                </div>
-                <div>
-                  <h3 className="text-stone-500 text-sm font-medium mb-1">Sexe</h3>
-                  <p className="text-lg">{sheetData.sex || "-"}</p>
-                </div>
-             </div>
+          {/* Infos & Descriptions - Droite ou Bas */}
+          <div className="flex-1 space-y-4">
+            {/* Identité Compacte */}
+            <div className="bg-stone-900/50 p-3 rounded border border-stone-800 flex flex-wrap gap-6 items-center">
+              <div>
+                <span className="text-stone-500 text-xs uppercase tracking-wider block">Nom</span>
+                <span className="text-lg font-serif text-stone-200">{sheetData.name || "-"}</span>
+              </div>
+              <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
+              <div>
+                <span className="text-stone-500 text-xs uppercase tracking-wider block">Âge</span>
+                <span className="text-base text-stone-300">{sheetData.age || "-"}</span>
+              </div>
+              <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
+              <div>
+                <span className="text-stone-500 text-xs uppercase tracking-wider block">Sexe</span>
+                <span className="text-base text-stone-300">{sheetData.sex || "-"}</span>
+              </div>
+            </div>
+
+            {/* Grille des Descriptions */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <SectionView title="Description Physique" content={sheetData.physical_desc} />
+              <div className="space-y-4">
+                <SectionView title="Mentalité (Avant l'Etreinte)" content={sheetData.mental_desc_pre} />
+                <SectionView title="Mentalité Corrompue" content={sheetData.mental_desc_post} highlight />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <SectionView title="Description Physique" content={sheetData.physical_desc} />
-          <SectionView title="Mentalité (Avant l'Etreinte)" content={sheetData.mental_desc_pre} />
-          <SectionView title="Mentalité Corrompue" content={sheetData.mental_desc_post} />
-          <SectionView title="Histoire" content={sheetData.history} />
-        </div>
+        {/* Histoire - Large */}
+        <SectionView title="Histoire" content={sheetData.history} />
       </div>
     );
   }
@@ -379,13 +389,13 @@ export default function CharacterSheet({ userId, guildId }) {
   );
 }
 
-function SectionView({ title, content }) {
+function SectionView({ title, content, highlight = false }) {
   return (
-    <div className="bg-stone-900/30 p-5 rounded border border-stone-800/50">
-      <h3 className="text-red-500 font-serif text-lg mb-3 border-b border-stone-800 pb-2">
+    <div className={`p-3 rounded border ${highlight ? 'bg-red-950/10 border-red-900/20' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
+      <h3 className={`font-serif text-sm uppercase tracking-widest mb-2 border-b pb-1 ${highlight ? 'text-red-400 border-red-900/30' : 'text-stone-500 border-stone-800'}`}>
         {title}
       </h3>
-      <div className="text-stone-300 whitespace-pre-line leading-relaxed">
+      <div className="text-xs text-stone-300 whitespace-pre-line leading-relaxed text-justify">
         {content || <span className="text-stone-600 italic">Non renseigné</span>}
       </div>
     </div>

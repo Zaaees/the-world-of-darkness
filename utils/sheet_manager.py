@@ -135,28 +135,49 @@ async def get_or_create_tag(forum_channel: discord.ForumChannel, tag_name: str) 
         return None
 
 
+def format_paragraph(text: str) -> str:
+    """Formate un texte en mettant chaque paragraphe en italique."""
+    if not text:
+        return "*Non renseigné*"
+    
+    # Découper par ligne, nettoyer, et envelopper chaque ligne non vide dans des *
+    paragraphs = []
+    for line in text.split('\n'):
+        clean_line = line.strip()
+        if clean_line:
+            paragraphs.append(f"*{clean_line}*")
+    
+    return "\n".join(paragraphs)
+
 def format_sheet_content(data: dict, author_name: str) -> List[str]:
     """Formate la fiche et la découpe en morceaux de < 2000 caractères."""
     
     lines = []
-    # Tout le contenu textuel est en italique
+    
+    # En-tête (Gras/Italique via le formatage global ou spécifique)
+    # On garde l'italique pour la cohérence
     lines.append(f"*{'='*20}*")
     lines.append(f"*Nom et Prénom : {data.get('name', '-')}*")
     lines.append(f"*Âge : {data.get('age', '-')}*")
     lines.append(f"*Sexe : {data.get('sex', '-')}*")
     lines.append(f"*{'='*20}*")
     lines.append("")
-    lines.append("*## Description Physique*")
-    lines.append(f"*{data.get('physical_desc', '-')}*")
+    
+    # Sections
+    lines.append("**__Description Physique__**") # Titre en Gras Souligné
+    lines.append(format_paragraph(data.get('physical_desc', '-')))
     lines.append("")
-    lines.append("*## Description Mentale (Avant l'Etreinte)*")
-    lines.append(f"*{data.get('mental_desc_pre', '-')}*")
+    
+    lines.append("**__Description Mentale (Avant l'Etreinte)__**")
+    lines.append(format_paragraph(data.get('mental_desc_pre', '-')))
     lines.append("")
-    lines.append("*## Description Mentale (Corrompue)*")
-    lines.append(f"*{data.get('mental_desc_post', '-')}*")
+    
+    lines.append("**__Description Mentale (Corrompue)__**")
+    lines.append(format_paragraph(data.get('mental_desc_post', '-')))
     lines.append("")
-    lines.append("*## Histoire*")
-    lines.append(f"*{data.get('history', '-')}*")
+    
+    lines.append("**__Histoire__**")
+    lines.append(format_paragraph(data.get('history', '-')))
 
     full_text = "\n".join(lines)
     
