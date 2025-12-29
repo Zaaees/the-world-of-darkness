@@ -6,6 +6,7 @@ Expose les endpoints pour la gestion des goules (web-only, pas de commandes Disc
 import json
 import logging
 import os
+import traceback
 from typing import Optional
 
 from aiohttp import web
@@ -24,7 +25,6 @@ from utils.database import (
     update_ghoul,
     get_character_sheet,
     save_character_sheet,
-    get_character_sheet,
 )
 from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord
 
@@ -574,7 +574,7 @@ async def get_vampire_profile_handler(request):
     except Exception as e:
         logger.error(f"Erreur get_vampire_profile: {e}", exc_info=True)
         return web.json_response(
-            {"success": False, "error": str(e)}, status=500
+            {"success": False, "error": str(e), "traceback": traceback.format_exc()}, status=500
         )
 
 
