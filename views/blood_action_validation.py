@@ -49,8 +49,11 @@ class PersistentActionValidationView(ui.View):
     @ui.button(label="Valider", style=discord.ButtonStyle.success, emoji="✅", custom_id="blood_action_validate")
     async def validate_button(self, interaction: discord.Interaction, button: ui.Button):
         """Valide l'action."""
+        # Différer la réponse pour éviter le timeout (3s)
+        await interaction.response.defer()
+
         if not has_validation_permission(interaction.user):
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Seuls les **MJ Vampire** et **Fondateurs** peuvent valider les actions.",
                 ephemeral=True,
             )
@@ -59,7 +62,7 @@ class PersistentActionValidationView(ui.View):
         # Récupérer l'ID de l'action depuis le footer de l'embed
         embed = interaction.message.embeds[0] if interaction.message.embeds else None
         if not embed or not embed.footer or not embed.footer.text:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Impossible de trouver l'ID de l'action.",
                 ephemeral=True,
             )
@@ -67,7 +70,7 @@ class PersistentActionValidationView(ui.View):
 
         action_db_id = embed.footer.text.replace("ID: ", "").strip()
         if not action_db_id:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ ID d'action invalide.",
                 ephemeral=True,
             )
@@ -78,7 +81,7 @@ class PersistentActionValidationView(ui.View):
 
         if not action_result or not action_result.get("success"):
             reason = action_result.get("reason", "Action déjà traitée") if action_result else "Action introuvable"
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 f"❌ Erreur : {reason}",
                 ephemeral=True,
             )
@@ -87,7 +90,7 @@ class PersistentActionValidationView(ui.View):
             if "déjà traitée" in reason:
                 for child in self.children:
                     child.disabled = True
-                await interaction.response.edit_message(view=self)
+                await interaction.message.edit(view=self)
             return
 
         # Récupérer les infos de mutation depuis le résultat de validation
@@ -135,7 +138,7 @@ class PersistentActionValidationView(ui.View):
         for child in self.children:
             child.disabled = True
 
-        await interaction.response.edit_message(embed=embed, view=self)
+        await interaction.message.edit(embed=embed, view=self)
 
         # Notifier le joueur par DM (non-bloquant)
         async def notify_player():
@@ -164,8 +167,11 @@ class PersistentActionValidationView(ui.View):
     @ui.button(label="Refuser", style=discord.ButtonStyle.danger, emoji="❌", custom_id="blood_action_refuse")
     async def refuse_button(self, interaction: discord.Interaction, button: ui.Button):
         """Refuse l'action."""
+        # Différer la réponse
+        await interaction.response.defer()
+
         if not has_validation_permission(interaction.user):
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Seuls les **MJ Vampire** et **Fondateurs** peuvent refuser les actions.",
                 ephemeral=True,
             )
@@ -174,7 +180,7 @@ class PersistentActionValidationView(ui.View):
         # Récupérer l'ID de l'action depuis le footer
         embed = interaction.message.embeds[0] if interaction.message.embeds else None
         if not embed or not embed.footer or not embed.footer.text:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Impossible de trouver l'ID de l'action.",
                 ephemeral=True,
             )
@@ -182,7 +188,7 @@ class PersistentActionValidationView(ui.View):
 
         action_db_id = embed.footer.text.replace("ID: ", "").strip()
         if not action_db_id:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ ID d'action invalide.",
                 ephemeral=True,
             )
@@ -192,10 +198,14 @@ class PersistentActionValidationView(ui.View):
         action = await refuse_action(action_db_id)
 
         if not action:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "❌ Cette action a déjà été traitée.",
                 ephemeral=True,
             )
+            # Désactiver si déjà traité
+            for child in self.children:
+                child.disabled = True
+            await interaction.message.edit(view=self)
             return
 
         # Mettre à jour l'embed
@@ -206,7 +216,7 @@ class PersistentActionValidationView(ui.View):
         for child in self.children:
             child.disabled = True
 
-        await interaction.response.edit_message(embed=embed, view=self)
+        await interaction.message.edit(embed=embed, view=self)
 
         # Notifier le joueur par DM (non-bloquant)
         async def notify_player():
