@@ -30,13 +30,28 @@ const DISCIPLINE_ICONS = {
 
 // Composant pour afficher le coût en sang
 const BloodCost = ({ cost, isLocked }) => {
-  if (cost === 0) return null;
+  if (cost === 0) {
+    return (
+      <span className={`text-[10px] px-1.5 py-0.5 rounded border ${
+        isLocked 
+          ? 'bg-stone-900/50 text-stone-600 border-stone-800' 
+          : 'bg-stone-800/50 text-stone-400 border-stone-700'
+      }`}>
+        Passif
+      </span>
+    );
+  }
   
   return (
-    <div className="flex items-center gap-0.5 ml-2" title={`Coût: ${cost} point(s) de sang`}>
-      {[...Array(cost)].map((_, i) => (
-        <span key={i} className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>🩸</span>
-      ))}
+    <div className="flex items-center gap-1.5 ml-1" title={`Coût: ${cost} point(s) de sang`}>
+      <div className="flex -space-x-1">
+        {[...Array(cost)].map((_, i) => (
+          <span key={i} className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>🩸</span>
+        ))}
+      </div>
+      <span className={`text-[10px] font-medium ${isLocked ? 'text-stone-600' : 'text-red-400'}`}>
+        {cost} Sang
+      </span>
     </div>
   );
 };
@@ -62,17 +77,17 @@ const PowerCard = ({ power, isLocked }) => {
           {power.level}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap mb-1">
             <h4 className={`font-serif text-sm ${isLocked ? 'text-stone-600' : 'text-stone-200'}`}>
               {power.name}
             </h4>
             
             {/* Indicateur de coût en sang */}
-            {power.bloodCost > 0 && (
-              <BloodCost cost={power.bloodCost} isLocked={isLocked} />
-            )}
+            <BloodCost cost={power.bloodCost || 0} isLocked={isLocked} />
             
-            <span className={`text-xs ml-auto ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
+            <div className="flex-1"></div>
+
+            <span className={`text-xs ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
               Niveau {power.level}
             </span>
             
@@ -148,7 +163,7 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
   return (
     <div className="space-y-6">
       {/* Header avec info sur le niveau accessible */}
-      <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-4">
+      <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-4 space-y-3">
         <div className="flex items-center gap-3">
           <Sparkles className="text-red-600" size={24} />
           <div>
@@ -156,6 +171,23 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
             <p className="text-xs text-stone-500">
               Puissance du Sang {bloodPotency} → Accès aux niveaux 1 à {maxLevel}
             </p>
+          </div>
+        </div>
+
+        {/* Légende des coûts */}
+        <div className="flex items-center gap-4 pt-3 border-t border-stone-800/50 text-xs text-stone-400">
+          <span className="text-stone-500 font-medium">Coûts :</span>
+          <div className="flex items-center gap-1.5">
+            <span className="px-1.5 py-0.5 rounded border bg-stone-800/50 border-stone-700 text-[10px]">Passif</span>
+            <span>Aucun coût</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs">🩸</span>
+            <span>1 Point de sang</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="flex -space-x-1"><span className="text-xs">🩸</span><span className="text-xs">🩸</span></div>
+            <span>2 Points de sang</span>
           </div>
         </div>
       </div>
