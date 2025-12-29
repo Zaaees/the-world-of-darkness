@@ -11,6 +11,7 @@ from data.clans import CLANS
 from data.auspices import AUSPICES
 from data.config import ROLE_VAMPIRE, ROLE_LOUP_GAROU
 from utils.database import get_player, delete_player, get_vampire_data, get_rage_data
+from utils.sheet_manager import delete_discord_sheet
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,12 @@ class GeneralCog(commands.Cog, name="Général"):
 
         # Supprimer les données (mais garder la race si l'utilisateur a encore le rôle)
         await delete_player(member.id, ctx.guild.id, keep_race=has_vampire_role or has_werewolf_role)
+
+        # Supprimer la fiche Discord si elle existe
+        try:
+            await delete_discord_sheet(self.bot, member.id, ctx.guild.id)
+        except Exception as e:
+            logger.error(f"Erreur suppression fiche Discord pour {member.id}: {e}")
 
         # Retirer les rôles de clan/augure
         roles_removed = []

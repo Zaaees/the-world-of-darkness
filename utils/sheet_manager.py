@@ -85,9 +85,17 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
             try:
                 # Les threads sont des channels, on les récupère via la guild
                 thread = await guild.fetch_channel(int(forum_post_id))
-            except (discord.NotFound, ValueError, TypeError):
-                logger.warning(f"Thread {forum_post_id} introuvable, création d'un nouveau.")
+                if thread:
+                    logger.info(f"Thread existant trouvé: {thread.id}")
+                else:
+                    logger.warning(f"Thread {forum_post_id} introuvable, création d'un nouveau.")
+                    forum_post_id = None  # On recrée
+            except (discord.NotFound, ValueError, TypeError) as e:
+                logger.warning(f"Thread {forum_post_id} introuvable ({e}), création d'un nouveau.")
                 forum_post_id = None  # On recrée
+            except Exception as e:
+                logger.error(f"Erreur inattendue lors de la récupération du thread {forum_post_id}: {e}")
+                forum_post_id = None  # On recrée par sécurité
 
         if thread:
             # MISE À JOUR
@@ -242,7 +250,12 @@ async def update_existing_thread(thread: discord.Thread, title: str, tags: List[
         if starter_message.content != starter_content:
             await starter_message.edit(content=starter_content)
     except discord.NotFound:
-        pass
+        logger.warning(f"Message initial introuvable pour le thread {thread.id}, création d'un nouveau message image")
+        # Si le message initial est introuvable, on en crée un nouveau avec l'image
+        new_starter_content = image_url if image_url else f"Fiche de {title}"
+        await thread.send(content=new_starter_content)
+    except Exception as e:
+        logger.error(f"Erreur lors de la mise à jour du message initial: {e}")
 
     # Supprimer les anciens messages du bot
     # Note: On utilise un after=thread.id pour ne pas toucher au message initial (image)
@@ -250,7 +263,7 @@ async def update_existing_thread(thread: discord.Thread, title: str, tags: List[
     messages_to_delete = []
     
     try:
-        async for message in thread.history(limit=50, after=discord.Object(id=thread.id)):
+        async for message in thread.history(limit=100, after=discord.Object(id=thread.id)):
             if message.author.id == bot_id:
                 messages_to_delete.append(message)
         
@@ -291,3 +304,44 @@ async def send_notification(guild: discord.Guild, author_name: str, char_name: s
     embed.add_field(name="Lien vers la fiche", value=f"[Cliquez ici pour voir la fiche]({url})")
     
     await log_channel.send(content=role_mention, embed=embed)
+
+
+async def delete_discord_sheet(bot, user_id: int, guild_id: int):
+    """
+    Supprime la fiche de personnage Discord d'un joueur.
+    Supprime le thread et met à jour la base de données.
+    """
+    try:
+        guild = bot.get_guild(guild_id)
+        if not guild:
+            logger.error(f"Serveur {guild_id} introuvable pour la suppression de la fiche de {user_id}")
+            return
+
+        # Récupérer la fiche depuis la base de données
+        from utils.database import get_character_sheet
+        sheet = await get_character_sheet(user_id, guild_id)
+        
+        if not sheet or not sheet.get("forum_post_id"):
+            logger.info(f"Pas de fiche Discord à supprimer pour {user_id}")
+            return
+
+        forum_post_id = sheet["forum_post_id"]
+        
+        # Supprimer le thread
+        try:
+            thread = await guild.fetch_channel(int(forum_post_id))
+            if thread:
+                await thread.delete(reason="Suppression de la fiche suite à reset")
+                logger.info(f"Fiche Discord supprimée pour {user_id} (Thread {thread.id})")
+        except discord.NotFound:
+            logger.warning(f"Thread {forum_post_id} introuvable lors de la suppression")
+        except Exception as e:
+            logger.error(f"Erreur suppression thread Discord pour {user_id}: {e}")
+
+        # Nettoyer la base de données (supprimer forum_post_id)
+        from utils.database import save_character_sheet
+        sheet["forum_post_id"] = None
+        await save_character_sheet(user_id, guild_id, sheet)
+        
+    except Exception as e:
+        logger.error(f"Erreur suppression fiche Discord complète pour {user_id}: {e}", exc_info=True)
