@@ -22,7 +22,10 @@ from utils.database import (
     get_player,
     set_player,
     update_ghoul,
+    get_character_sheet,
+    save_character_sheet,
 )
+from utils.sheet_manager import process_discord_sheet_update
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -368,6 +371,85 @@ async def get_member_info_handler(request):
         )
 
 
+# --- CHARACTER SHEET ---
+
+
+async def get_character_sheet_handler(request):
+    """GET /api/character-sheet - Récupérer la fiche de personnage."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        sheet = await get_character_sheet(user_id, guild_id)
+        
+        if sheet:
+            return web.json_response({"success": True, "exists": True, "data": sheet})
+        else:
+            return web.json_response({"success": True, "exists": False})
+
+    except Exception as e:
+        logger.error(f"Erreur get_character_sheet: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
+async def save_character_sheet_handler(request):
+    """POST /api/character-sheet - Sauvegarder la fiche de personnage."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        # Parser les données
+        data = await request.json()
+        
+        # Récupérer les infos du joueur pour avoir le clan
+        player = await get_player(user_id, guild_id)
+        if not player or not player.get("clan"):
+            return web.json_response(
+                {"success": False, "error": "Vous devez avoir choisi un clan avant de faire votre fiche."},
+                status=400
+            )
+            
+        # Ajouter le clan aux données pour le gestionnaire Discord
+        data["clan"] = player["clan"]
+        
+        # 1. Sauvegarder en DB
+        await save_character_sheet(user_id, guild_id, data)
+        
+        # 2. Mettre à jour Discord
+        bot = request.app.get("bot")
+        if bot:
+            forum_post_id = await process_discord_sheet_update(bot, user_id, guild_id, data)
+            
+            # Si un post a été créé/récupéré, mettre à jour l'ID en DB
+            if forum_post_id:
+                data["forum_post_id"] = forum_post_id
+                await save_character_sheet(user_id, guild_id, data)
+                
+        return web.json_response({"success": True})
+
+    except json.JSONDecodeError:
+        return web.json_response(
+            {"success": False, "error": "JSON invalide"}, status=400
+        )
+    except Exception as e:
+        logger.error(f"Erreur save_character_sheet: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
 # --- VAMPIRE PROFILE ---
 
 
@@ -558,6 +640,8 @@ def create_app(bot=None):
     app.router.add_get("/api/member", get_member_info_handler)
     app.router.add_get("/api/vampire/profile", get_vampire_profile_handler)
     app.router.add_post("/api/vampire/clan", set_vampire_clan_handler)
+    app.router.add_get("/api/character-sheet", get_character_sheet_handler)
+    app.router.add_post("/api/character-sheet", save_character_sheet_handler)
     app.router.add_get("/api/ghouls", get_ghouls_handler)
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)

@@ -184,6 +184,24 @@ async def init_database():
             "CREATE INDEX IF NOT EXISTS idx_ghouls_vampire ON vampire_ghouls(vampire_user_id, vampire_guild_id)"
         )
 
+        # Table des fiches de personnage
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS character_sheets (
+                user_id INTEGER,
+                guild_id INTEGER,
+                name TEXT,
+                age TEXT,
+                sex TEXT,
+                physical_desc TEXT,
+                mental_desc_pre TEXT,
+                mental_desc_post TEXT,
+                history TEXT,
+                forum_post_id INTEGER,
+                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id)
+            )
+        """)
+
         await db.commit()
         logger.info("Base de données initialisée avec succès")
 
@@ -1039,6 +1057,72 @@ async def get_max_ghouls(vampire_user_id: int, vampire_guild_id: int) -> int:
     """Récupère le nombre maximum de goules autorisées selon la BP."""
     blood_potency = await get_blood_potency(vampire_user_id, vampire_guild_id)
     return GHOUL_LIMITS.get(blood_potency, 2)
+
+
+# ============================================
+# Fonctions pour les fiches de personnage
+# ============================================
+
+
+async def get_character_sheet(user_id: int, guild_id: int) -> Optional[dict]:
+    """Récupère la fiche de personnage d'un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT * FROM character_sheets WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        row = await cursor.fetchone()
+        return dict(row) if row else None
+
+
+async def save_character_sheet(user_id: int, guild_id: int, data: dict):
+    """Sauvegarde ou met à jour une fiche de personnage."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Vérifier si la fiche existe déjà pour récupérer le forum_post_id existant si non fourni
+        cursor = await db.execute(
+            "SELECT forum_post_id FROM character_sheets WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        existing = await cursor.fetchone()
+        current_post_id = existing[0] if existing else None
+
+        # Utiliser le post_id fourni ou conserver l'existant
+        forum_post_id = data.get("forum_post_id", current_post_id)
+
+        await db.execute(
+            """
+            INSERT INTO character_sheets (
+                user_id, guild_id, name, age, sex,
+                physical_desc, mental_desc_pre, mental_desc_post, history,
+                forum_post_id, last_updated
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                name = excluded.name,
+                age = excluded.age,
+                sex = excluded.sex,
+                physical_desc = excluded.physical_desc,
+                mental_desc_pre = excluded.mental_desc_pre,
+                mental_desc_post = excluded.mental_desc_post,
+                history = excluded.history,
+                forum_post_id = excluded.forum_post_id,
+                last_updated = CURRENT_TIMESTAMP
+            """,
+            (
+                user_id,
+                guild_id,
+                data.get("name"),
+                data.get("age"),
+                data.get("sex"),
+                data.get("physical_desc"),
+                data.get("mental_desc_pre"),
+                data.get("mental_desc_post"),
+                data.get("history"),
+                forum_post_id,
+            ),
+        )
+        await db.commit()
 
 
 # ============================================

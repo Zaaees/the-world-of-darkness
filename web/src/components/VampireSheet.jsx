@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText } from 'lucide-react';
 import DisciplinesTab from './DisciplinesTab';
 import GhoulsTab from './GhoulsTab';
+import CharacterSheet from './CharacterSheet';
 import ClanSelection from './ClanSelection';
 import { getClanDescription } from '../data/clanDescriptions';
 
@@ -981,6 +982,17 @@ export default function VampireSheet() {
             Vitae
           </button>
           <button
+            onClick={() => setActiveTab('character')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
+              activeTab === 'character'
+                ? 'text-red-500 border-red-600 bg-stone-900/30'
+                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+            }`}
+          >
+            <FileText size={16} />
+            Fiche
+          </button>
+          <button
             onClick={() => setActiveTab('disciplines')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
               activeTab === 'disciplines'
@@ -1007,7 +1019,15 @@ export default function VampireSheet() {
 
       <main className="max-w-2xl mx-auto p-6 space-y-10">
 
-        {/* ONGLET FICHE */}
+        {/* ONGLET VITALITÉ (Bio) */}
+        {activeTab === 'character' && (
+          <CharacterSheet 
+            userId={discordUser.id} 
+            guildId={guildId} 
+          />
+        )}
+
+        {/* ONGLET VITAE */}
         {activeTab === 'sheet' && (
           <>
             {/* JAUGE & NARRATION */}
