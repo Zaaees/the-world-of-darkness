@@ -196,11 +196,18 @@ async def init_database():
                 mental_desc_pre TEXT,
                 mental_desc_post TEXT,
                 history TEXT,
+                image_url TEXT,
                 forum_post_id INTEGER,
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (user_id, guild_id)
             )
         """)
+
+        # Migration : ajouter la colonne image_url si elle n'existe pas
+        try:
+            await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
+        except Exception:
+            pass
 
         await db.commit()
         logger.info("Base de données initialisée avec succès")
@@ -1095,9 +1102,9 @@ async def save_character_sheet(user_id: int, guild_id: int, data: dict):
             INSERT INTO character_sheets (
                 user_id, guild_id, name, age, sex,
                 physical_desc, mental_desc_pre, mental_desc_post, history,
-                forum_post_id, last_updated
+                image_url, forum_post_id, last_updated
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             ON CONFLICT(user_id, guild_id) DO UPDATE SET
                 name = excluded.name,
                 age = excluded.age,
@@ -1106,6 +1113,7 @@ async def save_character_sheet(user_id: int, guild_id: int, data: dict):
                 mental_desc_pre = excluded.mental_desc_pre,
                 mental_desc_post = excluded.mental_desc_post,
                 history = excluded.history,
+                image_url = excluded.image_url,
                 forum_post_id = excluded.forum_post_id,
                 last_updated = CURRENT_TIMESTAMP
             """,
@@ -1119,6 +1127,7 @@ async def save_character_sheet(user_id: int, guild_id: int, data: dict):
                 data.get("mental_desc_pre"),
                 data.get("mental_desc_post"),
                 data.get("history"),
+                data.get("image_url"),
                 forum_post_id,
             ),
         )

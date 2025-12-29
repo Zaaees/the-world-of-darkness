@@ -24,8 +24,9 @@ from utils.database import (
     update_ghoul,
     get_character_sheet,
     save_character_sheet,
+    get_character_sheet,
 )
-from utils.sheet_manager import process_discord_sheet_update
+from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -374,6 +375,50 @@ async def get_member_info_handler(request):
 # --- CHARACTER SHEET ---
 
 
+async def upload_image_handler(request):
+    """POST /api/upload - Uploader une image vers Discord."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        reader = await request.multipart()
+        field = await reader.next()
+        
+        if not field or field.name != 'file':
+            return web.json_response(
+                {"success": False, "error": "Fichier manquant"}, status=400
+            )
+
+        filename = field.filename or f"upload_{user_id}.png"
+        file_data = await field.read()
+        
+        bot = request.app.get("bot")
+        if not bot:
+            return web.json_response(
+                {"success": False, "error": "Bot non disponible"}, status=500
+            )
+
+        url = await upload_image_to_discord(bot, file_data, filename)
+        
+        if url:
+            return web.json_response({"success": True, "url": url})
+        else:
+            return web.json_response(
+                {"success": False, "error": "Échec de l'upload vers Discord"}, status=500
+            )
+
+    except Exception as e:
+        logger.error(f"Erreur upload: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
 async def get_character_sheet_handler(request):
     """GET /api/character-sheet - Récupérer la fiche de personnage."""
     auth = await verify_vampire_auth(request)
@@ -423,6 +468,12 @@ async def save_character_sheet_handler(request):
             
         # Ajouter le clan aux données pour le gestionnaire Discord
         data["clan"] = player["clan"]
+
+        # Récupérer le forum_post_id existant si non fourni pour éviter les doublons
+        if not data.get("forum_post_id"):
+            existing_sheet = await get_character_sheet(user_id, guild_id)
+            if existing_sheet and existing_sheet.get("forum_post_id"):
+                data["forum_post_id"] = existing_sheet["forum_post_id"]
         
         # 1. Sauvegarder en DB
         await save_character_sheet(user_id, guild_id, data)
@@ -642,6 +693,7 @@ def create_app(bot=None):
     app.router.add_post("/api/vampire/clan", set_vampire_clan_handler)
     app.router.add_get("/api/character-sheet", get_character_sheet_handler)
     app.router.add_post("/api/character-sheet", save_character_sheet_handler)
+    app.router.add_post("/api/upload", upload_image_handler)
     app.router.add_get("/api/ghouls", get_ghouls_handler)
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)

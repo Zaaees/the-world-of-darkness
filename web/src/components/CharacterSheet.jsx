@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Save, Edit2, AlertCircle, FileText, Loader } from 'lucide-react';
+import { Save, Edit2, AlertCircle, FileText, Loader, Image as ImageIcon, Upload } from 'lucide-react';
 import { getClanDescription } from '../data/clanDescriptions';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -19,8 +19,10 @@ export default function CharacterSheet({ userId, guildId }) {
     physical_desc: '',
     mental_desc_pre: '',
     mental_desc_post: '',
-    history: ''
+    history: '',
+    image_url: ''
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Charger les données
   useEffect(() => {
@@ -104,6 +106,41 @@ export default function CharacterSheet({ userId, guildId }) {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setError(null);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch(`${API_URL}/api/upload`, {
+        method: 'POST',
+        headers: {
+          'X-Discord-User-ID': userId,
+          'X-Discord-Guild-ID': guildId,
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.url) {
+        setSheetData(prev => ({ ...prev, image_url: data.url }));
+      } else {
+        setError(data.error || "Erreur lors de l'upload de l'image.");
+      }
+    } catch (err) {
+      console.error("Erreur upload:", err);
+      setError("Impossible d'uploader l'image.");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -131,6 +168,17 @@ export default function CharacterSheet({ userId, guildId }) {
             <Edit2 className="w-4 h-4" /> Modifier
           </button>
         </div>
+
+        {/* Affichage de l'image */}
+        {sheetData.image_url && (
+          <div className="mb-8 flex justify-center">
+            <img 
+              src={sheetData.image_url} 
+              alt="Personnage" 
+              className="max-h-[500px] max-w-full rounded-lg shadow-lg border-2 border-stone-800"
+            />
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-stone-900/50 p-4 rounded border border-stone-800">
@@ -179,6 +227,40 @@ export default function CharacterSheet({ userId, guildId }) {
       )}
 
       <div className="space-y-6">
+        {/* Image Upload */}
+        <div className="bg-stone-900/50 border border-stone-800 rounded p-6 text-center">
+          {sheetData.image_url ? (
+            <div className="space-y-4">
+              <img 
+                src={sheetData.image_url} 
+                alt="Aperçu" 
+                className="mx-auto max-h-64 rounded shadow border border-stone-700"
+              />
+              <div className="flex justify-center gap-2">
+                <label className="cursor-pointer px-4 py-2 bg-stone-800 hover:bg-stone-700 rounded border border-stone-700 text-stone-300 text-sm flex items-center gap-2 transition-colors">
+                  <Upload size={14} /> Changer l'image
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
+                </label>
+                <button 
+                  onClick={() => setSheetData(prev => ({...prev, image_url: ''}))}
+                  className="px-4 py-2 bg-red-900/30 hover:bg-red-900/50 rounded border border-red-900/50 text-red-300 text-sm"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          ) : (
+            <label className={`cursor-pointer block border-2 border-dashed border-stone-700 rounded-lg p-8 hover:border-stone-500 hover:bg-stone-900/30 transition-all ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
+              <ImageIcon className="w-12 h-12 text-stone-600 mx-auto mb-3" />
+              <p className="text-stone-400 font-medium mb-1">
+                {uploadingImage ? 'Téléchargement en cours...' : 'Cliquez pour ajouter une image'}
+              </p>
+              <p className="text-stone-600 text-xs">JPG, PNG, GIF acceptés</p>
+              <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
+            </label>
+          )}
+        </div>
+
         {/* Identité */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
