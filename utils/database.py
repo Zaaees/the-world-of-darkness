@@ -705,12 +705,29 @@ async def validate_blood_action(
             "mutation": mutation_info,
             "user_id": user_id,
             "guild_id": guild_id,
+            "action_name": action_dict["action_name"],
+            "description": action_dict.get("description"),
+            "category": category,
         }
 
 
-async def refuse_blood_action(submission_id: str, validator_id: int, reason: Optional[str] = None):
+async def refuse_blood_action(submission_id: str, validator_id: int, reason: Optional[str] = None) -> Optional[dict]:
     """Refuse une action de sang."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+
+        # Récupérer l'action en attente
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE submission_id = ?",
+            (submission_id,),
+        )
+        action = await cursor.fetchone()
+
+        if not action or action["status"] != "pending":
+            return None
+
+        action_dict = dict(action)
+
         await db.execute(
             """
             UPDATE pending_blood_actions
@@ -720,6 +737,12 @@ async def refuse_blood_action(submission_id: str, validator_id: int, reason: Opt
             (validator_id, reason, submission_id),
         )
         await db.commit()
+
+        return {
+            "user_id": action_dict["user_id"],
+            "guild_id": action_dict["guild_id"],
+            "action_name": action_dict["action_name"],
+        }
 
 
 async def is_action_completed(user_id: int, guild_id: int, action_id: str) -> bool:

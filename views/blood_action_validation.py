@@ -83,12 +83,9 @@ class PersistentActionValidationView(ui.View):
             )
             return
 
-        # Ajouter les points de saturation
-        result = await add_saturation_points(
-            action["user_id"],
-            action["guild_id"],
-            action["points"],
-        )
+        # Récupérer les infos de mutation depuis le résultat de validation
+        # (add_saturation_points a déjà été appelé dans validate_action)
+        result = action["mutation"]
 
         # Synchroniser vers Google Sheets en arrière-plan (non-bloquant)
         async def background_sync():
@@ -104,8 +101,8 @@ class PersistentActionValidationView(ui.View):
                     await sync_to_google_sheets(action["user_id"], {
                         "race": "vampire",
                         "clan": player.get("clan", ""),
-                        "bloodPotency": result["blood_potency"],
-                        "saturationPoints": result["saturation_points"],
+                        "bloodPotency": result["new_bp"],
+                        "saturationPoints": result["new_saturation"],
                         "soifLevel": vampire_data.get("soif_level", 0),
                         "pendingActions": pending,
                         "completedActions": completed,
@@ -123,7 +120,7 @@ class PersistentActionValidationView(ui.View):
         if result.get("mutated"):
             embed.add_field(
                 name="🩸 MUTATION !",
-                value=f"Le vampire a atteint la **Puissance du Sang {result['blood_potency']}** !",
+                value=f"Le vampire a atteint la **Puissance du Sang {result['new_bp']}** !",
                 inline=False,
             )
 
@@ -140,13 +137,13 @@ class PersistentActionValidationView(ui.View):
                 if member:
                     notify_embed = discord.Embed(
                         title="✅ Action validée !",
-                        description=f"**{action['action_name']}** a été validée.\n\nLe sang s'épaissit... (+{action['points']})",
+                        description=f"**{action['action_name']}** a été validée.\n\nLe sang s'épaissit... (+{action['points_awarded']})",
                         color=discord.Color.green(),
                     )
                     if result.get("mutated"):
                         notify_embed.add_field(
                             name="🩸 MUTATION !",
-                            value=f"Votre sang a atteint la **Puissance {result['blood_potency']}** !",
+                            value=f"Votre sang a atteint la **Puissance {result['new_bp']}** !",
                             inline=False,
                         )
                     await member.send(embed=notify_embed)
