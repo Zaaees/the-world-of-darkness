@@ -338,10 +338,10 @@ export default function CharacterSheet({ userId, guildId }) {
             onChange={handleChange}
             rows={12}
             className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none placeholder-stone-600"
-            placeholder={baneHint}
+            placeholder={clanInfo ? clanInfo.transformationDescription : "Décrivez comment votre transformation en vampire a altéré votre personnalité et votre perception du monde."}
           />
           <p className="text-xs text-stone-500 italic">
-            Comment la malédiction de votre clan a-t-elle altéré votre esprit ?
+            Comment votre transformation en membre de ce clan a-t-elle altéré votre personnalité, votre perception du monde et vos émotions ?
           </p>
         </div>
 

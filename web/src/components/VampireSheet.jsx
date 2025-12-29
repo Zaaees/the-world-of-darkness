@@ -843,12 +843,15 @@ export default function VampireSheet() {
 
   // Page de sélection de clan si l'utilisateur a le rôle Vampire mais pas de clan
   if (needsClanSelection && !loading) {
-    const handleClanSelected = async (clanId) => {
-      // Recharger les données après sélection du clan
-      setNeedsClanSelection(false);
-      setLoading(true);
-      await loadCharacter();
-    };
+  const handleClanSelected = async (clanId) => {
+    // Recharger les données après sélection du clan
+    setNeedsClanSelection(false);
+    setLoading(true);
+    await loadCharacter();
+    
+    // Rediriger automatiquement vers l'onglet Fiche
+    setActiveTab('character');
+  };
 
     return (
       <ClanSelection
