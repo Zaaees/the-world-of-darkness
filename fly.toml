@@ -24,4 +24,4 @@ primary_region = 'cdg'
 
 [mounts]
   source = 'donnees'
-  destination = '/app/data'
+  destination = '/app/storage'

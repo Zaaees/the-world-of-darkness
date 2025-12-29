@@ -87,7 +87,14 @@ async def sync_to_google_sheets(user_id: int, data: dict):
     """Alias de save_to_google_sheets pour compatibilité."""
     await save_to_google_sheets(user_id, data)
 
-DATABASE_PATH = Path(__file__).parent.parent / "data" / "world_of_darkness.db"
+# Gestion du stockage persistant (Fly.io vs Local)
+STORAGE_PATH = Path("/app/storage")
+if STORAGE_PATH.exists():
+    DATABASE_PATH = STORAGE_PATH / "world_of_darkness.db"
+    logger.info(f"Utilisation du stockage persistant : {DATABASE_PATH}")
+else:
+    DATABASE_PATH = Path(__file__).parent.parent / "data" / "world_of_darkness.db"
+    logger.info(f"Utilisation du stockage local : {DATABASE_PATH}")
 
 
 async def init_database():
