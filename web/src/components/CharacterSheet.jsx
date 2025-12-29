@@ -225,8 +225,8 @@ export default function CharacterSheet({ userId, guildId }) {
             name="physical_desc"
             value={sheetData.physical_desc}
             onChange={handleChange}
-            rows={4}
-            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none"
+            rows={12}
+            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none"
             placeholder="Description du regard, la couleur des yeux, habits couramment portés, cicatrices, allure..."
           />
         </div>
@@ -237,8 +237,8 @@ export default function CharacterSheet({ userId, guildId }) {
             name="mental_desc_pre"
             value={sheetData.mental_desc_pre}
             onChange={handleChange}
-            rows={4}
-            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none"
+            rows={12}
+            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none"
             placeholder="Qui étiez-vous ? Vos rêves, vos peurs, votre personnalité avant la nuit..."
           />
         </div>
@@ -249,8 +249,8 @@ export default function CharacterSheet({ userId, guildId }) {
             name="mental_desc_post"
             value={sheetData.mental_desc_post}
             onChange={handleChange}
-            rows={4}
-            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none placeholder-stone-600"
+            rows={12}
+            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none placeholder-stone-600"
             placeholder={baneHint}
           />
           <p className="text-xs text-stone-500 italic">
@@ -264,8 +264,8 @@ export default function CharacterSheet({ userId, guildId }) {
             name="history"
             value={sheetData.history}
             onChange={handleChange}
-            rows={8}
-            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none"
+            rows={24}
+            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none"
             placeholder="Votre vie avant l'Etreinte, les circonstances de votre mort, vos premières nuits..."
           />
         </div>
