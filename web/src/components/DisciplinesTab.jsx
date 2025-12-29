@@ -28,6 +28,19 @@ const DISCIPLINE_ICONS = {
   daimoinon: "😈"
 };
 
+// Composant pour afficher le coût en sang
+const BloodCost = ({ cost, isLocked }) => {
+  if (cost === 0) return null;
+  
+  return (
+    <div className="flex items-center gap-0.5 ml-2" title={`Coût: ${cost} point(s) de sang`}>
+      {[...Array(cost)].map((_, i) => (
+        <span key={i} className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>🩸</span>
+      ))}
+    </div>
+  );
+};
+
 // Composant pour un pouvoir individuel
 const PowerCard = ({ power, isLocked }) => {
   return (
@@ -53,9 +66,16 @@ const PowerCard = ({ power, isLocked }) => {
             <h4 className={`font-serif text-sm ${isLocked ? 'text-stone-600' : 'text-stone-200'}`}>
               {power.name}
             </h4>
-            <span className={`text-xs ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
-              • Niveau {power.level}
+            
+            {/* Indicateur de coût en sang */}
+            {power.bloodCost > 0 && (
+              <BloodCost cost={power.bloodCost} isLocked={isLocked} />
+            )}
+            
+            <span className={`text-xs ml-auto ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
+              Niveau {power.level}
             </span>
+            
             {isLocked && <Lock size={12} className="text-stone-600" />}
           </div>
           <p className={`text-xs mt-1 leading-relaxed ${isLocked ? 'text-stone-700' : 'text-stone-400'}`}>

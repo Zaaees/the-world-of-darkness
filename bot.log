@@ -1,0 +1,24 @@
+2025-12-29 09:04:20,102 - __main__ - ERROR - DISCORD_TOKEN non défini dans le fichier .env
+2025-12-29 09:05:22,567 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-29 09:05:22,574 - discord.client - INFO - logging in using static token
+2025-12-29 09:08:18,957 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-29 09:08:18,958 - discord.client - INFO - logging in using static token
+2025-12-29 09:08:19,695 - utils.database - INFO - Base de données initialisée avec succès
+2025-12-29 09:08:19,720 - utils.database - INFO - Tables blood_actions initialisées
+2025-12-29 09:08:19,721 - __main__ - INFO - Base de données initialisée
+2025-12-29 09:08:19,722 - api_server - INFO - API Server démarré sur le port 8080
+2025-12-29 09:08:19,723 - __main__ - INFO - Serveur API démarré sur le port 8080
+2025-12-29 09:08:19,798 - cogs.vampire - INFO - Cog Vampire chargé
+2025-12-29 09:08:19,798 - __main__ - INFO - Cog chargé: cogs.vampire
+2025-12-29 09:08:19,830 - cogs.werewolf - INFO - Cog Loup-Garou chargé
+2025-12-29 09:08:19,830 - __main__ - INFO - Cog chargé: cogs.werewolf
+2025-12-29 09:08:19,840 - cogs.general - INFO - Cog Général chargé
+2025-12-29 09:08:19,841 - __main__ - INFO - Cog chargé: cogs.general
+2025-12-29 09:08:19,882 - utils.database - INFO - Tables blood_actions initialisées
+2025-12-29 09:08:19,883 - cogs.blood_actions - INFO - Vues persistantes de validation enregistrées
+2025-12-29 09:08:19,883 - cogs.blood_actions - INFO - Cog BloodActions chargé
+2025-12-29 09:08:19,883 - __main__ - INFO - Cog chargé: cogs.blood_actions
+2025-12-29 09:08:20,291 - __main__ - INFO - 2 commande(s) synchronisée(s)
+2025-12-29 09:08:20,948 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 356575926c39eda5ecd83b42360397ab).
+2025-12-29 09:08:22,962 - __main__ - INFO - Bot connecté en tant que Le Monde des Ténèbres#6942
+2025-12-29 09:08:22,963 - __main__ - INFO - Connecté à 1 serveur(s)
