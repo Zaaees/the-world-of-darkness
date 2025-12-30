@@ -1,8 +1,11 @@
 
 import logging
 import discord
+import aiohttp
 from typing import Optional, List, Union
 import io
+
+from data.config import GOOGLE_SHEETS_API_URL
 
 logger = logging.getLogger(__name__)
 
@@ -345,3 +348,30 @@ async def delete_discord_sheet(bot, user_id: int, guild_id: int):
         
     except Exception as e:
         logger.error(f"Erreur suppression fiche Discord complète pour {user_id}: {e}", exc_info=True)
+
+
+async def delete_google_sheet_character(user_id: int) -> bool:
+    """
+    Supprime le personnage du Google Sheet via l'API Apps Script.
+    Retourne True si succès.
+    """
+    try:
+        url = f"{GOOGLE_SHEETS_API_URL}?action=delete&userId={user_id}"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    if data.get("success") and data.get("deleted"):
+                        logger.info(f"Personnage supprimé du Google Sheet pour {user_id}")
+                        return True
+                    elif data.get("error") == "Personnage non trouvé":
+                         logger.info(f"Aucun personnage trouvé dans Google Sheet pour {user_id} (déjà supprimé ?)")
+                         return True
+                    else:
+                        logger.warning(f"Échec suppression Google Sheet pour {user_id}: {data.get('error', 'Inconnu')}")
+                else:
+                    logger.error(f"Erreur HTTP {response.status} lors de la suppression Google Sheet pour {user_id}")
+    except Exception as e:
+        logger.error(f"Erreur exception suppression Google Sheet pour {user_id}: {e}")
+    
+    return False

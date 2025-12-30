@@ -309,6 +309,26 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
             "DELETE FROM werewolf_rage WHERE user_id = ? AND guild_id = ?",
             (user_id, guild_id),
         )
+        # Supprimer la fiche de personnage locale
+        await db.execute(
+            "DELETE FROM character_sheets WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        # Supprimer les goules
+        await db.execute(
+            "DELETE FROM vampire_ghouls WHERE vampire_user_id = ? AND vampire_guild_id = ?",
+            (user_id, guild_id),
+        )
+        # Supprimer l'historique des actions de sang
+        await db.execute(
+            "DELETE FROM blood_action_history WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        # Supprimer les actions complétées
+        await db.execute(
+            "DELETE FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
         await db.commit()
 
 

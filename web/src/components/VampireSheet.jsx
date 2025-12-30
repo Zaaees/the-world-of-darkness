@@ -400,7 +400,7 @@ export default function VampireSheet() {
   const [notVampire, setNotVampire] = useState(false);
   const [needsClanSelection, setNeedsClanSelection] = useState(false);
   const [vampireProfile, setVampireProfile] = useState(null);
-  const [activeTab, setActiveTab] = useState('sheet'); // 'sheet' ou 'disciplines'
+  const [activeTab, setActiveTab] = useState('character'); // 'sheet' ou 'disciplines'
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -974,17 +974,6 @@ export default function VampireSheet() {
       <div className="bg-stone-950/50 border-b border-stone-800">
         <div className="max-w-2xl mx-auto flex">
           <button
-            onClick={() => setActiveTab('sheet')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
-              activeTab === 'sheet'
-                ? 'text-red-500 border-red-600 bg-stone-900/30'
-                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-            }`}
-          >
-            <Droplet size={16} />
-            Vitae
-          </button>
-          <button
             onClick={() => setActiveTab('character')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
               activeTab === 'character'
@@ -994,6 +983,17 @@ export default function VampireSheet() {
           >
             <FileText size={16} />
             Fiche
+          </button>
+          <button
+            onClick={() => setActiveTab('sheet')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
+              activeTab === 'sheet'
+                ? 'text-red-500 border-red-600 bg-stone-900/30'
+                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+            }`}
+          >
+            <Droplet size={16} />
+            Vitae
           </button>
           <button
             onClick={() => setActiveTab('disciplines')}

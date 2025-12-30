@@ -30,3 +30,9 @@ MENTION_ROLE_VALIDATION = ROLE_MJ_VAMPIRE
 
 # Salon de validation des actions de Puissance du Sang
 VALIDATION_CHANNEL_ID = 1454182154270670848
+
+
+# === GOOGLE SHEETS API ===
+
+# URL de l'API Google Apps Script (doit correspondre à celle du site web)
+GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec"

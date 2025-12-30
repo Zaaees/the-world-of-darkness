@@ -56,6 +56,9 @@ function handleRequest(e) {
       case 'mark_action_processed':
         result = markActionProcessed(parseInt(e.parameter.rowId));
         break;
+      case 'delete':
+        result = deleteCharacter(e.parameter.userId);
+        break;
       default:
         result.error = 'Action non reconnue';
     }
@@ -372,6 +375,23 @@ function refuseAction(userId, actionId) {
   saveCharacter(userId, char);
 
   return { refused: true };
+}
+
+/**
+ * Supprime un personnage
+ */
+function deleteCharacter(userId) {
+  const sheet = getPersonnagesSheet();
+  const data = sheet.getDataRange().getValues();
+  
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === userId) {
+      sheet.deleteRow(i + 1);
+      return { deleted: true };
+    }
+  }
+  
+  return { deleted: false, error: 'Personnage non trouvé' };
 }
 
 /**
