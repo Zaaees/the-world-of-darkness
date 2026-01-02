@@ -340,13 +340,18 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
 async def get_vampire_data(user_id: int, guild_id: int) -> dict:
     """
     Récupère toutes les données vampire d'un joueur.
-    - Données persistantes (clan, race) depuis Google Sheets
-    - Données de session (soif, blood potency) depuis SQLite (rapide)
+    - Données persistantes (clan, race, bloodPotency) depuis Google Sheets
+    - Données de session (soif) depuis SQLite (rapide)
+    - Synchronise la BP de Google Sheets vers SQLite si différente
     """
     # Récupérer les données persistantes depuis Google Sheets
     character = await get_from_google_sheets(user_id)
     if not character or character.get("race") != "vampire":
         return {}
+
+    # BP de référence depuis Google Sheets (source de vérité)
+    gs_blood_potency = character.get("bloodPotency", 1)
+    gs_saturation = character.get("saturationPoints", 0)
 
     # Récupérer les données de session depuis SQLite (rapide)
     async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -356,10 +361,14 @@ async def get_vampire_data(user_id: int, guild_id: int) -> dict:
         )
         row = await cursor.fetchone()
         if row:
-            soif_level, blood_potency, saturation_points = row
+            soif_level, sqlite_blood_potency, sqlite_saturation = row
+            # Synchroniser si Google Sheets a une BP différente (source de vérité)
+            if sqlite_blood_potency != gs_blood_potency:
+                await set_blood_potency(user_id, guild_id, gs_blood_potency)
         else:
-            # Initialiser avec les valeurs par défaut si pas encore en SQLite
-            soif_level, blood_potency, saturation_points = 0, 1, 0
+            # Initialiser SQLite avec les valeurs de Google Sheets
+            soif_level = 0
+            await set_blood_potency(user_id, guild_id, gs_blood_potency)
 
     return {
         "user_id": user_id,
@@ -367,8 +376,8 @@ async def get_vampire_data(user_id: int, guild_id: int) -> dict:
         "race": "vampire",
         "clan": character.get("clan"),
         "soif_level": soif_level,
-        "blood_potency": blood_potency,
-        "saturation_points": saturation_points,
+        "blood_potency": gs_blood_potency,
+        "saturation_points": gs_saturation,
     }
 
 
