@@ -386,9 +386,10 @@ async def set_vampire_soif(user_id: int, guild_id: int, soif_level: int):
         # Déterminer le minimum selon la BP
         min_soif = get_min_soif(blood_potency)
 
-        # S'assurer que le niveau n'est pas en dessous du minimum
+        # S'assurer que le niveau n'est pas en dessous du minimum et pas au-dessus du max
+        max_soif = get_max_soif(blood_potency)
         soif_level = max(soif_level, min_soif)
-        soif_level = min(soif_level, 5)
+        soif_level = min(soif_level, max_soif)
 
         # Mettre à jour ou insérer dans SQLite
         await db.execute(
@@ -1180,7 +1181,9 @@ async def set_soif(user_id: int, guild_id: int, soif_level: int):
 async def increment_soif(user_id: int, guild_id: int, amount: int = 1):
     """Incrémente la soif d'un vampire."""
     current_soif = await get_vampire_soif(user_id, guild_id)
-    new_soif = min(5, current_soif + amount)
+    blood_potency = await get_blood_potency(user_id, guild_id)
+    max_soif = get_max_soif(blood_potency)
+    new_soif = min(max_soif, current_soif + amount)
     await set_vampire_soif(user_id, guild_id, new_soif)
     return new_soif
 
@@ -1215,6 +1218,20 @@ def get_min_soif(blood_potency: int) -> int:
     elif blood_potency >= 3:
         return 1
     return 0
+
+
+def get_max_soif(blood_potency: int) -> int:
+    """Calcule la capacité maximale de soif selon la Blood Potency.
+
+    Progression exponentielle:
+    - BP 1: 5 points (base)
+    - BP 2: 10 points (×2)
+    - BP 3: 20 points (×2)
+    - BP 4: 40 points (×2)
+    - BP 5: 80 points (×2)
+    """
+    max_soif_by_bp = {1: 5, 2: 10, 3: 20, 4: 40, 5: 80}
+    return max_soif_by_bp.get(blood_potency, 5)
 
 
 def get_saturation_threshold(blood_potency: int) -> int:
