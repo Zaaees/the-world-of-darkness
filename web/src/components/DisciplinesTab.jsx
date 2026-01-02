@@ -33,24 +33,23 @@ const BloodCost = ({ cost, isLocked }) => {
   if (cost === 0) {
     return (
       <span className={`text-[10px] px-1.5 py-0.5 rounded border ${
-        isLocked 
-          ? 'bg-stone-900/50 text-stone-600 border-stone-800' 
+        isLocked
+          ? 'bg-stone-900/50 text-stone-600 border-stone-800'
           : 'bg-stone-800/50 text-stone-400 border-stone-700'
       }`}>
         Passif
       </span>
     );
   }
-  
+
+  // Affichage compact pour les coûts élevés
+  const displayCost = cost > 1 ? `🩸×${cost}` : '🩸';
+
   return (
     <div className="flex items-center gap-1.5 ml-1" title={`Coût: ${cost} point(s) de sang`}>
-      <div className="flex -space-x-1">
-        {[...Array(cost)].map((_, i) => (
-          <span key={i} className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>🩸</span>
-        ))}
-      </div>
+      <span className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>{displayCost}</span>
       <span className={`text-[10px] font-medium ${isLocked ? 'text-stone-600' : 'text-red-400'}`}>
-        {cost} Sang
+        {cost} pt{cost > 1 ? 's' : ''}
       </span>
     </div>
   );
@@ -175,7 +174,7 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
         </div>
 
         {/* Légende des coûts */}
-        <div className="flex items-center gap-4 pt-3 border-t border-stone-800/50 text-xs text-stone-400">
+        <div className="flex flex-wrap items-center gap-4 pt-3 border-t border-stone-800/50 text-xs text-stone-400">
           <span className="text-stone-500 font-medium">Coûts :</span>
           <div className="flex items-center gap-1.5">
             <span className="px-1.5 py-0.5 rounded border bg-stone-800/50 border-stone-700 text-[10px]">Passif</span>
@@ -183,11 +182,15 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
           </div>
           <div className="flex items-center gap-1.5">
             <span className="text-xs">🩸</span>
-            <span>1 Point de sang</span>
+            <span>1 pt</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="flex -space-x-1"><span className="text-xs">🩸</span><span className="text-xs">🩸</span></div>
-            <span>2 Points de sang</span>
+            <span className="text-xs">🩸×3</span>
+            <span>3 pts</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs">🩸×9</span>
+            <span>9 pts</span>
           </div>
         </div>
       </div>
