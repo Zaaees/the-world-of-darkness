@@ -42,15 +42,12 @@ const BloodCost = ({ cost, isLocked }) => {
     );
   }
 
-  // Affichage compact pour les coûts élevés
-  const displayCost = cost > 1 ? `🩸×${cost}` : '🩸';
+  // Afficher les emojis répétés (max 9 pour coût 9)
+  const bloodEmojis = '🩸'.repeat(cost);
 
   return (
-    <div className="flex items-center gap-1.5 ml-1" title={`Coût: ${cost} point(s) de sang`}>
-      <span className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>{displayCost}</span>
-      <span className={`text-[10px] font-medium ${isLocked ? 'text-stone-600' : 'text-red-400'}`}>
-        {cost} pt{cost > 1 ? 's' : ''}
-      </span>
+    <div className="flex items-center gap-1 ml-1" title={`Coût: ${cost} point(s) de sang`}>
+      <span className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>{bloodEmojis}</span>
     </div>
   );
 };
@@ -178,19 +175,15 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
           <span className="text-stone-500 font-medium">Coûts :</span>
           <div className="flex items-center gap-1.5">
             <span className="px-1.5 py-0.5 rounded border bg-stone-800/50 border-stone-700 text-[10px]">Passif</span>
-            <span>Aucun coût</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <span className="text-xs">🩸</span>
-            <span>1 pt</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs">🩸×3</span>
-            <span>3 pts</span>
+          <div className="flex items-center gap-1">
+            <span className="text-xs">🩸🩸🩸</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs">🩸×9</span>
-            <span>9 pts</span>
+          <div className="flex items-center gap-1">
+            <span className="text-xs">🩸🩸🩸🩸🩸🩸🩸🩸🩸</span>
           </div>
         </div>
       </div>

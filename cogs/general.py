@@ -148,26 +148,24 @@ class GeneralCog(commands.Cog, name="Général"):
             await ctx.send(f"❌ {member.display_name} n'a pas le rôle Vampire.")
             return
 
-        # Vérifier si le joueur a des données vampire
-        vampire_data = await get_vampire_data(member.id, ctx.guild.id)
-        if not vampire_data:
+        # Récupérer les données depuis Google Sheets directement
+        character = await get_from_google_sheets(member.id)
+        if not character:
             await ctx.send(
-                f"❌ {member.display_name} n'a pas encore de personnage vampire. "
-                "Il doit d'abord utiliser `/vampire` pour en créer un."
+                f"❌ {member.display_name} n'a pas de fiche personnage. "
+                "Il doit d'abord utiliser `/vampire` pour en créer une."
             )
             return
 
-        old_bp = vampire_data.get("blood_potency", 1)
+        old_bp = character.get("bloodPotency", 1)
 
         # Mettre à jour dans SQLite
         await set_blood_potency(member.id, ctx.guild.id, level)
 
         # Mettre à jour dans Google Sheets pour synchroniser
-        character = await get_from_google_sheets(member.id)
-        if character:
-            character["bloodPotency"] = level
-            character["saturationPoints"] = 0  # Reset saturation on manual BP change
-            await save_to_google_sheets(member.id, character)
+        character["bloodPotency"] = level
+        character["saturationPoints"] = 0  # Reset saturation on manual BP change
+        await save_to_google_sheets(member.id, character)
 
         # Descriptions des niveaux
         bp_titles = {
