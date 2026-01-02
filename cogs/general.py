@@ -10,7 +10,15 @@ from discord.ext import commands
 from data.clans import CLANS
 from data.auspices import AUSPICES
 from data.config import ROLE_VAMPIRE, ROLE_LOUP_GAROU
-from utils.database import get_player, delete_player, get_vampire_data, get_rage_data
+from utils.database import (
+    get_player,
+    delete_player,
+    get_vampire_data,
+    get_rage_data,
+    set_blood_potency,
+    get_from_google_sheets,
+    save_to_google_sheets,
+)
 from utils.sheet_manager import delete_discord_sheet, delete_google_sheet_character
 
 logger = logging.getLogger(__name__)
@@ -117,6 +125,75 @@ class GeneralCog(commands.Cog, name="Général"):
 
         await ctx.send(embed=embed)
         logger.info(f"Personnage réinitialisé pour {member.id} sur {ctx.guild.id} par {ctx.author.id}")
+
+    @commands.command(name="setvampire")
+    @commands.has_permissions(administrator=True)
+    async def setvampire_command(
+        self, ctx: commands.Context, level: int, member: discord.Member
+    ):
+        """
+        [Admin] Définit la Puissance du Sang d'un vampire.
+
+        Usage: !setvampire <niveau 1-5> @membre
+        Exemple: !setvampire 3 @Jean
+        """
+        # Valider le niveau
+        if level < 1 or level > 5:
+            await ctx.send("❌ Le niveau doit être entre 1 et 5.")
+            return
+
+        # Vérifier si le joueur a le rôle Vampire
+        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
+        if not has_vampire_role:
+            await ctx.send(f"❌ {member.display_name} n'a pas le rôle Vampire.")
+            return
+
+        # Vérifier si le joueur a des données vampire
+        vampire_data = await get_vampire_data(member.id, ctx.guild.id)
+        if not vampire_data:
+            await ctx.send(
+                f"❌ {member.display_name} n'a pas encore de personnage vampire. "
+                "Il doit d'abord utiliser `/vampire` pour en créer un."
+            )
+            return
+
+        old_bp = vampire_data.get("blood_potency", 1)
+
+        # Mettre à jour dans SQLite
+        await set_blood_potency(member.id, ctx.guild.id, level)
+
+        # Mettre à jour dans Google Sheets pour synchroniser
+        character = await get_from_google_sheets(member.id)
+        if character:
+            character["bloodPotency"] = level
+            character["saturationPoints"] = 0  # Reset saturation on manual BP change
+            await save_to_google_sheets(member.id, character)
+
+        # Descriptions des niveaux
+        bp_titles = {
+            1: "Nouveau-né",
+            2: "Néonate",
+            3: "Ancilla",
+            4: "Ancien",
+            5: "Mathusalem",
+        }
+
+        embed = discord.Embed(
+            title="🩸 Puissance du Sang Modifiée",
+            description=(
+                f"**{member.display_name}** est maintenant un **{bp_titles[level]}**.\n\n"
+                f"• Niveau précédent : {old_bp}\n"
+                f"• Nouveau niveau : **{level}**\n"
+                f"• Points de saturation réinitialisés"
+            ),
+            color=discord.Color.dark_red(),
+        )
+
+        await ctx.send(embed=embed)
+        logger.info(
+            f"Blood Potency de {member.id} changée de {old_bp} à {level} "
+            f"par {ctx.author.id} sur {ctx.guild.id}"
+        )
 
 
 async def setup(bot: commands.Bot):

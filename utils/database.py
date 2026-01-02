@@ -492,6 +492,10 @@ async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dic
     # Sauvegarder dans Google Sheets
     await save_to_google_sheets(user_id, character)
 
+    # Synchroniser la BP dans SQLite si elle a changé
+    if mutated:
+        await set_blood_potency(user_id, guild_id, new_bp)
+
     return {
         "mutated": mutated,
         "new_bp": new_bp,

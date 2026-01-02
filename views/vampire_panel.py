@@ -288,7 +288,7 @@ class VampirePanel(ui.View):
         # Puissance du Sang
         embed.add_field(
             name=f"🩸 Puissance du Sang — {bp_info['titre']}",
-            value=f"**Niveau {self.blood_potency}/5** (Pool: {max_soif} pts)\n{bp_info['description']}",
+            value=f"**Niveau {self.blood_potency}/5**\n{bp_info['description']}",
             inline=False,
         )
 
