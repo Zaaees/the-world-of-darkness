@@ -163,6 +163,9 @@ class GeneralCog(commands.Cog, name="Général"):
         await set_blood_potency(member.id, ctx.guild.id, level)
 
         # Mettre à jour dans Google Sheets pour synchroniser
+        # S'assurer que race est préservé (peut être perdu lors de la lecture GS)
+        if "race" not in character:
+            character["race"] = "vampire"
         character["bloodPotency"] = level
         character["saturationPoints"] = 0  # Reset saturation on manual BP change
         await save_to_google_sheets(member.id, character)

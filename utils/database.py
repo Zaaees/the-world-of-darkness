@@ -346,7 +346,13 @@ async def get_vampire_data(user_id: int, guild_id: int) -> dict:
     """
     # Récupérer les données persistantes depuis Google Sheets
     character = await get_from_google_sheets(user_id)
-    if not character or character.get("race") != "vampire":
+    if not character:
+        return {}
+
+    # Vérifier si c'est un vampire: soit race == "vampire", soit présence d'un clan
+    # (le champ race peut être perdu lors de certaines sauvegardes Google Sheets)
+    is_vampire = character.get("race") == "vampire" or character.get("clan") is not None
+    if not is_vampire:
         return {}
 
     # BP de référence depuis Google Sheets (source de vérité)
