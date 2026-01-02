@@ -1249,21 +1249,22 @@ def get_min_soif(blood_potency: int) -> int:
 def get_max_soif(blood_potency: int) -> int:
     """Calcule la capacité maximale de soif selon la Blood Potency.
 
-    Progression exponentielle:
-    - BP 1: 5 points (base)
-    - BP 2: 10 points (×2)
-    - BP 3: 20 points (×2)
-    - BP 4: 40 points (×2)
-    - BP 5: 80 points (×2)
+    Progression linéaire (équilibrée):
+    - BP 1: 5 points (Nouveau-né)
+    - BP 2: 8 points (Néonate)
+    - BP 3: 12 points (Ancilla)
+    - BP 4: 18 points (Ancien)
+    - BP 5: 25 points (Mathusalem)
     """
-    max_soif_by_bp = {1: 5, 2: 10, 3: 20, 4: 40, 5: 80}
+    max_soif_by_bp = {1: 5, 2: 8, 3: 12, 4: 18, 5: 25}
     return max_soif_by_bp.get(blood_potency, 5)
 
 
 def get_saturation_threshold(blood_potency: int) -> int:
-    """Calcule le seuil de saturation selon la Blood Potency."""
-    thresholds = {1: 30, 2: 60, 3: 120, 4: 250, 5: float("inf")}
-    return thresholds.get(blood_potency, 30)
+    """Calcule le seuil de saturation pour passer au niveau suivant."""
+    # Seuils ajustés à la nouvelle progression linéaire
+    thresholds = {1: 25, 2: 50, 3: 80, 4: 120, 5: float("inf")}
+    return thresholds.get(blood_potency, 25)
 
 
 async def reset_vampire_data(user_id: int, guild_id: int):
