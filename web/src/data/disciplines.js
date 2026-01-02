@@ -867,7 +867,15 @@ export const CLAN_DISCIPLINES = {
   gargoyles: ["flight", "fortitude", "potence", "visceratika"],
   samedi: ["fortitude", "obfuscate", "thanatosis"],
   daughters_of_cacophony: ["fortitude", "melpominee", "presence"],
-  baali: ["daimoinon", "obfuscate", "presence"]
+  baali: ["daimoinon", "obfuscate", "presence"],
+  // Caïn - Le Père des Vampires (MJ only) - Accès à TOUTES les disciplines
+  cain: [
+    "animalism", "auspex", "celerity", "chimerstry", "daimoinon",
+    "dementation", "dominate", "flight", "fortitude", "melpominee",
+    "necromancy", "obfuscate", "obtenebration", "potence", "presence",
+    "protean", "quietus", "serpentis", "thaumaturgy", "thanatosis",
+    "vicissitude", "visceratika"
+  ]
 };
 
 // Niveau maximum de discipline selon la Puissance du Sang
