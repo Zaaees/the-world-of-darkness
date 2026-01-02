@@ -350,8 +350,10 @@ async def get_vampire_data(user_id: int, guild_id: int) -> dict:
         return {}
 
     # BP de référence depuis Google Sheets (source de vérité)
-    gs_blood_potency = character.get("bloodPotency", 1)
-    gs_saturation = character.get("saturationPoints", 0)
+    raw_bp = character.get("bloodPotency")
+    logger.info(f"[get_vampire_data] user={user_id} raw bloodPotency from GS: {raw_bp} (type: {type(raw_bp).__name__})")
+    gs_blood_potency = int(raw_bp) if raw_bp is not None else 1
+    gs_saturation = int(character.get("saturationPoints", 0))
 
     # Récupérer les données de session depuis SQLite (rapide)
     async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -362,14 +364,19 @@ async def get_vampire_data(user_id: int, guild_id: int) -> dict:
         row = await cursor.fetchone()
         if row:
             soif_level, sqlite_blood_potency, sqlite_saturation = row
+            sqlite_blood_potency = int(sqlite_blood_potency) if sqlite_blood_potency else 1
+            logger.info(f"[get_vampire_data] user={user_id} SQLite BP={sqlite_blood_potency}, GS BP={gs_blood_potency}")
             # Synchroniser si Google Sheets a une BP différente (source de vérité)
             if sqlite_blood_potency != gs_blood_potency:
+                logger.info(f"[get_vampire_data] user={user_id} BP mismatch! Syncing GS -> SQLite: {gs_blood_potency}")
                 await set_blood_potency(user_id, guild_id, gs_blood_potency)
         else:
             # Initialiser SQLite avec les valeurs de Google Sheets
+            logger.info(f"[get_vampire_data] user={user_id} No SQLite row, initializing with GS BP={gs_blood_potency}")
             soif_level = 0
             await set_blood_potency(user_id, guild_id, gs_blood_potency)
 
+    logger.info(f"[get_vampire_data] user={user_id} Returning BP={gs_blood_potency}")
     return {
         "user_id": user_id,
         "guild_id": guild_id,

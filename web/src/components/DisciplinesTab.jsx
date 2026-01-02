@@ -171,19 +171,23 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
         </div>
 
         {/* Légende des coûts */}
-        <div className="flex flex-wrap items-center gap-4 pt-3 border-t border-stone-800/50 text-xs text-stone-400">
+        <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-stone-800/50 text-xs text-stone-400">
           <span className="text-stone-500 font-medium">Coûts :</span>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
             <span className="px-1.5 py-0.5 rounded border bg-stone-800/50 border-stone-700 text-[10px]">Passif</span>
+            <span className="text-stone-500 text-[10px]">= 0 pt</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
             <span className="text-xs">🩸</span>
+            <span className="text-stone-500 text-[10px]">= 1 pt</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
             <span className="text-xs">🩸🩸🩸</span>
+            <span className="text-stone-500 text-[10px]">= 3 pts</span>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-xs">🩸🩸🩸🩸🩸🩸🩸🩸🩸</span>
+          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
+            <span className="text-xs">🩸×9</span>
+            <span className="text-stone-500 text-[10px]">= 9 pts</span>
           </div>
         </div>
       </div>
