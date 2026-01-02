@@ -564,6 +564,38 @@ CLANS = {
                 "directive": "⚠️ FRÉNÉSIE ⚠️ Soit tu absorbes toute la douleur autour de toi jusqu'à l'effondrement, soit le Guerrier Salubri s'éveille et tu deviens destruction sacrée contre ceux qui menacent les innocents."
             }
         }
+    },
+    "cain": {
+        "nom": "Caïn",
+        "description": "Le Père des Vampires - Celui qui porte la Marque, source de tout le sang maudit",
+        "gm_only": True,  # Réservé au MJ
+        "compulsions": {
+            1: {
+                "nom": "Omniscience",
+                "description": "Tu es le Premier. Tu sais tout. Tu vois tout.",
+                "directive": "Tu perçois les pensées et intentions de tous les présents. Rien ne t'est caché."
+            },
+            2: {
+                "nom": "Jugement Divin",
+                "description": "Tu es celui qui a été maudit par Dieu lui-même. Tu portes son jugement.",
+                "directive": "Tu dois juger les actions de tes descendants. Leur existence dépend de ta volonté."
+            },
+            3: {
+                "nom": "Mélancolie Éternelle",
+                "description": "Des millénaires de solitude pèsent sur toi.",
+                "directive": "Tu dois exprimer le poids des âges. Tu as tout vu, tout vécu. Plus rien ne te surprend."
+            },
+            4: {
+                "nom": "Colère du Père",
+                "description": "Tes enfants ont failli. Ils ont oublié les anciennes voies.",
+                "directive": "Tu dois rappeler aux vampires leur place. Tu es leur créateur. Ils ne sont que poussière face à toi."
+            },
+            5: {
+                "nom": "LA MARQUE S'ÉVEILLE",
+                "description": "🔥 CELUI QUI FRAPPE CAÏN SERA PUNI SEPT FOIS 🔥\nLa Marque donnée par Dieu brille sur ton front.",
+                "directive": "⚠️ Quiconque ose lever la main sur toi sera détruit. Tu es intouchable. Tu es éternel. Tu es CAÏN."
+            }
+        }
     }
 }
 
