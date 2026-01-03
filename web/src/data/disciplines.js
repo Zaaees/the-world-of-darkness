@@ -413,7 +413,7 @@ export const DISCIPLINES = {
         level: 3,
         name: "Puissance du Sang",
         bloodCost: 3,
-        description: "Concentre ta vitae par un rituel rapide, forçant le pouvoir de ton sang à irriguer tes muscles, tes réflexes, ta résistance. Pendant quelques minutes, tu deviens plus fort, plus rapide, plus résistant qu'aucun vampire de ton âge ne devrait l'être. Combats comme un Ancien alors que tu n'es qu'un néonate, accomplis des exploits physiques impossibles. Le prix ? Ta vitae brûle vite sous cette forme concentrée, te laissant affaibli et affamé quand l'effet se dissipe. Mais ces quelques minutes de puissance surnaturelle peuvent faire la différence entre la victoire et la destruction."
+        description: "Concentre ta vitae par un rituel rapide, forçant le pouvoir de ton sang à irriguer tes muscles, tes réflexes, ta résistance. Tant que tu maintiens cet état, tu deviens plus fort, plus rapide, plus résistant qu'aucun vampire de ton âge ne devrait l'être. Combats comme un Ancien alors que tu n'es qu'un néonate, accomplis des exploits physiques impossibles. Le prix ? Ta vitae brûle vite : 3 points par tour de maintien, te laissant affaibli et affamé quand l'effet se dissipe. Mais ces moments de puissance surnaturelle peuvent faire la différence entre la victoire et la destruction."
       },
       {
         level: 4,
@@ -463,7 +463,7 @@ export const DISCIPLINES = {
         level: 5,
         name: "Forme de Sang",
         bloodCost: 9,
-        description: "Dissous complètement ton corps en une flaque de vitae sentiente, un mare de sang qui pense et bouge. Tu t'étales sur le sol, te coules sous les portes, à travers les grilles, dans les fissures. Sous cette forme, tu es presque invulnérable aux dégâts physiques : les balles font juste des éclaboussures, les lames te traversent sans effet. Tu peux t'étaler pour couvrir une large zone, ou te concentrer en un petit point. Engloutis un adversaire, le noyant dans ta substance, ou infiltre-toi dans des lieux impossibles. Seul le feu peut vraiment te blesser sous cette forme. Tu es devenu l'essence même de la monstruosité vampirique."
+        description: "Dissous complètement ton corps en une flaque de vitae sentiente, une mare de sang qui pense et bouge. Tu t'étales sur le sol, te coules sous les portes, à travers les grilles, dans les fissures. Sous cette forme, tu es presque invulnérable aux dégâts physiques : les balles font juste des éclaboussures, les lames te traversent sans effet. Tu peux t'étaler pour couvrir une large zone, ou te concentrer en un petit point. Engloutis un adversaire, le noyant dans ta substance, ou infiltre-toi dans des lieux impossibles. Seuls le feu et le soleil peuvent te blesser sous cette forme - et le soleil reste mortel, évaporant ta vitae comme l'eau d'une flaque. Tu es devenu l'essence même de la monstruosité vampirique."
       }
     ]
   },
@@ -495,7 +495,7 @@ export const DISCIPLINES = {
         level: 4,
         name: "Animation Cadavérique",
         bloodCost: 3,
-        description: "Pose ta main sur un cadavre et insuffle-lui une parodie de vie. Le corps se lève, yeux vides et mouvements saccadés, totalement sous ton contrôle. Plus le corps est frais, mieux il fonctionne : un cadavre récent peut passer pour humain avec les bons vêtements, un squelette n'est qu'un serviteur maladroit. Crée une armée de zombies pour garder ton havre, utilise des cadavres pour faire le travail sale, ou anime le corps d'un ennemi mort pour terroriser ses alliés. Les zombies n'ont aucune volonté propre, juste des extensions de la tienne."
+        description: "Pose ta main sur un cadavre et insuffle-lui une parodie de vie. Le corps se lève, yeux vides et mouvements saccadés, totalement sous ton contrôle. Plus le corps est frais, mieux il fonctionne : un cadavre récent peut passer pour humain avec les bons vêtements, un squelette n'est qu'un serviteur maladroit. Tu peux contrôler un maximum de cadavres égal à ta Puissance du Sang. Utilise-les pour garder ton havre, faire le travail sale, ou terroriser tes ennemis. Les zombies n'ont aucune volonté propre, juste des extensions de la tienne."
       },
       {
         level: 5,
@@ -678,19 +678,19 @@ export const DISCIPLINES = {
       {
         level: 3,
         name: "Ailes de Nuit",
-        bloodCost: 3,
-        description: "Des ailes de chair et de pierre émergent de ton dos dans un craquement horrible. Tu voles maintenant vraiment, battant des ailes pour t'élever dans le ciel nocturne. Vole au-dessus de la ville, patrouille ton territoire vu d'en haut, fond sur tes ennemis comme un démon ailé. Ta silhouette monstrueuse dans le ciel est une vision de cauchemar médiéval."
+        bloodCost: 0,
+        description: "Des ailes de chair et de pierre sont désormais permanentes dans ton dos. Tu voles vraiment, battant des ailes pour t'élever dans le ciel nocturne. Vole au-dessus de la ville, patrouille ton territoire vu d'en haut, fond sur tes ennemis comme un démon ailé. Ta silhouette monstrueuse dans le ciel est une vision de cauchemar médiéval."
       },
       {
         level: 4,
         name: "Vol Supersonique",
-        bloodCost: 3,
-        description: "Tes ailes sont puissantes. Tu files dans le ciel à une vitesse terrifiante, traversant la ville en minutes. Rattrape une voiture en fuite, voyage entre les cités en une seule nuit, ou frappe depuis les airs avec la force d'une météorite. Le vent hurle autour de toi, ta forme un éclair noir dans la nuit."
+        bloodCost: 0,
+        description: "Tes ailes sont devenues puissantes. Tu files dans le ciel à une vitesse terrifiante, traversant la ville en minutes. Rattrape une voiture en fuite, voyage entre les cités en une seule nuit, ou frappe depuis les airs avec la force d'une météorite. Le vent hurle autour de toi, ta forme un éclair noir dans la nuit."
       },
       {
         level: 5,
         name: "Maître du Ciel",
-        bloodCost: 9,
+        bloodCost: 0,
         description: "Le ciel t'obéit. Vole dans n'importe quelle condition : tempête, vent violent, même à travers les flammes. Tu peux emporter des passagers, voler en portant un poids énorme, ou exécuter des manœuvres impossibles. Plonge en piqué à travers une fenêtre, vole à l'envers sous un pont, reste immobile en vol stationnaire. Tu es aussi à l'aise dans les airs qu'au sol, peut-être plus."
       }
     ]
@@ -749,7 +749,7 @@ export const DISCIPLINES = {
         level: 2,
         name: "Putréfaction",
         bloodCost: 0,
-        description: "Accélère la décomposition de ta propre chair. Ta peau se couvre de plaies suppurantes, tes doigts noircissent, l'odeur devient insupportable. Mais dans cet état de pourriture avancée, tu deviens résistant aux dégâts : les balles traversent de la chair morte qui ne ressent rien, les coups de couteau ne font que détacher des morceaux qui se régénèrent. Tu es déjà mort, comment te tuer à nouveau ?"
+        description: "Accélère la décomposition de ta propre chair. Ta peau se couvre de plaies suppurantes, tes doigts noircissent, l'odeur devient insupportable. Dans cet état, les dégâts physiques t'affectent moins : les balles traversent de la chair morte qui ne ressent rien, les coups ne font que détacher des morceaux. Cependant, tu ne peux pas te régénérer tant que tu maintiens cet état - ta Vitae refuse de soigner la pourriture volontaire. Désactive ce pouvoir pour pouvoir guérir normalement."
       },
       {
         level: 3,
