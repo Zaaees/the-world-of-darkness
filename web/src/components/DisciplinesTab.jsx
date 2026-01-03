@@ -59,8 +59,8 @@ const BloodCost = ({ cost, isLocked }) => {
   if (cost === 0) {
     return (
       <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] ${isLocked
-          ? 'bg-stone-900/50 text-stone-600 border-stone-800'
-          : 'bg-stone-800/50 text-stone-400 border-stone-700'
+        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+        : 'bg-stone-800/50 text-stone-400 border-stone-700'
         }`}>
         Passif
       </span>
@@ -69,8 +69,8 @@ const BloodCost = ({ cost, isLocked }) => {
 
   return (
     <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded border ${isLocked
-        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
-        : 'bg-red-950/30 text-red-400 border-red-900/30'
+      ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+      : 'bg-red-950/30 text-red-400 border-red-900/30'
       }`} title={`Coût: ${cost} point(s) de sang`}>
       <Droplet size={10} className={isLocked ? 'text-stone-600' : 'text-red-500'} fill={isLocked ? "none" : "currentColor"} />
       <span className="text-[10px]">{cost}</span>
@@ -197,24 +197,63 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
           </div>
         </div>
 
-        {/* Légende des coûts */}
-        <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-stone-800/50 text-xs text-stone-400">
-          <span className="text-stone-500 font-medium">Coûts :</span>
-          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
-            <span className="px-1.5 py-0.5 rounded border bg-stone-800/50 border-stone-700 text-[10px]">Passif</span>
-            <span className="text-stone-500 text-[10px]">= 0 pt</span>
+        {/* Légende */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-stone-800/50">
+
+          {/* Coûts */}
+          <div>
+            <h4 className="text-xs font-semibold text-stone-500 mb-2 uppercase tracking-wide">Coût en Sang</h4>
+            <div className="flex flex-wrap gap-y-2 gap-x-4">
+              <div className="flex items-center gap-2">
+                <span className="flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] bg-stone-800/50 text-stone-400 border-stone-700">
+                  Passif
+                </span>
+                <span className="text-xs text-stone-500">= Gratuit</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30">
+                  <Droplet size={10} className="text-red-500" fill="currentColor" />
+                  <span className="text-[10px]">1</span>
+                </div>
+                <span className="text-xs text-stone-500">= 1 PS</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30">
+                  <Droplet size={10} className="text-red-500" fill="currentColor" />
+                  <span className="text-[10px]">3</span>
+                </div>
+                <span className="text-xs text-stone-500">= 3 PS</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
-            <span className="text-xs">🩸</span>
-            <span className="text-stone-500 text-[10px]">= 1 pt</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
-            <span className="text-xs">🩸🩸🩸</span>
-            <span className="text-stone-500 text-[10px]">= 3 pts</span>
-          </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 bg-stone-900/50 rounded">
-            <span className="text-xs">🩸×9</span>
-            <span className="text-stone-500 text-[10px]">= 9 pts</span>
+
+          {/* Durées */}
+          <div>
+            <h4 className="text-xs font-semibold text-stone-500 mb-2 uppercase tracking-wide">Durée</h4>
+            <div className="grid grid-cols-2 gap-y-1 gap-x-2 text-xs text-stone-500">
+              <div className="flex items-center gap-2">
+                <Clock size={12} className="text-stone-600" />
+                <span className="text-stone-400 font-medium">Instantanée :</span>
+                <span>Effet immédiat</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock size={12} className="text-stone-600" />
+                <span className="text-stone-400 font-medium">Scène :</span>
+                <span>Toute la scène</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock size={12} className="text-stone-600" />
+                <span className="text-stone-400 font-medium">Prolongée :</span>
+                <span>Heures/Jours</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock size={12} className="text-stone-600" />
+                <span className="text-stone-400 font-medium">Passif :</span>
+                <span>Permanent</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
