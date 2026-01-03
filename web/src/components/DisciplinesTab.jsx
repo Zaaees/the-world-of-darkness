@@ -197,61 +197,83 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
           </div>
         </div>
 
-        {/* Légende - Carte de Référence */}
-        <div className="mt-4 bg-stone-950/50 rounded-lg border border-stone-800/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Légende - Carte de Référence (Alignement Strict) */}
+        <div className="mt-4 bg-stone-950/40 rounded-lg border border-stone-800/50 grid grid-cols-1 md:grid-cols-2 overflow-hidden">
 
           {/* Colonne Coûts */}
-          <div>
-            <h4 className="border-b border-stone-800 pb-2 mb-3 text-[10px] font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
-              <Droplet size={12} /> Coût en Sang
+          <div className="p-5 md:border-r border-stone-800/50">
+            <h4 className="border-b border-stone-800 pb-2 mb-4 text-[10px] font-bold text-stone-500 uppercase tracking-widest flex items-center justify-end md:justify-start gap-2">
+              Coût en Sang <Droplet size={12} />
             </h4>
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between group">
-                <span className="flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] bg-stone-800/50 text-stone-400 border-stone-700 font-medium">
-                  Passif
-                </span>
-                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors">Aucun coût, toujours actif</span>
+            <div className="space-y-3">
+              <div className="flex items-start gap-4 group">
+                <div className="w-20 shrink-0 flex justify-end">
+                  <span className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border text-[10px] bg-stone-800/50 text-stone-400 border-stone-700 font-medium w-full">
+                    Passif
+                  </span>
+                </div>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Aucun coût, toujours actif ou permanent.</span>
               </div>
 
-              <div className="flex items-center justify-between group">
-                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30 font-medium">
-                  <Droplet size={10} className="text-red-500" fill="currentColor" />
-                  <span className="text-[10px]">1</span>
+              <div className="flex items-start gap-4 group">
+                <div className="w-20 shrink-0 flex justify-end">
+                  <div className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border bg-red-950/20 text-red-400 border-red-900/30 font-medium w-full">
+                    <Droplet size={10} className="text-red-500" fill="currentColor" />
+                    <span className="text-[10px]">1</span>
+                  </div>
                 </div>
-                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors">Faible dépense (1 point)</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Faible dépense de vitae.</span>
               </div>
 
-              <div className="flex items-center justify-between group">
-                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30 font-medium">
-                  <Droplet size={10} className="text-red-500" fill="currentColor" />
-                  <span className="text-[10px]">2+</span>
+              <div className="flex items-start gap-4 group">
+                <div className="w-20 shrink-0 flex justify-end">
+                  <div className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border bg-red-950/20 text-red-400 border-red-900/30 font-medium w-full">
+                    <Droplet size={10} className="text-red-500" fill="currentColor" />
+                    <span className="text-[10px]">2+</span>
+                  </div>
                 </div>
-                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors">Dépense importante</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Dépense importante pour un effet puissant.</span>
               </div>
             </div>
           </div>
 
           {/* Colonne Durées */}
-          <div>
-            <h4 className="border-b border-stone-800 pb-2 mb-3 text-[10px] font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
+          <div className="p-5">
+            <h4 className="border-b border-stone-800 pb-2 mb-4 text-[10px] font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
               <Clock size={12} /> Durée des effets
             </h4>
-            <div className="space-y-2">
-              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
-                <span className="text-xs font-medium text-stone-400 text-right">Instantanée</span>
-                <span className="text-xs text-stone-600 leading-relaxed">L'effet est immédiat et ne dure pas (ex: une attaque).</span>
+            <div className="space-y-3">
+              <div className="flex items-start gap-4 group">
+                <div className="w-24 shrink-0 flex justify-end">
+                  <span className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border text-[10px] bg-stone-900/50 text-stone-400 border-stone-800 font-medium w-full">
+                    Instantanée
+                  </span>
+                </div>
+                <span className="text-xs text-stone-600 group-hover:text-stone-400 transition-colors leading-relaxed pt-0.5">L'effet est immédiat et ne persiste pas.</span>
               </div>
-              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
-                <span className="text-xs font-medium text-stone-400 text-right">Scène</span>
-                <span className="text-xs text-stone-600 leading-relaxed">Dure toute la scène actuelle ou le combat.</span>
+              <div className="flex items-start gap-4 group">
+                <div className="w-24 shrink-0 flex justify-end">
+                  <span className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border text-[10px] bg-stone-900/50 text-stone-400 border-stone-800 font-medium w-full">
+                    Scène
+                  </span>
+                </div>
+                <span className="text-xs text-stone-600 group-hover:text-stone-400 transition-colors leading-relaxed pt-0.5">Dure toute la scène ou le combat en cours.</span>
               </div>
-              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
-                <span className="text-xs font-medium text-stone-400 text-right">Prolongée</span>
-                <span className="text-xs text-stone-600 leading-relaxed">Dure des heures, une nuit, ou plus.</span>
+              <div className="flex items-start gap-4 group">
+                <div className="w-24 shrink-0 flex justify-end">
+                  <span className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border text-[10px] bg-stone-900/50 text-stone-400 border-stone-800 font-medium w-full">
+                    Prolongée
+                  </span>
+                </div>
+                <span className="text-xs text-stone-600 group-hover:text-stone-400 transition-colors leading-relaxed pt-0.5">Dure des heures, une nuit, ou plusieurs jours.</span>
               </div>
-              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
-                <span className="text-xs font-medium text-stone-400 text-right">Permanente</span>
-                <span className="text-xs text-stone-600 leading-relaxed">Dure indéfiniment ou jusqu'à annulation.</span>
+              <div className="flex items-start gap-4 group">
+                <div className="w-24 shrink-0 flex justify-end">
+                  <span className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border text-[10px] bg-stone-900/50 text-stone-400 border-stone-800 font-medium w-full">
+                    Permanente
+                  </span>
+                </div>
+                <span className="text-xs text-stone-600 group-hover:text-stone-400 transition-colors leading-relaxed pt-0.5">Dure indéfiniment ou jusqu'à annulation.</span>
               </div>
             </div>
           </div>
