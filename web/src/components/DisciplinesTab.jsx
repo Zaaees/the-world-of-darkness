@@ -197,61 +197,61 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
           </div>
         </div>
 
-        {/* Légende */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-stone-800/50">
+        {/* Légende - Carte de Référence */}
+        <div className="mt-4 bg-stone-950/50 rounded-lg border border-stone-800/50 p-5 grid grid-cols-1 md:grid-cols-2 gap-8">
 
-          {/* Coûts */}
+          {/* Colonne Coûts */}
           <div>
-            <h4 className="text-xs font-semibold text-stone-500 mb-2 uppercase tracking-wide">Coût en Sang</h4>
-            <div className="flex flex-wrap gap-y-2 gap-x-4">
-              <div className="flex items-center gap-2">
-                <span className="flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] bg-stone-800/50 text-stone-400 border-stone-700">
+            <h4 className="border-b border-stone-800 pb-2 mb-3 text-[10px] font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
+              <Droplet size={12} /> Coût en Sang
+            </h4>
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between group">
+                <span className="flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] bg-stone-800/50 text-stone-400 border-stone-700 font-medium">
                   Passif
                 </span>
-                <span className="text-xs text-stone-500">= Gratuit</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors">Aucun coût, toujours actif</span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30">
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30 font-medium">
                   <Droplet size={10} className="text-red-500" fill="currentColor" />
                   <span className="text-[10px]">1</span>
                 </div>
-                <span className="text-xs text-stone-500">= 1 PS</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors">Faible dépense (1 point)</span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30">
+              <div className="flex items-center justify-between group">
+                <div className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-950/30 text-red-400 border-red-900/30 font-medium">
                   <Droplet size={10} className="text-red-500" fill="currentColor" />
-                  <span className="text-[10px]">3</span>
+                  <span className="text-[10px]">2+</span>
                 </div>
-                <span className="text-xs text-stone-500">= 3 PS</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors">Dépense importante</span>
               </div>
             </div>
           </div>
 
-          {/* Durées */}
+          {/* Colonne Durées */}
           <div>
-            <h4 className="text-xs font-semibold text-stone-500 mb-2 uppercase tracking-wide">Durée</h4>
-            <div className="grid grid-cols-2 gap-y-1 gap-x-2 text-xs text-stone-500">
-              <div className="flex items-center gap-2">
-                <Clock size={12} className="text-stone-600" />
-                <span className="text-stone-400 font-medium">Instantanée :</span>
-                <span>Effet immédiat</span>
+            <h4 className="border-b border-stone-800 pb-2 mb-3 text-[10px] font-bold text-stone-500 uppercase tracking-widest flex items-center gap-2">
+              <Clock size={12} /> Durée des effets
+            </h4>
+            <div className="space-y-2">
+              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
+                <span className="text-xs font-medium text-stone-400 text-right">Instantanée</span>
+                <span className="text-xs text-stone-600 leading-relaxed">L'effet est immédiat et ne dure pas (ex: une attaque).</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={12} className="text-stone-600" />
-                <span className="text-stone-400 font-medium">Scène :</span>
-                <span>Toute la scène</span>
+              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
+                <span className="text-xs font-medium text-stone-400 text-right">Scène</span>
+                <span className="text-xs text-stone-600 leading-relaxed">Dure toute la scène actuelle ou le combat.</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={12} className="text-stone-600" />
-                <span className="text-stone-400 font-medium">Prolongée :</span>
-                <span>Heures/Jours</span>
+              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
+                <span className="text-xs font-medium text-stone-400 text-right">Prolongée</span>
+                <span className="text-xs text-stone-600 leading-relaxed">Dure des heures, une nuit, ou plus.</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={12} className="text-stone-600" />
-                <span className="text-stone-400 font-medium">Passif :</span>
-                <span>Permanent</span>
+              <div className="grid grid-cols-[80px_1fr] gap-2 items-start">
+                <span className="text-xs font-medium text-stone-400 text-right">Permanente</span>
+                <span className="text-xs text-stone-600 leading-relaxed">Dure indéfiniment ou jusqu'à annulation.</span>
               </div>
             </div>
           </div>
