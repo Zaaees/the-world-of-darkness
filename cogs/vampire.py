@@ -15,7 +15,7 @@ from discord.ext import commands
 from data.clans import get_clan, list_clans
 from data.config import ROLE_VAMPIRE
 from utils.database import get_player, get_soif, get_vampire_data
-from utils.rp_check import is_rp_channel
+
 from views.vampire_panel import VampirePanel, ClanSelectView
 
 logger = logging.getLogger(__name__)
@@ -53,13 +53,7 @@ class VampireCog(commands.Cog, name="Vampire"):
             )
             return
 
-        # Vérifier si on est dans un canal RP
-        if not is_rp_channel(interaction.channel):
-            await interaction.followup.send(
-                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
-                ephemeral=True,
-            )
-            return
+
 
         # Récupérer le profil du joueur
         player = await get_player(interaction.user.id, interaction.guild.id)
