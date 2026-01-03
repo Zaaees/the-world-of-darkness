@@ -495,7 +495,7 @@ export const DISCIPLINES = {
         level: 4,
         name: "Animation Cadavérique",
         bloodCost: 3,
-        description: "Pose ta main sur un cadavre et insuffle-lui une parodie de vie. Le corps se lève, yeux vides et mouvements saccadés, totalement sous ton contrôle. Plus le corps est frais, mieux il fonctionne : un cadavre récent peut passer pour humain avec les bons vêtements, un squelette n'est qu'un serviteur maladroit. Tu peux contrôler un maximum de cadavres égal à ta Puissance du Sang. Utilise-les pour garder ton havre, faire le travail sale, ou terroriser tes ennemis. Les zombies n'ont aucune volonté propre, juste des extensions de la tienne."
+        description: "Pose ta main sur un cadavre et insuffle-lui une parodie de vie. Le corps se lève, yeux vides et mouvements saccadés, totalement sous ton contrôle. Plus le corps est frais, mieux il fonctionne : un cadavre récent peut passer pour humain avec les bons vêtements, un squelette n'est qu'un serviteur maladroit. Crée une armée de zombies pour garder ton havre, utilise des cadavres pour faire le travail sale, ou anime le corps d'un ennemi mort pour terroriser ses alliés. Les zombies n'ont aucune volonté propre, juste des extensions de la tienne."
       },
       {
         level: 5,
