@@ -61,14 +61,14 @@ class GeneralCog(commands.Cog, name="Général"):
         auspice = player.get("auspice") if player else None
         race = player.get("race") if player else None
 
-        # Supprimer les données (mais garder la race si l'utilisateur a encore le rôle)
-        await delete_player(member.id, ctx.guild.id, keep_race=has_vampire_role or has_werewolf_role)
-
         # Supprimer la fiche Discord si elle existe
         try:
             await delete_discord_sheet(self.bot, member.id, ctx.guild.id)
         except Exception as e:
             logger.error(f"Erreur suppression fiche Discord pour {member.id}: {e}")
+
+        # Supprimer les données (mais garder la race si l'utilisateur a encore le rôle)
+        await delete_player(member.id, ctx.guild.id, keep_race=has_vampire_role or has_werewolf_role)
 
         # Supprimer la fiche Google Sheet si elle existe
         try:
