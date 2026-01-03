@@ -60,11 +60,25 @@ const DISCIPLINE_POWERS = {
 export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
   const [editingGhoul, setEditingGhoul] = useState(null);
   const [creatingGhoul, setCreatingGhoul] = useState(false);
-  const [newGhoul, setNewGhoul] = useState({ name: '', description: '', role: '' });
+  const [newGhoul, setNewGhoul] = useState({ name: '', description: '', role: '', type: 'blood' }); // type: 'blood' | 'mind'
   const [error, setError] = useState(null);
 
   const maxGhouls = GHOUL_LIMITS[bloodPotency] || 2;
-  const currentCount = ghouls.length;
+
+  // Compter uniquement les goules de sang pour la limite
+  const bloodGhoulsCount = ghouls.filter(g => !g.type || g.type === 'blood').length;
+  const mindGhoulsCount = ghouls.filter(g => g.type === 'mind').length;
+
+  // Vérifier si le personnage peut créer des goules de l'esprit
+  // Condition: BP >= 4 ET possède Domination dans son clan
+  const clanDisciplines = CLAN_DISCIPLINES[clan?.toLowerCase()] || [];
+  const hasDominate = clanDisciplines.includes('Domination');
+  const canCreateMindGhouls = bloodPotency >= 4 && hasDominate;
+
+  // Peut créer une goule si:
+  // 1. N'a pas atteint la limite de goules de sang
+  // 2. OU peut créer des goules de l'esprit
+  const canCreate = bloodGhoulsCount < maxGhouls || canCreateMindGhouls;
 
   const createGhoul = () => {
     if (!newGhoul.name.trim()) {
@@ -72,26 +86,33 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
       return;
     }
 
-    // Assigner une discipline aléatoire du clan
-    const clanDisciplines = CLAN_DISCIPLINES[clan?.toLowerCase()] || [];
-    const randomDiscipline = clanDisciplines[Math.floor(Math.random() * clanDisciplines.length)];
-    const disciplinePower = DISCIPLINE_POWERS[randomDiscipline] || 'Pouvoir Inconnu';
+    if (newGhoul.type === 'blood' && bloodGhoulsCount >= maxGhouls) {
+      setError('Limite de goules de sang atteinte');
+      return;
+    }
 
-    const ghoul = {
+    let ghoulData = {
       id: `ghoul_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: newGhoul.name.trim(),
       description: newGhoul.description.trim() || null,
       role: newGhoul.role.trim() || null,
-      discipline_name: randomDiscipline,
-      discipline_power: disciplinePower,
       status: 'actif',
       notes: '',
       created_at: Date.now(),
+      type: newGhoul.type || 'blood'
     };
 
-    onUpdateGhouls([...ghouls, ghoul]);
+    // Seulement les goules de sang reçoivent une discipline
+    if (newGhoul.type === 'blood') {
+      const randomDiscipline = clanDisciplines[Math.floor(Math.random() * clanDisciplines.length)];
+      const disciplinePower = DISCIPLINE_POWERS[randomDiscipline] || 'Pouvoir Inconnu';
+      ghoulData.discipline_name = randomDiscipline;
+      ghoulData.discipline_power = disciplinePower;
+    }
+
+    onUpdateGhouls([...ghouls, ghoulData]);
     setCreatingGhoul(false);
-    setNewGhoul({ name: '', description: '', role: '' });
+    setNewGhoul({ name: '', description: '', role: '', type: 'blood' });
     setError(null);
   };
 
@@ -121,13 +142,16 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
           </div>
           <div>
             <h2 className="text-xl font-serif text-stone-200">Registre de Goules</h2>
-            <p className="text-xs text-stone-500">
-              {currentCount} / {maxGhouls} goules actives
-            </p>
+            <div className="flex gap-3 text-xs text-stone-500">
+              <p>Goules de Sang: {bloodGhoulsCount} / {maxGhouls}</p>
+              {mindGhoulsCount > 0 && (
+                <p className="text-purple-400">Goules de l'Esprit: {mindGhoulsCount}</p>
+              )}
+            </div>
           </div>
         </div>
 
-        {currentCount < maxGhouls && !creatingGhoul && (
+        {canCreate && !creatingGhoul && (
           <button
             onClick={() => setCreatingGhoul(true)}
             className="flex items-center gap-2 bg-red-900/30 hover:bg-red-900/50 border border-red-800 text-red-300 px-4 py-2 rounded transition-colors"
@@ -157,7 +181,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
             <button
               onClick={() => {
                 setCreatingGhoul(false);
-                setNewGhoul({ name: '', description: '', role: '' });
+                setNewGhoul({ name: '', description: '', role: '', type: 'blood' });
                 setError(null);
               }}
               className="text-stone-500 hover:text-stone-300"
@@ -166,13 +190,49 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
             </button>
           </div>
 
+          {/* Sélection du Type de Goule (disponible seulement si éligible aux Mind Ghouls) */}
+          {canCreateMindGhouls && (
+            <div className="flex gap-4 mb-4 p-3 bg-stone-950/50 rounded border border-stone-800">
+              <label className={`flex items-center gap-2 cursor-pointer ${bloodGhoulsCount >= maxGhouls ? 'opacity-50' : ''}`}>
+                <input
+                  type="radio"
+                  name="ghoulType"
+                  value="blood"
+                  checked={newGhoul.type === 'blood'}
+                  onChange={() => setNewGhoul({ ...newGhoul, type: 'blood' })}
+                  disabled={bloodGhoulsCount >= maxGhouls}
+                  className="text-red-600 focus:ring-red-900"
+                />
+                <div>
+                  <span className="block text-stone-200 font-medium">Goule de Sang</span>
+                  <span className="text-xs text-stone-500">Liée par le sang, gagne une discipline. Limitée par le BP.</span>
+                </div>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="ghoulType"
+                  value="mind"
+                  checked={newGhoul.type === 'mind'}
+                  onChange={() => setNewGhoul({ ...newGhoul, type: 'mind' })}
+                  className="text-purple-600 focus:ring-purple-900"
+                />
+                <div>
+                  <span className="block text-stone-200 font-medium">Goule de l'Esprit</span>
+                  <span className="text-xs text-stone-500">Conditionnée mentalement, sans discipline. Illimitée.</span>
+                </div>
+              </label>
+            </div>
+          )}
+
           <div>
             <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Nom *</label>
             <input
               type="text"
               value={newGhoul.name}
               onChange={(e) => setNewGhoul({ ...newGhoul, name: e.target.value })}
-              placeholder="Marcus, Sarah, etc."
+              placeholder={newGhoul.type === 'mind' ? "Sujet #894" : "Marcus"}
               className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 placeholder-stone-700 focus:border-red-900 focus:outline-none"
             />
           </div>
@@ -183,7 +243,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
               type="text"
               value={newGhoul.role}
               onChange={(e) => setNewGhoul({ ...newGhoul, role: e.target.value })}
-              placeholder="Garde du corps, informateur, etc."
+              placeholder="Garde du corps, informateur, serviteur..."
               className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 placeholder-stone-700 focus:border-red-900 focus:outline-none"
             />
           </div>
@@ -202,15 +262,19 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
           <div className="flex gap-3">
             <button
               onClick={createGhoul}
-              className="flex-1 flex items-center justify-center gap-2 bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-red-200 px-4 py-2 rounded transition-colors"
+              disabled={newGhoul.type === 'blood' && bloodGhoulsCount >= maxGhouls}
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded transition-colors ${newGhoul.type === 'blood' && bloodGhoulsCount >= maxGhouls
+                  ? 'bg-stone-800 text-stone-500 cursor-not-allowed border border-stone-700'
+                  : 'bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-red-200'
+                }`}
             >
               <Save size={16} />
-              Créer
+              Créer {newGhoul.type === 'mind' ? 'Goule de l\'Esprit' : 'Goule'}
             </button>
             <button
               onClick={() => {
                 setCreatingGhoul(false);
-                setNewGhoul({ name: '', description: '', role: '' });
+                setNewGhoul({ name: '', description: '', role: '', type: 'blood' });
                 setError(null);
               }}
               className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded transition-colors"
@@ -220,7 +284,9 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
           </div>
 
           <p className="text-xs text-stone-600 italic">
-            Une discipline de ton clan sera assignée aléatoirement à cette goule.
+            {newGhoul.type === 'blood'
+              ? "Une discipline de ton clan sera assignée aléatoirement à cette goule."
+              : "Les Goules de l'Esprit n'obtiennent pas de disciplines et ne comptent pas dans ta limite."}
           </p>
         </div>
       )}
@@ -231,7 +297,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
           <Users size={48} className="mx-auto mb-4 opacity-20" />
           <p className="font-serif">Aucune goule pour le moment</p>
           <p className="text-sm mt-2">
-            Les goules sont des mortels liés à toi par le sang.
+            Les goules sont des mortels liés à toi par le sang ou l'esprit.
           </p>
         </div>
       ) : (
@@ -254,8 +320,11 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
       <div className="bg-stone-950/50 border border-stone-900 rounded p-4 text-xs text-stone-600">
         <p className="font-serif mb-2 text-stone-500">À propos des goules</p>
         <ul className="space-y-1 list-disc list-inside">
-          <li>Chaque goule reçoit aléatoirement une discipline de ton clan (niveau 1)</li>
-          <li>Le nombre maximum de goules augmente avec ta Puissance du Sang</li>
+          <li>Limite par Puissance du Sang ({bloodPotency}): {maxGhouls} goules de sang max</li>
+          <li>Les Goules de Sang reçoivent une discipline de ton clan</li>
+          {canCreateMindGhouls && (
+            <li className="text-purple-400">Tes pouvoirs de Domination te permettent de créer des Goules de l'Esprit illimitées (sans disciplines)</li>
+          )}
         </ul>
       </div>
     </div>
@@ -265,6 +334,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
 // Composant pour une carte de goule
 function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
   const [editedGhoul, setEditedGhoul] = useState(ghoul);
+  const isMindGhoul = ghoul.type === 'mind';
 
   React.useEffect(() => {
     setEditedGhoul(ghoul);
@@ -272,7 +342,9 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
 
   if (isEditing) {
     return (
-      <div className="bg-stone-900/60 border border-stone-700 rounded-lg p-6 space-y-4">
+      <div className={`bg-stone-900/60 border ${isMindGhoul ? 'border-purple-900/40' : 'border-stone-700'} rounded-lg p-6 space-y-4`}>
+        {isMindGhoul && <div className="text-xs text-purple-400 uppercase tracking-widest font-bold">Goule de l'Esprit</div>}
+
         <div>
           <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Nom</label>
           <input
@@ -333,10 +405,17 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
   }
 
   return (
-    <div className="bg-stone-900/40 border border-stone-800 rounded-lg p-5 hover:border-stone-700 transition-colors">
+    <div className={`bg-stone-900/40 border ${isMindGhoul ? 'border-purple-900/30 hover:border-purple-700' : 'border-stone-800 hover:border-stone-700'} rounded-lg p-5 transition-colors relative overflowing-hidden`}>
+      {/* Badge Goule de l'Esprit */}
+      {isMindGhoul && (
+        <div className="absolute top-0 right-0 bg-purple-900/20 text-purple-400 text-[10px] px-2 py-0.5 rounded-bl uppercase tracking-wider border-l border-b border-purple-900/30">
+          Goule de l'Esprit
+        </div>
+      )}
+
       <div className="flex justify-between items-start mb-3">
         <div className="flex-1">
-          <h3 className="font-serif text-lg text-stone-200 mb-1">{ghoul.name}</h3>
+          <h3 className={`font-serif text-lg ${isMindGhoul ? 'text-purple-100' : 'text-stone-200'} mb-1`}>{ghoul.name}</h3>
           {ghoul.role && (
             <p className="text-sm text-stone-500 italic">{ghoul.role}</p>
           )}
@@ -364,12 +443,18 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
       )}
 
       <div className="flex items-center gap-4 pt-3 border-t border-stone-800/50">
-        {ghoul.discipline_name && ghoul.discipline_power && (
+        {!isMindGhoul && ghoul.discipline_name && ghoul.discipline_power && (
           <div className="flex items-center gap-2">
             <Droplet size={14} className="text-red-700" />
             <span className="text-xs text-stone-500">
               <span className="text-red-600 font-medium">{ghoul.discipline_name}</span> - {ghoul.discipline_power}
             </span>
+          </div>
+        )}
+        {isMindGhoul && (
+          <div className="flex items-center gap-2">
+            <div className="text-purple-700">✦</div>
+            <span className="text-xs text-purple-400/70 italic">Sans discipline</span>
           </div>
         )}
         <div className="flex items-center gap-2">
