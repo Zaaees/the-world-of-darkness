@@ -108,19 +108,19 @@ export const DISCIPLINES = {
       {
         level: 3,
         name: "Fulgurance",
-        bloodCost: 3,
+        bloodCost: 1,
         description: "Tu es là, puis là-bas. Les témoins jurent que tu t'es téléporté. En réalité, tu as traversé la distance en une fraction de seconde, trop vite pour que l'œil humain puisse suivre. Traverse une rue avant que le feu ne passe au rouge, apparais derrière ton ennemi alors qu'il te regardait de face il y a un instant. La distance n'a plus de sens à cette vitesse, seulement la ligne droite entre toi et ta destination."
       },
       {
         level: 4,
         name: "Lenteur du Monde",
-        bloodCost: 3,
+        bloodCost: 1,
         description: "Le temps se fige presque. Tu vois la balle sortir du canon au ralenti, tu lis les lèvres de ton ennemi formuler l'ordre avant qu'il ne sorte de sa bouche, tu observes chaque goutte d'eau de la pluie suspendue dans l'air. Tu agis, agis encore, et encore, accomplissant en un battement de cœur ce qui prendrait des secondes à un mortel. Vide ton chargeur, cours jusqu'à ton ennemi, recharge, tire à nouveau, tout cela pendant qu'il lève son bras pour se protéger."
       },
       {
         level: 5,
         name: "Projection Éclair",
-        bloodCost: 9,
+        bloodCost: 3,
         description: "Tu deviens vitesse pure. Traverse plusieurs pâtés de maisons en un clin d'œil, cours sur les murs et au plafond, ton inertie te portant là où la gravité ne peut pas te retenir. Pour les mortels, tu disparais simplement d'un endroit pour réapparaître ailleurs, laissant derrière toi un courant d'air et peut-être une image rémanente sur leur rétine. À cette vitesse, tu peux courir sur l'eau, attraper une flèche en plein vol, ou contourner une explosion."
       }
     ]
