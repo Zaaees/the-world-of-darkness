@@ -153,7 +153,7 @@ export const DISCIPLINES = {
         level: 4,
         name: "Conditionnement",
         bloodCost: 3,
-        description: "Séance après séance, nuit après nuit, tu brises sa volonté comme on dresse un animal. Chaque session de Domination enfonce les chaînes plus profondément : obéissance absolue, dévotion totale, soumission sans limite. Après des semaines ou des mois, sa personnalité est remodelée. Il t'aime, te craint, te vénère. Il trahira sa famille pour toi, tuera pour toi, mourra pour toi en souriant. Les esclaves ainsi conditionnés sont appelés des goules de l'esprit, et leur loyauté dépasse celle du sang."
+        description: "Séance après séance, nuit après nuit, tu brises sa volonté comme on dresse un animal. Ce n'est pas une œuvre d'un instant : l'esprit doit être plié lors de trois nuits distinctes pour être définitivement conquis. Chaque session de Domination enfonce les chaînes plus profondément : obéissance absolue, dévotion totale, soumission sans limite. Au terme de la troisième nuit, sa personnalité est remodelée. Il t'aime, te craint, te vénère. Il trahira sa famille pour toi, tuera pour toi, mourra pour toi en souriant. Les esclaves ainsi conditionnés sont appelés des goules de l'esprit, et leur loyauté dépasse celle du sang."
       },
       {
         level: 5,
@@ -829,9 +829,9 @@ export const DISCIPLINES = {
       },
       {
         level: 3,
-        name: "Malédiction Infernale",
+        name: "Stigmates de l'Immonde",
         bloodCost: 3,
-        description: "Prononce une malédiction et la cible devient marquée par les forces infernales. Rien de dramatique immédiatement, mais sa chance tourne : les accidents s'accumulent, les plans échouent, les alliés le trahissent. Les choses vont mal, constamment. La malédiction dure des semaines, un poids d'infortune qui semble venir de nulle part. Comme si le destin lui-même conspirait contre elle."
+        description: "Marque l'âme de ta victime d'une souillure infernale invisible mais palpable. Elle devient une paria pour la création elle-même. Les animaux sont terrorisés ou agressifs en sa présence, les enfants pleurent sans raison, les plantes se flétrissent à son passage et le lait tourne. Les mortels ressentent un dégoût instinctif et viscéral, refusant de l'aider, l'évitant du regard ou devenant hostiles. La victime se retrouve isolée socialement, rejetée par la vie elle-même, portant l'odeur subtile de l'Enfer qui la suit partout."
       },
       {
         level: 4,
