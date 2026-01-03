@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Sparkles, Lock } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles, Lock, Clock } from 'lucide-react';
 import { getAvailableDisciplines, MAX_DISCIPLINE_LEVEL } from '../data/disciplines';
 
 // Icônes par discipline
@@ -28,15 +28,40 @@ const DISCIPLINE_ICONS = {
   daimoinon: "😈"
 };
 
+const DURATION_LABELS = {
+  passive: "Passive",
+  instant: "Instantanée",
+  concentration: "Concentration",
+  scene: "Scène",
+  prolonged: "Prolongée",
+  permanent: "Permanente"
+};
+
+// Composant pour afficher la durée
+const DurationBadge = ({ duration, isLocked }) => {
+  if (!duration) return null;
+
+  const label = DURATION_LABELS[duration] || duration;
+
+  return (
+    <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded border ml-2 ${isLocked
+        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+        : 'bg-stone-800/50 text-stone-400 border-stone-700'
+      }`} title="Durée">
+      <Clock size={10} className={isLocked ? 'text-stone-600' : 'text-stone-500'} />
+      <span className="text-[10px]">{label}</span>
+    </div>
+  );
+};
+
 // Composant pour afficher le coût en sang
 const BloodCost = ({ cost, isLocked }) => {
   if (cost === 0) {
     return (
-      <span className={`text-[10px] px-1.5 py-0.5 rounded border ${
-        isLocked
-          ? 'bg-stone-900/50 text-stone-600 border-stone-800'
-          : 'bg-stone-800/50 text-stone-400 border-stone-700'
-      }`}>
+      <span className={`text-[10px] px-1.5 py-0.5 rounded border ${isLocked
+        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+        : 'bg-stone-800/50 text-stone-400 border-stone-700'
+        }`}>
         Passif
       </span>
     );
@@ -77,16 +102,19 @@ const PowerCard = ({ power, isLocked }) => {
             <h4 className={`font-serif text-sm ${isLocked ? 'text-stone-600' : 'text-stone-200'}`}>
               {power.name}
             </h4>
-            
+
             {/* Indicateur de coût en sang */}
             <BloodCost cost={power.bloodCost || 0} isLocked={isLocked} />
-            
+
+            {/* Indicateur de durée */}
+            <DurationBadge duration={power.duration} isLocked={isLocked} />
+
             <div className="flex-1"></div>
 
             <span className={`text-xs ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
               Niveau {power.level}
             </span>
-            
+
             {isLocked && <Lock size={12} className="text-stone-600" />}
           </div>
           <p className={`text-xs mt-1 leading-relaxed ${isLocked ? 'text-stone-700' : 'text-stone-400'}`}>
