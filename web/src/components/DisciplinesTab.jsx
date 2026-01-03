@@ -222,17 +222,27 @@ export default function DisciplinesTab({ clan, bloodPotency }) {
                     <span className="text-[10px]">1</span>
                   </div>
                 </div>
-                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Faible dépense de vitae.</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Dépense mineure.</span>
               </div>
 
               <div className="flex items-start gap-4 group">
                 <div className="w-20 shrink-0 flex justify-end">
                   <div className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border bg-red-950/20 text-red-400 border-red-900/30 font-medium w-full">
                     <Droplet size={10} className="text-red-500" fill="currentColor" />
-                    <span className="text-[10px]">2+</span>
+                    <span className="text-[10px]">3</span>
                   </div>
                 </div>
-                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Dépense importante pour un effet puissant.</span>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Dépense moyenne.</span>
+              </div>
+
+              <div className="flex items-start gap-4 group">
+                <div className="w-20 shrink-0 flex justify-end">
+                  <div className="flex items-center justify-center gap-1 px-2 py-0.5 rounded border bg-red-950/20 text-red-400 border-red-900/30 font-medium w-full">
+                    <Droplet size={10} className="text-red-500" fill="currentColor" />
+                    <span className="text-[10px]">9</span>
+                  </div>
+                </div>
+                <span className="text-xs text-stone-500 group-hover:text-stone-300 transition-colors pt-0.5">Dépense majeure.</span>
               </div>
             </div>
           </div>
