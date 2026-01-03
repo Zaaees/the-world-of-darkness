@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Sparkles, Lock, Clock } from 'lucide-react';
+import { ChevronDown, ChevronUp, Sparkles, Lock, Clock, Droplet } from 'lucide-react';
 import { getAvailableDisciplines, MAX_DISCIPLINE_LEVEL } from '../data/disciplines';
 
 // Icônes par discipline
@@ -45,8 +45,8 @@ const DurationBadge = ({ duration, isLocked }) => {
 
   return (
     <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded border ml-2 ${isLocked
-        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
-        : 'bg-stone-800/50 text-stone-400 border-stone-700'
+      ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+      : 'bg-stone-800/50 text-stone-400 border-stone-700'
       }`} title="Durée">
       <Clock size={10} className={isLocked ? 'text-stone-600' : 'text-stone-500'} />
       <span className="text-[10px]">{label}</span>
@@ -58,21 +58,22 @@ const DurationBadge = ({ duration, isLocked }) => {
 const BloodCost = ({ cost, isLocked }) => {
   if (cost === 0) {
     return (
-      <span className={`text-[10px] px-1.5 py-0.5 rounded border ${isLocked
-        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
-        : 'bg-stone-800/50 text-stone-400 border-stone-700'
+      <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] ${isLocked
+          ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+          : 'bg-stone-800/50 text-stone-400 border-stone-700'
         }`}>
         Passif
       </span>
     );
   }
 
-  // Afficher les emojis répétés (max 9 pour coût 9)
-  const bloodEmojis = '🩸'.repeat(cost);
-
   return (
-    <div className="flex items-center gap-1 ml-1" title={`Coût: ${cost} point(s) de sang`}>
-      <span className={`text-xs ${isLocked ? 'grayscale opacity-50' : ''}`}>{bloodEmojis}</span>
+    <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded border ${isLocked
+        ? 'bg-stone-900/50 text-stone-600 border-stone-800'
+        : 'bg-red-950/30 text-red-400 border-red-900/30'
+      }`} title={`Coût: ${cost} point(s) de sang`}>
+      <Droplet size={10} className={isLocked ? 'text-stone-600' : 'text-red-500'} fill={isLocked ? "none" : "currentColor"} />
+      <span className="text-[10px]">{cost}</span>
     </div>
   );
 };
@@ -88,6 +89,7 @@ const PowerCard = ({ power, isLocked }) => {
       }
     `}>
       <div className="flex items-start gap-3">
+        {/* Niveau (Cercle) */}
         <div className={`
           w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5
           ${isLocked
@@ -97,27 +99,24 @@ const PowerCard = ({ power, isLocked }) => {
         `}>
           {power.level}
         </div>
+
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <h4 className={`font-serif text-sm ${isLocked ? 'text-stone-600' : 'text-stone-200'}`}>
+          {/* Header: Nom + Metadata (Coût/Durée) */}
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <h4 className={`font-serif text-sm font-medium ${isLocked ? 'text-stone-600' : 'text-stone-200'}`}>
               {power.name}
             </h4>
 
-            {/* Indicateur de coût en sang */}
-            <BloodCost cost={power.bloodCost || 0} isLocked={isLocked} />
-
-            {/* Indicateur de durée */}
-            <DurationBadge duration={power.duration} isLocked={isLocked} />
-
-            <div className="flex-1"></div>
-
-            <span className={`text-xs ${isLocked ? 'text-stone-700' : 'text-stone-500'}`}>
-              Niveau {power.level}
-            </span>
-
-            {isLocked && <Lock size={12} className="text-stone-600" />}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Metadata badges container */}
+              <BloodCost cost={power.bloodCost || 0} isLocked={isLocked} />
+              <DurationBadge duration={power.duration} isLocked={isLocked} />
+              {isLocked && <Lock size={12} className="text-stone-600 ml-1" />}
+            </div>
           </div>
-          <p className={`text-xs mt-1 leading-relaxed ${isLocked ? 'text-stone-700' : 'text-stone-400'}`}>
+
+          {/* Caler la description */}
+          <p className={`text-xs leading-relaxed ${isLocked ? 'text-stone-700' : 'text-stone-400'}`}>
             {power.description}
           </p>
         </div>
