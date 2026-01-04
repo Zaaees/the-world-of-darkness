@@ -127,10 +127,110 @@ export default function RitualsTab({ userId, guildId, clan }) {
                     </p>
                 </div>
             ) : (
-                <div className="space-y-4">
-                    {rituals.map(ritual => (
-                        <RitualCard key={ritual.id} ritual={ritual} />
-                    ))}
+                <div className="space-y-6">
+                    {/* Thaumaturgie */}
+                    {(() => {
+                        const thaumRituals = rituals.filter(r => r.discipline === 'thaumaturgy');
+                        if (thaumRituals.length === 0) return null;
+
+                        // Group by level
+                        const byLevel = {};
+                        thaumRituals.forEach(r => {
+                            if (!byLevel[r.level]) byLevel[r.level] = [];
+                            byLevel[r.level].push(r);
+                        });
+
+                        const levelNames = {
+                            1: 'Apprenti',
+                            2: 'Initié',
+                            3: 'Disciple',
+                            4: 'Adepte',
+                            5: 'Maître',
+                            6: 'Archimage',
+                            7: 'Magus',
+                            8: 'Oracle',
+                            9: 'Transcendant'
+                        };
+
+                        return (
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3 border-b border-red-900/30 pb-2">
+                                    <Flame className="text-red-600" size={24} />
+                                    <h3 className="text-xl font-serif text-red-500 uppercase tracking-wider">Thaumaturgie</h3>
+                                    <span className="text-stone-600 text-sm">({thaumRituals.length} rituels)</span>
+                                </div>
+
+                                {Object.keys(byLevel).sort((a, b) => a - b).map(level => (
+                                    <div key={`thaum-${level}`} className="ml-4">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <span className="w-8 h-8 rounded-full bg-red-950/50 border border-red-900/30 flex items-center justify-center text-red-500 font-bold text-sm">
+                                                {level}
+                                            </span>
+                                            <h4 className="text-stone-400 font-serif">
+                                                Niveau {level} — <span className="text-red-700 italic">{levelNames[level] || 'Inconnu'}</span>
+                                            </h4>
+                                            <span className="text-stone-600 text-xs">({byLevel[level].length})</span>
+                                        </div>
+                                        <div className="space-y-3 ml-10">
+                                            {byLevel[level].map(ritual => (
+                                                <RitualCard key={ritual.id} ritual={ritual} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    })()}
+
+                    {/* Nécromancie */}
+                    {(() => {
+                        const necroRituals = rituals.filter(r => r.discipline === 'necromancy');
+                        if (necroRituals.length === 0) return null;
+
+                        // Group by level
+                        const byLevel = {};
+                        necroRituals.forEach(r => {
+                            if (!byLevel[r.level]) byLevel[r.level] = [];
+                            byLevel[r.level].push(r);
+                        });
+
+                        const levelNames = {
+                            1: 'Fossoyeur',
+                            2: 'Nécrophile',
+                            3: 'Spirite',
+                            4: 'Thanatologue',
+                            5: 'Liche'
+                        };
+
+                        return (
+                            <div className="space-y-4 mt-8">
+                                <div className="flex items-center gap-3 border-b border-stone-700/50 pb-2">
+                                    <Skull className="text-stone-400" size={24} />
+                                    <h3 className="text-xl font-serif text-stone-300 uppercase tracking-wider">Nécromancie</h3>
+                                    <span className="text-stone-600 text-sm">({necroRituals.length} rituels)</span>
+                                </div>
+
+                                {Object.keys(byLevel).sort((a, b) => a - b).map(level => (
+                                    <div key={`necro-${level}`} className="ml-4">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <span className="w-8 h-8 rounded-full bg-stone-900/50 border border-stone-700/30 flex items-center justify-center text-stone-400 font-bold text-sm">
+                                                {level}
+                                            </span>
+                                            <h4 className="text-stone-400 font-serif">
+                                                Niveau {level} — <span className="text-stone-500 italic">{levelNames[level] || 'Inconnu'}</span>
+                                            </h4>
+                                            <span className="text-stone-600 text-xs">({byLevel[level].length})</span>
+                                        </div>
+                                        <div className="space-y-3 ml-10">
+                                            {byLevel[level].map(ritual => (
+                                                <RitualCard key={ritual.id} ritual={ritual} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    })()}
                 </div>
             )}
         </div>
