@@ -42,7 +42,7 @@ export const DISCIPLINES = {
         level: 4,
         name: "Communion Spirituelle",
         bloodCost: 3,
-        duration: "concentration",
+        duration: "prolonged",
         description: "Ferme les yeux et projette ton esprit dans le corps d'un animal que tu as touché. Pendant que ton corps de vampire tombe en torpeur, tu vois par les yeux du faucon planant au-dessus de la ville, tu cours dans les rues avec le corps du loup, tu te faufiles dans les conduits avec celui du rat. Tu contrôles totalement l'animal, gardant ton intelligence et ta perception. L'espionnage parfait, personne ne soupçonne l'oiseau sur le rebord de la fenêtre."
       },
       {
@@ -64,14 +64,14 @@ export const DISCIPLINES = {
         level: 1,
         name: "Sens Accrus",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Concentre-toi et l'un de tes sens devient surhumain. Choisis de voir dans l'obscurité totale des égouts comme en plein jour, d'entendre une conversation chuchotée à trois étages de distance, de suivre une trace à l'odeur comme un limier, de goûter le moindre poison dans le vin, ou de sentir les vibrations de pas à travers un mur. Les détails invisibles aux mortels t'apparaissent clairement. La contrepartie ? Pendant ce temps, tu es hypersensible : un flash de lumière t'aveugle, un bruit fort te paralyse."
       },
       {
         level: 2,
         name: "Perception de l'Aura",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "instant",
         description: "Regarde quelqu'un et tu vois son âme nue. Des volutes de couleurs tournent autour de lui : rouge pour la colère, bleu pour le calme, noir strié d'écarlate pour un vampire, or pâle pour un mortel pieux, vert maladif pour l'envie. Tu discernes ses émotions dominantes, détectes s'il ment, vois s'il est ensorcelé par la Domination, ou reconnais sa vraie nature surnaturelle. Les auras ne mentent jamais, mais les interpréter demande de l'expérience."
       },
       {
@@ -85,14 +85,14 @@ export const DISCIPLINES = {
         level: 4,
         name: "Télépathie",
         bloodCost: 3,
-        duration: "concentration",
+        duration: "scene",
         description: "Fixe quelqu'un et plonge dans son esprit. Ses pensées de surface te parviennent comme des murmures : 'Je dois cacher cette lettre', 'Il ment, je le sais', 'Comment sortir d'ici ?'. Tu peux aussi projeter tes propres pensées directement dans sa tête, créant une conversation silencieuse. Avec de l'effort, tu peux fouiller plus profondément, cherchant un souvenir précis, mais l'esprit résiste comme un château fortifié. Les pensées des vampires anciens sont encore plus difficiles à pénétrer."
       },
       {
         level: 5,
         name: "Projection Psychique",
         bloodCost: 9,
-        duration: "concentration",
+        duration: "prolonged",
         description: "Ton esprit se détache de ton corps de chair qui s'effondre, inanimé. Tu flottes au-dessus, forme fantomatique d'énergie psychique argentée, invisible aux mortels. Traverse les murs, vole au-dessus de la ville à la vitesse de la pensée, explore le repaire de ton ennemi sans risque. Tu peux voyager jusqu'au plan astral, un monde de symboles et d'archétypes où rôdent des entités étranges. Mais ton corps est vulnérable : s'il meurt pendant ton absence, ton esprit erre pour l'éternité."
       }
     ]
@@ -179,7 +179,7 @@ export const DISCIPLINES = {
         level: 5,
         name: "Possession",
         bloodCost: 9,
-        duration: "concentration",
+        duration: "prolonged",
         description: "Fixe un mortel dans les yeux et projette ton esprit dans le sien, l'écrasant, le noyant, le poussant dans un coin obscur de son propre crâne. Tu prends le contrôle total de son corps. Pendant que ton enveloppe de vampire tombe en torpeur, tu vis sa vie : tu sens la chaleur du soleil, tu goûtes la nourriture, tu respires. Tu peux marcher en plein jour, passer inaperçu, accéder à des lieux interdits aux vampires. Mais son esprit hurle dans sa prison mentale, et s'il meurt pendant que tu l'habites, ton esprit meurt avec lui."
       }
     ]
@@ -237,7 +237,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Cape d'Ombre",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Fonds-toi dans l'ombre d'un recoin, d'une colonne, d'une alcôve. Reste immobile et tu deviens... rien. Pas invisible : les gens pourraient techniquement te voir si ils regardaient directement, mais leur cerveau refuse d'enregistrer ta présence. Leur regard glisse sur toi comme l'eau sur du verre. Tu es juste un détail sans importance, un morceau du décor, un rien. Bouge trop vite et le charme se brise. Parfait pour écouter des conversations ou attendre le moment parfait pour frapper."
       },
       {
@@ -258,14 +258,14 @@ export const DISCIPLINES = {
         level: 4,
         name: "Disparition",
         bloodCost: 3,
-        duration: "concentration",
+        duration: "scene",
         description: "En pleine conversation, en pleine course, en plein combat : disparais. Un instant tu es là, l'instant suivant tu n'y es plus, évaporé comme de la fumée. Même ceux qui te regardaient directement clignent des yeux, confus, se demandant où tu es passé. Même les sens vampiriques et l'Auspex ont du mal à te détecter - tu es devenu un trou dans la réalité. Réapparais derrière ton adversaire, échappe-toi d'une pièce verrouillée en marchant devant les gardes stupéfaits, ou observe une scène en étant physiquement présent mais totalement imperceptible."
       },
       {
         level: 5,
         name: "Voile Collectif",
         bloodCost: 9,
-        duration: "concentration",
+        duration: "scene",
         description: "Étends ton pouvoir comme un manteau. Touche tes compagnons et ils disparaissent avec toi, un groupe fantôme qui se déplace dans la ville sans être vu. Dissimule ta voiture pour passer des barrages routiers, cache un groupe de goules armées, ou fais disparaître des preuves compromettantes sous les yeux des enquêteurs. Plus le groupe est large, plus c'est difficile : si l'un d'eux attire l'attention, le voile se déchire pour tous. Mais un groupe discipliné peut traverser un aéroport bondé comme des spectres."
       }
     ]
@@ -409,21 +409,21 @@ export const DISCIPLINES = {
         level: 1,
         name: "Jeu d'Ombres",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Les ombres autour de toi s'animent à ton contact. Fais danser ton ombre sur le mur, étire celle d'un arbre pour couvrir une fenêtre, assombris un coin de la pièce pour te cacher. Les ombres que tu manipules deviennent plus sombres, plus denses, presque palpables. Éteins une lampe sans la toucher en l'enveloppant d'obscurité, fais croire à quelqu'un qu'une silhouette se déplace dans l'ombre, ou crée des zones d'obscurité pour faciliter ta fuite. C'est subtil, mais terriblement efficace pour créer la peur et la confusion."
       },
       {
         level: 2,
         name: "Linceul de la Nuit",
         bloodCost: 1,
-        duration: "concentration",
+        duration: "scene",
         description: "Invoque une sphère de ténèbres absolues qui avale toute lumière. À l'intérieur : obscurité totale, même pour ceux qui peuvent voir dans le noir. Les lampes torches y meurent, les sorts de lumière s'éteignent. Pire encore, le Linceul étouffe le son, transformant les cris en murmures étouffés. Les victimes prisonnières sont aveugles, sourdes, désorientées, paniquées. Toi, tu te déplaces dans ces ténèbres comme chez toi. Crée le chaos dans un combat, couvre ta fuite, ou isole une victime pour l'éliminer sans témoins."
       },
       {
         level: 3,
         name: "Bras des Abysses",
         bloodCost: 3,
-        duration: "concentration",
+        duration: "scene",
         description: "Ton ombre se soulève et des tentacules d'obscurité solide en jaillissent comme des serpents. Ces membres d'ombre sont froids au toucher, solides comme de la chair mais faits de ténèbres vivantes. Ils agrippent, frappent, étranglent selon ta volonté. Emprisonne un adversaire dans une étreinte glaciale, gifle une arme hors d'une main, soulève quelqu'un et projette-le contre un mur. Les tentacules peuvent aussi servir à manipuler des objets à distance. Les victimes paniquent souvent, horrifiées de se faire toucher par l'Abysse elle-même."
       },
       {
@@ -437,7 +437,7 @@ export const DISCIPLINES = {
         level: 5,
         name: "Ténèbres Intérieures",
         bloodCost: 9,
-        duration: "concentration",
+        duration: "scene",
         description: "Ouvre ton âme et libère l'Abysse qui sommeille en toi. Un puits de ténèbres absolues jaillit de ta bouche, de tes yeux, de ta poitrine, s'étendant comme une tache d'encre vivante. Cette obscurité dévore tout : la lumière, le son, la chaleur, l'espoir. Ceux qui y sont pris ressentent un froid glacial, une terreur viscérale, comme s'ils tombaient dans un gouffre sans fond. L'obscurité peut consumer les objets, dissoudre les murs, aspirer les victimes dans un néant temporaire. Même les autres vampires reculent devant cette manifestation pure de l'Abysse. C'est l'arme ultime du Lasombra, mais l'utiliser trop longtemps, c'est risquer que les ténèbres ne te consument aussi."
       }
     ]
@@ -459,14 +459,14 @@ export const DISCIPLINES = {
         level: 2,
         name: "Rage du Sang",
         bloodCost: 1,
-        duration: "concentration",
+        duration: "scene",
         description: "Pointe du doigt quelqu'un à distance de regard et concentre-toi. Son sang commence à chauffer, à bouillonner dans ses veines. La victime ressent une douleur atroce, comme si son corps brûlait de l'intérieur. Les mortels s'effondrent en hurlant, les vampires luttent contre la frénésie tandis que leur vitae se rebelle. La douleur est si intense qu'elle empêche toute concentration, tout mouvement coordonné. Paralyse un adversaire le temps de fuir, torture un prisonnier sans le toucher, ou force un vampire à dépenser sa précieuse vitae pour résister."
       },
       {
         level: 3,
         name: "Puissance du Sang",
         bloodCost: 3,
-        duration: "concentration",
+        duration: "scene",
         description: "Concentre ta vitae par un rituel rapide, forçant le pouvoir de ton sang à irriguer tes muscles, tes réflexes, ta résistance. Tant que tu maintiens cet état, tu deviens plus fort, plus rapide, plus résistant qu'aucun vampire de ton âge ne devrait l'être. Combats comme un Ancien alors que tu n'es qu'un néonate, accomplis des exploits physiques impossibles. Le prix ? Ta vitae brûle vite : 3 points par tour de maintien, te laissant affaibli et affamé quand l'effet se dissipe. Mais ces moments de puissance surnaturelle peuvent faire la différence entre la victoire et la destruction."
       },
       {
@@ -624,7 +624,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Regard Hypnotique",
         bloodCost: 1,
-        duration: "concentration",
+        duration: "scene",
         description: "Fixe quelqu'un dans les yeux. Tes pupilles deviennent verticales, reptiliennes, captivantes. La victime est paralysée, incapable de détourner le regard, son esprit pris dans un piège hypnotique. Elle reste debout, consciente mais totalement sans défense, fascinée par le prédateur qu'elle voit en toi. Tu peux bouger autour d'elle, lui parler, même la toucher sans briser le charme. Le contact visuel rompu, elle cligne des yeux, désorientée. Parfait pour neutraliser un adversaire sans violence, ou pour t'approcher d'une proie sans alarme."
       },
       {
@@ -681,7 +681,7 @@ export const DISCIPLINES = {
         level: 3,
         name: "Yeux du Chaos",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Ta folie devient une lentille qui révèle les patterns cachés de l'univers. Regarde une scène et tu vois les connections invisibles : cette personne va trahir dans dix minutes, ce fil tenu fera tomber tout l'édifice, cette parole déclenchera la violence. Tu perçois l'ordre dans le chaos, les failles dans les plans, les faiblesses cachées. Anticipe les comportements, trouve l'incohérence dans un mensonge, vois la solution que la logique ne peut pas trouver. Mais attention : voir trop de patterns mène à la vraie folie. Les Malkaviens appellent ça 'la sagesse du fou'."
       },
       {
@@ -710,21 +710,21 @@ export const DISCIPLINES = {
         level: 1,
         name: "Ignis Fatuus",
         bloodCost: 1,
-        duration: "concentration",
+        duration: "scene",
         description: "Crée une illusion simple affectant un seul sens. Fais apparaître une image : un visage dans la foule, un mur où il n'y a qu'un couloir, une silhouette menaçante dans l'ombre. Ou crée un son : des pas derrière quelqu'un, une voix appelant au secours, le clic d'une arme qu'on arme. Ou même une odeur : fumée d'incendie, parfum distinctif, odeur de cadavre. L'illusion est statique, comme une photographie ou un enregistrement en boucle, mais parfaitement convaincante pour le sens ciblé. Crée des distractions, sème la confusion, ou fais croire à une menace inexistante."
       },
       {
         level: 2,
         name: "Fata Morgana",
         bloodCost: 1,
-        duration: "concentration",
+        duration: "scene",
         description: "Maintenant tes illusions sont complètes : vue, son, odeur, même le toucher superficiel. Crée un mur solide en apparence, une personne convaincante qui respire et dégage de la chaleur, un feu qui crépite et sent la fumée. Les victimes peuvent toucher tes illusions et sentir de la résistance (mais pas de poids réel). Fais apparaître un ennemi pour détourner l'attention, crée un obstacle pour bloquer une poursuite, ou conjure un alibi visuel. L'illusion reste statique, mais elle est si détaillée que la tromper tous les sens à la fois."
       },
       {
         level: 3,
         name: "Apparition",
         bloodCost: 3,
-        duration: "concentration",
+        duration: "scene",
         description: "Tes illusions prennent vie. Elles bougent, réagissent, interagissent de manière autonome selon des paramètres que tu définis. Crée un garde illusoire qui patrouille, un double de toi-même qui marche dans une direction pendant que tu files dans une autre, un monstre qui poursuit tes ennemis. Les illusions suivent des routines simples ou répondent à des déclencheurs : attaquer celui qui entre, fuir si on lui tire dessus, converser de manière basique. Elles semblent vivantes, pensantes, réelles. Seul un examen très attentif ou des sens surnaturels peuvent révéler la supercherie."
       },
       {
@@ -738,7 +738,7 @@ export const DISCIPLINES = {
         level: 5,
         name: "Réalité Illusoire",
         bloodCost: 9,
-        duration: "concentration",
+        duration: "scene",
         description: "La frontière entre illusion et réalité s'efface. Tes créations deviennent horriblement réelles pour ceux qui y croient. Le feu illusoire brûle vraiment, la balle illusoire blesse vraiment, le mur illusoire arrête vraiment - mais seulement pour ceux qui sont convaincus. Si tu crois que le feu te consume, ton corps développe de vraies brûlures psychosomatiques. Si tu crois que l'assassin t'a poignardé, tu saignes. Les dégâts sont réels, potentiellement mortels. Mais si quelqu'un réalise la supercherie, l'illusion perd son pouvoir sur lui. C'est la réalité façonnée par la croyance, le mensonge ultime qui devient vérité."
       }
     ]
@@ -753,7 +753,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Lévitation",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Concentre-toi et tes pieds quittent le sol. Tu flottes à quelques mètres de hauteur, te déplaçant lentement dans les airs comme suspendu par des fils invisibles. Parfait pour atteindre un toit, franchir un gouffre, ou impressionner par ta nature surnaturelle. Mais reste à portée du sol : monter trop haut ou perdre ta concentration te ferait chuter brutalement."
       },
       {
@@ -846,7 +846,7 @@ export const DISCIPLINES = {
         level: 2,
         name: "Putréfaction",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Accélère la décomposition de ta propre chair. Ta peau se couvre de plaies suppurantes, tes doigts noircissent, l'odeur devient insupportable. Dans cet état, les dégâts physiques t'affectent moins : les balles traversent de la chair morte qui ne ressent rien, les coups ne font que détacher des morceaux. Cependant, tu ne peux pas te régénérer tant que tu maintiens cet état - ta Vitae refuse de soigner la pourriture volontaire. Désactive ce pouvoir pour pouvoir guérir normalement."
       },
       {
@@ -882,7 +882,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Voix Enchanteresse",
         bloodCost: 0,
-        duration: "concentration",
+        duration: "scene",
         description: "Chante ou parle et ta voix devient irrésistiblement belle, hypnotique. Ceux qui t'écoutent sont captivés, incapables de détourner leur attention. Un garde oublie sa vigilance pour t'écouter, une foule s'arrête fascinée, une cible baisse sa garde. Ta voix porte une suggestion subtile d'amitié et de confiance. Les gens veulent t'écouter, veulent te croire."
       },
       {
@@ -910,7 +910,7 @@ export const DISCIPLINES = {
         level: 5,
         name: "Requiem de Sang",
         bloodCost: 9,
-        duration: "concentration",
+        duration: "scene",
         description: "Chante la note de mort, la fréquence qui fait résonner le sang lui-même. Ceux qui l'entendent sentent leur sang vibrer douloureusement dans leurs veines. Les mortels saignent des yeux, des oreilles, effondrent avec des hémorragies internes massives. Les vampires résistent mieux mais souffrent terriblement, leur Vitae s'agitant contre sa prison de chair. Maintiens la note assez longtemps et les cœurs éclatent, les vaisseaux se rompent, le sang jaillit de chaque orifice. La mort par symphonie."
       }
     ]
