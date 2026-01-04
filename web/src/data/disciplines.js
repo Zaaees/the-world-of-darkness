@@ -531,43 +531,43 @@ export const DISCIPLINES = {
 
   necromancy: {
     id: "necromancy",
-    name: "Nécromancie",
-    description: "Tu marches entre la vie et la mort. Les morts te parlent, les fantômes t'obéissent, et les cadavres se lèvent à ton appel.",
+    name: "Nécromancie : La Voie des Os",
+    description: "Les morts sont des outils. La chair est une ressource. L'âme est une pile.",
     powers: [
       {
         level: 1,
-        name: "Insight",
+        name: "Tremens",
         bloodCost: 0,
-        duration: "permanent",
-        description: "Le voile entre les mondes s'amincit pour toi. Tu vois les fantômes qui errent invisibles autour des vivants, formes spectrales prisonnières entre deux mondes. Tu sens les traces de mort : un meurtre laisse une marque froide que tu peux détecter des jours après, un mourant irradie une aura particulière. Dans les cimetières et morgues, tu perçois une cacophonie d'esprits. Regarde quelqu'un et sais s'il est proche de la mort, combien de temps il lui reste. Les autres ne voient que le monde des vivants, toi tu vois les deux mondes superposés."
+        duration: "instant",
+        description: "Tu murmures aux cadavres et ils tressaillent. Tu peux faire bouger un corps inanimé un court instant : une main qui se serre, des yeux qui s'ouvrent brusquement, un doigt qui pointe. Suffisant pour terrifier des intrus ou faire lâcher un objet à un mort que l'on fouille."
       },
       {
         level: 2,
-        name: "Convocation",
+        name: "Balais de l'Apprenti",
         bloodCost: 1,
         duration: "scene",
-        description: "Prononce le nom d'un mort et appelle son esprit. Si tu possèdes quelque chose qui lui appartenait, ou si tu es sur le lieu de sa mort, le fantôme doit venir. Il se matérialise devant toi, forme translucide et grisâtre, confus et souvent en colère d'avoir été arraché à son repos. Tu peux l'interroger : les morts voient beaucoup de choses, et souvent les meurtriers laissent des témoins fantomatiques. L'esprit répondra à tes questions, mais il peut mentir, omettre, ou être trop dérangé pour être cohérent. Quand tu le libères, il retourne au royaume des morts."
+        description: "Tu insuffles une animation basique dans un cadavre. Il se lève et peut effectuer des tâches simples : creuser, porter des caisses, marcher devant pour déclencher les pièges. Il n'a aucune intelligence, ne sait pas se battre, mais il obéira jusqu'à ce qu'il tombe en poussière. La main d'œuvre parfaite."
       },
       {
         level: 3,
-        name: "Compelle",
-        bloodCost: 3,
-        duration: "prolonged",
-        description: "Les fantômes ne sont plus de simples témoins, ils deviennent tes serviteurs. Ordonne à un esprit et il doit obéir, même contre sa volonté. Force-le à te servir d'espion, observant des lieux où tu ne peux pas aller. Utilise-le pour hanter tes ennemis, créant des phénomènes paranormaux : objets qui bougent, voix dans le vide, apparitions terrifiantes. Ou emploie-le pour posséder temporairement un mortel, créant un agent que tu contrôles indirectement. Les esprits haïssent cette servitude, mais ta volonté les enchaîne aussi sûrement que des fers."
+        name: "Hordes Chancelantes",
+        bloodCost: 1,
+        duration: "permanent",
+        description: "Tu deviens un véritable seigneur des morts. Tu peux lever des cadavres pour le combat. Ils sont lents et stupides, mais ils gardent la force qu'ils avaient de leur vivant. Lève un soldat d'élite, et tu auras un tueur ; lève un enfant, et tu auras une distraction. Ils n'ont ni peur ni douleur et avanceront sous les balles pour déchirer tes ennemis. Une armée jetable qui ne pose jamais de questions."
       },
       {
         level: 4,
-        name: "Animation Cadavérique",
-        bloodCost: 3,
-        duration: "prolonged",
-        description: "Pose ta main sur un cadavre et insuffle-lui une parodie de vie. Le corps se lève, yeux vides et mouvements saccadés, totalement sous ton contrôle. Plus le corps est frais, mieux il fonctionne : un cadavre récent peut passer pour humain avec les bons vêtements, un squelette n'est qu'un serviteur maladroit. Crée une armée de zombies pour garder ton havre, utilise des cadavres pour faire le travail sale, ou anime le corps d'un ennemi mort pour terroriser ses alliés. Les zombies n'ont aucune volonté propre, juste des extensions de la tienne."
+        name: "Vol d'Âme",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Ton pouvoir s'étend aux vivants. Tu peux, par un effort de volonté, arracher l'âme d'un mortel de son corps. Le corps s'effondre comme une poupée de chiffon, vivant mais vide, tandis que l'esprit se retrouve projeté hors de sa chair, errant sans défense, à la merci des spectres... ou de toi."
       },
       {
         level: 5,
-        name: "Tourment",
-        bloodCost: 9,
-        duration: "instant",
-        description: "Le pouvoir ultime sur la mort. Pointe un fantôme et inflige-lui une souffrance que seuls les morts peuvent connaître : son essence spectrale se déchire, se tord, hurle dans une agonie sans fin. Les esprits les plus puissants se brisent, suppliant ta miséricorde. Ou cible un mourant : au moment précis où son âme quitte son corps, saisis-la et arrache-la violemment, infligeant une mort atroce. Tu peux même torturer les autres vampires, faisant vibrer la frontière entre mort et non-mort dans leur corps, les paralysant de douleur. C'est le pouvoir absolu sur le royaume des morts."
+        name: "Possession Démoniaque",
+        bloodCost: 3,
+        duration: "permanent",
+        description: "L'art ultime. Tu prends une âme errante (ou la tienne) et tu l'enfonces de force dans un cadavre frais. Le corps se réveille, non pas comme un zombie stupide, mais avec toute l'intelligence et la rapidité de l'esprit qui l'habite. Tu crées un serviteur parfait : l'agilité et l'esprit d'un vivant dans un corps mort qui ne craint pas la douleur."
       }
     ]
   },
@@ -833,42 +833,42 @@ export const DISCIPLINES = {
   thanatosis: {
     id: "thanatosis",
     name: "Thanatosis",
-    description: "Tu es la mort qui marche. La putréfaction est ton royaume, le tombeau ta demeure. La frontière entre cadavre et vampire s'efface.",
+    description: "La mort n'est pas une fin, c'est une arme.",
     powers: [
       {
         level: 1,
-        name: "Masque Cadavérique",
+        name: "Rides de la Sorcière",
         bloodCost: 0,
         duration: "scene",
-        description: "Concentre-toi et ton apparence devient celle d'un cadavre : peau blafarde et froide, yeux vitreux, rigidité mortelle. Tu sembles mort depuis des heures, assez pour tromper même un médecin. Parfait pour échapper aux chasseurs, infiltrer une morgue, ou simplement terroriser. L'odeur douceâtre de la mort commence même à suinter de ta peau."
+        description: "Ta chair morte est comme de la pâte à modeler. Tu peux creuser des rides, créer des cicatrices, ou étirer ta peau pour changer de visage. Tu peux aussi créer des poches secrètes dans ton propre corps, glissant un objet sous un pli de peau qui se referme sans trace. Le déguisement grotesque parfait."
       },
       {
         level: 2,
-        name: "Putréfaction",
-        bloodCost: 0,
-        duration: "scene",
-        description: "Accélère la décomposition de ta propre chair. Ta peau se couvre de plaies suppurantes, tes doigts noircissent, l'odeur devient insupportable. Dans cet état, les dégâts physiques t'affectent moins : les balles traversent de la chair morte qui ne ressent rien, les coups ne font que détacher des morceaux. Cependant, tu ne peux pas te régénérer tant que tu maintiens cet état - ta Vitae refuse de soigner la pourriture volontaire. Désactive ce pouvoir pour pouvoir guérir normalement."
+        name: "Putrescence",
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Tu forces le cycle naturel de la décomposition sur autrui. D'un simple contact ou regard concentré, la chair de ta victime commence à se gâter. La peau se couvre de pustules, les muscles s'atrophient, l'odeur devient insupportable. La victime perd sa beauté et sa force, rongée par une pourriture accélérée qui la fait souffrir le martyre."
       },
       {
         level: 3,
-        name: "Cri de la Tombe",
-        bloodCost: 3,
-        duration: "instant",
-        description: "Pousse un hurlement d'outre-tombe, un son d'agonie et de désespoir qui glace le sang. Tous ceux qui l'entendent sont paralysés par une terreur primale, leur instinct hurlant de fuir la chose morte qui marche. Les mortels s'enfuient en panique ou se figent, tétanisés. Même les vampires doivent lutter contre l'envie de fuir cette chose qui incarne leur propre nature monstrueuse."
+        name: "Cendres aux Cendres",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Pour échapper au danger, tu peux t'effondrer sur toi-même, te transformant instantanément en un tas de cendres ou de poussière visqueuse. Sous cette forme, tu es immobile mais invulnérable aux balles, aux couteaux et au feu. Tu peux rester ainsi des heures, tas de poussière conscient, attendant que la menace passe. Attention aux vents violents qui pourraient te disperser."
       },
       {
         level: 4,
-        name: "Invasion Parasitaire",
-        bloodCost: 3,
-        duration: "scene",
-        description: "Ton corps libère un nuage d'insectes nécrophages : mouches, asticots, scarabées. Ils grouillent hors de ta bouche, de tes plaies, de tes yeux. Le nuage obscurcit la vision, les insectes mordent et piquent, s'infiltrent sous les vêtements, dans les oreilles, les narines. Tes ennemis sont aveuglés, dégoûtés, paniqués par ce déluge de vermine. Les insectes te retournent ensuite, rampant sous ta peau."
+        name: "Flétrissement",
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Tu touches un membre et tu lui voles sa vitalité. Saisis un bras, et il se dessèche instantanément comme celui d'une momie millénaire, la peau collée à l'os, inutile. Touche une jambe, et elle se recroqueville, rendant la victime infirme. C'est une mutilation mystique terrifiante qui transforme les guerriers en vieillards impotents en quelques secondes."
       },
       {
         level: 5,
-        name: "Mort Simulée Parfaite",
-        bloodCost: 0,
-        duration: "prolonged",
-        description: "Entre en état de mort totale. Ton cœur s'arrête complètement, ta chair devient froide comme la glace, la rigidité cadavérique s'installe. Même un examen médical approfondi confirmera ta mort. Aucun signe vital, aucune réaction aux stimuli, même les tests sanguins montrent un cadavre. Tu peux rester dans cet état indéfiniment, conscient mais immobile, attendant le moment parfait pour 'ressusciter'. Le piège ultime, l'infiltration parfaite, ou simplement un sommeil qui ressemble enfin à la paix de la mort."
+        name: "Nécrose",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu ordonnes à la mort de prendre ce qui lui appartient. En touchant une victime, tu provoques une décomposition massive et brutale de la zone. La chair noircit et tombe en lambeaux, l'os se désagrège. Ce n'est pas une mort instantanée propre, c'est une gangrène foudroyante qui dévore un torse ou arrache un visage, laissant la victime hurler dans une agonie absolue."
       }
     ]
   },
@@ -876,42 +876,42 @@ export const DISCIPLINES = {
   melpominee: {
     id: "melpominee",
     name: "Melpominée",
-    description: "Ta voix porte le pouvoir des sirènes. Le chant devient arme, la mélodie devient sortilège. La musique façonne les âmes.",
+    description: "La musique n'adoucit pas les mœurs, elle les contrôle.",
     powers: [
       {
         level: 1,
-        name: "Voix Enchanteresse",
+        name: "La Voix Manquante",
         bloodCost: 0,
         duration: "scene",
-        description: "Chante ou parle et ta voix devient irrésistiblement belle, hypnotique. Ceux qui t'écoutent sont captivés, incapables de détourner leur attention. Un garde oublie sa vigilance pour t'écouter, une foule s'arrête fascinée, une cible baisse sa garde. Ta voix porte une suggestion subtile d'amitié et de confiance. Les gens veulent t'écouter, veulent te croire."
+        description: "Tu deviens le ventriloque ultime. Tu peux projeter ta voix pour qu'elle semble venir de n'importe où : d'un coin sombre, de derrière une porte, ou même de la gorge de quelqu'un d'autre. Une phrase chuchotée à l'oreille d'un garde depuis l'autre bout de la pièce, un ordre crié par le capitaine qui n'a pourtant pas ouvert la bouche. La confusion est ton premier instrument."
       },
       {
         level: 2,
-        name: "Cri Destructeur",
+        name: "Le Murmure Fantôme",
         bloodCost: 1,
-        duration: "instant",
-        description: "Pousse une note aiguë et surpuissante qui fait trembler l'air. Le verre explose en éclats, les tympans saignent, les structures fragiles se fissurent. Brise des fenêtres à distance, fais s'effondrer un lustre, rend tes ennemis sourds et désorientés. Plus tu maintiens la note, plus les dégâts sont importants. Les murs eux-mêmes peuvent céder à ta voix de destruction."
+        duration: "scene",
+        description: "La matière n'arrête plus tes paroles. Tu peux parler à travers les murs de pierre, chuchoter à une personne spécifique au milieu d'une foule bruyante sans que personne d'autre n'entende, ou tenir trois conversations différentes simultanément. Ta voix ignore les obstacles physiques pour atteindre directement l'oreille de ta cible."
       },
       {
         level: 3,
-        name: "Sérénade Ensorcelante",
-        bloodCost: 3,
+        name: "Madrigal",
+        bloodCost: 1,
         duration: "scene",
-        description: "Chante une mélodie et implante une émotion spécifique dans le cœur de ton audience. Joie euphorique, tristesse écrasante, terreur paralysante, rage aveugle - tu choisis. Une salle entière peut être plongée dans le désespoir, une foule hostile calmée par la mélancolie, des ennemis terrifiés jusqu'à la fuite. L'émotion semble venir de leur propre cœur, pas de manipulation externe. Ta musique façonne leurs âmes."
+        description: "Ton chant tisse des émotions pures. Tu ne manipules pas l'esprit, tu touches l'âme. Une mélodie mélancolique peut faire pleurer une armée, un hymne guerrier transformer des lâches en berserkers. L'émotion que tu chantes devient la réalité de tous ceux qui t'écoutent, balayant leur propre état d'esprit comme un fétu de paille."
       },
       {
         level: 4,
-        name: "Voix du Maître",
-        bloodCost: 3,
-        duration: "instant",
-        description: "Chante un commandement et ceux qui t'écoutent obéissent. Comme la Domination mais portée par ta voix de sirène, affectant tous ceux à portée simultanément. 'Dormez', et ils s'effondrent. 'Fuyez', et ils courent. 'Oubliez', et leurs souvenirs s'effacent. Plus l'ordre est simple, plus il est efficace. Une foule entière peut être contrôlée par une seule chanson, transformée en marionnettes dansant sur tes notes."
+        name: "Le Chant de la Sirène",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Ta voix capture l'esprit. Tant que tu chantes, ceux qui t'écoutent sont piégés dans une transe hypnotique, incapables de détacher leur attention de toi. Ils oublient le danger, le devoir, la soif. Ils sont spectateurs de ta performance, marionnettes suspendues à tes lèvres, prêts à se laisser mourir de faim plutôt que de manquer une note."
       },
       {
         level: 5,
-        name: "Requiem de Sang",
-        bloodCost: 9,
-        duration: "scene",
-        description: "Chante la note de mort, la fréquence qui fait résonner le sang lui-même. Ceux qui l'entendent sentent leur sang vibrer douloureusement dans leurs veines. Les mortels saignent des yeux, des oreilles, effondrent avec des hémorragies internes massives. Les vampires résistent mieux mais souffrent terriblement, leur Vitae s'agitant contre sa prison de chair. Maintiens la note assez longtemps et les cœurs éclatent, les vaisseaux se rompent, le sang jaillit de chaque orifice. La mort par symphonie."
+        name: "Virtuose",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Ta voix atteint des fréquences qui déchirent la réalité. Tu peux chanter une note si pure et si puissante qu'elle devient une arme physique. Brise les os d'un homme à dix mètres, fais éclater le verre d'un immeuble entier, ou liquéfie les organes internes d'un ennemi par simple résonance. Tu es un orchestre de destruction, ta voix est un canon."
       }
     ]
   },
@@ -919,42 +919,42 @@ export const DISCIPLINES = {
   daimoinon: {
     id: "daimoinon",
     name: "Daimoinon",
-    description: "Les portes de l'Enfer s'entrouvrent à ton appel. Le feu infernal brûle dans tes veines, les démons murmurent tes noms.",
+    description: "La tentation est une arme, la corruption un art.",
     powers: [
       {
         level: 1,
-        name: "Flammes de l'Enfer",
-        bloodCost: 1,
+        name: "Perception du Péché",
+        bloodCost: 0,
         duration: "scene",
-        description: "Invoque des flammes noires et glacées qui brûlent d'un froid surnaturel. Ces feux infernaux consument la chair mais laissent étrangement les objets intacts. Allume un feu dans ta paume pour éclairer les ténèbres d'une lueur sinistre, embrase ta main pour une touche brûlante, ou lance une gerbe de flammes noires. Le feu fait mal même aux vampires, mais toi il t'obéit."
+        description: "Ton regard perce l'âme d'autrui pour y dénicher la souillure. En te concentrant sur une personne, tu entends murmurer ses vices cachés, ses hontes secrètes, ses désirs inavouables. Tu sais instinctivement sur quel bouton appuyer pour la corrompre ou la briser. Il n'y a pas de saint, seulement des pécheurs qui s'ignorent."
       },
       {
         level: 2,
         name: "Peur du Vide",
         bloodCost: 1,
         duration: "instant",
-        description: "Ouvre brièvement un aperçu de l'Abîme dans l'esprit de ta cible. Elle voit, l'espace d'un instant horrible, l'immensité du néant infernal, le vide hurlant où les âmes damnées s'effacent. La terreur existentielle la paralyse. Les mortels s'effondrent, catatoniques. Les vampires luttent pour ne pas fuir en Rötschreck, leur Bête hurlant devant ce qui est pire que la mort. L'aperçu de la damnation véritable."
+        description: "Tu ouvres une fraction de seconde la porte de ton esprit vers les Abysses. Ceux qui croisent ton regard à cet instant voient l'horreur du néant infini, la vérité glaciale de l'enfer qui les attend. La terreur est si pure qu'elle paralyse, figeant le cœur des mortels et faisant reculer d'effroi même les vampires les plus anciens."
       },
       {
         level: 3,
-        name: "Stigmates de l'Immonde",
-        bloodCost: 3,
-        duration: "prolonged",
-        description: "Marque l'âme de ta victime d'une souillure infernale invisible mais palpable. Elle devient une paria pour la création elle-même. Les animaux sont terrorisés ou agressifs en sa présence, les enfants pleurent sans raison, les plantes se flétrissent à son passage et le lait tourne. Les mortels ressentent un dégoût instinctif et viscéral, refusant de l'aider, l'évitant du regard ou devenant hostiles. La victime se retrouve isolée socialement, rejetée par la vie elle-même, portant l'odeur subtile de l'Enfer qui la suit partout."
+        name: "Flammes de l'Enfer",
+        bloodCost: 1,
+        duration: "instant",
+        description: "Tu invoques le feu maudit qui brûle au fond de ton âme. Des flammes d'un vert maladif ou d'un noir profond jaillissent de tes mains. Ce feu ne produit aucune chaleur naturelle mais consume la chair et l'esprit avec une voracité terrifiante, laissant des cicatrices que le temps peine à effacer. C'est le feu de la géhenne, répondant à ton appel."
       },
       {
         level: 4,
-        name: "Invoquer le Démon Mineur",
+        name: "Psychomachia",
         bloodCost: 3,
-        duration: "prolonged",
-        description: "Ouvre un portail et invoque une créature de l'Enfer. Pas un démon majeur, mais quelque chose de petit et vicieux : une ombre griffue, un diablotin ricanant, une masse de tentacules qui suintent. La créature obéit à tes ordres pour la durée de la nuit - espionner, attaquer, terroriser. Elle pue le soufre et disparaît dans un éclair de feu à l'aube. Mais chaque invocation te marque un peu plus, te lie davantage aux Enfers."
+        duration: "scene",
+        description: "Tu donnes forme aux cauchemars. En puisant dans l'esprit de ta victime, tu forces ses peurs les plus intimes à se matérialiser dans le monde réel. Son reflet sort du miroir pour l'étrangler, les ombres prennent la forme de son père abusif. La victime affronte ses propres démons, littéralement, tandis que tu observes le spectacle."
       },
       {
         level: 5,
-        name: "Avatar Infernal",
-        bloodCost: 9,
+        name: "Résonance Infernale",
+        bloodCost: 3,
         duration: "scene",
-        description: "Transforme-toi en incarnation diabolique : cornes torsadées, peau écarlate, yeux de braise, ailes de chauve-souris, queue fouettante. Dans cette forme, tu dégages une aura de terreur primale qui fait fuir même les courageux. Ta force augmente, ta résistance devient surhumaine. Les flammes infernales dansent autour de toi sans te brûler. Tu ressembles à ce que tu es vraiment : une créature damnée, un serviteur des Enfers, un démon fait chair. La vision finale de l'horreur."
+        description: "Tu deviens un diapason pour la corruption pure. Tu émettes une onde de choc spirituelle qui brise les volontés autour de toi. Les pieux deviennent cruels, les courageux lâches, les fidèles traîtres. L'atmosphère s'alourdit d'une pression insoutenable, et les esprits les plus faibles s'effondrent en hurlant ou cèdent à leurs pulsions les plus viles instantanément."
       }
     ]
   }
