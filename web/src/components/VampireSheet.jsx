@@ -1026,7 +1026,7 @@ export default function VampireSheet() {
             Disciplines
           </button>
 
-          {(character.clan === 'tremere' || character.clan === 'hecata' || character.clan === 'giovanni' || character.clan === 'banu_haqim' || character.clan === 'assamite' || character.disciplines?.thaumaturgy || character.disciplines?.necromancy || hasRituals) && (
+          {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(character.clan?.toLowerCase()) || character.disciplines?.thaumaturgy || character.disciplines?.necromancy || hasRituals) && (
             <button
               onClick={() => setActiveTab('rituals')}
               className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
