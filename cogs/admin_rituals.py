@@ -82,26 +82,7 @@ class Admin(commands.Cog):
         else:
              await ctx.send(f"📜 **Grimoire de {member.display_name}** ({len(rituals)}):\n" + ", ".join(f"`{r}`" for r in rituals))
 
-    @commands.command(name="caïn")
-    async def cain(self, ctx, member: discord.Member):
-        """
-        Donne TOUS les rituels à un joueur (Mode Dieu).
-        Usage: !caïn @Joueur
-        """
-        if not self.is_mj(ctx):
-            await ctx.send("⛔ Vous n'avez pas la permission.")
-            return
 
-        from utils.database import add_player_ritual
-        
-        msg = await ctx.send(f"⏳ Don de l'omniscience à {member.display_name} en cours...")
-        
-        count = 0
-        for r in ALL_RITUALS:
-            if await add_player_ritual(member.id, ctx.guild.id, r):
-                count += 1
-                
-        await msg.edit(content=f"🩸 **Fait.** {member.mention} connaît maintenant {count} nouveaux rituels (Total: {len(ALL_RITUALS)}).")
 
 async def setup(bot):
     await bot.add_cog(Admin(bot))

@@ -18,6 +18,8 @@ from utils.database import (
     set_blood_potency,
     get_from_google_sheets,
     save_to_google_sheets,
+    add_player_ritual,
+    delete_player_rituals,
 )
 from utils.sheet_manager import delete_discord_sheet, delete_google_sheet_character
 
@@ -69,6 +71,9 @@ class GeneralCog(commands.Cog, name="Général"):
 
         # Supprimer les données (mais garder la race si l'utilisateur a encore le rôle)
         await delete_player(member.id, ctx.guild.id, keep_race=has_vampire_role or has_werewolf_role)
+        
+        # Supprimer les rituels connus
+        await delete_player_rituals(member.id, ctx.guild.id)
 
         # Supprimer la fiche Google Sheet si elle existe
         try:
@@ -111,6 +116,7 @@ class GeneralCog(commands.Cog, name="Général"):
             description += "• Augure et Rage (toutes les scènes)\n"
         else:
             description += "• Toutes les données de personnage\n"
+            description += "• Grimoire de rituels\n"
 
         if roles_removed:
             description += f"\n**Rôles retirés :** {', '.join(roles_removed)}"
@@ -238,6 +244,42 @@ class GeneralCog(commands.Cog, name="Général"):
         )
 
         await ctx.send(embed=embed)
+        
+        # Donner TOUS les rituels
+        ALL_RITUALS = [
+            # Niveau 1
+            "blood_walk", "comm_sire", "def_havre", "deflect_doom", "detect_lineage", 
+            "wake_fresheness", "shepherd_chant", "preserve_blood", "purity_flesh", 
+            "blood_insight", "sense_garou", "seal_interdict", "touch_phenom",
+            # Niveau 2
+            "call_lustral", "blessing_trench", "bureaucratic_bull", "focus_blood", 
+            "extinguish_flames", "burning_blade", "blood_lineage", "curse_failure", 
+            "shadow_walk", "ward_ghoul", "reciprocal_bite", "blood_invis",
+            # Niveau 3
+            "friend_blood", "shield_presence", "incorporeal_passage", "dry_hands", 
+            "mirror_narcissus", "pavan_chalice", "viper_skin", "ward_lupines", 
+            "shaft_belated", "seal_ambrosia", "sign_dread", "transmute_water",
+            # Niveau 4
+            "clash_atom", "heart_stone", "infusion_water", "invis_bond", "cursed_bond", 
+            "bone_lies", "ward_kindred", "recall_soul", "seal_passage", "leach_vitae",
+            # Niveau 5
+            "abandon_fetters", "change_blood", "blood_contract", "crown_thorns", 
+            "escape_friend", "homunculus", "curse_clay", "ward_spirits", "ward_ghosts", 
+            "blood_potence", "stone_victory",
+            # Supérieur
+            "armor_efficacy", "ward_demons", "divine_lineage", "chain_bloodline", "witch_transform",
+            # Nécromancie
+            "call_beacon", "eyes_grave", "hand_glory", "ritual_pneuma", "cadaver_touch", "lich_transcendence"
+        ]
+        
+        count = 0
+        msg = await ctx.send("⏳ Enseignement des secrets arcaniques...")
+        for r in ALL_RITUALS:
+            if await add_player_ritual(member.id, ctx.guild.id, r):
+                count += 1
+        
+        await msg.edit(content=f"🔮 **Grimoire Complet Accordé.** ({count} nouveaux rituels)")
+
         logger.info(
             f"{member.id} transformé en Caïn par {ctx.author.id} sur {ctx.guild.id}"
         )

@@ -838,6 +838,21 @@ async def add_player_ritual(user_id: int, guild_id: int, ritual_id: str) -> bool
             return False  # Déjà connu
 
 
+async def delete_player_rituals(user_id: int, guild_id: int) -> int:
+    """
+    Supprime TOUS les rituels connus par un joueur.
+    Retourne le nombre de rituels supprimés.
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "DELETE FROM player_rituals WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        await db.commit()
+        return cursor.rowcount
+
+
+
 async def get_player_rituals(user_id: int, guild_id: int) -> list[str]:
     """Récupère la liste des IDs de rituels connus par un joueur."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
