@@ -12,11 +12,10 @@ from utils.database import (
     set_player,
     get_soif,
     set_soif,
-    increment_soif,
+    modify_vitae,
     get_vampire_data,
     set_vampire_data,
-    get_min_soif,
-    get_max_soif,
+    get_max_vitae,
     get_saturation_threshold,
     reset_vampire_data,
     SATURATION_THRESHOLDS,
@@ -152,6 +151,56 @@ class ClanSelectView(ui.View):
         self.add_item(ClanSelectMenu())
 
 
+
+class VitaeSpendModal(ui.Modal, title="Dépenser de la Vitae"):
+    """Fenêtre modale pour dépenser une quantité précise de Vitae."""
+
+    amount = ui.TextInput(
+        label="Quantité de sang à verser",
+        placeholder="Entrez un nombre (ex: 1, 3, 5...)",
+        min_length=1,
+        max_length=2,
+        required=True,
+    )
+
+    def __init__(self, panel_view: "VampirePanel"):
+        super().__init__()
+        self.panel_view = panel_view
+
+    async def on_submit(self, interaction: discord.Interaction):
+        try:
+            value = int(self.amount.value)
+            if value <= 0:
+                raise ValueError
+        except ValueError:
+            await interaction.response.send_message(
+                "Tu dois entrer un nombre positif valide.", ephemeral=True
+            )
+            return
+
+        # Dépenser la vitae (via un nombre négatif)
+        # modify_vitae retourne la nouvelle valeur
+        new_vitae = await modify_vitae(
+            interaction.user.id, interaction.guild.id, -value
+        )
+        
+        self.panel_view.soif_level = new_vitae
+        
+        # Vérifier la frénésie (si on est tombé à 0)
+        old_state_level = self.panel_view._get_soif_state_level(self.panel_view.soif_level + value) # Etat avant dépense
+        new_state_level = self.panel_view._get_soif_state_level()
+
+        # Si on atteint le stade critique (0 vitae), on annonce potentiellement la frénésie
+        # Dans le nouveau système inversé : 0% de vitae = Danger Max
+        if new_state_level == 5 and old_state_level < 5:
+            await self.panel_view._announce_frenzy(interaction)
+
+        # Mettre à jour le panneau
+        await interaction.response.edit_message(
+            embed=self.panel_view.create_embed(), view=self.panel_view
+        )
+
+
 class VampirePanel(ui.View):
     """Panneau principal pour les Vampires."""
 
@@ -170,40 +219,36 @@ class VampirePanel(ui.View):
         self.guild_id = guild_id
         self.channel_id = channel_id
         self.clan = clan
-        self.soif_level = soif_level
+        self.soif_level = soif_level # Note: soif_level stocke maintenant la Vitae (de 0 à Max)
         self.blood_potency = blood_potency
         self.saturation_points = saturation_points
-        # Initialiser l'état des boutons de soif
-        self._update_soif_buttons()
+        # Initialiser l'état des boutons (s'il y a besoin de disabling logic)
+        self._update_buttons()
 
     def _create_soif_bar(self) -> str:
-        """Crée une barre visuelle de soif avec emojis regroupés + indicateur numérique.
+        """Crée une barre visuelle de Vitae (Jauge inversée).
 
         Chaque emoji représente 1/5 du pool maximum.
-        - 🩸 = segment plein
-        - 💧 = segment partiellement rempli
-        - 🔒 = minimum verrouillé (ne peut être vidé)
-        - ⚫ = segment vide
+        - 🩸 = Vitae disponible (Bon)
+        - ⚫ = Vide / Soif (Mauvais)
         """
-        max_soif = get_max_soif(self.blood_potency)
-        min_soif = get_min_soif(self.blood_potency)
-        segment_size = max_soif / 5
+        max_vitae = get_max_vitae(self.blood_potency)
+        segment_size = max_vitae / 5
 
         bar = ""
+        # On remplit de gauche à droite avec du sang
         for i in range(5):
-            segment_start = i * segment_size
-            segment_end = (i + 1) * segment_size
-
-            if self.soif_level >= segment_end:
-                bar += "🩸"  # Segment complètement rempli
-            elif self.soif_level > segment_start:
-                bar += "💧"  # Segment partiellement rempli
-            elif segment_end <= min_soif:
-                bar += "🔒"  # Minimum verrouillé par la Puissance du Sang
+             # Logique inversée : Si j'ai assez de sang pour remplir ce segment
+            segment_threshold = (i + 1) * segment_size
+            
+            if self.soif_level >= segment_threshold:
+                 bar += "🩸"
+            elif self.soif_level > i * segment_size:
+                 bar += "💧" # Partiellement plein
             else:
-                bar += "⚫"  # Segment vide
+                 bar += "⚫" # Vide
 
-        return f"{bar} ({self.soif_level}/{max_soif})"
+        return f"{bar} ({self.soif_level}/{max_vitae})"
 
     def _create_saturation_bar(self) -> str:
         """Crée une barre visuelle de progression de saturation."""
@@ -217,44 +262,47 @@ class VampirePanel(ui.View):
 
         return "▰" * filled_segments + "▱" * empty_segments + f" ({self.saturation_points}/{threshold})"
 
-    def _get_soif_state_level(self) -> int:
-        """Calcule le niveau d'état narratif (0-5) basé sur le pourcentage du pool.
-
-        - 0%: État 0 (calme)
-        - 1-20%: État 1
-        - 21-40%: État 2
-        - 41-60%: État 3
-        - 61-80%: État 4
-        - 81-100%: État 5 (frénésie)
+    def _get_soif_state_level(self, current_val=None) -> int:
+        """Calcule le niveau d'état narratif (0-5) basé sur le manque de sang.
+        
+        Sytème inversé :
+        - 100-80% Vitae : État 0 (Rassasié)
+        - 79-60% Vitae : État 1
+        - 59-40% Vitae : État 2
+        - 39-20% Vitae : État 3
+        - 19-1% Vitae : État 4
+        - 0% Vitae : État 5 (Frénésie)
         """
-        max_soif = get_max_soif(self.blood_potency)
-        if max_soif == 0:
-            return 0
+        level_to_check = current_val if current_val is not None else self.soif_level
+        max_vitae = get_max_vitae(self.blood_potency)
+        if max_vitae == 0:
+            return 5 # Pas de conteneur = frénésie permanente ? (Devrait pas arriver)
 
-        percentage = self.soif_level / max_soif
-        if percentage <= 0:
-            return 0
-        elif percentage <= 0.2:
+        percentage = level_to_check / max_vitae
+        
+        if percentage >= 0.8:
+            return 0 # Tout va bien
+        elif percentage >= 0.6:
             return 1
-        elif percentage <= 0.4:
+        elif percentage >= 0.4:
             return 2
-        elif percentage <= 0.6:
+        elif percentage >= 0.2:
             return 3
-        elif percentage <= 0.8:
+        elif percentage > 0:
             return 4
         else:
-            return 5
+            return 5 # Vide
 
     def _get_state_description(self) -> str:
-        """Retourne la description de l'état actuel basée sur le pourcentage du pool."""
+        """Retourne la description de l'état actuel."""
         state_level = self._get_soif_state_level()
         states = {
-            0: "Ton sang est calme. La Bête sommeille.",
-            1: "Une légère irritation. Rien d'inquiétant... pour l'instant.",
-            2: "La faim commence à se faire sentir. La Bête s'agite.",
-            3: "Le sang appelle le sang. Ta nature vampirique s'affirme.",
-            4: "Tu es au bord du gouffre. La Bête griffe les murs de ta conscience.",
-            5: "**FRÉNÉSIE** — La Bête a pris le contrôle !",
+            0: "Tu es rassasié. La Bête est calme.",
+            1: "Une légère faim tiraille ton esprit.",
+            2: "La Soif grandit. Tes sens s'aiguisent.",
+            3: "Le sang t'appelle. La Bête gratte à la porte.",
+            4: "Tu es affamé. La perte de contrôle est proche.",
+            5: "**FRÉNÉSIE IMMINENTE** — Ton corps est vide !",
         }
         return states.get(state_level, "État inconnu")
 
@@ -265,18 +313,16 @@ class VampirePanel(ui.View):
 
         # Infos de Puissance du Sang
         bp_info = BLOOD_POTENCY_INFO.get(self.blood_potency, BLOOD_POTENCY_INFO[1])
-        min_soif = get_min_soif(self.blood_potency)
-        max_soif = get_max_soif(self.blood_potency)
         state_level = self._get_soif_state_level()
 
-        # Couleur selon le niveau d'état (basé sur le pourcentage du pool)
+        # Couleur : Vert (Bon) -> Rouge (Mauvais) -> Violet (Frénésie)
         colors = {
-            0: discord.Color.dark_gray(),
-            1: discord.Color.from_rgb(139, 0, 0),
-            2: discord.Color.from_rgb(178, 34, 34),
-            3: discord.Color.from_rgb(220, 20, 60),
-            4: discord.Color.from_rgb(255, 0, 0),
-            5: discord.Color.from_rgb(128, 0, 128),
+            0: discord.Color.dark_green(),
+            1: discord.Color.green(),
+            2: discord.Color.yellow(),
+            3: discord.Color.orange(),
+            4: discord.Color.red(),
+            5: discord.Color.dark_purple(),
         }
 
         embed = discord.Embed(
@@ -299,22 +345,23 @@ class VampirePanel(ui.View):
             inline=False,
         )
 
-        # Jauge de Soif
-        soif_label = f"Soif (min. {min_soif})" if min_soif > 0 else "Soif"
+        # Jauge de Vitae (Ex-Soif)
         embed.add_field(
-            name=soif_label,
+            name="Réserve de Vitae",
             value=self._create_soif_bar(),
             inline=False,
         )
 
         # État
         embed.add_field(
-            name="État",
+            name="État de la Soif",
             value=self._get_state_description(),
             inline=False,
         )
 
         # Compulsion actuelle (si état > 0)
+        # Note : Les compulsions sont basées sur le "State Level" (0-5), qui a été adapté.
+        # Donc la logique reste valide : plus le state_level est haut, plus on a de problèmes.
         if state_level > 0:
             compulsion = get_compulsion(self.clan, state_level)
             if compulsion:
@@ -360,84 +407,42 @@ class VampirePanel(ui.View):
         except discord.Forbidden:
             pass
 
-    def _update_soif_buttons(self):
-        """Met à jour l'état des boutons de soif selon le niveau actuel."""
-        max_soif = get_max_soif(self.blood_potency)
+    def _update_buttons(self):
+        """Met à jour l'état des boutons."""
+        # On pourrait désactiver le bouton dépenser si Vitae = 0, mais on laisse le joueur essayer pour voir le message d'erreur ou juste rien faire.
+        pass
 
-        # Désactiver les boutons si l'ajout dépasserait trop le max
-        # On autorise un bouton si au moins la moitié des points peuvent être ajoutés
-        self.soif_button_1.disabled = self.soif_level >= max_soif
-        self.soif_button_3.disabled = self.soif_level > max_soif - 2
-        self.soif_button_9.disabled = self.soif_level > max_soif - 5
-
-    async def _handle_soif_increment(
-        self, interaction: discord.Interaction, amount: int
+    @ui.button(label="Soif", style=discord.ButtonStyle.danger, emoji="🩸", row=1)
+    async def spend_button(
+        self, interaction: discord.Interaction, button: ui.Button
     ):
-        """Gère l'incrémentation de la soif pour les différents boutons."""
+        """Ouvre la modale pour dépenser de la Vitae."""
         if interaction.user.id != self.user_id:
             await interaction.response.send_message(
                 "Ce panneau ne t'appartient pas.", ephemeral=True
             )
             return
+        
+        await interaction.response.send_modal(VitaeSpendModal(self))
 
-        old_state = self._get_soif_state_level()
 
-        max_soif = get_max_soif(self.blood_potency)
-        if self.soif_level < max_soif:
-            self.soif_level = await increment_soif(
-                self.user_id, self.guild_id, amount
-            )
-
-        new_state = self._get_soif_state_level()
-
-        # Annoncer la frénésie si on vient d'atteindre l'état 5 (80%+ du pool)
-        if old_state < 5 and new_state == 5:
-            await self._announce_frenzy(interaction)
-
-        # Mettre à jour l'état des boutons
-        self._update_soif_buttons()
-
-        # Mettre à jour l'embed
-        await interaction.response.edit_message(embed=self.create_embed(), view=self)
-
-    @ui.button(label="+1 pt", style=discord.ButtonStyle.danger, emoji="🩸", row=1)
-    async def soif_button_1(
-        self, interaction: discord.Interaction, button: ui.Button
-    ):
-        """Augmente la Soif de 1 point."""
-        await self._handle_soif_increment(interaction, 1)
-
-    @ui.button(label="+3 pts", style=discord.ButtonStyle.danger, emoji="🩸", row=1)
-    async def soif_button_3(
-        self, interaction: discord.Interaction, button: ui.Button
-    ):
-        """Augmente la Soif de 3 points."""
-        await self._handle_soif_increment(interaction, 3)
-
-    @ui.button(label="+9 pts", style=discord.ButtonStyle.danger, emoji="🩸", row=1)
-    async def soif_button_9(
-        self, interaction: discord.Interaction, button: ui.Button
-    ):
-        """Augmente la Soif de 9 points."""
-        await self._handle_soif_increment(interaction, 9)
-
-    @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷", row=2)
+    @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷", row=1)
     async def feed_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Restaure la Soif au minimum permis par la Puissance du Sang."""
+        """Restaure la Vitae au maximum."""
         if interaction.user.id != self.user_id:
             await interaction.response.send_message(
                 "Ce panneau ne t'appartient pas.", ephemeral=True
             )
             return
 
-        min_soif = get_min_soif(self.blood_potency)
+        max_vitae = get_max_vitae(self.blood_potency)
+        
+        # On remplit à fond (plus de limite Elder Curse)
+        target_vitae = max_vitae
 
-        if self.soif_level > min_soif:
-            await set_soif(self.user_id, self.guild_id, min_soif)
-            self.soif_level = min_soif
-
-        # Mettre à jour l'état des boutons
-        self._update_soif_buttons()
+        if self.soif_level < target_vitae:
+            await set_soif(self.user_id, self.guild_id, target_vitae) # set_soif est un alias de set_vampire_soif qui écrit dans la colonne "soif_level"
+            self.soif_level = target_vitae
 
         # Mettre à jour l'embed
         await interaction.response.edit_message(embed=self.create_embed(), view=self)

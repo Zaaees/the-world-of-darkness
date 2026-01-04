@@ -390,8 +390,13 @@ async def get_vampire_data(user_id: int, guild_id: int) -> dict:
         else:
             # Initialiser SQLite avec les valeurs de Google Sheets
             logger.info(f"[get_vampire_data] user={user_id} No SQLite row, initializing with GS BP={gs_blood_potency}")
-            soif_level = 0
+            
+            # Initialiser au MAX de Vitae par défaut (nouveau système)
+            initial_vitae = get_max_vitae(gs_blood_potency)
+            soif_level = initial_vitae
+            
             await set_blood_potency(user_id, guild_id, gs_blood_potency)
+            await set_vampire_soif(user_id, guild_id, initial_vitae)
 
     logger.info(f"[get_vampire_data] user={user_id} Returning BP={gs_blood_potency}")
     return {
@@ -416,13 +421,11 @@ async def set_vampire_soif(user_id: int, guild_id: int, soif_level: int):
         row = await cursor.fetchone()
         blood_potency = row[0] if row else 1
 
-        # Déterminer le minimum selon la BP
-        min_soif = get_min_soif(blood_potency)
+        # Déterminer le maximum selon la BP
+        max_vitae = get_max_vitae(blood_potency)
 
-        # S'assurer que le niveau n'est pas en dessous du minimum et pas au-dessus du max
-        max_soif = get_max_soif(blood_potency)
-        soif_level = max(soif_level, min_soif)
-        soif_level = min(soif_level, max_soif)
+        # S'assurer que le niveau n'est pas en dessous de 0 et pas au-dessus du max
+        soif_level = max(0, min(soif_level, max_vitae))
 
         # Mettre à jour ou insérer dans SQLite
         await db.execute(
@@ -475,7 +478,9 @@ async def set_blood_potency(user_id: int, guild_id: int, blood_potency: int):
         row = await cursor.fetchone()
         if row:
             current_soif = row[0]
-            await set_vampire_soif(user_id, guild_id, current_soif)
+            # Initialiser au MAX de Vitae (puisque le système est inversé, on commence plein)
+            max_vitae = get_max_vitae(blood_potency)
+            await set_vampire_soif(user_id, guild_id, max_vitae)
 
 
 async def get_blood_potency(user_id: int, guild_id: int) -> int:
@@ -1267,14 +1272,33 @@ async def set_soif(user_id: int, guild_id: int, soif_level: int):
     return await set_vampire_soif(user_id, guild_id, soif_level)
 
 
-async def increment_soif(user_id: int, guild_id: int, amount: int = 1):
-    """Incrémente la soif d'un vampire."""
-    current_soif = await get_vampire_soif(user_id, guild_id)
+async def modify_vitae(user_id: int, guild_id: int, amount: int):
+    """
+    Modifie la quantité de Vitae d'un vampire.
+    amount: positif pour ajouter (se nourrir), négatif pour dépenser.
+    Retourne la nouvelle valeur.
+    Si la valeur tombe à 0 ou moins, retourne 0 (et potentiellement signale une frénésie via l'interface).
+    """
+    current_vitae = await get_vampire_soif(user_id, guild_id) # On garde le nom de fonction sous-jacent pour l'instant
     blood_potency = await get_blood_potency(user_id, guild_id)
-    max_soif = get_max_soif(blood_potency)
-    new_soif = min(max_soif, current_soif + amount)
-    await set_vampire_soif(user_id, guild_id, new_soif)
-    return new_soif
+    max_vitae = get_max_vitae(blood_potency)
+    
+    new_vitae = current_vitae + amount
+    
+    # Bornes : 0 à Max
+    new_vitae = max(0, min(new_vitae, max_vitae))
+    
+    await set_vampire_soif(user_id, guild_id, new_vitae)
+    return new_vitae
+
+# Alias pour la compatibilité (mais déprécié logiquement)
+async def increment_soif(user_id: int, guild_id: int, amount: int = 1):
+    """Désactivé ou redirigé vers modify_vitae(-amount) car "soif" augmentait quand on dépensait."""
+    # Dans l'ancien système : soif augmente = mauvais. 
+    # Nouveau système : vitae diminue = mauvais.
+    # Donc increment_soif (mauvais) ~ dépenser vitae.
+    return await modify_vitae(user_id, guild_id, -amount)
+
 
 
 async def set_vampire_data(
@@ -1300,17 +1324,9 @@ async def set_vampire_data(
     await save_to_google_sheets(user_id, character)
 
 
-def get_min_soif(blood_potency: int) -> int:
-    """Calcule le minimum de soif selon la Blood Potency."""
-    if blood_potency >= 4:
-        return 2
-    elif blood_potency >= 3:
-        return 1
-    return 0
 
-
-def get_max_soif(blood_potency: int) -> int:
-    """Calcule la capacité maximale de soif selon la Blood Potency.
+def get_max_vitae(blood_potency: int) -> int:
+    """Calcule la capacité maximale de Vitae selon la Blood Potency.
 
     Progression linéaire (équilibrée):
     - BP 1: 5 points (Nouveau-né)
@@ -1319,8 +1335,13 @@ def get_max_soif(blood_potency: int) -> int:
     - BP 4: 18 points (Ancien)
     - BP 5: 25 points (Mathusalem)
     """
-    max_soif_by_bp = {1: 5, 2: 8, 3: 12, 4: 18, 5: 25}
-    return max_soif_by_bp.get(blood_potency, 5)
+    max_vitae_by_bp = {1: 5, 2: 8, 3: 12, 4: 18, 5: 25}
+    return max_vitae_by_bp.get(blood_potency, 5)
+
+
+
+
+
 
 
 def get_saturation_threshold(blood_potency: int) -> int:

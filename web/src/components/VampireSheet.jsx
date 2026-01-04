@@ -975,6 +975,20 @@ export default function VampireSheet() {
             >
               <LogOut size={18} />
             </button>
+
+            {/* BOUTON RÈGLEMENT */}
+            <button
+              onClick={() => setActiveTab('rules')}
+              className={`ml-2 px-3 py-1 rounded text-xs font-serif uppercase tracking-wider border transition-all flex items-center gap-2 ${activeTab === 'rules'
+                ? 'bg-stone-800 border-stone-600 text-stone-200'
+                : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-stone-700 hover:text-stone-300'
+                }`}
+              title="Règlement"
+            >
+              <ScrollText size={12} />
+              Règlement
+            </button>
+
             {vampireProfile?.is_gm && (
               <button
                 onClick={() => setIsCainMode(!isCainMode)}
@@ -1008,67 +1022,74 @@ export default function VampireSheet() {
         </div>
       ) : (
         <>
-          {/* NAVIGATION PAR ONGLETS (Cachée en mode sélection de clan sauf si Caïn) */}
-          <div className="bg-stone-950/50 border-b border-stone-800">
-            <div className="max-w-2xl mx-auto flex">
-              <button
-                onClick={() => setActiveTab('character')}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'character'
-                  ? 'text-red-500 border-red-600 bg-stone-900/30'
-                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-                  }`}
-              >
-                <FileText size={16} />
-                Fiche
-              </button>
-              <button
-                onClick={() => setActiveTab('sheet')}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'sheet'
-                  ? 'text-red-500 border-red-600 bg-stone-900/30'
-                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-                  }`}
-              >
-                <Droplet size={16} />
-                Vitae
-              </button>
-              <button
-                onClick={() => setActiveTab('disciplines')}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'disciplines'
-                  ? 'text-red-500 border-red-600 bg-stone-900/30'
-                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-                  }`}
-              >
-                <Sparkles size={16} />
-                Disciplines
-              </button>
-
-              {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(safeCharacter.clan?.toLowerCase()) || safeCharacter.disciplines?.thaumaturgy || safeCharacter.disciplines?.necromancy || hasRituals || isCainMode) && (
+          {activeTab !== 'rules' && (
+            /* NAVIGATION PAR ONGLETS (Masquée si on est sur la page Règlement) */
+            <div className="bg-stone-950/50 border-b border-stone-800">
+              <div className="max-w-2xl mx-auto flex">
                 <button
-                  onClick={() => setActiveTab('rituals')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
+                  onClick={() => setActiveTab('character')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'character'
                     ? 'text-red-500 border-red-600 bg-stone-900/30'
                     : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
                     }`}
                 >
-                  <Book size={16} />
-                  Grimoire
+                  <FileText size={16} />
+                  Fiche
                 </button>
-              )}
+                <button
+                  onClick={() => setActiveTab('sheet')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'sheet'
+                    ? 'text-red-500 border-red-600 bg-stone-900/30'
+                    : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                    }`}
+                >
+                  <Droplet size={16} />
+                  Vitae
+                </button>
+                <button
+                  onClick={() => setActiveTab('disciplines')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'disciplines'
+                    ? 'text-red-500 border-red-600 bg-stone-900/30'
+                    : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                    }`}
+                >
+                  <Sparkles size={16} />
+                  Disciplines
+                </button>
 
-              <button
-                onClick={() => setActiveTab('ghouls')}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'ghouls'
-                  ? 'text-red-500 border-red-600 bg-stone-900/30'
-                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-                  }`}
-              >
-                <Users size={16} />
-                Goules
-              </button>
+                {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(safeCharacter.clan?.toLowerCase()) || safeCharacter.disciplines?.thaumaturgy || safeCharacter.disciplines?.necromancy || hasRituals || isCainMode) && (
+                  <button
+                    onClick={() => setActiveTab('rituals')}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
+                      ? 'text-red-500 border-red-600 bg-stone-900/30'
+                      : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                      }`}
+                  >
+                    <Book size={16} />
+                    Grimoire
+                  </button>
+                )}
+
+                <button
+                  onClick={() => setActiveTab('ghouls')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'ghouls'
+                    ? 'text-red-500 border-red-600 bg-stone-900/30'
+                    : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                    }`}
+                >
+                  <Users size={16} />
+                  Goules
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           <main className="max-w-2xl mx-auto p-6 space-y-10">
+
+            {/* ONGLET RÈGLEMENT */}
+            {activeTab === 'rules' && (
+              <RulesTab setActiveTab={setActiveTab} />
+            )}
 
             {/* ONGLET VITALITÉ (Bio) */}
             {activeTab === 'character' && (
