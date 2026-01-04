@@ -857,9 +857,11 @@ async def update_npc_handler(request):
                     # mais ici on await pour être sûr que ça marche ou loguer l'erreur
                     forum_post_id = await publish_npc_to_discord(bot, guild, updated_npc)
                     
-                    if forum_post_id and forum_post_id != updated_npc.get("forum_post_id"):
-                         # Si l'ID du post a changé (ex: recréation), on met à jour la DB
-                         await update_npc(npc_id, forum_post_id=forum_post_id, status="public")
+                    if forum_post_id:
+                        result["forum_post_id"] = forum_post_id
+                        if forum_post_id != updated_npc.get("forum_post_id"):
+                             # Si l'ID du post a changé (ex: recréation), on met à jour la DB
+                             await update_npc(npc_id, forum_post_id=forum_post_id, status="public")
 
         return web.json_response(result)
     except Exception as e:

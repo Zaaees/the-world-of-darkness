@@ -734,6 +734,11 @@ export default function VampireSheet() {
         const result = await response.json();
         if (result.success) {
           setLastSaved(new Date());
+          // IMPORTANT: Mettre à jour l'ID du post forum s'il a changé (pour éviter les doublons)
+          if (result.forum_post_id) {
+            setNpcCharacter(prev => ({ ...prev, forum_post_id: result.forum_post_id }));
+            setCharacter(prev => ({ ...prev, forum_post_id: result.forum_post_id }));
+          }
         } else {
           setError(result.error || "Erreur sauvegarde PNJ");
         }
