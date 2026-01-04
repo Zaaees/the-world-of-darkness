@@ -114,9 +114,9 @@ const CLAN_ACTIONS = {
   gangrel: { id: "clan_gangrel", name: "L'appel sauvage", description: "Survivre seul en milieu hostile", points: 4, minBp: 1, maxBp: 5 },
   lasombra: { id: "clan_lasombra", name: "L'ombre qui dévore", description: "Éliminer un obstacle par ambition", points: 4, minBp: 1, maxBp: 5 },
   tzimisce: { id: "clan_tzimisce", name: "Chair de ma chair", description: "Modifier sa chair ou défendre son domaine", points: 4, minBp: 1, maxBp: 5 },
-  hecata: { id: "clan_hecata", name: "Murmures d'outre-tombe", description: "Communiquer avec les morts ou accomplir un rite funéraire", points: 4, minBp: 1, maxBp: 5 },
-  ministry: { id: "clan_ministry", name: "La tentation du serpent", description: "Corrompre quelqu'un ou répandre le vice", points: 4, minBp: 1, maxBp: 5 },
-  banu_haqim: { id: "clan_banu_haqim", name: "Le jugement du sang", description: "Exécuter un contrat ou punir un coupable", points: 4, minBp: 1, maxBp: 5 },
+  giovanni: { id: "clan_giovanni", name: "Murmures d'outre-tombe", description: "Communiquer avec les morts ou accomplir un rite funéraire", points: 4, minBp: 1, maxBp: 5 },
+  setites: { id: "clan_setites", name: "La tentation du serpent", description: "Corrompre quelqu'un ou répandre le vice", points: 4, minBp: 1, maxBp: 5 },
+  assamites: { id: "clan_assamites", name: "Le jugement du sang", description: "Exécuter un contrat ou punir un coupable", points: 4, minBp: 1, maxBp: 5 },
 };
 
 const RESONANCE_ACTIONS = [
@@ -910,7 +910,18 @@ export default function VampireSheet() {
     : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`);
 
   // Récupérer l'action de clan
-  const clanAction = safeCharacter.clan ? CLAN_ACTIONS[safeCharacter.clan.toLowerCase()] : null;
+  // Nous devons mapper le clan de l'utilisateur vers la clé correcte
+  // Le clan stocké en BD peut être n'importe quelle casse, normalisons-le
+  const userClanKey = safeCharacter.clan ? safeCharacter.clan.toLowerCase() : '';
+
+  // Gestion de la compatibilité des anciens noms si nécessaire (remapping)
+  // Si la BD contient "hecata", on l'affiche comme "giovanni"
+  let displayClanKey = userClanKey;
+  if (userClanKey === 'hecata') displayClanKey = 'giovanni';
+  if (userClanKey === 'ministry') displayClanKey = 'setites';
+  if (userClanKey === 'banu_haqim') displayClanKey = 'assamites';
+
+  const clanAction = CLAN_ACTIONS[displayClanKey];
 
   return (
     <div className="min-h-screen bg-[#0c0a09] text-stone-300 font-sans selection:bg-red-900/50 pb-12">

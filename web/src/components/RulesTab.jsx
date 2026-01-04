@@ -14,7 +14,7 @@ export default function RulesTab({ setActiveTab }) {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-12 pb-20">
+        <div className="max-w-4xl mx-auto space-y-12 pb-20 bg-stone-900 border border-stone-700 min-h-[500px] p-4 rounded">
 
             {/* EN-TÊTE */}
             <div className="text-center space-y-4 border-b border-stone-800 pb-8">

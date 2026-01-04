@@ -11,8 +11,8 @@ export const CLAN_DESCRIPTIONS = {
     description: "Les Brujah sont les rebelles des Damnés, porteurs d'une rage ancestrale qui couve sous la surface. Philosophes et combattants, ils rejettent l'autorité et embrassent la passion. Le Sang des Rebelles transforme chaque contrariété en tempête de fureur.",
     quote: "« Les chaînes que nous portions mortels ne sont rien comparées à celles qu'ils voudraient nous imposer maintenant. »",
     specificities: "• Disciplines : Célérité, Présence, Puissance\n• La Bête brûle plus proche de la surface\n• Héritage de philosophes-guerriers",
-    bane: "La Rage Ardente",
-    baneDescription: "La Bête des Brujah brûle plus près de la surface que chez tout autre clan. Les provocations mineures – un regard condescendant, une insulte voilée, une injustice aperçue – peuvent déclencher une rage incontrôlable. Là où un autre vampire garderait son calme, le Brujah sent le feu monter, les poings se serrer, la vision se teinter de rouge. Résister à cette colère demande un effort constant. Céder signifie la frénésie, et les Brujah y cèdent plus souvent que quiconque.",
+    bane: "La Colère Brillante",
+    baneDescription: "Les Brujah sont des créatures de passion et de rage. Leur Bête est toujours à fleur de peau, prête à exploser à la moindre provocation. Ils ont beaucoup plus de mal que les autres vampires à résister à la frénésie, que ce soit à cause de la colère ou du feu. Un mot de travers, une frustration mineure, et le Brujah peut se transformer en machine à tuer incontrôlable.",
     transformationDescription: "Ton sang bout d'une colère éternelle. La patience devient une faiblesse, la diplomatie une trahison. Tu vois le monde en termes de combats à gagner ou à perdre. Chaque regard condescendant devient une provocation, chaque injustice une déclaration de guerre. Ta passion consume ta capacité à nuancer, transformant chaque interaction en duel de volontés. La raison devient un obstacle, l'émotion une arme. Tu deviens incapable de voir les nuances, tout se résume à juste ou injuste, ami ou ennemi.",
     roleplay: "Tes passions brûlent plus fort que ta raison. Chaque injustice te fait bouillir. La diplomatie n'est jamais ta première option."
   },
@@ -75,7 +75,7 @@ export const CLAN_DESCRIPTIONS = {
     shortDesc: "Mages devenus vampires, maîtres du sang",
     description: "Les Tremere sont des usurpateurs qui ont volé l'immortalité par la magie du sang. Organisés en pyramide rigide, ils pratiquent la Thaumaturgie – la sorcellerie vampirique. Jamais vraiment acceptés, toujours craints.",
     quote: "« Le sang n'est que l'encre. La vraie magie, c'est savoir écrire le bon sortilège. »",
-    specificities: "• Disciplines : Auspex, Domination, Sorcellerie du Sang\n• Structure pyramidale hiérarchique\n• Usurpateurs du sang des Salubri",
+    specificities: "• Disciplines : Auspex, Domination, Thaumaturgie\n• Structure pyramidale hiérarchique\n• Usurpateurs du sang des Salubri",
     bane: "Le Sang Addictif",
     baneDescription: "Le sang Tremere est un piège. Tout vampire qui en boit développe une dépendance similaire à un lien de sang, même après une seule gorgée. Cette propriété fait des Tremere des cibles de choix pour ceux qui voudraient les asservir – ou des manipulateurs efficaces qui utilisent leur propre vitae comme appât. Au sein du clan, cette particularité renforçait autrefois la loyauté à la Pyramide. Aujourd'hui, elle fait de chaque Tremere un dealer potentiel et une proie tentante.",
     transformationDescription: "Le savoir devient une drogue plus puissante que le sang. La curiosité devient une faim insatiable. Tu vois le monde comme un puzzle à résoudre, chaque mystère comme un sortilège à maîtriser. La peur du chaos remplace la peur de la mort. Tu perçois chaque être comme une expérience potentielle, chaque émotion comme une formule magique à analyser. La logique devient une obsession, l'émotion une variable à contrôler. Tu deviens incapable de croire au hasard, chaque événement devenant une équation à résoudre.",
@@ -134,43 +134,43 @@ export const CLAN_DESCRIPTIONS = {
     roleplay: "Le monde est théâtre. La vérité est négociable. Le mouvement est vie. L'immobilité est mort."
   },
 
-  setite: {
-    name: "Setite (Ministère)",
-    title: "Les Tentateurs",
-    shortDesc: "Serviteurs de Set, corrupteurs d'âmes",
-    description: "Les Setites, aujourd'hui appelés le Ministère, se considèrent comme des libérateurs. Ils identifient tes chaînes – morale, foi, loyauté – et t'offrent la clé. Mais cette liberté a un prix, et Set réclame toujours son dû.",
-    quote: "« Nous n'imposons rien. Nous révélons simplement ce que tu désirais déjà. »",
-    specificities: "• Disciplines : Obfuscate, Présence, Serpentis\n• Vulnérabilité accrue à la lumière\n• Descendants du dieu Set selon leur mythologie",
-    bane: "L'Ennemi de la Lumière",
-    baneDescription: "Les Setites portent les ténèbres de leur dieu dans leur sang. Toute lumière vive les incommode : les néons leur donnent des migraines, les flashs les aveuglent plus longtemps, les phares de voiture sont douloureux. Mais c'est le soleil qui révèle leur vraie malédiction – ses rayons les brûlent avec une férocité terrifiante, bien plus rapidement que les autres vampires. Quelques secondes d'exposition peuvent être fatales là où d'autres auraient des minutes.",
+  setites: {
+    name: "Disciples de Set",
+    title: "Les Serpents",
+    shortDesc: "Corrupteurs insidieux, gardiens de secrets anciens",
+    description: "Les Disciples de Set, ou Setites, forment plus un culte qu'un clan. Ils vénèrent le dieu-vampire Set et cherchent à corrompre les âmes pour les 'libérer' des chaînes de la morale moderne. Maîtres de la tentation et des secrets, ils sont craints et méfiés par tous.",
+    quote: "« Laisse-moi te montrer ce que tu désires vraiment. La morale n'est qu'une cage dont je possède la clé. »",
+    specificities: "• Disciplines : Occultation, Présence, Serpentis\n• Vulnérabilité extrême à la lumière du soleil\n• Organisation en cultes et temples",
+    bane: "L'Anathème de la Lumière",
+    baneDescription: "Nés des ténèbres les plus profondes, les Setites souffrent atrocement de la lumière. Le soleil est pour eux une arme absolue : ils subissent deux fois plus de dégâts que les autres vampires lorsqu'ils sont exposés à la lumière solaire. Même une forte lumière artificielle les incommode et les affaiblit.",
     transformationDescription: "La tentation devient ta langue maternelle. La vertu devient une faiblesse à exploiter. Tu perçois chaque désir comme une faille, chaque peur comme une opportunité. La corruption devient une forme d'art, la manipulation une danse séduisante. Tu vois le monde à travers le prisme de la tentation, chaque âme comme une proie potentielle. La liberté devient une illusion, chaque choix une manipulation déguisée. Tu deviens incapable de voir l'innocence, chaque interaction devenant une transaction où quelqu'un doit perdre.",
-    roleplay: "Tu es le libérateur, pas le corrupteur. Chacun a des chaînes. Tu offres seulement la clé."
+    roleplay: "Tu es le confident, le tentateur. Tu connais les vices de chacun. Tu sers un dieu ancien et terrible."
   },
 
   giovanni: {
-    name: "Giovanni (Hecata)",
+    name: "Giovanni",
     title: "Les Nécromanciens",
-    shortDesc: "Famille mafieuse, maîtres de la mort",
-    description: "Les Giovanni sont une famille vampirique incestueuse obsédée par la mort et les affaires. Ils commandent les morts et les fantômes comme outils, tissant un empire criminel qui s'étend des deux côtés du Linceul.",
-    quote: "« Les affaires sont les affaires. Que ce soit avec les vivants ou les morts. »",
-    specificities: "• Disciplines : Domination, Nécromancie, Puissance\n• Morsure extrêmement douloureuse\n• Structure clanique basée sur la famille mortelle",
-    bane: "Le Baiser de Douleur",
-    baneDescription: "La morsure des Giovanni n'apporte aucun plaisir – seulement une agonie atroce. Là où le Baiser des autres vampires est extatique, celui des Hecata est une torture. Les victimes hurlent, se débattent, griffent. Elles ne tombent pas dans l'euphorie béate mais dans la terreur pure. Cette particularité rend l'alimentation discrète presque impossible et laisse les victimes traumatisées, avec des souvenirs vivaces de l'attaque. La Mascarade exige des Giovanni une créativité morbide pour se nourrir.",
+    shortDesc: "Famille insulaire et incestueuse, banquiers des morts",
+    description: "Les Giovanni sont à la fois un clan et une famille mortelle. Incestueux, riches et secrets, ils pratiquent la Nécromancie pour asservir les esprits. Ils restent neutres dans la guerre des sectes, préférant accumuler pouvoir et richesses.",
+    quote: "« Il y a deux choses inévitables : la mort et les impôts. Nous contrôlons les deux. »",
+    specificities: "• Disciplines : Domination, Nécromancie, Puissance\n• Le Baiser cause une douleur atroce\n• Obsédés par l'argent et la famille",
+    bane: "Le Baiser Douloureux",
+    baneDescription: "Contrairement aux autres vampires dont la morsure induit une extase surnaturelle, le Baiser d'un Giovanni est une expérience de torture pure. La victime ressent une douleur déchirante, comme si son âme était arrachée. Cela rend la chasse 'subtile' impossible pour eux : leurs proies hurlent et se débattent toujours. Ils doivent souvent kidnapper ou droguer leurs victimes avant de se nourrir.",
     transformationDescription: "La mort devient une compagne familière. Le deuil devient une seconde nature. Tu perçois chaque vie comme éphémère, chaque relation comme temporaire. La tristesse devient une couverture rassurante, la joie une distraction dangereuse. Tu vois le monde à travers le prisme de la perte, chaque sourire comme un adieu déguisé. La mélancolie devient ta langue maternelle, chaque interaction te rappelant l'impermanence de toute chose. Tu deviens incapable de croire en la permanence, chaque lien affectif devenant une blessure potentielle.",
-    roleplay: "La famille avant tout. Les affaires sont sacrées. Les morts sont des outils, pas des personnes."
+    roleplay: "La famille avant tout. L'argent est le sang de la société. Les morts sont des employés dociles."
   },
 
-  banu_haqim: {
-    name: "Banu Haqim (Assamites)",
-    title: "Les Juges",
-    shortDesc: "Assassins saints, juges du sang",
-    description: "Les Banu Haqim sont des guerriers-juges se considérant comme les exécuteurs de la loi divine. Autrefois assassins assoiffés de sang vampirique, beaucoup ont rejoint la Camarilla, apportant leur code de justice et leurs lames dans la nuit.",
-    quote: "« Nous ne sommes pas des meurtriers. Nous sommes le bras de la justice. »",
-    specificities: "• Disciplines : Célérité, Obfuscate, Sorcellerie du Sang\n• Soif particulière pour le sang vampirique\n• Code d'honneur strict (la Loi de Haqim)",
-    bane: "La Soif du Juge",
-    baneDescription: "Le sang vampirique appelle les Banu Haqim comme une drogue. Quand ils y goûtent – même une goutte – une faim terrible s'éveille, une compulsion à en boire davantage. Résister demande une volonté de fer. Céder mène à la diablerie, ce crime ultime qui consiste à vider complètement un vampire et dévorer son âme. Cette soif a valu aux Assamites leur réputation de chasseurs de vampires et reste un combat constant, même pour les plus pieux d'entre eux.",
+  assamites: {
+    name: "Assamites",
+    title: "Les Assassins",
+    shortDesc: "Guerriers silencieux et juges implacables",
+    description: "Venus des terres d'Orient, les Assamites sont craints pour leurs talents de tueurs et leur code d'honneur rigide. Mercenaires ou fanatiques, ils cherchent à se rapprocher de la perfection de leur fondateur, Haqim/Caine.",
+    quote: "« Ton sang appartient à Haqim. Je ne fais que le récolter. »",
+    specificities: "• Disciplines : Célérité, Obfuscate, Quietus\n• Addiction au sang vampirique\n• Peau qui noircit avec l'âge et la diablerie",
+    bane: "La Soif de Sang",
+    baneDescription: "Les Assamites (surtout la caste Guerrière) souffrent d'une addiction surnaturelle à la vitae des autres vampires. Une fois qu'ils ont goûté au sang d'un autre Caïnite, ils doivent réussir un jet de Volonté pour ne pas tomber dans une frénésie de soif et le drainer jusqu'à la dernière goutte. Cette malédiction les pousse vers la diablerie, teintant leur aura de marques noires visibles par l'Auspex.",
     transformationDescription: "La justice devient une obsession meurtrière. Le jugement devient un réflexe. Tu perçois chaque transgression comme un crime, chaque faiblesse comme une trahison. La clémence devient une trahison, la pitié une faiblesse. Tu vois le monde à travers le prisme de la loi, chaque interaction comme un jugement à porter. L'équilibre devient une obsession, chaque désordre une offense personnelle. Tu deviens incapable de tolérer l'injustice, chaque déviation devenant une sentence à exécuter.",
-    roleplay: "Justice, honneur, discipline. Tu juges chaque action selon la Loi. Les coupables doivent être punis."
+    roleplay: "Le sang est la monnaie de l'âme. La loyauté au clan est absolue. Tu es l'épée dans les ténèbres."
   },
 
   gargoyles: {
