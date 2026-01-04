@@ -70,6 +70,13 @@ async def cors_middleware(request, handler):
         response = await handler(request)
     except web.HTTPException as e:
         response = e
+    except Exception as e:
+        # Capturer les erreurs non gérées pour ajouter les headers CORS
+        logger.error(f"Erreur non gérée dans le middleware: {e}", exc_info=True)
+        response = web.json_response(
+            {"success": False, "error": "Erreur interne du serveur"}, 
+            status=500
+        )
 
     # Ajouter les headers CORS à la réponse
     if origin in ALLOWED_ORIGINS:
