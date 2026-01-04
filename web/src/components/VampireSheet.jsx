@@ -1389,7 +1389,7 @@ export default function VampireSheet() {
               <DisciplinesTab
                 clan={activeChar.clan}
                 bloodPotency={isCainMode && !npcCharacter ? 5 : activeChar.bloodPotency}
-                isCainMode={isCainMode || (npcCharacter && npcCharacter.id === 'cain_legendary')}
+                isCainMode={npcCharacter?.id === 'cain_legendary'}
               />
             )}
 
@@ -1399,7 +1399,7 @@ export default function VampireSheet() {
                 userId={discordUser.id}
                 guildId={guildId}
                 clan={activeChar.clan}
-                isCainMode={isCainMode || (npcCharacter && npcCharacter.id === 'cain_legendary')}
+                isCainMode={npcCharacter?.id === 'cain_legendary'}
                 character={activeChar} // Passer le character pour que le composant puisse vérifier les rituels
               />
             )}
