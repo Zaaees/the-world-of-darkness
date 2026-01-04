@@ -10,29 +10,37 @@ MJ_ROLE_ID = 1454188335957282897
 DATA_PATH = "data/players.json"
 
 ALL_RITUALS = [
-    # Niveau 1
+    # Thaumaturgie Niveau 1
     "blood_walk", "comm_sire", "def_havre", "deflect_doom", "detect_lineage", 
     "wake_fresheness", "shepherd_chant", "preserve_blood", "purity_flesh", 
     "blood_insight", "sense_garou", "seal_interdict", "touch_phenom",
-    # Niveau 2
+    # Thaumaturgie Niveau 2
     "call_lustral", "blessing_trench", "bureaucratic_bull", "focus_blood", 
     "extinguish_flames", "burning_blade", "blood_lineage", "curse_failure", 
     "shadow_walk", "ward_ghoul", "reciprocal_bite", "blood_invis",
-    # Niveau 3
+    # Thaumaturgie Niveau 3
     "friend_blood", "shield_presence", "incorporeal_passage", "dry_hands", 
     "mirror_narcissus", "pavan_chalice", "viper_skin", "ward_lupines", 
     "shaft_belated", "seal_ambrosia", "sign_dread", "transmute_water",
-    # Niveau 4
+    # Thaumaturgie Niveau 4
     "clash_atom", "heart_stone", "infusion_water", "invis_bond", "cursed_bond", 
     "bone_lies", "ward_kindred", "recall_soul", "seal_passage", "leach_vitae",
-    # Niveau 5
+    # Thaumaturgie Niveau 5
     "abandon_fetters", "change_blood", "blood_contract", "crown_thorns", 
     "escape_friend", "homunculus", "curse_clay", "ward_spirits", "ward_ghosts", 
     "blood_potence", "stone_victory",
-    # Supérieur
+    # Thaumaturgie Supérieure
     "armor_efficacy", "ward_demons", "divine_lineage", "chain_bloodline", "witch_transform",
-    # Nécromancie
-    "call_beacon", "eyes_grave", "hand_glory", "ritual_pneuma", "cadaver_touch", "lich_transcendence"
+    # Nécromancie Niveau 1
+    "call_beacon", "epitaph", "knowing_death", "minion_death_sense", "corpse_smile", "blood_tear",
+    # Nécromancie Niveau 2
+    "shadow_armor", "puppet_flesh", "blood_din", "eyes_grave", "hand_glory", "seal_tomb",
+    # Nécromancie Niveau 3
+    "summon_spectres", "skull_blessing", "false_repentance", "death_form", "ritual_pneuma", "chalice_drain",
+    # Nécromancie Niveau 4
+    "soul_anchor", "cadaver_touch", "death_dance", "ghost_blood_bond", "spectre_shroud",
+    # Nécromancie Niveau 5
+    "soul_contract", "rhadamanthus_judgment", "erebus_gift", "puppet_possession", "lich_transcendence"
 ]
 
 class Admin(commands.Cog):

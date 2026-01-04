@@ -209,14 +209,89 @@ export const RITUALS = {
         name: "L'Appel de la Balise",
         discipline: "necromancy",
         level: 1,
-        description: "Transforme un objet anodin en phare pour les âmes errantes. L'objet enchanté attire les fantômes, les Wraiths et les spectres dans un rayon de plusieurs kilomètres. Les esprits ne peuvent s'empêcher de se rapprocher pour examiner cette lueur sur le plan spectral, facilitant leur invocation ou leur piégeage.",
-        ingredients: "Un morceau de linceul volé dans un cimetière.",
+        description: "Ce rituel fondamental facilite la traversée du Voile pour un esprit spécifique que le Nécromant souhaite contacter. En créant un phare spirituel, le sorcier illumine un chemin à travers les Terres des Ombres, guidant l'âme ciblée vers le monde des vivants. L'esprit ressent l'appel comme une traction irrésistible, un fil d'Ariane tissé de sang et de volonté.",
+        ingredients: "Un morceau de linceul volé dans un cimetière et un objet ayant appartenu au défunt.",
         steps: [
-            "1. Envelopper l'objet dans le linceul en chantant les noms des morts.",
-            "2. Verser quelques gouttes de vitae dessus.",
-            "3. Murmurer 'Venite, spiritus vagantes' et l'objet commence à luire d'une lumière invisible aux vivants."
+            "1. Envelopper l'objet personnel dans le linceul en murmurant le nom du mort.",
+            "2. Verser quelques gouttes de vitae sur le tissu funéraire.",
+            "3. Prononcer l'invocation 'Venite, spiritus vagantes' — l'objet commence à luire d'une lumière que seuls les morts peuvent percevoir."
         ],
         duration: "Une nuit entière."
+    },
+
+    epitaph: {
+        id: "epitaph",
+        name: "Épitaphe",
+        discipline: "necromancy",
+        level: 1,
+        description: "En touchant un cadavre, le Nécromant peut lire les dernières impressions gravées dans la chair morte. Ce ne sont pas des souvenirs cohérents, mais des fragments sensoriels : la dernière chose vue, la dernière émotion ressentie, parfois le visage de l'assassin ou les mots finaux entendus. Plus le corps est frais, plus les impressions sont vives.",
+        ingredients: "Une pièce de monnaie ancienne placée sur la langue du mort.",
+        steps: [
+            "1. Placer la pièce sur la langue du cadavre.",
+            "2. Poser les deux mains sur les tempes du mort et fermer les yeux.",
+            "3. Laisser les visions affluer — elles viennent par flashs violents et désordonnés."
+        ],
+        duration: "Instantanée (les visions durent quelques secondes)."
+    },
+
+    knowing_death: {
+        id: "knowing_death",
+        name: "Savoir du Mourant",
+        discipline: "necromancy",
+        level: 1,
+        description: "Le Nécromant développe une sensibilité morbide à l'approche de la mort. En se concentrant sur une personne, il peut percevoir si celle-ci est proche de sa fin — que ce soit par maladie, blessure cachée, ou destin imminent. L'information vient sous forme d'une aura sombre autour du sujet, plus dense à mesure que la mort approche.",
+        ingredients: "Un sablier miniature contenant de la cendre de crémation.",
+        steps: [
+            "1. Retourner le sablier en fixant la cible du regard.",
+            "2. Observer l'aura de la personne — les mourants sont entourés d'ombres rampantes.",
+            "3. Plus les ombres sont denses et agitées, plus la mort est proche."
+        ],
+        duration: "Une scène."
+    },
+
+    minion_death_sense: {
+        id: "minion_death_sense",
+        name: "Sentir le Glas",
+        discipline: "necromancy",
+        level: 1,
+        description: "Ce rituel crée un lien mystique entre le Nécromant et ses serviteurs liés par le sang (goules, thralls). Si l'un d'entre eux meurt, le sorcier le ressent instantanément : une douleur sourde dans la poitrine, accompagnée d'une vision fugace du moment de la mort. Ce lien permet de savoir non seulement que le serviteur est mort, mais souvent comment et où.",
+        ingredients: "Une mèche de cheveux du serviteur, nouée avec un fil noir.",
+        steps: [
+            "1. Brûler la mèche de cheveux en prononçant le nom du serviteur.",
+            "2. Avaler les cendres mélangées à une goutte de son propre sang.",
+            "3. Le lien est établi — toute mort du serviteur sera ressentie comme un écho douloureux."
+        ],
+        duration: "Permanent (tant que le lien de sang existe)."
+    },
+
+    corpse_smile: {
+        id: "corpse_smile",
+        name: "Sourire du Cadavre",
+        discipline: "necromancy",
+        level: 1,
+        description: "Le Nécromant s'imprègne de l'aura de la mort, devenant plus intimidant pour les vivants et étrangement charismatique pour les morts. Les fantômes le perçoivent comme l'un des leurs, un passeur entre les mondes, et sont plus enclins à lui parler. Les mortels, eux, ressentent un malaise viscéral en sa présence, comme face à un cadavre ambulant.",
+        ingredients: "De la terre de cimetière frottée sur les joues.",
+        steps: [
+            "1. Étaler la terre sur le visage en traçant deux lignes sous les yeux.",
+            "2. Sourire largement en visualisant son propre cadavre.",
+            "3. L'aura de mort s'installe — les esprits s'inclinent, les vivants frissonnent."
+        ],
+        duration: "Une nuit."
+    },
+
+    blood_tear: {
+        id: "blood_tear",
+        name: "Une Larme de Sang",
+        discipline: "necromancy",
+        level: 1,
+        description: "En versant une larme de vitae, le Nécromant peut brièvement percevoir le monde à travers les yeux d'un fantôme présent. Il voit ce que l'esprit voit : le monde des vivants superposé aux Terres des Ombres, les chaînes émotionnelles qui lient les spectres à leurs ancres, et parfois des secrets que seuls les morts connaissent.",
+        ingredients: "Une larme de sang (vitae) versée dans un bol d'eau stagnante.",
+        steps: [
+            "1. Pleurer une larme de sang dans l'eau — elle doit couler naturellement.",
+            "2. Fixer la surface de l'eau en appelant le nom d'un esprit connu.",
+            "3. La vision se trouble, puis se clarifie — le monde spectral apparaît à travers les yeux du mort."
+        ],
+        duration: "Quelques minutes de concentration."
     },
 
     // ==========================================
@@ -404,19 +479,64 @@ export const RITUALS = {
 
     // --- NÉCROMANCIE NIVEAU 2 ---
 
+    shadow_armor: {
+        id: "shadow_armor",
+        name: "Armure de l'Ombre",
+        discipline: "necromancy",
+        level: 2,
+        description: "Le Nécromant tisse autour de lui un manteau d'ombre spectrale qui le protège des attaques provenant de l'au-delà. Les griffes des fantômes, les hurlements des spectres et les tentatives de possession glissent sur cette barrière comme l'eau sur l'huile. C'est une protection essentielle pour ceux qui s'aventurent trop souvent dans les affaires des morts.",
+        ingredients: "Un morceau de suaire funéraire porté autour des épaules.",
+        steps: [
+            "1. Draper le suaire sur ses épaules en murmurant les noms des morts apaisés.",
+            "2. Visualiser les ombres s'épaississant autour de soi comme une seconde peau.",
+            "3. Les attaques spirituelles sont absorbées par le manteau d'ombre."
+        ],
+        duration: "Une nuit."
+    },
+
+    puppet_flesh: {
+        id: "puppet_flesh",
+        name: "Chair de la Marionnette",
+        discipline: "necromancy",
+        level: 2,
+        description: "Ce rituel permet au Nécromant de manipuler un cadavre comme une marionnette macabre. Le corps peut marcher, gesticuler et même accomplir des tâches simples, bien qu'il soit évident pour quiconque l'observe de près qu'il n'est pas vraiment vivant. Les mouvements sont saccadés, les yeux vides, et une odeur de mort émane du pantin.",
+        ingredients: "Des fils de soie noire cousus dans les poignets et chevilles du cadavre.",
+        steps: [
+            "1. Coudre les fils aux articulations principales du corps.",
+            "2. Verser une goutte de vitae sur le front du mort.",
+            "3. Mimer les mouvements désirés — le cadavre les reproduit."
+        ],
+        duration: "Une scène (concentration requise)."
+    },
+
+    blood_din: {
+        id: "blood_din",
+        name: "Échange du Sang de la Mort",
+        discipline: "necromancy",
+        level: 2,
+        description: "Les fantômes sont des êtres affamés, privés de la chaleur de la vie. Ce rituel permet de nourrir un esprit avec du sang, lui offrant un bref répit de son existence froide. En échange, le fantôme est généralement plus coopératif, reconnaissant, voire dévoué. C'est la monnaie d'échange favorite des Nécromants pour négocier avec les morts.",
+        ingredients: "Un calice de pierre contenant du sang frais (mortel ou vitae).",
+        steps: [
+            "1. Verser le sang dans le calice en appelant l'esprit.",
+            "2. Le fantôme absorbe l'essence du sang — le liquide s'évapore lentement.",
+            "3. L'esprit, rassasié, devient temporairement plus docile et reconnaissant."
+        ],
+        duration: "L'effet sur l'esprit dure quelques heures."
+    },
+
     eyes_grave: {
         id: "eyes_grave",
         name: "Les Yeux de la Tombe",
         discipline: "necromancy",
         level: 2,
-        description: "Le Nécromant prépare un cadavre pour en faire un récepteur sensoriel à distance. En entrant en transe, il peut voir et entendre tout ce qui se passe devant les yeux du mort, même si ces yeux sont fermés ou décomposés. C'est un espionnage macabre mais terriblement efficace.",
-        ingredients: "Poudre d'argent consécrée et un cadavre relativement frais.",
+        description: "Une malédiction terrifiante qui force la victime à voir des visions de sa propre mort. Partout où elle regarde, elle aperçoit des présages funestes : son reflet pourrissant dans les miroirs, des vers rampant sous sa peau dans les ombres, son propre cadavre dans les visages des passants. Cette terreur constante peut briser l'esprit des plus faibles.",
+        ingredients: "Une photo de la victime et de la terre de sa future tombe.",
         steps: [
-            "1. Saupoudrer la poudre d'argent sur les paupières du cadavre.",
-            "2. Sceller le tout avec une goutte de vitae sur chaque œil.",
-            "3. Entrer en méditation profonde ; la vision du mort remplace celle du Nécromant."
+            "1. Enterrer la photo dans la terre pendant trois nuits.",
+            "2. Déterrer la photo et la brûler en prononçant la malédiction.",
+            "3. La victime commencera à voir sa mort partout — sommeil impossible, paranoïa croissante."
         ],
-        duration: "Tant que la concentration est maintenue."
+        duration: "Une lunaison (ou jusqu'à ce que le rituel soit brisé)."
     },
 
     hand_glory: {
@@ -424,14 +544,29 @@ export const RITUALS = {
         name: "Main de Gloire",
         discipline: "necromancy",
         level: 2,
-        description: "Un artefact classique du folklore occulte. La main séchée d'un pendu, imbibée de graisse humaine et allumée comme une bougie, plonge tous les mortels d'une maison dans un sommeil profond et sans rêves. Ils ne peuvent être réveillés par aucun bruit tant que la Main brûle.",
+        description: "Un artefact classique du folklore occulte. La main séchée d'un pendu, imbibée de graisse humaine et allumée comme une bougie, paralyse tous les occupants mortels d'une demeure. Ils restent figés, conscients mais incapables de bouger ou de crier, tant que la Main brûle. Les vampires et créatures surnaturelles ne sont pas affectés.",
         ingredients: "La main gauche d'un condamné à mort exécuté par pendaison, et de la graisse humaine pour fabriquer une mèche.",
         steps: [
             "1. Sécher et embaumer la main pendant une lunaison.",
             "2. Enrouler une mèche trempée dans la graisse autour des doigts.",
-            "3. Allumer la mèche. Tous les mortels dans le bâtiment s'endorment instantanément."
+            "3. Allumer la mèche dans la demeure — tous les mortels présents se figent instantanément."
         ],
         duration: "Tant que la flamme brûle (environ une heure)."
+    },
+
+    seal_tomb: {
+        id: "seal_tomb",
+        name: "Sceller le Tombeau",
+        discipline: "necromancy",
+        level: 2,
+        description: "Ce rituel crée une barrière spirituelle autour d'un lieu, empêchant tout esprit d'y entrer ou d'en sortir. C'est une prison pour les morts, utilisée pour contenir les fantômes dangereux ou pour protéger un sanctuaire des intrusions spectrales. Les esprits piégés à l'intérieur ne peuvent communiquer avec l'extérieur.",
+        ingredients: "Du sel noir mélangé à de la cendre de crémation.",
+        steps: [
+            "1. Tracer un cercle complet autour du lieu avec le mélange.",
+            "2. Prononcer les Mots de Scellage à chaque point cardinal.",
+            "3. Le lieu devient une prison pour les âmes — rien de spectral ne franchit la barrière."
+        ],
+        duration: "Permanent (jusqu'à ce que le cercle soit brisé)."
     },
 
     // ==========================================
@@ -617,6 +752,66 @@ export const RITUALS = {
 
     // --- NÉCROMANCIE NIVEAU 3 ---
 
+    summon_spectres: {
+        id: "summon_spectres",
+        name: "Appel des Spectres",
+        discipline: "necromancy",
+        level: 3,
+        description: "Le Nécromant ouvre brièvement une porte vers les Terres des Ombres et en laisse s'échapper des esprits mineurs — des fragments d'âmes brisées, des échos de morts oubliés. Ces spectres ne sont pas intelligents, mais ils sont vindicatifs et affamés. Ils harcèlent la cible désignée, la griffant, la terriffant et l'empêchant de dormir ou de se concentrer.",
+        ingredients: "Un os brisé d'un mort anonyme et du sel noir.",
+        steps: [
+            "1. Briser l'os au-dessus d'un cercle de sel noir.",
+            "2. Nommer la cible à voix haute trois fois.",
+            "3. Les spectres émergent du cercle et se lancent à la poursuite de la victime."
+        ],
+        duration: "Une nuit (les spectres disparaissent à l'aube)."
+    },
+
+    skull_blessing: {
+        id: "skull_blessing",
+        name: "Bénédiction du Crâne",
+        discipline: "necromancy",
+        level: 3,
+        description: "En préparant un crâne humain avec des rituels spécifiques, le Nécromant peut l'utiliser comme relais de communication. Tant qu'il tient le crâne, ses mots peuvent être entendus par quiconque se trouve près d'un autre crâne préparé de la même façon. C'est le téléphone des morts, utilisé par les Giovanni pour communiquer à travers les continents.",
+        ingredients: "Un crâne humain nettoyé et poli, de la cire noire.",
+        steps: [
+            "1. Remplir les orbites et la cavité buccale de cire noire fondue.",
+            "2. Graver le nom du destinataire sur le front du crâne.",
+            "3. Parler dans la mâchoire du crâne — les mots seront entendus par le crâne jumeau."
+        ],
+        duration: "Permanent (les crânes restent liés)."
+    },
+
+    false_repentance: {
+        id: "false_repentance",
+        name: "Exhumation de la Fausse Repentance",
+        discipline: "necromancy",
+        level: 3,
+        description: "Ce rituel force un esprit récalcitrant à confesser ses secrets les plus sombres. Le Nécromant torture l'âme de la façon la plus intime qui soit : en la confrontant à ses propres regrets et mensonges. Sous cette pression spirituelle, même les fantômes les plus têtus finissent par révéler ce qu'ils cachent.",
+        ingredients: "Une plume de corbeau et de l'encre faite de larmes et de suie.",
+        steps: [
+            "1. Tendre la plume vers le fantôme en récitant ses crimes supposés.",
+            "2. L'encre se matérialise et écrit les confessions de l'esprit sur une surface proche.",
+            "3. L'esprit ne peut mentir tant que la plume est pointée vers lui."
+        ],
+        duration: "Une scène."
+    },
+
+    death_form: {
+        id: "death_form",
+        name: "La Forme de la Mort",
+        discipline: "necromancy",
+        level: 3,
+        description: "Le vampire simule parfaitement la mort — pas simplement l'immobilité du sommeil diurne, mais une mort clinique complète. Son cœur cesse de battre (même pour un vampire, il y a un léger mouvement), sa température chute à celle de l'environnement, et il ne réagit à aucun stimulus. Même un examen médical complet le déclarera mort. C'est le camouflage ultime.",
+        ingredients: "Une pièce d'obolus placée sous la langue.",
+        steps: [
+            "1. S'allonger confortablement et placer la pièce sous la langue.",
+            "2. Visualiser son propre enterrement et accepter la mort temporaire.",
+            "3. Le corps devient indiscernable d'un cadavre — seule la destruction le réveillerait."
+        ],
+        duration: "Jusqu'à une nuit entière (le vampire peut se réveiller à volonté)."
+    },
+
     ritual_pneuma: {
         id: "ritual_pneuma",
         name: "Le Rituel du Pneuma",
@@ -625,11 +820,26 @@ export const RITUALS = {
         description: "Ce rituel permet de donner temporairement une forme tangible à un fantôme. L'esprit devient visible, solide et capable d'interagir physiquement avec le monde des vivants. Il peut être touché, blessé, et même frapper. Ce pouvoir est souvent utilisé pour interroger les morts ou pour forcer un spectre à se battre.",
         ingredients: "Un miroir brisé en sept morceaux et du sang du Nécromant.",
         steps: [
-            "1. Disperser les éclats de miroir autour du fantôme invisi.",
+            "1. Disperser les éclats de miroir autour du fantôme invisible.",
             "2. Verser le sang sur le plus grand éclat en appelant le nom du mort.",
             "3. Le fantôme se matérialise, reflété dans les tessons, puis gagne substance."
         ],
         duration: "Quelques minutes (jusqu'à une demi-heure avec concentration)."
+    },
+
+    chalice_drain: {
+        id: "chalice_drain",
+        name: "Vider le Calice de la Vie",
+        discipline: "necromancy",
+        level: 3,
+        description: "Ce rituel permet de stocker du sang à l'intérieur d'un cadavre sans qu'il ne se gâte ou ne coagule. Le corps mort devient une réserve de vitae parfaitement conservée. Les Giovanni utilisent souvent cette technique pour créer des 'garde-manger' discrets dans leurs cryptes familiales.",
+        ingredients: "Un cadavre frais et un entonnoir en os.",
+        steps: [
+            "1. Ouvrir une veine majeure du cadavre et y insérer l'entonnoir.",
+            "2. Verser le sang à stocker tout en récitant les Paroles de Stase.",
+            "3. Sceller la plaie — le sang restera frais indéfiniment à l'intérieur du mort."
+        ],
+        duration: "Permanent (tant que le cadavre n'est pas détruit)."
     },
 
     // ==========================================
@@ -786,19 +996,79 @@ export const RITUALS = {
 
     // --- NÉCROMANCIE NIVEAU 4 ---
 
+    soul_anchor: {
+        id: "soul_anchor",
+        name: "Balustrade de l'Âme",
+        discipline: "necromancy",
+        level: 4,
+        description: "Ce rituel puissant permet d'ancrer un fantôme à un objet physique de façon permanente. L'esprit ne peut plus s'éloigner de l'objet au-delà d'une certaine distance et y est lié jusqu'à la destruction de l'ancre. Les Nécromants utilisent cette technique pour créer des gardiens spectraux ou pour emprisonner des esprits gênants.",
+        ingredients: "Un objet ayant appartenu au défunt et du sang du Nécromant versé dessus.",
+        steps: [
+            "1. Placer l'objet au centre d'un cercle de cendres humaines.",
+            "2. Invoquer le fantôme en son centre et verser le sang sur l'objet.",
+            "3. Prononcer les Mots de Lien — l'esprit est aspiré dans l'objet comme dans une prison."
+        ],
+        duration: "Permanent (jusqu'à destruction de l'objet)."
+    },
+
     cadaver_touch: {
         id: "cadaver_touch",
         name: "Le Baiser du Cadavre",
         discipline: "necromancy",
         level: 4,
-        description: "Le Nécromant imprègne son corps de l'essence de la mort elle-même. Sa peau devient froide comme la glace, ses sens s'émoussent, et il cesse de ressentir la douleur physique. Paradoxalement, cette mort simulée le protège des blessures traumatiques, mais rend ses mouvements légèrement plus lents et maladroits.",
-        ingredients: "Un foulard trempé dans du formol et porté autour du cou.",
+        description: "Ce rituel peut être lancé sur autrui, transformant le corps d'une cible en une enveloppe froide et rigide comme celle d'un mort. La victime reste consciente mais paralysée, incapable de bouger ou de parler, sentant le froid de la tombe s'infiltrer dans ses os. C'est une forme de torture appréciée des Giovanni.",
+        ingredients: "Un foulard trempé dans du formol, noué autour du cou de la victime.",
         steps: [
-            "1. Enrouler l'écharpe autour du cou en respirant les vapeurs de formol.",
-            "2. Prononcer le Chant de Préservation, qui ralentit le flux de vitae.",
-            "3. La peau pâlit, les sensations s'évanouissent, et le corps devient comme celui d'un mort."
+            "1. Nouer l'écharpe autour du cou de la cible tout en murmurant les incantations.",
+            "2. Souffler un air glacial sur son visage.",
+            "3. Le corps se raidit, la peau blanchit — la victime est prisonnière de sa propre chair."
         ],
-        duration: "Une nuit entière."
+        duration: "Une nuit (ou jusqu'à ce que l'écharpe soit retirée)."
+    },
+
+    death_dance: {
+        id: "death_dance",
+        name: "Danse de la Mort",
+        discipline: "necromancy",
+        level: 4,
+        description: "Le Nécromant anime simultanément plusieurs cadavres pour leur faire accomplir une tâche simple : porter des objets, creuser, garder un périmètre. Les corps bougent avec une coordination sinistre, leurs mouvements synchronisés comme une danse macabre. Ils ne peuvent pas combattre efficacement, mais leur nombre peut être intimidant.",
+        ingredients: "Un bâton de chef d'orchestre trempé dans du formol.",
+        steps: [
+            "1. Disposer les cadavres en cercle autour de soi.",
+            "2. Lever le bâton et donner le premier 'temps' — les corps se lèvent.",
+            "3. Diriger leurs mouvements avec le bâton comme un chef d'orchestre funèbre."
+        ],
+        duration: "Une scène (concentration requise)."
+    },
+
+    ghost_blood_bond: {
+        id: "ghost_blood_bond",
+        name: "Lien du Sang d'Outre-Tombe",
+        discipline: "necromancy",
+        level: 4,
+        description: "Un rituel blasphématoire qui permet de créer un Lien de Sang avec un fantôme. L'esprit devient obsessionnellement dévoué au Nécromant, incapable de lui désobéir ou de lui nuire. C'est une servitude pire que la mort, car elle enchaîne l'âme elle-même à la volonté du vivant.",
+        ingredients: "Du sang du Nécromant versé dans les Terres des Ombres (via un portail ou un médium).",
+        steps: [
+            "1. Ouvrir un passage vers les Terres des Ombres.",
+            "2. Offrir trois gouttes de vitae au fantôme ciblé.",
+            "3. L'esprit boit l'essence — le lien se forme, aussi solide que pour un mortel."
+        ],
+        duration: "Permanent (suit les règles normales du Lien de Sang)."
+    },
+
+    spectre_shroud: {
+        id: "spectre_shroud",
+        name: "Suaire du Spectre",
+        discipline: "necromancy",
+        level: 4,
+        description: "Le Nécromant s'enveloppe dans un voile d'énergie spectrale qui le rend invisible aux yeux des vivants. Paradoxalement, il devient parfaitement visible pour les morts et les créatures de l'au-delà. C'est un camouflage parfait pour traverser une foule de mortels tout en communiquant avec les fantômes.",
+        ingredients: "Un linceul funéraire porté comme une cape.",
+        steps: [
+            "1. Draper le linceul sur ses épaules en fermant les yeux.",
+            "2. Visualiser sa propre mort et accepter de 'passer de l'autre côté'.",
+            "3. Le corps devient translucide pour les vivants mais solide pour les morts."
+        ],
+        duration: "Une scène."
     },
 
     // ==========================================
@@ -973,19 +1243,79 @@ export const RITUALS = {
 
     // --- NÉCROMANCIE NIVEAU 5 ---
 
+    soul_contract: {
+        id: "soul_contract",
+        name: "Contrat de l'Âme",
+        discipline: "necromancy",
+        level: 5,
+        description: "Le Nécromant peut négocier l'achat ou la vente d'une âme mortelle. Ce n'est pas une métaphore — l'âme elle-même est arrachée ou transférée, laissant le corps vivant mais vide de toute substance spirituelle. Les âmes ainsi acquises peuvent être utilisées comme monnaie d'échange avec les démons, stockées pour des rituels futurs, ou simplement collectionnées.",
+        ingredients: "Un contrat rédigé en sang sur du parchemin en peau humaine.",
+        steps: [
+            "1. Rédiger les termes exacts de l'échange avec une précision juridique.",
+            "2. Le mortel doit signer volontairement avec son propre sang.",
+            "3. Au moment de sa mort, l'âme appartiendra au détenteur du contrat au lieu de passer dans l'au-delà."
+        ],
+        duration: "Permanent (jusqu'à la mort du signataire)."
+    },
+
+    rhadamanthus_judgment: {
+        id: "rhadamanthus_judgment",
+        name: "Jugement de Rhadamanthe",
+        discipline: "necromancy",
+        level: 5,
+        description: "Le Nécromant invoque l'autorité des anciens juges des morts pour infliger un châtiment terrible à un esprit. L'âme ciblée est tourmentée par des visions de ses propres péchés, déchirée par des forces invisibles, et peut même être définitivement détruite si le Nécromant le souhaite. C'est l'arme ultime contre les fantômes récalcitrants.",
+        ingredients: "Une balance en bronze et une plume de corbeau.",
+        steps: [
+            "1. Placer la plume sur un plateau de la balance, l'âme du fantôme étant symboliquement sur l'autre.",
+            "2. Prononcer les crimes de l'esprit — la balance penche.",
+            "3. Si elle touche le sol, le fantôme est condamné et subit les tourments proportionnels à ses fautes."
+        ],
+        duration: "Instantanée (les effets sur l'esprit sont permanents)."
+    },
+
+    erebus_gift: {
+        id: "erebus_gift",
+        name: "Le Don d'Érèbe",
+        discipline: "necromancy",
+        level: 5,
+        description: "Le Nécromant projette son corps astral directement dans l'Outremonde, les Terres des Ombres. Son corps physique reste inerte et vulnérable, mais son esprit peut explorer le royaume des morts, communiquer avec des fantômes inaccessibles, et même visiter les Labyrinthes les plus profonds. C'est un voyage périlleux — certains ne reviennent jamais.",
+        ingredients: "Un miroir d'obsidienne et de l'encens de myrrhe.",
+        steps: [
+            "1. S'allonger devant le miroir et fixer son reflet jusqu'à ce qu'il disparaisse.",
+            "2. L'esprit se détache du corps et traverse le miroir comme une porte.",
+            "3. Le Nécromant se retrouve dans les Terres des Ombres — le chemin du retour n'est pas garanti."
+        ],
+        duration: "Jusqu'à ce que le Nécromant choisisse de revenir (ou soit détruit)."
+    },
+
+    puppet_possession: {
+        id: "puppet_possession",
+        name: "Possession de la Marionnette",
+        discipline: "necromancy",
+        level: 5,
+        description: "Le Nécromant abandonne temporairement son propre corps pour transférer son esprit dans un cadavre frais. Il peut alors agir à travers ce nouveau corps comme s'il était le sien, ressentant ce qu'il ressent, voyant ce qu'il voit. Son corps original reste en torpeur, vulnérable. C'est l'infiltration ultime.",
+        ingredients: "Un cadavre mort depuis moins de 24 heures et un fil d'argent reliant les deux corps.",
+        steps: [
+            "1. Allonger son corps à côté du cadavre et les relier par le fil d'argent.",
+            "2. Entrer en transe profonde et visualiser son esprit migrant.",
+            "3. Ouvrir les yeux du cadavre — le Nécromant le contrôle désormais totalement."
+        ],
+        duration: "Jusqu'à une nuit (le fil doit rester intact)."
+    },
+
     lich_transcendence: {
         id: "lich_transcendence",
         name: "Transcendance de la Liche",
         discipline: "necromancy",
         level: 5,
-        description: "Le rituel le plus sombre et le plus désespéré de la Nécromancie. Le Nécromant transfère son âme (ou ce qu'il en reste) dans un objet physique appelé Phylactère. Tant que le phylactère existe, le sorcier ne peut être véritablement détruit — son corps reconstituera ou son esprit trouvera un nouvel hôte. C'est une immortalité maudite, nécessitant un sacrifice innocent pour activer le lien.",
-        ingredients: "Un objet précieux ayant une valeur sentimentale énorme et la vie d'un innocent.",
+        description: "Le rituel ultime de la Nécromancie. Le Nécromant ne se contente plus de communiquer avec les morts — il devient l'un d'entre eux tout en restant parmi les vivants. Son existence se divise entre le monde matériel et les Terres des Ombres, lui permettant de percevoir les deux simultanément. C'est une transformation irréversible qui rapproche le vampire de la non-existence tout en lui offrant un pouvoir inégalé sur les morts.",
+        ingredients: "Un phylactère préparé avec trois mois de rituels, le sacrifice d'un innocent, et un morceau de son propre cœur.",
         steps: [
-            "1. Sacrifier l'innocent au-dessus de l'objet, laissant le sang imprégner chaque surface.",
-            "2. Prononcer les Paroles Interdites du Livre des Morts (un texte apocryphe).",
-            "3. Sentir son âme s'arracher du corps pour se loger dans le phylactère. Le corps reste mobile, mais vide."
+            "1. Extraire un fragment de son propre cœur (processus atrocement douloureux).",
+            "2. Le sceller dans le phylactère avec le sang de l'innocent.",
+            "3. Mourir. Pour de vrai. Puis revenir — différent, divisé, transcendant."
         ],
-        duration: "Permanent (tant que le phylactère n'est pas détruit)."
+        duration: "Permanent (transformation irréversible)."
     },
 
     // ==========================================
