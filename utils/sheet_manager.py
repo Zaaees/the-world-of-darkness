@@ -129,13 +129,16 @@ async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
         forum_channel = guild.get_channel(NPC_FORUM_CHANNEL_ID)
         if not isinstance(forum_channel, discord.ForumChannel):
             logger.error(f"Le salon NPC {NPC_FORUM_CHANNEL_ID} n'est pas un salon Forum ou est introuvable.")
-            # Tentative de fetch
             try:
                 forum_channel = await guild.fetch_channel(NPC_FORUM_CHANNEL_ID)
                 if not isinstance(forum_channel, discord.ForumChannel):
-                     return None
-            except Exception:
+                    logger.error(f"Le salon {NPC_FORUM_CHANNEL_ID} récupéré via fetch n'est pas un ForumChannel.")
+                    return None
+            except Exception as ex:
+                logger.error(f"Impossible de fetch le salon NPC {NPC_FORUM_CHANNEL_ID}: {ex}")
                 return None
+        
+        logger.info(f"Salon NPC trouvé: {forum_channel.name} ({forum_channel.id})")
 
         npc_name = npc_data.get("name", "PNJ Inconnu")
         clan_name = npc_data.get("clan", "")

@@ -1166,6 +1166,7 @@ export default function VampireSheet() {
                 onClick={() => {
                   setNpcCharacter(null);
                   setCharacter(null);
+                  setIsCainMode(true); // Assurer le retour au dashboard
                 }}
                 className="flex items-center gap-2 text-stone-400 hover:text-stone-200 text-sm"
               >
