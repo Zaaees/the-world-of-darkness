@@ -5,27 +5,29 @@ import { getClanDescription } from '../data/clanDescriptions';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
-export default function CharacterSheet({ userId, guildId, onUpdate }) {
-  const [loading, setLoading] = useState(true);
+export default function CharacterSheet({ userId, guildId, onUpdate, initialData, onSave }) {
+  const [loading, setLoading] = useState(!initialData);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!initialData); // Mode édition par défaut si new ou PNJ
 
-  const [clanId, setClanId] = useState(null);
+  const [clanId, setClanId] = useState(initialData?.clan || null); // Le clan peut être passé
   const [sheetData, setSheetData] = useState({
-    name: '',
-    age: '',
-    sex: '',
-    physical_desc: '',
-    mental_desc_pre: '',
-    mental_desc_post: '',
-    history: '',
-    image_url: ''
+    name: initialData?.name || '',
+    age: initialData?.age || '',
+    sex: initialData?.sex || '',
+    physical_desc: initialData?.physical_desc || '',
+    mental_desc_pre: initialData?.mental_desc_pre || '',
+    mental_desc_post: initialData?.mental_desc_post || '',
+    history: initialData?.history || '',
+    image_url: initialData?.image_url || ''
   });
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  // Charger les données
+  // Charger les données (seulement si pas d'initialData)
   useEffect(() => {
+    if (initialData) return;
+
     const loadData = async () => {
       setLoading(true);
       try {
@@ -70,7 +72,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate }) {
     };
 
     loadData();
-  }, [userId, guildId]);
+  }, [userId, guildId, initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,25 +83,34 @@ export default function CharacterSheet({ userId, guildId, onUpdate }) {
     setSaving(true);
     setError(null);
     try {
-      const response = await fetch(`${API_URL}/api/character-sheet`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Discord-User-ID': userId,
-          'X-Discord-Guild-ID': guildId,
-        },
-        body: JSON.stringify(sheetData)
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setIsEditing(false);
+      if (onSave) {
+        // En mode PNJ/Admin, on délègue la sauvegarde
+        await onSave(sheetData);
         if (onUpdate && sheetData.name) {
           onUpdate({ name: sheetData.name });
         }
+        setIsEditing(false);
       } else {
-        setError(data.error || "Erreur lors de la sauvegarde.");
+        // Mode Joueur standard
+        const response = await fetch(`${API_URL}/api/character-sheet`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Discord-User-ID': userId,
+            'X-Discord-Guild-ID': guildId,
+          },
+          body: JSON.stringify(sheetData)
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          setIsEditing(false);
+          if (onUpdate && sheetData.name) {
+            onUpdate({ name: sheetData.name });
+          }
+        } else {
+          setError(data.error || "Erreur lors de la sauvegarde.");
+        }
       }
     } catch (err) {
       console.error("Erreur sauvegarde:", err);

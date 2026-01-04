@@ -166,9 +166,6 @@ async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
         
         content_parts.append(header)
         
-        if npc_data.get("description"):
-            content_parts.append(f"**Description**\n{format_paragraph(npc_data['description'])}")
-            
         # Disciplines (si présentes)
         disciplines = npc_data.get("disciplines", {})
         if disciplines:
@@ -176,6 +173,17 @@ async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
             for disc, level in disciplines.items():
                 disc_text += f"- {disc.capitalize()}: {level}\n"
             content_parts.append(disc_text)
+
+        # Contenu de la fiche (Bio/Histoire) si présent
+        sheet_data = npc_data.get("sheet_data")
+        if sheet_data:
+            # Formater comme une fiche joueur
+            # On passe le nom du PNJ comme auteur par défaut
+            sheet_parts = format_sheet_content(sheet_data, npc_name)
+            content_parts.extend(sheet_parts)
+        elif npc_data.get("description"):
+            # Fallback simple
+            content_parts.append(f"**Description**\n{format_paragraph(npc_data['description'])}")
 
         # Vérifier si un post existe déjà
         forum_post_id = npc_data.get("forum_post_id")

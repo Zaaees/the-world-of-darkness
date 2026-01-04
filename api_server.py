@@ -841,9 +841,25 @@ async def update_npc_handler(request):
         if not result["success"]:
              return web.json_response(result, status=404)
              
-        # Si mise à jour réussie et que le PNJ a un post forum, on pourrait update auto, 
-        # mais on laisse l'utilisateur cliquer sur "Publier" pour valider les changements visuels
+        # Si mise à jour réussie, on publie automatiquement les changements sur Discord
+        # pour s'assurer que le forum est à jour (notamment la fiche bio)
         
+        # On récupère le PNJ complet à jour pour la publication
+        updated_npc = await get_npc(npc_id)
+        if updated_npc:
+            bot = request.app.get("bot")
+            if bot:
+                guild = bot.get_guild(int(guild_id)) # guild_id vient de l'auth
+                if guild:
+                    # Publier (création ou mise à jour du thread)
+                    # On le fait en async sans bloquer la réponse HTTP critique, 
+                    # mais ici on await pour être sûr que ça marche ou loguer l'erreur
+                    forum_post_id = await publish_npc_to_discord(bot, guild, updated_npc)
+                    
+                    if forum_post_id and forum_post_id != updated_npc.get("forum_post_id"):
+                         # Si l'ID du post a changé (ex: recréation), on met à jour la DB
+                         await update_npc(npc_id, forum_post_id=forum_post_id, status="public")
+
         return web.json_response(result)
     except Exception as e:
         logger.error(f"Erreur update_npc: {e}", exc_info=True)

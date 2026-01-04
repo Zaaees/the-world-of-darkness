@@ -233,6 +233,7 @@ async def init_database():
                 description TEXT,
                 disciplines TEXT, -- JSON
                 rituals TEXT, -- JSON
+                sheet_data TEXT, -- JSON (Données complètes de la fiche: histoire, bio, etc.)
                 status TEXT DEFAULT 'private', -- 'private', 'public'
                 forum_post_id INTEGER,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -243,6 +244,15 @@ async def init_database():
         # Migration : ajouter la colonne image_url si elle n'existe pas
         try:
             await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
+        except Exception:
+        try:
+            await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
+        except Exception:
+            pass
+            
+        # Migration : ajouter sheet_data à npcs
+        try:
+            await db.execute("ALTER TABLE npcs ADD COLUMN sheet_data TEXT")
         except Exception:
             pass
 
@@ -582,23 +592,19 @@ async def create_npc(
     blood_potency: int = 1,
     image_url: Optional[str] = None,
     description: Optional[str] = None,
-    disciplines: Optional[dict] = None,
-    rituals: Optional[list] = None,
+    disciplines: dict = None,
+    rituals: list = None,
+    sheet_data: dict = None,
     status: str = "private",
 ) -> dict:
     """Crée un nouveau PNJ."""
-    npc_id = str(uuid.uuid4())
-    disciplines_json = json.dumps(disciplines or {})
-    rituals_json = json.dumps(rituals or [])
-
+    npc_id = f"npc_{int(datetime.now().timestamp())}"
+    
     async with aiosqlite.connect(DATABASE_PATH) as db:
         await db.execute(
             """
-            INSERT INTO npcs (
-                id, guild_id, name, clan, blood_potency, image_url,
-                description, disciplines, rituals, status, created_at, updated_at
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            INSERT INTO npcs (id, guild_id, name, clan, blood_potency, disciplines, rituals, sheet_data, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 npc_id,
@@ -606,22 +612,15 @@ async def create_npc(
                 name,
                 clan,
                 blood_potency,
-                image_url,
-                description,
-                disciplines_json,
-                rituals_json,
-                status,
-            ),
+                json.dumps(disciplines or {}),
+                json.dumps(rituals or []),
+                json.dumps(sheet_data or {}),
+                status
+            )
         )
         await db.commit()
-
-        return {
-            "success": True,
-            "id": npc_id,
-            "name": name,
-            "clan": clan,
-            "blood_potency": blood_potency,
-        }
+        
+    return {"success": True, "npc_id": npc_id}
 
 
 async def get_npcs(guild_id: int) -> list[dict]:
@@ -664,7 +663,13 @@ async def get_npc(npc_id: str) -> Optional[dict]:
             npc["rituals"] = json.loads(npc["rituals"] or "[]")
         except Exception:
             npc["disciplines"] = {}
+            npc["disciplines"] = {}
             npc["rituals"] = []
+            
+        try:
+            npc["sheet_data"] = json.loads(npc.get("sheet_data") or "{}")
+        except Exception:
+            npc["sheet_data"] = {}
             
         return npc
 
@@ -673,7 +678,8 @@ async def update_npc(npc_id: str, **kwargs) -> dict:
     """Met à jour un PNJ."""
     allowed_fields = [
         "name", "clan", "blood_potency", "image_url", "description",
-        "disciplines", "rituals", "status", "forum_post_id"
+        "name", "clan", "blood_potency", "image_url", "description",
+        "disciplines", "rituals", "sheet_data", "status", "forum_post_id"
     ]
     
     updates = []
@@ -681,7 +687,7 @@ async def update_npc(npc_id: str, **kwargs) -> dict:
     
     for field, value in kwargs.items():
         if field in allowed_fields:
-            if field in ["disciplines", "rituals"] and isinstance(value, (dict, list)):
+            if field in ["disciplines", "rituals", "sheet_data"] and isinstance(value, (dict, list)):
                 value = json.dumps(value)
             
             updates.append(f"{field} = ?")

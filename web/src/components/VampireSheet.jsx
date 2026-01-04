@@ -1174,12 +1174,7 @@ export default function VampireSheet() {
 
               <div className="flex items-center gap-4">
                 <span className="text-stone-500 text-sm uppercase tracking-wider font-bold">MODE ÉDITION PNJ</span>
-                <button
-                  onClick={handlePublishNpc}
-                  className="bg-[#5865F2] hover:bg-[#4752C4] text-white px-3 py-1 rounded text-xs flex items-center gap-2 transition-colors"
-                >
-                  <Share2 size={12} /> Publier Fiche
-                </button>
+
               </div>
             </div>
           )}
@@ -1256,6 +1251,33 @@ export default function VampireSheet() {
               <CharacterSheet
                 userId={discordUser.id}
                 guildId={guildId}
+                // Passer les données du PNJ si on est en mode édition PNJ
+                // On fusionne activeChar avec le contenu de sheet_data pour que CharacterSheet ait accès à history (texte), age, etc.
+                initialData={npcCharacter ? {
+                  ...activeChar,
+                  ...(activeChar.sheet_data || {})
+                } : null}
+
+                // Gérer la sauvegarde différemment pour les PNJ
+                onSave={npcCharacter ? async (formData) => {
+                  // Séparer les champs top-level (name, image) des champs de fiche (texte)
+                  const { name, image_url, ...sheetFields } = formData;
+
+                  const updatedChar = {
+                    ...activeChar,
+                    name,
+                    image_url,
+                    sheet_data: sheetFields
+                  };
+
+                  // Mettre à jour l'état local
+                  setCharacter(updatedChar);
+                  setNpcCharacter(prev => ({ ...prev, name, image_url, sheet_data: sheetFields }));
+
+                  // Sauvegarder en BDD (ce qui déclenchera la publication Discord)
+                  await saveCharacter(updatedChar);
+                } : null}
+
                 onUpdate={(updates) => {
                   setCharacter(prev => ({ ...prev, ...updates }));
                 }}
