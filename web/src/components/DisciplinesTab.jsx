@@ -28,10 +28,11 @@ const DISCIPLINE_ICONS = {
   daimoinon: "😈"
 };
 
-instant: "Instantanée",
+const DURATION_LABELS = {
+  instant: "Instantanée",
   scene: "Scène",
-    prolonged: "Prolongée",
-      permanent: "Permanente"
+  prolonged: "Prolongée",
+  permanent: "Permanente"
 };
 
 // Composant pour afficher la durée
