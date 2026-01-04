@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollText, Droplet, Book, Users, Skull, Activity, Shield, Crown } from 'lucide-react';
 
 export default function RulesTab({ setActiveTab }) {
+    useEffect(() => {
+        console.log("RulesTab mounted");
+    }, []);
+
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
         if (element) {
@@ -40,7 +44,7 @@ export default function RulesTab({ setActiveTab }) {
             </div>
 
             {/* CONTENU */}
-            <div className="space-y-16">
+            <div className="space-y-16 text-stone-300">
 
                 {/* I. OUTILS NARRATIFS */}
                 <section id="tools" className="space-y-6">
@@ -49,9 +53,9 @@ export default function RulesTab({ setActiveTab }) {
                         <div className="h-px bg-red-900/30 flex-1"></div>
                     </div>
 
-                    <div className="prose prose-invert prose-stone max-w-none">
-                        <p>
-                            Le <strong>Panneau Vampirique</strong> (<code>/vampire</code>) est votre premier outil narratif. Cette commande discord vous donne accès à la gestion de votre Soif ainsi qu'au <strong>Vis Vitae</strong>, l'interface web que vous consultez actuellement.
+                    <div className="space-y-4">
+                        <p className="leading-relaxed">
+                            Le <strong className="text-stone-200">Panneau Vampirique</strong> (<code className="bg-stone-900 px-1 py-0.5 rounded text-red-400 text-sm">/vampire</code>) est votre premier outil narratif. Cette commande discord vous donne accès à la gestion de votre Soif ainsi qu'au <strong className="text-stone-200">Vis Vitae</strong>, l'interface web que vous consultez actuellement.
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
@@ -105,15 +109,15 @@ export default function RulesTab({ setActiveTab }) {
                         <div className="h-px bg-red-900/30 flex-1"></div>
                     </div>
                     <div className="bg-stone-900/20 p-6 rounded border-l-4 border-stone-700">
-                        <p className="text-stone-300 mb-4">
-                            Chaque vampire peut revendiquer un <strong>domaine</strong> au sein de la ville.
+                        <p className="text-stone-300 mb-4 font-serif text-lg">
+                            Chaque vampire peut revendiquer un <strong className="text-stone-100">domaine</strong> au sein de la ville.
                         </p>
-                        <ul className="list-disc list-inside space-y-2 text-stone-400 text-sm">
-                            <li>Les <strong>forums</strong> sont des sections urbaines, chaque <strong>post</strong> est un lieu.</li>
-                            <li>Apposez un <strong>Tag à votre nom</strong> pour marquer votre territoire.</li>
-                            <li><strong>Localisation par défaut :</strong> Si vous n'êtes pas en scène, vous êtes présumé être dans votre domaine.</li>
-                            <li><strong>Règle de Contiguïté :</strong> La Camarilla interdit les domaines éparpillés. Votre territoire doit être cohérent.</li>
-                            <li><strong>Souveraineté :</strong> Nul ne peut chasser chez vous sans permission. Gare aux guerres de domaine.</li>
+                        <ul className="list-disc list-inside space-y-3 text-stone-400 text-sm leading-relaxed">
+                            <li>Les <strong className="text-stone-300">forums</strong> sont des sections urbaines, chaque <strong className="text-stone-300">post</strong> est un lieu.</li>
+                            <li>Apposez un <strong className="text-stone-300">Tag à votre nom</strong> pour marquer votre territoire.</li>
+                            <li><strong className="text-stone-300">Localisation par défaut :</strong> Si vous n'êtes pas en scène, vous êtes présumé être dans votre domaine.</li>
+                            <li><strong className="text-stone-300">Règle de Contiguïté :</strong> La Camarilla interdit les domaines éparpillés. Votre territoire doit être cohérent.</li>
+                            <li><strong className="text-stone-300">Souveraineté :</strong> Nul ne peut chasser chez vous sans permission. Gare aux guerres de domaine.</li>
                         </ul>
                     </div>
                 </section>
@@ -124,19 +128,19 @@ export default function RulesTab({ setActiveTab }) {
                         <h2 className="text-2xl font-serif text-red-700">III. La Gestion de la Soif</h2>
                         <div className="h-px bg-red-900/30 flex-1"></div>
                     </div>
-                    <div className="prose prose-invert prose-stone text-stone-300">
-                        <p>
-                            La gestion repose désormais sur une <strong>Réserve de Vitae</strong> (visible sur la table ci-dessous ou le panneau discord).
+                    <div className="space-y-4">
+                        <p className="leading-relaxed">
+                            La gestion repose désormais sur une <strong className="text-stone-200">Réserve de Vitae</strong> (visible sur la table ci-dessous ou le panneau discord).
                         </p>
                         <div className="flex gap-6 mt-6 flex-col md:flex-row">
                             <div className="flex-1 bg-red-950/20 border border-red-900/40 p-4 rounded text-center">
-                                <h3 className="text-red-500 font-serif uppercase tracking-widest mb-2">Bouton « Soif »</h3>
+                                <h3 className="text-red-500 font-serif uppercase tracking-widest mb-2 font-bold">Bouton « Soif »</h3>
                                 <p className="text-xs text-stone-400">
                                     Permet de dépenser une quantité précise de Vitae. À utiliser manuellement après chaque discipline ou action coûteuse.
                                 </p>
                             </div>
                             <div className="flex-1 bg-green-950/20 border border-green-900/40 p-4 rounded text-center">
-                                <h3 className="text-green-600 font-serif uppercase tracking-widest mb-2">Bouton « Se nourrir »</h3>
+                                <h3 className="text-green-600 font-serif uppercase tracking-widest mb-2 font-bold">Bouton « Se nourrir »</h3>
                                 <p className="text-xs text-stone-400">
                                     Restaure intégralement votre réserve de Vitae après une scène de chasse.
                                 </p>
@@ -153,19 +157,19 @@ export default function RulesTab({ setActiveTab }) {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-stone-900 p-4 rounded border border-stone-800">
-                            <h3 className="text-stone-200 font-serif mb-2">Disciplines</h3>
-                            <p className="text-sm text-stone-500">Généralement <strong>1, 3 ou 9 Vitae</strong> selon le niveau du pouvoir.</p>
+                        <div className="bg-stone-900 p-4 rounded border border-stone-800 hover:border-stone-700 transition-colors">
+                            <h3 className="text-stone-200 font-serif mb-2 text-lg">Disciplines</h3>
+                            <p className="text-sm text-stone-500">Généralement <strong className="text-stone-300">1, 3 ou 9 Vitae</strong> selon le niveau du pouvoir.</p>
                         </div>
-                        <div className="bg-stone-900 p-4 rounded border border-stone-800">
-                            <h3 className="text-stone-200 font-serif mb-2">Exploits Physiques</h3>
-                            <p className="text-sm text-stone-500">Dépasser ses limites physiques (soulever une voiture, sauter un mur) : <strong>3 Vitae</strong>.</p>
+                        <div className="bg-stone-900 p-4 rounded border border-stone-800 hover:border-stone-700 transition-colors">
+                            <h3 className="text-stone-200 font-serif mb-2 text-lg">Exploits Physiques</h3>
+                            <p className="text-sm text-stone-500">Dépasser ses limites physiques (soulever une voiture, sauter un mur) : <strong className="text-stone-300">3 Vitae</strong>.</p>
                         </div>
-                        <div className="bg-stone-900 p-4 rounded border border-stone-800 col-span-1 md:col-span-2">
-                            <h3 className="text-stone-200 font-serif mb-2">Régénération</h3>
-                            <ul className="text-sm text-stone-500 space-y-1">
-                                <li className="flex justify-between"><span>Blessures Mineures</span> <span className="text-red-500 font-bold">1 Vitae</span></li>
-                                <li className="flex justify-between"><span>Blessures Graves</span> <span className="text-red-500 font-bold">3 Vitae</span></li>
+                        <div className="bg-stone-900 p-4 rounded border border-stone-800 col-span-1 md:col-span-2 hover:border-stone-700 transition-colors">
+                            <h3 className="text-stone-200 font-serif mb-2 text-lg">Régénération</h3>
+                            <ul className="text-sm text-stone-500 space-y-2">
+                                <li className="flex justify-between border-b border-stone-800 pb-1"><span>Blessures Mineures</span> <span className="text-red-500 font-bold">1 Vitae</span></li>
+                                <li className="flex justify-between border-b border-stone-800 pb-1"><span>Blessures Graves</span> <span className="text-red-500 font-bold">3 Vitae</span></li>
                                 <li className="flex justify-between"><span>Blessures Majeures</span> <span className="text-red-500 font-bold">9 Vitae</span></li>
                             </ul>
                         </div>
@@ -179,7 +183,7 @@ export default function RulesTab({ setActiveTab }) {
                         <div className="h-px bg-red-900/30 flex-1"></div>
                     </div>
 
-                    <div className="overflow-hidden rounded-lg border border-stone-800 mb-8">
+                    <div className="overflow-hidden rounded-lg border border-stone-800 mb-8 bg-stone-900/50">
                         <table className="w-full text-left text-sm text-stone-400">
                             <thead className="bg-stone-900 text-stone-200 font-serif uppercase tracking-wider">
                                 <tr>
@@ -188,7 +192,7 @@ export default function RulesTab({ setActiveTab }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-stone-800">
-                                <tr className="bg-stone-950/50">
+                                <tr className="bg-stone-950/30">
                                     <td className="px-4 py-2">Rang 1 (Néonate)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">5</td>
                                 </tr>
@@ -196,7 +200,7 @@ export default function RulesTab({ setActiveTab }) {
                                     <td className="px-4 py-2">Rang 2 (Ancilla Mineur)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">8</td>
                                 </tr>
-                                <tr className="bg-stone-950/50">
+                                <tr className="bg-stone-950/30">
                                     <td className="px-4 py-2">Rang 3 (Ancilla Majeur)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">12</td>
                                 </tr>
@@ -204,7 +208,7 @@ export default function RulesTab({ setActiveTab }) {
                                     <td className="px-4 py-2">Rang 4 (Ancien)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">18</td>
                                 </tr>
-                                <tr className="bg-stone-950/50">
+                                <tr className="bg-stone-950/30">
                                     <td className="px-4 py-2">Rang 5 (Mathusalem)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">25</td>
                                 </tr>
@@ -215,10 +219,10 @@ export default function RulesTab({ setActiveTab }) {
                     <div className="bg-stone-900/30 p-5 rounded border border-stone-800 space-y-4">
                         <h3 className="font-serif text-lg text-stone-300">Progression</h3>
                         <ol className="list-decimal list-inside space-y-2 text-sm text-stone-400">
-                            <li><strong>Actions RP :</strong> Accomplissez des hauts faits listés dans l'onglet Vitae.</li>
-                            <li><strong>Validation :</strong> Cochez l'action. Le MJ reçoit une notification.</li>
-                            <li><strong>Saturation :</strong> L'action validée remplit votre jauge de saturation.</li>
-                            <li><strong>Incubation :</strong> Au seuil critique, attendez une nuit (incubation) pour muter.</li>
+                            <li><strong className="text-stone-300">Actions RP :</strong> Accomplissez des hauts faits listés dans l'onglet Vitae.</li>
+                            <li><strong className="text-stone-300">Validation :</strong> Cochez l'action. Le MJ reçoit une notification.</li>
+                            <li><strong className="text-stone-300">Saturation :</strong> L'action validée remplit votre jauge de saturation.</li>
+                            <li><strong className="text-stone-300">Incubation :</strong> Au seuil critique, attendez une nuit (incubation) pour muter.</li>
                         </ol>
                     </div>
 
@@ -231,7 +235,7 @@ export default function RulesTab({ setActiveTab }) {
                             <li><strong className="text-red-400">Immunité Absolue :</strong> Impossible d'affecter un vampire de BP supérieur.</li>
                             <li><strong className="text-red-400">Résistance :</strong> Possible si BP égal ou inférieur.</li>
                             <li>
-                                <strong>Coût :</strong> <code>Coût du pouvoir × (Différence de Rang + 1)</code>
+                                <strong className="text-stone-300">Coût :</strong> <code className="bg-red-950/50 px-1 rounded text-red-300">Coût du pouvoir × (Différence de Rang + 1)</code>
                             </li>
                         </ul>
                         <p className="text-xs text-red-400/80 mt-2 italic">
@@ -249,36 +253,36 @@ export default function RulesTab({ setActiveTab }) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-4">
-                            <h3 className="font-serif text-stone-300 border-b border-stone-800 pb-2">Les Goules</h3>
+                            <h3 className="font-serif text-stone-300 border-b border-stone-800 pb-2 text-xl">Les Goules</h3>
                             <ul className="text-sm text-stone-400 space-y-2">
-                                <li><strong>Création :</strong> Donner son sang à un mortel pendant <strong>3 nuits distinctes</strong>.</li>
-                                <li><strong>Restriction :</strong> Boire sur sa propre goule ne nourrit pas (boucle fermée).</li>
-                                <li><strong>Vol :</strong> Boire la goule d'un autre brise le lien et détruit ses pouvoirs.</li>
+                                <li><strong className="text-stone-300">Création :</strong> Donner son sang à un mortel pendant <strong className="text-stone-300">3 nuits distinctes</strong>.</li>
+                                <li><strong className="text-stone-300">Restriction :</strong> Boire sur sa propre goule ne nourrit pas (boucle fermée).</li>
+                                <li><strong className="text-stone-300">Vol :</strong> Boire la goule d'un autre brise le lien et détruit ses pouvoirs.</li>
                             </ul>
                         </div>
 
                         <div className="space-y-4">
-                            <h3 className="font-serif text-stone-300 border-b border-stone-800 pb-2">Scènes de Chasse (Venatio)</h3>
+                            <h3 className="font-serif text-stone-300 border-b border-stone-800 pb-2 text-xl">Scènes de Chasse (Venatio)</h3>
                             <ul className="text-sm text-stone-400 space-y-2">
-                                <li><strong>Annonce :</strong> Obligatoire dans le salon <em>Venatio</em>.</li>
-                                <li><strong>Solo :</strong> Possible sans MJ (narration libre).</li>
-                                <li><strong>Vider la jauge :</strong> Nourrit complètement la Bête.</li>
+                                <li><strong className="text-stone-300">Annonce :</strong> Obligatoire dans le salon <em>Venatio</em>.</li>
+                                <li><strong className="text-stone-300">Solo :</strong> Possible sans MJ (narration libre).</li>
+                                <li><strong className="text-stone-300">Vider la jauge :</strong> Nourrit complètement la Bête.</li>
                             </ul>
                         </div>
                     </div>
 
                     <div className="mt-6 space-y-4">
-                        <div className="flex items-center gap-4 p-3 bg-stone-900/40 rounded">
-                            <div className="w-16 text-center font-bold text-green-500">100-80%</div>
-                            <div className="text-sm text-stone-300"><strong>Réserve Pleine :</strong> Alimentation "off" possible. Calme.</div>
+                        <div className="flex items-center gap-4 p-3 bg-stone-900/40 rounded border border-stone-800/50">
+                            <div className="w-20 text-center font-bold text-green-500 font-mono text-lg">100-80%</div>
+                            <div className="text-sm text-stone-300"><strong className="text-green-400">Réserve Pleine :</strong> Alimentation "off" possible. Calme.</div>
                         </div>
-                        <div className="flex items-center gap-4 p-3 bg-stone-900/40 rounded">
-                            <div className="w-16 text-center font-bold text-yellow-500">80-40%</div>
-                            <div className="text-sm text-stone-300"><strong>Faim Croissante :</strong> Scène suggérée. Compulsion visible.</div>
+                        <div className="flex items-center gap-4 p-3 bg-stone-900/40 rounded border border-stone-800/50">
+                            <div className="w-20 text-center font-bold text-yellow-500 font-mono text-lg">80-40%</div>
+                            <div className="text-sm text-stone-300"><strong className="text-yellow-400">Faim Croissante :</strong> Scène suggérée. Compulsion visible.</div>
                         </div>
                         <div className="flex items-center gap-4 p-3 bg-red-950/20 border border-red-900/30 rounded">
-                            <div className="w-16 text-center font-bold text-red-500">&lt; 40%</div>
-                            <div className="text-sm text-stone-300"><strong>Danger Critique :</strong> Scène <strong>OBLIGATOIRE</strong>. Mort de la victime quasi-certaine.</div>
+                            <div className="w-20 text-center font-bold text-red-500 font-mono text-lg">&lt; 40%</div>
+                            <div className="text-sm text-stone-300"><strong className="text-red-400">Danger Critique :</strong> Scène <strong className="uppercase">OBLIGATOIRE</strong>. Mort de la victime quasi-certaine.</div>
                         </div>
                     </div>
                 </section>
