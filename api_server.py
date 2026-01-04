@@ -558,10 +558,15 @@ async def get_vampire_profile_handler(request):
         player = await get_player(user_id, guild_id)
         vampire_data = await get_vampire_data(user_id, guild_id)
 
+        # Vérifier si le membre est MJ (Caïn Mode)
+        ROLE_GM = 1454188335957282897
+        is_gm = ROLE_GM in member_role_ids
+
         # Construire le profil
         profile = {
             "success": True,
             "has_vampire_role": has_vampire_role,
+            "is_gm": is_gm,
             "clan": player.get("clan") if player else None,
             # Debug info (à retirer en prod)
             "_debug_expected_role": ROLE_VAMPIRE,

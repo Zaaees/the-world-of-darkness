@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Book, Scroll, Flame, Skull, AlertCircle } from 'lucide-react';
-import { getRitualById } from '../data/rituals';
+import { getRitualById, getAllRituals } from '../data/rituals';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -64,13 +64,19 @@ const RitualCard = ({ ritual }) => {
     );
 };
 
-export default function RitualsTab({ userId, guildId, clan }) {
+export default function RitualsTab({ userId, guildId, clan, isCainMode }) {
     const [rituals, setRituals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchRituals = async () => {
+            if (isCainMode) {
+                setRituals(getAllRituals());
+                setLoading(false);
+                return;
+            }
+
             try {
                 const response = await fetch(`${API_URL}/api/rituals`, {
                     headers: {
@@ -100,7 +106,7 @@ export default function RitualsTab({ userId, guildId, clan }) {
         };
 
         fetchRituals();
-    }, [userId, guildId]);
+    }, [userId, guildId, isCainMode]);
 
     if (loading) {
         return <div className="text-center py-10 text-stone-500 animate-pulse">Ouverture du Grimoire...</div>;

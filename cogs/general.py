@@ -202,63 +202,6 @@ class GeneralCog(commands.Cog, name="Général"):
             f"par {ctx.author.id} sur {ctx.guild.id}"
         )
 
-    @commands.command(name="caïn")
-    @commands.has_permissions(administrator=True)
-    async def cain_command(self, ctx: commands.Context, member: discord.Member):
-        """
-        [Admin/MJ] Transforme un joueur en Caïn - Le Père des Vampires.
-
-        Accès à TOUTES les disciplines niveau max.
-        Usage: !caïn @membre
-        """
-        # Vérifier si le joueur a le rôle Vampire
-        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
-        if not has_vampire_role:
-            await ctx.send(f"❌ {member.display_name} n'a pas le rôle Vampire.")
-            return
-
-        # Récupérer ou créer les données du personnage
-        character = await get_from_google_sheets(member.id) or {}
-
-        # Configurer comme Caïn
-        character["race"] = "vampire"
-        character["clan"] = "cain"
-        character["bloodPotency"] = 5  # Niveau max
-        character["saturationPoints"] = 0
-
-        # Sauvegarder
-        await save_to_google_sheets(member.id, character)
-        await set_blood_potency(member.id, ctx.guild.id, 5)
-
-        embed = discord.Embed(
-            title="🔥 Caïn S'éveille 🔥",
-            description=(
-                f"**{member.display_name}** est devenu **CAÏN**\n"
-                f"*Le Père des Vampires - Celui qui porte la Marque*\n\n"
-                f"• Puissance du Sang : **5** (Maximum)\n"
-                f"• Disciplines : **TOUTES** (22 disciplines)\n"
-                f"• Niveaux : **1 à 5** (Accès complet)\n\n"
-                f"*« Quiconque me tuera, sera puni sept fois. »*"
-            ),
-            color=discord.Color.gold(),
-        )
-
-        await ctx.send(embed=embed)
-        
-        # Donner TOUS les rituels (importer depuis admin_rituals pour avoir la liste complète)
-        from cogs.admin_rituals import ALL_RITUALS
-        
-        count = 0
-        msg = await ctx.send("⏳ Enseignement des secrets arcaniques...")
-        for r in ALL_RITUALS:
-            if await add_player_ritual(member.id, ctx.guild.id, r):
-                count += 1
-        
-        await msg.edit(content=f"🔮 **Grimoire Complet Accordé.** ({count} nouveaux rituels sur {len(ALL_RITUALS)} total)")
-
-        logger.info(
-            f"{member.id} transformé en Caïn par {ctx.author.id} sur {ctx.guild.id}"
-        )
 
 
 async def setup(bot: commands.Bot):

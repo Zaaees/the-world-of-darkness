@@ -1401,3 +1401,5 @@ export const RITUALS = {
 export function getRitualById(id) {
     return RITUALS[id];
 }
+
+export const getAllRituals = () => Object.values(RITUALS);

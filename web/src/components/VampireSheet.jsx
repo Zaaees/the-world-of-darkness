@@ -405,6 +405,7 @@ export default function VampireSheet() {
 
   const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
   const [hasRituals, setHasRituals] = useState(false);
+  const [isCainMode, setIsCainMode] = useState(false);
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -988,6 +989,19 @@ export default function VampireSheet() {
             >
               <LogOut size={18} />
             </button>
+            {vampireProfile?.is_gm && (
+              <button
+                onClick={() => setIsCainMode(!isCainMode)}
+                className={`ml-2 px-3 py-1 rounded text-xs font-serif uppercase tracking-wider border transition-all flex items-center gap-2 ${isCainMode
+                  ? 'bg-red-900/20 border-red-800 text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.2)]'
+                  : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-red-900/50 hover:text-red-400'
+                  }`}
+                title="Mode Caïn (MJ)"
+              >
+                {isCainMode ? <Flame size={12} className="animate-pulse" /> : <Shield size={12} />}
+                Caïn
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -1026,7 +1040,7 @@ export default function VampireSheet() {
             Disciplines
           </button>
 
-          {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(character.clan?.toLowerCase()) || character.disciplines?.thaumaturgy || character.disciplines?.necromancy || hasRituals) && (
+          {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(character.clan?.toLowerCase()) || character.disciplines?.thaumaturgy || character.disciplines?.necromancy || hasRituals || isCainMode) && (
             <button
               onClick={() => setActiveTab('rituals')}
               className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
@@ -1188,7 +1202,8 @@ export default function VampireSheet() {
         {activeTab === 'disciplines' && (
           <DisciplinesTab
             clan={character.clan}
-            bloodPotency={character.bloodPotency}
+            bloodPotency={isCainMode ? 5 : character.bloodPotency}
+            isCainMode={isCainMode}
           />
         )}
 
@@ -1198,6 +1213,7 @@ export default function VampireSheet() {
             userId={discordUser.id}
             guildId={guildId}
             clan={character.clan}
+            isCainMode={isCainMode}
           />
         )}
 

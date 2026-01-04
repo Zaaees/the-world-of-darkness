@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Sparkles, Lock, Clock, Droplet } from 'lucide-react';
-import { getAvailableDisciplines, MAX_DISCIPLINE_LEVEL } from '../data/disciplines';
+import { getAvailableDisciplines, MAX_DISCIPLINE_LEVEL, DISCIPLINES } from '../data/disciplines';
 
 // Icônes par discipline
 const DISCIPLINE_ICONS = {
@@ -165,9 +165,15 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel }) => {
 };
 
 // Composant principal
-export default function DisciplinesTab({ clan, bloodPotency }) {
+export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
   const maxLevel = MAX_DISCIPLINE_LEVEL[bloodPotency] || 2;
-  const disciplines = getAvailableDisciplines(clan, bloodPotency);
+
+  let disciplines;
+  if (isCainMode) {
+    disciplines = Object.values(DISCIPLINES);
+  } else {
+    disciplines = getAvailableDisciplines(clan, bloodPotency);
+  }
 
   if (!clan || disciplines.length === 0) {
     return (

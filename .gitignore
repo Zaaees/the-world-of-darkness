@@ -24,3 +24,7 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
+
+# Images
+image clans/
+image zone/
