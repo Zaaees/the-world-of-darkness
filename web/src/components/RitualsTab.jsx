@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Book, Scroll, Flame, Skull, AlertCircle } from 'lucide-react';
-import { getRitualById } from '../../data/rituals';
+import { getRitualById } from '../data/rituals';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
