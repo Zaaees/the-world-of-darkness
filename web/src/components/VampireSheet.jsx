@@ -927,7 +927,7 @@ export default function VampireSheet() {
     );
   }
 
-  if (loading || (!character && !needsClanSelection)) {
+  if (loading || (!character && !needsClanSelection && !isCainMode)) {
     return (
       <div className="bg-[#0c0a09] min-h-screen flex items-center justify-center text-red-900 font-serif animate-pulse">
         Chargement de la Vitae...
