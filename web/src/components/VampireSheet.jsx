@@ -864,29 +864,8 @@ export default function VampireSheet() {
     return <LoginPage onLogin={handleLogin} error={authError} />;
   }
 
-  // Page de sélection de clan si l'utilisateur a le rôle Vampire mais pas de clan
-  if (needsClanSelection && !loading) {
-    const handleClanSelected = async (clanId) => {
-      // Recharger les données après sélection du clan
-      setNeedsClanSelection(false);
-      setLoading(true);
-      await loadCharacter();
-
-      // Rediriger automatiquement vers l'onglet Fiche
-      setActiveTab('character');
-    };
-
-    return (
-      <ClanSelection
-        userId={discordUser.id}
-        guildId={guildId}
-        onClanSelected={handleClanSelected}
-      />
-    );
-  }
-
-  // Page si l'utilisateur n'est pas un vampire
-  if (notVampire && !loading) {
+  // Page si l'utilisateur n'est pas un vampire (et pas besoin de sélection de clan)
+  if (notVampire && !loading && !needsClanSelection) {
     return (
       <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
         <div className="max-w-md w-full text-center">
@@ -906,7 +885,7 @@ export default function VampireSheet() {
     );
   }
 
-  if (loading || !character) {
+  if (loading || (!character && !needsClanSelection)) {
     return (
       <div className="bg-[#0c0a09] min-h-screen flex items-center justify-center text-red-900 font-serif animate-pulse">
         Chargement de la Vitae...
@@ -914,8 +893,14 @@ export default function VampireSheet() {
     );
   }
 
-  const currentStage = BLOOD_STAGES[character.bloodPotency] || BLOOD_STAGES[1];
-  const maxPoints = SATURATION_THRESHOLDS[character.bloodPotency] || 100;
+  // FALLBACK CHARACTER pour le mode Caïn ou l'affichage de l'en-tête pendant la sélection
+  const safeCharacter = character || {
+    ...DEFAULT_CHARACTER,
+    name: discordUser?.global_name || discordUser?.username || "Nouveau Vampire"
+  };
+
+  const currentStage = BLOOD_STAGES[safeCharacter.bloodPotency] || BLOOD_STAGES[1];
+  const maxPoints = SATURATION_THRESHOLDS[safeCharacter.bloodPotency] || 100;
   const CurrentIcon = currentStage.icon;
 
   // Utiliser le nom Discord avec accents (global_name) au lieu du username brut
@@ -925,7 +910,7 @@ export default function VampireSheet() {
     : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`);
 
   // Récupérer l'action de clan
-  const clanAction = character.clan ? CLAN_ACTIONS[character.clan.toLowerCase()] : null;
+  const clanAction = safeCharacter.clan ? CLAN_ACTIONS[safeCharacter.clan.toLowerCase()] : null;
 
   return (
     <div className="min-h-screen bg-[#0c0a09] text-stone-300 font-sans selection:bg-red-900/50 pb-12">
@@ -952,7 +937,7 @@ export default function VampireSheet() {
         )}
       </div>
 
-      {/* HEADER FIXE */}
+      {/* HEADER FIXE - Toujours visible pour permettre l'accès au bouton Caïn */}
       <header className="bg-stone-950/80 backdrop-blur border-b border-red-900/10 sticky top-0 z-20 px-6 py-4">
         <div className="max-w-2xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -965,11 +950,12 @@ export default function VampireSheet() {
               <input
                 className="bg-transparent border-none p-0 text-xl font-serif text-stone-200 placeholder-stone-700 focus:ring-0 w-48"
                 placeholder="Nom du Vampire"
-                value={character.name}
+                value={safeCharacter.name}
                 onChange={(e) => updateCharacterField('name', e.target.value)}
+                disabled={needsClanSelection}
               />
               <div className="text-xs text-red-700 uppercase tracking-widest font-bold mt-1">
-                {character.clan && `${character.clan} • `}Puissance {character.bloodPotency} • {currentStage.rank}
+                {safeCharacter.clan ? `${safeCharacter.clan} • ` : 'Sans Clan • '}Puissance {safeCharacter.bloodPotency} • {currentStage.rank}
               </div>
               {memberInfo && (
                 <div className="text-xs text-stone-400 mt-0.5">
@@ -1006,232 +992,250 @@ export default function VampireSheet() {
         </div>
       </header>
 
-      {/* NAVIGATION PAR ONGLETS */}
-      <div className="bg-stone-950/50 border-b border-stone-800">
-        <div className="max-w-2xl mx-auto flex">
-          <button
-            onClick={() => setActiveTab('character')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'character'
-              ? 'text-red-500 border-red-600 bg-stone-900/30'
-              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-              }`}
-          >
-            <FileText size={16} />
-            Fiche
-          </button>
-          <button
-            onClick={() => setActiveTab('sheet')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'sheet'
-              ? 'text-red-500 border-red-600 bg-stone-900/30'
-              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-              }`}
-          >
-            <Droplet size={16} />
-            Vitae
-          </button>
-          <button
-            onClick={() => setActiveTab('disciplines')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'disciplines'
-              ? 'text-red-500 border-red-600 bg-stone-900/30'
-              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-              }`}
-          >
-            <Sparkles size={16} />
-            Disciplines
-          </button>
-
-          {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(character.clan?.toLowerCase()) || character.disciplines?.thaumaturgy || character.disciplines?.necromancy || hasRituals || isCainMode) && (
-            <button
-              onClick={() => setActiveTab('rituals')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
-                ? 'text-red-500 border-red-600 bg-stone-900/30'
-                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-                }`}
-            >
-              <Book size={16} />
-              Grimoire
-            </button>
-          )}
-
-          <button
-            onClick={() => setActiveTab('ghouls')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'ghouls'
-              ? 'text-red-500 border-red-600 bg-stone-900/30'
-              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-              }`}
-          >
-            <Users size={16} />
-            Goules
-          </button>
-        </div>
-      </div>
-
-      <main className="max-w-2xl mx-auto p-6 space-y-10">
-
-        {/* ONGLET VITALITÉ (Bio) */}
-        {activeTab === 'character' && (
-          <CharacterSheet
+      {/* CONTENU PRINCIPAL */}
+      {needsClanSelection && !isCainMode ? (
+        <div className="max-w-4xl mx-auto p-6">
+          <ClanSelection
             userId={discordUser.id}
             guildId={guildId}
-          />
-        )}
-
-        {/* ONGLET VITAE */}
-        {activeTab === 'sheet' && (
-          <>
-            {/* JAUGE & NARRATION */}
-            <section>
-              <BloodGauge current={character.saturationPoints} max={maxPoints} isMutating={character.isMutating} level={character.bloodPotency} />
-
-              <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-5">
-                  <CurrentIcon size={100} />
-                </div>
-
-                <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
-                  {currentStage.title}
-                </h2>
-
-                <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
-                  "{currentStage.description}"
-                </p>
-              </div>
-            </section>
-
-            {/* MALÉDICTION DU CLAN */}
-            {character.clan && getClanDescription(character.clan) && (
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <Skull size={16} className="text-red-700" />
-                  <h3 className="text-sm font-serif text-red-700 uppercase tracking-widest">Malédiction du Clan</h3>
-                  <div className="h-px bg-red-900/30 flex-1"></div>
-                </div>
-
-                <div className="bg-red-950/20 border border-red-900/30 rounded-lg p-5">
-                  <h4 className="text-red-500 font-serif text-lg mb-3">
-                    {getClanDescription(character.clan).bane}
-                  </h4>
-                  <p className="text-stone-400 text-sm leading-relaxed">
-                    {getClanDescription(character.clan).baneDescription}
-                  </p>
-                </div>
-              </section>
-            )}
-
-            {/* ACTION DE CLAN */}
-            {clanAction && character.bloodPotency < 5 && isActionVisible(clanAction, character.bloodPotency) && (
-              <section>
-                <div className="flex items-center gap-3 mb-4">
-                  <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
-                  <div className="h-px bg-stone-900 flex-1"></div>
-                </div>
-
-                <ActionButton
-                  action={{ ...clanAction, points: getActionPoints(clanAction, character.bloodPotency) }}
-                  isDisabled={character.bloodPotency >= 5}
-                  isPending={(character.pendingActions || []).includes(clanAction.id)}
-                  isCompleted={false}
-                  isCooldown={false}
-                  isSubmitting={submittingAction === clanAction.id}
-                  onSubmit={handleSubmitAction}
-                />
-              </section>
-            )}
-
-            {/* ACTIONS PAR CATÉGORIE */}
-            <section>
-              <div className="flex items-center gap-3 mb-6">
-                <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
-                <div className="h-px bg-stone-900 flex-1"></div>
-              </div>
-
-              {character.bloodPotency >= 5 ? (
-                <div className="text-center text-xs text-stone-600 italic py-4">
-                  Votre sang a atteint la perfection statique. Il n'évolue plus.
-                </div>
-              ) : (
-                ACTION_CATEGORIES.map(category => (
-                  <ActionCategory
-                    key={category.id}
-                    category={category}
-                    character={character}
-                    completedActions={character.completedActions || []}
-                    pendingActions={character.pendingActions || []}
-                    cooldowns={character.cooldowns || {}}
-                    submittingAction={submittingAction}
-                    onSubmitAction={handleSubmitAction}
-                  />
-                ))
-              )}
-            </section>
-
-            {/* LOG */}
-            <section className="border-t border-stone-900 pt-2">
-              <button
-                onClick={() => setHistoryOpen(!historyOpen)}
-                className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
-              >
-                {historyOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                Mémoire du Sang
-              </button>
-
-              {historyOpen && (
-                <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
-                  {[...(character.history || [])].reverse().map((h, i) => (
-                    <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
-                      <span className={
-                        h.type === 'levelup' ? 'text-red-400 font-bold' :
-                          h.type === 'pending' ? 'text-yellow-500' :
-                            'text-stone-400'
-                      }>
-                        {h.text}
-                      </span>
-                      <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
-                    </div>
-                  ))}
-                  {(!character.history || character.history.length === 0) && (
-                    <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
-                  )}
-                </div>
-              )}
-            </section>
-          </>
-        )}
-
-        {/* ONGLET DISCIPLINES */}
-        {activeTab === 'disciplines' && (
-          <DisciplinesTab
-            clan={character.clan}
-            bloodPotency={isCainMode ? 5 : character.bloodPotency}
-            isCainMode={isCainMode}
-          />
-        )}
-
-        {/* ONGLET RITUELS */}
-        {activeTab === 'rituals' && (
-          <RitualsTab
-            userId={discordUser.id}
-            guildId={guildId}
-            clan={character.clan}
-            isCainMode={isCainMode}
-          />
-        )}
-
-        {/* ONGLET GOULES */}
-        {activeTab === 'ghouls' && (
-          <GhoulsTab
-            ghouls={character.ghouls || []}
-            clan={character.clan}
-            bloodPotency={character.bloodPotency}
-            onUpdateGhouls={(updatedGhouls) => {
-              const updated = { ...character, ghouls: updatedGhouls };
-              setCharacter(updated);
-              saveCharacter(updated);
+            onClanSelected={async (clanId) => {
+              setNeedsClanSelection(false);
+              setLoading(true);
+              await loadCharacter();
+              setActiveTab('character');
             }}
           />
-        )}
+        </div>
+      ) : (
+        <>
+          {/* NAVIGATION PAR ONGLETS (Cachée en mode sélection de clan sauf si Caïn) */}
+          <div className="bg-stone-950/50 border-b border-stone-800">
+            <div className="max-w-2xl mx-auto flex">
+              <button
+                onClick={() => setActiveTab('character')}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'character'
+                  ? 'text-red-500 border-red-600 bg-stone-900/30'
+                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                  }`}
+              >
+                <FileText size={16} />
+                Fiche
+              </button>
+              <button
+                onClick={() => setActiveTab('sheet')}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'sheet'
+                  ? 'text-red-500 border-red-600 bg-stone-900/30'
+                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                  }`}
+              >
+                <Droplet size={16} />
+                Vitae
+              </button>
+              <button
+                onClick={() => setActiveTab('disciplines')}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'disciplines'
+                  ? 'text-red-500 border-red-600 bg-stone-900/30'
+                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                  }`}
+              >
+                <Sparkles size={16} />
+                Disciplines
+              </button>
 
-      </main>
+              {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(safeCharacter.clan?.toLowerCase()) || safeCharacter.disciplines?.thaumaturgy || safeCharacter.disciplines?.necromancy || hasRituals || isCainMode) && (
+                <button
+                  onClick={() => setActiveTab('rituals')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
+                    ? 'text-red-500 border-red-600 bg-stone-900/30'
+                    : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                    }`}
+                >
+                  <Book size={16} />
+                  Grimoire
+                </button>
+              )}
+
+              <button
+                onClick={() => setActiveTab('ghouls')}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'ghouls'
+                  ? 'text-red-500 border-red-600 bg-stone-900/30'
+                  : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+                  }`}
+              >
+                <Users size={16} />
+                Goules
+              </button>
+            </div>
+          </div>
+
+          <main className="max-w-2xl mx-auto p-6 space-y-10">
+
+            {/* ONGLET VITALITÉ (Bio) */}
+            {activeTab === 'character' && (
+              <CharacterSheet
+                userId={discordUser.id}
+                guildId={guildId}
+              />
+            )}
+
+            {/* ONGLET VITAE */}
+            {activeTab === 'sheet' && (
+              <>
+                {/* JAUGE & NARRATION */}
+                <section>
+                  <BloodGauge current={safeCharacter.saturationPoints} max={maxPoints} isMutating={safeCharacter.isMutating} level={safeCharacter.bloodPotency} />
+
+                  <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-5">
+                      <CurrentIcon size={100} />
+                    </div>
+
+                    <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
+                      {currentStage.title}
+                    </h2>
+
+                    <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
+                      "{currentStage.description}"
+                    </p>
+                  </div>
+                </section>
+
+                {/* MALÉDICTION DU CLAN */}
+                {safeCharacter.clan && getClanDescription(safeCharacter.clan) && (
+                  <section>
+                    <div className="flex items-center gap-3 mb-4">
+                      <Skull size={16} className="text-red-700" />
+                      <h3 className="text-sm font-serif text-red-700 uppercase tracking-widest">Malédiction du Clan</h3>
+                      <div className="h-px bg-red-900/30 flex-1"></div>
+                    </div>
+
+                    <div className="bg-red-950/20 border border-red-900/30 rounded-lg p-5">
+                      <h4 className="text-red-500 font-serif text-lg mb-3">
+                        {getClanDescription(safeCharacter.clan).bane}
+                      </h4>
+                      <p className="text-stone-400 text-sm leading-relaxed">
+                        {getClanDescription(safeCharacter.clan).baneDescription}
+                      </p>
+                    </div>
+                  </section>
+                )}
+
+                {/* ACTION DE CLAN */}
+                {clanAction && safeCharacter.bloodPotency < 5 && isActionVisible(clanAction, safeCharacter.bloodPotency) && (
+                  <section>
+                    <div className="flex items-center gap-3 mb-4">
+                      <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
+                      <div className="h-px bg-stone-900 flex-1"></div>
+                    </div>
+
+                    <ActionButton
+                      action={{ ...clanAction, points: getActionPoints(clanAction, safeCharacter.bloodPotency) }}
+                      isDisabled={safeCharacter.bloodPotency >= 5}
+                      isPending={(safeCharacter.pendingActions || []).includes(clanAction.id)}
+                      isCompleted={false}
+                      isCooldown={false}
+                      isSubmitting={submittingAction === clanAction.id}
+                      onSubmit={handleSubmitAction}
+                    />
+                  </section>
+                )}
+
+                {/* ACTIONS PAR CATÉGORIE */}
+                <section>
+                  <div className="flex items-center gap-3 mb-6">
+                    <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
+                    <div className="h-px bg-stone-900 flex-1"></div>
+                  </div>
+
+                  {safeCharacter.bloodPotency >= 5 ? (
+                    <div className="text-center text-xs text-stone-600 italic py-4">
+                      Votre sang a atteint la perfection statique. Il n'évolue plus.
+                    </div>
+                  ) : (
+                    ACTION_CATEGORIES.map(category => (
+                      <ActionCategory
+                        key={category.id}
+                        category={category}
+                        character={safeCharacter}
+                        completedActions={safeCharacter.completedActions || []}
+                        pendingActions={safeCharacter.pendingActions || []}
+                        cooldowns={safeCharacter.cooldowns || {}}
+                        submittingAction={submittingAction}
+                        onSubmitAction={handleSubmitAction}
+                      />
+                    ))
+                  )}
+                </section>
+
+                {/* LOG */}
+                <section className="border-t border-stone-900 pt-2">
+                  <button
+                    onClick={() => setHistoryOpen(!historyOpen)}
+                    className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
+                  >
+                    {historyOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                    Mémoire du Sang
+                  </button>
+
+                  {historyOpen && (
+                    <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
+                      {[...(safeCharacter.history || [])].reverse().map((h, i) => (
+                        <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
+                          <span className={
+                            h.type === 'levelup' ? 'text-red-400 font-bold' :
+                              h.type === 'pending' ? 'text-yellow-500' :
+                                'text-stone-400'
+                          }>
+                            {h.text}
+                          </span>
+                          <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
+                        </div>
+                      ))}
+                      {(!safeCharacter.history || safeCharacter.history.length === 0) && (
+                        <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
+                      )}
+                    </div>
+                  )}
+                </section>
+              </>
+            )}
+
+            {/* ONGLET DISCIPLINES */}
+            {activeTab === 'disciplines' && (
+              <DisciplinesTab
+                clan={safeCharacter.clan}
+                bloodPotency={isCainMode ? 5 : safeCharacter.bloodPotency}
+                isCainMode={isCainMode}
+              />
+            )}
+
+            {/* ONGLET RITUELS */}
+            {activeTab === 'rituals' && (
+              <RitualsTab
+                userId={discordUser.id}
+                guildId={guildId}
+                clan={safeCharacter.clan}
+                isCainMode={isCainMode}
+              />
+            )}
+
+            {/* ONGLET GOULES */}
+            {activeTab === 'ghouls' && (
+              <GhoulsTab
+                ghouls={safeCharacter.ghouls || []}
+                clan={safeCharacter.clan}
+                bloodPotency={safeCharacter.bloodPotency}
+                onUpdateGhouls={(updatedGhouls) => {
+                  const updated = { ...safeCharacter, ghouls: updatedGhouls };
+                  setCharacter(updated);
+                  saveCharacter(updated);
+                }}
+              />
+            )}
+
+          </main>
+        </>
+      )}
     </div>
   );
 }
