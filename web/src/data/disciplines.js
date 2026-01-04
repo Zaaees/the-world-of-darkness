@@ -108,28 +108,28 @@ export const DISCIPLINES = {
         name: "Grâce Féline",
         bloodCost: 0,
         duration: "permanent",
-        description: "Ton corps se meut avec une fluidité surnaturelle qui défie les lois de la biomécanique. Esquive les coups avec des torsions impossibles, rattrape un objet qui tombe avant qu'il ne touche le sol, tourne un coin en pleine course sans ralentir. Aux yeux des mortels, tu sembles simplement très agile. Ceux qui savent reconnaissent le signe du prédateur."
+        description: "Ton corps réagit avant même que ton esprit ne commande. Plus qu'une vitesse brute, c'est un équilibre parfait et surnaturel. Tu ne trébuches jamais, tu rattrapes un verre qui tombe avant qu'une goutte ne s'en échappe, tu esquives un coup que tu n'avais même pas vu venir. Tu es perpétuellement en état d'alerte physiologique parfaite."
       },
       {
         level: 2,
         name: "Rapidité",
         bloodCost: 1,
         duration: "scene",
-        description: "Invoque le sang et le monde ralentit. Tu dégaines ton arme, tires, et la ranges avant que ton adversaire n'ait fini de cligner des yeux. Frappe deux fois dans le temps qu'il faut à un mortel pour lever son poing. Cours le long d'un couloir, ouvre chaque porte, fouille chaque pièce en quelques secondes. Les mortels voient un flou, une ombre trop rapide pour être suivie du regard."
+        description: "Tes membres deviennent flous. Ce n'est pas encore courir vite, c'est agir vite. Tu peux dégainer, tirer et rengainer avant qu'un mortel ne cligne des yeux. Tu peux porter trois coups de couteau dans le temps qu'il en faut pour respirer. Pour un observateur, tu sembles avoir simplement sauté une étape dans la réalité."
       },
       {
         level: 3,
         name: "Fulgurance",
         bloodCost: 1,
         duration: "instant",
-        description: "Tu es là, puis là-bas. Les témoins jurent que tu t'es téléporté. En réalité, tu as traversé la distance en une fraction de seconde, trop vite pour que l'œil humain puisse suivre. Traverse une rue avant que le feu ne passe au rouge, apparais derrière ton ennemi alors qu'il te regardait de face il y a un instant. La distance n'a plus de sens à cette vitesse, seulement la ligne droite entre toi et ta destination."
+        description: "La distance n'a plus de sens. Tu peux traverser une pièce bondée sans bousculer personne, simplement en passant dans les 'interstices' de leur attention. Tu es ici, et la seconde d'après tu es derrière ton ennemi à l'autre bout de la rue. Tu deviens le cauchemar qui frappe et disparaît avant même que le son de l'impact ne parvienne aux témoins."
       },
       {
         level: 4,
         name: "Lenteur du Monde",
         bloodCost: 1,
         duration: "scene",
-        description: "Le temps se fige presque. Tu vois la balle sortir du canon au ralenti, tu lis les lèvres de ton ennemi formuler l'ordre avant qu'il ne sorte de sa bouche, tu observes chaque goutte d'eau de la pluie suspendue dans l'air. Tu agis, agis encore, et encore, accomplissant en un battement de cœur ce qui prendrait des secondes à un mortel. Vide ton chargeur, cours jusqu'à ton ennemi, recharge, tire à nouveau, tout cela pendant qu'il lève son bras pour se protéger."
+        description: "Ce n'est plus toi qui vas vite, c'est le monde qui s'arrête. Tu marches tranquillement entre les gouttes de pluie suspendues dans l'air. Tu as le temps de composer un poème pendant qu'une explosion se déploie au ralenti à côté de toi. Tu ne te contentes pas de réagir, tu planifies et exécutes avec une précision chirurgicale pendant que tes ennemis sont figés comme des statues de cire."
       },
       {
         level: 5,
@@ -137,7 +137,7 @@ export const DISCIPLINES = {
 
         bloodCost: 3,
         duration: "instant",
-        description: "Tu deviens vitesse pure. Traverse plusieurs pâtés de maisons en un clin d'œil, cours sur les murs et au plafond, ton inertie te portant là où la gravité ne peut pas te retenir. Pour les mortels, tu disparais simplement d'un endroit pour réapparaître ailleurs, laissant derrière toi un courant d'air et peut-être une image rémanente sur leur rétine. À cette vitesse, tu peux courir sur l'eau, attraper une flèche en plein vol, ou contourner une explosion."
+        description: "La gravité et l'inertie ne s'appliquent plus à toi. Tu deviens une force cinétique pure capable de courir à la verticale sur la façade d'un gratte-ciel ou de traverser une étendue d'eau sans t'y enfoncer. Ton passage crée un souffle d'air violent, et tu peux t'arrêter net depuis une vitesse supersonique sans ressentir l'impact. Tu n'es plus un corps, tu es un projectile vivant."
       }
     ]
   },
@@ -195,35 +195,35 @@ export const DISCIPLINES = {
         name: "Résilience",
         bloodCost: 0,
         duration: "permanent",
-        description: "Les coups qui briseraient les os d'un mortel te font à peine reculer. Une batte de baseball sur le crâne ? Tu secoues la tête et continues d'avancer. Tombe du deuxième étage et relève-toi. Reçois des coups de poing brutaux et encaisse sans broncher. Tes muscles morts et ton sang stagnant absorbent l'impact comme du caoutchouc. Les contusions et fractures guérissent en quelques nuits, ou instantanément si tu dépenses de la vitae."
+        description: "La douleur existe toujours, mais elle est... lointaine. Les coups qui feraient tomber un mortel te font à peine ciller. Une batte de baseball sur l'épaule ? Tu tournes la tête, agacé. Un coup de poing dans le ventre ? Tu expires calmement. Ton corps absorbe les impacts comme un sac de sable, sans broncher, sans reculer. Tu n'es pas encore invulnérable, mais tu es terriblement difficile à faire tomber."
       },
       {
         level: 2,
         name: "Endurance",
         bloodCost: 0,
         duration: "permanent",
-        description: "Les balles pénètrent ta chair mais ne causent que des blessures superficielles, comme si tu étais fait de bois dur. Un couteau planté dans ton ventre ne te ralentit même pas. Ta peau morte est comme du cuir tanné, tes os comme du chêne. Même le feu et les premiers rayons du soleil te brûlent moins qu'ils ne le devraient - tu as quelques précieuses secondes de plus pour t'échapper de l'incendie ou plonger dans l'ombre avant que ton corps ne se consume."
+        description: "Les balles entrent, mais elles ne t'arrêtent pas. Le couteau plonge dans ta chair, et tu continues d'avancer. Ce qui tuerait un mortel ne fait que te ralentir légèrement. Tu peux combattre avec une lame plantée dans le ventre, courir avec une balle dans la jambe. Les blessures sont là, visibles, mais elles semblent... optionnelles. Tu décideras de t'en occuper plus tard."
       },
       {
         level: 3,
         name: "Résistance",
         bloodCost: 0,
         duration: "permanent",
-        description: "Même les dégâts qui devraient te détruire définitivement ne font que t'affaiblir. Les griffes d'un loup-garou déchirent ta chair mais ne la brûlent pas comme elles le devraient. Une torche enflammée te roussit mais ne t'embrase pas immédiatement. Tu peux continuer à agir malgré des blessures qui mettraient un autre vampire en torpeur : un pieu dans le cœur te paralyse, mais ton esprit reste conscient, observant, attendant. La douleur existe toujours, mais elle est distante, sans importance."
+        description: "Même les choses qui devraient te détruire peinent à t'entamer. Le feu te brûle, mais lentement, te laissant le temps de fuir. Les griffes d'un loup-garou déchirent ta chair, mais ne la consument pas comme elles le devraient. Tu peux plonger ta main dans les flammes pour récupérer un objet, traverser un brasier pour t'échapper. La destruction elle-même doit négocier avec toi."
       },
       {
         level: 4,
         name: "Inébranlable",
         bloodCost: 0,
         duration: "permanent",
-        description: "La douleur n'est plus qu'un concept abstrait. Marche avec un bras arraché, combat avec le ventre ouvert, cours malgré les jambes brisées. Ton corps refuse simplement d'abandonner. Les flammes lèchent ta chair sans te faire hurler, le soleil te brûle mais tu peux tenir assez longtemps pour achever ta mission avant de t'effondrer. Les témoins te voient continuer après des blessures qui auraient tué dix hommes et comprennent qu'ils font face à quelque chose d'inhumain."
+        description: "Ton bras est arraché. Tu te relèves. Ta colonne vertébrale est brisée. Tu rampes vers ton ennemi. La moitié de ton corps est en feu. Tu continues de frapper. La douleur n'est plus qu'un bruit de fond lointain, un concept abstrait qui ne te concerne pas. Ton corps refuse simplement d'abandonner, même quand toute logique dit qu'il devrait s'effondrer. Tu es la chose qui ne reste pas à terre."
       },
       {
         level: 5,
         name: "Invulnérabilité",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tu es un monument de pierre animé. Les balles rebondissent sur ta peau en y laissant à peine une marque, les lames se tordent et se brisent contre tes os. Traverse un immeuble en feu pour sauver ton havre, tes vêtements et cheveux brûlent mais ton corps tient. Même la lumière du soleil, le fléau de tous les vampires, te consume lentement au lieu de t'incinérer instantanément. Tu n'es pas immortel, mais tu es la chose qui se rapproche le plus de l'indestructibilité dans la nuit."
+        description: "Tu es ce dont les chasseurs de vampires font des cauchemars. Les balles rebondissent sur ta peau comme sur du blindage. Les lames se tordent contre tes os. Le soleil lui-même te consume au ralenti là où il devrait t'incinérer en un instant. Tu peux traverser un immeuble en flammes, encaisser l'explosion d'une grenade, te relever après avoir été percuté par un camion. Tu n'es pas immortel. Mais tu es la chose qui s'en approche le plus."
       }
     ]
   },
@@ -281,35 +281,35 @@ export const DISCIPLINES = {
         name: "Vigueur",
         bloodCost: 0,
         duration: "permanent",
-        description: "La force coule dans tes membres comme du fer en fusion. Soulève une moto d'une main, plie une barre de fer, broie une poignée de porte en poudre. Tes poings frappent comme des marteaux, tes mains serrent comme des étaux. Un coup bien placé brise une mâchoire, une étreinte fracture les côtes. Les mortels te voient soulever ce qui devrait être impossible et reculent, instinctivement conscients qu'ils sont face à quelque chose de contre-nature."
+        description: "Ta poigne est un étau. Tes muscles ne tremblent jamais sous l'effort, ne fatiguent jamais. Tu peux tenir une prise toute la nuit, serrer une main jusqu'à ce que les os craquent sans même forcer. Ce n'est pas encore de la force explosive, c'est une fondation inébranlable : tu es l'ancre que rien ne peut déplacer, le roc contre lequel les vagues se brisent."
       },
       {
         level: 2,
         name: "Prouesse",
         bloodCost: 0,
         duration: "permanent",
-        description: "Défonce une porte d'un coup d'épaule, arrache un lampadaire du sol pour t'en servir comme arme, tords les barreaux de fer d'une fenêtre comme du papier d'aluminium. Projette un homme à travers la pièce d'une simple poussée. Escalade un mur en plantant tes doigts dans la brique comme dans de l'argile. Ta force commence à dépasser ce que la biomécanique humaine peut expliquer - les témoins ne peuvent que regarder, horrifiés."
+        description: "Les objets du monde mortel ne sont plus que des jouets fragiles. Tu plies les barreaux comme des branches mortes, tu enfonces les portes comme du carton, tu arraches les serrures avec tes doigts. Là où les autres utilisent des outils, tu n'as besoin que de tes mains. Le métal cède, le bois éclate, la pierre s'effrite sous ta prise."
       },
       {
         level: 3,
         name: "Brutalité",
         bloodCost: 0,
         duration: "permanent",
-        description: "Traverse un mur de briques comme une balle de canon. Écrase une portière de voiture en la refermant sur quelqu'un. Déchire un homme littéralement en deux si la Bête te prend. Saute d'un toit et atterris sur une voiture en l'écrasant sous ton poids et ta force. Une seule de tes frappes peut tuer un mortel net. Les armes de mêlée se brisent dans tes mains à cause de la force que tu y mets. Tu n'es plus fort qu'un humain, tu es une force de la nature."
+        description: "Chaque coup est une détonation. Un poing qui traverse un torse, une gifle qui brise une nuque, un coup de pied qui envoie un corps voler sur dix mètres. Tu ne frappes plus, tu détruis. Les mortels touchés par ta violence ne se relèvent pas. Les vampires réfléchissent à deux fois avant de croiser ta route. Ton corps est devenu une arme de démolition."
       },
       {
         level: 4,
         name: "Fureur",
         bloodCost: 0,
         duration: "permanent",
-        description: "Renverse une voiture d'une poussée, arrache une porte blindée de ses gonds, fais s'effondrer un pilier de béton d'un coup. Écrase l'acier dans tes mains, démolis un mur porteur d'un coup d'épaule. En combat, tes coups envoient les adversaires voler à travers les vitres et les murs. Tu peux déchirer un vampire en morceaux de tes mains nues, ou décapiter d'un seul coup. La terre tremble légèrement sous tes pas quand tu charges."
+        description: "Tu ne te mesures plus aux hommes, mais aux structures. Renverse une voiture d'une main, arrache un lampadaire du trottoir pour t'en servir comme gourdin, fais s'effondrer un mur porteur d'un coup d'épaule. Tes adversaires ne sont plus seulement les vivants, mais les bâtiments eux-mêmes. Tu es le tremblement de terre qui marche."
       },
       {
         level: 5,
         name: "Force Titanesque",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tu es une catastrophe naturelle à forme humaine. Arrache un arbre centenaire de terre, fais basculer un camion, détruis les fondations d'un bâtiment à mains nues. Arrête une voiture lancée à pleine vitesse en te plantant devant elle, tes pieds creusant des sillons dans l'asphalte. Projette un adversaire si fort qu'il traverse plusieurs murs. Lance une moto comme un javelot. À ce niveau de puissance, les mortels qui te voient en action parlent de démons ou de dieux. Et ils n'ont pas tort."
+        description: "Les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu."
       }
     ]
   },
