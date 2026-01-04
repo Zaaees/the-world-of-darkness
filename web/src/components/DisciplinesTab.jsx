@@ -175,7 +175,7 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
     disciplines = getAvailableDisciplines(clan, bloodPotency);
   }
 
-  if (!clan || disciplines.length === 0) {
+  if ((!clan && !isCainMode) || disciplines.length === 0) {
     return (
       <div className="text-center py-12">
         <div className="text-4xl mb-4">🧛</div>
