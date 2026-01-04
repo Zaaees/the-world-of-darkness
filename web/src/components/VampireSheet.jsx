@@ -1084,7 +1084,7 @@ export default function VampireSheet() {
             </div>
           )}
 
-          <main className="max-w-2xl mx-auto p-6 space-y-10">
+          <main className={`mx-auto p-6 space-y-10 ${activeTab === 'rules' ? 'max-w-5xl' : 'max-w-2xl'}`}>
 
             {/* ONGLET RÈGLEMENT */}
             {activeTab === 'rules' && (

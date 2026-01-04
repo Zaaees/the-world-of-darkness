@@ -10,7 +10,7 @@ export default function RulesTab({ setActiveTab }) {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-12 pb-20 animate-in fade-in duration-500">
+        <div className="max-w-4xl mx-auto space-y-12 pb-20">
 
             {/* EN-TÊTE */}
             <div className="text-center space-y-4 border-b border-stone-800 pb-8">
