@@ -75,7 +75,7 @@ class WorldOfDarknessBot(commands.Bot):
             logger.error(f"Erreur lors du démarrage du serveur API: {e}")
 
         # Charger les Cogs
-        cogs_to_load = ["cogs.vampire", "cogs.werewolf", "cogs.general", "cogs.blood_actions"]
+        cogs_to_load = ["cogs.vampire", "cogs.werewolf", "cogs.general", "cogs.blood_actions", "cogs.admin_rituals"]
 
         for cog_name in cogs_to_load:
             try:
