@@ -849,7 +849,8 @@ async def update_npc_handler(request):
         if updated_npc:
             bot = request.app.get("bot")
             if bot:
-                guild = bot.get_guild(int(guild_id)) # guild_id vient de l'auth
+                guild_id = request.headers.get("X-Discord-Guild-ID")
+                guild = bot.get_guild(int(guild_id)) if guild_id else None
                 if guild:
                     # Publier (création ou mise à jour du thread)
                     # On le fait en async sans bloquer la réponse HTTP critique, 
