@@ -67,12 +67,15 @@ class WorldOfDarknessBot(commands.Bot):
         logger.info("Base de données initialisée")
 
         # Démarrer le serveur API pour l'interface web
-        api_port = int(os.getenv("API_PORT", "8080"))
+        # Fly.io et autres PaaS fournissent souvent le port via la variable PORT
+        api_port = int(os.getenv("PORT", os.getenv("API_PORT", "8080")))
+        logger.info(f"Tentative de démarrage API sur le port {api_port} (Bind: 0.0.0.0)")
+        
         try:
             await start_api_server(port=api_port, bot=self)
-            logger.info(f"Serveur API démarré sur le port {api_port}")
+            logger.info(f"Serveur API démarré avec succès sur le port {api_port}")
         except Exception as e:
-            logger.error(f"Erreur lors du démarrage du serveur API: {e}")
+            logger.error(f"Erreur CRITIQUE lors du démarrage du serveur API: {e}", exc_info=True)
 
         # Charger les Cogs
         cogs_to_load = ["cogs.vampire", "cogs.werewolf", "cogs.general", "cogs.blood_actions", "cogs.admin_rituals"]
