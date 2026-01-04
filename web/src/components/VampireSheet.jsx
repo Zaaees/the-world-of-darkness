@@ -4,6 +4,7 @@ import DisciplinesTab from './DisciplinesTab';
 
 import GhoulsTab from './GhoulsTab';
 import RitualsTab from './RitualsTab';
+import RulesTab from './RulesTab';
 import CharacterSheet from './CharacterSheet';
 import ClanSelection from './ClanSelection';
 import { getClanDescription } from '../data/clanDescriptions';
