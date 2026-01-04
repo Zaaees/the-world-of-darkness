@@ -836,6 +836,10 @@ async def update_npc_handler(request):
 
     try:
         data = await request.json()
+        # Sécurité : on empêche le frontend d'écraser le forum_post_id (géré par le backend)
+        if "forum_post_id" in data:
+            del data["forum_post_id"]
+            
         result = await update_npc(npc_id, **data)
         
         if not result["success"]:
