@@ -323,7 +323,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Crainte Révérencielle",
         bloodCost: 0,
-        duration: "permanent",
+        duration: "scene",
         description: "Entre dans une pièce et tous les regards se tournent vers toi. Projette une aura de fascination magnétique ou de menace primordiale. Les conversations s'arrêtent, les gens s'écartent inconsciemment. Tu peux choisir l'émotion : admiration qui fait que les inconnus veulent te plaire, ou crainte qui les fait baisser les yeux. Pas besoin de contact visuel ou de mots, ta simple présence suffit. Les mortels trouvent des excuses pour rester près de toi ou pour fuir, selon ce que tu veux."
       },
       {
