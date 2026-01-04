@@ -918,7 +918,6 @@ def create_app(bot=None):
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)
     app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
-    app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
     app.router.add_get("/api/rituals", get_player_rituals_handler)
     
     # Routes GM / NPC
