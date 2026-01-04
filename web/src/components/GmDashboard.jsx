@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, UserPlus, Shield, Search, RefreshCw, Trash2, Edit, Save, Share2, ArrowLeft } from 'lucide-react';
-import { getClanDescription, CLANS } from '../data/clanDescriptions';
+import { getClanDescription, CLAN_DESCRIPTIONS as CLANS } from '../data/clanDescriptions';
 
 // API CONSTANTS
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -109,8 +109,8 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                     <button
                         onClick={() => setActiveTab('list')}
                         className={`pb-3 px-4 text-sm font-serif uppercase tracking-widest transition-colors ${activeTab === 'list'
-                                ? 'text-red-500 border-b-2 border-red-500'
-                                : 'text-stone-500 hover:text-stone-300'
+                            ? 'text-red-500 border-b-2 border-red-500'
+                            : 'text-stone-500 hover:text-stone-300'
                             }`}
                     >
                         <div className="flex items-center gap-2">
@@ -121,8 +121,8 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                     <button
                         onClick={() => setActiveTab('create')}
                         className={`pb-3 px-4 text-sm font-serif uppercase tracking-widest transition-colors ${activeTab === 'create'
-                                ? 'text-red-500 border-b-2 border-red-500'
-                                : 'text-stone-500 hover:text-stone-300'
+                            ? 'text-red-500 border-b-2 border-red-500'
+                            : 'text-stone-500 hover:text-stone-300'
                             }`}
                     >
                         <div className="flex items-center gap-2">
@@ -258,7 +258,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                 >
                                     <option value="">Sélectionner un clan...</option>
                                     {Object.entries(CLANS).map(([key, clan]) => (
-                                        <option key={key} value={key}>{clan.nom}</option>
+                                        <option key={key} value={key}>{clan.name}</option>
                                     ))}
                                 </select>
                             </div>
