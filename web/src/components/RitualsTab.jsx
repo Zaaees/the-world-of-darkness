@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Book, Scroll, Flame, Skull, AlertCircle } from 'lucide-react';
 import { getRitualById, getAllRituals } from '../data/rituals';
+import { getAvailableDisciplines } from '../data/disciplines';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -64,19 +65,72 @@ const RitualCard = ({ ritual }) => {
     );
 };
 
-export default function RitualsTab({ userId, guildId, clan, isCainMode }) {
+export default function RitualsTab({ userId, guildId, clan, isCainMode, character }) {
     const [rituals, setRituals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchRituals = async () => {
-            if (isCainMode) {
+            // Check if it's an NPC (UUID id)
+            // Note: character can be null during initial load, but VampireSheet always passes something if rendered
+            const isNpc = character && (typeof character.id === 'string' && character.id.length > 20);
+
+            // 1. GM Mode (God Mode) - Excluding NPC view
+            if (isCainMode && !isNpc) {
                 setRituals(getAllRituals());
                 setLoading(false);
                 return;
             }
 
+            // 2. NPC Logic
+            if (isNpc) {
+                let userRituals = [];
+                const allRituals = getAllRituals();
+
+                // a. Manual Rituals (stored as IDs)
+                if (character.rituals && Array.isArray(character.rituals)) {
+                    userRituals = character.rituals
+                        .map(id => getRitualById(id))
+                        .filter(r => r !== undefined);
+                }
+
+                // b. Auto-unlock for Clans based on Blood Potency
+                const clan = (character.clan || '').toLowerCase();
+                const bloodPotency = character.bloodPotency || 1;
+
+                // Get available disciplines and their max levels based on BP
+                const availableDiscs = getAvailableDisciplines(clan, bloodPotency);
+
+                // Tremere -> Thaumaturgy
+                const thaumInfo = availableDiscs.find(d => d.id === 'thaumaturgy');
+                if (thaumInfo) {
+                    const thaumLevel = thaumInfo.maxLevel;
+                    const autoRituals = allRituals.filter(r => r.discipline === 'thaumaturgy' && r.level <= thaumLevel);
+
+                    const currentIds = new Set(userRituals.map(r => r.id));
+                    autoRituals.forEach(r => {
+                        if (!currentIds.has(r.id)) userRituals.push(r);
+                    });
+                }
+
+                // Giovanni/Hecata -> Necromancy
+                const necroInfo = availableDiscs.find(d => d.id === 'necromancy');
+                if (necroInfo) {
+                    const necroLevel = necroInfo.maxLevel;
+                    const autoRituals = allRituals.filter(r => r.discipline === 'necromancy' && r.level <= necroLevel);
+
+                    const currentIds = new Set(userRituals.map(r => r.id));
+                    autoRituals.forEach(r => {
+                        if (!currentIds.has(r.id)) userRituals.push(r);
+                    });
+                }
+                setRituals(userRituals);
+                setLoading(false);
+                return;
+            }
+
+            // 3. Player Logic (Fetch from API)
             try {
                 const response = await fetch(`${API_URL}/api/rituals`, {
                     headers: {
@@ -106,7 +160,7 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode }) {
         };
 
         fetchRituals();
-    }, [userId, guildId, isCainMode]);
+    }, [userId, guildId, isCainMode, character]);
 
     if (loading) {
         return <div className="text-center py-10 text-stone-500 animate-pulse">Ouverture du Grimoire...</div>;

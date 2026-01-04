@@ -27,8 +27,13 @@ from utils.database import (
     get_character_sheet,
     save_character_sheet,
     get_player_rituals,
+    create_npc,
+    get_npcs,
+    get_npc,
+    update_npc,
+    delete_npc,
 )
-from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord
+from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord, publish_npc_to_discord
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -525,6 +530,8 @@ async def save_character_sheet_handler(request):
                                     logger.warning(f"Impossible de changer le pseudo de {user_id} (Permission manquante/Hiérarchie)")
                                 except Exception as e:
                                     logger.warning(f"Erreur changement pseudo pour {user_id}: {e}")
+                            else:
+                                logger.info(f"Skip update nickname pour {user_id} (Propriétaire du serveur)")
                 except Exception as e:
                     logger.error(f"Erreur tentative update nickname: {e}")
                 
@@ -737,6 +744,141 @@ async def get_player_rituals_handler(request):
         )
 
 
+# ============================================
+# Fonctions pour les PNJ (API)
+# ============================================
+
+
+async def get_npcs_handler(request):
+    """GET /api/gm/npcs - Récupérer tous les PNJ."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+
+    user_id, guild_id = auth
+
+    # Vérifier si GM (simple vérification si l'utilisateur est connu pour l'instant, 
+    # une vraie vérification de rôle serait mieux mais verify_vampire_auth ne renvoie que l'ID)
+    # On suppose que l'accès au frontend est protégé
+    
+    try:
+        npcs = await get_npcs(guild_id)
+        return web.json_response({"success": True, "npcs": npcs})
+    except Exception as e:
+        logger.error(f"Erreur get_npcs: {e}", exc_info=True)
+        return web.json_response({"success": False, "error": str(e)}, status=500)
+
+
+async def create_npc_handler(request):
+    """POST /api/gm/npcs - Créer un PNJ."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+
+    user_id, guild_id = auth
+
+    try:
+        data = await request.json()
+        name = data.get("name")
+        if not name:
+            return web.json_response({"success": False, "error": "Nom requis"}, status=400)
+            
+        result = await create_npc(
+            guild_id=guild_id,
+            name=name,
+            clan=data.get("clan"),
+            blood_potency=data.get("blood_potency", 1),
+            image_url=data.get("image_url"),
+            description=data.get("description"),
+            disciplines=data.get("disciplines"),
+            rituals=data.get("rituals"),
+            status=data.get("status", "private")
+        )
+        
+        return web.json_response(result)
+    except Exception as e:
+        logger.error(f"Erreur create_npc: {e}", exc_info=True)
+        return web.json_response({"success": False, "error": str(e)}, status=500)
+
+
+async def get_npc_handler(request):
+    """GET /api/gm/npcs/{npc_id} - Récupérer un PNJ spécifique."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+
+    npc_id = request.match_info.get("npc_id")
+
+    try:
+        npc = await get_npc(npc_id)
+        if not npc:
+             return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
+        return web.json_response({"success": True, "npc": npc})
+    except Exception as e:
+        logger.error(f"Erreur get_npc: {e}", exc_info=True)
+        return web.json_response({"success": False, "error": str(e)}, status=500)
+
+
+async def update_npc_handler(request):
+    """PUT /api/gm/npcs/{npc_id} - Mettre à jour un PNJ."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+
+    npc_id = request.match_info.get("npc_id")
+
+    try:
+        data = await request.json()
+        result = await update_npc(npc_id, **data)
+        
+        if not result["success"]:
+             return web.json_response(result, status=404)
+             
+        # Si mise à jour réussie et que le PNJ a un post forum, on pourrait update auto, 
+        # mais on laisse l'utilisateur cliquer sur "Publier" pour valider les changements visuels
+        
+        return web.json_response(result)
+    except Exception as e:
+        logger.error(f"Erreur update_npc: {e}", exc_info=True)
+        return web.json_response({"success": False, "error": str(e)}, status=500)
+
+
+async def publish_npc_handler(request):
+    """POST /api/gm/npcs/{npc_id}/publish - Publier le PNJ sur Discord."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+
+    user_id, guild_id = auth
+    npc_id = request.match_info.get("npc_id")
+
+    try:
+        bot = request.app.get("bot")
+        if not bot:
+            return web.json_response({"success": False, "error": "Bot non disponible"}, status=500)
+            
+        guild = bot.get_guild(guild_id)
+        if not guild:
+            return web.json_response({"success": False, "error": "Serveur introuvable"}, status=404)
+
+        npc = await get_npc(npc_id)
+        if not npc:
+             return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
+             
+        forum_post_id = await publish_npc_to_discord(bot, guild, npc)
+        
+        if forum_post_id:
+            # Enregistrer l'ID du post
+            await update_npc(npc_id, forum_post_id=forum_post_id, status="public")
+            return web.json_response({"success": True, "forum_post_id": forum_post_id})
+        else:
+            return web.json_response({"success": False, "error": "Échec publication Discord"}, status=500)
+            
+    except Exception as e:
+        logger.error(f"Erreur publish_npc: {e}", exc_info=True)
+        return web.json_response({"success": False, "error": str(e)}, status=500)
+
+
 # --- HEALTH CHECK ---
 
 
@@ -769,7 +911,15 @@ def create_app(bot=None):
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)
     app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
+    app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
     app.router.add_get("/api/rituals", get_player_rituals_handler)
+    
+    # Routes GM / NPC
+    app.router.add_get("/api/gm/npcs", get_npcs_handler)
+    app.router.add_post("/api/gm/npcs", create_npc_handler)
+    app.router.add_get("/api/gm/npcs/{npc_id}", get_npc_handler)
+    app.router.add_put("/api/gm/npcs/{npc_id}", update_npc_handler)
+    app.router.add_post("/api/gm/npcs/{npc_id}/publish", publish_npc_handler)
 
 
 

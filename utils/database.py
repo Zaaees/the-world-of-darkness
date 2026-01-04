@@ -221,6 +221,25 @@ async def init_database():
             )
         """)
 
+        # Table des PNJ (NPCs)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS npcs (
+                id TEXT PRIMARY KEY,
+                guild_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                clan TEXT,
+                blood_potency INTEGER DEFAULT 1,
+                image_url TEXT,
+                description TEXT,
+                disciplines TEXT, -- JSON
+                rituals TEXT, -- JSON
+                status TEXT DEFAULT 'private', -- 'private', 'public'
+                forum_post_id INTEGER,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
         # Migration : ajouter la colonne image_url si elle n'existe pas
         try:
             await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
@@ -549,6 +568,152 @@ async def get_saturation_points(user_id: int, guild_id: int) -> int:
     """Récupère les points de saturation depuis Google Sheets."""
     character = await get_from_google_sheets(user_id)
     return character.get("saturationPoints", 0) if character else 0
+
+
+# ============================================
+# Fonctions pour les PNJ (NPCs)
+# ============================================
+
+
+async def create_npc(
+    guild_id: int,
+    name: str,
+    clan: Optional[str] = None,
+    blood_potency: int = 1,
+    image_url: Optional[str] = None,
+    description: Optional[str] = None,
+    disciplines: Optional[dict] = None,
+    rituals: Optional[list] = None,
+    status: str = "private",
+) -> dict:
+    """Crée un nouveau PNJ."""
+    npc_id = str(uuid.uuid4())
+    disciplines_json = json.dumps(disciplines or {})
+    rituals_json = json.dumps(rituals or [])
+
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute(
+            """
+            INSERT INTO npcs (
+                id, guild_id, name, clan, blood_potency, image_url,
+                description, disciplines, rituals, status, created_at, updated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            """,
+            (
+                npc_id,
+                guild_id,
+                name,
+                clan,
+                blood_potency,
+                image_url,
+                description,
+                disciplines_json,
+                rituals_json,
+                status,
+            ),
+        )
+        await db.commit()
+
+        return {
+            "success": True,
+            "id": npc_id,
+            "name": name,
+            "clan": clan,
+            "blood_potency": blood_potency,
+        }
+
+
+async def get_npcs(guild_id: int) -> list[dict]:
+    """Récupère tous les PNJ d'un serveur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT * FROM npcs WHERE guild_id = ? ORDER BY name ASC", (guild_id,)
+        )
+        rows = await cursor.fetchall()
+        
+        npcs = []
+        for row in rows:
+            npc = dict(row)
+            # Decoder le JSON
+            try:
+                npc["disciplines"] = json.loads(npc["disciplines"] or "{}")
+                npc["rituals"] = json.loads(npc["rituals"] or "[]")
+            except Exception:
+                npc["disciplines"] = {}
+                npc["rituals"] = []
+            npcs.append(npc)
+            
+        return npcs
+
+
+async def get_npc(npc_id: str) -> Optional[dict]:
+    """Récupère un PNJ par son ID."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute("SELECT * FROM npcs WHERE id = ?", (npc_id,))
+        row = await cursor.fetchone()
+        
+        if not row:
+            return None
+            
+        npc = dict(row)
+        try:
+            npc["disciplines"] = json.loads(npc["disciplines"] or "{}")
+            npc["rituals"] = json.loads(npc["rituals"] or "[]")
+        except Exception:
+            npc["disciplines"] = {}
+            npc["rituals"] = []
+            
+        return npc
+
+
+async def update_npc(npc_id: str, **kwargs) -> dict:
+    """Met à jour un PNJ."""
+    allowed_fields = [
+        "name", "clan", "blood_potency", "image_url", "description",
+        "disciplines", "rituals", "status", "forum_post_id"
+    ]
+    
+    updates = []
+    values = []
+    
+    for field, value in kwargs.items():
+        if field in allowed_fields:
+            if field in ["disciplines", "rituals"] and isinstance(value, (dict, list)):
+                value = json.dumps(value)
+            
+            updates.append(f"{field} = ?")
+            values.append(value)
+            
+    if not updates:
+        return {"success": False, "error": "Aucun champ à mettre à jour"}
+        
+    updates.append("updated_at = CURRENT_TIMESTAMP")
+    values.append(npc_id)
+    
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Vérifier si le PNJ existe
+        cursor = await db.execute("SELECT id FROM npcs WHERE id = ?", (npc_id,))
+        if not await cursor.fetchone():
+            return {"success": False, "error": "PNJ non trouvé"}
+            
+        await db.execute(
+            f"UPDATE npcs SET {', '.join(updates)} WHERE id = ?",
+            tuple(values)
+        )
+        await db.commit()
+        
+        return {"success": True}
+
+
+async def delete_npc(npc_id: str):
+    """Supprime un PNJ."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("DELETE FROM npcs WHERE id = ?", (npc_id,))
+        await db.commit()
+        return {"success": True}
 
 
 # ============================================

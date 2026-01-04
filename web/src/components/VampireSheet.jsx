@@ -7,6 +7,7 @@ import RitualsTab from './RitualsTab';
 import RulesTab from './RulesTab';
 import CharacterSheet from './CharacterSheet';
 import ClanSelection from './ClanSelection';
+import GmDashboard from './GmDashboard';
 import { getClanDescription } from '../data/clanDescriptions';
 
 // --- CONFIGURATION ---
@@ -407,6 +408,7 @@ export default function VampireSheet() {
   const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
   const [hasRituals, setHasRituals] = useState(false);
   const [isCainMode, setIsCainMode] = useState(false);
+  const [npcCharacter, setNpcCharacter] = useState(null); // PNJ sélectionné en mode GM
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -696,7 +698,7 @@ export default function VampireSheet() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [discordUser]);
 
-  // Sauvegarder vers Google Sheets
+  // Sauvegarder (Google Sheets pour joueurs, API pour PNJ)
   // Note: On exclut les champs gérés par le bot Discord (completedActions, cooldowns, bloodPotency, saturationPoints)
   // pour éviter d'écraser les données lors de la sauvegarde automatique
   const saveCharacter = useCallback(async (charData) => {
@@ -704,7 +706,39 @@ export default function VampireSheet() {
 
     try {
       setSaving(true);
+      setError(null);
 
+      // CAS PNJ (NPC)
+      if (npcCharacter) {
+        // Pour les PNJ, on sauvegarde tout via l'API
+        // On fusionne charData avec les infos de base du NPC (id, etc)
+        const updateData = {
+          ...charData,
+          // Mapper les champs spécifiques si nécessaire
+          disciplines: charData.disciplines || {},
+          rituals: charData.rituals || [],
+        };
+
+        const response = await fetch(`${API_URL}/api/gm/npcs/${npcCharacter.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Discord-User-ID': discordUser.id,
+            'X-Discord-Guild-ID': guildId.toString()
+          },
+          body: JSON.stringify(updateData)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          setLastSaved(new Date());
+        } else {
+          setError(result.error || "Erreur sauvegarde PNJ");
+        }
+        return;
+      }
+
+      // CAS JOUEUR (Google Sheets)
       // Exclure les champs gérés par le bot pour ne pas les écraser
       const { completedActions, cooldowns, bloodPotency, saturationPoints, pendingActions, ...safeData } = charData;
 
@@ -728,17 +762,21 @@ export default function VampireSheet() {
     } finally {
       setSaving(false);
     }
-  }, [discordUser]);
+  }, [discordUser, npcCharacter, guildId]); // Ajouter npcCharacter et guildId aux dépendances
 
   // Sauvegarde automatique
   useEffect(() => {
-    if (character && discordUser && !loading) {
+    // Désactiver la sauvegarde auto pour les PNJ pour éviter trop d'appels API ou le faire moins souvent
+    // Ici on laisse actif
+    if ((character || npcCharacter) && discordUser && !loading) {
+      const charToSave = npcCharacter ? character : character; // character contient les données modifiées dans les deux cas (voir handleUpdate below)
+
       const timer = setTimeout(() => {
-        saveCharacter(character);
-      }, 1000);
+        saveCharacter(charToSave);
+      }, 2000); // 2 secondes pour les PNJ pour être plus soft
       return () => clearTimeout(timer);
     }
-  }, [character, discordUser, loading, saveCharacter]);
+  }, [character, npcCharacter, discordUser, loading, saveCharacter]);
 
   // Vérification mutation
   useEffect(() => {
@@ -768,9 +806,10 @@ export default function VampireSheet() {
 
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
-    if (!discordUser || loading || !character || needsClanSelection) return;
-
     const refreshInterval = setInterval(async () => {
+      // Ne pas rafraîchir en mode PNJ (pas de Google Sheets)
+      if (npcCharacter) return;
+
       try {
         const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(discordUser.id)}`;
         const response = await fetch(url);
@@ -895,13 +934,35 @@ export default function VampireSheet() {
   }
 
   // FALLBACK CHARACTER pour le mode Caïn ou l'affichage de l'en-tête pendant la sélection
-  const safeCharacter = character || {
+  // Si un PNJ est sélectionné, on utilise ses données
+  const displayCharacter = npcCharacter ? {
+    ...DEFAULT_CHARACTER,
+    ...npcCharacter,
+    // Adapter les champs PNJ aux champs attendus par l'UI
+    completedActions: [], // Pas d'actions pour les PNJ pour l'instant
+    pendingActions: [],
+    cooldowns: {},
+    isMutating: false
+  } : (character || {
     ...DEFAULT_CHARACTER,
     name: discordUser?.global_name || discordUser?.username || "Nouveau Vampire"
-  };
+  });
 
-  const currentStage = BLOOD_STAGES[safeCharacter.bloodPotency] || BLOOD_STAGES[1];
-  const maxPoints = SATURATION_THRESHOLDS[safeCharacter.bloodPotency] || 100;
+  // Utiliser une variable différente pour éviter de modifier la ref safeCharacter partout si on veut isoler
+  const safeCharacter = character || displayCharacter;
+
+  // En mode PNJ, character EST le PNJ (mis à jour par les inputs), mais displayCharacter est l'init
+  // On va dire que safeCharacter est ce qu'on affiche
+
+  // Correction: Pour que l'édition marche, il faut que 'character' state soit synchronisé avec le PNJ sélectionné
+  // On le fait dans le onClick du dashboard. 
+  // Ici safeCharacter doit pointer vers le state 'character' qui contient les données du PNJ
+
+  const activeChar = character || displayCharacter; // Priorité au state local (modifié)
+
+
+  const currentStage = BLOOD_STAGES[activeChar.bloodPotency] || BLOOD_STAGES[1];
+  const maxPoints = SATURATION_THRESHOLDS[activeChar.bloodPotency] || 100;
   const CurrentIcon = currentStage.icon;
 
   // Utiliser le nom Discord avec accents (global_name) au lieu du username brut
@@ -913,7 +974,7 @@ export default function VampireSheet() {
   // Récupérer l'action de clan
   // Nous devons mapper le clan de l'utilisateur vers la clé correcte
   // Le clan stocké en BD peut être n'importe quelle casse, normalisons-le
-  const userClanKey = safeCharacter.clan ? safeCharacter.clan.toLowerCase() : '';
+  const userClanKey = activeChar.clan ? activeChar.clan.toLowerCase() : '';
 
   // Gestion de la compatibilité des anciens noms si nécessaire (remapping)
   // Si la BD contient "hecata", on l'affiche comme "giovanni"
@@ -923,6 +984,37 @@ export default function VampireSheet() {
   if (userClanKey === 'banu_haqim') displayClanKey = 'assamites';
 
   const clanAction = CLAN_ACTIONS[displayClanKey];
+
+  // Handler pour la publication Discord
+  const handlePublishNpc = async () => {
+    if (!npcCharacter || !discordUser) return;
+    if (!confirm("Publier la fiche de ce PNJ sur Discord ?")) return;
+
+    try {
+      // On sauvegarde d'abord pour être sûr
+      await saveCharacter(character);
+
+      const response = await fetch(`${API_URL}/api/gm/npcs/${npcCharacter.id}/publish`, {
+        method: 'POST',
+        headers: {
+          'X-Discord-User-ID': discordUser.id,
+          'X-Discord-Guild-ID': guildId.toString()
+        }
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert("Fiche publiée avec succès !");
+        // Mettre à jour le state local pour refléter le statut public
+        setNpcCharacter(prev => ({ ...prev, status: 'public', forum_post_id: result.forum_post_id }));
+      } else {
+        alert("Erreur: " + result.error);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de la publication");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0c0a09] text-stone-300 font-sans selection:bg-red-900/50 pb-12">
@@ -959,11 +1051,11 @@ export default function VampireSheet() {
               className="w-12 h-12 rounded-full border-2 border-red-900/50"
             />
             <div>
-              <div className="text-xl font-serif text-stone-200 truncate w-48" title={safeCharacter.name}>
-                {safeCharacter.name || "Nom du Vampire"}
+              <div className="text-xl font-serif text-stone-200 truncate w-48" title={activeChar.name}>
+                {activeChar.name || "Nom du Vampire"}
               </div>
               <div className="text-xs text-red-700 uppercase tracking-widest font-bold mt-1">
-                {safeCharacter.clan ? `${safeCharacter.clan} • ` : 'Sans Clan • '}Puissance {safeCharacter.bloodPotency} • {currentStage.rank}
+                {activeChar.clan ? `${activeChar.clan} • ` : 'Sans Clan • '}Puissance {activeChar.bloodPotency} • {currentStage.rank}
               </div>
               {memberInfo && (
                 <div className="text-xs text-stone-400 mt-0.5">
@@ -999,7 +1091,18 @@ export default function VampireSheet() {
 
             {vampireProfile?.is_gm && (
               <button
-                onClick={() => setIsCainMode(!isCainMode)}
+                onClick={() => {
+                  const newMode = !isCainMode;
+                  setIsCainMode(newMode);
+                  if (!newMode) {
+                    setNpcCharacter(null);
+                    loadCharacter(); // Recharger le perso joueur
+                  } else {
+                    // On passe en mode Caïn, on vide le character pour afficher le dashboard
+                    setCharacter(null);
+                    setNpcCharacter(null);
+                  }
+                }}
                 className={`ml-2 px-3 py-1 rounded text-xs font-serif uppercase tracking-wider border transition-all flex items-center gap-2 ${isCainMode
                   ? 'bg-red-900/20 border-red-800 text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.2)]'
                   : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-red-900/50 hover:text-red-400'
@@ -1007,7 +1110,7 @@ export default function VampireSheet() {
                 title="Mode Caïn (MJ)"
               >
                 {isCainMode ? <Flame size={12} className="animate-pulse" /> : <Shield size={12} />}
-                Caïn
+                {npcCharacter ? "Quitter PNJ" : "Caïn"}
               </button>
             )}
           </div>
@@ -1015,7 +1118,27 @@ export default function VampireSheet() {
       </header>
 
       {/* CONTENU PRINCIPAL */}
-      {needsClanSelection && !isCainMode ? (
+
+      {/* 1. DASHBOARD MJ */}
+      {isCainMode && !npcCharacter ? (
+        <GmDashboard
+          discordUser={discordUser}
+          guildId={guildId}
+          onSelectNpc={(npc) => {
+            setNpcCharacter(npc);
+            // Préparer le character state avec les données du PNJ pour l'édition
+            setCharacter({
+              ...DEFAULT_CHARACTER,
+              ...npc,
+              // S'assurer que les objets complexes sont initialisés
+              disciplines: npc.disciplines || {},
+              rituals: npc.rituals || [],
+              ghouls: [], // Pas de goules pour les PNJ pour l'instant
+            });
+            setActiveTab('character');
+          }}
+        />
+      ) : needsClanSelection && !isCainMode ? (
         <div className="max-w-4xl mx-auto p-6">
           <ClanSelection
             userId={discordUser.id}
@@ -1030,6 +1153,31 @@ export default function VampireSheet() {
         </div>
       ) : (
         <>
+          {/* BARRE D'OUTILS PNJ */}
+          {npcCharacter && (
+            <div className="bg-stone-900 border-b border-stone-800 p-2 flex justify-between items-center px-6">
+              <button
+                onClick={() => {
+                  setNpcCharacter(null);
+                  setCharacter(null);
+                }}
+                className="flex items-center gap-2 text-stone-400 hover:text-stone-200 text-sm"
+              >
+                <ArrowLeft size={16} /> Retour à la liste
+              </button>
+
+              <div className="flex items-center gap-4">
+                <span className="text-stone-500 text-sm uppercase tracking-wider font-bold">MODE ÉDITION PNJ</span>
+                <button
+                  onClick={handlePublishNpc}
+                  className="bg-[#5865F2] hover:bg-[#4752C4] text-white px-3 py-1 rounded text-xs flex items-center gap-2 transition-colors"
+                >
+                  <Share2 size={12} /> Publier Fiche
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* NAVIGATION PAR ONGLETS */}
           <div className="bg-stone-950/50 border-b border-stone-800">
             <div className="max-w-2xl mx-auto flex">
@@ -1064,7 +1212,7 @@ export default function VampireSheet() {
                 Disciplines
               </button>
 
-              {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(safeCharacter.clan?.toLowerCase()) || safeCharacter.disciplines?.thaumaturgy || safeCharacter.disciplines?.necromancy || hasRituals || isCainMode) && (
+              {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(activeChar.clan?.toLowerCase()) || activeChar.disciplines?.thaumaturgy || activeChar.disciplines?.necromancy || hasRituals || isCainMode) && (
                 <button
                   onClick={() => setActiveTab('rituals')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
@@ -1113,7 +1261,7 @@ export default function VampireSheet() {
               <>
                 {/* JAUGE & NARRATION */}
                 <section>
-                  <BloodGauge current={safeCharacter.saturationPoints} max={maxPoints} isMutating={safeCharacter.isMutating} level={safeCharacter.bloodPotency} />
+                  <BloodGauge current={activeChar.saturationPoints} max={maxPoints} isMutating={activeChar.isMutating} level={activeChar.bloodPotency} />
 
                   <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
@@ -1131,7 +1279,7 @@ export default function VampireSheet() {
                 </section>
 
                 {/* MALÉDICTION DU CLAN */}
-                {safeCharacter.clan && getClanDescription(safeCharacter.clan) && (
+                {activeChar.clan && getClanDescription(activeChar.clan) && (
                   <section>
                     <div className="flex items-center gap-3 mb-4">
                       <Skull size={16} className="text-red-700" />
@@ -1141,17 +1289,17 @@ export default function VampireSheet() {
 
                     <div className="bg-red-950/20 border border-red-900/30 rounded-lg p-5">
                       <h4 className="text-red-500 font-serif text-lg mb-3">
-                        {getClanDescription(safeCharacter.clan).bane}
+                        {getClanDescription(activeChar.clan).bane}
                       </h4>
                       <p className="text-stone-400 text-sm leading-relaxed">
-                        {getClanDescription(safeCharacter.clan).baneDescription}
+                        {getClanDescription(activeChar.clan).baneDescription}
                       </p>
                     </div>
                   </section>
                 )}
 
                 {/* ACTION DE CLAN */}
-                {clanAction && safeCharacter.bloodPotency < 5 && isActionVisible(clanAction, safeCharacter.bloodPotency) && (
+                {clanAction && activeChar.bloodPotency < 5 && isActionVisible(clanAction, activeChar.bloodPotency) && (
                   <section>
                     <div className="flex items-center gap-3 mb-4">
                       <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
@@ -1159,9 +1307,9 @@ export default function VampireSheet() {
                     </div>
 
                     <ActionButton
-                      action={{ ...clanAction, points: getActionPoints(clanAction, safeCharacter.bloodPotency) }}
-                      isDisabled={safeCharacter.bloodPotency >= 5}
-                      isPending={(safeCharacter.pendingActions || []).includes(clanAction.id)}
+                      action={{ ...clanAction, points: getActionPoints(clanAction, activeChar.bloodPotency) }}
+                      isDisabled={activeChar.bloodPotency >= 5}
+                      isPending={(activeChar.pendingActions || []).includes(clanAction.id)}
                       isCompleted={false}
                       isCooldown={false}
                       isSubmitting={submittingAction === clanAction.id}
@@ -1177,7 +1325,7 @@ export default function VampireSheet() {
                     <div className="h-px bg-stone-900 flex-1"></div>
                   </div>
 
-                  {safeCharacter.bloodPotency >= 5 ? (
+                  {activeChar.bloodPotency >= 5 ? (
                     <div className="text-center text-xs text-stone-600 italic py-4">
                       Votre sang a atteint la perfection statique. Il n'évolue plus.
                     </div>
@@ -1186,10 +1334,10 @@ export default function VampireSheet() {
                       <ActionCategory
                         key={category.id}
                         category={category}
-                        character={safeCharacter}
-                        completedActions={safeCharacter.completedActions || []}
-                        pendingActions={safeCharacter.pendingActions || []}
-                        cooldowns={safeCharacter.cooldowns || {}}
+                        character={activeChar}
+                        completedActions={activeChar.completedActions || []}
+                        pendingActions={activeChar.pendingActions || []}
+                        cooldowns={activeChar.cooldowns || {}}
                         submittingAction={submittingAction}
                         onSubmitAction={handleSubmitAction}
                       />
@@ -1209,7 +1357,7 @@ export default function VampireSheet() {
 
                   {historyOpen && (
                     <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
-                      {[...(safeCharacter.history || [])].reverse().map((h, i) => (
+                      {[...(activeChar.history || [])].reverse().map((h, i) => (
                         <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
                           <span className={
                             h.type === 'levelup' ? 'text-red-400 font-bold' :
@@ -1221,7 +1369,7 @@ export default function VampireSheet() {
                           <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
                         </div>
                       ))}
-                      {(!safeCharacter.history || safeCharacter.history.length === 0) && (
+                      {(!activeChar.history || activeChar.history.length === 0) && (
                         <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
                       )}
                     </div>
@@ -1233,8 +1381,8 @@ export default function VampireSheet() {
             {/* ONGLET DISCIPLINES */}
             {activeTab === 'disciplines' && (
               <DisciplinesTab
-                clan={safeCharacter.clan}
-                bloodPotency={isCainMode ? 5 : safeCharacter.bloodPotency}
+                clan={activeChar.clan}
+                bloodPotency={isCainMode && !npcCharacter ? 5 : activeChar.bloodPotency}
                 isCainMode={isCainMode}
               />
             )}
@@ -1244,19 +1392,20 @@ export default function VampireSheet() {
               <RitualsTab
                 userId={discordUser.id}
                 guildId={guildId}
-                clan={safeCharacter.clan}
+                clan={activeChar.clan}
                 isCainMode={isCainMode}
+                character={activeChar} // Passer le character pour que le composant puisse vérifier les rituels
               />
             )}
 
             {/* ONGLET GOULES */}
             {activeTab === 'ghouls' && (
               <GhoulsTab
-                ghouls={safeCharacter.ghouls || []}
-                clan={safeCharacter.clan}
-                bloodPotency={safeCharacter.bloodPotency}
+                ghouls={activeChar.ghouls || []}
+                clan={activeChar.clan}
+                bloodPotency={activeChar.bloodPotency}
                 onUpdateGhouls={(updatedGhouls) => {
-                  const updated = { ...safeCharacter, ghouls: updatedGhouls };
+                  const updated = { ...activeChar, ghouls: updatedGhouls };
                   setCharacter(updated);
                   saveCharacter(updated);
                 }}

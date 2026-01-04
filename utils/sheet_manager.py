@@ -10,6 +10,7 @@ from data.config import GOOGLE_SHEETS_API_URL
 logger = logging.getLogger(__name__)
 
 FORUM_CHANNEL_ID = 1455197317387911343
+NPC_FORUM_CHANNEL_ID = 1457475638398025892
 LOG_CHANNEL_ID = 1454182154270670848
 STORAGE_CHANNEL_ID = 1455206147534491810
 NOTIFICATION_ROLE_ID = 1454188335957282897
@@ -117,6 +118,89 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
 
     except Exception as e:
         logger.error(f"Erreur lors du traitement de la fiche Discord pour {user_id}: {e}", exc_info=True)
+        return None
+
+
+async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
+    """
+    Publie ou met à jour une fiche PNJ sur Discord (Channel Forum dédié).
+    """
+    try:
+        forum_channel = guild.get_channel(NPC_FORUM_CHANNEL_ID)
+        if not isinstance(forum_channel, discord.ForumChannel):
+            logger.error(f"Le salon NPC {NPC_FORUM_CHANNEL_ID} n'est pas un salon Forum ou est introuvable.")
+            # Tentative de fetch
+            try:
+                forum_channel = await guild.fetch_channel(NPC_FORUM_CHANNEL_ID)
+                if not isinstance(forum_channel, discord.ForumChannel):
+                     return None
+            except Exception:
+                return None
+
+        npc_name = npc_data.get("name", "PNJ Inconnu")
+        clan_name = npc_data.get("clan", "")
+        if clan_name:
+             clan_name = clan_name.capitalize()
+        
+        image_url = npc_data.get("image_url")
+
+        # Gestion du Tag (Clan)
+        tag = None
+        if clan_name:
+            tag = await get_or_create_tag(forum_channel, clan_name)
+        
+        applied_tags = [tag] if tag else []
+
+        # Construction du contenu
+        # Pour les PNJ, on fait simple : Embed dans le premier message (si possible) ou texte formaté
+        # Comme create_new_thread prend content_parts (list[str]), on va formater de la même façon
+        
+        content_parts = []
+        
+        # En-tête
+        header = f"**{npc_name}**"
+        if clan_name:
+            header += f"\n*Clan {clan_name}*"
+        if npc_data.get("blood_potency"):
+            header += f" • *Puissance du Sang {npc_data['blood_potency']}*"
+        
+        content_parts.append(header)
+        
+        if npc_data.get("description"):
+            content_parts.append(f"**Description**\n{format_paragraph(npc_data['description'])}")
+            
+        # Disciplines (si présentes)
+        disciplines = npc_data.get("disciplines", {})
+        if disciplines:
+            disc_text = "**Disciplines**\n"
+            for disc, level in disciplines.items():
+                disc_text += f"- {disc.capitalize()}: {level}\n"
+            content_parts.append(disc_text)
+
+        # Vérifier si un post existe déjà
+        forum_post_id = npc_data.get("forum_post_id")
+        thread = None
+
+        if forum_post_id:
+            try:
+                thread = await guild.fetch_channel(int(forum_post_id))
+            except Exception:
+                forum_post_id = None
+
+        if thread:
+            # MISE À JOUR
+            await update_existing_thread(thread, npc_name, applied_tags, image_url, content_parts)
+            logger.info(f"Fiche PNJ mise à jour pour {npc_name} (Thread {thread.id})")
+        else:
+            # CRÉATION
+            thread = await create_new_thread(forum_channel, npc_name, applied_tags, image_url, content_parts)
+            forum_post_id = thread.id
+            logger.info(f"Fiche PNJ créée pour {npc_name} (Thread {thread.id})")
+
+        return forum_post_id
+
+    except Exception as e:
+        logger.error(f"Erreur publication PNJ Discord: {e}", exc_info=True)
         return None
 
 
