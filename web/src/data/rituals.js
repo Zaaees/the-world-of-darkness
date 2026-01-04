@@ -12,17 +12,17 @@ export const RITUALS = {
 
     blood_walk: {
         id: "blood_walk",
-        name: "Appel du Sang",
+        name: "L'Appel du Sang",
         discipline: "thaumaturgy",
         level: 1,
-        description: "En goûtant le sang d'un autre vampire, le thaumaturge peut remonter sa lignée. Il apprend le nom du Sire, du Grand-Sire, et remonte les générations aussi loin que sa puissance le permet.",
-        ingredients: "Une goutte de sang de la cible.",
+        description: "Ce rituel fondamental permet au Thaumaturge de remonter le cours de la Vitae d'un sujet pour en révéler l'ascendance. En goûtant le sang, le sorcier ne goûte pas seulement la vie, mais la mémoire généalogique maudite de Cain. Il perçoit les visages flous des Sires successifs, entend leurs noms murmurés par les échos du sang, et peut déterminer la Génération exacte ainsi que le Clan d'origine.",
+        ingredients: "Une large goutte de sang de la cible, versée dans un calice d'argent.",
         steps: [
-            "1. Laisser tomber la goutte de sang sur sa propre langue en état de transe.",
-            "2. Méditer sur la saveur métallique en appelant les ancêtres.",
-            "3. Les visages et noms de la lignée apparaissent en visions rapides."
+            "1. Le Thaumaturge entre en transe méditative, se concentrant sur la fluidité de sa propre vitae.",
+            "2. Il dépose la goutte de sang étranger sur sa langue sans l'avaler immédiatement.",
+            "3. En absorbant l'essence, les visions des ancêtres apparaissent en ordre croissant, du Sire jusqu'aux anciens, jusqu'à ce que la puissance du sang s'estompe."
         ],
-        duration: "Instantanée."
+        duration: "Instantanée (les visions durent quelques minutes)."
     },
 
     comm_sire: {
@@ -30,14 +30,14 @@ export const RITUALS = {
         name: "Communication avec le Sire",
         discipline: "thaumaturgy",
         level: 1,
-        description: "Permet d'envoyer un message mental bref à son propre Sire, peu importe la distance, tant qu'il est sur le même plan d'existence.",
-        ingredients: "Un objet appartenant personnellement au Sire.",
+        description: "En utilisant le lien mystique de l'Étreinte, le Thaumaturge peut projeter sa voix à l'esprit de son propre Sire, où qu'il soit. C'est un appel à sens unique, souvent utilisé pour les rapports urgents ou les appels à l'aide désespérés. Le Sire entend la voix de son Infant comme si elle provenait de l'ombre la plus proche.",
+        ingredients: "Un objet ayant une forte résonance sentimentale pour le Sire.",
         steps: [
-            "1. Tenir l'objet fermement dans la main gauche.",
-            "2. Murmurer le message à l'eau courante ou au vent.",
-            "3. Le Sire entendra la voix de son Infant comme un murmure à son oreille."
+            "1. Le Thaumaturge serre l'objet contre son cœur mort.",
+            "2. Il entre dans une transe légère et visualise le visage de son créateur.",
+            "3. Il murmure le message, qui voyage instantanément à travers l'éther spirituel."
         ],
-        duration: "Un message court."
+        duration: "Le temps d'un bref message (1 minute)."
     },
 
     def_havre: {
@@ -45,29 +45,29 @@ export const RITUALS = {
         name: "Défense du Havre Sacré",
         discipline: "thaumaturgy",
         level: 1,
-        description: "Protège une pièce contre la lumière du soleil (même fenêtres ouvertes) et empêche les goules/esprits faibles d'entrer.",
-        ingredients: "Sang du thaumaturge, poudre de craie.",
+        description: "Ce rituel vital pour les Tremere voyageurs permet d'imprégner une pièce d'une obscurité protectrice. Tant que le rituel est actif, la lumière du soleil elle-même est repoussée, incapable de brûler la chair des Kinites à l'intérieur. De plus, une barrière subtile décourage les intrus mortels et les esprits mineurs.",
+        ingredients: "Le sang du thaumaturge mélangé à de la poudre de charbon ou de craie noire.",
         steps: [
-            "1. Tracer un cercle et des sigles sur toutes les ouvertures.",
-            "2. Sceller le rituel avec une main ensanglantée au centre.",
-            "3. La lumière du soleil devient inoffensive à l'intérieur."
+            "1. Tracer des sigles hermétiques sur chaque fenêtre, porte et interstice.",
+            "2. Le Thaumaturge doit marquer le centre de la pièce de sa propre main ensanglantée.",
+            "3. L'obscurité s'épaissit, rendant les vitres opaques aux rayons UV mortels."
         ],
-        duration: "Tant que le thaumaturge est présent."
+        duration: "Tant que le Thaumaturge reste dans l'enceinte."
     },
 
     deflect_doom: {
         id: "deflect_doom",
-        name: "Déflexion de la Malédiction du Bois",
+        name: "Déflexion du Fléau de Bois",
         discipline: "thaumaturgy",
         level: 1,
-        description: "Entoure le cœur du vampire d'une aura protectrice. Si un pieu en bois touche le cœur, il se brise ou dévie au dernier moment.",
-        ingredients: "Une écharde de bois qu'on brûle, de la cendre.",
+        description: "Une protection paranoïaque mais efficace contre la plus grande peur des Anciens. Ce rituel entoure le cœur mort du vampire d'un champ de force mystique. Si un pieu de bois devait percer la chair pour atteindre le cœur, le bois se briserait net ou dévierait miraculeusement, sauvant le sorcier de la torpeur.",
+        ingredients: "Une écharde de bois dur qu'on laisse se consumer entièrement dans la main (nécessite un test de courage).",
         steps: [
-            "1. Brûler l'écharde en chantant l'hymne de résistance.",
-            "2. Avaler les cendres froides mélangées à de l'eau.",
-            "3. Le premier pieu qui devrait transpercer le cœur se brise net."
+            "1. Le Thaumaturge tient l'écharde brûlante jusqu'à ce qu'elle soit cendre, se concentrant sur son invulnérabilité.",
+            "2. Il mélange la cendre à de l'eau croupie et boit le breuvage.",
+            "3. Le rituel reste latent jusqu'à l'instant fatal."
         ],
-        duration: "Jusqu'au prochain lever du soleil ou premier impact."
+        duration: "Jusqu'au lever du soleil ou jusqu'au premier impact évité."
     },
 
     detect_lineage: {
@@ -87,17 +87,17 @@ export const RITUALS = {
 
     wake_fresheness: {
         id: "wake_fresheness",
-        name: "Éveil avec la Fraîcheur du Soir",
+        name: "L'Éveil de la Vigie",
         discipline: "thaumaturgy",
         level: 1,
-        description: "Permet au thaumaturge de se réveiller instantanément et sans somnolence au moindre signe de danger pendant la journée.",
-        ingredients: "Plumes de coq brûlées.",
+        description: "Permet de surmonter la malédiction de la somnolence diurne. Grâce à ce rituel, le Thaumaturge peut se réveiller instantanément au moindre signe de danger, avec l'esprit clair et vif, sans la lourdeur habituelle qui accable les Kinites pendant le jour.",
+        ingredients: "Les plumes d'un coq égorgé à l'aube.",
         steps: [
-            "1. Brûler les plumes à l'aube avant de dormir.",
-            "2. Respirer la fumée âcre.",
-            "3. Le sommeil sera léger et vigilant."
+            "1. Brûler les plumes dans un brasier rituel juste avant le lever du soleil.",
+            "2. Inhaler la fumée âcre en chantant des hymnes de vigilance.",
+            "3. Se coucher immédiatement. Le sommeil sera léger comme celui d'un chat."
         ],
-        duration: "Une journée."
+        duration: "Une période diurne."
     },
 
     shepherd_chant: {
@@ -209,14 +209,14 @@ export const RITUALS = {
         name: "L'Appel de la Balise",
         discipline: "necromancy",
         level: 1,
-        description: "Transforme un objet en 'phare' pour les fantômes.",
-        ingredients: "Morceau de linceul volé.",
+        description: "Transforme un objet anodin en phare pour les âmes errantes. L'objet enchanté attire les fantômes, les Wraiths et les spectres dans un rayon de plusieurs kilomètres. Les esprits ne peuvent s'empêcher de se rapprocher pour examiner cette lueur sur le plan spectral, facilitant leur invocation ou leur piégeage.",
+        ingredients: "Un morceau de linceul volé dans un cimetière.",
         steps: [
-            "1. Enrouler l'objet dans le linceul.",
-            "2. Verser une goutte de vitae.",
-            "3. Murmurer 'Vene, spiritus'."
+            "1. Envelopper l'objet dans le linceul en chantant les noms des morts.",
+            "2. Verser quelques gouttes de vitae dessus.",
+            "3. Murmurer 'Venite, spiritus vagantes' et l'objet commence à luire d'une lumière invisible aux vivants."
         ],
-        duration: "Une nuit."
+        duration: "Une nuit entière."
     },
 
     // ==========================================
@@ -227,16 +227,17 @@ export const RITUALS = {
 
     call_lustral: {
         id: "call_lustral",
-        name: "Appel de l'Eau Lustrale",
+        name: "L'Appel de l'Eau Lustrale",
         discipline: "thaumaturgy",
         level: 2,
-        description: "Invoque une eau pure qui permet de nettoyer les souillures surnaturelles ou de tracer des cercles parfaits.",
-        ingredients: "Eau de pluie recueillie dans un crâne.",
+        description: "Ce rituel permet d'invoquer une petite quantité d'eau chimiquement pure et spirituellement neutre. Cette eau défie parfois la gravité pour former des cercles parfaits. Elle est essentielle pour nettoyer les outils rituels des souillures occultes ou pour tracer des barrières contre les créatures impures.",
+        ingredients: "De l'eau de pluie collectée dans un crâne humain naturel.",
         steps: [
-            "1. Verser l'eau sur le sol.",
-            "2. Elle ne pénètre pas mais forme une flaque qui suit la volonté du mage.",
+            "1. Le Thaumaturge verse l'eau sur le sol ou une surface.",
+            "2. Au lieu de s'étaler, l'eau obéit à la volonté du mage, formant flaque, cercle ou lignes.",
+            "3. Elle dissout instantanément les résidus magiques ou sanguins au contact."
         ],
-        duration: "Une scène."
+        duration: "Une scène (ou jusqu'à utilisation)."
     },
 
     blessing_trench: {
@@ -256,17 +257,17 @@ export const RITUALS = {
 
     bureaucratic_bull: {
         id: "bureaucratic_bull",
-        name: "Lourdeur Administrative",
+        name: "L'Enfer Administratif",
         discipline: "thaumaturgy",
         level: 2,
-        description: "Maudit un dossier ou une affaire pour qu'elle se perde indéfiniment dans les rouages administratifs.",
-        ingredients: "Encre mélangée à de la bile, formulaire officiel.",
+        description: "Une malédiction subtile mais dévastatrice pour la vie moderne. Elle frappe un dossier, une requête ou une procédure officielle. Le document visé est englouti par la bureaucratie : perdu, mal classé, renversé de café, supprimé par erreur informatique... Il devient impossible de le faire avancer sans des efforts titanesques.",
+        ingredients: "Une plume trempée dans un mélange d'encre noire et de bile.",
         steps: [
-            "1. Remplir le formulaire avec l'encre maudite.",
-            "2. Le glisser dans la pile de documents de la cible (tribunal, banque...).",
-            "3. Le dossier sera perdu, mal classé, renversé café, oublié."
+            "1. Tracer un symbole de confusion (souvent une spirale carrée) sur le document ou son conteneur.",
+            "2. Visualiser les rouages de l'administration se griper.",
+            "3. Le document semble devenir 'invisible' aux yeux des clercs et fonctionnaires."
         ],
-        duration: "Indéfinie."
+        duration: "Indéfinie (jusqu'à ce que le rituel soit brisé ou le dossier détruit)."
     },
 
     focus_blood: {
@@ -315,17 +316,17 @@ export const RITUALS = {
 
     blood_lineage: {
         id: "blood_lineage",
-        name: "Lignage du Sang",
+        name: "Le Lien de la Lignée",
         discipline: "thaumaturgy",
         level: 2,
-        description: "Renforce les liens de loyauté dans une lignée ou un groupe, rendant la trahison difficile.",
-        ingredients: "Coupe commune.",
+        description: "Un rituel de cohésion de groupe, souvent utilisé par les coteries Tremere. Il crée un lien empathique et mystique entre les participants, rendant la trahison psychologiquement difficile et douloureuse. Chaque membre ressent le statut émotionnel général des autres.",
+        ingredients: "Une coupe commune où chaque participant verse une goutte de sang.",
         steps: [
-            "1. Tous les participants versent du sang dans la coupe.",
-            "2. Le thaumaturge bénit le mélange.",
-            "3. Tous boivent. Un sentiment de fraternité surnaturelle s'installe."
+            "1. Mélanger le sang de tous les participants dans la coupe.",
+            "2. Le Thaumaturge chante les Noms de l'Unité au-dessus du mélange.",
+            "3. La coupe est passée de main en main, chacun buvant une gorgée qui a un goût de fer et de serment."
         ],
-        duration: "Un mois."
+        duration: "Une lunaison."
     },
 
     curse_failure: {
@@ -333,14 +334,14 @@ export const RITUALS = {
         name: "Malédiction de l'Échec",
         discipline: "thaumaturgy",
         level: 2,
-        description: "La victime subit une malchance incroyable sur sa prochaine action importante.",
-        ingredients: "Un dé pipé ou cassé.",
+        description: "Le Thaumaturge insuffle une malchance accablante dans l'aura d'une victime. L'univers semble conspirer contre elle pour sa prochaine entreprise importante : ses outils casseront, sa langue fourchera, ou elle trébuchera au pire moment possible.",
+        ingredients: "Un dé à jouer cassé grossièrement en deux et le nom de la victime.",
         steps: [
-            "1. Jeter le dé en nommant la cible.",
-            "2. Le dé indique un échec.",
-            "3. L'univers conspirera pour faire échouer la cible."
+            "1. Pulvériser le dé en une poussière fine en répétant le nom de la victime.",
+            "2. Souffler la poussière dans la direction générale de la cible.",
+            "3. La poussière disparaît, mais le poids du destin s'abat sur la victime."
         ],
-        duration: "Jusqu'à la prochaine action critique."
+        duration: "Jusqu'à la prochaine action critique (qui échouera)."
     },
 
     shadow_walk: {
@@ -360,16 +361,17 @@ export const RITUALS = {
 
     ward_ghoul: {
         id: "ward_ghoul",
-        name: "Protection contre les Goules",
+        name: "Sceau contre les Serviteurs",
         discipline: "thaumaturgy",
         level: 2,
-        description: "Empêche les goules d'entrer dans une zone ou de toucher un objet.",
-        ingredients: "Sang de goule, sel.",
+        description: "Trace une barrière invisible mais douloureuse pour toute créature dépendante du sang (goules). Si une goule tente de franchir le seuil ou de toucher l'objet protégé, elle est frappée d'une douleur fulgurante, comme si son sang bouillait.",
+        ingredients: "Une pâte faite de sang de goule séché et de sel gemme.",
         steps: [
-            "1. Tracer le sigle d'interdiction avec le sang et le sel.",
-            "2. Le sigle luit brièvement puis disparaît.",
+            "1. Peindre le glyphe d'interdiction sur l'objet ou le seuil avec la pâte.",
+            "2. Le glyphe luit d'un rouge maladif avant de disparaître à la vue des mortels.",
+            "3. La barrière est active et repousse violemment toute goule."
         ],
-        duration: "Permanent."
+        duration: "Permanent (tant que le glyphe n'est pas physiquement effacé)."
     },
 
     reciprocal_bite: {
@@ -407,14 +409,14 @@ export const RITUALS = {
         name: "Les Yeux de la Tombe",
         discipline: "necromancy",
         level: 2,
-        description: "Voir par les yeux d'un cadavre préparé.",
-        ingredients: "Poudre d'argent, cadavre.",
+        description: "Le Nécromant prépare un cadavre pour en faire un récepteur sensoriel à distance. En entrant en transe, il peut voir et entendre tout ce qui se passe devant les yeux du mort, même si ces yeux sont fermés ou décomposés. C'est un espionnage macabre mais terriblement efficace.",
+        ingredients: "Poudre d'argent consécrée et un cadavre relativement frais.",
         steps: [
-            "1. Saupoudrer les yeux du cadavre.",
-            "2. Sceller avec vitae.",
-            "3. Méditer."
+            "1. Saupoudrer la poudre d'argent sur les paupières du cadavre.",
+            "2. Sceller le tout avec une goutte de vitae sur chaque œil.",
+            "3. Entrer en méditation profonde ; la vision du mort remplace celle du Nécromant."
         ],
-        duration: "Concentration."
+        duration: "Tant que la concentration est maintenue."
     },
 
     hand_glory: {
@@ -422,13 +424,14 @@ export const RITUALS = {
         name: "Main de Gloire",
         discipline: "necromancy",
         level: 2,
-        description: "Endort les mortels dans une maison.",
-        ingredients: "Main de pendu, graisse humaine.",
+        description: "Un artefact classique du folklore occulte. La main séchée d'un pendu, imbibée de graisse humaine et allumée comme une bougie, plonge tous les mortels d'une maison dans un sommeil profond et sans rêves. Ils ne peuvent être réveillés par aucun bruit tant que la Main brûle.",
+        ingredients: "La main gauche d'un condamné à mort exécuté par pendaison, et de la graisse humaine pour fabriquer une mèche.",
         steps: [
-            "1. Préparer la main et la bougie.",
-            "2. Allumer la bougie dans la main."
+            "1. Sécher et embaumer la main pendant une lunaison.",
+            "2. Enrouler une mèche trempée dans la graisse autour des doigts.",
+            "3. Allumer la mèche. Tous les mortels dans le bâtiment s'endorment instantanément."
         ],
-        duration: "Tant que ça brûle."
+        duration: "Tant que la flamme brûle (environ une heure)."
     },
 
     // ==========================================
@@ -454,16 +457,17 @@ export const RITUALS = {
 
     shield_presence: {
         id: "shield_presence",
-        name: "Bouclier de Présence Maléfique",
+        name: "Bouclier de Volonté",
         discipline: "thaumaturgy",
         level: 3,
-        description: "Protège contre les pouvoirs de la discipline Présence.",
-        ingredients: "Soie noire nouée autour du cou.",
+        description: "Ce rituel renforce l'esprit du Thaumaturge contre les manipulations émotionnelles de la Présence. Il érige une forteresse mentale froide et logique, rendant le sorcier insensible à la peur surnaturelle, à la séduction forcée ou à l'autorité artificielle des Ventrue et Toreador.",
+        ingredients: "Un ruban de soie noire, noué autour du cou.",
         steps: [
-            "1. Nouer la soie en un nœud gordien.",
-            "2. L'aura du thaumaturge devient imperméable aux émotions imposées."
+            "1. Faire un nœud complexe (nœud gordien) dans la soie en récitant des mantras de stoïcisme.",
+            "2. Serrer le nœud autour du cou (pour un vampire, cela ne gêne pas).",
+            "3. Tant que le nœud tient, les émotions du sorcier sont sous scellé."
         ],
-        duration: "Une nuit."
+        duration: "Une nuit (ou jusqu'à ce que le ruban soit dénoué)."
     },
 
     incorporeal_passage: {
@@ -497,16 +501,17 @@ export const RITUALS = {
 
     mirror_narcissus: {
         id: "mirror_narcissus",
-        name: "Miroir de Narcisse",
+        name: "Le Miroir des Péchés",
         discipline: "thaumaturgy",
         level: 3,
-        description: "Quiconque regarde dans le miroir enchanté voit son reflet monstrueux ou ses péchés, et reste fasciné/horrifié.",
-        ingredients: "Un miroir, huile d'onction.",
+        description: "Enchante un miroir pour qu'il reflète non pas le corps physique, mais l'âme corrompue de celui qui s'y regarde. Le spectateur est confronté à ses crimes, ses vices et sa Bête sous une forme monstrueuse. Cette vision est si terrifiante qu'elle paralyse la victime, fascinée par sa propre horreur intérieure.",
+        ingredients: "Un miroir poli avec de l'huile d'onction sacrée et de la poudre d'os.",
         steps: [
-            "1. Oindre le miroir en spirales.",
-            "2. Le placer face à la victime.",
+            "1. Enduire la surface du miroir en traçant une spirale centripète.",
+            "2. Orienter le miroir vers la victime.",
+            "3. Dès que le regard croise le reflet, la transe commence."
         ],
-        duration: "Tant que la victime regarde."
+        duration: "Tant que la victime maintient le contact visuel."
     },
 
     pavan_chalice: {
@@ -539,31 +544,32 @@ export const RITUALS = {
 
     ward_lupines: {
         id: "ward_lupines",
-        name: "Protection contre les Lupins",
+        name: "Sceau contre les Bêtes de Lune",
         discipline: "thaumaturgy",
         level: 3,
-        description: "Comme pour les goules, mais affecte les Loups-Garous, leur causant une douleur terrible au contact.",
-        ingredients: "Aconit (Tue-loup) et poussière d'argent.",
+        description: "Similaire aux autres protections, ce rituel est spécifiquement conçu pour repousser les Loups-Garous. L'odeur de l'aconit brûle leurs sens surdéveloppés et le contact avec la barrière leur inflige une douleur comparable à de l'argent liquide.",
+        ingredients: "Un sachet de poussière d'argent mélangée à de l'aconit séché.",
         steps: [
-            "1. Mélanger l'aconit et l'argent.",
-            "2. Tracer les runes.",
+            "1. Saupoudrer le mélange sur le périmètre à protéger.",
+            "2. Chant de bannissement en ancien sumérien.",
+            "3. L'air devient lourd et stérile pour les Garous."
         ],
-        duration: "Permanent."
+        duration: "Permanent (jusqu'à rupture du cercle)."
     },
 
     shaft_belated: {
         id: "shaft_belated",
-        name: "Pieu de la Dissolution Retardée",
+        name: "Le Pieu de la Fin Différée",
         discipline: "thaumaturgy",
         level: 3,
-        description: "Pieu qui se fragmente dans le cœur, impossible à retirer simplement.",
-        ingredients: "Pieu de chêne, épines de rose noire.",
+        description: "Une arme cruelle et sournoise. Le Thaumaturge enchante un pieu de bois ordinaire pour que sa pointe se sépare et reste fichée dans le cœur de la victime même si le pieu est retiré. La victime reste paralysée indéfiniment, et l'éclat de bois est presque impossible à extraire sans une chirurgie invasive.",
+        ingredients: "Un pieu en chêne noirci au feu, des épines de rose noire.",
         steps: [
-            "1. Graver des runes sur le bois.",
-            "2. Enduire de solution caustique.",
-            "3. Laisser reposer 3 jours dans le noir."
+            "1. Graver des runes de fragilité sur la pointe du pieu.",
+            "2. Enduire la pointe d'une solution caustique alchimique.",
+            "3. Laisser reposer le pieu 3 jours dans une obscurité totale."
         ],
-        duration: "Permanent (sur l'objet)."
+        duration: "Permanent (l'enchantement reste sur le pieu jusqu'à utilisation)."
     },
 
     seal_ambrosia: {
@@ -599,29 +605,31 @@ export const RITUALS = {
         name: "Transmutation de l'Eau en Sang",
         discipline: "thaumaturgy",
         level: 3,
-        description: "Change de l'eau inerte en sang (non nourrissant pour vampires, mais parfait pour rituels ou tromperie).",
-        ingredients: "Une goutte de vrai sang.",
+        description: "Un miracle noir qui permet de changer de l'eau ordinaire en sang humain. Bien que ce sang ait l'apparence, l'odeur et le goût de la vitae, il est mort et ne nourrit pas les vampires (il ne donne aucun point de sang). Il est cependant parfait pour tromper les mortels, remplir des calices rituels ou simuler une scène de crime.",
+        ingredients: "Une fiole d'eau et une goutte de sang du Thaumaturge.",
         steps: [
-            "1. Verser la goutte dans l'eau.",
-            "2. L'eau rougit et s'épaissit instantanément."
+            "1. Verser la goutte de sang dans le récipient d'eau.",
+            "2. Passer la main au-dessus sans toucher le liquide.",
+            "3. L'eau se trouble, rougit et s'épaissit instantanément pour devenir du sang froid."
         ],
-        duration: "Permanent."
+        duration: "Permanent (le liquide reste du sang)."
     },
 
     // --- NÉCROMANCIE NIVEAU 3 ---
 
     ritual_pneuma: {
         id: "ritual_pneuma",
-        name: "Rituel du Pneuma",
+        name: "Le Rituel du Pneuma",
         discipline: "necromancy",
         level: 3,
-        description: "Rend un fantôme tangible et solide.",
-        ingredients: "Miroir brisé, sang.",
+        description: "Ce rituel permet de donner temporairement une forme tangible à un fantôme. L'esprit devient visible, solide et capable d'interagir physiquement avec le monde des vivants. Il peut être touché, blessé, et même frapper. Ce pouvoir est souvent utilisé pour interroger les morts ou pour forcer un spectre à se battre.",
+        ingredients: "Un miroir brisé en sept morceaux et du sang du Nécromant.",
         steps: [
-            "1. Faire regarder le fantôme dans le miroir.",
-            "2. Verser le sang dessus.",
+            "1. Disperser les éclats de miroir autour du fantôme invisi.",
+            "2. Verser le sang sur le plus grand éclat en appelant le nom du mort.",
+            "3. Le fantôme se matérialise, reflété dans les tessons, puis gagne substance."
         ],
-        duration: "Quelques minutes."
+        duration: "Quelques minutes (jusqu'à une demi-heure avec concentration)."
     },
 
     // ==========================================
@@ -632,32 +640,32 @@ export const RITUALS = {
 
     clash_atom: {
         id: "clash_atom",
-        name: "Bruit de l'Atome",
+        name: "Le Chant de l'Entropie",
         discipline: "thaumaturgy",
         level: 4,
-        description: "Provoque une surcharge d'énergie cinétique dans un objet technologique, le faisant fondre ou exploser.",
-        ingredients: "Une pile écrasée.",
+        description: "Ce rituel moderne et violent perturbe les champs atomiques d'un objet technologique. Le Thaumaturge surcharge l'objet d'une énergie chaotique, provoquant la fonte des circuits, l'explosion des batteries ou la rupture mécanique instantanée. C'est une arme redoutable contre les équipements de sécurité moderne.",
+        ingredients: "Une pile électrique écrasée ou un aimant puissant.",
         steps: [
-            "1. Dessiner un cercle autour de l'objet.",
-            "2. Écraser la pile sur l'objet.",
-            "3. L'électronique grille instantanément."
+            "1. Tracer un cercle autour de l'objet ou le pointer avec l'aimant.",
+            "2. Libérer l'énergie contenue dans l'ingrédient.",
+            "3. L'objet ciblé fume, étincelle et se détruit de l'intérieur."
         ],
-        duration: "Instantanée."
+        duration: "Instantanée (destruction permanente)."
     },
 
     heart_stone: {
         id: "heart_stone",
-        name: "Cœur de Pierre",
+        name: "Le Cœur de Pierre",
         discipline: "thaumaturgy",
         level: 4,
-        description: "Le cœur devient pierre. Immunité au pieu, quasi-absence d'émotions.",
-        ingredients: "Anneau de granit, cire noire, terre de cimetière.",
+        description: "Le Thaumaturge transforme son propre cœur mort en un bloc de granit impénétrable. Il devient totalement immunisé au pieu (le bois se brise contre le cœur de pierre) et gagne une résistance surnaturelle aux manipulations émotionnelles, mais perd presque toute capacité d'empathie ou de sentiments humains.",
+        ingredients: "Un anneau de granit sculpté, de la cire noire, de la terre de cimetière.",
         steps: [
-            "1. Allongé sur la terre, poser l'anneau sur le cœur.",
-            "2. Sceller à la cire.",
-            "3. Méditer jusqu'à arrêt du ressenti."
+            "1. S'allonger nu sur la terre de cimetière.",
+            "2. Poser l'anneau sur la poitrine au-dessus du cœur et le sceller avec la cire chaude.",
+            "3. Méditer jusqu'à ce que les battements fantômes du cœur cessent totalement."
         ],
-        duration: "Une semaine."
+        duration: "Une semaine (ou jusqu'à annulation)."
     },
 
     infusion_water: {
@@ -676,14 +684,15 @@ export const RITUALS = {
 
     invis_bond: {
         id: "invis_bond",
-        name: "Lien de Sang Invisible",
+        name: "Le Lien Fantôme",
         discipline: "thaumaturgy",
         level: 4,
-        description: "Dissimule l'existence d'un Lien de Sang aux détections magiques.",
-        ingredients: "Sang du regnant et du thrall mélangés.",
+        description: "Ce rituel permet de masquer l'existence d'un Lien de Sang aux yeux des autres mages. Le lien reste pleinement actif (la servitude émotionnelle est intacte), mais il ne vibre plus sur le plan astral. Les rituels de détection de lignée ou de lien rendront des résultats négatifs.",
+        ingredients: "Quelques gouttes du sang du Regnant (maître) et du Thrall (esclave), mélangées.",
         steps: [
-            "1. Boire le mélange.",
-            "2. Le lien existe toujours mais ne vibre plus magiquement."
+            "1. Mélanger les sangs dans une coupe d'obsidienne.",
+            "2. Le Thrall doit boire la mixture volontairement.",
+            "3. L'aura du Thrall se lisse, cachant les chaînes mystiques qui l'entravent."
         ],
         duration: "Un an."
     },
@@ -704,30 +713,32 @@ export const RITUALS = {
 
     bone_lies: {
         id: "bone_lies",
-        name: "Os de Mensonge",
+        name: "L'Os de Vérité",
         discipline: "thaumaturgy",
         level: 4,
-        description: "Oblige une victime à dire la vérité ou à subir une douleur atroce.",
-        ingredients: "Un os humain enchanté.",
+        description: "Enchante un os humain pour qu'il agisse comme un détecteur de mensonge infaillible et douloureux. Quiconque tient cet os et prononce un mensonge — même par omission ou demi-vérité — sent l'os devenir brûlant comme du métal en fusion et noircir ses mains.",
+        ingredients: "Un fémur ou un crâne humain lavé à l'acide.",
         steps: [
-            "1. La victime tient l'os.",
-            "2. Si elle ment, l'os devient noir et brûlant.",
+            "1. Graver des runes de vérité sur l'os.",
+            "2. Plonger l'os dans une solution acide pendant une nuit.",
+            "3. Remettre l'os à la personne interrogée."
         ],
-        duration: "Une scène."
+        duration: "L'enchantement dure une scène."
     },
 
     ward_kindred: {
         id: "ward_kindred",
-        name: "Protection contre les Vampires",
+        name: "Sceau contre la Lignée de Caïn",
         discipline: "thaumaturgy",
         level: 4,
-        description: "Barrière infranchissable pour les vampires.",
-        ingredients: "Poussière de vampire (cendres finales).",
+        description: "La protection ultime pour un refuge. Ce sceau repousse tout vampire (autre que le Thaumaturge) qui tente de le franchir. Le sang de l'intrus se révolte contre lui, causant une agonie paralysante et des dégâts physiques massifs s'il force le passage.",
+        ingredients: "Cendres d'un vampire détruit par le soleil ou le feu.",
         steps: [
-            "1. Tracer les sceaux avec les cendres.",
-            "2. Aucun descendant de Caïn ne peut franchir le seuil."
+            "1. Mélanger les cendres avec de l'eau bénite (blasphème rituel).",
+            "2. Peindre des sigles complexes sur chaque ouverture du lieu.",
+            "3. L'air à l'intérieur semble vibrer d'une puissance statique."
         ],
-        duration: "Permanent."
+        duration: "Permanent (tant que les sigles sont intacts)."
     },
 
     recall_soul: {
@@ -760,32 +771,34 @@ export const RITUALS = {
 
     leach_vitae: {
         id: "leach_vitae",
-        name: "Siphon de Vitae",
+        name: "Siphon de Vie à Distance",
         discipline: "thaumaturgy",
         level: 4,
-        description: "Boire le sang de la victime à distance via un lien sympathique.",
-        ingredients: "Poupée de cire, cheveux de la cible.",
+        description: "Un rituel prédateur qui permet de se nourrir sans contact physique. Le Thaumaturge utilise un lien sympathique pour drainer la vitae d'une victime éloignée, transférant le sang mystiquement de ses veines vers un récipient (ou directement dans la bouche du sorcier).",
+        ingredients: "Une poupée de cire contenant des cheveux ou du sang de la victime.",
         steps: [
-            "1. Incorporer les cheveux dans la poupée.",
-            "2. 'Boire' la poupée.",
+            "1. Créer la poupée à l'effigie de la cible.",
+            "2. Placer la poupée au-dessus d'un bol.",
+            "3. Percer la poupée avec une aiguille d'argent. Le sang commence à couler de la poupée, remplissant le bol."
         ],
-        duration: "Une scène."
+        duration: "La durée du rituel (jusqu'à ce que la victime soit vide ou le sorcier rassasié)."
     },
 
     // --- NÉCROMANCIE NIVEAU 4 ---
 
     cadaver_touch: {
         id: "cadaver_touch",
-        name: "Baiser du Cadavre",
+        name: "Le Baiser du Cadavre",
         discipline: "necromancy",
         level: 4,
-        description: "Insensibilité à la douleur, peau froide, malus dextérité.",
-        ingredients: "Écharpe au formol.",
+        description: "Le Nécromant imprègne son corps de l'essence de la mort elle-même. Sa peau devient froide comme la glace, ses sens s'émoussent, et il cesse de ressentir la douleur physique. Paradoxalement, cette mort simulée le protège des blessures traumatiques, mais rend ses mouvements légèrement plus lents et maladroits.",
+        ingredients: "Un foulard trempé dans du formol et porté autour du cou.",
         steps: [
-            "1. Enrouler l'écharpe autour du cou.",
-            "2. Chant de préservation.",
+            "1. Enrouler l'écharpe autour du cou en respirant les vapeurs de formol.",
+            "2. Prononcer le Chant de Préservation, qui ralentit le flux de vitae.",
+            "3. La peau pâlit, les sensations s'évanouissent, et le corps devient comme celui d'un mort."
         ],
-        duration: "Une nuit."
+        duration: "Une nuit entière."
     },
 
     // ==========================================
@@ -796,17 +809,17 @@ export const RITUALS = {
 
     abandon_fetters: {
         id: "abandon_fetters",
-        name: "Abandon des Liens",
+        name: "L'Abandon des Chaînes",
         discipline: "thaumaturgy",
         level: 5,
-        description: "Brise définitivement un Lien de Sang existant. Extrêmement douloureux et nécessite la coopération du thrall.",
-        ingredients: "Le sang du thrall vidé totalement, remplacé par du sang neutre.",
+        description: "L'un des rituels les plus précieux et douloureux de la Thaumaturgie. Il permet de briser un Lien de Sang actif en le lavant littéralement hors du corps de la victime. C'est un processus atroce, nécessitant que la victime soit drainée de tout son sang servile avant d'être ressuscitée avec du sang neutre, brisant ainsi l'emprise émotionnelle du Regnant.",
+        ingredients: "Le corps du Thrall, vidé jusqu'à la dernière goutte, et une réserve de sang sain suffisante pour le ranimer.",
         steps: [
-            "1. Exsanguiner la victime.",
-            "2. Transfuser du sang nouveau pendant le rituel.",
-            "3. Le lien est lavé avec l'ancienne vitae."
+            "1. Le Thaumaturge ouvre les veines du sujet et recueille le sang maudit.",
+            "2. Alors que le sujet entre en torpeur par manque de sang, le mage chante le Mantra de la Libération.",
+            "3. Le sang neutre est perfusé (mystiquement ou médicalement) dans le corps vide, 'rebootant' le cœur mort."
         ],
-        duration: "Permanent."
+        duration: "Permanent (le lien est détruit, mais un nouveau peut être formé plus tard)."
     },
 
     change_blood: {
@@ -826,32 +839,32 @@ export const RITUALS = {
 
     blood_contract: {
         id: "blood_contract",
-        name: "Contrat de Sang",
+        name: "Le Pacte de Sang Inviolable",
         discipline: "thaumaturgy",
         level: 5,
-        description: "Pacte inviolable. La rupture entraîne la mort.",
-        ingredients: "Parchemin peau humaine, plume, sang.",
+        description: "Ce rituel crée un contrat contraignant qui punit la trahison par la mort finale. Les signataires s'engagent non seulement sur leur honneur, mais sur leur existence même. Si l'une des parties brise les termes écrits, son sang s'enflamme instantanément dans ses veines, la consumant de l'intérieur.",
+        ingredients: "Un parchemin en peau humaine, de l'encre mêlée au sang de tous les signataires.",
         steps: [
-            "1. Rédiger le contrat.",
-            "2. Signer avec le sang.",
-            "3. Sceller."
+            "1. Rédiger les termes exacts du contrat avec une précision juridique.",
+            "2. Chaque participant appose sa signature sanglante.",
+            "3. Le parchemin devient indestructible tant que le contrat court."
         ],
-        duration: "Permanent."
+        duration: "Permanent (jusqu'à accomplissement ou mort)."
     },
 
     crown_thorns: {
         id: "crown_thorns",
-        name: "Couronne d'Épines",
+        name: "La Couronne d'Épines",
         discipline: "thaumaturgy",
         level: 5,
-        description: "Rend le thaumaturge impossible à surprendre ou à attaquer en traître aussi longtemps qu'il porte la couronne.",
-        ingredients: "Couronne de ronces séchées trempées dans le sang.",
+        description: "En portant une couronne de ronces enchantée qui s'enfonce dans son crâne, le Thaumaturge gagne une perception divine du danger. Il devient impossible à surprendre, à attaquer dans le dos ou à tromper par des illusions simples. La douleur constante le maintient dans un état d'hyper-lucidité martiale.",
+        ingredients: "Une couronne tressée de ronces séchées, trempée dans du sang de guetteur.",
         steps: [
-            "1. Tresser la couronne.",
-            "2. La poser sur la tête (les épines blessent).",
-            "3. La douleur maintient une hyper-vigilance surnaturelle."
+            "1. Placer la couronne sur la tête en acceptant la douleur comme un don.",
+            "2. Le sang coule sur le front, mais les yeux s'ouvrent à 360 degrés spirituellement.",
+            "3. Le porteur sent toute intention hostile dirigée vers lui."
         ],
-        duration: "Tant que portée."
+        duration: "Tant que le Thaumaturge porte la couronne et endure la douleur."
     },
 
     escape_friend: {
@@ -871,17 +884,17 @@ export const RITUALS = {
 
     homunculus: {
         id: "homunculus",
-        name: "Lien d'Âme (Homunculus)",
+        name: "Création d'Homoncule",
         discipline: "thaumaturgy",
         level: 5,
-        description: "Crée une petite créature servile à partir de sa propre chair et sang. L'homoncule est une extension du sorcier.",
-        ingredients: "Un litre de sang, chair du thaumaturge, mandragore.",
+        description: "Le summum de l'artisanat noir. Le sorcier crée une petite créature vivante à partir de sa propre chair et de son sang pour lui servir d'espion, de gardien ou de familier. L'homoncule est horriblement fidèle, partage une connexion télépathique avec son maître, et préférera fondre plutôt que de le trahir.",
+        ingredients: "Un demi-litre de sang du sorcier, un morceau de sa chair (doigt ou lambeau), racine de mandragore.",
         steps: [
-            "1. Modeler la créature.",
-            "2. La nourrir de sang pendant un mois.",
-            "3. Elle s'éveille, loyale jusqu'à la mort."
+            "1. Modeler la forme de la créature (souvent une petite gargouille ou un diablotin) avec la chair et la terre.",
+            "2. La nourrir quotidiennement de sang dans un incubateur alchimique pendant un mois.",
+            "3. La créature s'éveille en hurlant le nom de son maître."
         ],
-        duration: "Permanent."
+        duration: "Permanent (l'homoncule a sa propre durée de vie)."
     },
 
     curse_clay: {
@@ -901,16 +914,17 @@ export const RITUALS = {
 
     ward_spirits: {
         id: "ward_spirits",
-        name: "Protection contre les Esprits",
+        name: "Cercle de Bannissement des Esprits",
         discipline: "thaumaturgy",
         level: 5,
-        description: "Barrière infranchissable pour les esprits naturels et élémentaires.",
-        ingredients: "Sel pur.",
+        description: "Cette protection hermétique interdit l'accès à toute entité spirituelle non incarnée (esprits de la nature, élémentaires, projections astrales). Si elle est tracée autour d'un esprit déjà présent, celui-ci se retrouve piégé à l'intérieur, incapable de traverser la barrière de volonté cristallisée.",
+        ingredients: "Une poudre composée de sel gemme pur et de limaille de fer.",
         steps: [
-            "1. Tracer le cercle de sel.",
-            "2. Aucune entité immatérielle ne peut passer."
+            "1. Tracer le cercle en chantant les anciens pactes de Salomon.",
+            "2. Sceller le périmètre avec une volonté inflexible.",
+            "3. L'air à la frontière du cercle miroite comme une vague de chaleur."
         ],
-        duration: "Permanent."
+        duration: "Permanent (tant que le tracé est intact)."
     },
 
     ward_ghosts: {
@@ -944,17 +958,17 @@ export const RITUALS = {
 
     stone_victory: {
         id: "stone_victory",
-        name: "Victoire de la Pierre",
+        name: "Le Triomphe de la Pierre",
         discipline: "thaumaturgy",
         level: 5,
-        description: "Le thaumaturge devient immunisé au feu et à la lumière du soleil, mais se transforme en statue immobile.",
-        ingredients: "Aucun (volonté pure).",
+        description: "Le Thaumaturge sacrifie temporairement sa mobilité pour une invulnérabilité totale. Il se transforme en une statue de pierre indestructible. Sous cette forme, il ne craint ni le feu, ni le soleil, ni les armes, mais il ne peut ni bouger ni parler. C'est le camouflage ultime ou le dernier recours pour survivre à l'aube en terrain découvert.",
+        ingredients: "Aucun, seulement une concentration parfaite et une goutte de son sang sur le front.",
         steps: [
-            "1. Se concentrer sur la pérennité de la pierre.",
-            "2. Le corps se pétrifie.",
-            "3. Le feu ne brûle plus la pierre."
+            "1. Se mettre en position (accroupi ou debout).",
+            "2. Imaginer ses os devenir granit, sa peau marbre.",
+            "3. La transformation est rapide ; la conscience reste éveillée mais lointaine, comme dans un rêve géologique."
         ],
-        duration: "Tant que maintenu."
+        duration: "Tant que le Thaumaturge maintient sa volonté, ou jusqu'à une date fixée."
     },
 
     // --- NÉCROMANCIE NIVEAU 5 ---
@@ -964,13 +978,14 @@ export const RITUALS = {
         name: "Transcendance de la Liche",
         discipline: "necromancy",
         level: 5,
-        description: "Âme dans un phylactère. Immortalité virtuelle.",
-        ingredients: "Objet précieux, sacrifice innocent.",
+        description: "Le rituel le plus sombre et le plus désespéré de la Nécromancie. Le Nécromant transfère son âme (ou ce qu'il en reste) dans un objet physique appelé Phylactère. Tant que le phylactère existe, le sorcier ne peut être véritablement détruit — son corps reconstituera ou son esprit trouvera un nouvel hôte. C'est une immortalité maudite, nécessitant un sacrifice innocent pour activer le lien.",
+        ingredients: "Un objet précieux ayant une valeur sentimentale énorme et la vie d'un innocent.",
         steps: [
-            "1. Tuer l'innocent sur l'objet.",
-            "2. Transférer l'âme.",
+            "1. Sacrifier l'innocent au-dessus de l'objet, laissant le sang imprégner chaque surface.",
+            "2. Prononcer les Paroles Interdites du Livre des Morts (un texte apocryphe).",
+            "3. Sentir son âme s'arracher du corps pour se loger dans le phylactère. Le corps reste mobile, mais vide."
         ],
-        duration: "Permanent."
+        duration: "Permanent (tant que le phylactère n'est pas détruit)."
     },
 
     // ==========================================
@@ -979,57 +994,77 @@ export const RITUALS = {
 
     armor_efficacy: {
         id: "armor_efficacy",
-        name: "Armure d'Efficacité Infernale",
+        name: "L'Armure de la Fureur de Caïn",
         discipline: "thaumaturgy",
         level: 6,
-        description: "Crée une barrière d'énergie sombre qui absorbe les dégâts.",
-        ingredients: "Diamant noir.",
-        steps: ["Invoquer la protection ultime."],
-        duration: "Scène."
+        description: "Le sang du Thaumaturge s'extériorise pour former une armure d'énergie cramoisie translucide. Cette barrière absorbe les impacts balistiques et mystiques avec une efficacité terrifiante. C'est une manifestation visible de la puissance du sang ancien, intimidant autant qu'elle protège.",
+        ingredients: "Un diamant noir avalé par le vampire.",
+        steps: [
+            "1. Avaler le diamant.",
+            "2. Crier le défi à la mort.",
+            "3. L'aura rouge se solidifie autour du corps."
+        ],
+        duration: "Une scène de combat."
     },
 
     ward_demons: {
         id: "ward_demons",
-        name: "Protection contre les Démons",
+        name: "Anathème contre l'Enfer",
         discipline: "thaumaturgy",
         level: 6,
-        description: "Interdit l'accès aux entités infernales.",
-        ingredients: "Eau bénite corrompue.",
-        steps: ["Tracer le sceau interdit."],
+        description: "Une barrière sacrée (ou profanatrice) qui interdit l'accès aux véritables démons et entités infernales. Contrairement aux protections mineures, celle-ci inflige des Blessures Aggravées directes à toute créature démoniaque qui tente de forcer le passage, brûlant son essence même.",
+        ingredients: "Eau bénite corrompue par le sang d'un innocent.",
+        steps: [
+            "1. Asperger le seuil avec le mélange blasphématoire.",
+            "2. Réciter les Noms Perdus de Dieu à l'envers.",
+            "3. Une odeur d'ozone et de sainteté inversée imprègne les lieux."
+        ],
         duration: "Permanent."
     },
 
     divine_lineage: {
         id: "divine_lineage",
-        name: "Divination de la lignée de Caine",
+        name: "La Toile de l'Araignée de Sang",
         discipline: "thaumaturgy",
         level: 7,
-        description: "Révèle toute la généalogie d'un vampire jusqu'à Caine.",
-        ingredients: "Sang d'un Mathusalem.",
-        steps: ["Boire et voir le passée."],
-        duration: "Instant."
+        description: "Ce pouvoir presque divin permet au Thaumaturge de remonter la lignée d'un vampire jusqu'au Premier, Caïn lui-même. Il révèle non seulement les noms, mais les péchés majeurs et les serments brisés de chaque ancêtre, donnant au sorcier un levier de chantage cosmique sur toute la lignée.",
+        ingredients: "Une goutte de sang d'un Mathusalem (génération 4 ou 5) ou du vampire ciblé si sa génération est faible.",
+        steps: [
+            "1. Entrer en transe profonde (risque de ne pas en revenir).",
+            "2. Naviguer le fleuve de sang à contre-courant.",
+            "3. Les secrets de l'histoire vampirique se débloquent."
+        ],
+        duration: "Instantanée (mais le savoir reste)."
     },
 
     chain_bloodline: {
         id: "chain_bloodline",
-        name: "Chaîne de la Lignée Sanglante",
+        name: "La Grande Malédiction du Sang",
         discipline: "thaumaturgy",
         level: 8,
-        description: "Affecte toute la lignée d'une victime avec un sort.",
-        ingredients: "Sang du fondateur de la lignée.",
-        steps: ["Maudire le sang originel."],
-        duration: "Variable."
+        description: "Une arme de destruction massive. En maudissant un vampire, le Thaumaturge transmet l'effet (maladie, combustion, torpeur) à toute sa lignée — ses infants, les infants de ses infants, et même son Sire. C'est ainsi que des lignées entières ont été exterminées en une nuit.",
+        ingredients: "Le sang du fondateur de la lignée visée.",
+        steps: [
+            "1. Mêler le sang cible à du mercure et du poison.",
+            "2. Prononcer l'arrêt de mort de la lignée.",
+            "3. L'effet se propage instantanément par sympathie sanguine mondiale."
+        ],
+        duration: "Instantanée (propagation virale)."
     },
 
     witch_transform: {
         id: "witch_transform",
-        name: "Transformation de la Sorcière",
+        name: "L'Apothéose de la Réalité",
         discipline: "thaumaturgy",
         level: 9,
-        description: "Permet de réécrire la réalité locale selon la volonté du mage.",
-        ingredients: "Inconnu.",
-        steps: ["Volonté pure."],
-        duration: "Variable."
+        description: "À ce niveau, la Thaumaturgie cesse d'être de la magie de sang pour devenir de la réalité pure. Le Thaumaturge peut réécrire les lois de la physique et de la nature dans une zone : le soleil ne brûle plus, la gravité s'inverse, le temps s'arrête. Il devient un dieu en son domaine.",
+        ingredients: "Le sacrifice de sa propre humanité finale, et une volonté capable de briser le monde.",
+        steps: [
+            "1. Refuser la réalité telle qu'elle est.",
+            "2. Imposer sa propre vérité par la parole.",
+            "3. Le monde obéit."
+        ],
+        duration: "Une scène (ou permanent avec un coût terrible)."
     }
 };
 
