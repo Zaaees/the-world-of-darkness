@@ -107,7 +107,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Grâce Féline",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Ton corps se meut avec une fluidité surnaturelle qui défie les lois de la biomécanique. Esquive les coups avec des torsions impossibles, rattrape un objet qui tombe avant qu'il ne touche le sol, tourne un coin en pleine course sans ralentir. Aux yeux des mortels, tu sembles simplement très agile. Ceux qui savent reconnaissent le signe du prédateur."
       },
       {
@@ -194,35 +194,35 @@ export const DISCIPLINES = {
         level: 1,
         name: "Résilience",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Les coups qui briseraient les os d'un mortel te font à peine reculer. Une batte de baseball sur le crâne ? Tu secoues la tête et continues d'avancer. Tombe du deuxième étage et relève-toi. Reçois des coups de poing brutaux et encaisse sans broncher. Tes muscles morts et ton sang stagnant absorbent l'impact comme du caoutchouc. Les contusions et fractures guérissent en quelques nuits, ou instantanément si tu dépenses de la vitae."
       },
       {
         level: 2,
         name: "Endurance",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Les balles pénètrent ta chair mais ne causent que des blessures superficielles, comme si tu étais fait de bois dur. Un couteau planté dans ton ventre ne te ralentit même pas. Ta peau morte est comme du cuir tanné, tes os comme du chêne. Même le feu et les premiers rayons du soleil te brûlent moins qu'ils ne le devraient - tu as quelques précieuses secondes de plus pour t'échapper de l'incendie ou plonger dans l'ombre avant que ton corps ne se consume."
       },
       {
         level: 3,
         name: "Résistance",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Même les dégâts qui devraient te détruire définitivement ne font que t'affaiblir. Les griffes d'un loup-garou déchirent ta chair mais ne la brûlent pas comme elles le devraient. Une torche enflammée te roussit mais ne t'embrase pas immédiatement. Tu peux continuer à agir malgré des blessures qui mettraient un autre vampire en torpeur : un pieu dans le cœur te paralyse, mais ton esprit reste conscient, observant, attendant. La douleur existe toujours, mais elle est distante, sans importance."
       },
       {
         level: 4,
         name: "Inébranlable",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "La douleur n'est plus qu'un concept abstrait. Marche avec un bras arraché, combat avec le ventre ouvert, cours malgré les jambes brisées. Ton corps refuse simplement d'abandonner. Les flammes lèchent ta chair sans te faire hurler, le soleil te brûle mais tu peux tenir assez longtemps pour achever ta mission avant de t'effondrer. Les témoins te voient continuer après des blessures qui auraient tué dix hommes et comprennent qu'ils font face à quelque chose d'inhumain."
       },
       {
         level: 5,
         name: "Invulnérabilité",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Tu es un monument de pierre animé. Les balles rebondissent sur ta peau en y laissant à peine une marque, les lames se tordent et se brisent contre tes os. Traverse un immeuble en feu pour sauver ton havre, tes vêtements et cheveux brûlent mais ton corps tient. Même la lumière du soleil, le fléau de tous les vampires, te consume lentement au lieu de t'incinérer instantanément. Tu n'es pas immortel, mais tu es la chose qui se rapproche le plus de l'indestructibilité dans la nuit."
       }
     ]
@@ -280,35 +280,35 @@ export const DISCIPLINES = {
         level: 1,
         name: "Vigueur",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "La force coule dans tes membres comme du fer en fusion. Soulève une moto d'une main, plie une barre de fer, broie une poignée de porte en poudre. Tes poings frappent comme des marteaux, tes mains serrent comme des étaux. Un coup bien placé brise une mâchoire, une étreinte fracture les côtes. Les mortels te voient soulever ce qui devrait être impossible et reculent, instinctivement conscients qu'ils sont face à quelque chose de contre-nature."
       },
       {
         level: 2,
         name: "Prouesse",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Défonce une porte d'un coup d'épaule, arrache un lampadaire du sol pour t'en servir comme arme, tords les barreaux de fer d'une fenêtre comme du papier d'aluminium. Projette un homme à travers la pièce d'une simple poussée. Escalade un mur en plantant tes doigts dans la brique comme dans de l'argile. Ta force commence à dépasser ce que la biomécanique humaine peut expliquer - les témoins ne peuvent que regarder, horrifiés."
       },
       {
         level: 3,
         name: "Brutalité",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Traverse un mur de briques comme une balle de canon. Écrase une portière de voiture en la refermant sur quelqu'un. Déchire un homme littéralement en deux si la Bête te prend. Saute d'un toit et atterris sur une voiture en l'écrasant sous ton poids et ta force. Une seule de tes frappes peut tuer un mortel net. Les armes de mêlée se brisent dans tes mains à cause de la force que tu y mets. Tu n'es plus fort qu'un humain, tu es une force de la nature."
       },
       {
         level: 4,
         name: "Fureur",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Renverse une voiture d'une poussée, arrache une porte blindée de ses gonds, fais s'effondrer un pilier de béton d'un coup. Écrase l'acier dans tes mains, démolis un mur porteur d'un coup d'épaule. En combat, tes coups envoient les adversaires voler à travers les vitres et les murs. Tu peux déchirer un vampire en morceaux de tes mains nues, ou décapiter d'un seul coup. La terre tremble légèrement sous tes pas quand tu charges."
       },
       {
         level: 5,
         name: "Force Titanesque",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Tu es une catastrophe naturelle à forme humaine. Arrache un arbre centenaire de terre, fais basculer un camion, détruis les fondations d'un bâtiment à mains nues. Arrête une voiture lancée à pleine vitesse en te plantant devant elle, tes pieds creusant des sillons dans l'asphalte. Projette un adversaire si fort qu'il traverse plusieurs murs. Lance une moto comme un javelot. À ce niveau de puissance, les mortels qui te voient en action parlent de démons ou de dieux. Et ils n'ont pas tort."
       }
     ]
@@ -323,7 +323,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Crainte Révérencielle",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Entre dans une pièce et tous les regards se tournent vers toi. Projette une aura de fascination magnétique ou de menace primordiale. Les conversations s'arrêtent, les gens s'écartent inconsciemment. Tu peux choisir l'émotion : admiration qui fait que les inconnus veulent te plaire, ou crainte qui les fait baisser les yeux. Pas besoin de contact visuel ou de mots, ta simple présence suffit. Les mortels trouvent des excuses pour rester près de toi ou pour fuir, selon ce que tu veux."
       },
       {
@@ -538,7 +538,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Insight",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Le voile entre les mondes s'amincit pour toi. Tu vois les fantômes qui errent invisibles autour des vivants, formes spectrales prisonnières entre deux mondes. Tu sens les traces de mort : un meurtre laisse une marque froide que tu peux détecter des jours après, un mourant irradie une aura particulière. Dans les cimetières et morgues, tu perçois une cacophonie d'esprits. Regarde quelqu'un et sais s'il est proche de la mort, combien de temps il lui reste. Les autres ne voient que le monde des vivants, toi tu vois les deux mondes superposés."
       },
       {
@@ -767,21 +767,21 @@ export const DISCIPLINES = {
         level: 3,
         name: "Ailes de Nuit",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Des ailes de chair et de pierre sont désormais permanentes dans ton dos. Tu voles vraiment, battant des ailes pour t'élever dans le ciel nocturne. Vole au-dessus de la ville, patrouille ton territoire vu d'en haut, fond sur tes ennemis comme un démon ailé. Ta silhouette monstrueuse dans le ciel est une vision de cauchemar médiéval."
       },
       {
         level: 4,
         name: "Vol Supersonique",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Tes ailes sont devenues puissantes. Tu files dans le ciel à une vitesse terrifiante, traversant la ville en minutes. Rattrape une voiture en fuite, voyage entre les cités en une seule nuit, ou frappe depuis les airs avec la force d'une météorite. Le vent hurle autour de toi, ta forme un éclair noir dans la nuit."
       },
       {
         level: 5,
         name: "Maître du Ciel",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Le ciel t'obéit. Vole dans n'importe quelle condition : tempête, vent violent, même à travers les flammes. Tu peux emporter des passagers, voler en portant un poids énorme, ou exécuter des manœuvres impossibles. Plonge en piqué à travers une fenêtre, vole à l'envers sous un pont, reste immobile en vol stationnaire. Tu es aussi à l'aise dans les airs qu'au sol, peut-être plus."
       }
     ]
@@ -796,7 +796,7 @@ export const DISCIPLINES = {
         level: 1,
         name: "Peau de Marbre",
         bloodCost: 0,
-        duration: "passive",
+        duration: "permanent",
         description: "Ta peau durcit, devient grise et lisse comme de la pierre polie. Les coups glissent, les lames rebondissent. Tu encaisses des blessures qui tueraient un mortel : couteaux, balles, chutes. Ta chair résonne d'un bruit sourd et creux quand on te frappe. L'armure naturelle du golem, gravée dans ta chair maudite."
       },
       {
