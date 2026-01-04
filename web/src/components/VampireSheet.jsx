@@ -402,7 +402,7 @@ export default function VampireSheet() {
   const [notVampire, setNotVampire] = useState(false);
   const [needsClanSelection, setNeedsClanSelection] = useState(false);
   const [vampireProfile, setVampireProfile] = useState(null);
-  const [vampireProfile, setVampireProfile] = useState(null);
+
   const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
   const [hasRituals, setHasRituals] = useState(false);
 
