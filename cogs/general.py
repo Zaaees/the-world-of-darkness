@@ -84,27 +84,30 @@ class GeneralCog(commands.Cog, name="Général"):
         # Retirer les rôles de clan/augure
         roles_removed = []
 
-        if clan:
-            clan_data = CLANS.get(clan)
-            if clan_data:
-                role = discord.utils.get(ctx.guild.roles, name=clan_data["nom"])
-                if role and role in member.roles:
-                    try:
-                        await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
-                        roles_removed.append(clan_data["nom"])
-                    except discord.Forbidden:
-                        pass
+        # Retirer les rôles de clan/augure (Méthode robuste : tout vérifier)
+        roles_removed = []
 
-        if auspice:
-            auspice_data = AUSPICES.get(auspice)
-            if auspice_data:
-                role = discord.utils.get(ctx.guild.roles, name=auspice_data["nom"])
-                if role and role in member.roles:
-                    try:
-                        await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
-                        roles_removed.append(auspice_data["nom"])
-                    except discord.Forbidden:
-                        pass
+        # Vérifier tous les clans possibles
+        for clan_info in CLANS.values():
+            role_name = clan_info["nom"]
+            role = discord.utils.get(ctx.guild.roles, name=role_name)
+            if role and role in member.roles:
+                try:
+                    await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
+                    roles_removed.append(role_name)
+                except discord.Forbidden:
+                    logger.warning(f"Impossible de retirer le rôle {role_name} à {member.display_name}")
+
+        # Vérifier tous les auspices possibles
+        for auspice_info in AUSPICES.values():
+            role_name = auspice_info["nom"]
+            role = discord.utils.get(ctx.guild.roles, name=role_name)
+            if role and role in member.roles:
+                try:
+                    await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
+                    roles_removed.append(role_name)
+                except discord.Forbidden:
+                    logger.warning(f"Impossible de retirer le rôle {role_name} à {member.display_name}")
 
         # Message de confirmation
         description = f"Le personnage de {member.display_name} a été réinitialisé.\n\n"
