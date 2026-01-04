@@ -747,42 +747,42 @@ export const DISCIPLINES = {
   flight: {
     id: "flight",
     name: "Vol",
-    description: "Les ailes de pierre battent. Le ciel nocturne t'appartient, défiant la gravité comme seuls les monstres le peuvent.",
+    description: "Tes ailes ne sont pas décoratives. Tu apprends à maîtriser cette anatomie monstrueuse pour conquérir le ciel.",
     powers: [
       {
         level: 1,
-        name: "Lévitation",
+        name: "Plume",
         bloodCost: 0,
-        duration: "scene",
-        description: "Concentre-toi et tes pieds quittent le sol. Tu flottes à quelques mètres de hauteur, te déplaçant lentement dans les airs comme suspendu par des fils invisibles. Parfait pour atteindre un toit, franchir un gouffre, ou impressionner par ta nature surnaturelle. Mais reste à portée du sol : monter trop haut ou perdre ta concentration te ferait chuter brutalement."
+        duration: "permanent",
+        description: "Tes ailes sont encore faibles pour le vol réel, mais tu sais instinctivement les utiliser pour freiner une chute. Peu importe la hauteur, tu atterris avec la légèreté d'une plume, sans bruit et sans dégâts. Tu peux aussi faire des bonds prodigieux, tes ailes te donnant une portance supplémentaire."
       },
       {
         level: 2,
         name: "Planer",
         bloodCost: 0,
-        duration: "scene",
-        description: "Lance-toi dans le vide et plane comme un rapace. Tu ne peux pas vraiment voler, mais tu contrôles ta chute avec grâce, glissant sur les courants d'air pour parcourir de grandes distances. Saute d'un immeuble et atterris en douceur trois rues plus loin. Poursuis une cible en sautant de toit en toit sans jamais toucher terre. La ville devient un terrain de chasse tridimensionnel."
+        duration: "permanent",
+        description: "Tu as appris à lire les courants d'air invisibles. Lance-toi d'un point élevé et tu peux planer sur de longues distances, silencieux comme une chouette. Tu ne peux pas encore gagner de l'altitude, mais tu peux traverser la ville de toit en toit sans jamais toucher le sol."
       },
       {
         level: 3,
         name: "Ailes de Nuit",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Des ailes de chair et de pierre sont désormais permanentes dans ton dos. Tu voles vraiment, battant des ailes pour t'élever dans le ciel nocturne. Vole au-dessus de la ville, patrouille ton territoire vu d'en haut, fond sur tes ennemis comme un démon ailé. Ta silhouette monstrueuse dans le ciel est une vision de cauchemar médiéval."
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tes muscles dorsaux sont enfin assez puissants. Tu peux décoller du sol par ta seule force et voler réellement. Ton vol est peut-être lourd et bruyant au début, mais le ciel t'appartient désormais. Tu peux faire du surplace, effectuer des virages serrés, et fondre sur tes proies depuis les airs."
       },
       {
         level: 4,
         name: "Vol Supersonique",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Tes ailes sont devenues puissantes. Tu files dans le ciel à une vitesse terrifiante, traversant la ville en minutes. Rattrape une voiture en fuite, voyage entre les cités en une seule nuit, ou frappe depuis les airs avec la force d'une météorite. Le vent hurle autour de toi, ta forme un éclair noir dans la nuit."
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu ne voles plus, tu files. Tu deviens un missile vivant, capable d'atteindre des vitesses qui rivalisent avec les véhicules modernes. Le vent hurle à tes oreilles, la ville défile floue sous tes yeux. Idéal pour les interceptions, les fuites éclairs, ou pour frapper avec une énergie cinétique dévastatrice."
       },
       {
         level: 5,
         name: "Maître du Ciel",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Le ciel t'obéit. Vole dans n'importe quelle condition : tempête, vent violent, même à travers les flammes. Tu peux emporter des passagers, voler en portant un poids énorme, ou exécuter des manœuvres impossibles. Plonge en piqué à travers une fenêtre, vole à l'envers sous un pont, reste immobile en vol stationnaire. Tu es aussi à l'aise dans les airs qu'au sol, peut-être plus."
+        bloodCost: 3,
+        duration: "scene",
+        description: "Les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole par tempête majeure, porte des charges lourdes (comme un autre vampire en armure) sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris."
       }
     ]
   },
@@ -790,42 +790,42 @@ export const DISCIPLINES = {
   visceratika: {
     id: "visceratika",
     name: "Visceratika",
-    description: "La pierre coule dans tes veines. Ta chair devient marbre, tes os se tordent en armes vivantes. Le corps comme argile.",
+    description: "Tu es la sentinelle de la pierre. Tu ne fais qu'un avec le bâtiment que tu protèges, partageant sa solidité et ses secrets.",
     powers: [
       {
         level: 1,
-        name: "Peau de Marbre",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Ta peau durcit, devient grise et lisse comme de la pierre polie. Les coups glissent, les lames rebondissent. Tu encaisses des blessures qui tueraient un mortel : couteaux, balles, chutes. Ta chair résonne d'un bruit sourd et creux quand on te frappe. L'armure naturelle du golem, gravée dans ta chair maudite."
+        name: "Peau de Caméléon",
+        bloodCost: 1,
+        duration: "scene",
+        description: "En restant immobile contre une surface minérale (pierre, brique, béton), ta peau en adopte instantanément la couleur et la texture. Tu deviens quasiment invisible, une simple protubérance architecturale. Tant que tu ne bouges pas, il faut des sens surnaturels pour te distinguer de la pierre. La cachette parfaite pour une embuscade ou une surveillance."
       },
       {
         level: 2,
-        name: "Griffes d'Obsidienne",
+        name: "Cœur de Pierre",
         bloodCost: 1,
         duration: "scene",
-        description: "Tes doigts se tordent, les ongles s'allongent en griffes de pierre noire tranchantes comme du verre volcanique. Taille à travers la chair, déchire le métal, lacère les os. Tes mains deviennent des armes mortelles qui ne se brisent jamais, ne s'émoussent jamais. Le sang glisse sur l'obsidienne comme sur du verre."
+        description: "Tu entres en communion avec le bâtiment. En touchant un mur, tu perçois tout ce qui se passe à l'intérieur de la structure : les pas dans les couloirs, les portes qui s'ouvrent, les battements de cœur des intrus. Le bâtiment devient une extension de ton propre corps sensoriel. Tu sais exactement où se trouve l'ennemi dans 'ton' territoire."
       },
       {
         level: 3,
-        name: "Modelage Corporel",
+        name: "Lien avec la Montagne",
         bloodCost: 3,
-        duration: "permanent",
-        description: "Modèle ta chair comme de l'argile. Fait pousser des pointes osseuses de ton dos, transforme ton bras en masse de pierre, ouvre un œil supplémentaire sur ta paume. Chaque transformation est douloureuse, un craquement d'os et un déchirement de chair, mais le résultat est fonctionnel. Armes naturelles, armure supplémentaire, outils organiques - ton corps devient ce dont tu as besoin."
+        duration: "prolonged",
+        description: "Tu peux fusionner physiquement avec la pierre. Comme le pouvoir de Protéisme avec la terre, mais avec la roche ou le béton. Tu t'enfonces dans un mur ou un sol et y disparais. C'est le refuge ultime pour passer la journée ou échapper à un combat qui tourne mal. Tu es conscient de ton environnement immédiat, mais intouchable tant que la pierre n'est pas détruite."
       },
       {
         level: 4,
-        name: "Forme de Gargouille",
+        name: "Armure de la Terre",
         bloodCost: 3,
         duration: "scene",
-        description: "Transforme-toi complètement : corps massif de pierre grise, ailes membraneuses, griffes et crocs, yeux rouges brûlants. Tu deviens une véritable gargouille, statue vivante et terrifiante. Dans cette forme, tu es incroyablement résistant, les balles ricochent, les lames se brisent. Mais tu es aussi lourd, moins agile. La forme ultime du gardien de pierre."
+        description: "Ta peau ne fait pas que ressembler à la pierre, elle en acquiert la dureté. Tu deviens une statue vivante. Ta résistance aux dégâts augmente considérablement, surtout contre le feu qui glisse sur toi comme sur du granit. Contrairement à la Force d'Âme, cette protection est visible : ta peau devient grise et craquelée, tes mouvements produisent un bruit de frottement minéral."
       },
       {
         level: 5,
-        name: "Âme de Granit",
-        bloodCost: 9,
-        duration: "prolonged",
-        description: "Transforme entièrement en statue de pierre à volonté. Dans cet état, tu es totalement immobile mais pratiquement indestructible. Le feu ne te brûle pas, le soleil ne te consume pas, les siècles peuvent passer sans t'affecter. Perché sur un toit, tu sembles une simple gargouille décorative pendant des années si nécessaire. Reviens à la vie quand tu le décides, explosant de ta prison de pierre dans un déluge de gravats. L'immortalité par pétrification."
+        name: "Couler dans la Montagne",
+        bloodCost: 3,
+        duration: "scene",
+        description: "La pierre n'est plus un obstacle. Tu peux traverser les murs, les plafonds et les sols en pierre ou béton comme s'ils étaient de la fumée. Tu marches à travers les défenses d'un bunker, tu traverses un immeuble de part en part en ligne droite. Tu peux même emmener quelqu'un avec toi si tu le tiens, ou tirer un ennemi à moitié dans un mur et le laisser là, solidifié."
       }
     ]
   },
