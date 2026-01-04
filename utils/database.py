@@ -210,6 +210,17 @@ async def init_database():
             )
         """)
 
+        # Table des rituels appris
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS player_rituals (
+                user_id INTEGER,
+                guild_id INTEGER,
+                ritual_id TEXT,
+                learned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id, ritual_id)
+            )
+        """)
+
         # Migration : ajouter la colonne image_url si elle n'existe pas
         try:
             await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
@@ -800,6 +811,43 @@ async def refuse_blood_action(submission_id: str, validator_id: int, reason: Opt
             "SELECT * FROM pending_blood_actions WHERE submission_id = ?",
             (submission_id,),
         )
+        # ... implementation continues ...
+
+# ============================================
+# Fonctions pour les rituels
+# ============================================
+
+
+async def add_player_ritual(user_id: int, guild_id: int, ritual_id: str) -> bool:
+    """
+    Ajoute un rituel à la liste des rituels connus d'un joueur.
+    Retourne True si ajouté, False si déjà connu.
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        try:
+            await db.execute(
+                """
+                INSERT INTO player_rituals (user_id, guild_id, ritual_id, learned_at)
+                VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+                """,
+                (user_id, guild_id, ritual_id),
+            )
+            await db.commit()
+            return True
+        except aiosqlite.IntegrityError:
+            return False  # Déjà connu
+
+
+async def get_player_rituals(user_id: int, guild_id: int) -> list[str]:
+    """Récupère la liste des IDs de rituels connus par un joueur."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT ritual_id FROM player_rituals WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id),
+        )
+        rows = await cursor.fetchall()
+        return [row[0] for row in rows]
+
         action = await cursor.fetchone()
 
         if not action or action["status"] != "pending":

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText, Book } from 'lucide-react';
+import DisciplinesTab from './DisciplinesTab';
 import DisciplinesTab from './DisciplinesTab';
 import GhoulsTab from './GhoulsTab';
+import RitualsTab from './RitualsTab';
 import CharacterSheet from './CharacterSheet';
 import ClanSelection from './ClanSelection';
 import { getClanDescription } from '../data/clanDescriptions';
@@ -118,11 +120,11 @@ const CLAN_ACTIONS = {
 };
 
 const RESONANCE_ACTIONS = [
-  { id: "resonance_choleric", name: "Sang colérique", description: "Se nourrir sur quelqu'un en pleine rage ou violence", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
-  { id: "resonance_melancholic", name: "Sang mélancolique", description: "Se nourrir sur quelqu'un en profond désespoir", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
-  { id: "resonance_sanguine", name: "Sang sanguin", description: "Se nourrir sur quelqu'un en pleine euphorie ou passion", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
-  { id: "resonance_phlegmatic", name: "Sang flegmatique", description: "Se nourrir sur quelqu'un en paix absolue ou apathie", points: 2, minBp: 1, maxBp: 3, scaling: {1: 2, 2: 2, 3: 1} },
-  { id: "resonance_dyscrasia", name: "Dyscrasie", description: "Se nourrir sur une émotion extrême, à son paroxysme", points: 5, minBp: 1, maxBp: 4, scaling: {1: 5, 2: 5, 3: 5, 4: 3} },
+  { id: "resonance_choleric", name: "Sang colérique", description: "Se nourrir sur quelqu'un en pleine rage ou violence", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
+  { id: "resonance_melancholic", name: "Sang mélancolique", description: "Se nourrir sur quelqu'un en profond désespoir", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
+  { id: "resonance_sanguine", name: "Sang sanguin", description: "Se nourrir sur quelqu'un en pleine euphorie ou passion", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
+  { id: "resonance_phlegmatic", name: "Sang flegmatique", description: "Se nourrir sur quelqu'un en paix absolue ou apathie", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
+  { id: "resonance_dyscrasia", name: "Dyscrasie", description: "Se nourrir sur une émotion extrême, à son paroxysme", points: 5, minBp: 1, maxBp: 4, scaling: { 1: 5, 2: 5, 3: 5, 4: 3 } },
 ];
 
 const VAMPIRE_BLOOD_ACTIONS = [
@@ -135,9 +137,9 @@ const VAMPIRE_BLOOD_ACTIONS = [
 ];
 
 const CRISIS_ACTIONS = [
-  { id: "crisis_near_death", name: "Frôler la Mort Finale", description: "Survivre de justesse à un danger mortel", points: 5, minBp: 1, maxBp: 5, scaling: {1: 5, 2: 5, 3: 5, 4: 3, 5: 2} },
-  { id: "crisis_resist_frenzy", name: "Dompter la Bête", description: "Résister à une frénésie en situation critique", points: 3, minBp: 1, maxBp: 4, scaling: {1: 3, 2: 3, 3: 3, 4: 2} },
-  { id: "crisis_unleash_beast", name: "La Bête déchaînée", description: "Céder à la frénésie avec conséquences assumées", points: 4, minBp: 1, maxBp: 4, scaling: {1: 4, 2: 4, 3: 4, 4: 2} },
+  { id: "crisis_near_death", name: "Frôler la Mort Finale", description: "Survivre de justesse à un danger mortel", points: 5, minBp: 1, maxBp: 5, scaling: { 1: 5, 2: 5, 3: 5, 4: 3, 5: 2 } },
+  { id: "crisis_resist_frenzy", name: "Dompter la Bête", description: "Résister à une frénésie en situation critique", points: 3, minBp: 1, maxBp: 4, scaling: { 1: 3, 2: 3, 3: 3, 4: 2 } },
+  { id: "crisis_unleash_beast", name: "La Bête déchaînée", description: "Céder à la frénésie avec conséquences assumées", points: 4, minBp: 1, maxBp: 4, scaling: { 1: 4, 2: 4, 3: 4, 4: 2 } },
   { id: "crisis_final_death", name: "Mort Finale évitée", description: "Survivre à un staking ou une exposition solaire prolongée", points: 12, minBp: 3, maxBp: 5 },
 ];
 
@@ -179,7 +181,7 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
       </div>
 
       <div className="h-4 bg-stone-900 rounded-full overflow-hidden border border-stone-800 relative shadow-inner">
-        <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle, #330000 1px, transparent 1px)', backgroundSize: '4px 4px'}}></div>
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle, #330000 1px, transparent 1px)', backgroundSize: '4px 4px' }}></div>
 
         <div
           className={`h-full transition-all duration-700 ease-out relative ${isMutating ? 'bg-red-600' : 'bg-red-900'}`}
@@ -231,14 +233,14 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
         ${isSubmitting
           ? 'action-submitting bg-yellow-950/30 border-yellow-700/50 cursor-wait'
           : isCompleted
-          ? 'bg-green-950/20 border-green-900/30 opacity-50 cursor-not-allowed'
-          : isPending
-          ? 'bg-yellow-950/20 border-yellow-900/30 cursor-wait'
-          : isCooldown
-          ? 'bg-orange-950/20 border-orange-900/30 cursor-not-allowed opacity-60'
-          : isDisabled
-          ? 'bg-transparent border-stone-900/30 opacity-30 cursor-not-allowed'
-          : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900 cursor-pointer active:scale-[0.98]'
+            ? 'bg-green-950/20 border-green-900/30 opacity-50 cursor-not-allowed'
+            : isPending
+              ? 'bg-yellow-950/20 border-yellow-900/30 cursor-wait'
+              : isCooldown
+                ? 'bg-orange-950/20 border-orange-900/30 cursor-not-allowed opacity-60'
+                : isDisabled
+                  ? 'bg-transparent border-stone-900/30 opacity-30 cursor-not-allowed'
+                  : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900 cursor-pointer active:scale-[0.98]'
         }
       `}
     >
@@ -314,7 +316,7 @@ const ActionCategory = ({ category, character, completedActions, pendingActions,
             return (
               <ActionButton
                 key={action.id}
-                action={{...action, points: scaledPoints}}
+                action={{ ...action, points: scaledPoints }}
                 isDisabled={character.bloodPotency >= 5}
                 isPending={isPending}
                 isCompleted={isCompleted}
@@ -371,7 +373,7 @@ const LoginPage = ({ onLogin, error }) => {
             className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white font-medium py-3 px-6 rounded-lg flex items-center justify-center gap-3 transition-colors"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
             </svg>
             Se connecter avec Discord
           </button>
@@ -400,7 +402,7 @@ export default function VampireSheet() {
   const [notVampire, setNotVampire] = useState(false);
   const [needsClanSelection, setNeedsClanSelection] = useState(false);
   const [vampireProfile, setVampireProfile] = useState(null);
-  const [activeTab, setActiveTab] = useState('character'); // 'sheet' ou 'disciplines'
+  const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -763,9 +765,9 @@ export default function VampireSheet() {
 
             // Vérifier si quelque chose a changé
             if (prev.bloodPotency !== newBP ||
-                prev.saturationPoints !== newSat ||
-                JSON.stringify(prev.completedActions) !== JSON.stringify(newCompleted) ||
-                JSON.stringify(prev.pendingActions) !== JSON.stringify(newPending)) {
+              prev.saturationPoints !== newSat ||
+              JSON.stringify(prev.completedActions) !== JSON.stringify(newCompleted) ||
+              JSON.stringify(prev.pendingActions) !== JSON.stringify(newPending)) {
               return {
                 ...prev,
                 bloodPotency: newBP,
@@ -843,15 +845,15 @@ export default function VampireSheet() {
 
   // Page de sélection de clan si l'utilisateur a le rôle Vampire mais pas de clan
   if (needsClanSelection && !loading) {
-  const handleClanSelected = async (clanId) => {
-    // Recharger les données après sélection du clan
-    setNeedsClanSelection(false);
-    setLoading(true);
-    await loadCharacter();
-    
-    // Rediriger automatiquement vers l'onglet Fiche
-    setActiveTab('character');
-  };
+    const handleClanSelected = async (clanId) => {
+      // Recharger les données après sélection du clan
+      setNeedsClanSelection(false);
+      setLoading(true);
+      await loadCharacter();
+
+      // Rediriger automatiquement vers l'onglet Fiche
+      setActiveTab('character');
+    };
 
     return (
       <ClanSelection
@@ -975,44 +977,54 @@ export default function VampireSheet() {
         <div className="max-w-2xl mx-auto flex">
           <button
             onClick={() => setActiveTab('character')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
-              activeTab === 'character'
-                ? 'text-red-500 border-red-600 bg-stone-900/30'
-                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-            }`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'character'
+              ? 'text-red-500 border-red-600 bg-stone-900/30'
+              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+              }`}
           >
             <FileText size={16} />
             Fiche
           </button>
           <button
             onClick={() => setActiveTab('sheet')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
-              activeTab === 'sheet'
-                ? 'text-red-500 border-red-600 bg-stone-900/30'
-                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-            }`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'sheet'
+              ? 'text-red-500 border-red-600 bg-stone-900/30'
+              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+              }`}
           >
             <Droplet size={16} />
             Vitae
           </button>
           <button
             onClick={() => setActiveTab('disciplines')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
-              activeTab === 'disciplines'
-                ? 'text-red-500 border-red-600 bg-stone-900/30'
-                : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-            }`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'disciplines'
+              ? 'text-red-500 border-red-600 bg-stone-900/30'
+              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+              }`}
           >
             <Sparkles size={16} />
             Disciplines
           </button>
-          <button
-            onClick={() => setActiveTab('ghouls')}
-            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${
-              activeTab === 'ghouls'
+
+          {(character.clan === 'tremere' || character.clan === 'hecata' || character.clan === 'giovanni' || character.clan === 'banu_haqim' || character.clan === 'assamite') && (
+            <button
+              onClick={() => setActiveTab('rituals')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
                 ? 'text-red-500 border-red-600 bg-stone-900/30'
                 : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
-            }`}
+                }`}
+            >
+              <Book size={16} />
+              Grimoire
+            </button>
+          )}
+
+          <button
+            onClick={() => setActiveTab('ghouls')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'ghouls'
+              ? 'text-red-500 border-red-600 bg-stone-900/30'
+              : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
+              }`}
           >
             <Users size={16} />
             Goules
@@ -1024,9 +1036,9 @@ export default function VampireSheet() {
 
         {/* ONGLET VITALITÉ (Bio) */}
         {activeTab === 'character' && (
-          <CharacterSheet 
-            userId={discordUser.id} 
-            guildId={guildId} 
+          <CharacterSheet
+            userId={discordUser.id}
+            guildId={guildId}
           />
         )}
 
@@ -1038,17 +1050,17 @@ export default function VampireSheet() {
               <BloodGauge current={character.saturationPoints} max={maxPoints} isMutating={character.isMutating} level={character.bloodPotency} />
 
               <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
-                 <div className="absolute top-0 right-0 p-4 opacity-5">
-                   <CurrentIcon size={100} />
-                 </div>
+                <div className="absolute top-0 right-0 p-4 opacity-5">
+                  <CurrentIcon size={100} />
+                </div>
 
-                 <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
-                    {currentStage.title}
-                 </h2>
+                <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
+                  {currentStage.title}
+                </h2>
 
-                 <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
-                   "{currentStage.description}"
-                 </p>
+                <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
+                  "{currentStage.description}"
+                </p>
               </div>
             </section>
 
@@ -1081,7 +1093,7 @@ export default function VampireSheet() {
                 </div>
 
                 <ActionButton
-                  action={{...clanAction, points: getActionPoints(clanAction, character.bloodPotency)}}
+                  action={{ ...clanAction, points: getActionPoints(clanAction, character.bloodPotency) }}
                   isDisabled={character.bloodPotency >= 5}
                   isPending={(character.pendingActions || []).includes(clanAction.id)}
                   isCompleted={false}
@@ -1121,33 +1133,33 @@ export default function VampireSheet() {
 
             {/* LOG */}
             <section className="border-t border-stone-900 pt-2">
-               <button
-                 onClick={() => setHistoryOpen(!historyOpen)}
-                 className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
-               >
-                 {historyOpen ? <ChevronUp size={12}/> : <ChevronDown size={12}/>}
-                 Mémoire du Sang
-               </button>
+              <button
+                onClick={() => setHistoryOpen(!historyOpen)}
+                className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
+              >
+                {historyOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                Mémoire du Sang
+              </button>
 
-               {historyOpen && (
-                 <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
-                   {[...(character.history || [])].reverse().map((h, i) => (
-                     <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
-                       <span className={
-                         h.type === 'levelup' ? 'text-red-400 font-bold' :
-                         h.type === 'pending' ? 'text-yellow-500' :
-                         'text-stone-400'
-                       }>
-                         {h.text}
-                       </span>
-                       <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
-                     </div>
-                   ))}
-                   {(!character.history || character.history.length === 0) && (
-                     <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
-                   )}
-                 </div>
-               )}
+              {historyOpen && (
+                <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
+                  {[...(character.history || [])].reverse().map((h, i) => (
+                    <div key={i} className="flex justify-between items-center text-xs border-b border-stone-900 pb-2 last:border-0">
+                      <span className={
+                        h.type === 'levelup' ? 'text-red-400 font-bold' :
+                          h.type === 'pending' ? 'text-yellow-500' :
+                            'text-stone-400'
+                      }>
+                        {h.text}
+                      </span>
+                      <span className="text-stone-700 font-mono">{new Date(h.date).toLocaleDateString()}</span>
+                    </div>
+                  ))}
+                  {(!character.history || character.history.length === 0) && (
+                    <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
+                  )}
+                </div>
+              )}
             </section>
           </>
         )}
@@ -1157,6 +1169,15 @@ export default function VampireSheet() {
           <DisciplinesTab
             clan={character.clan}
             bloodPotency={character.bloodPotency}
+          />
+        )}
+
+        {/* ONGLET RITUELS */}
+        {activeTab === 'rituals' && (
+          <RitualsTab
+            userId={discordUser.id}
+            guildId={guildId}
+            clan={character.clan}
           />
         )}
 

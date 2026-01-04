@@ -25,6 +25,7 @@ from utils.database import (
     update_ghoul,
     get_character_sheet,
     save_character_sheet,
+    get_player_rituals,
 )
 from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord
 
@@ -669,6 +670,32 @@ async def set_vampire_clan_handler(request):
         )
 
 
+
+# ============================================
+# Fonctions pour les rituels (API)
+# ============================================
+
+
+async def get_player_rituals_handler(request):
+    """GET /api/rituals - Récupérer les rituels connus par le joueur."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response(
+            {"success": False, "error": "Non authentifié"}, status=401
+        )
+
+    user_id, guild_id = auth
+
+    try:
+        rituals = await get_player_rituals(user_id, guild_id)
+        return web.json_response({"success": True, "rituals": rituals})
+    except Exception as e:
+        logger.error(f"Erreur get_player_rituals: {e}", exc_info=True)
+        return web.json_response(
+            {"success": False, "error": str(e)}, status=500
+        )
+
+
 # --- HEALTH CHECK ---
 
 
@@ -701,6 +728,9 @@ def create_app(bot=None):
     app.router.add_post("/api/ghouls", create_ghoul_handler)
     app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)
     app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
+
+    # Routes Rituels
+    app.router.add_get("/api/rituals", get_player_rituals_handler)
 
     return app
 
