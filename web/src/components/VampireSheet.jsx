@@ -717,6 +717,8 @@ export default function VampireSheet() {
           // Mapper les champs spécifiques si nécessaire
           disciplines: charData.disciplines || {},
           rituals: charData.rituals || [],
+          blood_potency: charData.bloodPotency || charData.blood_potency || 1,
+          image_url: charData.imageUrl || charData.image_url,
         };
 
         const response = await fetch(`${API_URL}/api/gm/npcs/${npcCharacter.id}`, {
@@ -961,8 +963,10 @@ export default function VampireSheet() {
   const activeChar = character || displayCharacter; // Priorité au state local (modifié)
 
 
-  const currentStage = BLOOD_STAGES[activeChar.bloodPotency] || BLOOD_STAGES[1];
-  const maxPoints = SATURATION_THRESHOLDS[activeChar.bloodPotency] || 100;
+  // Protection contre les crashs si BP > 5 (ex: Caïn)
+  const effectiveBP = Math.min(activeChar.bloodPotency || 1, 5);
+  const currentStage = BLOOD_STAGES[effectiveBP] || BLOOD_STAGES[1];
+  const maxPoints = SATURATION_THRESHOLDS[effectiveBP] || 100;
   const CurrentIcon = currentStage.icon;
 
   // Utiliser le nom Discord avec accents (global_name) au lieu du username brut
@@ -1110,7 +1114,7 @@ export default function VampireSheet() {
                 title="Mode Caïn (MJ)"
               >
                 {isCainMode ? <Flame size={12} className="animate-pulse" /> : <Shield size={12} />}
-                {npcCharacter ? "Quitter PNJ" : "Caïn"}
+                {npcCharacter ? "Quitter PNJ" : "MJ"}
               </button>
             )}
           </div>
@@ -1131,6 +1135,8 @@ export default function VampireSheet() {
               ...DEFAULT_CHARACTER,
               ...npc,
               // S'assurer que les objets complexes sont initialisés
+              // Fix crucial: mapper les champs snake_case (DB) vers camelCase (Frontend)
+              bloodPotency: npc.blood_potency || npc.bloodPotency || 1,
               disciplines: npc.disciplines || {},
               rituals: npc.rituals || [],
               ghouls: [], // Pas de goules pour les PNJ pour l'instant
@@ -1383,7 +1389,7 @@ export default function VampireSheet() {
               <DisciplinesTab
                 clan={activeChar.clan}
                 bloodPotency={isCainMode && !npcCharacter ? 5 : activeChar.bloodPotency}
-                isCainMode={isCainMode}
+                isCainMode={isCainMode || (npcCharacter && npcCharacter.id === 'cain_legendary')}
               />
             )}
 
@@ -1393,7 +1399,7 @@ export default function VampireSheet() {
                 userId={discordUser.id}
                 guildId={guildId}
                 clan={activeChar.clan}
-                isCainMode={isCainMode}
+                isCainMode={isCainMode || (npcCharacter && npcCharacter.id === 'cain_legendary')}
                 character={activeChar} // Passer le character pour que le composant puisse vérifier les rituels
               />
             )}

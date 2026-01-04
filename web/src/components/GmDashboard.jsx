@@ -177,16 +177,25 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* Carte Caïn (Permanente) */}
-                                {/* <div 
-                        onClick={() => onSelectNpc({ name: "Caïn", isLegend: true })}
-                        className="bg-red-950/10 border border-red-900/30 rounded p-4 cursor-pointer hover:bg-red-950/20 transition-all group relative overflow-hidden"
-                    >
-                        <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20">
-                            <Shield size={64} />
-                        </div>
-                        <h3 className="text-xl font-serif text-red-500 mb-1">Caïn</h3>
-                        <p className="text-xs text-stone-500 uppercase tracking-widest">Le Premier Vampire</p>
-                    </div> */}
+                                <div
+                                    onClick={() => onSelectNpc({
+                                        id: 'cain_legendary',
+                                        name: "Caïn",
+                                        clan: "La Créature",
+                                        blood_potency: 10,
+                                        description: "Le Premier Vampire. Le Père Noir.",
+                                        disciplines: {},
+                                        rituals: []
+                                    })}
+                                    className="bg-red-950/10 border border-red-900/30 rounded p-4 cursor-pointer hover:bg-red-950/20 transition-all group relative overflow-hidden"
+                                >
+                                    <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20">
+                                        <Shield size={64} />
+                                    </div>
+                                    <h3 className="text-xl font-serif text-red-500 mb-1">Caïn</h3>
+                                    <h3 className="text-xl font-serif text-red-500 mb-1">Caïn</h3>
+                                    <p className="text-xs text-stone-500 uppercase tracking-widest">Le Premier Vampire</p>
+                                </div>
 
                                 {filteredNpcs.map(npc => (
                                     <div
