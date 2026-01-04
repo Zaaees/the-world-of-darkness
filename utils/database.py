@@ -13,6 +13,7 @@ from typing import Optional
 import logging
 import uuid
 import random
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -242,9 +243,6 @@ async def init_database():
         """)
 
         # Migration : ajouter la colonne image_url si elle n'existe pas
-        try:
-            await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
-        except Exception:
         try:
             await db.execute("ALTER TABLE character_sheets ADD COLUMN image_url TEXT")
         except Exception:
