@@ -402,7 +402,9 @@ export default function VampireSheet() {
   const [notVampire, setNotVampire] = useState(false);
   const [needsClanSelection, setNeedsClanSelection] = useState(false);
   const [vampireProfile, setVampireProfile] = useState(null);
+  const [vampireProfile, setVampireProfile] = useState(null);
   const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
+  const [hasRituals, setHasRituals] = useState(false);
 
   // Récupérer les infos Discord
   const fetchDiscordUser = useCallback(async (token) => {
@@ -593,6 +595,24 @@ export default function VampireSheet() {
 
         if (vampireProfileData.success) {
           setVampireProfile(vampireProfileData);
+
+          // Check for rituals to unlock Grimoire tab
+          try {
+            const ritualsRes = await fetch(`${API_URL}/api/rituals`, {
+              headers: {
+                'X-Discord-User-ID': discordUser.id,
+                'X-Discord-Guild-ID': detectedGuildId.toString()
+              }
+            });
+            if (ritualsRes.ok) {
+              const rData = await ritualsRes.json();
+              if (rData.success && rData.rituals && rData.rituals.length > 0) {
+                setHasRituals(true);
+              }
+            }
+          } catch (e) {
+            console.error("Error checking rituals:", e);
+          }
 
           // Si l'utilisateur a le rôle Vampire mais pas de clan, afficher la sélection de clan
           if (vampireProfileData.has_vampire_role && !vampireProfileData.clan) {
@@ -1006,7 +1026,7 @@ export default function VampireSheet() {
             Disciplines
           </button>
 
-          {(character.clan === 'tremere' || character.clan === 'hecata' || character.clan === 'giovanni' || character.clan === 'banu_haqim' || character.clan === 'assamite' || character.disciplines?.thaumaturgy || character.disciplines?.necromancy) && (
+          {(character.clan === 'tremere' || character.clan === 'hecata' || character.clan === 'giovanni' || character.clan === 'banu_haqim' || character.clan === 'assamite' || character.disciplines?.thaumaturgy || character.disciplines?.necromancy || hasRituals) && (
             <button
               onClick={() => setActiveTab('rituals')}
               className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
