@@ -5,12 +5,12 @@ import { getClanDescription } from '../data/clanDescriptions';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
-export default function CharacterSheet({ userId, guildId }) {
+export default function CharacterSheet({ userId, guildId, onUpdate }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  
+
   const [clanId, setClanId] = useState(null);
   const [sheetData, setSheetData] = useState({
     name: '',
@@ -37,7 +37,7 @@ export default function CharacterSheet({ userId, guildId }) {
           }
         });
         const profileData = await profileResponse.json();
-        
+
         if (profileData.success && profileData.clan) {
           setClanId(profileData.clan);
         } else {
@@ -90,11 +90,14 @@ export default function CharacterSheet({ userId, guildId }) {
         },
         body: JSON.stringify(sheetData)
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         setIsEditing(false);
+        if (onUpdate && sheetData.name) {
+          onUpdate({ name: sheetData.name });
+        }
       } else {
         setError(data.error || "Erreur lors de la sauvegarde.");
       }
@@ -161,7 +164,7 @@ export default function CharacterSheet({ userId, guildId }) {
             <FileText className="w-5 h-5" />
             Fiche de Personnage
           </h1>
-          <button 
+          <button
             onClick={() => setIsEditing(true)}
             className="flex items-center gap-2 px-3 py-1.5 bg-stone-800 hover:bg-stone-700 rounded border border-stone-700 transition-colors text-xs"
           >
@@ -172,9 +175,9 @@ export default function CharacterSheet({ userId, guildId }) {
         {/* Image - Centrée Haut */}
         {sheetData.image_url && (
           <div className="mb-6 flex justify-center">
-            <img 
-              src={sheetData.image_url} 
-              alt="Personnage" 
+            <img
+              src={sheetData.image_url}
+              alt="Personnage"
               className="max-h-[500px] w-auto rounded border border-stone-800 shadow-lg object-contain bg-black/20"
             />
           </div>
@@ -201,7 +204,7 @@ export default function CharacterSheet({ userId, guildId }) {
         {/* Descriptions - Pleine largeur */}
         <div className="space-y-4 mb-6">
           <SectionView title="Description Physique" content={sheetData.physical_desc} />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <SectionView title="Mentalité (Avant l'Etreinte)" content={sheetData.mental_desc_pre} />
             <SectionView title="Mentalité Corrompue" content={sheetData.mental_desc_post} highlight />
@@ -236,9 +239,9 @@ export default function CharacterSheet({ userId, guildId }) {
         <div className="bg-stone-900/50 border border-stone-800 rounded p-6 text-center">
           {sheetData.image_url ? (
             <div className="space-y-4">
-              <img 
-                src={sheetData.image_url} 
-                alt="Aperçu" 
+              <img
+                src={sheetData.image_url}
+                alt="Aperçu"
                 className="mx-auto max-h-64 rounded shadow border border-stone-700"
               />
               <div className="flex justify-center gap-2">
@@ -246,8 +249,8 @@ export default function CharacterSheet({ userId, guildId }) {
                   <Upload size={14} /> Changer l'image
                   <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
                 </label>
-                <button 
-                  onClick={() => setSheetData(prev => ({...prev, image_url: ''}))}
+                <button
+                  onClick={() => setSheetData(prev => ({ ...prev, image_url: '' }))}
                   className="px-4 py-2 bg-red-900/30 hover:bg-red-900/50 rounded border border-red-900/50 text-red-300 text-sm"
                 >
                   Supprimer
@@ -359,25 +362,25 @@ export default function CharacterSheet({ userId, guildId }) {
 
         {/* Actions */}
         <div className="flex justify-end gap-4 pt-4 border-t border-stone-800">
-           {/* Si on était en mode vue avant (donc pas première création), on peut annuler */}
-           {/* Mais ici pour simplifier, si on annule on recharge la page ou on revient à l'état précédent. 
+          {/* Si on était en mode vue avant (donc pas première création), on peut annuler */}
+          {/* Mais ici pour simplifier, si on annule on recharge la page ou on revient à l'état précédent. 
                Comme on n'a pas gardé l'état précédent proprement (sauf reload), on va juste mettre un bouton Annuler qui reload si on a des données.
            */}
-           <button
-             onClick={handleSave}
-             disabled={saving}
-             className="flex items-center gap-2 px-6 py-3 bg-red-800 hover:bg-red-700 text-white rounded font-medium transition-colors disabled:opacity-50"
-           >
-             {saving ? (
-                <>
-                  <Loader className="w-4 h-4 animate-spin" /> Sauvegarde...
-                </>
-             ) : (
-                <>
-                  <Save className="w-4 h-4" /> Sauvegarder la Fiche
-                </>
-             )}
-           </button>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 px-6 py-3 bg-red-800 hover:bg-red-700 text-white rounded font-medium transition-colors disabled:opacity-50"
+          >
+            {saving ? (
+              <>
+                <Loader className="w-4 h-4 animate-spin" /> Sauvegarde...
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4" /> Sauvegarder la Fiche
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>

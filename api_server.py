@@ -12,6 +12,7 @@ from typing import Optional
 from aiohttp import web
 from aiohttp.web import middleware
 from dotenv import load_dotenv
+import discord
 
 from utils.database import (
     create_ghoul,
@@ -482,15 +483,50 @@ async def save_character_sheet_handler(request):
         # 1. Sauvegarder en DB
         await save_character_sheet(user_id, guild_id, data)
         
-        # 2. Mettre à jour Discord
+        # 1.5 Sync le nom avec Google Sheets (Game Data)
+        character_name = data.get("name", "").strip()
+        if character_name:
+            # Sync nom dans Google Sheets
+            await set_player(user_id, guild_id, name=character_name)
+
+        # 2. Mettre à jour Discord (Forum + Nickname)
         bot = request.app.get("bot")
         if bot:
+            # Mise à jour du Post Forum
             forum_post_id = await process_discord_sheet_update(bot, user_id, guild_id, data)
             
             # Si un post a été créé/récupéré, mettre à jour l'ID en DB
             if forum_post_id:
                 data["forum_post_id"] = forum_post_id
                 await save_character_sheet(user_id, guild_id, data)
+
+            # Mise à jour du Nickname Discord
+            if character_name:
+                try:
+                    guild = bot.get_guild(guild_id)
+                    if guild:
+                        member = guild.get_member(user_id)
+                        if not member:
+                            try:
+                                member = await guild.fetch_member(user_id)
+                            except Exception:
+                                pass
+                        
+                        if member:
+                            # Ne pas essayer de renamer le propriétaire ou les admins supérieurs
+                            if guild.owner_id != member.id:
+                                try:
+                                    # Vérifier si le nick est différent pour éviter l'appel API inutile
+                                    current_nick = member.nick or member.global_name or member.name
+                                    if current_nick != character_name:
+                                        await member.edit(nick=character_name, reason="Synchro Fiche Personnage")
+                                        logger.info(f"Nickname mis à jour pour {user_id}: {character_name}")
+                                except discord.Forbidden:
+                                    logger.warning(f"Impossible de changer le pseudo de {user_id} (Permission manquante/Hiérarchie)")
+                                except Exception as e:
+                                    logger.warning(f"Erreur changement pseudo pour {user_id}: {e}")
+                except Exception as e:
+                    logger.error(f"Erreur tentative update nickname: {e}")
                 
         return web.json_response({"success": True})
 

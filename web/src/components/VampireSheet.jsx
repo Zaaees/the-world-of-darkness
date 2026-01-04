@@ -959,13 +959,9 @@ export default function VampireSheet() {
               className="w-12 h-12 rounded-full border-2 border-red-900/50"
             />
             <div>
-              <input
-                className="bg-transparent border-none p-0 text-xl font-serif text-stone-200 placeholder-stone-700 focus:ring-0 w-48"
-                placeholder="Nom du Vampire"
-                value={safeCharacter.name}
-                onChange={(e) => updateCharacterField('name', e.target.value)}
-                disabled={needsClanSelection}
-              />
+              <div className="text-xl font-serif text-stone-200 truncate w-48" title={safeCharacter.name}>
+                {safeCharacter.name || "Nom du Vampire"}
+              </div>
               <div className="text-xs text-red-700 uppercase tracking-widest font-bold mt-1">
                 {safeCharacter.clan ? `${safeCharacter.clan} • ` : 'Sans Clan • '}Puissance {safeCharacter.bloodPotency} • {currentStage.rank}
               </div>
@@ -1106,6 +1102,9 @@ export default function VampireSheet() {
               <CharacterSheet
                 userId={discordUser.id}
                 guildId={guildId}
+                onUpdate={(updates) => {
+                  setCharacter(prev => ({ ...prev, ...updates }));
+                }}
               />
             )}
 

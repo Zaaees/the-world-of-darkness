@@ -261,6 +261,7 @@ async def set_player(
     race: Optional[str] = None,
     clan: Optional[str] = None,
     auspice: Optional[str] = None,
+    name: Optional[str] = None,
 ):
     """Crée ou met à jour un joueur dans Google Sheets."""
     # Récupérer les données existantes
@@ -273,6 +274,8 @@ async def set_player(
         character["clan"] = clan
     if auspice is not None:
         character["auspice"] = auspice
+    if name is not None:
+        character["name"] = name
 
     # Sauvegarder dans Google Sheets
     await save_to_google_sheets(user_id, character)
