@@ -85,6 +85,33 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
         }
     };
 
+    const handleDeleteNpc = async (e, npcId, npcName) => {
+        e.stopPropagation();
+        if (!window.confirm(`Êtes-vous sûr de vouloir supprimer ${npcName} ? Cette action est irréversible (registres, site, discord).`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/gm/npcs/${npcId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-Discord-User-ID': discordUser.id,
+                    'X-Discord-Guild-ID': guildId.toString()
+                }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                await fetchNpcs();
+            } else {
+                alert("Erreur lors de la suppression : " + data.error);
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Erreur lors de la suppression");
+        }
+    };
+
     // Filter NPCs
     const filteredNpcs = npcs.filter(npc =>
         npc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -217,9 +244,18 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                                 <h3 className="text-lg font-serif text-stone-200 truncate group-hover:text-red-400 transition-colors">
                                                     {npc.name}
                                                 </h3>
-                                                {npc.status === 'public' && (
-                                                    <Share2 size={14} className="text-green-600 mt-1" title="Publié" />
-                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    {npc.status === 'public' && (
+                                                        <Share2 size={14} className="text-green-600" title="Publié" />
+                                                    )}
+                                                    <button
+                                                        onClick={(e) => handleDeleteNpc(e, npc.id, npc.name)}
+                                                        className="text-stone-600 hover:text-red-500 p-1 hover:bg-red-950/30 rounded transition-colors"
+                                                        title="Supprimer définitivement"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div className="text-xs text-stone-500 uppercase tracking-widest font-bold mb-2">
                                                 {npc.clan || 'Sans Clan'} • BP {npc.blood_potency}
@@ -307,6 +343,6 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                     </form>
                 )}
             </div>
-        </div>
+        </div >
     );
 }

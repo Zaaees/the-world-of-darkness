@@ -33,7 +33,7 @@ from utils.database import (
     update_npc,
     delete_npc,
 )
-from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord, publish_npc_to_discord
+from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord, publish_npc_to_discord, SHEET_LOG_CHANNEL_ID
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -833,6 +833,71 @@ async def get_npc_handler(request):
         return web.json_response({"success": False, "error": str(e)}, status=500)
 
 
+async def delete_npc_handler(request):
+    """DELETE /api/gm/npcs/{npc_id} - Supprimer un PNJ."""
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+
+    user_id, guild_id = auth
+    npc_id = request.match_info.get("npc_id")
+
+    try:
+        # 1. Récupérer les infos du PNJ avant suppression (pour le nom et le thread Discord)
+        npc = await get_npc(npc_id)
+        if not npc:
+            return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
+
+        npc_name = npc.get("name", "Inconnu")
+        forum_post_id = npc.get("forum_post_id")
+
+        # 2. Supprimer/Archiver le thread Discord si existant
+        bot = request.app.get("bot")
+        if bot and forum_post_id:
+            try:
+                guild = bot.get_guild(guild_id)
+                if guild:
+                    thread = await guild.fetch_channel(int(forum_post_id))
+                    if thread:
+                        await thread.delete()
+                        logger.info(f"Thread PNJ supprimé: {npc_name} ({forum_post_id})")
+            except discord.NotFound:
+                logger.warning(f"Thread PNJ non trouvé lors de la suppression: {forum_post_id}")
+            except Exception as e:
+                logger.error(f"Erreur suppression thread Discord PNJ: {e}")
+
+        # 3. Supprimer de la base de données
+        await delete_npc(npc_id)
+
+        # 4. Logger la suppression dans le salon dédié
+        if bot:
+            try:
+                log_channel = bot.get_channel(SHEET_LOG_CHANNEL_ID)
+                if not log_channel:
+                    try:
+                        log_channel = await bot.fetch_channel(SHEET_LOG_CHANNEL_ID)
+                    except Exception:
+                        pass
+                
+                if log_channel:
+                    embed = discord.Embed(
+                        title="PNJ Supprimé",
+                        description=f"Le PNJ **{npc_name}** a été supprimé du registre par le MJ.",
+                        color=0xFF0000, # Rouge
+                        timestamp=discord.utils.utcnow()
+                    )
+                    embed.set_footer(text=f"ID: {npc_id}")
+                    await log_channel.send(embed=embed)
+            except Exception as e:
+                logger.error(f"Erreur envoi log suppression PNJ: {e}")
+
+        return web.json_response({"success": True})
+
+    except Exception as e:
+        logger.error(f"Erreur delete_npc: {e}", exc_info=True)
+        return web.json_response({"success": False, "error": str(e)}, status=500)
+
+
 async def update_npc_handler(request):
     """PUT /api/gm/npcs/{npc_id} - Mettre à jour un PNJ."""
     auth = await verify_vampire_auth(request)
@@ -963,6 +1028,7 @@ def create_app(bot=None):
     app.router.add_get("/api/gm/npcs/{npc_id}", get_npc_handler)
     app.router.add_put("/api/gm/npcs/{npc_id}", update_npc_handler)
     app.router.add_post("/api/gm/npcs/{npc_id}/publish", publish_npc_handler)
+    app.router.add_delete("/api/gm/npcs/{npc_id}", delete_npc_handler)
 
 
 
