@@ -13,6 +13,7 @@ FORUM_CHANNEL_ID = 1455197317387911343
 NPC_FORUM_CHANNEL_ID = 1457475638398025892
 LOG_CHANNEL_ID = 1454182154270670848
 STORAGE_CHANNEL_ID = 1455206147534491810
+SHEET_LOG_CHANNEL_ID = 1457856977660022844
 NOTIFICATION_ROLE_ID = 1454188335957282897
 
 
@@ -45,7 +46,7 @@ async def upload_image_to_discord(bot, file_data: bytes, filename: str) -> Optio
         return None
 
 
-async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: dict) -> Optional[int]:
+async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: dict, diff_text: str = None) -> Optional[int]:
     """
     Gère la création ou la mise à jour du post Discord pour une fiche de personnage.
     Retourne l'ID du post (thread) créé ou mis à jour.
@@ -112,7 +113,7 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
             logger.info(f"Fiche créée pour {char_name} (Thread {thread.id})")
 
         # Notification
-        await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None), notify_gm=True)
+        await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None), notify_gm=True, diff_text=diff_text)
 
         return forum_post_id
 
@@ -121,7 +122,7 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
         return None
 
 
-async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
+async def publish_npc_to_discord(bot, guild, npc_data: dict, diff_text: str = None) -> Optional[int]:
     """
     Publie ou met à jour une fiche PNJ sur Discord (Channel Forum dédié).
     """
@@ -209,7 +210,7 @@ async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
             logger.info(f"Fiche PNJ créée pour {npc_name} (Thread {thread.id})")
 
         # Notification (SANS PING MJ pour les PNJ)
-        await send_notification(guild, "MJ", npc_name, thread.jump_url, is_update=(thread is not None), notify_gm=False)
+        await send_notification(guild, "MJ", npc_name, thread.jump_url, is_update=(thread is not None), notify_gm=False, diff_text=diff_text)
 
         return forum_post_id
 
@@ -406,23 +407,152 @@ async def update_existing_thread(thread: discord.Thread, title: str, tags: List[
         await thread.send(content=part)
 
 
-async def send_notification(guild: discord.Guild, author_name: str, char_name: str, url: str, is_update: bool, notify_gm: bool = True):
-    """Envoie une notification dans le salon dédié."""
-    log_channel = guild.get_channel(LOG_CHANNEL_ID)
+def calculate_diff(old_data: dict, new_data: dict) -> str:
+    """
+    Compare deux dictionnaires et retourne un texte au format diff Markdown.
+    Ignore les champs techniques non pertinents pour l'utilisateur.
+    """
+    if not old_data:
+        old_data = {}
+    if not new_data:
+        new_data = {}
+
+    # Champs à surveiller
+    fields_to_check = {
+        "name": "Nom",
+        "age": "Âge",
+        "sex": "Sexe",
+        "clan": "Clan",
+        "physical_desc": "Description Physique",
+        "mental_desc_pre": "Mental (Avant)",
+        "mental_desc_post": "Mental (Après)",
+        "history": "Histoire",
+        "image_url": "Image",
+        "status": "Statut",
+        "disciplines": "Disciplines",
+        "rituals": "Rituels"
+    }
+
+    diff_lines = []
+
+    # Comparaison champ par champ
+    for key, label in fields_to_check.items():
+        old_val = old_data.get(key)
+        new_val = new_data.get(key)
+        
+        # Normalisation pour comparaison (strip les strings)
+        if isinstance(old_val, str): old_val = old_val.strip()
+        if isinstance(new_val, str): new_val = new_val.strip()
+        
+        # Cas spéciaux pour JSON/Dicts (Disciplines, Rituels)
+        if key in ["disciplines", "rituals"]:
+            # On pourrait faire une comparaison plus fine ici, mais str() suffit pour l'instant
+            if str(old_val) != str(new_val):
+                diff_lines.append(f"# Modification : {label}")
+                diff_lines.append(f"- Ancien : {old_val}")
+                diff_lines.append(f"+ Nouveau : {new_val}")
+                diff_lines.append("")
+            continue
+            
+        if old_val != new_val:
+            # Si c'était vide avant
+            if not old_val and new_val:
+                diff_lines.append(f"# Ajout : {label}")
+                diff_lines.append(f"+ {new_val}")
+            # Si c'est vidé
+            elif old_val and not new_val:
+                diff_lines.append(f"# Suppression : {label}")
+                diff_lines.append(f"- {old_val}")
+            # Si modifié
+            else:
+                diff_lines.append(f"# Modification : {label}")
+                diff_lines.append(f"- {old_val}")
+                diff_lines.append(f"+ {new_val}")
+            
+            diff_lines.append("") # Ligne vide pour aérer
+
+    return "\n".join(diff_lines)
+
+async def send_notification(guild: discord.Guild, author_name: str, char_name: str, url: str, is_update: bool, notify_gm: bool = True, diff_text: str = None):
+    """
+    Envoie une notification dans le salon dédié.
+    Si diff_text est présent, utilise le nouveau salon SHEET_LOG_CHANNEL_ID.
+    Sinon (ou pour RP), utilise LOG_CHANNEL_ID (si défini ailleurs) ou fallback.
+    """
+    
+    # Choix du salon
+    # Si c'est une mise à jour de fiche (indiqué par la présence de diff_text ou le contexte), on va dans le channel dédié
+    # Note: L'appelant doit décider, mais ici on va assumer que si on a un diff, c'est une fiche.
+    
+    target_channel_id = SHEET_LOG_CHANNEL_ID if (is_update or diff_text) else LOG_CHANNEL_ID
+    
+    # Si c'est une création (pas de diff), on met aussi dans le nouveau salon si c'est une fiche
+    # Mais attend, le prompt dit : "Garder la fonctionnalité RP dans l'ancien, et Sheet Updates (et création j'imagine) dans le nouveau"
+    # Pour l'instant on se base sur le target_channel_id défini ci-dessus.
+    
+    log_channel = guild.get_channel(target_channel_id)
     if not log_channel:
-        return
+        # Fallback sur l'ancien si le nouveau n'est pas trouvé
+        log_channel = guild.get_channel(LOG_CHANNEL_ID)
+        if not log_channel:
+            return
 
     action = "modifiée" if is_update else "créée"
     role_mention = f"<@&{NOTIFICATION_ROLE_ID}>" if notify_gm else ""
     
-    embed = discord.Embed(
+    base_embed = discord.Embed(
         title=f"Fiche de personnage {action}",
         description=f"La fiche de **{char_name}** (joué par {author_name}) a été {action}.",
         color=0x00FF00 if not is_update else 0xFFA500
     )
-    embed.add_field(name="Lien vers la fiche", value=f"[Cliquez ici pour voir la fiche]({url})")
+    base_embed.add_field(name="Lien vers la fiche", value=f"[Cliquez ici pour voir la fiche]({url})", inline=False)
     
-    await log_channel.send(content=role_mention, embed=embed)
+    # Si pas de diff (création ou pas de changement détecté), on envoie simple
+    if not diff_text:
+        await log_channel.send(content=role_mention, embed=base_embed)
+        return
+
+    # Si on a un diff, on doit le paginer
+    # Stratégie :
+    # 1. Envoyer l'embed principal avec le lien
+    # 2. Envoyer les détails des changements (potentiellement multi-messages)
+    
+    # On ajoute un titre pour les changements
+    base_embed.add_field(name="Résumé", value="Des modifications ont été détectées. Voir ci-dessous pour le détail.", inline=False)
+    await log_channel.send(content=role_mention, embed=base_embed)
+    
+    # Préparer les chunks de diff pour les messages suivants
+    # Discord limite : 2000 chars par message content, 4096 par embed description.
+    # On va utiliser des Embeds pour le style "diff" (bloc de code)
+    
+    # Découpage par blocs de ~4000 caractères (marge de sécurité pour Embed Description)
+    # Le format diff ```diff ... ``` prend de la place.
+    
+    max_chunk_size = 4000
+    chunks = []
+    current_chunk = ""
+    
+    lines = diff_text.split('\n')
+    for line in lines:
+        if len(current_chunk) + len(line) + 1 > max_chunk_size:
+            chunks.append(current_chunk)
+            current_chunk = line
+        else:
+            if current_chunk:
+                current_chunk += "\n" + line
+            else:
+                current_chunk = line
+    if current_chunk:
+        chunks.append(current_chunk)
+        
+    # Envoyer les chunks
+    for i, chunk in enumerate(chunks):
+        diff_embed = discord.Embed(
+            title=f"Détails des modifications ({i+1}/{len(chunks)})",
+            description=f"```diff\n{chunk}\n```",
+            color=0xFFA500
+        )
+        await log_channel.send(embed=diff_embed)
 
 
 async def delete_discord_sheet(bot, user_id: int, guild_id: int):

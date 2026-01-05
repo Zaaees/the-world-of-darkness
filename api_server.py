@@ -493,6 +493,9 @@ async def save_character_sheet_handler(request):
                 data["forum_post_id"] = existing_sheet["forum_post_id"]
         
         # 1. Sauvegarder en DB
+        # D'abord récupérer l'ancienne version pour le diff
+        old_sheet = await get_character_sheet(user_id, guild_id)
+        
         await save_character_sheet(user_id, guild_id, data)
         
         # 1.5 Sync le nom avec Google Sheets (Game Data)
@@ -504,8 +507,12 @@ async def save_character_sheet_handler(request):
         # 2. Mettre à jour Discord (Forum + Nickname)
         bot = request.app.get("bot")
         if bot:
+            # Calcul du diff
+            from utils.sheet_manager import calculate_diff
+            diff_text = calculate_diff(old_sheet or {}, data)
+            
             # Mise à jour du Post Forum
-            forum_post_id = await process_discord_sheet_update(bot, user_id, guild_id, data)
+            forum_post_id = await process_discord_sheet_update(bot, user_id, guild_id, data, diff_text=diff_text)
             
             # Si un post a été créé/récupéré, mettre à jour l'ID en DB
             if forum_post_id:
@@ -840,6 +847,9 @@ async def update_npc_handler(request):
         if "forum_post_id" in data:
             del data["forum_post_id"]
             
+        # D'abord récupérer l'ancienne version pour le diff (si on a un update réussi)
+        old_npc = await get_npc(npc_id)
+            
         result = await update_npc(npc_id, **data)
         
         if not result["success"]:
@@ -856,10 +866,14 @@ async def update_npc_handler(request):
                 guild_id = request.headers.get("X-Discord-Guild-ID")
                 guild = bot.get_guild(int(guild_id)) if guild_id else None
                 if guild:
+                    # Calculer le diff
+                    from utils.sheet_manager import calculate_diff
+                    diff_text = calculate_diff(old_npc or {}, updated_npc)
+                    
                     # Publier (création ou mise à jour du thread)
                     # On le fait en async sans bloquer la réponse HTTP critique, 
                     # mais ici on await pour être sûr que ça marche ou loguer l'erreur
-                    forum_post_id = await publish_npc_to_discord(bot, guild, updated_npc)
+                    forum_post_id = await publish_npc_to_discord(bot, guild, updated_npc, diff_text=diff_text)
                     
                     if forum_post_id:
                         result["forum_post_id"] = forum_post_id
