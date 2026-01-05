@@ -112,7 +112,7 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
             logger.info(f"Fiche créée pour {char_name} (Thread {thread.id})")
 
         # Notification
-        await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None))
+        await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None), notify_gm=True)
 
         return forum_post_id
 
@@ -207,6 +207,9 @@ async def publish_npc_to_discord(bot, guild, npc_data: dict) -> Optional[int]:
             thread = await create_new_thread(forum_channel, npc_name, applied_tags, image_url, content_parts)
             forum_post_id = thread.id
             logger.info(f"Fiche PNJ créée pour {npc_name} (Thread {thread.id})")
+
+        # Notification (SANS PING MJ pour les PNJ)
+        await send_notification(guild, "MJ", npc_name, thread.jump_url, is_update=(thread is not None), notify_gm=False)
 
         return forum_post_id
 
@@ -357,25 +360,43 @@ async def update_existing_thread(thread: discord.Thread, title: str, tags: List[
 
     # Supprimer les anciens messages du bot
     # Note: On utilise un after=thread.id pour ne pas toucher au message initial (image)
+    # STRATÉGIE AMÉLIORÉE : On récupère tous les messages et on supprime tout sauf le premier
     bot_id = thread.guild.me.id
     messages_to_delete = []
     
     try:
-        async for message in thread.history(limit=100, after=discord.Object(id=thread.id)):
-            if message.author.id == bot_id:
-                messages_to_delete.append(message)
+        # On récupère l'historique (limit=100 devrait suffire pour une fiche, sinon on augmentera)
+        # On ne filtre pas par 'after' ici pour être sûr de tout voir, mais on protégera le premier message
+        all_messages = [msg async for msg in thread.history(limit=100, oldest_first=True)]
+        
+        if all_messages:
+            starter_message = all_messages[0]
+            
+            for message in all_messages:
+                # On ne touche pas au premier message (l'image/titre)
+                if message.id == starter_message.id:
+                    continue
+                    
+                # On supprime seulement les messages du bot
+                if message.author.id == bot_id:
+                    messages_to_delete.append(message)
         
         # Supprimer les messages
         if messages_to_delete:
             logger.info(f"Suppression de {len(messages_to_delete)} anciens messages")
-            if len(messages_to_delete) > 1:
-                try:
-                    await thread.delete_messages(messages_to_delete)
-                except discord.HTTPException:
-                    for msg in messages_to_delete:
+            # Batch delete si possible (moins de 14 jours)
+            # Sinon suppression un par un
+            try:
+                # delete_messages ne marche qu'avec des messages < 14 jours
+                # On tente, et si ça fail on fallback sur un par un
+                await thread.delete_messages(messages_to_delete)
+            except (discord.HTTPException, discord.Forbidden):
+                for msg in messages_to_delete:
+                    try:
                         await msg.delete()
-            else:
-                await messages_to_delete[0].delete()
+                    except Exception as e:
+                        logger.warning(f"Impossible de supprimer le message {msg.id}: {e}")
+            
     except Exception as e:
         logger.error(f"Erreur lors du nettoyage du thread: {e}")
 
@@ -385,14 +406,14 @@ async def update_existing_thread(thread: discord.Thread, title: str, tags: List[
         await thread.send(content=part)
 
 
-async def send_notification(guild: discord.Guild, author_name: str, char_name: str, url: str, is_update: bool):
+async def send_notification(guild: discord.Guild, author_name: str, char_name: str, url: str, is_update: bool, notify_gm: bool = True):
     """Envoie une notification dans le salon dédié."""
     log_channel = guild.get_channel(LOG_CHANNEL_ID)
     if not log_channel:
         return
 
     action = "modifiée" if is_update else "créée"
-    role_mention = f"<@&{NOTIFICATION_ROLE_ID}>"
+    role_mention = f"<@&{NOTIFICATION_ROLE_ID}>" if notify_gm else ""
     
     embed = discord.Embed(
         title=f"Fiche de personnage {action}",

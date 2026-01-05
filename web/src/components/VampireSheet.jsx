@@ -482,6 +482,57 @@ export default function VampireSheet() {
 
     init();
   }, [fetchDiscordUser]);
+  
+  // GESTION PERSISTANCE PNJ (URL)
+  useEffect(() => {
+    // Si on a un npc_id dans l'url, on charge le PNJ correspondant
+    const checkUrlForNpc = async () => {
+      // Attendre que l'utilisateur soit connecté (discordUser) ou au moins que le loading initial soit fini
+      // Mais on a besoin du token pour l'API...
+      // Si on n'est pas encore connecté, le useEffect d'auth va courir.
+      
+      if (!discordUser || loading) return;
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const npcId = urlParams.get('npc_id');
+      
+      if (npcId && !npcCharacter) {
+        console.log("URL NPC ID detected:", npcId);
+        // On doit charger ce PNJ
+        try {
+           const response = await fetch(`${API_URL}/api/gm/npcs/${npcId}`, {
+               headers: {
+                   'X-Discord-User-ID': discordUser.id,
+                   'X-Discord-Guild-ID': guildId?.toString() // On espère que guildId est chargé via loadMemberInfo
+               }
+           });
+           
+           if (response.ok) {
+               const data = await response.json();
+               if (data.success && data.npc) {
+                   console.log("NPC loaded from URL:", data.npc.name);
+                   // Activer le mode GM et charger le PNJ
+                   setIsCainMode(true);
+                   setNpcCharacter(data.npc);
+                   setCharacter({
+                      ...DEFAULT_CHARACTER,
+                      ...data.npc,
+                      bloodPotency: data.npc.blood_potency || data.npc.bloodPotency || 1,
+                      disciplines: data.npc.disciplines || {},
+                      rituals: data.npc.rituals || [],
+                      ghouls: [], 
+                   });
+                   setActiveTab('character');
+               }
+           }
+        } catch (e) {
+            console.error("Error loading NPC from URL:", e);
+        }
+      }
+    };
+    
+    checkUrlForNpc();
+  }, [discordUser, loading, guildId]);
 
   // Charger les données depuis Google Sheets
   const loadCharacter = useCallback(async () => {
@@ -1135,6 +1186,11 @@ export default function VampireSheet() {
           guildId={guildId}
           onSelectNpc={(npc) => {
             setNpcCharacter(npc);
+            // Mettre à jour l'URL pour la persistance
+            const url = new URL(window.location);
+            url.searchParams.set('npc_id', npc.id);
+            window.history.pushState({}, '', url);
+            
             // Préparer le character state avec les données du PNJ pour l'édition
             setCharacter({
               ...DEFAULT_CHARACTER,
@@ -1172,6 +1228,11 @@ export default function VampireSheet() {
                   setNpcCharacter(null);
                   setCharacter(null);
                   setIsCainMode(true); // Assurer le retour au dashboard
+                  
+                  // Nettoyer l'URL
+                  const url = new URL(window.location);
+                  url.searchParams.delete('npc_id');
+                  window.history.pushState({}, '', url);
                 }}
                 className="flex items-center gap-2 text-stone-400 hover:text-stone-200 text-sm"
               >

@@ -9,7 +9,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
   const [loading, setLoading] = useState(!initialData);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [isEditing, setIsEditing] = useState(!!initialData); // Mode édition par défaut si new ou PNJ
+  const [isEditing, setIsEditing] = useState(!initialData); // Mode lecture par défaut si on a des données (PNJ), sinon édition (chargement joueur)
 
   const [clanId, setClanId] = useState(initialData?.clan || null); // Le clan peut être passé
   const [sheetData, setSheetData] = useState({
