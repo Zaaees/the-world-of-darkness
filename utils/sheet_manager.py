@@ -113,7 +113,9 @@ async def process_discord_sheet_update(bot, user_id: int, guild_id: int, data: d
             logger.info(f"Fiche créée pour {char_name} (Thread {thread.id})")
 
         # Notification
-        await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None), notify_gm=True, diff_text=diff_text)
+        # On notifie le MJ seulement si c'est une création (thread is None)
+        # Pour les mises à jour, on ne ping pas (demande utilisateur)
+        await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None), notify_gm=(thread is None), diff_text=diff_text)
 
         return forum_post_id
 
@@ -458,16 +460,33 @@ def calculate_diff(old_data: dict, new_data: dict) -> str:
             # Si c'était vide avant
             if not old_val and new_val:
                 diff_lines.append(f"# Ajout : {label}")
-                diff_lines.append(f"+ {new_val}")
+                if isinstance(new_val, str):
+                    for line in new_val.split('\n'):
+                        diff_lines.append(f"+ {line}")
+                else:
+                    diff_lines.append(f"+ {new_val}")
             # Si c'est vidé
             elif old_val and not new_val:
                 diff_lines.append(f"# Suppression : {label}")
-                diff_lines.append(f"- {old_val}")
+                if isinstance(old_val, str):
+                    for line in old_val.split('\n'):
+                        diff_lines.append(f"- {line}")
+                else:
+                    diff_lines.append(f"- {old_val}")
             # Si modifié
             else:
                 diff_lines.append(f"# Modification : {label}")
-                diff_lines.append(f"- {old_val}")
-                diff_lines.append(f"+ {new_val}")
+                if isinstance(old_val, str):
+                    for line in old_val.split('\n'):
+                        diff_lines.append(f"- {line}")
+                else:
+                    diff_lines.append(f"- {old_val}")
+                
+                if isinstance(new_val, str):
+                    for line in new_val.split('\n'):
+                        diff_lines.append(f"+ {line}")
+                else:
+                    diff_lines.append(f"+ {new_val}")
             
             diff_lines.append("") # Ligne vide pour aérer
 
