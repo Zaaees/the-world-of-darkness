@@ -9,6 +9,7 @@ on:
       - 'data/**'
       - 'utils/**'
       - 'views/**'
+      - 'modules/**'
       - 'requirements.txt'
       - 'Dockerfile'
       - 'fly.toml'

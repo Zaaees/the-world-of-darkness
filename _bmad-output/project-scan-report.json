@@ -1,0 +1,96 @@
+{
+    "workflow_version": "1.2.0",
+    "timestamps": {
+        "started": "2026-01-06T23:41:38+01:00",
+        "last_updated": "2026-01-06T23:55:00+01:00"
+    },
+    "mode": "initial_scan",
+    "scan_level": "exhaustive",
+    "project_root": "c:\\Users\\freed\\Desktop\\the-world-of-darkness",
+    "output_folder": "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\_bmad-output",
+    "repository_type": "multi-part",
+    "project_parts": [
+        {
+            "part_id": "bot",
+            "root_path": "c:\\Users\\freed\\Desktop\\the-world-of-darkness",
+            "project_type_id": "backend",
+            "name": "Discord Bot",
+            "tech_stack": [
+                {
+                    "category": "Framework",
+                    "technology": "Discord.py",
+                    "version": "2.3.0+"
+                },
+                {
+                    "category": "Database",
+                    "technology": "SQLite (aiosqlite)",
+                    "version": "0.19.0+"
+                },
+                {
+                    "category": "HTTP Client",
+                    "technology": "aiohttp",
+                    "version": "3.9.0+"
+                }
+            ]
+        },
+        {
+            "part_id": "web",
+            "root_path": "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\web",
+            "project_type_id": "web",
+            "name": "Web Frontend",
+            "tech_stack": [
+                {
+                    "category": "Framework",
+                    "technology": "Vite",
+                    "version": "7.2.4"
+                },
+                {
+                    "category": "UI Library",
+                    "technology": "React",
+                    "version": "19.2.0"
+                },
+                {
+                    "category": "Styling",
+                    "technology": "TailwindCSS",
+                    "version": "3.4.19"
+                }
+            ]
+        }
+    ],
+    "completed_steps": [
+        {
+            "step": "step_1",
+            "status": "completed",
+            "summary": "Classified as multi-part (Bot, Web)"
+        },
+        {
+            "step": "step_2",
+            "status": "completed",
+            "summary": "Found existing docs"
+        },
+        {
+            "step": "step_3",
+            "status": "completed",
+            "summary": "Tech stack documented"
+        },
+        {
+            "step": "step_4",
+            "status": "completed",
+            "timestamp": "2026-01-06T23:55:00+01:00",
+            "summary": "Deep file scan completed & Documentation generated"
+        }
+    ],
+    "current_step": "completed",
+    "findings": {
+        "project_classification": "Multi-part project with Discord Bot (backend) and Web Frontend (web)",
+        "documentation_status": "Complete"
+    },
+    "outputs_generated": [
+        "project-scan-report.json",
+        "docs/index.md",
+        "docs/project-overview.md",
+        "docs/architecture-bot.md",
+        "docs/architecture-web.md",
+        "docs/data-models-bot.md"
+    ]
+}

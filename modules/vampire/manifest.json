@@ -1,0 +1,10 @@
+{
+    "id": "vampire",
+    "name": "Vampire: La Mascarade",
+    "version": "1.0.0",
+    "description": "Gestion de la Soif, Disciplines et fiches Vampire",
+    "entry_points": [
+        "cogs.commands"
+    ],
+    "dependencies": []
+}

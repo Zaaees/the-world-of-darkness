@@ -1,7 +1,13 @@
-import VampireSheet from './components/VampireSheet'
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './core/router/AppRouter';
+
 
 function App() {
-  return <VampireSheet />
+  return (
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

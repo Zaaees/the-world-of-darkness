@@ -77,15 +77,57 @@ class WorldOfDarknessBot(commands.Bot):
         except Exception as e:
             logger.error(f"Erreur CRITIQUE lors du démarrage du serveur API: {e}", exc_info=True)
 
-        # Charger les Cogs
-        cogs_to_load = ["cogs.vampire", "cogs.werewolf", "cogs.general", "cogs.blood_actions", "cogs.admin_rituals"]
-
-        for cog_name in cogs_to_load:
+        # Charger le Core (Cogs essentiels)
+        core_cogs = ["cogs.werewolf", "cogs.general", "cogs.blood_actions", "cogs.admin_rituals"]
+        for cog_name in core_cogs:
             try:
                 await self.load_extension(cog_name)
-                logger.info(f"Cog chargé: {cog_name}")
+                logger.info(f"Cog Core chargé: {cog_name}")
             except Exception as e:
                 logger.error(f"Erreur lors du chargement de {cog_name}: {e}")
+
+        # Charger les Modules Dynamiques
+        await self.load_modules()
+
+    async def load_modules(self):
+        """Scan et charge les modules depuis le dossier /modules."""
+        modules_path = Path("modules")
+        if not modules_path.exists():
+            logger.warning("Aucun dossier 'modules' trouvé.")
+            return
+
+        for module_dir in modules_path.iterdir():
+            if not module_dir.is_dir():
+                continue
+
+            manifest_path = module_dir / "manifest.json"
+            if not manifest_path.exists():
+                continue
+
+            try:
+                # Lecture simpliste du manifest pour trouver les entry_points
+                # On pourrait utiliser json.load, mais pour l'instant on suppose que le path est valide
+                import json
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                
+                module_id = manifest.get("id")
+                entry_points = manifest.get("entry_points", [])
+
+                logger.info(f"Chargement du module: {manifest.get('name')} ({module_id})")
+
+                for entry in entry_points:
+                    # Conversion chemin relatif -> module python
+                    # ex: "cogs.commands" -> "modules.vampire.cogs.commands"
+                    extension_path = f"modules.{module_dir.name}.{entry}"
+                    try:
+                        await self.load_extension(extension_path)
+                        logger.info(f"  -> Extension chargée: {extension_path}")
+                    except Exception as ext_error:
+                        logger.error(f"  -> Erreur chargement extension {extension_path}: {ext_error}")
+
+            except Exception as e:
+                logger.error(f"Erreur lors du chargement du module {module_dir.name}: {e}")
 
         # Synchroniser les slash commands
         try:
