@@ -7,7 +7,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['Georgia', 'Cambria', 'serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        header: ['"Playfair Display"', 'Georgia', 'serif'],
+        body: ['Inter', 'sans-serif'],
+        hand: ['Caveat', 'cursive'],
       },
     },
   },
