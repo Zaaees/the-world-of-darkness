@@ -965,6 +965,25 @@ export default function VampireSheet() {
     return <LoginPage onLogin={handleLogin} error={authError} />;
   }
 
+  // Afficher une erreur si le chargement a échoué
+  if (error && !loading && !character && !isCainMode) {
+    return (
+      <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6 text-center">
+        <div className="text-red-600 mb-4">
+          <Activity size={48} className="mx-auto mb-2" />
+          <h2 className="text-xl font-serif">Erreur de chargement</h2>
+        </div>
+        <p className="text-stone-400 mb-6">{error}</p>
+        <button
+          onClick={() => { setLoading(true); loadCharacter(); }}
+          className="bg-stone-800 hover:bg-stone-700 text-stone-300 px-6 py-2 rounded transition-colors"
+        >
+          Réessayer
+        </button>
+      </div>
+    );
+  }
+
   // Page si l'utilisateur n'est pas un vampire (et pas besoin de sélection de clan)
   if (notVampire && !loading && !needsClanSelection) {
     return (
