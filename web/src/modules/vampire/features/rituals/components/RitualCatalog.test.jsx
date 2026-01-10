@@ -25,12 +25,11 @@ afterEach(() => {
 // Mock react-window with prop capture
 vi.mock('react-window', async () => {
     return {
-        FixedSizeGrid: ({ children, ...props }) => (
+        Grid: ({ children, ...props }) => (
             <div data-testid="virtual-grid" data-overscan={props.overscanCount}>
                 {children({ columnIndex: 0, rowIndex: 0, style: {} })}
             </div>
-        ),
-        FixedSizeList: () => <div />
+        )
     };
 });
 

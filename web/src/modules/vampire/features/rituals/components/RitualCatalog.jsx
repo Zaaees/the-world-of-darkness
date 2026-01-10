@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { FixedSizeGrid as Grid } from 'react-window';
+import { Grid } from 'react-window';
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import RitualCard from './RitualCard';
