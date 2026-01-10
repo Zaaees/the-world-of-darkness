@@ -1407,5 +1407,13 @@ export const getAllRituals = () => {
         console.warn('RITUALS object is missing!');
         return [];
     }
-    return Object.values(RITUALS);
+    // Convert object to array AND inject the ID from the key
+    return Object.keys(RITUALS).map(key => {
+        const ritual = RITUALS[key];
+        if (!ritual) return null;
+        return {
+            id: key,
+            ...ritual
+        };
+    }).filter(r => r !== null && typeof r === 'object');
 };

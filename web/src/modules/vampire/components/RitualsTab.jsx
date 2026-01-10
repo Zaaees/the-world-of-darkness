@@ -31,14 +31,18 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
                 // ALWAYS load the full database first (Master List)
                 // This ensures "GM Mode" always has access to everything
-                const allRituals = getAllRituals();
-                console.log('RitualsTab: getAllRituals result type:', typeof allRituals, Array.isArray(allRituals));
+                // Fix: Ensure we filter out any nulls that might have crept in
+                const rawRituals = getAllRituals();
+                console.log('RitualsTab: getAllRituals result type:', typeof rawRituals, Array.isArray(rawRituals));
 
-                if (!allRituals) {
+                if (!rawRituals) {
                     console.error('RitualsTab: getAllRituals returned null/undefined!');
                     setRituals([]);
                     return;
                 }
+
+                const allRituals = rawRituals.filter(r => r && typeof r === 'object' && r.id);
+                console.log(`RitualsTab: Valid rituals loaded: ${allRituals.length}/${rawRituals.length}`);
 
                 setRituals(allRituals);
 
