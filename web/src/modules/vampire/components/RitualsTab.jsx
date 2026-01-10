@@ -16,7 +16,6 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
     const updateCharacterRituals = useGrimoireStore(state => state.updateCharacterRituals);
     const selectedRitual = useGrimoireStore(state => state.selectedRitual);
     const setSelectedRitual = useGrimoireStore(state => state.setSelectedRitual);
-    const setSelectedRitual = useGrimoireStore(state => state.setSelectedRitual);
     const setRituals = useGrimoireStore(state => state.setRituals);
     const setViewMode = useGrimoireStore(state => state.setViewMode);
 
