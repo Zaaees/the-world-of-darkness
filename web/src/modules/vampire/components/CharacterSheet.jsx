@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Save, Edit2, AlertCircle, FileText, Loader, Image as ImageIcon, Upload } from 'lucide-react';
 import { getClanDescription } from '../../../data/clanDescriptions';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+import { API_URL } from '../../../config';
 
 export default function CharacterSheet({ userId, guildId, onUpdate, initialData, onSave }) {
   const [loading, setLoading] = useState(!initialData);

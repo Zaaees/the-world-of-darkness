@@ -9,7 +9,7 @@ import RitualReader from '../features/rituals/components/RitualReader';
 import AnimatedView from '../features/rituals/components/AnimatedView';
 import MobileFilterDrawer from '../features/rituals/components/MobileFilterDrawer';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+import { API_URL } from '../../../config';
 
 export default function RitualsTab({ userId, guildId, clan, isCainMode, character }) {
     // We use the store for rituals state

@@ -10,15 +10,10 @@ import ClanSelection from './ClanSelectionPage';
 import GmDashboard from '../../../core/components/GmDashboard';
 import { getClanDescription } from '../../../data/clanDescriptions';
 
+import { API_URL, GOOGLE_SHEETS_API, DISCORD_CLIENT_ID, REDIRECT_URI } from '../../../config';
+
 // --- CONFIGURATION ---
-const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec';
-const DISCORD_CLIENT_ID = '1453866706546987064';
-const REDIRECT_URI = window.location.hostname === 'localhost'
-  ? 'http://localhost:5173/'
-  : 'https://zaaees.github.io/the-world-of-darkness/';
-const API_URL = window.location.hostname === 'localhost'
-  ? 'http://localhost:8080'
-  : 'https://world-of-darkness-bot.fly.dev';
+// Imported from config.js to ensure consistency across the application
 
 // --- DISCORD AUTH ---
 const getDiscordAuthUrl = () => {

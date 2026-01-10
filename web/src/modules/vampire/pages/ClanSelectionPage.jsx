@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Check, AlertTriangle, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { getAllClans } from '../../../data/clanDescriptions';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+import { API_URL } from '../../../config';
 
 /**
  * Composant de sélection de clan pour les nouveaux vampires

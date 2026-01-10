@@ -3,7 +3,7 @@ import { Users, UserPlus, Shield, Search, RefreshCw, Trash2, Edit, Save, Share2,
 import { getClanDescription, CLAN_DESCRIPTIONS as CLANS } from '../../data/clanDescriptions';
 
 // API CONSTANTS
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+import { API_URL } from '../../config';
 
 export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
     const [activeTab, setActiveTab] = useState('list'); // 'list', 'create'
