@@ -864,6 +864,9 @@ export default function VampireSheet() {
 
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
+    // Ne pas démarrer le rafraîchissement si l'utilisateur n'est pas connecté
+    if (!discordUser) return;
+
     const refreshInterval = setInterval(async () => {
       // Ne pas rafraîchir en mode PNJ (pas de Google Sheets)
       if (npcCharacter) return;
