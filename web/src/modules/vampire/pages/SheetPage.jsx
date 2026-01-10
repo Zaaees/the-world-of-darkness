@@ -16,7 +16,9 @@ const DISCORD_CLIENT_ID = '1453866706546987064';
 const REDIRECT_URI = window.location.hostname === 'localhost'
   ? 'http://localhost:5173/'
   : 'https://zaaees.github.io/the-world-of-darkness/';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:8080'
+  : 'https://world-of-darkness-bot.fly.dev';
 
 // --- DISCORD AUTH ---
 const getDiscordAuthUrl = () => {
