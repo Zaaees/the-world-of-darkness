@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Book, Skull } from 'lucide-react'; // Example icons
+import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import RequirementWarningModal from './RequirementWarningModal';
 
@@ -7,13 +8,18 @@ const RitualCard = ({ ritual }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [warningReason, setWarningReason] = useState('');
 
-    const learnRitual = useGrimoireStore(state => state.learnRitual);
-    const checkLearnability = useGrimoireStore(state => state.checkLearnability);
+    // Consolidated store access with useShallow to prevent unnecessary re-renders
+    const { learnRitual, checkLearnability, activeCharacter, setSelectedRitual } = useGrimoireStore(
+        useShallow(state => ({
+            learnRitual: state.learnRitual,
+            checkLearnability: state.checkLearnability,
+            activeCharacter: state.activeCharacter,
+            setSelectedRitual: state.setSelectedRitual
+        }))
+    );
 
     // Check if already learned to disable/hide button (Optional per story, but good UX)
-    const activeCharacter = useGrimoireStore(state => state.activeCharacter);
     const isLearned = activeCharacter?.rituals?.includes(ritual.id.toString()) ?? false;
-    const setSelectedRitual = useGrimoireStore(state => state.setSelectedRitual);
 
     const handleLearnClick = (e) => {
         e.stopPropagation(); // Prevent card click

@@ -1,11 +1,30 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { FixedSizeGrid as Grid } from 'react-window';
+import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import RitualCard from './RitualCard';
 
+/**
+ * Grid layout constants for the ritual catalog
+ * @constant {number} CARD_HEIGHT - Height of each ritual card in pixels
+ * @constant {number} MIN_CARD_WIDTH - Minimum width for responsive column calculation
+ * @constant {number} OVERSCAN_COUNT - Number of extra rows to render for smooth scrolling
+ */
+const CARD_HEIGHT = 140;
+const MIN_CARD_WIDTH = 300;
+const OVERSCAN_COUNT = 5;
+
+/**
+ * RitualCatalog - Virtualized grid display of ritual cards.
+ * Uses react-window FixedSizeGrid for performant rendering of large datasets.
+ * The grid adapts responsively: single column on mobile, multi-column on desktop.
+ * 
+ * @returns {JSX.Element} The ritual catalog grid or empty state message
+ */
 const RitualCatalog = () => {
-    // Select filtered rituals using the store selector
-    const rituals = useGrimoireStore(state => state.selectFilteredRituals(state));
+    // Select filtered rituals using useShallow to avoid infinite re-renders
+    // (selectFilteredRituals returns a new array reference each call)
+    const rituals = useGrimoireStore(useShallow(state => state.selectFilteredRituals(state)));
     const containerRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
@@ -32,10 +51,6 @@ const RitualCatalog = () => {
         return () => resizeObserver.disconnect();
     }, []);
 
-    // Layout configuration
-    const CARD_HEIGHT = 140; // Increased for better spacing
-    const MIN_CARD_WIDTH = 300;
-
     // Grid Logic
     const columnCount = dimensions.width < 768
         ? 1
@@ -44,10 +59,22 @@ const RitualCatalog = () => {
     const rowCount = Math.ceil(rituals.length / columnCount);
     const columnWidth = dimensions.width / columnCount;
 
+    // Memoized cell renderer to prevent unnecessary re-renders
+    const CellRenderer = useCallback(({ columnIndex, rowIndex, style }) => {
+        const index = rowIndex * columnCount + columnIndex;
+        if (index >= rituals.length) return null;
+
+        return (
+            <div style={style} className="p-2">
+                <RitualCard ritual={rituals[index]} style={{ height: '100%', width: '100%' }} />
+            </div>
+        );
+    }, [rituals, columnCount]);
+
     // Empty State Check
     if (rituals.length === 0) {
         return (
-            <div className="h-full w-full flex flex-col items-center justify-center text-stone-500 font-serif">
+            <div className="h-full w-full flex flex-col items-center justify-center text-stone-500 font-serif" data-testid="empty-state">
                 <p className="text-xl italic mb-2">"Le vide..."</p>
                 <p className="text-sm">Aucun rituel ne correspond à votre recherche.</p>
             </div>
@@ -63,18 +90,9 @@ const RitualCatalog = () => {
                     rowCount={rowCount}
                     rowHeight={CARD_HEIGHT}
                     width={dimensions.width}
-                    overscanCount={5}
+                    overscanCount={OVERSCAN_COUNT}
                 >
-                    {({ columnIndex, rowIndex, style }) => {
-                        const index = rowIndex * columnCount + columnIndex;
-                        if (index >= rituals.length) return null;
-
-                        return (
-                            <div style={style} className="p-2">
-                                <RitualCard ritual={rituals[index]} style={{ height: '100%', width: '100%' }} />
-                            </div>
-                        );
-                    }}
+                    {CellRenderer}
                 </Grid>
             )}
         </div>

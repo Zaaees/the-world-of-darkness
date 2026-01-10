@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import SearchInput from './SearchInput';
 
@@ -11,13 +12,18 @@ const LEVELS = [1, 2, 3, 4, 5];
  * @param {() => void} [props.onFilterChange] - Optional callback invoked when any filter changes (for auto-close on mobile)
  */
 export default function FilterContent({ onFilterChange }) {
-    const rituals = useGrimoireStore(state => state.rituals);
-    const filters = useGrimoireStore(state => state.filters);
-    const addFilter = useGrimoireStore(state => state.addFilter);
-    const removeFilter = useGrimoireStore(state => state.removeFilter);
-    const clearFilters = useGrimoireStore(state => state.clearFilters);
-    const viewMode = useGrimoireStore(state => state.viewMode);
-    const toggleViewMode = useGrimoireStore(state => state.toggleViewMode);
+    // Consolidated store access with useShallow to prevent unnecessary re-renders
+    const { rituals, filters, addFilter, removeFilter, clearFilters, viewMode, toggleViewMode } = useGrimoireStore(
+        useShallow(state => ({
+            rituals: state.rituals,
+            filters: state.filters,
+            addFilter: state.addFilter,
+            removeFilter: state.removeFilter,
+            clearFilters: state.clearFilters,
+            viewMode: state.viewMode,
+            toggleViewMode: state.toggleViewMode
+        }))
+    );
 
     // derive unique disciplines dynamically from available rituals
     const disciplines = useMemo(() => {

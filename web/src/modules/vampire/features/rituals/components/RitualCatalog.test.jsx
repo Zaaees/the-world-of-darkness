@@ -84,4 +84,20 @@ describe('RitualCatalog', () => {
         const { container } = render(<RitualCatalog />);
         expect(container).toBeDefined();
     });
+
+    it('displays empty state when no rituals match filters', () => {
+        // Override mock to return empty rituals
+        useGrimoireStore.mockImplementation((selector) => {
+            const state = {
+                rituals: [],
+                selectFilteredRituals: () => []
+            };
+            return selector ? selector(state) : state;
+        });
+
+        render(<RitualCatalog />);
+        expect(screen.getByTestId('empty-state')).toBeDefined();
+        expect(screen.getByText('"Le vide..."')).toBeDefined();
+        expect(screen.getByText('Aucun rituel ne correspond à votre recherche.')).toBeDefined();
+    });
 });
