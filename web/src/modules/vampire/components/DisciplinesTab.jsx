@@ -170,7 +170,7 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
 
   let disciplines;
   if (isCainMode) {
-    disciplines = Object.values(DISCIPLINES);
+    disciplines = DISCIPLINES ? Object.values(DISCIPLINES) : [];
   } else {
     disciplines = getAvailableDisciplines(clan, bloodPotency);
   }

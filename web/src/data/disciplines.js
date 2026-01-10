@@ -1022,5 +1022,5 @@ export function getAvailableDisciplines(clan, bloodPotency) {
  * Récupère toutes les disciplines (pour affichage admin/référence)
  */
 export function getAllDisciplines() {
-  return Object.values(DISCIPLINES);
+  return DISCIPLINES ? Object.values(DISCIPLINES) : [];
 }

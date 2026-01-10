@@ -19,7 +19,7 @@
 #   - backlog: Story only exists in epic file
 #   - ready-for-dev: Story file created in stories folder
 #   - in-progress: Developer actively working on implementation
-#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Ready for code review (via Dev's code-review workflow)
 #   - done: Story completed
 #
 # Retrospective Status:
@@ -66,5 +66,5 @@ development_status:
   4-5-fix-github-pages-404-routing: done
   4-6-fix-grimoire-blank-page: done
   4-6-fix-grimoire-blank-page: done
-  4-7-fix-grimoire-black-screen-v2: review
+  4-7-fix-grimoire-black-screen-v2: done
   epic-4-retrospective: optional

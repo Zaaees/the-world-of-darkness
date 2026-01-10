@@ -1402,4 +1402,4 @@ export function getRitualById(id) {
     return RITUALS[id];
 }
 
-export const getAllRituals = () => Object.values(RITUALS);
+export const getAllRituals = () => RITUALS ? Object.values(RITUALS) : [];
