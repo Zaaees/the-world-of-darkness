@@ -21,13 +21,17 @@ afterEach(() => {
     }
 });
 
-// Mock react-window
-// Mock react-window with prop capture
+// Mock react-window with cellComponent API (v2)
 vi.mock('react-window', async () => {
     return {
-        Grid: ({ children, ...props }) => (
+        Grid: ({ cellComponent: CellComponent, cellProps, ...props }) => (
             <div data-testid="virtual-grid" data-overscan={props.overscanCount}>
-                {children({ columnIndex: 0, rowIndex: 0, style: {} })}
+                <CellComponent
+                    columnIndex={0}
+                    rowIndex={0}
+                    style={{}}
+                    {...cellProps}
+                />
             </div>
         )
     };

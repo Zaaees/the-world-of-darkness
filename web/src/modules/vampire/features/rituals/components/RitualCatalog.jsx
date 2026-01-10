@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Grid } from 'react-window';
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
@@ -15,8 +15,32 @@ const MIN_CARD_WIDTH = 300;
 const OVERSCAN_COUNT = 5;
 
 /**
+ * Cell component for react-window v2 Grid.
+ * Receives grid positioning props (columnIndex, rowIndex, style) from react-window
+ * and data props (rituals, columnCount) via cellProps.
+ * 
+ * @param {Object} props - Component props
+ * @param {number} props.columnIndex - Column position in the grid
+ * @param {number} props.rowIndex - Row position in the grid  
+ * @param {Object} props.style - Positioning styles from react-window
+ * @param {Array} props.rituals - Array of ritual objects to display
+ * @param {number} props.columnCount - Number of columns in the grid
+ * @returns {JSX.Element|null} RitualCard wrapped in styled div, or null if out of bounds
+ */
+const RitualCell = ({ columnIndex, rowIndex, style, rituals, columnCount }) => {
+    const index = rowIndex * columnCount + columnIndex;
+    if (index >= rituals.length) return null;
+
+    return (
+        <div style={style} className="p-2">
+            <RitualCard ritual={rituals[index]} style={{ height: '100%', width: '100%' }} />
+        </div>
+    );
+};
+
+/**
  * RitualCatalog - Virtualized grid display of ritual cards.
- * Uses react-window FixedSizeGrid for performant rendering of large datasets.
+ * Uses react-window Grid with cellComponent API (v2) for performant rendering.
  * The grid adapts responsively: single column on mobile, multi-column on desktop.
  * 
  * @returns {JSX.Element} The ritual catalog grid or empty state message
@@ -59,18 +83,6 @@ const RitualCatalog = () => {
     const rowCount = Math.ceil(rituals.length / columnCount);
     const columnWidth = dimensions.width / columnCount;
 
-    // Memoized cell renderer to prevent unnecessary re-renders
-    const CellRenderer = useCallback(({ columnIndex, rowIndex, style }) => {
-        const index = rowIndex * columnCount + columnIndex;
-        if (index >= rituals.length) return null;
-
-        return (
-            <div style={style} className="p-2">
-                <RitualCard ritual={rituals[index]} style={{ height: '100%', width: '100%' }} />
-            </div>
-        );
-    }, [rituals, columnCount]);
-
     // Empty State Check
     if (rituals.length === 0) {
         return (
@@ -85,16 +97,16 @@ const RitualCatalog = () => {
         <div ref={containerRef} className="h-full w-full bg-stone-950 p-4">
             {dimensions.width > 0 && dimensions.height > 0 && (
                 <Grid
+                    columnCount={columnCount}
                     columnWidth={columnWidth}
                     height={dimensions.height}
                     rowCount={rowCount}
                     rowHeight={CARD_HEIGHT}
                     width={dimensions.width}
                     overscanCount={OVERSCAN_COUNT}
-                    cellProps={{}}
-                >
-                    {CellRenderer}
-                </Grid>
+                    cellComponent={RitualCell}
+                    cellProps={{ rituals, columnCount }}
+                />
             )}
         </div>
     );
