@@ -24,86 +24,96 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
     useEffect(() => {
         const fetchRituals = async () => {
-            // Check if it's an NPC (UUID id)
-            const isNpc = character && (typeof character.id === 'string' && character.id.length > 20);
-
-            // ALWAYS load the full database first (Master List)
-            // This ensures "GM Mode" always has access to everything
-            const allRituals = getAllRituals();
-            setRituals(allRituals);
-
-            // 1. GM Mode (God Mode) - Excluding NPC view
-            if (isCainMode && !isNpc) {
-                // In God Mode, we effectively "know" everything, but technically
-                // the viewMode 'GM' handles the display.
-                // We could clear the active character rituals or set them to all,
-                // but for now, we just ensure the DB is loaded.
-                setLoading(false);
-                return;
-            }
-
-            // 2. NPC Logic
-            if (isNpc) {
-                let userRitualIds = [];
-
-                // a. Manual Rituals (stored as IDs)
-                if (character.rituals && Array.isArray(character.rituals)) {
-                    userRitualIds = [...character.rituals];
-                }
-
-                // b. Auto-unlock for Clans based on Blood Potency
-                const clanName = (character.clan || '').toLowerCase();
-                const bloodPotency = character.bloodPotency || 1;
-                const availableDiscs = getAvailableDisciplines(clanName, bloodPotency);
-
-                // Tremere -> Thaumaturgy
-                const thaumInfo = availableDiscs.find(d => d.id === 'thaumaturgy');
-                if (thaumInfo) {
-                    const thaumLevel = thaumInfo.maxLevel;
-                    const autoRituals = allRituals.filter(r => r.discipline === 'thaumaturgy' && r.level <= thaumLevel);
-                    autoRituals.forEach(r => {
-                        if (!userRitualIds.includes(r.id)) userRitualIds.push(r.id);
-                    });
-                }
-
-                // Giovanni/Hecata -> Necromancy
-                const necroInfo = availableDiscs.find(d => d.id === 'necromancy');
-                if (necroInfo) {
-                    const necroLevel = necroInfo.maxLevel;
-                    const autoRituals = allRituals.filter(r => r.discipline === 'necromancy' && r.level <= necroLevel);
-                    autoRituals.forEach(r => {
-                        if (!userRitualIds.includes(r.id)) userRitualIds.push(r.id);
-                    });
-                }
-
-                // Update the Store's "Active Character" knowledge
-                updateCharacterRituals(userRitualIds);
-                setLoading(false);
-                return;
-            }
-
-            // 3. Player Logic (Fetch from API)
+            console.log('RitualsTab: fetchRituals started');
             try {
-                const response = await fetch(`${API_URL}/api/rituals`, {
-                    headers: {
-                        'X-Discord-User-ID': userId,
-                        'X-Discord-Guild-ID': guildId,
-                    }
-                });
+                // Check if it's an NPC (UUID id)
+                const isNpc = character && (typeof character.id === 'string' && character.id.length > 20);
 
-                if (response.ok) {
-                    const data = await response.json();
-                    // API returns list of IDs
-                    const ritualIds = data.rituals || [];
+                // ALWAYS load the full database first (Master List)
+                // This ensures "GM Mode" always has access to everything
+                const allRituals = getAllRituals();
+                console.log('RitualsTab: getAllRituals result type:', typeof allRituals, Array.isArray(allRituals));
 
-                    updateCharacterRituals(ritualIds);
-                } else {
-                    console.error('Failed to fetch rituals');
-                    setError('Impossible de récupérer le grimoire.');
+                if (!allRituals) {
+                    console.error('RitualsTab: getAllRituals returned null/undefined!');
+                    setRituals([]);
+                    return;
                 }
-            } catch (err) {
-                console.error('Error fetching rituals:', err);
-                setError('Erreur de connexion.');
+
+                setRituals(allRituals);
+
+                // 1. GM Mode (God Mode) - Excluding NPC view
+                if (isCainMode && !isNpc) {
+                    setLoading(false);
+                    return;
+                }
+
+                // 2. NPC Logic
+                if (isNpc) {
+                    let userRitualIds = [];
+
+                    // a. Manual Rituals (stored as IDs)
+                    if (character.rituals && Array.isArray(character.rituals)) {
+                        userRitualIds = [...character.rituals];
+                    }
+
+                    // b. Auto-unlock for Clans based on Blood Potency
+                    const clanName = (character.clan || '').toLowerCase();
+                    const bloodPotency = character.bloodPotency || 1;
+                    const availableDiscs = getAvailableDisciplines(clanName, bloodPotency);
+
+                    // Tremere -> Thaumaturgy
+                    const thaumInfo = availableDiscs.find(d => d.id === 'thaumaturgy');
+                    if (thaumInfo) {
+                        const thaumLevel = thaumInfo.maxLevel;
+                        const autoRituals = allRituals.filter(r => r.discipline === 'thaumaturgy' && r.level <= thaumLevel);
+                        autoRituals.forEach(r => {
+                            if (!userRitualIds.includes(r.id)) userRitualIds.push(r.id);
+                        });
+                    }
+
+                    // Giovanni/Hecata -> Necromancy
+                    const necroInfo = availableDiscs.find(d => d.id === 'necromancy');
+                    if (necroInfo) {
+                        const necroLevel = necroInfo.maxLevel;
+                        const autoRituals = allRituals.filter(r => r.discipline === 'necromancy' && r.level <= necroLevel);
+                        autoRituals.forEach(r => {
+                            if (!userRitualIds.includes(r.id)) userRitualIds.push(r.id);
+                        });
+                    }
+
+                    // Update the Store's "Active Character" knowledge
+                    updateCharacterRituals(userRitualIds);
+                    setLoading(false);
+                    return;
+                }
+
+                // 3. Player Logic (Fetch from API)
+                try {
+                    const response = await fetch(`${API_URL}/api/rituals`, {
+                        headers: {
+                            'X-Discord-User-ID': userId,
+                            'X-Discord-Guild-ID': guildId,
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // API returns list of IDs
+                        const ritualIds = data.rituals || [];
+
+                        updateCharacterRituals(ritualIds);
+                    } else {
+                        console.error('Failed to fetch rituals');
+                        setError('Impossible de récupérer le grimoire.');
+                    }
+                } catch (err) {
+                    console.error('Error fetching rituals:', err);
+                    setError('Erreur de connexion.');
+                }
+            } catch (fatalErr) {
+                console.error('RitualsTab: Fatal error in fetchRituals', fatalErr);
+                setError('Erreur critique du Grimoire.');
             } finally {
                 setLoading(false);
             }
