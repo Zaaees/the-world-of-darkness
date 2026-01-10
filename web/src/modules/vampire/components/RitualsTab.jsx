@@ -16,7 +16,9 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
     const updateCharacterRituals = useGrimoireStore(state => state.updateCharacterRituals);
     const selectedRitual = useGrimoireStore(state => state.selectedRitual);
     const setSelectedRitual = useGrimoireStore(state => state.setSelectedRitual);
-    const setRituals = useGrimoireStore(state => state.setRituals); // Added missing selector
+    const setSelectedRitual = useGrimoireStore(state => state.setSelectedRitual);
+    const setRituals = useGrimoireStore(state => state.setRituals);
+    const setViewMode = useGrimoireStore(state => state.setViewMode);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -43,6 +45,10 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
                 const allRituals = rawRituals.filter(r => r && typeof r === 'object' && r.id);
                 console.log(`RitualsTab: Valid rituals loaded: ${allRituals.length}/${rawRituals.length}`);
+
+                // Enforce View Mode based on permission
+                // This ensures the filtering logic in the store knows the context
+                setViewMode(isCainMode ? 'GM' : 'PLAYER');
 
                 setRituals(allRituals);
 
@@ -124,7 +130,7 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
         };
 
         fetchRituals();
-    }, [userId, guildId, isCainMode, character, setRituals, updateCharacterRituals]);
+    }, [userId, guildId, isCainMode, character, setRituals, updateCharacterRituals, setViewMode]);
 
     if (loading) {
         return <div className="text-center py-10 text-stone-500 animate-pulse">Ouverture du Grimoire...</div>;
@@ -190,7 +196,7 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
                         <AnimatedView
                             viewKey={`desktop-${selectedRitual.id}`}
                             variant="slideRight"
-                            className="hidden md:block md:w-2/3 h-full border-l border-stone-800"
+                            className="hidden md:block md:w-2/3 h-full border-l border-stone-800 min-w-0"
                         >
                             <RitualReader
                                 ritual={selectedRitual}

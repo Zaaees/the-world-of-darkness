@@ -123,7 +123,7 @@ const RitualReader = ({ ritual, onClose }) => {
                 <div className="flex-1 overflow-y-auto overflow-x-hidden p-8 custom-scrollbar">
                     <div className="max-w-2xl mx-auto break-words [overflow-wrap:anywhere]">
                         <ReactMarkdown components={components}>
-                            {ritual.description_md || "*Description manquante...*"}
+                            {ritual.description_md || ritual.description || "*Description manquante...*"}
                         </ReactMarkdown>
                     </div>
                 </div>

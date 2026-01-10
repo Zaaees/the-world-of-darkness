@@ -31,7 +31,7 @@ export const useGrimoireStore = create((set, get) => ({
     rituals: [],
     searchQuery: '',
     selectedRitual: null, // Story 3.3: Selected ritual for Reader
-    viewMode: 'GM', // 'GM' or 'PLAYER'
+    viewMode: 'PLAYER', // 'GM' or 'PLAYER' - Default to PLAYER for security
     filters: {
         disciplines: [],
         levels: []
@@ -44,6 +44,7 @@ export const useGrimoireStore = create((set, get) => ({
     setSelectedRitual: (ritual) => set({ selectedRitual: ritual }),
     setRituals: (rituals) => set({ rituals: rituals }),
     toggleViewMode: () => set((state) => ({ viewMode: state.viewMode === 'GM' ? 'PLAYER' : 'GM' })),
+    setViewMode: (mode) => set({ viewMode: mode }),
 
     addFilter: (type, value) => set((state) => {
         const currentFilters = state.filters[type] || [];

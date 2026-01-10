@@ -116,7 +116,19 @@ describe('RitualReader', () => {
     });
 
     describe('Fallback Handling', () => {
-        it('shows fallback message when description_md is missing', () => {
+        it('shows description text when description_md is missing but description exists', () => {
+            const ritualLegacy = {
+                id: '1',
+                name: 'Legacy Ritual',
+                level: 1,
+                description: 'Ceci est une description legacy.'
+            };
+            render(<RitualReader ritual={ritualLegacy} />);
+
+            expect(screen.getByText('Ceci est une description legacy.')).toBeDefined();
+        });
+
+        it('shows fallback message when both description_md and description are missing', () => {
             const ritualNoDesc = { id: '1', name: 'Empty Ritual', level: 1 };
             render(<RitualReader ritual={ritualNoDesc} />);
 
