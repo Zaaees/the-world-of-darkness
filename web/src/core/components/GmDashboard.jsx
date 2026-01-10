@@ -302,7 +302,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                     required
                                 >
                                     <option value="">Sélectionner un clan...</option>
-                                    {Object.entries(CLANS).map(([key, clan]) => (
+                                    {Object.entries(CLANS || {}).map(([key, clan]) => (
                                         <option key={key} value={key}>{clan.name}</option>
                                     ))}
                                 </select>

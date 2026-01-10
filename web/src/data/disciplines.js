@@ -1003,6 +1003,10 @@ export const MAX_DISCIPLINE_LEVEL = {
  */
 export function getAvailableDisciplines(clan, bloodPotency) {
   const clanLower = clan?.toLowerCase();
+  if (!CLAN_DISCIPLINES) {
+    console.warn('CLAN_DISCIPLINES missing');
+    return [];
+  }
   const clanDisciplineIds = CLAN_DISCIPLINES[clanLower] || [];
   const maxLevel = MAX_DISCIPLINE_LEVEL[bloodPotency] || 2;
 
