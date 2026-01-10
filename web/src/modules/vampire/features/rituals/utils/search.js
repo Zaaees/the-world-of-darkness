@@ -3,9 +3,8 @@ import Fuse from 'fuse.js';
 // fuseInstance and configureFuse removed as they were unused/dead code
 
 export const searchRituals = (list, query) => {
-    if (!query || query.trim() === '') {
-        return list;
-    }
+    if (!list || !Array.isArray(list)) return [];
+    if (!query || query.trim() === '') return list;
 
     // Configure (or update) fuse if the list changes or instance is missing
     // For static data, we might want to do this once, but since list passed in might be filtered,

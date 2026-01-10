@@ -115,6 +115,12 @@ export const useGrimoireStore = create((set, get) => ({
 
         // 0. Pre-filter by View Mode (Security/Role Filter)
         let baseRituals = rituals;
+
+        if (!baseRituals || !Array.isArray(baseRituals)) {
+            console.warn('useGrimoireStore: rituals state is missing or invalid', baseRituals);
+            return [];
+        }
+
         if (viewMode === 'PLAYER') {
             const ownedRituals = activeCharacter.rituals || [];
             baseRituals = rituals.filter(r => ownedRituals.includes(r.id));
