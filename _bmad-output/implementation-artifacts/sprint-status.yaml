@@ -63,4 +63,5 @@ development_status:
   4-2-mobile-ux-and-responsive-check: done
   4-3-content-quality-review: done
   4-4-fix-grimoire-infinite-loop: done
+  4-5-fix-github-pages-404-routing: done
   epic-4-retrospective: optional

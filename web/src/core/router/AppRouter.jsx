@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { Suspense, lazy, useState, useEffect } from 'react';
 
 // Modules
@@ -9,9 +9,9 @@ const Home = () => (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
         <h1 className="text-4xl font-bold mb-8">World of Darkness</h1>
         <div className="flex gap-4">
-            <a href="/vampire" className="px-6 py-3 bg-red-900 rounded hover:bg-red-800 transition">
+            <Link to="/vampire" className="px-6 py-3 bg-red-900 rounded hover:bg-red-800 transition">
                 Vampire: La Mascarade
-            </a>
+            </Link>
             {/* Future modules here */}
         </div>
     </div>
