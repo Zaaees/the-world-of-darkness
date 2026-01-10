@@ -5,18 +5,28 @@ import { Suspense, lazy, useState, useEffect } from 'react';
 import { VampireModule } from '../../modules/vampire';
 
 // Layouts or Core Pages (Placeholders for now)
-const Home = () => (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-        <h1 className="text-4xl font-bold mb-8">World of Darkness</h1>
-        <div className="flex gap-4">
-            <Link to="/vampire" className="px-6 py-3 bg-red-900 rounded hover:bg-red-800 transition">
-                Vampire: La Mascarade
-            </Link>
-            {/* Future modules here */}
-        </div>
-    </div>
-);
+const Home = () => {
+    // Capture OAuth token from Discord redirect at root and forward to /vampire/sheet
+    useEffect(() => {
+        const hash = window.location.hash;
+        if (hash && hash.includes('access_token')) {
+            // Discord redirected here with token, forward to vampire sheet
+            window.location.href = `/the-world-of-darkness/vampire/sheet${hash}`;
+        }
+    }, []);
 
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
+            <h1 className="text-4xl font-bold mb-8">World of Darkness</h1>
+            <div className="flex gap-4">
+                <Link to="/vampire" className="px-6 py-3 bg-red-900 rounded hover:bg-red-800 transition">
+                    Vampire: La Mascarade
+                </Link>
+                {/* Future modules here */}
+            </div>
+        </div>
+    );
+};
 // Loading Component
 const Loading = () => <div className="p-10 text-center text-white">Chargement du module...</div>;
 
