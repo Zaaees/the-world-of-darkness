@@ -91,6 +91,7 @@ const RitualCatalog = () => {
                     rowHeight={CARD_HEIGHT}
                     width={dimensions.width}
                     overscanCount={OVERSCAN_COUNT}
+                    cellProps={{}}
                 >
                     {CellRenderer}
                 </Grid>
