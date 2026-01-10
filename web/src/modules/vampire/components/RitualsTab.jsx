@@ -35,8 +35,8 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
                 const rawRituals = getAllRituals();
                 console.log('RitualsTab: getAllRituals result type:', typeof rawRituals, Array.isArray(rawRituals));
 
-                if (!rawRituals) {
-                    console.error('RitualsTab: getAllRituals returned null/undefined!');
+                if (!rawRituals || !Array.isArray(rawRituals)) {
+                    console.error('RitualsTab: getAllRituals returned null/undefined or invalid type!', rawRituals);
                     setRituals([]);
                     return;
                 }
@@ -64,7 +64,7 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
                     // b. Auto-unlock for Clans based on Blood Potency
                     const clanName = (character.clan || '').toLowerCase();
                     const bloodPotency = character.bloodPotency || 1;
-                    const availableDiscs = getAvailableDisciplines(clanName, bloodPotency);
+                    const availableDiscs = getAvailableDisciplines(clanName, bloodPotency) || [];
 
                     // Tremere -> Thaumaturgy
                     const thaumInfo = availableDiscs.find(d => d.id === 'thaumaturgy');

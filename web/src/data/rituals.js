@@ -90,6 +90,7 @@ export const RITUALS = {
         name: "L'Éveil de la Vigie",
         discipline: "thaumaturgy",
         level: 1,
+        clan_requirement: "Tremere",
         description: "Permet de surmonter la malédiction de la somnolence diurne. Grâce à ce rituel, le Thaumaturge peut se réveiller instantanément au moindre signe de danger, avec l'esprit clair et vif, sans la lourdeur habituelle qui accable les Kinites pendant le jour.",
         ingredients: "Les plumes d'un coq égorgé à l'aube.",
         steps: [
@@ -202,6 +203,22 @@ export const RITUALS = {
         duration: "Instantanée."
     },
 
+    wake_morning_freshness: {
+        id: "wake_morning_freshness",
+        name: "Éveil à la Fraîcheur du Matin",
+        discipline: "thaumaturgy",
+        level: 1,
+        clan_requirement: "Tremere",
+        description: "Ce rituel permet à un vampire de rester éveillé durant la journée sans pénalité. Le lanceur doit préparer une concoction de sang et de plumes et la consommer juste avant le lever du soleil.",
+        ingredients: "Du sang et des plumes d'oiseau.",
+        steps: [
+            "1. Mélanger le sang et les plumes.",
+            "2. Boire au moment précis de l'aube.",
+            "3. Rester éveillé pendant le jour."
+        ],
+        duration: "Une journée."
+    },
+
     // --- NÉCROMANCIE NIVEAU 1 ---
 
     call_beacon: {
@@ -262,6 +279,22 @@ export const RITUALS = {
             "3. Le lien est établi — toute mort du serviteur sera ressentie comme un écho douloureux."
         ],
         duration: "Permanent (tant que le lien de sang existe)."
+    },
+
+    blood_mead: {
+        id: "blood_mead",
+        name: "Hydromel de Sang",
+        discipline: "necromancy",
+        level: 2,
+        clan_requirement: "Giovanni",
+        description: "Le nécromancien peut brasser une potion puissante qui permet de guérir les blessures aggravées plus rapidement.",
+        ingredients: "Hydromel, sang et herbes amères.",
+        steps: [
+            "1. Brasser le mélange pendant une nuit de pleine lune.",
+            "2. Laisser fermenter avec de la vitae.",
+            "3. Boire la concoction."
+        ],
+        duration: "Instantanée (effet de guérison)."
     },
 
     corpse_smile: {
@@ -1231,6 +1264,7 @@ export const RITUALS = {
         name: "Le Triomphe de la Pierre",
         discipline: "thaumaturgy",
         level: 5,
+        blood_requirement: "Visceratika",
         description: "Le Thaumaturge sacrifie temporairement sa mobilité pour une invulnérabilité totale. Il se transforme en une statue de pierre indestructible. Sous cette forme, il ne craint ni le feu, ni le soleil, ni les armes, mais il ne peut ni bouger ni parler. C'est le camouflage ultime ou le dernier recours pour survivre à l'aube en terrain découvert.",
         ingredients: "Aucun, seulement une concentration parfaite et une goutte de son sang sur le front.",
         steps: [

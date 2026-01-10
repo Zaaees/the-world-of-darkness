@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { rituals as staticRituals } from '../data/rituals_v20';
 import { searchRituals } from '../utils/search';
 import { canLearnRitual } from '../utils/rules';
 
@@ -29,7 +28,7 @@ const MOCK_CHARACTER = {
  * @property {function(string): void} setSearchQuery - Updates the search query
  */
 export const useGrimoireStore = create((set, get) => ({
-    rituals: staticRituals,
+    rituals: [],
     searchQuery: '',
     selectedRitual: null, // Story 3.3: Selected ritual for Reader
     viewMode: 'GM', // 'GM' or 'PLAYER'
