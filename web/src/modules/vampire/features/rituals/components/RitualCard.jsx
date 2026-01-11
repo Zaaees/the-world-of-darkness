@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import { Book, Skull } from 'lucide-react'; // Example icons
-import { useShallow } from 'zustand/react/shallow';
-import { useGrimoireStore } from '../stores/useGrimoireStore';
-import { Book, Skull, Scroll, Diamond } from 'lucide-react'; // Added icons
+import React from 'react';
+import { Book, Skull, Scroll, Diamond } from 'lucide-react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import { getDisciplineName } from '../../../../../utils/translations';
