@@ -81,25 +81,30 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         aria-modal="true"
                     >
                         {/* Header Image / Pattern Background */}
-                        <div className="h-32 bg-gradient-to-br from-red-950/40 via-stone-900 to-stone-900 border-b border-stone-800 relative shrink-0">
-                            <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-                                <span className="text-[8rem]">{icon || "✦"}</span>
+                        <div className="h-40 bg-gradient-to-br from-red-950/90 via-stone-900 to-stone-950 border-b border-stone-800 relative shrink-0 overflow-hidden">
+                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-30 mix-blend-overlay"></div>
+
+                            <div className="absolute -right-10 -top-10 flex items-center justify-center opacity-10 pointer-events-none">
+                                <span className="text-[12rem] filter blur-sm">{icon || "✦"}</span>
                             </div>
 
                             <button
                                 onClick={onClose}
                                 aria-label="Fermer"
-                                className="absolute top-4 right-4 p-2 bg-stone-900/50 hover:bg-stone-800 text-stone-400 hover:text-white rounded-full transition-colors z-10"
+                                className="absolute top-4 right-4 p-2 bg-stone-950/50 hover:bg-stone-800 text-stone-400 hover:text-white rounded-full transition-colors z-10 border border-stone-800/50 backdrop-blur-sm"
                             >
                                 <X size={20} />
                             </button>
 
-                            <div className="absolute bottom-4 left-6">
-                                <h2 className="text-2xl font-serif text-white font-bold tracking-wide drop-shadow-md">
+                            <div className="absolute bottom-6 left-8 z-10">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <span className="text-5xl drop-shadow-lg">{icon}</span>
+                                </div>
+                                <h2 className="text-3xl font-serif text-white font-bold tracking-wide drop-shadow-md">
                                     {power.name}
                                 </h2>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <span className="px-2 py-0.5 rounded bg-red-900/20 border border-red-900/30 text-red-400 text-xs font-medium">
+                                <div className="flex items-center gap-2 mt-2">
+                                    <span className="px-2.5 py-0.5 rounded-full bg-stone-900/60 border border-stone-700/50 text-stone-300 text-xs font-semibold backdrop-blur-md shadow-sm">
                                         Niveau {power.level}
                                     </span>
                                 </div>
@@ -107,14 +112,14 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         </div>
 
                         {/* Metadata Bar */}
-                        <div className="bg-stone-950/50 border-b border-stone-800 px-6 py-3 flex items-center gap-6 shrink-0">
-                            <div className="flex items-center gap-2 text-stone-400 text-sm">
-                                <Droplet size={14} className="text-red-500" />
-                                <span>Coût: <span className="text-stone-200">{power.bloodCost > 0 ? `${power.bloodCost} PS` : 'Gratuit'}</span></span>
+                        <div className="bg-stone-950/50 border-b border-stone-800 px-8 py-4 flex items-center gap-4 shrink-0 overflow-x-auto">
+                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/20 border border-red-900/20 text-red-200 text-xs font-medium tracking-wide whitespace-nowrap">
+                                <Droplet size={12} className="text-red-500 fill-red-500/20" />
+                                <span>Coût: {power.bloodCost > 0 ? `${power.bloodCost} PS` : 'Gratuit'}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-stone-400 text-sm">
-                                <Clock size={14} className="text-stone-500" />
-                                <span>Durée: <span className="text-stone-200">{DURATION_LABELS[power.duration] || power.duration}</span></span>
+                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium tracking-wide whitespace-nowrap">
+                                <Clock size={12} className="text-stone-500" />
+                                <span>Durée: {DURATION_LABELS[power.duration] || power.duration}</span>
                             </div>
                         </div>
 
