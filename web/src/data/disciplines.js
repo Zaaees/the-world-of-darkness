@@ -1374,7 +1374,7 @@ export function getAvailableDisciplines(clan, bloodPotency) {
     // However, if maxLevel is low (neonate), we STILL want to show 5 powers (some locked).
     // The previous logic filtered `power.level <= maxLevel`.
     // The new logic should filter `power.level <= Math.max(5, maxLevel)` to ensure at least 5 are returned.
-    const visibleMax = Math.max(5, maxLevel);
+    const visibleMax = maxLevel;
 
     return {
       ...discipline,
