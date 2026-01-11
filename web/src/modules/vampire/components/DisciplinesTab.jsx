@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Sparkles, Lock, Clock, Droplet } from 'lucide-react';
 import { getAvailableDisciplines, MAX_DISCIPLINE_LEVEL, DISCIPLINES } from '../../../data/disciplines';
+import DisciplineDetailModal from './DisciplineDetailModal';
 
 // Icônes par discipline
 const DISCIPLINE_ICONS = {
@@ -77,14 +78,16 @@ const BloodCost = ({ cost, isLocked }) => {
 };
 
 // Composant pour un pouvoir individuel
-const PowerCard = ({ power, isLocked }) => {
+const PowerCard = ({ power, isLocked, onClick }) => {
   return (
-    <div className={`
-      p-3 rounded border transition-all
+    <div
+      onClick={onClick}
+      className={`
+      p-3 rounded border transition-all relative
       ${isLocked
-        ? 'bg-stone-950/30 border-stone-800/50 opacity-50'
-        : 'bg-stone-900/40 border-stone-800 hover:border-red-900/50'
-      }
+          ? 'bg-stone-950/30 border-stone-800/50 opacity-60 hover:opacity-100 hover:bg-stone-900/60 cursor-pointer'
+          : 'bg-stone-900/40 border-stone-800 hover:border-red-900/50 cursor-pointer hover:bg-stone-900/60 active:scale-[0.99] hover:shadow-lg hover:shadow-red-900/10'
+        }
     `}>
       <div className="flex items-start gap-3">
         {/* Niveau (Cercle) */}
@@ -124,7 +127,7 @@ const PowerCard = ({ power, isLocked }) => {
 };
 
 // Composant pour une discipline
-const DisciplineCard = ({ discipline, maxAccessibleLevel }) => {
+const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
   const [isOpen, setIsOpen] = useState(true);
   const icon = DISCIPLINE_ICONS[discipline.id] || "✦";
 
@@ -150,12 +153,13 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel }) => {
       </button>
 
       {isOpen && (
-        <div className="mt-2 space-y-2 pl-2 border-l-2 border-stone-800/50 ml-5">
+        <div className="mt-2 pl-2 border-l-2 border-stone-800/50 ml-5 grid grid-cols-1 md:grid-cols-2 gap-2">
           {allPowers.map(power => (
             <PowerCard
               key={power.level}
               power={power}
               isLocked={power.level > maxAccessibleLevel}
+              onClick={() => onPowerClick(power)}
             />
           ))}
         </div>
@@ -166,14 +170,21 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel }) => {
 
 // Composant principal
 export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
-  const maxLevel = isCainMode ? 5 : (MAX_DISCIPLINE_LEVEL[bloodPotency] || 2);
+  // Allow up to 10 for Cain Mode, otherwise respect blood potency
+  const maxLevel = isCainMode ? 10 : (MAX_DISCIPLINE_LEVEL[bloodPotency] || 2);
+  const [selectedPower, setSelectedPower] = useState(null);
 
-  let disciplines;
-  if (isCainMode) {
-    disciplines = DISCIPLINES ? Object.values(DISCIPLINES) : [];
-  } else {
-    disciplines = getAvailableDisciplines(clan, bloodPotency);
-  }
+  const disciplines = useMemo(() => {
+    if (isCainMode) {
+      return DISCIPLINES ? Object.values(DISCIPLINES) : [];
+    } else {
+      return getAvailableDisciplines(clan, bloodPotency);
+    }
+  }, [clan, bloodPotency, isCainMode]);
+
+  // Ensure we display at least 5 slots to keep the UI consistent for low levels,
+  // but allow it to grow if we have access to higher levels.
+  // The filtering is already done in getAvailableDisciplines, so here we trust the props / logic.
 
   if ((!clan && !isCainMode) || disciplines.length === 0) {
     return (
@@ -202,7 +213,16 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
         </div>
 
         {/* Légende - Carte de Référence (Alignement Strict) */}
-        <div className="mt-4 bg-stone-950/40 rounded-lg border border-stone-800/50 grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+        <div className="mt-4 bg-stone-950/40 rounded-lg border border-stone-800/50 grid grid-cols-1 md:grid-cols-2 overflow-hidden relative">
+
+          {/* GOD MODE WATERMARK */}
+          {isCainMode && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0 opacity-10">
+              <span className="text-9xl font-black text-red-600 -rotate-12 whitespace-nowrap select-none">
+                GOD MODE
+              </span>
+            </div>
+          )}
 
           {/* Colonne Coûts */}
           <div className="p-5 md:border-r border-stone-800/50">
@@ -301,6 +321,7 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
             key={discipline.id}
             discipline={discipline}
             maxAccessibleLevel={maxLevel}
+            onPowerClick={setSelectedPower}
           />
         ))}
       </div>
@@ -311,6 +332,11 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
           Augmentez votre Puissance du Sang pour débloquer de nouvelles disciplines
         </div>
       )}
+      <DisciplineDetailModal
+        power={selectedPower}
+        icon={selectedPower ? DISCIPLINE_ICONS[disciplines.find(d => d.powers.includes(selectedPower))?.id] : null}
+        onClose={() => setSelectedPower(null)}
+      />
     </div>
   );
 }

@@ -67,3 +67,11 @@ development_status:
   4-6-fix-grimoire-blank-page: done
   4-7-fix-grimoire-black-screen-v2: done
   epic-4-retrospective: optional
+
+  epic-5: in-progress
+  5-1-data-population-elder-powers: done
+  5-2-business-logic-unlock-elder-levels: done
+  5-3-ui-update-refactor-disciplines-tab-layout: review
+  5-4-ui-update-enhanced-discipline-card-modal: done
+  5-5-caine-mode-high-level-display: done
+  epic-5-retrospective: optional

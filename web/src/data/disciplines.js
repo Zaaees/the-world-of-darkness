@@ -5,10 +5,12 @@
  * L'accès dépend du clan (disciplines de clan) et du niveau de Puissance du Sang.
  *
  * Accès par Puissance du Sang:
- * - BP 1: Niveaux 1-2
- * - BP 2: Niveaux 1-3
- * - BP 3: Niveaux 1-4
- * - BP 4-5: Niveaux 1-5
+ * - BP 1: Niveau 1
+ * - BP 2: Niveaux 1-2
+ * - BP 3: Niveaux 1-3
+ * - BP 4: Niveaux 1-4
+ * - BP 5: Niveaux 1-5
+ * - BP 6+: Niveaux 1-6+ (Accès Elder)
  */
 
 export const DISCIPLINES = {
@@ -51,6 +53,41 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "Quand la frénésie monte en toi, projette-la violemment dans une victime proche. Ta Bête bondit de ta poitrine vers la sienne, et c'est elle qui sombre dans la rage animale tandis que tu deviens étrangement vide, froid, incapable d'émotions pendant quelques heures. Tu peux diriger ta Bête vers un ennemi pour qu'il se transforme en monstre enragé, ou vers un innocent pour t'en débarrasser. Quand ta Bête reviendra, elle se souviendra de ce que tu lui as fait."
+      },
+      {
+        level: 6,
+        name: "L'Innocence du Berger",
+        bloodCost: 2,
+        duration: "scene",
+        description: "Tu dégages une aura de pureté naturelle qui apaise même les prédateurs les plus féroces. Les animaux ne te craignent plus, ils t'adorent. Ils viennent se frotter contre toi, te protègent et refusent de t'attaquer, même contraints par la magie. Tu es le roi de la jungle, non par la force, mais par le droit divin."
+      },
+      {
+        level: 7,
+        name: "Conquérir la Bête",
+        bloodCost: 4,
+        duration: "scene",
+        description: "Tu as dompté le monstre en toi. Lorsque la Frénésie te gagne, tu ne perds pas le contrôle. Tu deviens une machine à tuer froide, lucide et terrifiante, utilisant la rage de la Bête avec la précision d'un chirurgien. La peur et la colère ne sont plus des maîtres, mais des carburants."
+      },
+      {
+        level: 8,
+        name: "Esprits Jumeaux",
+        bloodCost: 6,
+        duration: "prolonged",
+        description: "Tu n'es plus limité à un seul corps. Ton esprit peut habiter et contrôler un animal tout en gardant une conscience totale de ta forme vampirique. Tu es à la fois le maître dans son trône et le loup dans la forêt, agissant simultanément en deux lieux, coordonnant tes propres actions avec une synergie parfaite."
+      },
+      {
+        level: 9,
+        name: "Lien de Chair",
+        bloodCost: 9,
+        duration: "permanent",
+        description: "La frontière entre toi et ta ghoule animale s'efface. Tu peux absorber son corps dans le tien, fusionnant vos chairs et vos esprits. Elle vit en toi, renforçant ton corps de sa vigueur, prête à être 'expulsée' pour combattre à tes côtés à tout moment. Vous êtes une légion dans un seul corps."
+      },
+      {
+        level: 10,
+        name: "Armée de Bêtes",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Un cri mental suffit. Chaque animal, du rat d'égout à l'oiseau de proie, dans un rayon de plusieurs kilomètres, répond à ton appel. Tu ne commandes pas une meute, tu diriges un écosystème entier qui se soulève pour dévorer tes ennemis. La nature elle-même part en guerre sur ton ordre."
       }
     ]
   },
@@ -94,6 +131,41 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "prolonged",
         description: "Ton esprit se détache de ton corps de chair qui s'effondre, inanimé. Tu flottes au-dessus, forme fantomatique d'énergie psychique argentée, invisible aux mortels. Traverse les murs, vole au-dessus de la ville à la vitesse de la pensée, explore le repaire de ton ennemi sans risque. Tu peux voyager jusqu'au plan astral, un monde de symboles et d'archétypes où rôdent des entités étranges. Mais ton corps est vulnérable : s'il meurt pendant ton absence, ton esprit erre pour l'éternité."
+      },
+      {
+        level: 6,
+        name: "Clairvoyance",
+        bloodCost: 2,
+        duration: "prolonged",
+        description: " Tes sens ne sont plus limités par la matière ou la distance. Ferme les yeux et vois ce qui se passe à l'autre bout de la ville, écoute les conspirations derrière des murs insonorisés. Tu deviens l'observateur omniscient, le fantôme qui hante chaque recoin de la cité sans jamais quitter son refuge."
+      },
+      {
+        level: 7,
+        name: "Vision Karmique",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu ne regardes plus la personne, mais la tapisserie de son destin. Tu vois le poids de ses péchés, les nœuds de son avenir et les chaînes de son passé. Tu sais ce qu'elle a fait, ce qu'elle est destinée à faire, et combien son âme est proche de la rupture totale."
+      },
+      {
+        level: 8,
+        name: "Assaut Psychique",
+        bloodCost: 5,
+        duration: "instant",
+        description: "La connaissance est une arme. Tu peux projeter une attaque mentale brute si violente qu'elle se manifeste physiquement. Tes victimes saignent des yeux, leurs synapses grillent, leurs souvenirs s'effacent. Tu tues par la simple pensée, transformant leur propre esprit en chambre de torture."
+      },
+      {
+        level: 9,
+        name: "Maître du Domus",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Tu deviens l'esprit du lieu. Tu sais tout ce qui se passe dans ton domaine : chaque pas sur le sol, chaque mot chuchoté, chaque poussière déplacée. Personne ne peut se cacher chez toi. Tu n'as pas besoin de caméras ; les murs eux-mêmes sont tes yeux et tes oreilles."
+      },
+      {
+        level: 10,
+        name: "Pouls de la Canaille",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu connectes ton esprit à la psyché collective de toute une ville. Tu entends les pensées de millions d'âmes comme un bruit de fond, tu ressens les émotions de masse. Tu sais tout, tout le temps. L'individualité s'efface devant l'omniscience. Tu es la Ville."
       }
     ]
   },
@@ -138,6 +210,34 @@ export const DISCIPLINES = {
         bloodCost: 3,
         duration: "instant",
         description: "La gravité et l'inertie ne s'appliquent plus à toi. Tu deviens une force cinétique pure capable de courir à la verticale sur la façade d'un gratte-ciel ou de traverser une étendue d'eau sans t'y enfoncer. Ton passage crée un souffle d'air violent, et tu peux t'arrêter net depuis une vitesse supersonique sans ressentir l'impact. Tu n'es plus un corps, tu es un projectile vivant."
+      },
+      {
+        level: 6,
+        name: "Projectile",
+        bloodCost: 1,
+        duration: "instant",
+        description: "Tu transfères ta vitesse surnaturelle à un objet que tu lances. Une simple pièce de monnaie devient une balle traversant l'acier, un couteau de lancer frappe avec la force d'un canon. L'objet ne se contente pas de voler vite, il devient un missile cinétique dévastateur."
+      },
+      {
+        level: 7,
+        name: "Fleur de Mort",
+        bloodCost: 4,
+        duration: "scene",
+        description: "Tu te déplaces si vite que tu sembles être partout à la fois. Tu deviens une tempête de lames et de coups, frappant chaque ennemi dans la pièce avant que le premier corps ne touche le sol. Ce n'est pas un combat, c'est une exécution simultanée de masse."
+      },
+      {
+        level: 8,
+        name: "Zéphyr",
+        bloodCost: 3,
+        duration: "scene",
+        description: "La gravité ne s'applique plus à toi. Tu cours sur l'eau sans créer d'ondulations, tu marches sur les murs comme si c'était le sol, tu peux même courir sur des fils de pêche ou des nuages de fumée si tu es assez rapide. Tu es devenu insaisissable, une force pure en mouvement."
+      },
+      {
+        level: 9,
+        name: "Dilatation Temporelle",
+        bloodCost: 9,
+        duration: "scene",
+        description: "Le temps n'est plus une rivière, c'est un lac gelé. Entre deux battements de cœur d'un mortel, tu as vécu une éternité. Tu marches calmement au milieu des explosions figées, tu déplaces tes ennemis comme des mannequins inertes. Pour eux, tu n'as pas bougé : tu es simplement devenu la mort instantanée."
       }
     ]
   },
@@ -181,6 +281,34 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "prolonged",
         description: "Fixe un mortel dans les yeux et projette ton esprit dans le sien, l'écrasant, le noyant, le poussant dans un coin obscur de son propre crâne. Tu prends le contrôle total de son corps. Pendant que ton enveloppe de vampire tombe en torpeur, tu vis sa vie : tu sens la chaleur du soleil, tu goûtes la nourriture, tu respires. Tu peux marcher en plein jour, passer inaperçu, accéder à des lieux interdits aux vampires. Mais son esprit hurle dans sa prison mentale, et s'il meurt pendant que tu l'habites, ton esprit meurt avec lui."
+      },
+      {
+        level: 6,
+        name: "Rationalisation",
+        bloodCost: 2,
+        duration: "permanent",
+        description: "Tes victimes ne se contentent plus d'obéir aveuglément ; elles croient que c'est leur idée. Ordonne à un garde de tuer son roi, et il trouvera lui-même une raison politique pour le faire. Elles justifient tes ordres les plus absurdes avec une sincérité terrifiante, protégeant ton influence contre toute détection."
+      },
+      {
+        level: 7,
+        name: "Manipulation de Masse",
+        bloodCost: 5,
+        duration: "scene",
+        description: "Ton regard n'a plus besoin de croiser un seul regard. Tu peux dominer une foule entière, une armée, ou une salle de bal d'un seul mot. Ils s'arrêtent, écoutent, et obéissent à l'unisson. Tu transformes une émeute hurlante en une chorale disciplinée en une seconde."
+      },
+      {
+        level: 8,
+        name: "Maîtrise Lointaine",
+        bloodCost: 6,
+        duration: "instant",
+        description: "La distance ne te protège plus. Si tu connais ta cible, tu peux la Dominer à l'autre bout du monde. Un coup de téléphone, une lettre, ou même une simple pensée dirigée suffit à briser sa volonté. Tu es la voix dans leur tête qui ne se tait jamais, où qu'ils aillent."
+      },
+      {
+        level: 9,
+        name: "Parole du Sang",
+        bloodCost: 10,
+        duration: "instant",
+        description: "Tu parles, et ta lignée obéit. Tu peux donner un ordre à tous les vampires qui descendent de toi, même des générations plus bas. 'Venez à moi', et cinquante vampires convergent vers ta position. C'est le pouvoir des Antédiluviens, le contrôle absolu sur sa descendance."
       }
     ]
   },
@@ -224,6 +352,27 @@ export const DISCIPLINES = {
         bloodCost: 0,
         duration: "permanent",
         description: "Tu es ce dont les chasseurs de vampires font des cauchemars. Les balles rebondissent sur ta peau comme sur du blindage. Les lames se tordent contre tes os. Le soleil lui-même te consume au ralenti là où il devrait t'incinérer en un instant. Tu peux traverser un immeuble en flammes, encaisser l'explosion d'une grenade, te relever après avoir été percuté par un camion. Tu n'es pas immortel. Mais tu es la chose qui s'en approche le plus."
+      },
+      {
+        level: 6,
+        name: "Armure Personnelle",
+        bloodCost: 2,
+        duration: "scene",
+        description: "Ta peau change de texture, devenant plus dure que le diamant. Les armes de corps à corps se brisent littéralement à l'impact contre ta chair. Frapper ton visage, c'est comme frapper un mur de béton armé. Tu brises les lames de tes ennemis avec ton cou."
+      },
+      {
+        level: 7,
+        name: "Force Partagée",
+        bloodCost: 4,
+        duration: "scene",
+        description: "Tu peux étendre ton invulnérabilité. Touche un allié et donne-lui ta résistance légendaire. Pendant quelques instants, il devient aussi indestructible que toi. Tu es le bouclier qui protège la coterie contre l'apocalypse."
+      },
+      {
+        level: 8,
+        name: "Adamantin",
+        bloodCost: 6,
+        duration: "permanent",
+        description: "Tu as dépassé le concept de blessure. La plupart des sources de dégâts conventionnels (balles, chutes, écrasements) ne t'affectent simplement plus. Tu peux marcher sous une presse hydraulique et la bloquer. Seules les destructions magiques ou massives peuvent espérer t'égratigner."
       }
     ]
   },
@@ -267,6 +416,27 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "Étends ton pouvoir comme un manteau. Touche tes compagnons et ils disparaissent avec toi, un groupe fantôme qui se déplace dans la ville sans être vu. Dissimule ta voiture pour passer des barrages routiers, cache un groupe de goules armées, ou fais disparaître des preuves compromettantes sous les yeux des enquêteurs. Plus le groupe est large, plus c'est difficile : si l'un d'eux attire l'attention, le voile se déchire pour tous. Mais un groupe discipliné peut traverser un aéroport bondé comme des spectres."
+      },
+      {
+        level: 6,
+        name: "Esprit Vide",
+        bloodCost: 2,
+        duration: "prolonged",
+        description: "Tu ne caches pas seulement ton corps, mais ton esprit. Tu deviens un trou noir psychique. Aucune télépathie, aucun Auspex, aucune détection magique ne peut te trouver. Même si on te regarde en face, on ne perçoit aucune pensée, aucune aura, aucune âme. Tu es un vide dans la réalité."
+      },
+      {
+        level: 7,
+        name: "Cache",
+        bloodCost: 5,
+        duration: "permanent",
+        description: "Tu peux effacer un lieu entier de la mémoire du monde. Ta maison devient invisible et inatteignable. Les gens passent devant sans la voir, les GPS l'évitent, et ceux qui y entrent oublient pourquoi ils sont là dès qu'ils franchissent le seuil. Tu vis dans un angle mort de l'univers."
+      },
+      {
+        level: 8,
+        name: "Vieil Ami",
+        bloodCost: 4,
+        duration: "scene",
+        description: "Tu n'as plus besoin de te cacher. Tout le monde te voit, mais tout le monde te voit comme quelqu'un en qui ils ont une confiance absolue. Pour le garde, tu es son collègue préféré. Pour le Prince, tu es son plus fidèle conseiller. Tu peux assassiner quelqu'un en plein jour, et les témoins jureront que c'était un accident malheureux, car tu ne ferais jamais ça."
       }
     ]
   },
@@ -310,6 +480,27 @@ export const DISCIPLINES = {
         bloodCost: 0,
         duration: "permanent",
         description: "Les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu."
+      },
+      {
+        level: 6,
+        name: "Onde de Choc",
+        bloodCost: 2,
+        duration: "instant",
+        description: "Frappe tes mains l'une contre l'autre ou frappe le sol : l'impact crée une onde de choc cinétique qui renverse tout le monde dans la pièce. Les vitres explosent, les meubles volent, et tes ennemis sont projetés comme des poupées de chiffon. Tu es l'épicentre du tremblement de terre."
+      },
+      {
+        level: 7,
+        name: "Séisme",
+        bloodCost: 5,
+        duration: "instant",
+        description: "Une simple frappe au sol suffit à fissurer la route, faire s'effondrer des fondations ou créer des crevasses. Tu ne combats plus des hommes, tu combats le terrain lui-même. Tu peux faire s'écrouler un tunnel ou démolir un bâtiment d'un seul coup bien placé."
+      },
+      {
+        level: 8,
+        name: "Pichenette",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Ta maîtrise de la force est totale. Un simple claquement de doigts sur le front d'un ennemi suffit à lui briser le crâne. Une tape amicale peut disloquer une épaule. Tu n'as plus besoin d'élan ou de levier ; le moindre de tes mouvements porte la force d'un marteau-pilon."
       }
     ]
   },
@@ -353,6 +544,20 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "Active cette couronne invisible et tu deviens intouchable. Ton aura devient si écrasante, si magnifique et terrible à la fois, que personne ne peut lever la main contre toi. Les agresseurs baissent leurs armes, incapables de te frapper. Les insulteurs ravalent leurs mots. Même les vampires anciens hésitent. Tu deviens comme un roi-dieu : vénéré, craint, mais absolument inattaquable. Marche à travers une foule hostile sans être touché, donne des ordres que personne n'ose contester. Pour briser ta Majesté, il faut une volonté de fer ou ne plus te regarder du tout."
+      },
+      {
+        level: 6,
+        name: "Regard Paralysant",
+        bloodCost: 2,
+        duration: "scene",
+        description: "Ton regard ne fait pas que faire peur, il éteint le système nerveux. La victime est physiquement incapable de bouger, de parler, ou même de cligner des yeux. Elle reste figée comme une statue, consciente mais prisonnière de son propre corps, tant que tu le décides."
+      },
+      {
+        level: 7,
+        name: "Coopération",
+        bloodCost: 4,
+        duration: "scene",
+        description: "Tu imposes l'harmonie. Sous ton influence, des ennemis jurés travailleront ensemble avec une efficacité parfaite. Tu peux synchroniser une foule hétéroclite pour en faire une unité d'élite, ou forcer tes ennemis à t'aider à accomplir ton but. La discorde meurt en ta présence."
       }
     ]
   },
@@ -396,6 +601,34 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "Ton corps se dissout en brume spectrale, un nuage de vapeur pâle à peine visible. Tu deviens intangible : les balles te traversent, les lames ne font que disperser temporairement ton essence. Glisse-toi sous les portes, à travers les grilles, les fissures dans les murs. Flotte au-dessus des obstacles, échappe à toute contrainte physique. Tu peux même te disperser complètement pour éviter un danger, te reformant plus loin. Le vent peut te pousser mais pas te blesser. Seuls le feu et le soleil peuvent te nuire sous cette forme, mais même eux causent moins de dégâts. Tu es devenu l'essence même du vampire : ni mort ni vivant, entre deux états."
+      },
+      {
+        level: 6,
+        name: "Chair de Marbre",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Ta peau devient une substance surnaturelle, flexible comme la soie mais dure comme la pierre enchantée. Les coups ricoorent, les balles s'aplatissent. C'est plus qu'une armure, c'est une négation de la blessure. Pour te blesser, il faut une force capable de briser une montagne."
+      },
+      {
+        level: 7,
+        name: "Colère de la Bête",
+        bloodCost: 5,
+        duration: "scene",
+        description: "Tu dépasses le loup et la chauve-souris. Tu deviens une monstruosité hybride, un cauchemar de griffes, de crocs et de muscles qui défie toute description biologique. Sous cette forme, tu es une machine de guerre pure, faite pour le massacre de masse, capable de déchiqueter un tank."
+      },
+      {
+        level: 8,
+        name: "Purifier la Bête",
+        bloodCost: 5,
+        duration: "instant",
+        description: "Ton corps rejette tout ce qui est étranger. Tu peux expulser violemment les pieux, les balles, les poisons ou même les esprits intrus. Le bois pourri jaillit de ton cœur, les plaies se referment instantanément après avoir craché le plomb. Tu ne peux pas être contenu."
+      },
+      {
+        level: 9,
+        name: "Forme Mythique",
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu te transformes en créature de légende. Dragon, Griffon, Hydre... Tu incarnes un mythe vivant avec tous ses pouvoirs supposés. Tu voles sans ailes, tu craches peut-être du feu (métaphorique ou réel), tu inspires une terreur ancestrale. Tu n'es plus un vampire, tu es un monstre de l'ancien monde."
       }
     ]
   },
@@ -439,6 +672,20 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "Ouvre ton âme et libère l'Abysse qui sommeille en toi. Un puits de ténèbres absolues jaillit de ta bouche, de tes yeux, de ta poitrine, s'étendant comme une tache d'encre vivante. Cette obscurité dévore tout : la lumière, le son, la chaleur, l'espoir. Ceux qui y sont pris ressentent un froid glacial, une terreur viscérale, comme s'ils tombaient dans un gouffre sans fond. L'obscurité peut consumer les objets, dissoudre les murs, aspirer les victimes dans un néant temporaire. Même les autres vampires reculent devant cette manifestation pure de l'Abysse. C'est l'arme ultime du Lasombra, mais l'utiliser trop longtemps, c'est risquer que les ténèbres ne te consument aussi."
+      },
+      {
+        level: 6,
+        name: "Pas d'Ombre",
+        bloodCost: 2,
+        duration: "instant",
+        description: "Tu peux entrer dans n'importe quelle ombre et ressortir instantanément par une autre, n'importe où à portée de vue (ou plus loin selon ta puissance). C'est une téléportation immédiate via l'Abysse. Tu ne traverses pas l'espace, tu le contournes par les ténèbres."
+      },
+      {
+        level: 8,
+        name: "Éclipser le Soleil",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Le rêve ultime du clan Lasombra. Tu craches des ténèbres si massives qu'elles montent au ciel et obscurcissent le soleil lui-même sur toute une région. Le jour devient nuit. Les vampires peuvent marcher dehors à midi sous ta protection. C'est un acte de guerre contre Dieu."
       }
     ]
   },
@@ -525,6 +772,20 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "Dissous complètement ton corps en une flaque de vitae sentiente, une mare de sang qui pense et bouge. Tu t'étales sur le sol, te coules sous les portes, à travers les grilles, dans les fissures. Sous cette forme, tu es presque invulnérable aux dégâts physiques : les balles font juste des éclaboussures, les lames te traversent sans effet. Tu peux t'étaler pour couvrir une large zone, ou te concentrer en un petit point. Engloutis un adversaire, le noyant dans ta substance, ou infiltre-toi dans des lieux impossibles. Seuls le feu et le soleil peuvent te blesser sous cette forme - et le soleil reste mortel, évaporant ta vitae comme l'eau d'une flaque. Tu es devenu l'essence même de la monstruosité vampirique."
+      },
+      {
+        level: 6,
+        name: "Maraudeur Chiroptère",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tu ne te transformes pas en chauve-souris, mais en un homme-chauve-souris grotesque et létal. Tes os se creusent, des ailes membraneuses poussent de tes flancs, tes sens deviennent sonar. Tu es le prédateur aérien parfait, capable de voler à vitesse transsonique et de décapiter une proie au passage."
+      },
+      {
+        level: 7,
+        name: "Cocon",
+        bloodCost: 5,
+        duration: "prolonged",
+        description: "Tu sécrètes des fluides qui durcissent pour former une coque blanche impénétrable autour de toi. À l'intérieur, tu es en sécurité absolue, protégé même du soleil ou du feu pendant un temps. C'est l'ultime refuge pour guérir, hiberner, ou survivre à une explosion nucléaire."
       }
     ]
   },
@@ -611,6 +872,13 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "instant",
         description: "Le pouvoir ultime du Quietus. Crache ton sang comme un serpent crache son venin. Un jet d'acide écarlate jaillit de ta bouche, traversant plusieurs mètres pour frapper ta cible. Tout ce que le jet touche se consume : chair, os, vêtements, métal. Les victimes hurlent pendant que l'acide les dévore vivantes, leur corps se dissolvant en fumée toxique. C'est spectaculaire, brutal, définitif. Les Assamites utilisent ce pouvoir comme jugement final, une exécution qui ne laisse presque rien de la victime. Ton sang est devenu l'incarnation de la mort elle-même."
+      },
+      {
+        level: 6,
+        name: "Ondes du Cœur",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu manipules le flux sanguin pour provoquer des émotions violentes ou des arrêts cardiaques à distance. En synchronisant ta vitae avec celle de ta cible, tu peux faire exploser son cœur dans sa poitrine ou la submerger d'une panique physiologique incontrôlable."
       }
     ]
   },
@@ -654,6 +922,20 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "permanent",
         description: "Le rituel le plus étrange du Serpentis. Plonge ta main dans ta propre poitrine et arrache ton cœur. Il bat toujours dans ta paume, noir et luisant. Tu peux le cacher n'importe où : enterré, dans un coffre, au fond d'un lac. Tant que ton cœur est séparé de ton corps, tu es immunisé au pieu dans la poitrine - il n'y a rien à embrocher. Tu deviens extrêmement difficile à détruire définitivement. Mais attention : si quelqu'un trouve ton cœur caché et le détruit, tu meurs instantanément, où que tu sois. Ce pouvoir est la liberté ultime, ou la vulnérabilité ultime, selon qui détient ton cœur."
+      },
+      {
+        level: 6,
+        name: "Obsession",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu deviens l'unique objet de désir et de pensée de ta victime. Elle ne peut plus manger, dormir ou penser à autre chose qu'à toi. Cette obsession divine la consume, la poussant à tout sacrifier pour un regard de ta part. C'est une dévotion qui mène à la folie et à la mort."
+      },
+      {
+        level: 7,
+        name: "Forme de l'Orage",
+        bloodCost: 5,
+        duration: "scene",
+        description: "Ton corps se dissout non pas en brume, mais en nuage d'orage sombre et crépitant. Tu deviens une tempête localisée, capable de lancer des éclairs, de générer des vents violents et de te mouvoir à la vitesse de la foudre. Tu es intouchable et dévastateur."
       }
     ]
   },
@@ -697,6 +979,20 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "permanent",
         description: "Le pouvoir ultime de l'Aliénation. Touche quelqu'un et fracture définitivement son esprit en milliers de fragments. Sa psyché se brise comme un miroir, créant une psychose permanente et profonde. La victime développe des personnalités multiples, des hallucinations constantes, une dissociation complète de la réalité. Elle ne guérira jamais, même avec des années de thérapie. Les mortels finissent internés, les vampires deviennent dangereux et imprévisibles. C'est un destin pire que la mort : une éternité prisonnière d'un esprit brisé. Les Malkaviens utilisent ce pouvoir rarement, car c'est partager leur propre malédiction avec un autre."
+      },
+      {
+        level: 6,
+        name: "Malaise Persistant",
+        bloodCost: 3,
+        duration: "permanent",
+        description: "Tu ne te contentes pas de provoquer une émotion passagère, tu infectes l'âme. La victime développe une maladie mentale permanente : dépression suicidaire, manie furieuse, schizophrénie. Aucun traitement ne peut la guérir. Tu as brisé quelque chose de fondamental en elle."
+      },
+      {
+        level: 7,
+        name: "Restructuration",
+        bloodCost: 5,
+        duration: "permanent",
+        description: "Tu peux réécrire la personnalité de quelqu'un comme on réécrit un livre. Change ses convictions, ses amours, sa nature profonde. Transforme un saint en tueur en série, ou un lâche en héros, juste en tordant les connexions de son esprit. La victime devient une personne entièrement nouvelle, selon ton design."
       }
     ]
   },
@@ -740,6 +1036,13 @@ export const DISCIPLINES = {
         bloodCost: 9,
         duration: "scene",
         description: "La frontière entre illusion et réalité s'efface. Tes créations deviennent horriblement réelles pour ceux qui y croient. Le feu illusoire brûle vraiment, la balle illusoire blesse vraiment, le mur illusoire arrête vraiment - mais seulement pour ceux qui sont convaincus. Si tu crois que le feu te consume, ton corps développe de vraies brûlures psychosomatiques. Si tu crois que l'assassin t'a poignardé, tu saignes. Les dégâts sont réels, potentiellement mortels. Mais si quelqu'un réalise la supercherie, l'illusion perd son pouvoir sur lui. C'est la réalité façonnée par la croyance, le mensonge ultime qui devient vérité."
+      },
+      {
+        level: 6,
+        name: "Maîtrise du Fatuus",
+        bloodCost: 2,
+        duration: "prolonged",
+        description: "Tes illusions n'ont plus besoin d'entretien. Tu les poses dans le monde et elles y restent, évoluant et changeant dynamiquement sans ton attention constante. Tu peux peupler un château vide de serviteurs illusoires qui vivront leur fausse vie éternellement."
       }
     ]
   },
@@ -826,6 +1129,20 @@ export const DISCIPLINES = {
         bloodCost: 3,
         duration: "scene",
         description: "La pierre n'est plus un obstacle. Tu peux traverser les murs, les plafonds et les sols en pierre ou béton comme s'ils étaient de la fumée. Tu marches à travers les défenses d'un bunker, tu traverses un immeuble de part en part en ligne droite. Tu peux même emmener quelqu'un avec toi si tu le tiens, ou tirer un ennemi à moitié dans un mur et le laisser là, solidifié."
+      },
+      {
+        level: 6,
+        name: "Cœur de Roche",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Ton corps devient dur comme le granit. Ce n'est plus seulement une armure extérieure, c'est une transmutation de ta chair en pierre vivante. Les dégâts contondants et tranchants sont divises par deux (arrondi à l'inférieur) avant même de calculer l'encaissement."
+      },
+      {
+        level: 7,
+        name: "Nager dans la Montagne",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tu ne fais pas que traverser la pierre, tu y nages avec aisance et rapidité, totalement indétectable. Tu peux rester immergé indéfiniment, te déplacer à ta vitesse de course, et surprendre tes ennemis en surgissant du sol ou du plafond. Tant que tu es dans la pierre, tu es immunisé à presque toutes les attaques."
       }
     ]
   },
@@ -912,6 +1229,20 @@ export const DISCIPLINES = {
         bloodCost: 3,
         duration: "instant",
         description: "Ta voix atteint des fréquences qui déchirent la réalité. Tu peux chanter une note si pure et si puissante qu'elle devient une arme physique. Brise les os d'un homme à dix mètres, fais éclater le verre d'un immeuble entier, ou liquéfie les organes internes d'un ennemi par simple résonance. Tu es un orchestre de destruction, ta voix est un canon."
+      },
+      {
+        level: 6,
+        name: "Crescendo Brisé",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Un cri sonique dévastateur capable de briser la pierre et de liquéfier les os. Les dégâts sont massifs et couvrent une large zone conique devant le vampire. Les objets fragiles explosent instantanément."
+      },
+      {
+        level: 7,
+        name: "Écho Persistant",
+        bloodCost: 4,
+        duration: "prolonged",
+        description: "Ton chant continue de résonner et d'affecter la zone longtemps après ton départ ou ton silence. L'effet émotionnel ou surnaturel de ta dernière chanson imprègne les lieux, affectant quiconque y entre pendant des heures."
       }
     ]
   },
@@ -955,12 +1286,18 @@ export const DISCIPLINES = {
         bloodCost: 3,
         duration: "scene",
         description: "Tu deviens un diapason pour la corruption pure. Tu émettes une onde de choc spirituelle qui brise les volontés autour de toi. Les pieux deviennent cruels, les courageux lâches, les fidèles traîtres. L'atmosphère s'alourdit d'une pression insoutenable, et les esprits les plus faibles s'effondrent en hurlant ou cèdent à leurs pulsions les plus viles instantanément."
+      },
+      {
+        level: 6,
+        name: "Investiture Infernale",
+        bloodCost: 9,
+        duration: "permanent",
+        description: "Un pacte sombre ou une harmonie parfaite avec tes démons intérieurs transforme ton corps. Tu gagnes des traits démoniaques permanents : des ailes membraneuses fonctionnelles, une peau écailleuse résistante au feu, ou des griffes brûlantes. Tu es devenu un avatar de l'enfer sur terre."
       }
     ]
   }
 };
 
-// Disciplines par clan
 export const CLAN_DISCIPLINES = {
   brujah: ["celerity", "potence", "presence"],
   gangrel: ["animalism", "fortitude", "protean"],
@@ -996,11 +1333,11 @@ export const MAX_DISCIPLINE_LEVEL = {
   3: 3,  // BP 3: accès aux niveaux 1-3
   4: 4,  // BP 4: accès aux niveaux 1-4
   5: 5,  // BP 5: accès aux niveaux 1-5
-  6: 5,  // BP 6+ : accès max niveau 5
-  7: 5,
-  8: 5,
-  9: 5,
-  10: 5
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+  10: 10
 };
 
 /**
@@ -1008,20 +1345,40 @@ export const MAX_DISCIPLINE_LEVEL = {
  */
 export function getAvailableDisciplines(clan, bloodPotency) {
   const clanLower = clan?.toLowerCase();
+
+  // Safe validation check
   if (!CLAN_DISCIPLINES || !DISCIPLINES) {
     console.warn('CLAN_DISCIPLINES or DISCIPLINES missing');
     return [];
   }
+
   const clanDisciplineIds = CLAN_DISCIPLINES[clanLower] || [];
-  const maxLevel = MAX_DISCIPLINE_LEVEL[bloodPotency] || 2;
+
+  // Determine Max Level
+  let maxLevel = 1; // Default safe fallback
+
+  if (bloodPotency) {
+    if (bloodPotency > 10) {
+      maxLevel = 10; // Cap at 10 (Methuselah/Antediluvian max standard)
+    } else if (MAX_DISCIPLINE_LEVEL[bloodPotency]) {
+      maxLevel = MAX_DISCIPLINE_LEVEL[bloodPotency];
+    }
+    // If bloodPotency is valid but not in map (e.g. 0 or negative), it stays 1 (safe minimum)
+  }
 
   return clanDisciplineIds.map(disciplineId => {
     const discipline = DISCIPLINES[disciplineId];
     if (!discipline) return null;
 
+    // Logic change: If maxLevel is high (Elder), we want to show all available powers up to that level.
+    // However, if maxLevel is low (neonate), we STILL want to show 5 powers (some locked).
+    // The previous logic filtered `power.level <= maxLevel`.
+    // The new logic should filter `power.level <= Math.max(5, maxLevel)` to ensure at least 5 are returned.
+    const visibleMax = Math.max(5, maxLevel);
+
     return {
       ...discipline,
-      powers: discipline.powers.filter(power => power.level <= maxLevel),
+      powers: discipline.powers.filter(power => power.level <= visibleMax),
       maxLevel: maxLevel
     };
   }).filter(Boolean);

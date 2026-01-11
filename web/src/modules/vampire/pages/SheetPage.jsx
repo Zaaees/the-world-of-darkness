@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText, Book, ArrowLeft, Share2 } from 'lucide-react';
+import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText, Book, ArrowLeft, Share2, Eye } from 'lucide-react';
 import DisciplinesTab from '../components/DisciplinesTab';
 
 import GhoulsTab from '../components/GhoulsTab';
@@ -405,6 +405,7 @@ export default function VampireSheet() {
   const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
   const [hasRituals, setHasRituals] = useState(false);
   const [isCainMode, setIsCainMode] = useState(false);
+  const [forceUnlockAll, setForceUnlockAll] = useState(false); // Mode Debug / Guide / Caïn pour voir les 10 niveaux
   const [npcCharacter, setNpcCharacter] = useState(null); // PNJ sélectionné en mode GM
 
   // Récupérer les infos Discord
@@ -1169,35 +1170,48 @@ export default function VampireSheet() {
             </button>
 
             {vampireProfile?.is_gm && (
-              <button
-                onClick={() => {
-                  // Nettoyer l'URL dans tous les cas pour éviter de réouvrir le PNJ au reload
-                  const url = new URL(window.location);
-                  if (url.searchParams.has('npc_id')) {
-                    url.searchParams.delete('npc_id');
-                    window.history.pushState({}, '', url);
-                  }
+              <>
+                <button
+                  onClick={() => setForceUnlockAll(!forceUnlockAll)}
+                  className={`ml-2 px-3 py-1 rounded text-xs font-serif uppercase tracking-wider border transition-all flex items-center gap-2 ${forceUnlockAll
+                    ? 'bg-purple-900/20 border-purple-800 text-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
+                    : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-purple-900/50 hover:text-purple-400'
+                    }`}
+                  title="Debug: Tout Débloquer (10 dots)"
+                >
+                  <Eye size={12} />
+                  GUIDE
+                </button>
+                <button
+                  onClick={() => {
+                    // Nettoyer l'URL dans tous les cas pour éviter de réouvrir le PNJ au reload
+                    const url = new URL(window.location);
+                    if (url.searchParams.has('npc_id')) {
+                      url.searchParams.delete('npc_id');
+                      window.history.pushState({}, '', url);
+                    }
 
-                  const newMode = !isCainMode;
-                  setIsCainMode(newMode);
-                  if (!newMode) {
-                    setNpcCharacter(null);
-                    loadCharacter(); // Recharger le perso joueur
-                  } else {
-                    // On passe en mode Caïn, on vide le character pour afficher le dashboard
-                    setCharacter(null);
-                    setNpcCharacter(null);
-                  }
-                }}
-                className={`ml-2 px-3 py-1 rounded text-xs font-serif uppercase tracking-wider border transition-all flex items-center gap-2 ${isCainMode
-                  ? 'bg-red-900/20 border-red-800 text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.2)]'
-                  : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-red-900/50 hover:text-red-400'
-                  }`}
-                title="Mode Caïn (MJ)"
-              >
-                {isCainMode ? <Flame size={12} className="animate-pulse" /> : <Shield size={12} />}
-                {npcCharacter ? "Quitter PNJ" : "MJ"}
-              </button>
+                    const newMode = !isCainMode;
+                    setIsCainMode(newMode);
+                    if (!newMode) {
+                      setNpcCharacter(null);
+                      loadCharacter(); // Recharger le perso joueur
+                    } else {
+                      // On passe en mode Caïn, on vide le character pour afficher le dashboard
+                      setCharacter(null);
+                      setNpcCharacter(null);
+                    }
+                  }}
+                  className={`ml-2 px-3 py-1 rounded text-xs font-serif uppercase tracking-wider border transition-all flex items-center gap-2 ${isCainMode
+                    ? 'bg-red-900/20 border-red-800 text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.2)]'
+                    : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-red-900/50 hover:text-red-400'
+                    }`}
+                  title="Mode Caïn (MJ)"
+                >
+                  {isCainMode ? <Flame size={12} className="animate-pulse" /> : <Shield size={12} />}
+                  {npcCharacter ? "Quitter PNJ" : "MJ"}
+                </button>
+              </>
             )}
           </div>
         </div>
@@ -1506,7 +1520,7 @@ export default function VampireSheet() {
               <DisciplinesTab
                 clan={activeChar.clan}
                 bloodPotency={isCainMode && !npcCharacter ? 5 : activeChar.bloodPotency}
-                isCainMode={npcCharacter?.id === 'cain_legendary'}
+                isCainMode={npcCharacter?.id === 'cain_legendary' || forceUnlockAll}
               />
             )}
 
