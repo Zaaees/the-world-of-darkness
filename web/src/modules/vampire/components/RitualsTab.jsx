@@ -4,10 +4,13 @@ import { getRitualById, getAllRituals } from '../../../data/rituals';
 import { getAvailableDisciplines } from '../../../data/disciplines';
 import { useGrimoireStore } from '../features/rituals/stores/useGrimoireStore';
 import RitualCatalog from '../features/rituals/components/RitualCatalog';
-import RitualFilter from '../features/rituals/components/RitualFilter';
+import RitualCatalog from '../features/rituals/components/RitualCatalog';
+// import RitualFilter from '../features/rituals/components/RitualFilter'; // Removed
+import SearchInput from '../features/rituals/components/SearchInput'; // Direct usage
 import RitualReader from '../features/rituals/components/RitualReader';
 import AnimatedView from '../features/rituals/components/AnimatedView';
 import MobileFilterDrawer from '../features/rituals/components/MobileFilterDrawer';
+import FilterContent from '../features/rituals/components/FilterContent'; // Use directly for mobile or modal if needed
 
 import { API_URL } from '../../../config';
 
@@ -141,9 +144,9 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
     return (
         <div className="space-y-6 h-[80vh] flex flex-col bg-noise relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-stone-950/50 before:to-stone-950/80 before:pointer-events-none p-4 rounded-xl border border-stone-900 shadow-2xl">
-            {/* Header with mobile filter button */}
-            <div className="flex-shrink-0">
-                <div className="text-center mb-2">
+            {/* Header with Search */}
+            <div className="flex-shrink-0 flex flex-col items-center justify-center gap-4">
+                <div className="text-center">
                     <h2 className="text-2xl font-serif text-red-500 mb-2 flex items-center justify-center gap-3">
                         <Book className="text-red-700" />
                         Grimoire Occulte
@@ -153,16 +156,9 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
                     </p>
                 </div>
 
-                {/* Mobile Filter Button - Only visible on mobile */}
-                <div className="md:hidden flex justify-center mt-3">
-                    <button
-                        onClick={() => setIsFilterDrawerOpen(true)}
-                        className="flex items-center gap-2 px-4 py-2 min-h-[44px] bg-stone-800 border border-stone-700 rounded-lg text-stone-300 hover:bg-stone-700 hover:text-stone-200 transition-colors font-serif text-sm uppercase tracking-wider"
-                        aria-label="Ouvrir les filtres"
-                    >
-                        <Filter size={18} className="text-red-600" />
-                        Filtres
-                    </button>
+                {/* Search Bar - Centered and prominent */}
+                <div className="w-full max-w-md z-10">
+                    <SearchInput />
                 </div>
             </div>
 
@@ -171,21 +167,18 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
                 <div className="h-full flex transition-all duration-500">
 
-                    {/* Left Pane: Filter + Catalog */}
+                    {/* Left Pane: Catalog Only (No Sidebar) */}
                     <div className={`
-                        flex flex-grow min-w-0 h-full transition-all duration-500
-                        ${selectedRitual ? 'md:w-1/4 md:flex-none' : 'w-full'}
+                        flex flex-grow min-w-0 h-full transition-all duration-500 flex-col
+                        ${selectedRitual ? 'hidden md:flex md:w-1/4 md:border-r border-stone-800' : 'w-full'}
                     `}>
-                        {/* Filter Sidebar (Desktop) - Collapses when ritual is selected */}
-                        <div className={`hidden md:block h-full transition-all duration-300 ${selectedRitual ? 'w-0 opacity-0 overflow-hidden' : 'w-64'}`}>
-                            <RitualFilter />
+                        {/* GM Filters Bar (Optional, only if GM mode) */}
+                        <div className="flex-shrink-0">
+                            <FilterContent />
                         </div>
 
-                        {/* Vertical Divider */}
-                        <div className={`hidden md:block w-px bg-stone-800 transition-opacity ${selectedRitual ? 'opacity-0' : 'opacity-100'}`}></div>
-
                         {/* Virtualized Catalog Container */}
-                        <div className="flex-1 min-w-0 h-full border-r border-stone-800">
+                        <div className="flex-1 min-w-0 h-full">
                             <RitualCatalog />
                         </div>
                     </div>

@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
-import SearchInput from './SearchInput';
-import { getDisciplineName } from '../../../../../utils/translations';
+// import SearchInput from './SearchInput'; // Moved to parent
 import { Diamond, Check } from 'lucide-react';
 
 // Levels remain static for now (1-5 is standard V20/V5 rule)
@@ -55,23 +54,20 @@ export default function FilterContent({ onFilterChange }) {
             </div>
             */}
 
-            {/* Search Section */}
-            <div>
-                <SearchInput />
-            </div>
+            {/* Search Section - Moved to Header */}
 
-            {/* Header / Clear */}
-            <div className="flex items-center justify-between pt-2">
-                <h3 className="text-stone-400 font-bold uppercase tracking-widest text-xs">Filtres</h3>
-                {hasActiveFilters && (
+            {/* Header / Clear - Adjusted to be minimal */}
+            {hasActiveFilters && (
+                <div className="flex items-center justify-end pt-2 pb-4">
                     <button
                         onClick={handleClearFilters}
-                        className="text-xs text-red-500 hover:text-red-400 transition-colors uppercase tracking-wider min-h-[44px] min-w-[44px] flex items-center justify-center"
+                        className="text-xs text-red-500 hover:text-red-400 transition-colors uppercase tracking-wider flex items-center gap-2 border border-red-900/30 px-3 py-1 rounded bg-red-950/20"
                     >
-                        Effacer
+                        <span>Effacer les filtres</span>
+                        <span className="text-[10px] opacity-70">✕</span>
                     </button>
-                )}
-            </div>
+                </div>
+            )}
 
             {/* Disciplines Section - Removed per user request */}
 
