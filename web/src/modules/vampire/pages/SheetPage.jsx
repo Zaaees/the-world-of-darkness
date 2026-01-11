@@ -1334,7 +1334,7 @@ export default function VampireSheet() {
             </div>
           )}
 
-          <main className={`mx-auto p-6 space-y-10 ${activeTab === 'rules' ? 'max-w-5xl' : 'max-w-2xl'}`}>
+          <main className={`mx-auto p-6 space-y-10 ${activeTab === 'rules' || activeTab === 'rituals' ? 'max-w-[1600px]' : 'max-w-2xl'}`}>
 
             {/* ONGLET RÈGLEMENT */}
             {activeTab === 'rules' && (

@@ -166,10 +166,10 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
                 <div className="h-full flex transition-all duration-500">
 
-                    {/* Left Pane: Catalog Only (No Sidebar) */}
+                    {/* Left Pane: Catalog Only (Fixed Sidebar) */}
                     <div className={`
-                        flex flex-grow min-w-0 h-full transition-all duration-500 flex-col
-                        ${selectedRitual ? 'hidden md:flex md:w-1/4 md:border-r border-stone-800' : 'w-full'}
+                        flex-shrink-0 flex flex-col h-full border-r border-stone-800 transition-all duration-300
+                        ${selectedRitual ? 'hidden md:flex md:w-96' : 'w-full'}
                     `}>
                         {/* GM Filters Bar (Optional, only if GM mode) */}
                         <div className="flex-shrink-0">
@@ -182,12 +182,12 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
                         </div>
                     </div>
 
-                    {/* Right Pane: Reader (Desktop) */}
+                    {/* Right Pane: Reader (Desktop - Flexible) */}
                     {selectedRitual && (
                         <AnimatedView
                             viewKey={`desktop-${selectedRitual.id}`}
                             variant="slideRight"
-                            className="hidden md:block md:w-3/4 h-full border-l border-stone-800 min-w-0"
+                            className="hidden md:block flex-1 h-full min-w-0 bg-[#1c1917]"
                         >
                             <RitualReader
                                 ritual={selectedRitual}
