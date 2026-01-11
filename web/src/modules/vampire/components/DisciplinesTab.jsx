@@ -166,7 +166,7 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel }) => {
 
 // Composant principal
 export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
-  const maxLevel = MAX_DISCIPLINE_LEVEL[bloodPotency] || 2;
+  const maxLevel = isCainMode ? 5 : (MAX_DISCIPLINE_LEVEL[bloodPotency] || 2);
 
   let disciplines;
   if (isCainMode) {
