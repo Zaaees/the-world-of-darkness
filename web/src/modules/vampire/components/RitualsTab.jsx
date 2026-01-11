@@ -4,7 +4,6 @@ import { getRitualById, getAllRituals } from '../../../data/rituals';
 import { getAvailableDisciplines } from '../../../data/disciplines';
 import { useGrimoireStore } from '../features/rituals/stores/useGrimoireStore';
 import RitualCatalog from '../features/rituals/components/RitualCatalog';
-import RitualCatalog from '../features/rituals/components/RitualCatalog';
 // import RitualFilter from '../features/rituals/components/RitualFilter'; // Removed
 import SearchInput from '../features/rituals/components/SearchInput'; // Direct usage
 import RitualReader from '../features/rituals/components/RitualReader';
