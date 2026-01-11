@@ -27,20 +27,7 @@ export default function FilterContent({ onFilterChange }) {
         }))
     );
 
-    // derive unique disciplines dynamically from available rituals
-    const disciplines = useMemo(() => {
-        const unique = new Set(rituals.map(r => r.discipline).filter(Boolean));
-        return Array.from(unique).sort();
-    }, [rituals]);
 
-    const toggleDiscipline = (disc) => {
-        if (filters.disciplines.includes(disc)) {
-            removeFilter('disciplines', disc);
-        } else {
-            addFilter('disciplines', disc);
-        }
-        onFilterChange?.();
-    };
 
     const toggleLevel = (lvl) => {
         if (filters.levels.includes(lvl)) {
@@ -61,22 +48,12 @@ export default function FilterContent({ onFilterChange }) {
     return (
         <div className="space-y-6 font-serif">
 
-            {/* View Mode Toggle */}
+            {/* View Mode Toggle - Removed per user request */}
+            {/* 
             <div className="pb-2 border-b border-stone-800">
-                <button
-                    onClick={toggleViewMode}
-                    className={`
-                        w-full py-2 px-3 rounded-md text-sm font-bold uppercase tracking-wider transition-all duration-200 flex items-center justify-between min-h-[44px]
-                        ${viewMode === 'PLAYER'
-                            ? 'bg-amber-900/30 text-amber-500 border border-amber-800/50 shadow-[0_0_10px_rgba(245,158,11,0.1)]'
-                            : 'bg-stone-800 text-stone-400 border border-stone-700 hover:bg-stone-700 hover:text-stone-300'
-                        }
-                    `}
-                >
-                    <span>{viewMode === 'PLAYER' ? 'Grimoire (Joueur)' : 'Bibliothèque (MJ)'}</span>
-                    <span className="text-xs opacity-70">{viewMode === 'PLAYER' ? '👤' : '👁️'}</span>
-                </button>
+                ... 
             </div>
+            */}
 
             {/* Search Section */}
             <div>
@@ -96,59 +73,34 @@ export default function FilterContent({ onFilterChange }) {
                 )}
             </div>
 
-            {/* Disciplines Section */}
-            <div className="space-y-3">
-                <h4 className="text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1">Disciplines</h4>
-                <div className="flex flex-col space-y-1">
-                    {disciplines.map(disc => {
-                        const isActive = filters.disciplines.includes(disc);
-                        return (
-                            <label
-                                key={disc}
-                                className="flex items-center space-x-3 cursor-pointer group min-h-[44px] py-1"
-                            >
-                                <div className={`w-5 h-5 border border-stone-700 rounded-sm flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-red-900/50 border-red-700' : 'group-hover:border-stone-500 bg-stone-900/50'}`}>
-                                    {isActive && <Diamond size={8} className="text-red-500 fill-current" />}
-                                </div>
-                                <span className={`text-sm font-serif tracking-wide transition-colors ${isActive ? 'text-stone-200' : 'text-stone-500 group-hover:text-stone-400'}`}>
-                                    {getDisciplineName(disc)}
-                                </span>
-                                <input
-                                    type="checkbox"
-                                    className="hidden"
-                                    checked={isActive}
-                                    onChange={() => toggleDiscipline(disc)}
-                                />
-                            </label>
-                        );
-                    })}
-                </div>
-            </div>
+            {/* Disciplines Section - Removed per user request */}
 
-            {/* Levels Section */}
-            <div className="space-y-3">
-                <h4 className="text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1">Niveau</h4>
-                <div className="flex flex-wrap gap-2">
-                    {LEVELS.map(lvl => {
-                        const isActive = filters.levels.includes(lvl);
-                        return (
-                            <button
-                                key={lvl}
-                                onClick={() => toggleLevel(lvl)}
-                                className={`
-                                    w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
-                                    ${isActive
-                                        ? 'bg-red-900/40 border-red-700 text-red-100 shadow-[0_0_10px_rgba(220,38,38,0.3)]'
-                                        : 'bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400'
-                                    }
-                                `}
-                            >
-                                {lvl}
-                            </button>
-                        );
-                    })}
+            {/* Levels Section - Only visible for GMs */}
+            {viewMode === 'GM' && (
+                <div className="space-y-3">
+                    <h4 className="text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1">Niveau</h4>
+                    <div className="flex flex-wrap gap-2">
+                        {LEVELS.map(lvl => {
+                            const isActive = filters.levels.includes(lvl);
+                            return (
+                                <button
+                                    key={lvl}
+                                    onClick={() => toggleLevel(lvl)}
+                                    className={`
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        ${isActive
+                                            ? 'bg-red-900/40 border-red-700 text-red-100 shadow-[0_0_10px_rgba(220,38,38,0.3)]'
+                                            : 'bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400'
+                                        }
+                                    `}
+                                >
+                                    {lvl}
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
