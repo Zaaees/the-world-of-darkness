@@ -995,7 +995,12 @@ export const MAX_DISCIPLINE_LEVEL = {
   2: 2,  // BP 2: accès aux niveaux 1-2
   3: 3,  // BP 3: accès aux niveaux 1-3
   4: 4,  // BP 4: accès aux niveaux 1-4
-  5: 5   // BP 5: accès aux niveaux 1-5
+  5: 5,  // BP 5: accès aux niveaux 1-5
+  6: 5,  // BP 6+ : accès max niveau 5
+  7: 5,
+  8: 5,
+  9: 5,
+  10: 5
 };
 
 /**
