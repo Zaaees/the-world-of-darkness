@@ -2,7 +2,7 @@
 title: 'Module Disciplines Methuselah'
 slug: 'module-disciplines-methuselah'
 created: '2026-01-11'
-status: 'in-progress'
+status: 'completed'
 stepsCompleted: [1, 2]
 tech_stack: ['React', 'Tailwind CSS']
 files_to_modify: ['web/src/data/disciplines.js', 'web/src/modules/vampire/components/DisciplinesTab.jsx']

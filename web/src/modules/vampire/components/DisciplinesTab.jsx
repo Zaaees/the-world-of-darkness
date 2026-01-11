@@ -97,7 +97,7 @@ const PowerCard = ({ power, isLocked, onClick }) => {
 
         <div className="flex-1 min-w-0">
           {/* Header: Nom + Metadata */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 mb-2">
             <h4 className={`font-serif text-base tracking-wide ${isLocked ? 'text-stone-600' : 'text-stone-200 group-hover:text-red-100 transition-colors'}`}>
               {power.name}
             </h4>

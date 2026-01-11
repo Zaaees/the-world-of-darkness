@@ -148,7 +148,7 @@ describe('DisciplinesTab', () => {
             maxLevel: 5
         }]);
 
-        render(<DisciplinesTab clan="test_clan" bloodPotency={1} />);
+        render(<DisciplinesTab clan="test_clan" bloodPotency={5} />);
 
         const powerCard = screen.getByText("Detailed Power");
         fireEvent.click(powerCard);
@@ -163,7 +163,7 @@ describe('DisciplinesTab', () => {
         // Check for Icon (Test Discipline doesn't have a mapped icon in the component, defaults to ✦)
         // In our mock, the id is 'test_discipline' which is not in DISCIPLINE_ICONS, so it might pass null or default depending on logic
         // The modal defaults to ✦ if icon is falsy
-        expect(within(modal).getByText("✦")).toBeTruthy();
+        expect(within(modal).getAllByText("✦").length).toBeGreaterThan(0);
     });
 
     test('modal traps focus on mount', async () => {
@@ -194,7 +194,7 @@ describe('DisciplinesTab', () => {
         expect(modal).toBe(document.activeElement);
 
         // Check icon rendering (Animalism = 🐺)
-        expect(within(modal).getByText("🐺")).toBeTruthy();
+        expect(within(modal).getAllByText("🐺").length).toBeGreaterThan(0);
 
         vi.useRealTimers();
     });

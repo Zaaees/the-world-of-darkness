@@ -57,21 +57,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "L'Innocence du Berger",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu dégages une aura de pureté naturelle qui apaise même les prédateurs les plus féroces. Les animaux ne te craignent plus, ils t'adorent. Ils viennent se frotter contre toi, te protègent et refusent de t'attaquer, même contraints par la magie. Tu es le roi de la jungle, non par la force, mais par le droit divin."
       },
       {
         level: 7,
         name: "Conquérir la Bête",
-        bloodCost: 4,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu as dompté le monstre en toi. Lorsque la Frénésie te gagne, tu ne perds pas le contrôle. Tu deviens une machine à tuer froide, lucide et terrifiante, utilisant la rage de la Bête avec la précision d'un chirurgien. La peur et la colère ne sont plus des maîtres, mais des carburants."
       },
       {
         level: 8,
         name: "Esprits Jumeaux",
-        bloodCost: 6,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Tu n'es plus limité à un seul corps. Ton esprit peut habiter et contrôler un animal tout en gardant une conscience totale de ta forme vampirique. Tu es à la fois le maître dans son trône et le loup dans la forêt, agissant simultanément en deux lieux, coordonnant tes propres actions avec une synergie parfaite."
       },
@@ -135,21 +135,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Clairvoyance",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "prolonged",
         description: " Tes sens ne sont plus limités par la matière ou la distance. Ferme les yeux et vois ce qui se passe à l'autre bout de la ville, écoute les conspirations derrière des murs insonorisés. Tu deviens l'observateur omniscient, le fantôme qui hante chaque recoin de la cité sans jamais quitter son refuge."
       },
       {
         level: 7,
         name: "Vision Karmique",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "instant",
         description: "Tu ne regardes plus la personne, mais la tapisserie de son destin. Tu vois le poids de ses péchés, les nœuds de son avenir et les chaînes de son passé. Tu sais ce qu'elle a fait, ce qu'elle est destinée à faire, et combien son âme est proche de la rupture totale."
       },
       {
         level: 8,
         name: "Assaut Psychique",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "instant",
         description: "La connaissance est une arme. Tu peux projeter une attaque mentale brute si violente qu'elle se manifeste physiquement. Tes victimes saignent des yeux, leurs synapses grillent, leurs souvenirs s'effacent. Tu tues par la simple pensée, transformant leur propre esprit en chambre de torture."
       },
@@ -214,21 +214,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Projectile",
-        bloodCost: 1,
+        bloodCost: 9,
         duration: "instant",
         description: "Tu transfères ta vitesse surnaturelle à un objet que tu lances. Une simple pièce de monnaie devient une balle traversant l'acier, un couteau de lancer frappe avec la force d'un canon. L'objet ne se contente pas de voler vite, il devient un missile cinétique dévastateur."
       },
       {
         level: 7,
         name: "Fleur de Mort",
-        bloodCost: 4,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu te déplaces si vite que tu sembles être partout à la fois. Tu deviens une tempête de lames et de coups, frappant chaque ennemi dans la pièce avant que le premier corps ne touche le sol. Ce n'est pas un combat, c'est une exécution simultanée de masse."
       },
       {
         level: 8,
         name: "Zéphyr",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "La gravité ne s'applique plus à toi. Tu cours sur l'eau sans créer d'ondulations, tu marches sur les murs comme si c'était le sol, tu peux même courir sur des fils de pêche ou des nuages de fumée si tu es assez rapide. Tu es devenu insaisissable, une force pure en mouvement."
       },
@@ -285,21 +285,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Rationalisation",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "permanent",
         description: "Tes victimes ne se contentent plus d'obéir aveuglément ; elles croient que c'est leur idée. Ordonne à un garde de tuer son roi, et il trouvera lui-même une raison politique pour le faire. Elles justifient tes ordres les plus absurdes avec une sincérité terrifiante, protégeant ton influence contre toute détection."
       },
       {
         level: 7,
         name: "Manipulation de Masse",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton regard n'a plus besoin de croiser un seul regard. Tu peux dominer une foule entière, une armée, ou une salle de bal d'un seul mot. Ils s'arrêtent, écoutent, et obéissent à l'unisson. Tu transformes une émeute hurlante en une chorale disciplinée en une seconde."
       },
       {
         level: 8,
         name: "Maîtrise Lointaine",
-        bloodCost: 6,
+        bloodCost: 9,
         duration: "instant",
         description: "La distance ne te protège plus. Si tu connais ta cible, tu peux la Dominer à l'autre bout du monde. Un coup de téléphone, une lettre, ou même une simple pensée dirigée suffit à briser sa volonté. Tu es la voix dans leur tête qui ne se tait jamais, où qu'ils aillent."
       },
@@ -356,21 +356,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Armure Personnelle",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "scene",
         description: "Ta peau change de texture, devenant plus dure que le diamant. Les armes de corps à corps se brisent littéralement à l'impact contre ta chair. Frapper ton visage, c'est comme frapper un mur de béton armé. Tu brises les lames de tes ennemis avec ton cou."
       },
       {
         level: 7,
         name: "Force Partagée",
-        bloodCost: 4,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu peux étendre ton invulnérabilité. Touche un allié et donne-lui ta résistance légendaire. Pendant quelques instants, il devient aussi indestructible que toi. Tu es le bouclier qui protège la coterie contre l'apocalypse."
       },
       {
         level: 8,
         name: "Adamantin",
-        bloodCost: 6,
+        bloodCost: 9,
         duration: "permanent",
         description: "Tu as dépassé le concept de blessure. La plupart des sources de dégâts conventionnels (balles, chutes, écrasements) ne t'affectent simplement plus. Tu peux marcher sous une presse hydraulique et la bloquer. Seules les destructions magiques ou massives peuvent espérer t'égratigner."
       }
@@ -420,21 +420,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Esprit Vide",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Tu ne caches pas seulement ton corps, mais ton esprit. Tu deviens un trou noir psychique. Aucune télépathie, aucun Auspex, aucune détection magique ne peut te trouver. Même si on te regarde en face, on ne perçoit aucune pensée, aucune aura, aucune âme. Tu es un vide dans la réalité."
       },
       {
         level: 7,
         name: "Cache",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "permanent",
         description: "Tu peux effacer un lieu entier de la mémoire du monde. Ta maison devient invisible et inatteignable. Les gens passent devant sans la voir, les GPS l'évitent, et ceux qui y entrent oublient pourquoi ils sont là dès qu'ils franchissent le seuil. Tu vis dans un angle mort de l'univers."
       },
       {
         level: 8,
         name: "Vieil Ami",
-        bloodCost: 4,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu n'as plus besoin de te cacher. Tout le monde te voit, mais tout le monde te voit comme quelqu'un en qui ils ont une confiance absolue. Pour le garde, tu es son collègue préféré. Pour le Prince, tu es son plus fidèle conseiller. Tu peux assassiner quelqu'un en plein jour, et les témoins jureront que c'était un accident malheureux, car tu ne ferais jamais ça."
       }
@@ -484,21 +484,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Onde de Choc",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "instant",
         description: "Frappe tes mains l'une contre l'autre ou frappe le sol : l'impact crée une onde de choc cinétique qui renverse tout le monde dans la pièce. Les vitres explosent, les meubles volent, et tes ennemis sont projetés comme des poupées de chiffon. Tu es l'épicentre du tremblement de terre."
       },
       {
         level: 7,
         name: "Séisme",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "instant",
         description: "Une simple frappe au sol suffit à fissurer la route, faire s'effondrer des fondations ou créer des crevasses. Tu ne combats plus des hommes, tu combats le terrain lui-même. Tu peux faire s'écrouler un tunnel ou démolir un bâtiment d'un seul coup bien placé."
       },
       {
         level: 8,
         name: "Pichenette",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "instant",
         description: "Ta maîtrise de la force est totale. Un simple claquement de doigts sur le front d'un ennemi suffit à lui briser le crâne. Une tape amicale peut disloquer une épaule. Tu n'as plus besoin d'élan ou de levier ; le moindre de tes mouvements porte la force d'un marteau-pilon."
       }
@@ -548,14 +548,14 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Regard Paralysant",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton regard ne fait pas que faire peur, il éteint le système nerveux. La victime est physiquement incapable de bouger, de parler, ou même de cligner des yeux. Elle reste figée comme une statue, consciente mais prisonnière de son propre corps, tant que tu le décides."
       },
       {
         level: 7,
         name: "Coopération",
-        bloodCost: 4,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu imposes l'harmonie. Sous ton influence, des ennemis jurés travailleront ensemble avec une efficacité parfaite. Tu peux synchroniser une foule hétéroclite pour en faire une unité d'élite, ou forcer tes ennemis à t'aider à accomplir ton but. La discorde meurt en ta présence."
       }
@@ -605,21 +605,21 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Chair de Marbre",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Ta peau devient une substance surnaturelle, flexible comme la soie mais dure comme la pierre enchantée. Les coups ricoorent, les balles s'aplatissent. C'est plus qu'une armure, c'est une négation de la blessure. Pour te blesser, il faut une force capable de briser une montagne."
       },
       {
         level: 7,
         name: "Colère de la Bête",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu dépasses le loup et la chauve-souris. Tu deviens une monstruosité hybride, un cauchemar de griffes, de crocs et de muscles qui défie toute description biologique. Sous cette forme, tu es une machine de guerre pure, faite pour le massacre de masse, capable de déchiqueter un tank."
       },
       {
         level: 8,
         name: "Purifier la Bête",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "instant",
         description: "Ton corps rejette tout ce qui est étranger. Tu peux expulser violemment les pieux, les balles, les poisons ou même les esprits intrus. Le bois pourri jaillit de ton cœur, les plaies se referment instantanément après avoir craché le plomb. Tu ne peux pas être contenu."
       },
@@ -676,7 +676,7 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Pas d'Ombre",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "instant",
         description: "Tu peux entrer dans n'importe quelle ombre et ressortir instantanément par une autre, n'importe où à portée de vue (ou plus loin selon ta puissance). C'est une téléportation immédiate via l'Abysse. Tu ne traverses pas l'espace, tu le contournes par les ténèbres."
       },
@@ -876,7 +876,7 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Ondes du Cœur",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "instant",
         description: "Tu manipules le flux sanguin pour provoquer des émotions violentes ou des arrêts cardiaques à distance. En synchronisant ta vitae avec celle de ta cible, tu peux faire exploser son cœur dans sa poitrine ou la submerger d'une panique physiologique incontrôlable."
       }
@@ -926,14 +926,14 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Obsession",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Tu deviens l'unique objet de désir et de pensée de ta victime. Elle ne peut plus manger, dormir ou penser à autre chose qu'à toi. Cette obsession divine la consume, la poussant à tout sacrifier pour un regard de ta part. C'est une dévotion qui mène à la folie et à la mort."
       },
       {
         level: 7,
         name: "Forme de l'Orage",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton corps se dissout non pas en brume, mais en nuage d'orage sombre et crépitant. Tu deviens une tempête localisée, capable de lancer des éclairs, de générer des vents violents et de te mouvoir à la vitesse de la foudre. Tu es intouchable et dévastateur."
       }
@@ -983,14 +983,14 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Malaise Persistant",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "permanent",
         description: "Tu ne te contentes pas de provoquer une émotion passagère, tu infectes l'âme. La victime développe une maladie mentale permanente : dépression suicidaire, manie furieuse, schizophrénie. Aucun traitement ne peut la guérir. Tu as brisé quelque chose de fondamental en elle."
       },
       {
         level: 7,
         name: "Restructuration",
-        bloodCost: 5,
+        bloodCost: 9,
         duration: "permanent",
         description: "Tu peux réécrire la personnalité de quelqu'un comme on réécrit un livre. Change ses convictions, ses amours, sa nature profonde. Transforme un saint en tueur en série, ou un lâche en héros, juste en tordant les connexions de son esprit. La victime devient une personne entièrement nouvelle, selon ton design."
       }
@@ -1040,7 +1040,7 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Maîtrise du Fatuus",
-        bloodCost: 2,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Tes illusions n'ont plus besoin d'entretien. Tu les poses dans le monde et elles y restent, évoluant et changeant dynamiquement sans ton attention constante. Tu peux peupler un château vide de serviteurs illusoires qui vivront leur fausse vie éternellement."
       }
@@ -1133,14 +1133,14 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Cœur de Roche",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton corps devient dur comme le granit. Ce n'est plus seulement une armure extérieure, c'est une transmutation de ta chair en pierre vivante. Les dégâts contondants et tranchants sont divises par deux (arrondi à l'inférieur) avant même de calculer l'encaissement."
       },
       {
         level: 7,
         name: "Nager dans la Montagne",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu ne fais pas que traverser la pierre, tu y nages avec aisance et rapidité, totalement indétectable. Tu peux rester immergé indéfiniment, te déplacer à ta vitesse de course, et surprendre tes ennemis en surgissant du sol ou du plafond. Tant que tu es dans la pierre, tu es immunisé à presque toutes les attaques."
       }
@@ -1233,14 +1233,14 @@ export const DISCIPLINES = {
       {
         level: 6,
         name: "Crescendo Brisé",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "instant",
         description: "Un cri sonique dévastateur capable de briser la pierre et de liquéfier les os. Les dégâts sont massifs et couvrent une large zone conique devant le vampire. Les objets fragiles explosent instantanément."
       },
       {
         level: 7,
         name: "Écho Persistant",
-        bloodCost: 4,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Ton chant continue de résonner et d'affecter la zone longtemps après ton départ ou ton silence. L'effet émotionnel ou surnaturel de ta dernière chanson imprègne les lieux, affectant quiconque y entre pendant des heures."
       }
