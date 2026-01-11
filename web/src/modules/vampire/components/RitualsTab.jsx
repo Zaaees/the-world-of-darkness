@@ -140,7 +140,7 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
     }
 
     return (
-        <div className="space-y-6 h-[80vh] flex flex-col">
+        <div className="space-y-6 h-[80vh] flex flex-col bg-noise relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-stone-950/50 before:to-stone-950/80 before:pointer-events-none p-4 rounded-xl border border-stone-900 shadow-2xl">
             {/* Header with mobile filter button */}
             <div className="flex-shrink-0">
                 <div className="text-center mb-2">

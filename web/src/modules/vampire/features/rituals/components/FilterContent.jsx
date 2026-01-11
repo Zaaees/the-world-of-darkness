@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import SearchInput from './SearchInput';
+import { getDisciplineName } from '../../../../../utils/translations';
+import { Diamond, Check } from 'lucide-react';
 
 // Levels remain static for now (1-5 is standard V20/V5 rule)
 const LEVELS = [1, 2, 3, 4, 5];
@@ -105,11 +107,11 @@ export default function FilterContent({ onFilterChange }) {
                                 key={disc}
                                 className="flex items-center space-x-3 cursor-pointer group min-h-[44px] py-1"
                             >
-                                <div className={`w-5 h-5 border border-stone-700 rounded-sm flex items-center justify-center transition-colors ${isActive ? 'bg-red-900 border-red-700' : 'group-hover:border-stone-500'}`}>
-                                    {isActive && <div className="w-2.5 h-2.5 bg-red-500 rounded-sm" />}
+                                <div className={`w-5 h-5 border border-stone-700 rounded-sm flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-red-900/50 border-red-700' : 'group-hover:border-stone-500 bg-stone-900/50'}`}>
+                                    {isActive && <Diamond size={8} className="text-red-500 fill-current" />}
                                 </div>
-                                <span className={`text-sm transition-colors ${isActive ? 'text-stone-200' : 'text-stone-500 group-hover:text-stone-400'}`}>
-                                    {disc}
+                                <span className={`text-sm font-serif tracking-wide transition-colors ${isActive ? 'text-stone-200' : 'text-stone-500 group-hover:text-stone-400'}`}>
+                                    {getDisciplineName(disc)}
                                 </span>
                                 <input
                                     type="checkbox"

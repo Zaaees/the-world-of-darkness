@@ -2,94 +2,55 @@ import React, { useState } from 'react';
 import { Book, Skull } from 'lucide-react'; // Example icons
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
-import RequirementWarningModal from './RequirementWarningModal';
+import { Book, Skull, Scroll, Diamond } from 'lucide-react'; // Added icons
+import { useShallow } from 'zustand/react/shallow';
+import { useGrimoireStore } from '../stores/useGrimoireStore';
+import { getDisciplineName } from '../../../../../utils/translations';
 
 const RitualCard = ({ ritual }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [warningReason, setWarningReason] = useState('');
 
-    // Consolidated store access with useShallow to prevent unnecessary re-renders
-    const { learnRitual, checkLearnability, activeCharacter, setSelectedRitual } = useGrimoireStore(
-        useShallow(state => ({
-            learnRitual: state.learnRitual,
-            checkLearnability: state.checkLearnability,
-            activeCharacter: state.activeCharacter,
-            setSelectedRitual: state.setSelectedRitual
-        }))
-    );
+    // Simplified card for Grimoire viewing
+    // Data-only, no actions
 
-    // Check if already learned to disable/hide button (Optional per story, but good UX)
-    const isLearned = activeCharacter?.rituals?.includes(ritual.id.toString()) ?? false;
-
-    const handleLearnClick = (e) => {
-        e.stopPropagation(); // Prevent card click
-
-        const check = checkLearnability(ritual.id);
-        if (check.allowed) {
-            learnRitual(ritual.id);
-        } else {
-            setWarningReason(check.reason);
-            setIsModalOpen(true);
-        }
-    };
-
-    const handleConfirmForce = () => {
-        learnRitual(ritual.id, true);
-        setIsModalOpen(false);
-    };
-
-    // Style handling moved to parent container for Grid compat
     return (
         <div className="h-full w-full">
             <div
-                onClick={() => setSelectedRitual(ritual)}
-                className="h-full border border-stone-800 bg-stone-900/80 rounded p-4 cursor-pointer flex flex-col justify-between group relative
-                    transition-all duration-200 ease-out
-                    hover:scale-[1.02] hover:shadow-lg hover:shadow-red-900/20
-                    hover:border-red-700/50 hover:bg-stone-800
-                    active:scale-[0.98]
-                    motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
+                onClick={() => useGrimoireStore.getState().setSelectedRitual(ritual)}
+                className="h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden
+                    transition-all duration-300 ease-out
+                    hover:border-red-900/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)]
+                    before:absolute before:inset-0 before:bg-noise before:opacity-30 before:pointer-events-none"
             >
+                {/* Decorative corners */}
+                <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-stone-800 group-hover:border-red-900/50 transition-colors"></div>
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-stone-800 group-hover:border-red-900/50 transition-colors"></div>
+
                 <div>
-                    <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-serif text-lg text-amber-50 group-hover:text-amber-500 transition-colors truncate pr-2" title={ritual.name}>
+                    <div className="flex justify-between items-start mb-3 relative z-10">
+                        <h3 className="font-serif text-lg text-stone-200 group-hover:text-red-500 transition-colors line-clamp-2 leading-tight" title={ritual.name}>
                             {ritual.name}
                         </h3>
-                        <span className="text-xs uppercase tracking-wider text-stone-500 border border-stone-700 px-1.5 py-0.5 rounded">
+                        {['Necromancy', 'Nécromancie', 'necromancy'].includes(ritual.discipline)
+                            ? <Skull size={16} className="text-stone-600 group-hover:text-stone-400 flex-shrink-0 mt-1" />
+                            : <Book size={16} className="text-stone-600 group-hover:text-stone-400 flex-shrink-0 mt-1" />
+                        }
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-4">
+                        <span className="text-[10px] uppercase tracking-widest text-stone-500 border border-stone-800/50 px-1.5 py-0.5 rounded bg-stone-950/30">
                             Niveau {ritual.level}
                         </span>
                     </div>
 
-                    <div className="text-sm text-stone-400 flex items-center gap-2">
-                        {['Necromancy', 'Necromancie'].includes(ritual.discipline) ? <Skull size={14} /> : <Book size={14} />}
-                        <span>{ritual.discipline}</span>
+                    <div className="text-xs text-stone-500 flex items-center gap-2 border-t border-stone-800/50 pt-3 relative z-10">
+                        <div className={`w-1.5 h-1.5 rotate-45 ${['Necromancy', 'Nécromancie', 'necromancy'].includes(ritual.discipline) ? 'bg-emerald-900' : 'bg-red-900'}`}></div>
+                        <span className="font-serif italic tracking-wide">{getDisciplineName(ritual.discipline)}</span>
                     </div>
                 </div>
 
-                {/* Attribution Action (GM View / Story 3.1) */}
-                <div className="mt-4 pt-4 border-t border-stone-800/50 flex justify-end">
-                    {isLearned ? (
-                        <span className="text-xs text-green-500 font-medium px-2 py-1 bg-green-950/20 rounded border border-green-900/30">
-                            Appris
-                        </span>
-                    ) : (
-                        <button
-                            onClick={handleLearnClick}
-                            className="text-xs font-bold uppercase tracking-wider text-stone-400 hover:text-amber-500 border border-stone-700 hover:border-amber-700 px-3 py-1 min-h-[44px] min-w-[44px] rounded transition-all bg-stone-950/50 hover:bg-stone-900"
-                        >
-                            Apprendre
-                        </button>
-                    )}
-                </div>
+                {/* Subtle bottom glow on hover */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-900/0 to-transparent group-hover:via-red-900/30 transition-all duration-500"></div>
             </div>
-
-            <RequirementWarningModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onConfirm={handleConfirmForce}
-                reason={warningReason}
-                ritualName={ritual.name}
-            />
         </div>
     );
 };
