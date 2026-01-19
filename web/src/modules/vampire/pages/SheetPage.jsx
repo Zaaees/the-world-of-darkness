@@ -383,15 +383,14 @@ const LoginPage = ({ onLogin, error, debugLogs }) => {
         </p>
 
         {/* DEBUG LOGS */}
-        <div className="mt-8 p-4 bg-black/50 text-left rounded text-[10px] font-mono text-stone-500 overflow-y-auto max-h-40 w-full border border-stone-800/50">
-          <div className="underline mb-2">DEBUG INFO:</div>
-          {onLogin.toString().includes('addDebug') ? 'Logs hidden' : (
-            error && typeof error === 'object' ? JSON.stringify(error) : null
-          )}
-          Rien à afficher ici, voir props...
-          Wait, pass debugLogs as prop?
-          No, I need to modify the parent render to pass it.
-        </div>
+        {debugLogs && debugLogs.length > 0 && (
+          <div className="mt-8 p-4 bg-black/50 text-left rounded text-[10px] font-mono text-stone-500 overflow-y-auto max-h-40 w-full border border-stone-800/50">
+            <div className="underline mb-2 font-bold">DEBUG INFO:</div>
+            {debugLogs.map((log, i) => (
+              <div key={i} className="border-b border-stone-900/50 last:border-0 py-0.5">{log}</div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

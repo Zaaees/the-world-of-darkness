@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3, 4, 6, 7]
+stepsCompleted: [1, 2, 3, 4, 6, 7, 8]
 inputDocuments: [
   "f:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/_bmad-output/analysis/brainstorming-session-2026-01-13.md"
 ]
@@ -9,7 +9,7 @@ documentCounts:
   brainstorming: 1
   projectDocs: 0
 workflowType: 'prd'
-lastStep: 7
+lastStep: 8
 ---
 
 # Product Requirements Document - the-world-of-darkness
@@ -123,3 +123,38 @@ Une application React (Vite) modulaire, responsive, où l'interface utilisateur 
 ### Implementation Considerations
 *   **Route Guards :** Implémentation de HOC (Higher Order Components) `RequireWerewolfRole` pour protéger les routes.
 *   **Component Forks :** Création de versions "Werewolf" des composants de layout standard (Header, Sidebar) pour changer l'ambiance visuelle (CSS Variables / Themes).
+
+## 8. Project Scoping & Phased Development
+
+### MVP Strategy & Philosophy
+
+**MVP Approach:** Experience MVP. L'objectif est de délivrer l'expérience d'écriture ("Writer's Desk") complète et sans friction dès le jour 1, en se reposant sur Discord pour la dimension sociale.
+**Resource Requirements:** 1 Dev (React/Node) pour adapter le moteur Vampire.
+
+### MVP Feature Set (Phase 1)
+
+**Core User Journeys Supported:**
+*   Lucas (Création & Écriture)
+*   Sarah (Validation & Récompense)
+
+**Must-Have Capabilities:**
+*   Detection Rôle Discord (Switch Interface)
+*   Formulaire Création (Race/Auspice/Tribu/Fléau)
+*   Fiche Personnage "Narrative" (Édition Texte + Rangs)
+*   Sync Discord (Publication Thread Forum)
+*   Hauts Faits (Soumission -> Validation MJ)
+*   Dons (Affichage liste débloquée par MJ)
+
+### Post-MVP Features
+
+**Phase 2 (Pack & Totem):**
+*   **Fiche de Meute (Totem) :** Une fiche commune pour le groupe, gérée comme un personnage partagé (Nom, Lore, Hauts Faits de Meute).
+*   **Rituel de Création de Meute :** Workflow pour lier plusieurs joueurs à un même Totem.
+
+**Phase 3 (Expansion):**
+*   *Aucune mécanique de jeu prévue.* L'expansion se concentrera sur des outils d'écriture supplémentaires (e.g. Journal de bord, Chronologie).
+
+### Risk Mitigation Strategy
+
+**Technical Risks:** La gestion des permissions Discord (Bot) peut être capricieuse.
+**Mitigation:** Prévoir un mode "Dégradé" où la fiche est sauvée en BDD même si Discord ne répond pas, avec une file d'attente de resynchronisation.
