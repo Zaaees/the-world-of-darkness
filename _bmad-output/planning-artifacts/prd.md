@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3, 4, 6, 7, 8]
+stepsCompleted: [1, 2, 3, 4, 6, 7, 8, 9]
 inputDocuments: [
   "f:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/_bmad-output/analysis/brainstorming-session-2026-01-13.md"
 ]
@@ -9,7 +9,7 @@ documentCounts:
   brainstorming: 1
   projectDocs: 0
 workflowType: 'prd'
-lastStep: 8
+lastStep: 9
 ---
 
 # Product Requirements Document - the-world-of-darkness
@@ -158,3 +158,25 @@ Une application React (Vite) modulaire, responsive, où l'interface utilisateur 
 
 **Technical Risks:** La gestion des permissions Discord (Bot) peut être capricieuse.
 **Mitigation:** Prévoir un mode "Dégradé" où la fiche est sauvée en BDD même si Discord ne répond pas, avec une file d'attente de resynchronisation.
+
+## 9. Functional Requirements
+
+### Access & Identity (Routing)
+*   **FR1 :** L'Utilisateur ayant le rôle Discord `Werewolf` accède automatiquement à l'interface Garou à la connexion.
+*   **FR2 :** L'Utilisateur PERDANT le rôle `Werewolf` perd immédiatement l'accès au site (Déconnexion ou Redirection).
+*   **FR3 :** L'Utilisateur définit ses attributs immuables (Race, Auspice, Tribu) UNIQUEMENT lors de l'Onboarding initial. Ces données ne sont pas modifiables sur la fiche.
+
+### Character Sheet (The Writer's Desk)
+*   **FR4 :** L'Utilisateur peut éditer librement le contenu narratif de sa fiche (Histoire, Description, Nom) à tout moment.
+*   **FR5 :** Le Système publie automatiquement la première version de la fiche dans le Forum Discord dédié (`1462941781761986732`).
+*   **FR6 (Live Sync) :** Le Système **met à jour le contenu du post Discord original** à chaque sauvegarde de la fiche sur le site.
+*   **FR7 (Audit Log) :** Le Système poste un rapport de changement (Diff/Log) dans le Canal de Logs dédié (`1457856977660022844`) pour chaque modification validée.
+
+### Progression & Gifts
+*   **FR8 :** L'Utilisateur peut soumettre une demande de Renommée (Texte standard).
+*   **FR9 :** Le MJ peut valider une demande de Renommée, ce qui met à jour le Rang de l'utilisateur.
+*   **FR10 :** Le MJ peut débloquer des Dons spécifiques pour un utilisateur.
+*   **FR11 :** L'Utilisateur peut consulter la liste de ses Dons débloqués (Lecture Seule).
+
+### Visibility
+*   **FR12 :** L'Utilisateur ne peut voir QUE sa propre fiche sur le site (Pas d'accès aux brouillons des autres).
