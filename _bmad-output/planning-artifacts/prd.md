@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3, 4]
+stepsCompleted: [1, 2, 3, 4, 6, 7]
 inputDocuments: [
   "f:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/_bmad-output/analysis/brainstorming-session-2026-01-13.md"
 ]
@@ -9,7 +9,7 @@ documentCounts:
   brainstorming: 1
   projectDocs: 0
 workflowType: 'prd'
-lastStep: 4
+lastStep: 7
 ---
 
 # Product Requirements Document - the-world-of-darkness
@@ -94,3 +94,32 @@ L'extension se compose de 4 modules interconnectés :
 *   **Role-Based Access Control (RBAC) :** Middleware de routing strict vérifiant les IDs Discord.
 *   **Discord Sync (Bidirectionnel) :** Le site doit pouvoir *lire* les rôles (Auth) et *écrire* les rôles/posts (Bot).
 *   **Admin Dashboard :** Interface spécifique pour le MJ pour voir les demandes en attente et éditer les fiches joueurs (Dons).
+
+## 6. Innovation & Novel Patterns
+
+### Detected Innovation Areas
+*   **System-Less Digital Support :** Ce projet offre un cadre rigide pour l'organisation (Fiches, Rangs) mais invisible pour la création, sans friction mécanique (ni dés, ni stats).
+*   **Diegetic UI as Inspiration :** L'interface agit comme un "Mood Board" interactif. Le design (Couleurs, Typographie, Indicateurs de Rage) inspire le ton de l'écriture.
+*   **The "Writer's Desk" Metaphor :** La fiche n'est pas un tableau de bord, c'est une table de travail d'écrivain qui se synchronise avec le canal de publication (Discord).
+
+### Validation Approach
+*   **Feedback d'Immersion :** La métrique clé est "est-ce que l'interface m'aide à écrire mon personnage ?".
+*   **Fluidité de Publication :** Vérifier que le passage de "J'écris sur le site" à "C'est visible sur Discord" est sans friction.
+
+### Risk Mitigation
+*   **Le Syndrome de la Page Blanche :** Sans stats pour guider, le joueur peut être perdu.
+    *   *Solution :* Les "Dons" et "Hauts Faits" servent de "Prompts" d'écriture. Le MJ débloque des éléments qui donnent des idées d'intrigues.
+
+## 7. Web App Specific Requirements
+
+### Project-Type Overview
+Une application React (Vite) modulaire, responsive, où l'interface utilisateur s'adapte conditionnellement au rôle de l'utilisateur connecté.
+
+### Technical Architecture Considerations
+*   **Mobile-Friendly but Desktop-First :** L'interface d'écriture doit être confortable sur mobile (responsive), mais l'optimisation prioritaire reste le bureau pour le confort de rédaction longue.
+*   **Visibility & Auth :** Les contenus (Fiches, Dons) sont strictement privés (Gated). Aucune indexation SEO. Visibilité publique gérée uniquement via le miroir Discord.
+*   **Data Freshness :** Rafraîchissement intelligent (Polling/SWR) suffisant. Pas de WebSockets complexes. Si le MJ valide un Haut Fait, le joueur le verra à son prochain rafraîchissement ou navigation.
+
+### Implementation Considerations
+*   **Route Guards :** Implémentation de HOC (Higher Order Components) `RequireWerewolfRole` pour protéger les routes.
+*   **Component Forks :** Création de versions "Werewolf" des composants de layout standard (Header, Sidebar) pour changer l'ambiance visuelle (CSS Variables / Themes).
