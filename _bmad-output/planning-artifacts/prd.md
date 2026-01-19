@@ -1,113 +1,96 @@
 ---
-stepsCompleted: [1, 2]
+stepsCompleted: [1, 2, 3, 4]
 inputDocuments: [
-  "c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/planning-artifacts/research/domain-Rituels_V20_Thaumaturgie_et_Necromancie-research-2026-01-07.md",
-  "c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/planning-artifacts/research/technical-integration-rituels-v20-narratif-research-2026-01-08.md",
-  "C:/Users/freed/.gemini/antigravity/brain/524d1372-e4fd-4b31-b04c-939286cfa3e3/implementation_plan.md"
+  "f:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/_bmad-output/analysis/brainstorming-session-2026-01-13.md"
 ]
 documentCounts:
   briefs: 0
-  research: 2
-  brainstorming: 0
-  projectDocs: 1
+  research: 0
+  brainstorming: 1
+  projectDocs: 0
 workflowType: 'prd'
-lastStep: 2
+lastStep: 4
 ---
 
 # Product Requirements Document - the-world-of-darkness
 
 **Author:** Zaès
-**Date:** 2026-01-08
+**Date:** 2026-01-19
 
 ## 1. Executive Summary
 
-Ce projet vise à réaliser une intégration complète et immersive des **Rituels de Thaumaturgie et Nécromancie (V20)** dans l'application web existante. L'objectif est de remplacer la base de données actuelle par un contenu exhaustif, restructuré sous forme d'un **"Grimoire Narratif"**.
+Ce projet vise à implémenter le module **Loup-Garou (Werewolf)** (Role ID: `1453870972376584192`) au sein de l'application web existante *World of Darkness*, complétant l'implémentation actuelle (Vampire). L'objectif est de créer une expérience parallèle complète : le site détecte le rôle Discord de l'utilisateur et bascule sur l'interface appropriée.
 
-L'essence du projet réside dans la **"Pureté Narrative"** : offrir aux joueurs une expérience de lecture diégétique (in-universe), débarrassée de tout vocabulaire de règles visible (pas de "jets de dés", "difficulté", etc.), tout en conservant strictement les mécaniques de filtrage (Clan, Puissance du Sang) en arrière-plan.
+**Stratégie de Développement :** Utilisation intensive des composants et de l'infrastructure existante du module Vampire (Auth, Discord Bot, Layouts), adaptée aux spécificités **narratives et d'ambiance** des Garous.
+
+**Contrainte Linguistique :** L'intégralité du contenu textuel (UI, Lore, Messages Discord générés) doit être en **Français**.
+
+L'extension se compose de 4 modules interconnectés :
+
+1.  **Création Unique (Onboarding) :** Formulaire unique à l'inscription assignant les Rôles Discord (Race, Auspice, Tribu). Réutilise le moteur de formulaire existant.
+2.  **Fiche Personnage (Sheet) :** Interface de rédaction narrative. Inclut la fonction de synchronisation qui poste simplement la fiche dans le forum discord dédié (ID: `1462941781761986732`).
+3.  **Hauts Faits (Renown) :** Page de soumission où le joueur rédige ses accomplissements. Ces textes sont envoyés au MJ pour validation. Architecture similaire au **système de puissance de sang des vampires**.
+4.  **Dons (Gifts) :** Page de consultation dont le contenu est initialement masqué/vide. Le MJ Loup-Garou (Role ID: `1462941982161764556`) y débloque manuellement les savoirs.
 
 ### What Makes This Special
 
-*   **Immersion Totale :** Transformation d'un simple catalogue de règles en un véritable artefact de jeu de rôle. Les contraintes mécaniques (coût en sang, dangerosité) sont traduites en avertissements narratifs.
-*   **Intégration Transparente :** Respect complet de l'architecture technique existante (React, Modules) et des règles d'accès (droit de voir le rituel), sans perturber l'expérience utilisateur actuelle.
-*   **Contenu Riche :** Utilisation d'un processus de rédaction dédié (IA + Révision) pour "polir" la recherche brute et garantir un ton littéraire élevé ("High Grimoire").
+*   **Architecture "Double-Face" :** Une seule codebase, deux univers. L'UX s'adapte sans friction.
+*   **Réutilisation Intelligente :** Capitalisation sur le code "Vampire" pour déploiement rapide (DRY).
+*   **Sync Discord Narrative :** La fiche de perso vit à la fois sur le site (édition) et sur Discord (présentation sociale).
 
 ## 2. Project Classification
 
-| Category | Type | Description |
-| :--- | :--- | :--- |
-| **Technical Type** | `web_app` | Extension d'une application React existante (Brownfield). Mise à jour de données et refonte de composants d'affichage. |
-| **Domain** | `general` | Outil de Jeu de Rôle / Divertissement. |
-| **Complexity** | `medium` | Défi principal : Volume de contenu à rédiger/traduire et gestion fine de l'UX pour masquer la complexité mécanique sous une couche narrative. |
-
-### Project Context
-Le projet s'inscrit dans une application existante "The World of Darkness". Il ne s'agit pas d'une refonte complète du site, mais d'une **mise à jour ciblée et profonde** du module "Rituels". Une phase spécifique de **Production de Contenu** est nécessaire avant l'intégration technique.
+**Technical Type:** `web_app` (Module Extension)
+**Domain:** `general` (RPG Tooling)
+**Complexity:** `medium` (Shared Components, Role Routing)
+**Project Context:** Brownfield (Ajout du module Werewolf au site Vampire existant).
 
 ## 3. Success Criteria
 
-| Metric | Target | Description |
-| :--- | :--- | :--- |
-| **Immersion (Qualitatif)** | "Waoo" Feedback | Les joueurs doivent ressentir l'ambiance "Grimoire". Retours positifs explicites attendus sur le style narratif des textes. |
-| **Périmètre Contenu** | 100% au Lancement | L'intégralité des rituels V20 (Thaumaturgie & Nécromancie) doit être disponible et traduite dès la mise en production. |
-| **Mobile Experience** | Critique | La lecture des textes longs doit être parfaite sur mobile. L'UI doit gérer élégamment la navigation "Liste -> Détail" sur petit écran. |
-| **Navigation UX** | Fluide | L'interface doit gérer efficacement la progression du joueur (qui commence avec 0 rituels). L'expérience "Grimoire qui se remplit" est prioritaire sur la "Recherche dans une base de données complète". |
+### User Success
+*   **Adoption Sociale :** Les fiches sont postées sans erreur sur le forum Discord dédié (`1462941781761986732`).
+*   **Encadrement Narratif :** Le système structure l'écriture (Hauts Faits, Fiche) sans imposer de mécaniques (dés, stats) qui briseraient l'immersion littéraire.
 
-## 4. User Personas & User Flows
+### Technical Success
+*   **Routing Robuste :** La détection du rôle `1453870972376584192` est immédiate et fiable.
+*   **API Discord :** Le bot gère correctement les posts forums (création de thread par fiche).
 
-### Persona 1: L'Initié (Joueur)
-*   **Profil :** Joueur sur mobile ou desktop. Commence avec 0 connaissances.
-*   **Objectif :** Consulter son grimoire personnel pour jouer son personnage.
-*   **Flux Principal :**
-    1.  **Accès :** Ouvre l'onglet "Rituels".
-    2.  **Visualisation :** Ne voit **QUE** les rituels qu'il a acquis (Liste vide au départ). Les rituels inconnus sont totalement invisibles (pas de "grisé", pas de "spoiler").
-    3.  **Consultation :** Clique sur un rituel acquis pour lire la description narrative ("Grimoire").
-    4.  **Usage :** Utilise les informations diégétiques ("Il faut sacrifier une colombe...") pour son Roleplay.
+## 4. Product Scope
 
-### Persona 2: Le Conteur (Game Master)
-*   **Profil :** Administrateur sur Desktop.
-*   **Objectif :** Gérer l'attribution des rituels et vérifier les pré-requis.
-*   **Flux Principal :**
-    1.  **Accès :** Ouvre la "Bibliothèque Interdite" (Vue complète).
-    2.  **Recherche :** Voit la liste **TOTALE** (100+) de tous les rituels disponibles dans le système.
-    3.  **Filtrage :** Utilise des filtres (Clan, Discipline, Niveau) pour trouver un rituel spécifique.
-    4.  **Attribution :** Sélectionne un joueur cible et lui "débloque" le rituel (Ajoute l'ID à la liste du joueur).
+### MVP - Le "Pack de Meute"
+*   **Routing :** Bascule via Role `1453870972376584192`.
+*   **Création :** Formulaire Unique (Race/Auspice/Tribu).
+*   **Fiche :** Édition + Post dans Forum `1462941781761986732`.
+*   **Hauts Faits :** Soumission & Validation MJ (modelé sur Blood Potency).
+*   **Dons :** Catalogue vide, remplissable par MJ (`1462941982161764556`).
 
-## 5. Functional Requirements
+## 5. User Journeys
 
-### 5.1 Gestion des Données (Data Management)
-*   **Stockage :** Fichiers Statics JSON/JS (`rituals_v20.js`). Pas de base de données SQL pour le contenu textuel.
-*   **Structure :** Liste d'objets avec `id`, `name`, `level`, `discipline`, `clan_requirement`, `blood_requirement`, `description_md` (Markdown).
-*   **Rich Text :** Le champ description doit supporter le format **Markdown** pour permettre gras, italique, et sauts de ligne narratifs.
+### Journey 1: Lucas, l'Écrivain (L'Incarnation)
+*Scenario: Lucas est un roliste textuel qui rejoint le Discord. Il a le rôle "Loup-Garou".*
 
-### 5.2 Moteur de Recherche (Search Engine)
-*   **Technologie :** Recherche floue (Fuzzy Search) côté client (ex: `fuse.js`).
-*   **Critères :** Recherche sur Titre (FR/EN) et Mots-clés dans la description.
-*   **Tolérance :** Doit trouver "Thaumaturgy" même si l'utilisateur tape "Tomaturgie".
+1.  **Connexion :** Lucas se connecte. Le site détecte son rôle `1453870972376584192`.
+2.  **Ambiance :** Il ne voit aucune statistique. L'interface est épurée, faite pour l'écriture.
+3.  **Création :** Il définit son archétype narratif (Race, Auspice, Tribu) qui orientera son style de jeu.
+4.  **Rédaction :** Il arrive sur sa fiche. Il prend le temps d'écrire son histoire, ses motivations. Pas de points à répartir, juste des mots à choisir.
+5.  **Publication :** Il synchronise. Sa fiche apparaît sur Discord comme une présentation de personnage de roman.
 
-### 5.3 Logique d'Attribution (Assignment Logic)
-*   **Mode :** "Soft Warning" (Avertissement Non-Bloquant).
-*   **Comportement :** Le GM peut techniquement attribuer n'importe quel rituel à n'importe quel joueur.
-*   **Alerte :** Si le joueur cible ne remplit pas les conditions (Mauvais Clan, Puissance de Sang trop faible), une modale de confirmation apparaît : *"Attention : [NomJoueur] n'a pas les pré-requis (Clan/Sang). Confirmer l'attribution ?"*.
+### Journey 2: Sarah, la Lectrice (MJ) (Validation de l'Histoire)
+*Scenario: Lucas a écrit un chapitre marquant sur le forum (Haut Fait).*
 
-### 5.4 Affichage Conditionnel
-*   **Liste Joueur :** Filtre strict. `if (player.rituals.includes(ritual.id))` -> Affiche. Sinon -> Rien.
-*   **Détail Rituel :** Affichage optimisé pour la lecture ("Mode Liseuse/Grimoire"). Typographie adaptée.
+1.  **Soumission :** Lucas signale sur le site qu'il a accompli un acte important dans son récit ("J'ai purifié le parc").
+2.  **Lecture :** Sarah (MJ) reçoit la notif. Elle lit le récit associé (ou le résumé).
+3.  **Validation :** Elle valide l'avancement narratif. Le rang de Lucas change, symbolisant son évolution dans la hiérarchie sociale de la meute.
+4.  **Inspiration :** Elle débloque un "Don" sur la fiche de Lucas : ce n'est pas un pouvoir chiffré, mais un nouveau trait narratif ou un secret mystique qu'il peut désormais exploiter dans ses textes.
 
-## 6. Non-Functional Requirements
+### Journey 3: Marc, le Vampire Curieux (Access Denied)
+*Scenario: Marc est un joueur Vampire (Role ID Vampire, PAS Loup-Garou).*
 
-### 6.1 Security & Anti-Cheat
-*   **Modèle :** "Fair-Play".
-*   **Risque Accepté :** Les données des rituels sont chargées côté client (JSON). Un utilisateur averti (F12) peut techniquement lire les données brutes.
-*   **Validation :** "Good Enough" pour un outil communautaire de JDR. Pas de sécurisation backend complexe requise pour ce contenu.
+1.  **Tentative :** Marc essaie d'accéder à l'URL directe `/werewolf/sheet` qu'il a vue sur un stream.
+2.  **Blocage :** Le système détecte l'absence du rôle `1453870972376584192`.
+3.  **Redirection :** Marc est renvoyé immédiatement sur sa fiche Vampire standard, ou sur une page 403 "Vous n'entendez pas l'appel de Gaïa". Le cloisonnement est total.
 
-### 6.2 Performance
-*   **Load Time :** Le fichier `rituals_v20.js` (~200-500KB) doit se charger sans ralentir le reste du site.
-*   **Virtualisation :** Usage impératif de `react-window` (ou équivalent) pour la liste si > 50 éléments sur mobile, afin de garantir un scroll fluide à 60fps.
-
-### 6.3 Compatibilité
-*   **Mobile First :** Le design doit être pensé pour un écran de smartphone (Portrait) en priorité pour la lecture.
-*   **Navigateurs :** Chrome, Firefox, Safari (iOS), Edge.
-
-## 7. Approuvé
-Ce document sert de référence pour la génération des User Stories et le développement.
-*   **Statut :** VALIDÉ
-*   **Prochaine Étape :** Production de Contenu (Narrative Writing) & Architecture Technique.
+### Journey Requirements Summary
+*   **Role-Based Access Control (RBAC) :** Middleware de routing strict vérifiant les IDs Discord.
+*   **Discord Sync (Bidirectionnel) :** Le site doit pouvoir *lire* les rôles (Auth) et *écrire* les rôles/posts (Bot).
+*   **Admin Dashboard :** Interface spécifique pour le MJ pour voir les demandes en attente et éditer les fiches joueurs (Dons).

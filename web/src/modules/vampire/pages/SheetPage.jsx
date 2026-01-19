@@ -409,11 +409,12 @@ export default function VampireSheet() {
   const [npcCharacter, setNpcCharacter] = useState(null); // PNJ sélectionné en mode GM
 
   // Récupérer les infos Discord
-  const fetchDiscordUser = useCallback(async (token) => {
+  const fetchDiscordUser = useCallback(async (token, signal) => {
     try {
       console.log('Fetching Discord user with token...');
       const response = await fetch('https://discord.com/api/users/@me', {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
+        signal
       });
 
       if (response.ok) {
@@ -423,20 +424,33 @@ export default function VampireSheet() {
         // Ne pas mettre loading=false ici, le useEffect va charger les données
       } else {
         console.error('Discord API error:', response.status);
-        localStorage.removeItem('discord_token');
-        setAuthError('Token Discord invalide');
+        
+        // CORRECTION BOUCLE: Ne supprimer le token que si strictement non autorisé (401)
+        // Les erreurs 429 (Rate Limit) ou 500 ne doivent pas déconnecter l'utilisateur
+        if (response.status === 401) {
+          localStorage.removeItem('discord_token');
+          setAuthError('Session expirée. Veuillez vous reconnecter.');
+        } else {
+          setAuthError(`Erreur Discord (${response.status}). Veuillez rafraîchir.`);
+        }
         setLoading(false);
       }
     } catch (err) {
+      if (err.name === 'AbortError') {
+        console.log('Requête Discord annulée (Nettoyage/Strict Mode)');
+        return;
+      }
       console.error('Erreur Discord:', err);
-      localStorage.removeItem('discord_token');
-      setAuthError('Erreur de connexion à Discord');
+      // Ne pas supprimer le token sur une erreur réseau (peut être transitoire)
+      setAuthError('Erreur de connexion à Discord. Vérifiez votre connexion.');
       setLoading(false);
     }
   }, []);
 
   // Vérifier le token Discord au chargement
   useEffect(() => {
+    const controller = new AbortController();
+
     const init = async () => {
       // Vérifier s'il y a des paramètres userId et guildId dans l'URL (depuis Discord)
       const urlParams = new URLSearchParams(window.location.search);
@@ -463,7 +477,7 @@ export default function VampireSheet() {
           console.log('Token found in URL, saving...');
           localStorage.setItem('discord_token', access_token);
           window.history.replaceState(null, '', window.location.pathname);
-          await fetchDiscordUser(access_token);
+          await fetchDiscordUser(access_token, controller.signal);
           return;
         }
       }
@@ -472,13 +486,15 @@ export default function VampireSheet() {
       console.log('Saved token exists:', !!savedToken);
 
       if (savedToken) {
-        await fetchDiscordUser(savedToken);
+        await fetchDiscordUser(savedToken, controller.signal);
       } else {
         setLoading(false);
       }
     };
 
     init();
+
+    return () => controller.abort();
   }, [fetchDiscordUser]);
 
   // GESTION PERSISTANCE PNJ (URL)

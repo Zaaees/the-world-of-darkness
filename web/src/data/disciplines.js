@@ -1069,22 +1069,22 @@ export const DISCIPLINES = {
       {
         level: 3,
         name: "Ailes de Nuit",
-        bloodCost: 1,
-        duration: "scene",
+        bloodCost: 0,
+        duration: "permanent",
         description: "Tes muscles dorsaux sont enfin assez puissants. Tu peux décoller du sol par ta seule force et voler réellement. Ton vol est peut-être lourd et bruyant au début, mais le ciel t'appartient désormais. Tu peux faire du surplace, effectuer des virages serrés, et fondre sur tes proies depuis les airs."
       },
       {
         level: 4,
         name: "Vol Supersonique",
-        bloodCost: 1,
-        duration: "scene",
+        bloodCost: 0,
+        duration: "permanent",
         description: "Tu ne voles plus, tu files. Tu deviens un missile vivant, capable d'atteindre des vitesses qui rivalisent avec les véhicules modernes. Le vent hurle à tes oreilles, la ville défile floue sous tes yeux. Idéal pour les interceptions, les fuites éclairs, ou pour frapper avec une énergie cinétique dévastatrice."
       },
       {
         level: 5,
         name: "Maître du Ciel",
-        bloodCost: 3,
-        duration: "scene",
+        bloodCost: 0,
+        duration: "permanent",
         description: "Les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole par tempête majeure, porte des charges lourdes (comme un autre vampire en armure) sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris."
       }
     ]
