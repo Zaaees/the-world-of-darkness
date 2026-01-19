@@ -1,5 +1,5 @@
 ---
-stepsCompleted: [1, 2, 3, 4, 6, 7, 8, 9]
+stepsCompleted: [1, 2, 3, 4, 6, 7, 8, 9, 10]
 inputDocuments: [
   "f:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/_bmad-output/analysis/brainstorming-session-2026-01-13.md"
 ]
@@ -9,7 +9,7 @@ documentCounts:
   brainstorming: 1
   projectDocs: 0
 workflowType: 'prd'
-lastStep: 9
+lastStep: 10
 ---
 
 # Product Requirements Document - the-world-of-darkness
@@ -180,3 +180,16 @@ Une application React (Vite) modulaire, responsive, où l'interface utilisateur 
 
 ### Visibility
 *   **FR12 :** L'Utilisateur ne peut voir QUE sa propre fiche sur le site (Pas d'accès aux brouillons des autres).
+
+## 10. Non-Functional Requirements
+
+### Performance
+*   **Response Time :** Le basculement de contexte (Switch Rôle Vampire <-> Garou) doit s'effectuer en moins de **2 secondes** pour préserver l'immersion.
+*   **Optimisation Assets :** Les fonds d'écran et ambiances sonores doivent être pré-chargés ou optimisés pour ne pas ralentir le chargement de la fiche.
+
+### Reliability
+*   **Mode Dégradé (Offline Support) :** En cas de panne de l'API Discord, l'accès au site reste possible en **Lecture Seule** (Consultation de fiche) pour l'utilisateur déjà connecté.
+*   **Data Integrity :** Les données "Vérité Terrain" sont stockées en base de données locale, Discord n'est qu'un miroir d'affichage. On ne perd jamais une fiche si Discord est down.
+
+### Security
+*   **Role Sealing :** Le middleware de vérification des rôles doit être exécuté côté serveur (Backend) à chaque requête API sensible, pas seulement côté Client.

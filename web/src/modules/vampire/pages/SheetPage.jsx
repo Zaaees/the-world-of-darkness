@@ -348,7 +348,7 @@ const DEFAULT_CHARACTER = {
 };
 
 // --- PAGE DE LOGIN ---
-const LoginPage = ({ onLogin, error, debugLogs }) => {
+const LoginPage = ({ onLogin, error }) => {
   return (
     <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full text-center">
@@ -381,16 +381,6 @@ const LoginPage = ({ onLogin, error, debugLogs }) => {
         <p className="text-stone-600 text-xs">
           Tes données sont synchronisées avec le serveur Discord
         </p>
-
-        {/* DEBUG LOGS */}
-        {debugLogs && debugLogs.length > 0 && (
-          <div className="mt-8 p-4 bg-black/50 text-left rounded text-[10px] font-mono text-stone-500 overflow-y-auto max-h-40 w-full border border-stone-800/50">
-            <div className="underline mb-2 font-bold">DEBUG INFO:</div>
-            {debugLogs.map((log, i) => (
-              <div key={i} className="border-b border-stone-900/50 last:border-0 py-0.5">{log}</div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -1004,7 +994,7 @@ export default function VampireSheet() {
 
   // Page de login si pas connecté
   if (!discordUser && !loading) {
-    return <LoginPage onLogin={handleLogin} error={authError} debugLogs={debugLogs} />;
+    return <LoginPage onLogin={handleLogin} error={authError} />;
   }
 
   // Afficher une erreur si le chargement a échoué
