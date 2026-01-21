@@ -1,335 +1,335 @@
 ---
 stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-inputDocuments: ["c:\\Users\\freed\\Desktop\\the-world-of-darkness\\_bmad-output\\planning-artifacts\\prd.md"]
+inputDocuments: ["planning-artifacts/prd.md", "analysis/brainstorming-session-2026-01-13.md"]
 ---
 
 # UX Design Specification the-world-of-darkness
 
 **Author:** Zaès
-**Date:** 2026-01-08
+**Date:** 2026-01-20
 
 ---
 
 <!-- UX design content will be appended sequentially through collaborative workflow steps -->
 
-## Executive Summary
+## Résumé Exécutif
 
-### Project Vision
-The "Grimoire" is not merely a list of spells; it is a digital artifact of forbidden knowledge. It represents a shift from a "Database" mental model to a "Collection" mental model. The interface must evoke the feeling of a personal, growing tome of power. It starts empty and fills as the player uncovers secrets (unlocks rituals). The experience should be diegetic and immersive, hiding mechanical complexity behind narrative elegance.
+### Vision du Projet
 
-### Target Users
--   **The Initiate (Player):** Seeking immersion and utility. They need a distraction-free reading environment for their rituals on mobile devices. They want to feel "powerful" as their collection grows.
--   **The Storyteller (GM)::** Needs a "God View" to distribute knowledge. They require efficient filtering and clear indicators of player eligibility (Clan/Blood Potency).
+Le module "Loup-Garou" étend la plateforme World of Darkness existante en ajoutant l'univers des Garous, tout en conservant la philosophie stricte du serveur : **100% immersion narrative, 0% mécanique visible.**
 
-### Key Design Challenges
--   **Localization:** The entire interface and content must be in **French**.
--   **Integration:** Must seamlessly integrate as a new **Tab** within the existing Character Sheet (Fiche/Vitae/Disciplines/Grimoire).
--   **Visual Balance:** Maintaining the "Goth" aesthetic without sacrificing legibility on small screens.
--   **Platform:** Designing a complex "Master-Detail" view that works on both Desktop (Side-by-side) and Mobile (Stacked).
--   **The Veil of Secrecy (Visibility Logic):**
-    -   *Owned:* Fully visible, readable.
-    -   *Unknown:* Completely invisible (does not appear in list).
-    -   *Technically Known but Unusable:* Visible but "Locked" (Blurred? Chains? Warning?). Handling the distinction between "Wrong Clan" (Hard Lock?) and "Low Blood Potency" (Soft Lock/Warning?).
--   **Mobile Readability:** Rendering complex markdown (tables, lists, quotes) elegantly on small screens without horizontal scrolling issues.
+Comme pour le module Vampire actuel, l'interface sert de support d'écriture pur. Elle s'offre aux joueurs ayant le rôle Discord approprié, leur fournissant un espace privé pour rédiger leur histoire, qui est ensuite automatiquement publiée sur le forum Discord communautaire.
 
-### Design Opportunities
-1.  **Diegetic UI Elements:** Using subtle textures (stone, ink) and lighting effects (glows) that respect the existing Dark Mode (`#0c0a09`) but add depth.
-2.  **"Unlocking" Moments:** Creating a micro-interaction/animation when a new ritual is added, celebrating the acquisition of power.
-3.  **The "Liseuse" Mode:** A dedicated reading view that minimizes UI chrome (navigation bars) to focus purely on the text.
+### Utilisateurs Cibles
 
-### Experience Principles
-1.  **Mystery over Efficiency:** For players, it is better to hide unknown options completely than to show a grayed-out list of everything they *don't* have.
-2.  **Texture over Flatness:** Use visual depth (shadows, grain, ink) to sell the fantasy, respecting the existing Dark Mode.
-3.  **Clarity in Restriction:** "Soft Locks" (Blood Potency) should appear as "Indecipherable" or "Dangerous".
-4.  **Legibility First:** Texture must never compromise text contrast (WCAG AA). The user is reading in the dark; the text must be sharp.
-5.  **Narrative Purity:** No visible game mechanics (dice rolls, difficulty checks) in the Grimoire. Only **Blood Cost** is displayed. The focus is purely on the lore and the effect.
+*   **Le Joueur (Rôle Garou) :** Il utilise le site pour définir son personnage (Race, Auspice, Tribu) et rédiger sa fiche. Il a besoin d'une interface simple, stable et inspirante pour écrire.
+*   **Le MJ :** Il utilise le site pour valider les Hauts Faits (progression du Rang) et débloquer les Dons (récompenses narratives) sur les fiches des joueurs.
+*   **L'Utilisateur Standard (Non-Garou) :** Il ne doit pas accéder à ce module. Le site le redirige ou masque ces pages pour préserver la séparation des univers.
 
-## Core User Experience
+### Défis de Conception Clés
 
-### Defining Experience
-The core experience is **"Consulting the Forbidden Tome"**. It is a solitary, contemplative act. The user is not "browsing a database"; they are studying their personal collection of secret arts. The distinct shift from "Empty" to "Populated" mimics the character's journey from neophyte to master.
+*   **Cloisonnement Strict :** L'accès aux pages Loup-Garou doit être techniquement impossible sans le rôle Discord spécifique. La détection doit être immédiate.
+*   **Simplicité de l'Outil :** L'interface ne doit être qu'un traitement de texte amélioré, sans fioritures (pas de jauges, pas de stats). Elle doit se faire oublier au profit du texte.
+*   **Fiabilité de la Synchro :** La publication sur Discord (création/mise à jour de thread) doit être robuste, car c'est le seul lien avec les autres joueurs.
 
-### Platform Strategy
--   **Mobile (Primary):** The "Pocket Grimoire". Single-column focus. The list is an inventory; the detail view is a reading page.
--   **Desktop:** The "Scriptorium". Two-pane master-detail layout allowing GMs to cross-reference rapidly.
--   **Performance:** Search input must be **debounced** (300ms) to ensure the virtual keyboard remains responsive on low-end mobile devices.
+### Opportunités de Design
 
-### Effortless Interactions
--   **"Living" Search:** Fuzzy search that reacts instantly.
--   **Contextual Reading:** Formatting that makes long text easy to scan on mobile without breaking immersion.
--   **Multi-sensory Feedback:** Success actions (unlocking) should trigger subtle Audio Feedback (SFX: quill scratch, page turn) to reinforce the "reality" of the object.
+*   **Architecture Miroir :** Réutiliser la structure éprouvée du module Vampire (Layouts, Composants, Logique) pour garantir la stabilité et réduire le temps de développement, en changeant juste l'ambiance visuelle (Thème).
+*   **Zéro Friction :** Une expérience fluide où le joueur se connecte, écrit, et c'est en ligne. Pas de calculs, pas de validation système complexe.
 
-### Critical Success Moments
--   **The Acquisition:** The transition from "Zero State" to "First Ritual". It shouldn't just "appear"; it should be "inscribed" or "revealed" (Micro-animation).
--   **The Safety Check (GM):** Instantly seeing *why* a player can't learn a ritual (e.g., a "Blood Potency Too Low" warning).
+## Expérience Utilisateur Principale
 
-## Desired Emotional Response
+### Définition de l'Expérience
 
-### Primary Emotional Goals
--   **Primary:** *Awe & Secret Power.* The feeling of holding forbidden knowledge.
--   **Secondary:** *Satisfaction of Growth.* The pride of seeing a once-empty book fill with dangerous arts.
--   **Avoid:** *Frustration of Ignorance.* Users should feel "curious" about what they don't know, not "blocked" by it.
+Le site est le **Tableau de Bord du Personnage** (Companion App). L'action principale est la **Consulation et la Gestion** de ses données (Fiche, Dons, Histoires). L'écriture RP pure se fait sur Discord. Le site sert de référence "Vérité Terrain" pour l'état du personnage.
+L'expérience doit être familière pour les joueurs actuels (base Vampire), mais avec une identité visuelle et terminologique propre aux Loups-Garous.
 
-### Emotional Journey Mapping
-1.  **Discovery (Zero State):** *Intrigue.* "My book is empty. I must find a teacher." (Not "Error: No Data").
-2.  **Acquisition (First Ritual):** *Achievement.* The book is no longer just an object; it is *yours*.
-3.  **Consultation (Reading):** *Focus.* The world fades away; only the text matters.
-4.  **Rejection (Low BP):** *Humility/Danger.* "This power is too great for me... yet."
+### Stratégie Plateforme
 
-### Micro-Emotions
--   **Mental Strain:** The feeling that the book is resisting you when you try to read something beyond your capability.
--   **Ownership:** The book feels personal, not generic.
+*   **Copier-Coller Vampire :** On s'appuie à 100% sur l'existant. Si ça marche sur Vampire, ça marche ici.
+*   **Desktop & Mobile :** Comme l'actuel, consultable partout, optimisé desktop.
+*   **Switch Rôle :** La seule nouveauté technique majeure est le basculement d'interface selon le rôle Discord détecté.
 
-### Design Implications
--   **Intrigue:** Use cryptic sigils or empty slots that hint at potential without showing spoilers.
--   **Focus:** When reading, dim the rest of the interface (Liseuse Mode).
--   **Danger as Distortion:** Instead of standard "Red Error" states, utilize **Visual Distortion** (blur, chromatic aberration) to represent "Forbidden Knowledge" that is too complex for the character's mind.
+### Interactions "Sans Effort"
 
-### Emotional Design Principles
-1.  **Diegetic Friction:** Difficulty should feel like a challenge to the character (Lore), not a challenge to the user (Bad UX).
-2.  **Visual Storytelling:** Use effects (distortion, lighting) to convey mechanical states (locked, available).
-3.  **Accessible Magic:** Even distorted or "dangerous" elements must have clear, accessible labels ("Too Complex") for screen readers and clarity.
+*   **Continuité :** L'utilisateur qui connaît le site Vampire ne doit pas être perdu. Mêmes menus, même logique, juste un "skin" et des champs différents.
+*   **Mise à jour Fiche :** Éditer sa fiche ou ajouter un Haut Fait doit être aussi simple que sur la version actuelle.
 
-## UX Pattern Analysis & Inspiration
+### Moments Critiques de Succès
 
-### Inspiring Products Analysis
--   **V5 Core Rulebooks (Visuals):** "Goth-Industrial". The gold standard for the brand. Combines high-fashion photography, neon accents, and decay.
--   **Cultist Simulator (Mood):** treats text fragments as gameplay objects. The feeling of "piecing together" a mystery.
--   **D&D Beyond (Utility):** Handles massive spell lists efficiently on mobile. Good filtering, but visually sterile.
+1.  **L'Identité Visuelle :** L'utilisateur doit immédiatement sentir qu'il est "chez les Garous" (couleurs, ambiance) et pas sur une page Vampire buggée.
+2.  **La Cohérence :** Les données affichées (Rangs, Dons) doivent correspondre exactement à ce qui est attendu par le système de jeu, sans erreur de mapping.
 
-### Transferable UX Patterns
--   **"Editorial" Layout:** Use pull-quotes, mixed typography (Serif Headers / Sans Body), and asymmetry in the *Ritual Detail* view to break up long text.
--   **"Object" Weight:** Rituals in the list shouldn't be simple 1px borders. They should look like thick cards or blocks of text to possess weight.
+### Principes d'Expérience
 
-### Anti-Patterns to Avoid
--   **"Old Skeuomorphism":** No fake "page turn" animations. They are slow and annoying on mobile.
--   **"The Datagrid":** No dense tables. Each ritual needs breathing room to feel magical.
+1.  **Robustesse avant tout :** On privilégie la stabilité du code existant.
+2.  **Adaptation, pas Innovation :** On garde les patterns UX qui marchent (Sidebar, Formulaire) et on change le contenu.
+3.  **Support au RP :** Le site facilite le jeu sur Discord, il ne le remplace pas.
 
-### Design Inspiration Strategy
-**The "V5 Editorial" Style:** We take the robust utility of *D&D Beyond* (filters, search, speed) but skin it with the "Fashion Magazine from Hell" aesthetic of the V5 books. It remains a web app (scrolling, clicking) but *looks* like a curated art book.
+## Réponse Émotionnelle Désirée
 
-## Design System Foundation
+### Objectifs Émotionnels Primaires
 
-### Design System Choice
-**Strategy:** "Themeable System (Tailwind First) + The Chaos Layer".
-We will primarily use **Raw Tailwind CSS** for layout and structure, avoiding heavy component libraries (MUI/Ant) to maintain performance and visual control.
+1.  **L'Appartenance (Belonging) :** L'utilisateur doit se sentir "entre nous". L'interface est un repaire privé, distinct du reste du monde (et du site Vampire). C'est le sentiment de la Meute.
+2.  **La Fluidité (Ease) :** L'outil ne doit jamais frustrer. Il doit inspirer confiance par sa stabilité et son évidence. "Ça marche, tout simplement".
 
-### Rationale for Selection
--   **Performance:** Raw Tailwind is significantly lighter than full UI kits, critical for the "Mobile First" Grimoire.
--   **Aesthetic Flexibility:** The "V5 Editorial" style requires asymmetrical layouts and unique text effects that are difficult to force into rigid components like Material UI.
--   **Maintenance:** By isolating complex visual effects (The "Chaos Layer") into custom utility classes or plugins, we keep the JSX clean while allowing for "messy" visuals.
+### Parcours Émotionnel
 
-### Implementation Approach
-1.  **Strict Foundation:** Use standard Tailwind for layout (Flex/Grid), spacing, and sizing.
-2.  **Custom Configuration (`tailwind.config.js`):**
-    -   **Typography:** Define semantic font tokens: `font-header` (Serif) and `font-body` (Sans).
-    -   **Colors:** Extend palette with semantic "Grimoire" colors: `blood` (red), `ink` (dark gray), `parchment` (off-white/gold).
-3.  **The "Chaos Layer" (Visuals):**
-    -   Create reusable CSS utility classes (e.g., `.fx-distortion`, `.fx-ink-bleed`) or custom Tailwind plugins for high-end visual effects.
-    -   Do not inline these complex styles; abstract them to keep code readable.
+*   **Connexion :** *Validation*. "Le site me reconnaît, je suis un Garou".
+*   **Lecture de Fiche :** *Fierté*. "Voici mon histoire, mes Hauts Faits, mon identité".
+*   **Mise à Jour :** *Simplicité*. "J'ajoute une info sans douleur".
+*   **Sauvegarde :** *Sérénité*. "Je sais que c'est préservé et partagé".
 
-### Customization Strategy
--   **Rich Text Rendering:** Use `react-markdown` with custom renderers to automatically apply "Chaos" styles to standard markdown syntax (e.g., making `**bold**` text look like it was inked heavily).
--   **Component Atoms:** Build specific "Grimoire Atoms" (e.g., `<SigilHeader />`, `<GrimoireCard />`) rather than generic UI atoms.
+### Micro-Émotions
 
-## 2. Core User Experience
+*   **Confiance :** En voyant les données synchronisées correctement.
+*   **Intimité :** En naviguant sur une interface sombre, tribale, "organique" (vs le gothique aristocratique Vampire).
+*   **Satisfaction :** Quand une demande de Renommée est validée et que le Rang change visuellement.
 
-### 2.1 Defining Experience
-**"Consulting the Forbidden Tome."**
-The defining interaction is the shift from "External List" (Inventory) to "Internal Reading" (Study). It is a transition from utility to immersion.
+### Implications de Design
 
-### 2.2 User Mental Model
-Currently, users are used to "Databases" (click -> load page -> read data).
-We are shifting to a "Collection" model. The book is empty until filled. The "Back" button doesn't just go back; it "Closes the Book".
+*   **Thématique Visuelle :** Utiliser des tons terreux, naturels, sauvages (Ambre, Brun, Vert Forêt sombre) et des textures (Papier, Bois, Pierre) pour évoquer le Primitif, par opposition au Velours/Marbre/Sang des Vampires.
+*   **Vocabulaire :** L'interface doit parler "Garou" (Meute, Caern, Esprits) dans ses feedbacks, pas "Admin" ou "System".
 
-### 2.3 Success Criteria
--   **Deep Linking:** Every ritual must have a diverse URL (`/rituals/:id`) for GM sharing.
--   **State Preservation:** Returning to the list MUST preserve the exact scroll position (essential for large lists on mobile).
--   **Tactile Feel:** Navigation shouldn't feel like a standard web page reload. It needs weight.
+## Analyse des Patterns UX & Inspiration
 
-### 2.4 Novel UX Patterns
--   **"The Chaos Layer" Typography:** Standard text rendered with slight, varied imperfections (via CSS) to simulate ink without hurting legibility.
--   **Distortion as Lock:** Using visual noise to represent "Locked" content instead of graying it out.
+### Analyse du Produit Inspirant : World of Darkness (Vampire Module)
 
-### 2.5 Experience Mechanics
-**The "Master-Detail" Routing Flow**
+C'est la référence absolue ("Gold Standard"). Le module Vampire a déjà résolu les problèmes complexes de gestion de fiche narrative. L'objectif est de capitaliser sur cette base solide tout en étendant les capacités pour le Loup-Garou.
+*   **Ce qui marche :** L'approche "Formulaire Discret" (champs texte simples), l'architecture technique robuste, et la séparation nette entre les fonctionnalités.
+*   **Pourquoi ça reste :** Les utilisateurs ont déjà appris cette interface. La charge cognitive pour passer au Garou sera nulle si on conserve les repères fondamentaux.
 
-1.  **Initiation:**
-    -   User taps a Ritual Card.
-    -   **Interaction:** Card "presses down" (visual feedback).
-    -   **Action:** URL changes to `/rituals/:id`.
+### Patterns Transférables
 
-2.  **Transition:**
-    -   **Mobile:** A "Slide Over" or "Page Turn" animation takes over the screen.
-    -   **Desktop:** The Right Panel updates instantly with an "Ink Bleed" fade-in effect.
-    -   **Tech:** Powered by `framer-motion` + `react-router`.
+1.  **Architecture de Page (Top Bar) :** On garde le standard Desktop (Barre de navigation en haut) qui est efficace et connu. La Sidebar sera utilisée contextuellement sur Mobile ou pour des sous-menus spécifiques, comme c'est le cas actuellement.
+2.  **Moteur de Fiche :** Le coeur du système (Inputs, Textareas, Selects, Sauvegarde) est repris tel quel. Pas de réinvention de la roue pour la saisie de données.
+3.  **Flux de Validation :** Le pattern existant "Soumettre -> En attente -> Validation MJ" est parfait pour être réutilisé, même si le contenu (Hauts Faits) est différent.
 
-3.  **The Reading State:**
-    -   Fullscreen immersion (Mobile).
-    -   Typography switches to `font-header` (Serif).
-    -   Background textures (smoke/dust) are subtle and behind the text.
+### Nouvelles Fonctionnalités Spécifiques
 
-4.  **Completion (Closing):**
-    -   User clicks "Close" or Browser "Back".
-    -   **Tech:** URL reverts to `/rituals`.
-    -   **Result:** View returns to the List at the *exact same scroll position*.
+Contrairement aux Vampires, le Loup-Garou nécessite des modules inédits que nous développerons spécifiquement :
+1.  **Gestion des Dons :** Interface spécifique (Catalogue / Déblocage MJ) à créer de zéro car elle n'a pas d'équivalent direct (Discipline != Don).
+2.  **Système d'Histoires :** Module narratif complet pour la soumission et validation de Hauts Faits, conçu spécifiquement pour le besoin Garou.
+3.  **Flexibilité :** Nous nous autorisons à créer toute fonctionnalité supplémentaire demandée qui servirait spécifiquement l'expérience Garou, sans être bridés par "ce que fait Vampire".
 
-## Visual Design Foundation
+### Anti-Patterns à Éviter
 
-### Color System (Dark Mode Extended)
-**Palette: "Goth-Industrial"**
--   **Base:** `#0c0a09` (Warm Black / Stone) - Existing site background.
--   **Blood (Danger/Action):** `#be123c` (Rose-700) for borders/accents. `#fb7185` (Rose-400) for text legibility.
--   **Gold (Success/Arcane):** `#ca8a04` (Yellow-700). Used for "Learned" icons and borders.
--   **Ink (Text):** `#e7e5e4` (Warm Gray). Never pure white.
--   **Chaos Texture:** `#4c0519` (Rose-950) - Very dark red for background bleeds.
+1.  **Le "Skin" Vampire :** Il faut bannir tout vestige gothique/victorien (polices à empattement excessif, rouge sang, velours).
+2.  **Complexité Inutile :** Ne pas reproduire des mécaniques Vampire (Soif, Sang) qui n'ont pas de sens ici.
+3.  **Confusion de Navigation :** Ne pas mélanger les menus Vampire et Garou. L'utilisateur ne voit que ce qui concerne son rôle.
 
-### Typography System
-**Strategy: "Editorial Contrast"**
--   **Headers (The Voice of Authority):** `Playfair Display`. High-contrast Serif. Elegant, fashion-forward, dangerous.
--   **Body (The Legible Truth):** `Inter`. Clean, modern Sans. High x-height for mobile reading.
--   **Marginalia (Notes):** `Caveat`. Handwritten cursive for flavor text.
+### Stratégie d'Inspiration Design
 
-### Spacing & Layout Foundation
--   **List View:** Dense (Inventory feel). 4px padding between items to maximize visibility on mobile.
--   **Reader View:** Expansive. 24px margins, 1.8 line-height. Breathing room for the text to feel insignificant/important.
+*   **Adopter :** Le "Shell" de l'application (Auth, Routing, Layout Global) et le moteur de Fiche de base.
+*   **Adapter :** Le Design System (Visual Identity) pour basculer de l'ambiance Vampire à l'ambiance Garou.
+*   **Créer :** Les modules "Dons" et "Histoires" qui seront des développements sur-mesure.
 
-### Accessibility Considerations
--   **Contrast compliance:** Red is used for decoration/glows. Critical text uses High Contrast Red (`#fb7185`) or Gold.
--   **No "Green" Success:** Success is Gold. Failure is Ash/Gray.
--   **Reduced Motion:** All "Ink Bleed" or "Distortion" effects must respect `prefers-reduced-motion` queries.
+## Fondation du Design System
 
-## User Journey Flows
+### 1.1 Choix du Design System
 
-### 1. L'Initiation (Acquisition)
-*Objectif : Transformer un grimoire vide en un outil de pouvoir.*
-**Scénario :** Un nouveau joueur (Victor) ouvre l'onglet Grimoire pour la première fois.
+**Custom Design System Existant (Projet World of Darkness)**.
+Nous n'allons pas introduire de nouvelle librairie UI. Nous utilisons les composants React et le CSS existants du module Vampire.
+
+### Raison de la Sélection
+
+*   **Cohérence Totale :** Garantit que le module Loup-Garou s'intègre parfaitement au reste du site (même "toucher", mêmes comportements).
+*   **Vitesse de Dév :** Les composants (Button, Card, Modal) sont déjà codés et testés.
+*   **Performance :** Pas de bundle size supplémentaire lié à une grosse lib tierce.
+
+### Approche d'Implémentation
+
+*   **Thématisation CSS :** Création d'un fichier `werewolf-theme.css` qui surcharge les variables CSS root (ex: `--primary-color: #8B0000` -> `--primary-color: #556B2F`).
+*   **Composants Partagés :** Les composants React sont agnostiques du thème. Ils utilisent les variables CSS pour s'afficher.
+
+### Stratégie de Personnalisation
+
+*   **Palette "Gaia" :** Tons terreux (Marron, Ocre, Vert Sapin) et textures "Papier/Parchemin".
+*   **Typographie :** Conservation des polices de corps pour la lisibilité, changement de la police de Titre pour une touche plus "tribale/sauvage".
+
+## 2. Expérience Utilisateur Principale
+
+### 2.1 Expérience Définitive
+
+L'expérience centrale n'est pas l'écriture, mais **"La Maintenance du Sanctuaire"**. L'utilisateur revient sur sa fiche pour deux raisons précises :
+1.  **Consulter une référence** (Relire ses Dons, vérifier son Rang).
+2.  **Acter une évolution** (Ajouter un Haut Fait, mettre à jour son Histoire).
+C'est une interaction brève, précise et satisfaisante, comme mettre à jour un journal de bord.
+
+### 2.2 Modèle Mental Utilisateur
+
+*   **Attente :** "C'est ma feuille de personnage papier, mais intelligente et toujours propre".
+*   **Friction Actuelle :** Sur Discord ou GDocs, l'info est dispersée.
+*   **Solution Magique :** Tout est centralisé. Je ne calcule rien, le site connaît mes règles (Tribus, Rangs) mieux que moi.
+
+### 2.3 Critères de Succès
+
+1.  **L'Accès Instantané :** Je clique sur le lien, je suis sur ma fiche. 0 seconde de recherche.
+2.  **La Validation Visuelle :** Quand je sauve, je *vois* que c'est pris en compte (Feedback immédiat).
+3.  **La Clarté :** Je ne cherche jamais où est l'info "Dons". C'est évident.
+
+### 2.5 Mécanique de l'Expérience (Flow de Base)
+
+1.  **Initiation :** Lien depuis Discord ou Favori navigateur.
+2.  **Interaction :**
+    *   *Lecture :* Scroll fluide, typographie lisible.
+    *   *Édition :* Clic sur "Modifier", champs s'ouvrent in-place (pas de changement de page).
+3.  **Feedback :** Toast de succès "Sauvegardé & Synchronisé".
+4.  **Complétion :** L'utilisateur ferme l'onglet avec le sentiment du devoir accompli.
+
+## Fondation du Design Visuel
+
+### Système de Couleurs (Palette Gaia)
+
+Nous remplaçons la palette "Blood & Velvet" du module Vampire par la palette "Gaia & Rage" :
+*   **Primaire (L'Appel) :** `Ambre Brûlé (#CC7722)` (au lieu du Rouge Sang). Sert aux boutons d'action et highlights.
+*   **Secondaire (La Meute) :** `Vert Forêt Profond (#2F4F4F)` (au lieu du Noir/Violet). Sert aux fonds de section et sidebars.
+*   **Fond (Le Territoire) :** `Beige Parchemin (#F5F5DC)` ou `Gris Pierre (#3C3C3C)` en Dark Mode. Remplace le Noir pur pour une texture plus organique.
+*   **Alerte (La Rage) :** `Rouge Vif (#FF0000)` conservé pour les erreurs et la mécanique de Rage.
+
+### Système Typographique
+
+*   **Corps (Lisibilité) :** Conservation de la police actuelle (ex: *Roboto* ou *Lato*) pour garantir que les longs textes RP restent lisibles.
+*   **Titres (Identité) :** Adoption d'une police avec plus de caractère "brut/gravé" (ex: *Cinzel* ou *Bitter*) pour les H1/H2, remplaçant la police gothique des Vampires.
+
+### Espacement et Layout
+
+*   **Densité :** On garde la densité "Confortable" actuelle. L'écriture demande de l'air.
+*   **Grille :** Conservation du Container centré (max-width 1200px) pour la fiche.
+
+### Considérations d'Accessibilité
+
+*   **Contraste :** Le passage aux tons terreux (Marron/Vert) ne doit pas nuire au contraste du texte. Validation WCAG AA requise sur les boutons Ambre/Blanc.
+
+## Décision de Direction Design
+
+### Directions Explorées
+
+1.  **Gaia Classic (Direction A) :** Ambiance "Papier & Encre", lumineuse et traditionnelle.
+2.  **Wild Spirit (Direction B - *Refusée*) :** Version initiale trop sombre/noire ("Dark UI" générique).
+3.  **Deep Woods (Direction B - *Retenue*) :** Version affinée avec des tons chauds, boisés et profonds.
+
+### Direction Choisie
+
+**Direction B Affinée : "Deep Woods" (La Forêt Profonde)**
+
+### Raison du Choix
+
+L'utilisateur a rejeté le "Noir Plat" pour préférer une ambiance plus organique et texturée ("Boisé").
+*   **Identité :** C'est une "Cabane au fond des bois", pas une interface futuriste ou gothique.
+*   **Confort :** Le contraste "Or Antique sur Noyer Sombre" est reposant et très lisible pour de longues sessions d'écriture nocturnes.
+
+### Approche d'Implémentation
+
+*   **Palette Finale :**
+    *   Fond : Noyer Sombre (`#1a110a`)
+    *   Surface Cards : Chêne Sombre (`#261a12`)
+    *   Textes : Blanc Os (`#E8DCC5`)
+    *   Accents/Boutons : Or Antique (`#C19A6B`)
+*   **Textures :** Utilisation subtile de bruit ou de grain bois sur les backgrounds pour casser l'aspect plat du CSS.
+
+## Parcours Utilisateur
+
+### Parcours 1 : Le Premier Pas (Onboarding)
+L'utilisateur avec le rôle Discord `Werewolf` se connecte pour la première fois.
+*   **Trigger :** Login avec Discord.
+*   **Action :** Le site détecte le rôle -> Redirige vers `/werewolf/create`.
+*   **Saisie :** Choix Race, Auspice, Tribu (Irréversible).
+*   **Succès :** Création de la Fiche et Premier Post automatique sur Discord.
 
 ```mermaid
 graph TD
-    A[Joueur ouvre Onglet Grimoire] --> B{Grimoire Vide ?}
-    B -- Oui --> C[Affiche 'Zero State' Intrigant]
-    C --> D[Texte: 'Le savoir se mérite... Cherchez un Mentor']
-    D --> E[Action RP: Joueur apprend 'Défense du Havre Sacré']
-    E --> F[GM débloque le rituel (Dashboard/Discord)]
-    F --> G[Notification In-Game: 'Nouveau Rituel Inscrit']
-    G --> H[Animation: Encre s'écrit sur la page]
-    H --> I[Lecture du Rituel]
+    A[Login Discord] -->|Has Role Werewolf?| B{Check Role}
+    B -->|Yes| C[Check Existing Sheet]
+    B -->|No| D[Redirect to Vampire/403]
+    C -->|No Sheet| E[Show Werewolf Onboarding]
+    C -->|Has Sheet| F[Redirect to Dashboard]
+    E --> G[Form: Race/Auspice/Tribe]
+    G --> H[Submit]
+    H --> I[Create Sheet in DB]
+    I --> J[Post Thread to Discord]
+    J --> F
 ```
 
-### 2. Le Combat (Consultation Rapide)
-*Objectif : Accès immédiat à l'information critique sous pression.*
-**Scénario :** Victor est attaqué et doit lancer *Lame Ardente* immédiatement.
+### Parcours 3 : La Gloire (Demande de Renommée)
+L'utilisateur veut valider un acte héroïque accompli en RP.
+*   **Trigger :** Clic sur "Ajouter un Haut Fait".
+*   **Saisie :** Titre, Description, Type (Gloire/Honneur/Sagesse).
+*   **Feedback :** "Envoyé aux Esprits (MJ)".
+*   **Résultat :** Notification Discord quand validé + Mise à jour du Rang sur la fiche.
 
 ```mermaid
 graph TD
-    A[Situation de Stress] --> B[Clic Onglet 'Grimoire']
-    B --> C[Focus Barre de Recherche]
-    C --> D[Tape 'Lame']
-    D --> E[Filtrage Instantané (Fuzzy)]
-    E --> F[Affiche Résultat: 'Lame Ardente']
-    F --> G[Clic sur la Carte]
-    G --> H[Affichage Lecture (Panel Droit)]
-    H --> I[Vérification Coût: '1 Point de Sang']
-    I --> J[Exécution RP]
+    A[Click 'Add Renown'] --> B[Modal Input: Title/Story]
+    B --> C[Submit]
+    C --> D[Save to DB (Status: Pending)]
+    D --> E[Notify MJ (Discord Channel)]
+    E --> F[MJ Validates on Dashboard]
+    F --> G[Update Sheet Rank]
+    G --> H[Notify Player]
 ```
 
-### 3. Le Fruit Défendu (Restriction)
-*Objectif : Créer du désir et du mystère, pas de la frustration technique.*
-**Scénario :** Victor (Niveau 2) voit un rituel de Niveau 5.
+### Patterns d'Optimisation
+*   **Zéro Page Blanche :** Les champs "Histoire" sont pré-remplis avec des prompts ("Comment avez-vous vécu votre Premier Changement ?").
+*   **Feedback Immédiat :** Les sauvegardes sont autosaves (façon GDocs) pour ne jamais perdre une idée.
 
-```mermaid
-graph TD
-    A[Navigation Liste Rituels] --> B[Voit 'Protection contre les Démons']
-    B --> C{Test Niveau Joueur < 5}
-    C -- Vrai --> D[Affichage: Distorsion Visuelle (Chaos Layer)]
-    D --> E[Label 'Trop Complexe' (Pas de Cadenas banalisé)]
-    E --> F[Clic Tentative]
-    F --> G[Feedback Narratif: 'Votre esprit rejette ces symboles']
-    G --> H[Reste sur la Liste (Pas d'ouverture)]
-```
+## Stratégie des Composants
 
-### Flow Optimization Principles
-1.  **Zero State Narratif :** Ne jamais dire "Aucun résultat". Dire "Le savoir est caché".
-2.  **Recherche Instantanée :** Le filtrage doit être < 50ms pour être viable en combat.
-## Component Strategy
+### Composants Design System (Fondation)
+Nous réutilisons massivement les composants "Vampire Code" existants, simplement re-thémés via CSS :
+*   **Base :** `Button`, `Input`, `Select`, `Card`, `Modal`, `Toast`.
+*   **Structure :** `Layout`, `Sidebar`, `TopBar`.
+*   **Implémentation :** Pas de duplication de React. Juste un contexte de thème CSS.
 
-### Design System Components (Foundations)
-We will leverage standard primitives (ShadCN/Radix + Tailwind) for base interactions to ensure accessibility and reliability:
--   **Navigation:** `Tabs` (Radix) for switching between Disciplines/Grimoire.
--   **Input:** `Input` with fuzzy search capability.
--   **Layout:** `ScrollArea` for the ritual list, `Sheet` or `Dialog` for mobile details.
+### Composants Spécifiques (Custom Werewolf)
+Nous créons uniquement ce que Vampire n'a pas :
 
-### Custom Components (The "Goth" Layer)
-These components carry the unique aesthetic and narrative weight.
+1.  **`GiftCard` (Carte de Don) :**
+    *   *But :* Afficher un Don, son Niveau, sa Tribu, et son état.
+    *   *États :* Verrouillé (Grisé/Mystérieux), Débloqué (Actif/Doré).
+    *   *Interaction :* Clic pour voir les détails (Coût Gnose, Effet système).
 
-#### 1. `RitualCard` (The List Item)
--   **Purpose:** Summarize a ritual in the selection list.
--   **Mobile-First Design:** No critical information hidden behind "Hover".
--   **States:**
-    -   *Default:* Title, Level, Blood Cost (Visible Icon).
-    -   *Locked:* Distorted visual, "Indecipherable" label.
-    -   *Active:* High-contrast border, "Pressed" elevation.
+2.  **`RenownBadge` (Insigne de Rang) :**
+    *   *But :* Afficher visuellement la progression du rang (ex: Cliath -> Fostern -> Adren).
+    *   *Visuel :* Icône de Lune progressive ou glyphe tribal. Remplace la "Blood Potency".
 
-#### 2. `GrimoireReader` (The Detail View)
--   **Purpose:** Immersive reading experience for the selected ritual.
--   **Tech Strategy:** `react-markdown` with strict typography plugins.
--   **Key Features:**
-    -   *Drop Caps (Lettrines):* CSS `::first-letter` implementation for the first paragraph.
-    -   *Marginalia:* Handwriting font (`Caveat`) for flavor text boundaries.
--   **Content Safety:** Must gracefully handle rich text from `rituals_v20.js` without breaking layout.
+3.  **`StoryEditor` (Plume) :**
+    *   *But :* Zone de texte enrichie dédiée au RP.
+    *   *Features :* Auto-save, compteur de mots, mode "Focus" (plein écran).
 
-#### 3. `ChaosOverlay` (The Restriction Effect)
--   **Purpose:** Obscure content that is too high level.
--   **Visuals:** `backdrop-filter: blur()`, contrast boost, and noise texture.
--   **Performance Fallback:**
-    -   *High-End:* Animated noise and blur.
-    -   *Low-End/Mobile:* Static corrupt image opacity overlay (to prevent FPS drop).
-    -   *Reduced Motion:* Simple opaque grayscale overlay.
+### Stratégie d'Implémentation
+*   **Dossier :** `src/components/werewolf/` pour isoler ces customs.
+*   **Style :** Utilisation stricte des variables `--wild-*` définies dans le thème.
+*   **Tech :** React fonctionnel + SCSS Modules.
 
-### Implementation Roadmap
-1.  **Phase 1 (Core):** Implement `RitualCard`, `GrimoireReader`, and basic `Tabs` integration.
-2.  **Phase 2 (Polish):** Add `ChaosOverlay` with performance fallbacks and `BloodCostIndicator` animations.
-## UX Consistency Patterns
+## Patterns de Cohérence UX
 
-### Feedback Patterns (The "Danger" Palette)
-In a dark, gothic UI, standard "Green/Red" patterns fail. We use a thematic approach:
--   **Success (Safe/Learned):** Gold Glow (`#ca8a04`) + Parchment Sound. *Never use Green.*
--   **Failure (Danger/Rejected):** Blood Red Flash (`#be123c`) + Shake Animation.
--   **Neutral (Info):** Stone/Ash Gray (`#a8a29e`).
+### Hiérarchie des Boutons
+*   **Primaire (Ambre) :** Action principale positive (Sauvegarder, Créer, Valider). Un seul par vue.
+*   **Secondaire (Outline) :** Actions alternatives (Annuler, Retour).
+*   **Ghost (Lien) :** Navigation contextuelle.
 
-### Navigation Patterns
--   **Tabs:** Always "Sticky" at the top. Allow horizontal swipe on Mobile.
--   **State Persistence:** Returning to a tab restores the exact scroll position and last open item.
+### Feedback & Notifications
+*   **Succès :** Toast vert forêt en bas à droite ("Sauvegardé").
+*   **Attente :** Spinner "Lune" rotatif au centre.
+*   **Erreur :** Toast rouge vif ("Impossible de synchroniser").
 
-### Search Patterns
--   **Type:** Instant filtering (< 50ms).
--   **Scope:** Matches Title (FR/EN) and System Tags.
--   **Empty State:** Diegetic message ("Le Grimoire reste muet...") instead of technical "0 results".
+### Patterns de Navigation
+*   **Fil d'Ariane :** Présent sur toutes les pages enfants (ex: Dashboard > Fiche > Historique).
+*   **Sortie :** L'Avatar en haut à droite est le point de sortie (Logout/Profil).
 
-### Overlay Patterns (Modals)
--   **Desktop:** Right-side Slide-over panel (Master-Detail preservation).
-## Responsive Design & Accessibility
+### Formulaires et Validation
+*   **Validation :** "On Blur" (quand on quitte le champ) pour ne pas agresser l'utilisateur pendant la frappe.
+*   **Erreurs :** Affichées sous le champ concerné en rouge, avec un message explicite.
 
-### Responsive Strategy
-**Desktop (Master-Detail):**
--   **Layout:** Split View. 30% Left (List) / 70% Right (Reader).
--   **Benefits:** Rapid browsing without losing context. Ideal for GM dashboard usage.
+## Responsive & Accessibilité
 
-**Mobile (Stacked Navigation):**
--   **Layout:** List View by default.
--   **Interaction:** Tap opens a "Full Screen Sheet" (Modal) with the ritual details.
--   **Closing:** Swipe down or Close button. One-thumb friendly.
+### Stratégie Mobile First
+*   **Priorité :** Accès en lecture (Fiche, Dons) optimisé pour Smartphone.
+*   **Navigation :** Passage en Menu Hamburger ou Bottom Nav pour les écrans < 768px.
+*   **Tableaux :** Les tableaux de Dons/Hauts Faits se transforment en "Liste de Cartes" sur mobile pour éviter le scroll horizontal.
 
-### Accessibility Strategy (WCAG AA)
-**Visuals:**
--   **Contrast:** Main text (`#e7e5e4`) on Dark BG (`#1c1917`) ensures > 7:1 ratio.
--   **Text Sizing:** Base font 16px. Headers Scale.
-
-**Reduced Motion:**
--   **Chaos Overlay:** If `prefers-reduced-motion` is detected, replace animated noise/glitch with a static grayscale blur.
--   **Animations:** Disable "Ink Bleed" writing effects.
-
-**Screen Readers (SR):**
--   **Locked Content:** Must explicitly announce "Content Locked: Level too high" via `aria-label`, not just rely on visual distortion.
--   **Icons:** "Blood Drop" icon = `aria-label="Cost: 1 Blood Point"`.
+### Stratégie d'Accessibilité (WCAG AA)
+*   **Contraste Critique :** Le texte de lecture sera toujours `Blanc Os (#E8DCC5)` sur fond `Sombre (#1a110a)` = Ratio 13:1 (Excellent).
+*   **Pas de texte Or :** La couleur Or/Ambre est réservée aux bordures et gros titres, jamais pour le corps de texte.
+*   **Focus :** Tous les éléments interactifs auront un outline visible au clavier.

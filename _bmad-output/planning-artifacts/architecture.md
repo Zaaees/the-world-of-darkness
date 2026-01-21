@@ -1,165 +1,430 @@
 ---
 stepsCompleted: [1, 2, 3, 4, 5, 6, 7]
-inputDocuments: [
-  "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\_bmad-output\\planning-artifacts\\prd.md",
-  "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\_bmad-output\\planning-artifacts\\ux-design-specification.md",
-  "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\_bmad-output\\planning-artifacts\\research\\domain-Rituels_V20_Thaumaturgie_et_Necromancie-research-2026-01-07.md",
-  "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\_bmad-output\\planning-artifacts\\research\\technical-integration-rituels-v20-narratif-research-2026-01-08.md",
-  "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\docs\\architecture-bot.md",
-  "c:\\Users\\freed\\Desktop\\the-world-of-darkness\\docs\\architecture-web.md"
-]
-stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8]
+inputDocuments:
+  - prd.md
+  - ux-design-specification.md
+  - ux-design-directions.html
+  - docs/architecture-bot.md
+  - docs/architecture-web.md
+  - docs/data-models-bot.md
+  - docs/project-overview.md
 workflowType: 'architecture'
 project_name: 'the-world-of-darkness'
-user_name: 'Freed'
-date: '2026-01-08'
-lastStep: 8
-status: 'complete'
-completedAt: '2026-01-08'
+user_name: 'Zaès'
+date: '2026-01-20'
 ---
 
 # Architecture Decision Document
 
-## Analyse du Contexte Projet
+_This document builds collaboratively through step-by-step discovery. Sections are appended as we work through each architectural decision together._
 
-### Vue d'ensemble des Exigences
+## Project Context Analysis
 
-**Exigences Fonctionnelles (FR):**
--   **Catalogue de Rituels :** Consultation, filtrage (niveau, discipline), recherche floue.
--   **Fiche de Personnage :** Intégration transparente dans la fiche Vampire (Onglet).
--   **Gestion d'État :** Persistance de l'état de lecture et de la navigation.
+### Requirements Overview
 
-**Exigences Non-Fonctionnelles (NFR):**
--   **Performance :** Rendu fluide (60fps) pour >100 rituels (Virtualisation requise).
--   **Localisation :** Support natif du Français (Data + UI).
--   **Accessibilité :** Support du "Reduced Motion" pour les effets de distorsion.
--   **Esthétique :** Respect strict du style "V5 Editorial" (Markdown riche, Typographie).
+**Functional Requirements:**
+Le système doit supporter deux "univers" distincts (Vampire & Werewolf) au sein d'une même application React + Python.
+- **Routing Basé sur Rôle :** Middleware strict vérifiant les rôles Discord pour autoriser l'accès aux routes modules.
+- **Gestion de Contenu Narratif :** Éditeurs de texte riche pour fiches et hauts faits, avec synchronisation vers des threads Discord forums.
+- **Progression Asynchrone :** Système de soumission (Joueur) -> Validation (MJ) -> Notification (Bot).
 
-**Échelle & Complexité :**
--   Domaine Principal : Frontend Web (React SPA).
--   Niveau de Complexité : Moyenne (UI riche, Logique métier simple, Pas de Backend).
--   Composants Clés : ~5-7 composants majeurs (RitualCatalog, Reader, Filters, Card...).
+**Non-Functional Requirements:**
+- **Zero-Trust & Validation :** Validation backend stricte des rôles à chaque requête.
+- **UX Thématique :** Capacité de changer complètement l'identité visuelle (CSS Variables) à la volée.
+- **Résilience :** Mode dégradé si Discord API est lent/down (accès lecture seule cache local).
 
-### Contraintes Techniques & Dépendances
+**Scale & Complexity:**
+- Primary domain: **Hybrid Web/Bot Application**
+- Complexity level: **Medium** (Integration heavy)
+- Estimated architectural components: **~10-15** (Core Services + 2 Module Suites)
 
--   **Architecture Modulaire :** Isolation stricte dans `src/modules/vampire`.
--   **Data Source :** Fichier statique `rituals_v20.js` (Pas d'API externe).
--   **Stack existante :** React, Tailwind, Framer Motion.
+### Technical Constraints & Dependencies
 
-### Préoccupations Transversales (Cross-Cutting Concerns)
+- **Stack Imposée :** React (Vite), Python (Discord.py/Aiohttp), SQLite.
+- **Discord Dependency :** Dépendance forte à l'API Discord pour l'authentification et le stockage "social".
+- **Design System Existant :** Réutilisation obligatoire des composants UI "Vampire", adaptation par thèmes CSS uniquement.
 
--   **Gestion des Assets :** Chargement des images/textures (Poids vs Qualité).
--   **Navigation :** Routage profond (Deep Linking) et synchronisation URL.
-## Socle Technique (Architecture Brownfield)
+### Cross-Cutting Concerns Identified
 
-### Domaine Principal
-**Frontend Web (SPA React)** - Extension du socle existant.
+- **Authentication & Authorization :** Gestion unifiée des sessions basées sur OAuth2 Discord.
+- **Module Loading Strategy :** Pattern Core/Module pour Backend et Frontend.
+- **Data Synchronization Layer :** Abstraction pour gérer la synchro DB <-> Discord <-> GSheets.
+- **Theme Engine :** Système de bascule de variables CSS global.
 
-### Stack Validée
-Nous ne partons pas d'un template vierge, mais étendons l'architecture existante avec des librairies ciblées pour répondre aux exigences de performance et de narration du Grimoire.
+## Starter Template Evaluation
 
-**1. Socle Existant (Conservé) :**
--   **Runtime/Build :** React + Vite
--   **Routing :** React Router Dom (v6+)
--   **Styling :** Tailwind CSS + Framer Motion
+### Primary Technology Domain
+**Hybrid Web/Bot Application (Existing Monorepo)**.
+Le projet est une application composite : un Bot Discord (Python) couplé à une Web App (React) partageant un contexte d'authentification.
 
-**2. Nouvelles Briques (Validées) :**
--   **Recherche :** `fuse.js` (v7.1.0)
-    *   *Role :* Recherche floue côté client (Indexation des titres et descriptions).
--   **Performance UI :** `react-window` (v2.2.4)
-    *   *Role :* Virtualisation des listes pour supporter >100 rituels sans dégradation du DOM.
--   **Rendu Contenu :** `react-markdown` (v10.1.0)
-    *   *Role :* Transformation sécurisée du Markdown riche (Description des rituels) en composants React typographiés.
+### Starter Options Considered
+*   **New Vite Template:** Rejeté. Discontinuité avec le code existant.
+*   **Existing "Vampire Code" Base:** Sélectionné. Architecture éprouvée, dépendances déjà configurées.
 
-### Commandes d'Installation
-## Décisions Architecturales Cœurs
+### Selected Starter: Existing Monorepo (Version 2026.1)
 
-### Architecture de Données
-**Stratégie :** Données Statiques Validées
--   **Stockage :** Fichier source `src/modules/vampire/data/rituals_v20.js` (Export JS Array).
--   **Validation :** **Build-time uniquement**. Des tests unitaires (Vitest) scanneront le fichier pour garantir l'unicité des IDs et la présence des champs requis. Pas de surcoût runtime (Zod exclu).
--   **Décision :** Option B (Tests Unitaires).
+**Rationale for Selection:**
+Le projet nécessite une intégration parfaite avec le module Vampire existant. Repartir sur une stack différente (ex: Next.js) briserait la cohérence UI et complexifierait le déploiement. Nous adoptons le "Vampire Core" comme framework.
 
-### Architecture Frontend
-**Gestion d'État :** Store Atomique
--   **Librairie :** `zustand` (v4+)
--   **Scope :** Un store dédié `useGrimoireStore` encapsulera toute la logique UI (Filtres, Recherche, Selection).
--   **Décision :** Option A (Zustand) pour la clarté et la performance (évite les re-renders excessifs du Context).
+**Initialization Command:**
 
-### Résumé des Commandes
-## Patrons d'Implémentation & Règles
-
-### Règles de Consistance (Agents AI)
-
-**1. Convention de Nommage (Langue)**
--   **Règle :** Code en **Anglais** (Variables, Fonctions, Commentaires techniques). Contenu et Strings UI en **Français**.
--   **Exemple Correct :** `const bloodCost = 2; // Coût en point de sang`
--   **Anti-Pattern :** `const coutSang = 2;`
-
-**2. Structure des Dossiers (Modularité)**
--   **Règle :** Organisation par **Feature** (Fonctionnalité) au sein des modules.
--   **Application :** Tout ce qui concerne le Grimoire va dans `src/modules/vampire/features/rituals/`. Pas de composants rituels dispersés dans un dossier générique `components/`.
-
-**3. Format des Données (Markdown)**
--   **Règle :** Suffixe explicite `_md` pour les champs contenant du texte riche.
--   **Exemple :** `{ system_md: "**Jet de dés:** ...", description_md: "..." }`
--   **Pourquoi :** Signale immédiatement au développeur (et à l'AI) qu'il faut utiliser `<MarkdownRenderer>` et pas juste `{text}`.
-
-## Structure du Projet & Frontières
-
-### Arborescence Complète (Vampire Module)
-```text
-src/
-└── modules/
-    └── vampire/
-        ├── data/
-        │   └── rituals_v20.js              # Base de données statique (Source de vérité)
-        │
-        └── features/
-            └── rituals/ (Feature Grimoire)
-                ├── components/             # UI Components
-                │   ├── RitualCatalog.jsx   # Container Virtuoso (Liste Virtuelle)
-                │   ├── RitualReader.jsx    # Vue Détail (Markdown Rendering)
-                │   ├── RitualFilter.jsx    # Sidebar Filtres (Discipline/Niveau)
-                │   └── RitualCard.jsx      # Composant Atomique (Liste Item)
-                │
-                ├── stores/
-                │   └── useGrimoireStore.js # État Zustand (Search, Filter, Selection)
-                │
-                ├── utils/
-                │   ├── search.js           # Configuration Fuse.js
-                │   └── transform.js        # Helpers (Level to Badge, etc.)
-                │
-                └── index.js                # Point d'entrée public de la feature
+```bash
+# Pas de commande d'init, mais une structure de dossiers à respecter
+mkdir -p modules/werewolf
+mkdir -p web/src/modules/werewolf
 ```
 
-### Frontières Architecturales
+**Architectural Decisions Provided by Existing Stack:**
 
-**Boundary de Données :**
--   `rituals_v20.js` est Immutable au runtime. Aucune écriture.
--   Toute transformation de donnée (recherche, tri) se fait dans les sélecteurs Zustand, jamais dans le fichier source.
+**Language & Runtime:**
+- **Frontend:** React 19.2.0 (Latest) + JavaScript Module (ESM)
+- **Backend:** Python 3.10+ + Discord.py 2.3.0
 
-**Boundary d'État :**
--   `useGrimoireStore` encapsule 100% de la logique métier UI.
--   Les composants React sont "dumb" : ils affichent ce que le store leur donne et dispatch des actions, sans gérer d'état complexe eux-mêmes.
+**Styling Solution:**
+- **TailwindCSS 3.4:** Pour les utilitaires layout.
+- **CSS Variables:** Pour le moteur de thèmes (Switch Vampire vs Wild).
+- **Lucide React:** Pour les icônes vectorielles.
 
-**Boundary d'Isolation :**
--   Le dossier `src/modules/vampire/features/rituals` est privé.
--   ## Validation & Handoff
+**State Management & Routing:**
+- **Zustand 5.0:** Gestion d'état global léger (Auth, Theme).
+- **React Router 7:** Routage déclaratif moderne pour gérer les vues modules.
 
-### Résultats de la Validation (Party Mode)
-**✅ Cohérence Globale :** L'architecture est stable et alignée avec les besoins.
-**⚠️ Points de Vigilance (Ajoutés) :**
-1.  **Conflit Virtualisation/Animation :** Les animations d'entrée/sortie sur la liste des rituels doivent être désactivées ou gérées via un wrapper spécifique pour éviter les bugs visuels avec `react-window`.
-2.  **Découplage Search :** Le fichier `utils/search.js` doit être une librairie pure (sans dépendance React) pour faciliter les tests unitaires.
-3.  **CI/CD :** Les tests validant `rituals_v20.js` doivent être bloquants dans le pipeline de déploiement.
+**Build Tooling:**
+- **Vite 7.2:** HMR ultra-rapide et build optimisé.
+- **Vitest:** Framework de test unitaire configuré.
 
-### Checklist de Pré-Implémentation
-**Avant de commencer à coder, l'agent Dev doit :**
-- [ ] Installer les dépendances : `npm install fuse.js react-window react-markdown zustand`
-- [ ] Créer la structure de dossiers `src/modules/vampire/features/rituals/`
-- [ ] Copier/Créer le fichier `rituals_v20.js` et le valider.
-- [ ] Configurer le store Zustand vide.
+**Development Experience:**
+- **Eslint 9:** Linting strict déjà en place.
+- **Framer Motion 12:** Animations UI fluides déjà disponibles.
 
-**Démarrage :**
-L'implémentation commencera par la création de la structure et du store.
+## Core Architectural Decisions
+
+### Data Architecture
+**Decision:** Segregated Extension Tables
+**Rationale:** Pour éviter d'avoir une table `users` géante avec des colonnes nulles (`clan` vs `tribu`), chaque Splat a sa propre table (`vampire_data`, `werewolf_data`). La table `users` ne contient que l'identité partagée (Discord ID, XP global).
+**Implies:** Jointures SQL lors de la récupération du profil complet.
+
+### Authentication & Security
+**Decision:** Omni-Channel Role Verification (Zero Trust)
+**Rationale:** La sécurité ne doit pas dépendre du client. Le Backend revérifie le Rôle Discord (via cache) à chaque requête `/api/modules/*`.
+**Safety:** Si un utilisateur perd son rôle Discord pendant sa session, ses actions API échoueront immédiatement.
+
+### API & Communication Patterns
+**Decision:** Fractal Module API
+**Rationale:** Chaque module expose son propre `router.py` monté sur `/api/modules/{module_id}`. Le Core ne connaît pas les routes internes des modules.
+**Standard:** Erreurs API standardisées (403 Forbidden, 404 Not Found) renvoyées en JSON `{ error: str, code: int }`.
+
+### Frontend Architecture
+**Decision:** Context-Driven Theming
+**Rationale:** Le changement d'ambiance ne doit pas nécessiter de rechargement. Un Context React injecte les variables CSS dynamiques au niveau du conteneur racine du module.
+**Scope:** Les styles globaux (Reset, Fonts) sont partagés. Les styles sémantiques (Couleurs, Paddings) sont thémables.
+
+### Infrastructure & Deployment
+**Decision:** Monolithic Deployment (Keep it Simple)
+**Rationale:** Le trafic attendu ne justifie pas une séparation en micro-services. Le déploiement unique garantit que le Frontend (React) et le Backend (API) sont toujours synchronisés en version.
+
+## Implementation Patterns & Consistency Rules
+
+### Naming Patterns
+**Database & Backend (Python):** `snake_case` usage mandatory. Table names are `plural` (e.g., `werewolf_gifts`).
+**Frontend (React):** `camelCase` for props/variables. `PascalCase` for components.
+**API Contract:** JSON keys retain `snake_case` from DB to minimize mapping overhead (e.g., `data.gift_name`).
+
+### Structure Patterns
+**Co-Location Strategy:**
+- React: Component + Style + Test in same directory.
+- Python: Module folders contain their own `models`, `views`, `services`.
+**Strict Module Isolation:**
+- No cross-module imports (e.g., `werewolf` cannot import `vampire`).
+- Shared logic goes to `@core`.
+
+### Format Patterns
+**API Response Standard:**
+```json
+{
+  "status": "success" | "error",
+  "data": { ...contents... }, // Only on success
+  "message": "Human readable error", // Only on error
+  "code": "ERROR_CODE_CONSTANT" // For programmatic handling
+}
+```
+
+### Communication Patterns
+**State Management:**
+- Each Module has its own Zustand Store (`useWerewolfStore`).
+- Stores reset on unmount/logout.
+
+**Error Handling:**
+- Frontend: Global `ErrorBoundary` catches React crashes. `toast.error()` displays API messages.
+- Backend: Global Exception Handler converts Python Exceptions to JSON 500 responses.
+
+### Enforcement Guidelines
+**All AI Agents MUST:**
+1. Check `manifest.json` before creating new module files.
+2. Use the provided `ServiceResponse` class for ALL API returns.
+3. Verify `snake_case` in DB schemas before migrations.
+
+## Project Structure & Boundaries
+
+### Complete Project Directory Structure
+L'architecture suit strictement le pattern **Core/Modules** défini précédemment. Voici les nouveaux dossiers et fichiers requis.
+
+```text
+root/
+├── modules/                        # BACKEND (Python)
+│   └── werewolf/                   # [NEW] Le Module Loup-Garou
+│       ├── __init__.py
+│       ├── manifest.json           # ID: "werewolf", Version: 1.0.0
+│       ├── cogs/                   # Slash Commands Discord
+│       │   ├── commands.py         # /werewolf ...
+│       │   └── admin.py            # /admin werewolf ...
+│       ├── models/                 # Base de données (SQLite models)
+│       │   └── store.py            # Table `werewolf_data` + DTOs
+│       ├── services/               # Logique Métier (Règles)
+│       │   ├── sheet.py            # Gestion de la Fiche
+│       │   └── renown.py           # Gestion des Hauts Faits
+│       ├── views/                  # Vues Discord (Modales/Boutons)
+│       │   └── onboarding.py       # Menu de création de personnage
+│       └── assets/                 # Données statiques (JSON)
+│           └── gifts_data.json     # DB statique des Dons
+│
+├── web/src/modules/                # FRONTEND (React)
+│   └── werewolf/                   # [NEW] Le Frontend Loup-Garou
+│       ├── index.js                # Point d'entrée (Manifeste JS)
+│       ├── routes.jsx              # Routing interne (/sheet, /gifts)
+│       ├── components/             # Composants exclusifs
+│       │   ├── WerewolfSheet.jsx
+│       │   ├── GiftCard.jsx
+│       │   └── RenownBadge.jsx
+│       ├── pages/                  # Vues principales
+│       │   ├── SheetPage.jsx
+│       │   └── GiftsPage.jsx
+│       ├── hooks/
+│       │   └── useWerewolfStore.js # State (Zustand)
+│       └── assets/                 # Styles & Images
+│           ├── werewolf-theme.css  # Variables CSS (Surcharge)
+│           └── glyphs/             # SVGs Tribaux
+```
+
+### Architectural Boundaries
+
+**API Boundaries:**
+- **Endpoints:** Toutes les routes du module sont montées sur `/api/modules/werewolf/*`.
+- **Isolation:** Le module backend n'a **AUCUNE** route racine. Il ne répond qu'à travers ce préfixe.
+
+**Component Boundaries:**
+- **Pages:** Les pages `SheetPage` et `GiftsPage` sont chargées en Lazy Loading par le Router Core.
+- **Shared UI:** Le module utilise `@core/components/Button` mais ne doit JAMAIS importer `modules/vampire/BloodOrb`.
+
+**Data Boundaries:**
+- **Own Tables:** Le module possède la table SQL `werewolf_data`.
+- **No Shared Writes:** Seul le module Werewolf écrit dans sa table. Le Core ne fait que lire via des interfaces génériques si nécessaire.
+
+### Requirements to Structure Mapping
+
+**Epic: "Le Premier Pas" (Onboarding)**
+- **Backend:** `modules/werewolf/views/onboarding.py` (Formulaire Discord)
+- **Frontend:** `web/src/modules/werewolf/pages/SheetPage.jsx` (Première visite)
+
+**Epic: "La Gloire" (Hauts Faits)**
+- **Backend:** `modules/werewolf/services/renown.py` (Validation logique)
+- **Frontend:** `web/src/modules/werewolf/components/RenownBadge.jsx` (Affichage)
+
+**Cross-Cutting: Authentication**
+- **Middleware:** Géré par `api_server.py` (Core) qui injecte `request.user` dans les routes du module.
+
+## Architecture Validation Results
+
+### Coherence Validation ✅
+
+**Decision Compatibility:**
+Toutes les décisions sont compatibles. L'architecture miroir (Backend Python / Frontend React) est cohérente avec l'existant. Pas de conflit de paradigme détecté.
+
+**Pattern Consistency:**
+Les patterns de nommage (Snake vs Camel) et de structure (Co-location) sont définis et alignés avec les technologies choisies.
+
+**Structure Alignment:**
+L'arborescence `modules/werewolf` est symétrique entre Backend et Frontend, respectant la décision d'isolation "Fractale".
+
+### Requirements Coverage Validation ✅
+
+**Epic/Feature Coverage:**
+- **Onboarding:** Couvert par les vues `onboarding.py` et pages `SheetPage`.
+- **Hauts Faits:** Couvert par le service `renown.py` et composants `RenownBadge`.
+- **Dons:** Couvert par `gifts_data.json` et `GiftCard`.
+
+**Functional Requirements Coverage:**
+- **Routing (FR1-3):** Couvert par Auth Middleware + Routes Préfixées.
+- **Narratif (FR4-7):** Couvert par Table dédiée + StoryEditor.
+- **Progression (FR8-11):** Couvert par Service Renown + Validation MJ.
+
+**Non-Functional Requirements Coverage:**
+- **Sécurité (Zero Trust):** Vérification rôle Backend à chaque appel.
+- **Performance:** Thème CSS (pas de flash) + Lazy Loading.
+
+### Implementation Readiness Validation ✅
+
+**Decision Completeness:**
+Les décisions critiques (Stack, DB, Auth) sont actées.
+
+**Structure Completeness:**
+L'arborescence est complète et explicite.
+
+**Pattern Completeness:**
+Les règles de nommage et de communication sont établies.
+
+### Gap Analysis Results
+
+**Minor Gaps:**
+- Le format exact du JSON `gifts_data.json` reste à définir lors de l'implémentation de la User Story "Consultation des Dons". Non bloquant.
+
+### Validation Issues Addressed
+
+Aucun problème bloquant identifié. L'architecture est saine.
+
+### Architecture Completeness Checklist
+
+**✅ Requirements Analysis**
+- [x] Project context thoroughly analyzed
+- [x] Scale and complexity assessed
+- [x] Technical constraints identified
+- [x] Cross-cutting concerns mapped
+
+**✅ Architectural Decisions**
+- [x] Critical decisions documented with versions
+- [x] Technology stack fully specified
+- [x] Integration patterns defined
+- [x] Performance considerations addressed
+
+**✅ Implementation Patterns**
+- [x] Naming conventions established
+- [x] Structure patterns defined
+- [x] Communication patterns specified
+- [x] Process patterns documented
+
+**✅ Project Structure**
+- [x] Complete directory structure defined
+- [x] Component boundaries established
+- [x] Integration points mapped
+- [x] Requirements to structure mapping complete
+
+### Architecture Readiness Assessment
+
+**Overall Status:** READY FOR IMPLEMENTATION
+
+**Confidence Level:** High
+
+**Key Strengths:**
+- Intégration transparente dans l'existant (DRY).
+- Séparation nette des univers (Werewolf isolé de Vampire).
+- UX adaptée au RP (Thème immersif).
+
+### Implementation Handoff
+
+**AI Agent Guidelines:**
+- Respectez scrupuleusement l'isolation des modules : Pas d'import croisé !
+- Vérifiez le fichier `manifest.json` pour la structure.
+- Utilisez `ServiceResponse` pour standardiser les retours API.
+
+**First Implementation Priority:**
+Création de l'arborescence `modules/werewolf` et `web/src/modules/werewolf` selon le schéma défini.
+
+## Architecture Completion Summary
+
+### Workflow Completion
+
+**Architecture Decision Workflow:** COMPLETED ✅
+**Total Steps Completed:** 8
+**Date Completed:** 2026-01-20
+**Document Location:** planning-artifacts/architecture.md
+
+### Final Architecture Deliverables
+
+**📋 Complete Architecture Document**
+
+- All architectural decisions documented with specific versions
+- Implementation patterns ensuring AI agent consistency
+- Complete project directory structure
+- Requirements to architecture mapping
+- Validation confirming coherence and completeness
+
+**🏗️ Implementation Ready Foundation**
+
+- All architectural decisions made
+- Implementation patterns defined
+- Architectural components specified
+- Requirements fully supported
+
+**📚 AI Agent Implementation Guide**
+
+- Technology stack with verified versions
+- Consistency rules that prevent implementation conflicts
+- Project structure with clear boundaries
+- Integration patterns and communication standards
+
+### Implementation Handoff
+
+**For AI Agents:**
+This architecture document is your complete guide for implementing the-world-of-darkness. Follow all decisions, patterns, and structures exactly as documented.
+
+**First Implementation Priority:**
+Création de l'arborescence `modules/werewolf` et `web/src/modules/werewolf` selon le schéma défini.
+
+**Development Sequence:**
+
+1. Initialize project using documented starter template
+2. Set up development environment per architecture
+3. Implement core architectural foundations
+4. Build features following established patterns
+5. Maintain consistency with documented rules
+
+### Quality Assurance Checklist
+
+**✅ Architecture Coherence**
+
+- [x] All decisions work together without conflicts
+- [x] Technology choices are compatible
+- [x] Patterns support the architectural decisions
+- [x] Structure aligns with all choices
+
+**✅ Requirements Coverage**
+
+- [x] All functional requirements are supported
+- [x] All non-functional requirements are addressed
+- [x] Cross-cutting concerns are handled
+- [x] Integration points are defined
+
+**✅ Implementation Readiness**
+
+- [x] Decisions are specific and actionable
+- [x] Patterns prevent agent conflicts
+- [x] Structure is complete and unambiguous
+- [x] Examples are provided for clarity
+
+### Project Success Factors
+
+**🎯 Clear Decision Framework**
+Every technology choice was made collaboratively with clear rationale, ensuring all stakeholders understand the architectural direction.
+
+**🔧 Consistency Guarantee**
+Implementation patterns and rules ensure that multiple AI agents will produce compatible, consistent code that works together seamlessly.
+
+**📋 Complete Coverage**
+All project requirements are architecturally supported, with clear mapping from business needs to technical implementation.
+
+**🏗️ Solid Foundation**
+The chosen starter template and architectural patterns provide a production-ready foundation following current best practices.
+
+---
+
+**Architecture Status:** READY FOR IMPLEMENTATION ✅
+
+**Next Phase:** Begin implementation using the architectural decisions and patterns documented herein.
+
+**Document Maintenance:** Update this architecture when major technical decisions are made during implementation.
+
+
+
+
+
+

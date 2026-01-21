@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Werewolf Design Directions</title>
+    <style>
+        :root {
+            /* Variables de base (Vampire Default - pour ref) */
+            --vampire-primary: #8B0000;
+            --vampire-bg: #1a1a1a;
+            --vampire-text: #e0e0e0;
+
+            /* DIRECTION A: GAIA CLASSIC */
+            --gaia-primary: #CC7722;
+            /* Ambre */
+            --gaia-secondary: #2F4F4F;
+            /* Vert Forêt */
+            --gaia-bg: #F5F5DC;
+            /* Beige Parchemin */
+            --gaia-text: #2c1810;
+            /* Marron très sombre */
+            --gaia-surface: #e8e4c9;
+            --gaia-border: #8b4513;
+
+            /* DIRECTION B: DEEP WOODS (Timber & Shadow) */
+            --wild-primary: #C19A6B;
+            /* Wood Brown/Gold */
+            --wild-secondary: #3B2F2F;
+            /* Dark Coffee/Bark */
+            --wild-bg: #1a110a;
+            /* Very Dark Walnut */
+            --wild-text: #E8DCC5;
+            /* Bone White */
+            --wild-surface: #261a12;
+            /* Dark Oak Surface */
+            --wild-border: #4a3728;
+            /* Raw Timber Border */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+
+        .controls {
+            padding: 1rem;
+            background: #ddd;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        button.active {
+            font-weight: bold;
+            box-shadow: 0 0 0 2px #333;
+        }
+
+        .preview-container {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+            min-height: 80vh;
+        }
+
+        .mockup-window {
+            width: 1000px;
+            background: white;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* THEME STYLES */
+        .mockup-window[data-theme="vampire"] {
+            background: var(--vampire-bg);
+            color: var(--vampire-text);
+        }
+
+        .mockup-window[data-theme="gaia"] {
+            background: var(--gaia-bg);
+            color: var(--gaia-text);
+            font-family: 'Georgia', serif;
+            /* Serif pour le côté "Livre" */
+        }
+
+        .mockup-window[data-theme="wild"] {
+            background: var(--wild-bg);
+            color: var(--wild-text);
+            font-family: 'Verdana', sans-serif;
+            /* Sans pour un look plus moderne/dark */
+        }
+
+        /* HEADER MOCKUP */
+        .mockup-header {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid transparent;
+        }
+
+        .mockup-window[data-theme="gaia"] .mockup-header {
+            background: var(--gaia-secondary);
+            color: #f0e68c;
+            border-bottom-color: var(--gaia-primary);
+        }
+
+        .mockup-window[data-theme="wild"] .mockup-header {
+            background: #000;
+            border-bottom: 1px solid var(--wild-primary);
+        }
+
+        /* CONTENT */
+        .mockup-body {
+            display: flex;
+            flex: 1;
+        }
+
+        /* SIDEBAR (Mobile/Context mock) */
+        .mockup-sidebar {
+            width: 250px;
+            padding: 1rem;
+            border-right: 1px solid transparent;
+        }
+
+        .mockup-window[data-theme="gaia"] .mockup-sidebar {
+            background: var(--gaia-surface);
+            border-right-color: var(--gaia-border);
+        }
+
+        .mockup-window[data-theme="wild"] .mockup-sidebar {
+            background: var(--wild-surface);
+            border-right-color: var(--wild-border);
+        }
+
+        /* MAIN CONTENT */
+        .mockup-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        /* COMPONENTS */
+        .card {
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+        }
+
+        .mockup-window[data-theme="gaia"] .card {
+            background: white;
+            border-color: var(--gaia-border);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .mockup-window[data-theme="wild"] .card {
+            background: var(--wild-surface);
+            border-color: var(--wild-border);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .mockup-window[data-theme="gaia"] .btn {
+            background: var(--gaia-primary);
+            color: white;
+        }
+
+        .mockup-window[data-theme="wild"] .btn {
+            background: var(--wild-primary);
+            color: black;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 0;
+        }
+
+        .mockup-window[data-theme="gaia"] h1 {
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: -1px;
+        }
+
+        .mockup-window[data-theme="wild"] h1 {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Werewolf Design Directions</h1>
+        <p>Visual exploration for the User Experience</p>
+    </header>
+
+    <div class="controls">
+        <button onclick="setTheme('gaia')" class="active">Direction A: Gaia Classic (Paper)</button>
+        <button onclick="setTheme('wild')">Direction B: Deep Woods (Timber)</button>
+    </div>
+
+    <div class="preview-container">
+        <div id="mockup" class="mockup-window" data-theme="gaia">
+            <div class="mockup-header">
+                <div class="logo">WORLD OF DARKNESS</div>
+                <div class="nav-items">
+                    <span>Fiche</span>
+                    <span style="margin-left:20px; text-decoration: underline;">Hauts Faits</span>
+                    <span style="margin-left:20px;">Dons</span>
+                </div>
+                <div class="user">Zaès (Ahroun)</div>
+            </div>
+            <div class="mockup-body">
+                <div class="mockup-sidebar">
+                    <h3>Navigation</h3>
+                    <ul>
+                        <li>Vue Générale</li>
+                        <li>Attributs</li>
+                        <li>Historique</li>
+                        <li>Renommée</li>
+                    </ul>
+                    <div class="card" style="margin-top: 2rem; font-size: 0.9rem;">
+                        <strong>État actuel</strong><br>
+                        Rage: ●●●○○<br>
+                        Gnose: ●●○○○
+                    </div>
+                </div>
+                <div class="mockup-content">
+                    <h1>Lucas "Froc-de-Fer"</h1>
+                    <p><em>Homidé - Juge de l'Ombre - Fils de Fenris</em></p>
+
+                    <div class="card">
+                        <h2>Dernier Haut Fait</h2>
+                        <p>J'ai purifié la clairière du parc central en chassant l'esprit de pollution qui s'y terrait.
+                        </p>
+                        <div style="margin-top: 1rem;">
+                            <span class="btn">En attente de validation</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Histoire</h2>
+                        <p>Le vent soufflait fort ce soir-là. Je savais que ma première transformation approchait. Les
+                            signes ne trompaient pas : l'odeur du sang m'obsédait, et la lune semblait m'appeler par mon
+                            nom...</p>
+                        <p>[Zone de texte éditable infinie...]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(theme) {
+            document.getElementById('mockup').setAttribute('data-theme', theme);
+            document.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>
