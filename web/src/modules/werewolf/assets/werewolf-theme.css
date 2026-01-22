@@ -1,0 +1,32 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Cinzel:wght@400;700&display=swap');
+
+/* Werewolf Theme Scope */
+.theme-werewolf {
+  /* Gaia Palette & Rage */
+  --primary-color: #CC7722;   /* Ambre Brûlé */
+  --secondary-color: #2F4F4F; /* Vert Forêt Profond */
+  --background-color: #1a110a; /* Noyer Sombre */
+  --surface-color: #261a12;    /* Chêne Sombre */
+  --text-color: #E8DCC5;       /* Blanc Os */
+  --error-color: #FF0000;      /* La Rage */
+
+  /* Typography Overrides */
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Bitter', serif; /* Using Bitter as body for thematic feel, assuming standard body is different */
+  
+  /* Apply variables to properties for the scope */
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+}
+
+.theme-werewolf h1, 
+.theme-werewolf h2, 
+.theme-werewolf h3, 
+.theme-werewolf h4, 
+.theme-werewolf h5, 
+.theme-werewolf h6 {
+  font-family: var(--font-heading);
+  color: var(--primary-color);
+}

@@ -1,0 +1,159 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.6, pytest-9.0.2, pluggy-1.6.0 -- C:\Users\freed\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\freed\Desktop\the-world-of-darkness
+configfile: pytest.ini
+plugins: anyio-4.10.0, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 2 items
+
+tests/modules/werewolf/test_discord_publish_atdd.py::TestStory2_5_DiscordPublication::test_publish_to_forum FAILED [ 50%]
+tests/modules/werewolf/test_discord_publish_atdd.py::TestStory2_5_DiscordPublication::test_save_thread_id FAILED [100%]
+
+================================== FAILURES ===================================
+____________ TestStory2_5_DiscordPublication.test_publish_to_forum ____________
+
+self = <test_discord_publish_atdd.TestStory2_5_DiscordPublication object at 0x0000018F95716850>
+
+    @pytest.mark.asyncio
+    async def test_publish_to_forum(self):
+        """
+        GIVEN character data and a configured Discord Forum Channel ID
+        WHEN the publication service is called
+        THEN a new thread should be created in the correct channel
+        AND the thread ID should be returned
+        """
+        character_data = {
+            "name": "Luna's Claw",
+            "breed": "Homid",
+            "auspice": "Theurge",
+            "tribe": "Silver Fangs",
+            "user_id": 123
+        }
+        forum_channel_id = 1462941781761986732
+    
+        # Mocking the Bot/Client
+        mock_bot = MagicMock()
+        mock_channel = AsyncMock()
+        mock_thread = AsyncMock()
+        mock_thread.id = 999999999
+    
+        mock_bot.get_channel.return_value = mock_channel
+        mock_channel.create_thread.return_value = mock_thread
+    
+        # We need to test the logic that uses this bot
+        # Assuming we can inject the bot or path it
+    
+        try:
+            from modules.werewolf.services.discord.forum_service import create_character_thread
+        except ImportError:
+            pytest.fail("Module 'modules.werewolf.services.discord.forum_service' not found")
+    
+        # Mock patch where the service gets the bot instance
+        # For this test, we might pass the bot explicitly or patch the getter
+        # Assuming the function signature: create_character_thread(bot, character_data)
+    
+>       thread_id = await create_character_thread(mock_bot, character_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\modules\werewolf\test_discord_publish_atdd.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+bot = <MagicMock id='1716199544144'>
+character_data = {'auspice': 'Theurge', 'breed': 'Homid', 'name': "Luna's Claw", 'tribe': 'Silver Fangs', ...}
+
+    async def create_character_thread(bot: discord.Client, character_data: WerewolfData) -> str:
+        """
+        Creates a thread for the character in the dedicated Forum channel.
+    
+        Args:
+            bot: The discord.Client or Bot instance.
+            character_data: The character data object.
+    
+        Returns:
+            The ID of the created thread as a string.
+    
+        Raises:
+            ValueError: If main forum channel is not found.
+        """
+>       logger.info(f"Attempting to publish character {character_data.name} to Discord Forum {FORUM_CHANNEL_ID}")
+                                                       ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'dict' object has no attribute 'name'
+
+modules\werewolf\services\discord\forum_service.py:25: AttributeError
+_____________ TestStory2_5_DiscordPublication.test_save_thread_id _____________
+
+self = <test_discord_publish_atdd.TestStory2_5_DiscordPublication object at 0x0000018F95716D50>
+
+    @pytest.mark.asyncio
+    async def test_save_thread_id(self):
+        """
+        GIVEN a newly created thread ID
+        WHEN the process completes
+        THEN the thread ID should be updated in the database for that character
+        """
+        # Data setup
+        character_data = {
+            "name": "Luna's Claw",
+            "breed": "Homid",
+            "auspice": "Theurge",
+            "tribe": "Silver Fangs",
+            "user_id": 123
+        }
+    
+        # Mock dependencies
+        mock_db = AsyncMock()
+        mock_bot = MagicMock()
+        mock_channel = AsyncMock()
+        mock_thread = AsyncMock()
+        mock_thread.id = 1462941781761986732
+    
+        mock_bot.get_channel.return_value = mock_channel
+        mock_channel.create_thread.return_value = mock_thread
+    
+        # We need to mock create_werewolf_data, update_werewolf_data AND get_werewolf_data
+        # since create_character calls them all.
+    
+        with patch('modules.werewolf.services.character_service.create_werewolf_data', new_callable=AsyncMock) as mock_create_db, \
+>            patch('modules.werewolf.services.character_service.update_werewolf_data', new_callable=AsyncMock) as mock_update_db, \
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             patch('modules.werewolf.services.character_service.get_werewolf_data', new_callable=AsyncMock) as mock_get_db, \
+             patch('modules.werewolf.services.discord.forum_service.create_character_thread', new_callable=AsyncMock) as mock_create_thread:
+
+tests\modules\werewolf\test_discord_publish_atdd.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1497: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x0000018F96432850>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'modules.werewolf.services.character_service' from 'C:\\Users\\freed\\Desktop\\the-world-of-darkness\\modules\\werewolf\\services\\character_service.py'> does not have the attribute 'update_werewolf_data'
+
+..\..\AppData\Local\Programs\Python\Python313\Lib\unittest\mock.py:1467: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/modules/werewolf/test_discord_publish_atdd.py::TestStory2_5_DiscordPublication::test_publish_to_forum
+FAILED tests/modules/werewolf/test_discord_publish_atdd.py::TestStory2_5_DiscordPublication::test_save_thread_id
+============================== 2 failed in 0.32s ==============================

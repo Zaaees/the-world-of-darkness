@@ -1,0 +1,78 @@
+# generated: 2026-01-21
+# project: the-world-of-darkness
+# project_key: TWD
+# tracking_system: file-system
+# story_location: c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-01-21
+project: the-world-of-darkness
+project_key: TWD
+tracking_system: file-system
+story_location: c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: in-progress
+  1-1-structure-du-module-werewolf: done
+  1-2-theme-deep-woods-css: done
+  1-3-middleware-de-verification-de-role-discord: done
+  1-4-routing-frontend-conditionnel: done
+  1-5-protection-des-routes-acces-refuse: done
+  epic-1-retrospective: optional
+
+  epic-2: in-progress
+  2-1-modele-de-donnees-werewolf: done
+  2-2-assets-de-donnees-garou-races-auspices-tribus: done
+  2-3-formulaire-de-creation-de-personnage: done
+  2-4-creation-de-la-fiche-en-base-de-donnees: done
+  2-5-publication-automatique-sur-le-forum-discord: done
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-page-de-consultation-de-la-fiche: backlog
+  3-2-composant-storyeditor-edition-narrative: backlog
+  3-3-synchronisation-discord-live-sync: backlog
+  3-4-audit-log-des-modifications: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-modele-de-donnees-renommee: backlog
+  4-2-formulaire-de-soumission-de-haut-fait: backlog
+  4-3-dashboard-mj-liste-des-demandes-de-renommee: backlog
+  4-4-validation-et-mise-a-jour-du-rang: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-modele-de-donnees-et-assets-dons: backlog
+  5-2-composant-giftcard: backlog
+  5-3-page-de-consultation-des-dons: backlog
+  5-4-dashboard-mj-deblocage-des-dons: backlog
+  epic-5-retrospective: optional

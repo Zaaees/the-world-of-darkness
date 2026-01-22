@@ -1,0 +1,113 @@
+{
+    "breeds": [
+        {
+            "id": "homid",
+            "name_fr": "Homid",
+            "description": "Né d'humains, il a grandi comme un humain et s'adapte facilement à la société moderne."
+        },
+        {
+            "id": "metis",
+            "name_fr": "Métis",
+            "description": "Né de l'union interdite de deux Garous, stérile et souvent difforme, il comprend la société Garou mieux que quiconque."
+        },
+        {
+            "id": "lupus",
+            "name_fr": "Lupus",
+            "description": "Né de loups, il a grandi dans la nature. Ses instincts sont aiguisés mais la technologie et le langage humain lui sont étrangers."
+        }
+    ],
+    "auspices": [
+        {
+            "id": "ragabash",
+            "name_fr": "Ragabash",
+            "description": "La Nouvelle Lune. Le filou, le questionneur des traditions."
+        },
+        {
+            "id": "theurge",
+            "name_fr": "Theurge",
+            "description": "Le Croissant de Lune. Le mystique, l'interlocuteur des esprits."
+        },
+        {
+            "id": "philodox",
+            "name_fr": "Philodox",
+            "description": "La Demi-Lune. Le juge, le gardien des lois et des traditions."
+        },
+        {
+            "id": "galliard",
+            "name_fr": "Galliard",
+            "description": "La Lune Gibbeuse. Le barde, l'historien, celui qui inspire par ses récits."
+        },
+        {
+            "id": "ahroun",
+            "name_fr": "Ahroun",
+            "description": "La Pleine Lune. Le guerrier, le chef de guerre, la rage incarnée."
+        }
+    ],
+    "tribes": [
+        {
+            "id": "black_furies",
+            "name_fr": "Furies Noires",
+            "description": "Tribu exclusivement féminine venue de Grèce, défenderesses des Wyld places."
+        },
+        {
+            "id": "bone_gnawers",
+            "name_fr": "Rongeurs d'Os",
+            "description": "Les survivants urbains, vivant parmi les pauvres et les déshérités."
+        },
+        {
+            "id": "children_of_gaia",
+            "name_fr": "Enfants de Gaïa",
+            "description": "Pacifistes et unificateurs, ils cherchent à guérir le monde plutôt qu'à le venger."
+        },
+        {
+            "id": "fianna",
+            "name_fr": "Fianna",
+            "description": "Guerriers celtiques, bardes et fêtards, liés aux faes."
+        },
+        {
+            "id": "get_of_fenris",
+            "name_fr": "Rejetons de Fenris",
+            "description": "Guerriers féroces d'origine nordique, valorisant la force avant tout."
+        },
+        {
+            "id": "glass_walkers",
+            "name_fr": "Arpenteurs de Verre",
+            "description": "Les Garous technologiques, maîtres de la ville et de la machine."
+        },
+        {
+            "id": "red_talons",
+            "name_fr": "Griffes Rouges",
+            "description": "Tribu composée uniquement de Lupus, haïssant l'humanité pour sa destruction de la nature."
+        },
+        {
+            "id": "shadow_lords",
+            "name_fr": "Seigneurs de l'Ombre",
+            "description": "Manipulateurs et ambitieux, ils croient pouvoir diriger la Nation Garou mieux que quiconque."
+        },
+        {
+            "id": "silent_striders",
+            "name_fr": "Marcheurs Silencieux",
+            "description": "Voyageurs mystérieux d'origine égyptienne, messagers des morts."
+        },
+        {
+            "id": "silver_fangs",
+            "name_fr": "Crocs d'Argent",
+            "description": "L'aristocratie Garou, les souverains traditionnels, souvent en proie à la folie."
+        },
+        {
+            "id": "stargazers",
+            "name_fr": "Astrolâtres",
+            "description": "Mystiques et philosophes orientaux, cherchant l'équilibre intérieur."
+        },
+        {
+            "id": "uktena",
+            "name_fr": "Uktena",
+            "description": "Gardiens de secrets mystiques et d'esprits liés, d'origine amérindienne."
+        },
+        {
+            "id": "wendigo",
+            "name_fr": "Wendigo",
+            "description": "Guerriers du grand nord, féroces protecteurs de leurs terres glacées."
+        }
+    ]
+}

@@ -35,6 +35,9 @@ from utils.database import (
 )
 from utils.sheet_manager import process_discord_sheet_update, upload_image_to_discord, publish_npc_to_discord, SHEET_LOG_CHANNEL_ID
 
+# Import des routes des modules
+from modules.werewolf.routes import register_werewolf_routes
+
 load_dotenv()
 logger = logging.getLogger(__name__)
 
@@ -1030,7 +1033,8 @@ def create_app(bot=None):
     app.router.add_post("/api/gm/npcs/{npc_id}/publish", publish_npc_handler)
     app.router.add_delete("/api/gm/npcs/{npc_id}", delete_npc_handler)
 
-
+    # Routes des modules
+    register_werewolf_routes(app)
 
     return app
 

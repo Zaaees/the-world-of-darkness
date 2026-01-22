@@ -1,0 +1,9 @@
+{
+  "id": "werewolf",
+  "name": "Werewolf: The Apocalypse",
+  "version": "1.0.0",
+  "entry_points": [
+    "cogs.lifecycle"
+  ],
+  "dependencies": []
+}
