@@ -4,7 +4,7 @@
 # Date: 2026-01-06T22:09:58.761Z
 
 project_name: the-world-of-darkness
-user_skill_level: intermediate
+user_skill_level: beginner
 planning_artifacts: "{project-root}/_bmad-output/planning-artifacts"
 implementation_artifacts: "{project-root}/_bmad-output/implementation-artifacts"
 project_knowledge: "{project-root}/docs"

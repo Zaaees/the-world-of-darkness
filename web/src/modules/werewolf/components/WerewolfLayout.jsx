@@ -3,8 +3,8 @@ import '../assets/werewolf-theme.css';
 
 /**
  * WerewolfLayout
- * Wraps the Werewolf module content to apply the specific visual theme.
- * Scopes all styles using the .theme-werewolf class.
+ * Enveloppe le contenu du module Werewolf pour appliquer le thème visuel spécifique.
+ * Isole tous les styles en utilisant la classe .theme-werewolf.
  */
 export default function WerewolfLayout({ children }) {
     return (

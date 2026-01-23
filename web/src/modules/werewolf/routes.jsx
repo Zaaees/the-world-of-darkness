@@ -6,6 +6,7 @@ import WerewolfLoading from './components/WerewolfLoading';
 // Lazy load des pages
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const CreateCharacter = lazy(() => import('./pages/CreateCharacter'));
+const CharacterSheet = lazy(() => import('./pages/CharacterSheet'));
 
 /**
  * Routes internes du module Werewolf.
@@ -22,6 +23,16 @@ export default function WerewolfRoutes() {
                     element={
                         <Suspense fallback={<WerewolfLoading />}>
                             <CreateCharacter />
+                        </Suspense>
+                    }
+                />
+
+                {/* Fiche personnage - Story 3.1 */}
+                <Route
+                    path="sheet"
+                    element={
+                        <Suspense fallback={<WerewolfLoading />}>
+                            <CharacterSheet />
                         </Suspense>
                     }
                 />

@@ -10,17 +10,17 @@ FORUM_CHANNEL_ID = 1462941781761986732
 
 async def create_character_thread(bot: discord.Client, character_data: WerewolfData) -> str:
     """
-    Creates a thread for the character in the dedicated Forum channel.
+    Crée un thread pour le personnage dans le Forum dédié.
     
     Args:
-        bot: The discord.Client or Bot instance.
-        character_data: The character data object.
+        bot: L'instance discord.Client ou Bot.
+        character_data: L'objet données du personnage.
         
     Returns:
-        The ID of the created thread as a string.
+        L'ID du thread créé sous forme de chaîne.
         
     Raises:
-        ValueError: If main forum channel is not found.
+        ValueError: Si le channel forum principal n'est pas trouvé.
     """
     logger.info(f"Attempting to publish character {character_data.name} to Discord Forum {FORUM_CHANNEL_ID}")
     

@@ -9,7 +9,7 @@ from aiohttp import web
 from .middleware import require_werewolf_role
 import aiosqlite
 from utils.database import DATABASE_PATH
-from .services.character_service import create_character
+from .services.character_service import create_character, get_character, update_character
 
 logger = logging.getLogger(__name__)
 
@@ -71,6 +71,91 @@ async def create_character_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": "Failed to create character"}, status=500)
 
 
+@require_werewolf_role
+async def get_character_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/character - Récupérer la fiche du personnage.
+    """
+    user_id_raw = request.headers.get("X-Discord-User-ID")
+    if not user_id_raw:
+        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+    
+    user_id = str(user_id_raw)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            character = await get_character(db, user_id)
+            
+            if not character:
+                return web.json_response({
+                    "success": False,
+                    "error": "Character not found",
+                    "code": "NO_CHARACTER"
+                }, status=404)
+            
+            return web.json_response({
+                "success": True,
+                "character": {
+                    "name": character.name,
+                    "breed": character.breed.value if hasattr(character.breed, 'value') else character.breed,
+                    "auspice": character.auspice.value if hasattr(character.auspice, 'value') else character.auspice,
+                    "tribe": character.tribe.value if hasattr(character.tribe, 'value') else character.tribe,
+                    "story": character.story or "",
+                    "rank": character.rank,
+                    "discord_thread_id": character.discord_thread_id
+                }
+            })
+            
+    except Exception as e:
+        logger.exception(f"Error retrieving character for user {user_id}")
+        return web.json_response({"error": "Failed to retrieve character"}, status=500)
+
+
+@require_werewolf_role
+async def update_character_handler(request: web.Request) -> web.Response:
+    """
+    PUT /api/modules/werewolf/character - Mettre à jour la fiche du personnage.
+    Pour l'instant, seul le champ 'story' est autorisé à la modification.
+    """
+    user_id_raw = request.headers.get("X-Discord-User-ID")
+    if not user_id_raw:
+        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+    
+    user_id = str(user_id_raw)
+    
+    try:
+        data = await request.json()
+    except Exception:
+        return web.json_response({"error": "Invalid JSON"}, status=400)
+    
+    # Validation basique
+    allowed_fields = {'story'}
+    updates = {k: v for k, v in data.items() if k in allowed_fields}
+    
+    if not updates:
+         return web.json_response({"error": "No valid fields to update"}, status=400)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            character = await update_character(db, user_id, updates)
+            
+            if not character:
+                return web.json_response({"error": "Character not found"}, status=404)
+            
+            return web.json_response({
+                "success": True,
+                "character": {
+                    "name": character.name,
+                    "story": character.story,
+                    "rank": character.rank
+                }
+            })
+            
+    except Exception as e:
+        logger.exception(f"Error updating character for user {user_id}")
+        return web.json_response({"error": "Failed to update character"}, status=500)
+
+
 def register_werewolf_routes(app: web.Application) -> None:
     """
     Enregistre toutes les routes du module Werewolf sur l'application.
@@ -84,5 +169,11 @@ def register_werewolf_routes(app: web.Application) -> None:
     
     # Création de personnage
     app.router.add_post("/api/modules/werewolf/character", create_character_handler)
+    
+    # Consultation de personnage
+    app.router.add_get("/api/modules/werewolf/character", get_character_handler)
+    
+    # Mise à jour de personnage
+    app.router.add_put("/api/modules/werewolf/character", update_character_handler)
     
     logger.info("Routes Werewolf enregistrées sur /api/modules/werewolf/*")

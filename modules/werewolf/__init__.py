@@ -2,4 +2,4 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-logger.info("Werewolf module initialized")
+logger.info("Module Werewolf initialisé")

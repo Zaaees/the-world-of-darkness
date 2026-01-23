@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import WerewolfLayout from '../components/WerewolfLayout';
 
 /**
@@ -31,6 +33,16 @@ export default function DashboardPage() {
                             coule dans tes veines, prête à défendre Mère Nature contre
                             les forces du Wyrm.
                         </p>
+                    </div>
+
+                    {/* Actions de navigation */}
+                    <div className="mt-10 flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/werewolf/sheet"
+                            className="px-8 py-3 bg-amber-900/30 border border-amber-600/50 text-amber-100 rounded-lg hover:bg-amber-800/40 transition-all font-header tracking-widest uppercase text-sm shadow-lg shadow-black/20"
+                        >
+                            Voir ma Fiche
+                        </Link>
                     </div>
 
                     {/* Message d'état */}

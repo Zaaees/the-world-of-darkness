@@ -68,7 +68,7 @@ class WerewolfData:
                 pass
 
 async def create_werewolf_table(db: aiosqlite.Connection) -> None:
-    """Creates the werewolf_data table if it doesn't exist."""
+    """Crée la table werewolf_data si elle n'existe pas."""
     await db.execute("""
         CREATE TABLE IF NOT EXISTS werewolf_data (
             user_id TEXT PRIMARY KEY,
@@ -86,7 +86,7 @@ async def create_werewolf_table(db: aiosqlite.Connection) -> None:
     await db.commit()
 
 async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> None:
-    """Inserts a new werewolf character data."""
+    """Insère les données d'un nouveau personnage loup-garou."""
     now = datetime.now()
     
     # Ensure values are strings for DB storage
@@ -113,7 +113,7 @@ async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> 
     await db.commit()
 
 async def get_werewolf_data(db: aiosqlite.Connection, user_id: str) -> Optional[WerewolfData]:
-    """Retrieves werewolf data by user_id."""
+    """Récupère les données loup-garou par user_id."""
     db.row_factory = aiosqlite.Row
     async with db.execute("SELECT * FROM werewolf_data WHERE user_id = ?", (user_id,)) as cursor:
         row = await cursor.fetchone()
@@ -150,8 +150,8 @@ async def get_werewolf_data(db: aiosqlite.Connection, user_id: str) -> Optional[
 
 async def update_werewolf_data(db: aiosqlite.Connection, user_id: str, updates: Dict[str, Any]) -> None:
     """
-    Updates werewolf data, ignoring immutable fields and preventing SQL injection.
-    Immutable fields: breed, auspice, tribe, user_id.
+    Met à jour les données loup-garou, en ignorant les champs immuables et en prévenant l'injection SQL.
+    Champs immuables : breed, auspice, tribe, user_id.
     """
     
     # Whitelist of allowed columns to update

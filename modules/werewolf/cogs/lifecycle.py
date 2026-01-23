@@ -11,7 +11,7 @@ class WerewolfLifecycle(commands.Cog):
         self.bot = bot
 
     async def cog_load(self):
-        """Called when the cog is loaded."""
+        """Appelé lors du chargement du Cog."""
         try:
             async with aiosqlite.connect(DATABASE_PATH) as db:
                 await create_werewolf_table(db)

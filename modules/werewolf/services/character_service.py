@@ -10,17 +10,17 @@ logger = logging.getLogger(__name__)
 
 async def create_character(db: aiosqlite.Connection, character_data: Dict[str, Any], bot: Optional[discord.Client] = None) -> WerewolfData:
     """
-    Creates a new werewolf character.
+    Crée un nouveau personnage loup-garou.
     
     Args:
-        db: Database connection.
-        character_data: Dictionary containing character data.
+        db: Connexion base de données.
+        character_data: Dictionnaire contenant les données du personnage.
         
     Returns:
-        The created WerewolfData object.
+        L'objet WerewolfData créé.
     
     Raises:
-        ValueError: If data is invalid.
+        ValueError: Si les données sont invalides.
     """
     user_id = str(character_data.get('user_id'))
     logger.info(f"Creating character for user {user_id}")
@@ -71,3 +71,35 @@ async def create_character(db: aiosqlite.Connection, character_data: Dict[str, A
          raise RuntimeError(f"Failed to retrieve created character for user {user_id} after insertion.")
 
     return created_char
+
+
+async def get_character(db: aiosqlite.Connection, user_id: str) -> Optional[WerewolfData]:
+    """
+    Récupère un personnage loup-garou par user_id.
+    
+    Args:
+        db: Connexion base de données.
+        user_id: L'ID Discord de l'utilisateur.
+        
+    Returns:
+        L'objet WerewolfData si trouvé, None sinon.
+    """
+    logger.info(f"Retrieving character for user {user_id}")
+    return await get_werewolf_data(db, user_id)
+async def update_character(db: aiosqlite.Connection, user_id: str, updates: Dict[str, Any]) -> Optional[WerewolfData]:
+    """
+    Met à jour un personnage loup-garou existant.
+    
+    Args:
+        db: Connexion base de données.
+        user_id: L'ID Discord de l'utilisateur.
+        updates: Dictionnaire des champs à mettre à jour.
+        
+    Returns:
+        L'objet WerewolfData mis à jour si trouvé, None sinon.
+    """
+    logger.info(f"Updating character for user {user_id} with {updates}")
+    from modules.werewolf.models.store import update_werewolf_data
+    
+    await update_werewolf_data(db, user_id, updates)
+    return await get_werewolf_data(db, user_id)

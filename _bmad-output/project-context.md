@@ -1,9 +1,12 @@
 ---
 project_name: 'the-world-of-darkness'
 user_name: 'Zaès'
-date: '2026-01-20'
-sections_completed: ['technology_stack', 'language_rules', 'framework_rules', 'testing_rules', 'quality_rules', 'workflow_rules', 'critical_rules']
-existing_patterns_found: 7
+date: '2026-01-23'
+sections_completed:
+  ['technology_stack', 'language_rules', 'framework_rules', 'testing_rules', 'quality_rules', 'workflow_rules', 'anti_patterns']
+status: 'complete'
+rule_count: 50
+optimized_for_llm: true
 ---
 
 # Project Context for AI Agents
@@ -14,123 +17,134 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 ## Technology Stack & Versions
 
+### Frontend (Web)
+- **Core:** React 19.2.0, Vite 7.2.4
+- **Styling:** TailwindCSS 3.4.19, Framer Motion 12.25.0
+- **Routing:** React Router 7.12.0
+- **State:** Zustand 5.0.9
+- **Icons:** Lucide React 0.562.0
+- **Testing:** Vitest 4.0.16 + React Testing Library
+
 ### Backend (Discord Bot)
 - **Language:** Python 3.11
 - **Framework:** discord.py >= 2.3.0
-- **Database:** aiosqlite >= 0.19.0
+- **Data:** aiosqlite >= 0.19.0
+- **Module System:** Custom `manifest.json` based architecture
 - **Async HTTP:** aiohttp >= 3.9.0
 - **Config:** python-dotenv >= 1.0.0
-
-### Frontend (Web)
-- **Framework:** React 19.2.0
-- **Build Tool:** Vite 7.2.4
-- **Styling:** TailwindCSS 3.4.19
-- **Routing:** React Router 7.12.0
-- **State Management:** Zustand 5.0.9
 
 ## Critical Implementation Rules
 
 ### Règles Spécifiques aux Langages
 
 #### Python (Backend)
-- **Async Obligatoire :** Toutes les opérations I/O (DB, HTTP, Discord) DOIVENT utiliser `async/await`.
-- **Logging :** Utiliser `logger = logging.getLogger(__name__)` pour chaque module.
-- **Typage :** Utiliser les types hints de Python 3.11 (ex: `Optional[tuple]`).
-- **Langue Interne :** Les commentaires et docstrings sont en **Français**.
-- **Configuration :** Charger les variables d'environnement via `python-dotenv`.
+- **Async System:** `async/await` obligatoire pour tout I/O (DB, Discord, HTTP).
+- **Typing:** Typage strict (`Optional`, `List`) et `dataclasses` pour les modèles.
+- **Documentation (STRICT) :**
+  - **Langue :** 🇫🇷 **Français UNIQUEMENT** pour tout (Docstrings et Commentaires).
+  - **Format:** Google Style en Français (ex: `"""Crée un nouveau personnage."""`).
+  - **Dette Technique :** Les docstrings existantes en Anglais doivent être traduites lors de leur prochaine modification.
 
 #### JavaScript/React (Frontend)
-- **Modules ESM :** Toujours utiliser les imports/exports ES6.
-- **Composants Fonctionnels :** Pas de classes React. Utiliser des fonctions et Hooks.
-- **Extension :** Utiliser `.jsx` pour les fichiers contenant du JSX.
+- **Composants :** Fonctionnels + Hooks uniquement (Pas de classes).
+- **Extension:** `.jsx` obligatoire pour le code React.
+- **Documentation :** JSDoc en **Français** obligatoire pour tous les composants et hooks exportés.
 
 ### Règles Spécifiques aux Frameworks
 
 #### React (Frontend)
-- **Lazy Loading Modules :** Chaque module DOIT exporter un `index.js` avec : `id`, `name`, `path`, `icon`, `RootComponent` (lazy loaded).
-- **Routing :** Utiliser React Router 7 avec `<Suspense>` pour le chargement différé.
-- **State Management :** Utiliser Zustand pour l'état global. Pas de Redux.
-- **Redirection Auth :** Préserver le hash fragment lors des redirections (OAuth Discord).
+- **State Management :**
+  - Global : Zustand (`useStore`) pour auth/thèmes.
+  - Local : `useState` pour l'UI éphémère.
+- **Styling :**
+  - **TailwindCSS** pour le layout et spacing.
+  - **CSS Variables** pour le theming dynamique.
+  - **Framer Motion** pour TOUTES les animations complexes.
+- **Performance :**
+  - Lazy Loading des pages module.
+  - Debouncing pour les sauvegardes automatiques (ex: StoryEditor).
 
 #### discord.py (Backend)
-- **Module Manifest :** Chaque module DOIT avoir un `manifest.json` avec : `id`, `name`, `version`, `entry_points`, `dependencies`.
-- **Cogs Structure :** Placer les commandes slash dans `modules/{module_id}/cogs/`.
-- **No Cross-Module Imports :** Les modules NE DOIVENT PAS s'importer directement. Utiliser l'Event Bus du Core.
+- **Structure :**
+  - `cogs/` : Interface Discord (Commandes/Events).
+  - `services/` : Logique métier pure.
+  - `models/` : Accès données (Data Classes).
+- **Isolation :** Pas d'imports croisés entre modules.
+- **Database:** `aiosqlite` avec `Row` factory.
 
 ### Règles de Test
 
 #### Frontend (Vitest + Testing Library)
-- **Framework :** Utiliser Vitest (configuré dans `vite.config.js`).
-- **Colocation :** Tests placés à côté des fichiers testés (`Component.jsx` → `Component.test.jsx`).
-- **Testing Library :** Utiliser `@testing-library/react` pour les tests de composants.
-- **Environment :** `jsdom` (pas de browser réel).
-- **Structure :** Utiliser `describe`/`it`/`expect` de Vitest.
+- **Framework :** Vitest (configuré avec `vi.mock` et `vi.hoisted`).
+- **Composants :** `@testing-library/react` (`render`, `screen`, `expect`).
+- **Structure :** `describe`/`it` pattern.
+- **Routing :** Utiliser `MemoryRouter` pour tester les redirections.
+- **Colocation :** Fichier test à côté du composant (`Comp.test.jsx`).
 
-#### Backend (Python)
-- Aucun test automatisé actuellement (considérer `pytest` + `pytest-asyncio`).
+#### Backend (pytest)
+- **Framework :** `pytest` + `pytest-asyncio` pour les tests asynchrones.
+- **Database :** Tests d'intégration utilisant `aiosqlite` en mémoire (via fixture `db_connection`).
+- **Patterns :**
+  - **GIVEN-WHEN-THEN :** Structure de test explicite dans les commentaires.
+  - **Fixtures :** Utilisation de factories (`tests/fixtures/factories.py`).
+  - **Smoke Tests :** Validation SQL basique avant logique complexe.
 
 ### Règles de Qualité & Style
 
-#### Linting (ESLint)
-- **Config :** ESLint 9+ avec flat config (`eslint.config.js`).
-- **Plugins :** `react-hooks` (recommended), `react-refresh` (Vite HMR).
-- **Unused Vars :** Variables commençant par majuscule ou underscore sont ignorées.
-- **Run :** `npm run lint` avant chaque commit.
+#### Linting (Standardisation)
+- **Frontend :** `npm run lint` obligatoire avant commit (ESLint 9 + React Hooks).
+- **Backend :** 
+  - Respect du **PEP 8** (manuel pour l'instant).
+  - Imports triés : Stdlib > Third-party > Local.
+  - **Dette Technique :** Le code existant n'est pas strictement linté. L'installation de `ruff` est prévue.
+- **Convention de Nommage :**
+  - Python : `snake_case` (variables, fonctions, modules).
+  - JS/React : `camelCase` (props, vars), `PascalCase` (Composants).
 
-#### Styling (TailwindCSS)
-- **Fonts Personnalisées :**
-  - `font-serif` / `font-header` → Playfair Display
-  - `font-body` → Inter
-  - `font-hand` → Caveat
-- **Classes Utilitaires :** Préférer les classes Tailwind au CSS inline.
-
-#### Organisation du Code
-- **Features Pattern :** Dans les modules, organiser par fonctionnalité (`features/{feature}/components/`).
-- **Core Components :** Composants réutilisables dans `src/core/components/`.
+### Règles de Workflow (AUTOMATISATION)
+- **ATDD Checklists (OBLIGATOIRE) :**
+  - **POUR CHAQUE STORY `X-Y`** : L'Agent **DOIT** lire le fichier `implementation-artifacts/atdd-checklist-X-Y.md` AVANT de commencer le code.
+  - Ce fichier contient les cas limites et les ID HTML requis pour les tests.
+  - Si le fichier n'est pas trouvé, l'Agent doit le signaler.
 
 ### Règles de Workflow de Développement
 
-#### Déploiement (CI/CD)
-- **Bot (Backend) :** Déploiement automatique sur **Fly.io** via GitHub Actions.
-  - Trigger : Push sur `main` avec modifications dans `*.py`, `cogs/`, `modules/`, etc.
-  - Région : `cdg` (Paris)
-- **Web (Frontend) :** Déploiement automatique sur **GitHub Pages**.
-  - Trigger : Push sur `main` avec modifications dans `web/**`.
-  - Build : Node 20, `npm ci && npm run build`.
-  - URL API : `https://world-of-darkness-bot.fly.dev`
+#### Git et Versioning
+- **Branches :** `main` est stable. Développer dans `feature/nom-feature`.
+- **Commits :** Conventional Commits (ex: `feat(werewolf): add story editor`).
+- **Review :** Validation humaine ou par Agent Reviewer requise.
 
-#### Git
-- **Branches :** `main` est la branche de production.
-- **Path-based Triggers :** Les workflows sont déclenchés uniquement si les fichiers pertinents sont modifiés.
+#### Déploiement (Monolithe)
+- **Synchro :** Le Frontend et Backend sont versionnés et déployés ensemble.
+- **Bot :** Redémarrage nécessaire pour prise en compte des modifications Python (`cogs`).
 
 ### Règles Critiques (Don't-Miss)
 
-#### Anti-Patterns à Éviter
-- ❌ **Ne PAS** importer directement entre modules (ni Backend ni Frontend).
-- ❌ **Ne PAS** utiliser d'I/O bloquant (`open()`, `requests`) dans le code Python. Utiliser `aiofiles`, `aiohttp`.
-- ❌ **Ne PAS** créer de composants React sous forme de classes.
+#### Anti-Patterns
+- ❌ **Pas d'imports croisés** entre modules (Vampire <-> Werewolf). Utiliser le Core Event Bus.
+- ❌ **Pas d'I/O bloquant** dans le bot (jamais de `time.sleep` ou `requests`).
+- ❌ **Pas de classes React**.
 
-#### Edge Cases & Gotchas
-- **IDs Discord (JS) :** Convertir les IDs numériques Discord en `string` côté API pour éviter la perte de précision en JavaScript.
-- **OAuth Hash Fragment :** Lors des redirections, préserver le hash (`#access_token=...`) pour l'auth Discord Implicit Grant.
-- **CORS :** Le middleware CORS n'autorise que les origines listées dans `ALLOWED_ORIGINS`.
-
-#### Sécurité
-- **Tokens :** Ne JAMAIS commiter de tokens ou secrets. Utiliser `.env` et `.gitignore`.
-- **Auth Headers :** Valider `X-Discord-User-ID` et `X-Discord-Guild-ID` pour chaque requête API protégée.
+#### Edge Cases
+- **IDs Discord :** Toujours traiter les IDs Discord comme des **Strings** en JS (BigInt loss warning).
+- **Error Handling :** Le Backend ne doit jamais crasher. Catcher `Exception` dans les Tasks et logger.
 
 ---
 
 ## Usage Guidelines
 
-**Pour les Agents IA :**
-- Lire ce fichier AVANT d'implémenter du code.
-- Suivre TOUTES les règles exactement comme documentées.
-- En cas de doute, préférer l'option la plus restrictive.
+**For AI Agents:**
 
-**Pour les Humains :**
-- Garder ce fichier concis et focalisé sur les besoins des agents.
-- Mettre à jour lors de changements de stack technologique.
-- Réviser trimestriellement pour supprimer les règles obsolètes.
+- Read this file before implementing any code
+- Follow ALL rules exactly as documented
+- When in doubt, prefer the more restrictive option
+- Update this file if new patterns emerge
 
-*Dernière mise à jour : 2026-01-20*
+**For Humans:**
+
+- Keep this file lean and focused on agent needs
+- Update when technology stack changes
+- Review quarterly for outdated rules
+- Remove rules that become obvious over time
+
+*Dernière mise à jour : 2026-01-23*

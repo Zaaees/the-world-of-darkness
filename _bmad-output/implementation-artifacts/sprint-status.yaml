@@ -40,7 +40,7 @@ tracking_system: file-system
 story_location: c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/implementation-artifacts
 
 development_status:
-  epic-1: in-progress
+  epic-1: done
   1-1-structure-du-module-werewolf: done
   1-2-theme-deep-woods-css: done
   1-3-middleware-de-verification-de-role-discord: done
@@ -48,7 +48,7 @@ development_status:
   1-5-protection-des-routes-acces-refuse: done
   epic-1-retrospective: optional
 
-  epic-2: in-progress
+  epic-2: done
   2-1-modele-de-donnees-werewolf: done
   2-2-assets-de-donnees-garou-races-auspices-tribus: done
   2-3-formulaire-de-creation-de-personnage: done
@@ -56,9 +56,9 @@ development_status:
   2-5-publication-automatique-sur-le-forum-discord: done
   epic-2-retrospective: optional
 
-  epic-3: backlog
-  3-1-page-de-consultation-de-la-fiche: backlog
-  3-2-composant-storyeditor-edition-narrative: backlog
+  epic-3: in-progress
+  3-1-page-de-consultation-de-la-fiche: done
+  3-2-composant-storyeditor-edition-narrative: done
   3-3-synchronisation-discord-live-sync: backlog
   3-4-audit-log-des-modifications: backlog
   epic-3-retrospective: optional
