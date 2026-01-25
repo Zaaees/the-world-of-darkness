@@ -19,6 +19,9 @@ ROLE_FONDATEUR = 1454188379519320196
 # MJ Vampire - Droits sur les vampires
 ROLE_MJ_VAMPIRE = 1454188335957282897
 
+# MJ Loup-Garou - Droits sur les garous (Story 4.4 review fix)
+ROLE_MJ_WEREWOLF = 1462941982161764556
+
 # Rôles qui peuvent valider les actions de sang
 VALIDATION_ROLES = [ROLE_FONDATEUR, ROLE_MJ_VAMPIRE]
 

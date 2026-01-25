@@ -36,6 +36,16 @@ class WerewolfTribe(str, Enum):
     # Adding generic/unknown for fallback if needed, or stick to strict canonical list
     RONIN = "Ronin" 
 
+class RenownType(str, Enum):
+    GLORY = "Glory"
+    HONOR = "Honor"
+    WISDOM = "Wisdom"
+
+class RenownStatus(str, Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
 @dataclass
 class WerewolfData:
     user_id: str
@@ -55,7 +65,7 @@ class WerewolfData:
             try:
                 self.breed = WerewolfBreed(self.breed)
             except ValueError:
-                pass # Keep as string if it violates enum? Or raise error? Sticking to loose for now but preferring Enum
+                pass 
         if isinstance(self.auspice, str):
             try:
                 self.auspice = WerewolfAuspice(self.auspice)
@@ -64,6 +74,30 @@ class WerewolfData:
         if isinstance(self.tribe, str):
             try:
                 self.tribe = WerewolfTribe(self.tribe)
+            except ValueError:
+                pass
+
+@dataclass
+class WerewolfRenown:
+    user_id: str
+    title: str
+    description: str
+    renown_type: Union[RenownType, str]
+    id: Optional[int] = None
+    status: Union[RenownStatus, str] = RenownStatus.PENDING
+    submitted_at: Optional[datetime] = None
+    validated_at: Optional[datetime] = None
+    validated_by: Optional[str] = None
+
+    def __post_init__(self):
+        if isinstance(self.renown_type, str):
+            try:
+                self.renown_type = RenownType(self.renown_type)
+            except ValueError:
+                pass
+        if isinstance(self.status, str):
+            try:
+                self.status = RenownStatus(self.status)
             except ValueError:
                 pass
 
@@ -83,6 +117,25 @@ async def create_werewolf_table(db: aiosqlite.Connection) -> None:
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    await db.commit()
+
+async def create_renown_table(db: aiosqlite.Connection) -> None:
+    """Crée la table werewolf_renown si elle n'existe pas."""
+    await db.execute("""
+        CREATE TABLE IF NOT EXISTS werewolf_renown (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT NOT NULL,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            renown_type TEXT NOT NULL,
+            status TEXT NOT NULL,
+            submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            validated_at TIMESTAMP,
+            validated_by TEXT,
+            FOREIGN KEY (user_id) REFERENCES werewolf_data(user_id)
+        )
+    """)
+    await db.execute("CREATE INDEX IF NOT EXISTS idx_werewolf_renown_user_id ON werewolf_renown(user_id)")
     await db.commit()
 
 async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> None:
@@ -171,4 +224,90 @@ async def update_werewolf_data(db: aiosqlite.Connection, user_id: str, updates: 
     values.append(user_id)
     
     await db.execute(f"UPDATE werewolf_data SET {set_clause} WHERE user_id = ?", values)
+    await db.commit()
+
+async def create_werewolf_renown(db: aiosqlite.Connection, data: WerewolfRenown) -> WerewolfRenown:
+    """Insère une nouvelle demande de renommée."""
+    now = datetime.now()
+    if data.submitted_at is None:
+        data.submitted_at = now
+    
+    renown_type_val = data.renown_type.value if isinstance(data.renown_type, Enum) else data.renown_type
+    status_val = data.status.value if isinstance(data.status, Enum) else data.status
+
+    cursor = await db.execute("""
+        INSERT INTO werewolf_renown (
+            user_id, title, description, renown_type, status, submitted_at
+        ) VALUES (?, ?, ?, ?, ?, ?)
+    """, (
+        data.user_id,
+        data.title,
+        data.description,
+        renown_type_val,
+        status_val,
+        data.submitted_at
+    ))
+    await db.commit()
+    data.id = cursor.lastrowid
+    return data
+
+async def get_werewolf_renown_by_user(db: aiosqlite.Connection, user_id: str) -> list[WerewolfRenown]:
+    """Récupère toutes les demandes de renommée d'un utilisateur."""
+    db.row_factory = aiosqlite.Row
+    async with db.execute("SELECT * FROM werewolf_renown WHERE user_id = ?", (user_id,)) as cursor:
+        rows = await cursor.fetchall()
+        
+        results = []
+        for row in rows:
+            submitted_at = row['submitted_at']
+            if isinstance(submitted_at, str):
+                try:
+                    submitted_at = datetime.fromisoformat(submitted_at)
+                except ValueError:
+                    pass
+            
+            validated_at = row['validated_at']
+            if isinstance(validated_at, str):
+                try:
+                    validated_at = datetime.fromisoformat(validated_at)
+                except ValueError:
+                    pass
+
+            results.append(WerewolfRenown(
+                id=row['id'],
+                user_id=row['user_id'],
+                title=row['title'],
+                description=row['description'],
+                renown_type=RenownType(row['renown_type']) if row['renown_type'] in [t.value for t in RenownType] else row['renown_type'],
+                status=RenownStatus(row['status']) if row['status'] in [s.value for s in RenownStatus] else row['status'],
+                submitted_at=submitted_at,
+                validated_at=validated_at,
+                validated_by=row['validated_by']
+            ))
+        return results
+
+async def update_werewolf_renown(db: aiosqlite.Connection, renown_id: int, updates: Dict[str, Any]) -> None:
+    """
+    Met à jour une demande de renommée.
+    Champs autorisés : title, description, renown_type, status, validated_at, validated_by.
+    """
+    ALLOWED_COLUMNS = {'title', 'description', 'renown_type', 'status', 'validated_at', 'validated_by'}
+    
+    valid_updates = {k: v for k, v in updates.items() if k in ALLOWED_COLUMNS}
+    
+    if not valid_updates:
+         logger.warning(f"Update attempt for renown {renown_id} contained no valid fields.")
+         return
+
+    # Enum handling
+    if 'renown_type' in valid_updates and isinstance(valid_updates['renown_type'], Enum):
+        valid_updates['renown_type'] = valid_updates['renown_type'].value
+    if 'status' in valid_updates and isinstance(valid_updates['status'], Enum):
+        valid_updates['status'] = valid_updates['status'].value
+
+    set_clause = ", ".join([f"{k} = ?" for k in valid_updates.keys()])
+    values = list(valid_updates.values())
+    values.append(renown_id)
+    
+    await db.execute(f"UPDATE werewolf_renown SET {set_clause} WHERE id = ?", values)
     await db.commit()

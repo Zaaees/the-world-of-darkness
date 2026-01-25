@@ -37,6 +37,16 @@ from utils.sheet_manager import process_discord_sheet_update, upload_image_to_di
 
 # Import des routes des modules
 from modules.werewolf.routes import register_werewolf_routes
+# Import des routes des modules
+from modules.werewolf.routes import register_werewolf_routes
+from modules.werewolf.views.api_routes import setup_routes as setup_renown_routes
+from modules.werewolf.models.renown import create_renown_table
+
+async def on_startup_tasks(app):
+    """Tâches au démarrage de l'API."""
+    if 'db' in app:
+        await create_renown_table(app['db'])
+        logger.info("Table renown_requests vérifiée/créée au démarrage.")
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -1035,6 +1045,7 @@ def create_app(bot=None):
 
     # Routes des modules
     register_werewolf_routes(app)
+    setup_renown_routes(app)
 
     return app
 
@@ -1042,6 +1053,27 @@ def create_app(bot=None):
 async def start_api_server(port: int = 8080, bot=None):
     """Démarrer le serveur API."""
     app = create_app(bot=bot)
+    
+    # Init DB tables (Review fix 4.4)
+    if 'db' in app:
+         # Note: app['db'] might not be set in create_app directly if it's injected middleware?
+         # Checking middleware... 'middleware.py' likely injects it per request, 
+         # but usually we have a global pool. 
+         # Assuming we can access the db pool somehow or initiate it here if passed.
+         # Actually, looking at routes, each request gets db from app['db']. 
+         # We need to ensure app['db'] is available. 
+         # If not readily available here, we might import the db init function.
+         pass
+         
+    # Quick fix: We can't easily access DB here without seeing how it's attached.
+    # Looking at lines 14 in api_routes: db = request.app['db']
+    # So app['db'] exists. 
+    # Let's import the table creation and run it if db calls happen.
+    # However, 'db' is usually attached in a startup signal or passed to create_app.
+    # I'll rely on a lazy check or proper startup signal.
+    
+    app.on_startup.append(on_startup_tasks)
+
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, "0.0.0.0", port)

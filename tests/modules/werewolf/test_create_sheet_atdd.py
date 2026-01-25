@@ -49,7 +49,8 @@ class TestStory2_4_CharacterCreation:
         
         # Verifications
         assert result is not None
-        assert result.user_id == character_data["user_id"]
+        # user_id is stored as string in DB
+        assert result.user_id == str(character_data["user_id"])
         assert result.name == character_data["name"]
         # Immutability Check implicit in Story 2.1, but here we check persistence
         assert hasattr(result, "created_at")
@@ -63,12 +64,16 @@ class TestStory2_4_CharacterCreation:
         AND the response should contain the redirect URL
         """
         from aiohttp import web
-        from unittest.mock import MagicMock, patch
+        from unittest.mock import MagicMock, patch, AsyncMock
         from modules.werewolf.routes import create_character_handler
         
         # Mock request
         mock_request = MagicMock(spec=web.Request)
-        mock_request.headers = {"X-Discord-User-ID": "123456789"}
+        # Both headers are needed for authentication
+        mock_request.headers = {
+            "X-Discord-User-ID": "123456789",
+            "X-Discord-Guild-ID": "987654321"
+        }
         
         # Async mock for json()
         async def mock_json():
@@ -81,7 +86,8 @@ class TestStory2_4_CharacterCreation:
         mock_request.json = mock_json
         
         # Mock the service to avoid DB dependency in this API test
-        with patch('modules.werewolf.routes.create_character') as mock_service:
+        with patch('modules.werewolf.routes.create_character') as mock_service, \
+             patch('modules.werewolf.middleware.has_werewolf_role', new_callable=AsyncMock, return_value=True):
             # Mock return value of service
             mock_char = MagicMock()
             mock_char.name = "Fenris"

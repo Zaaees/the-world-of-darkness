@@ -1,44 +1,93 @@
-# ATDD Checklist: Story 2.1 - Modèle de Données Werewolf
+# ATDD Checklist - Story 2.1: Modèle de Données Werewolf
 
-**Story**: [2-1-modele-de-donnees-werewolf.md](file:///c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/implementation-artifacts/2-1-modele-de-donnees-werewolf.md)
-**Status**: DONE (Verification complete)
+## Overview
+
+**Story ID**: 2.1
+**Primary Test Level**: Integration (Backend/DB)
+**Status**: 🔴 RED (Tests Created, Pending Implementation)
+
+This document outlines the acceptance tests created before implementation. These tests define the expected behavior of the Werewolf data model and MUST pass for the story to be considered complete.
+
+---
 
 ## Acceptance Criteria Breakdown
 
-| ID | Criterion | Level | Test File |
-|---|---|---|---|
-| AC1 | Table `werewolf_data` avec colonnes spécifiées (`user_id`, `breed`, etc.) | Integration | `test_store.py` |
-| AC2 | `user_id` comme PK / Index unique | Integration | `test_store.py` |
-| AC3 | Enums pour `breed`, `auspice`, `tribe` | Unit | `test_store.py` |
-| AC4 | Immuabilité des champs `breed`, `auspice`, `tribe` dans le service | Logic / Unit | `test_store.py` |
-| AC5 | Persistence des modifications sur les autres champs | Integration | `test_store.py` |
+| AC ID | Requirement | Test File | Test Name |
+| ----- | ----------- | --------- | --------- |
+| 1 | Table columns & storage | `modules/werewolf/tests/test_store.py` | `test_store_create_character_success` |
+| 1 | Discord ID precision | `modules/werewolf/tests/test_store.py` | `test_store_discord_id_precision` |
+| 2 | Field Immutability | `modules/werewolf/tests/test_store.py` | `test_store_immutability_enforcement` |
+| 2 | Unique User ID | `modules/werewolf/tests/test_store.py` | `test_store_unique_constraint` |
 
-## Supporting Infrastructure
+---
 
-### Data Factories
-- **WerewolfDataFactory**: Génère des objets `WerewolfData` valides pour les tests SQLite.
+## Created Assets
 
-### Mock Requirements
-- Utilisation de `aiosqlite` en mode `:memory:` pour les tests d'intégration sans persistance sur disque.
+### Test Files
 
-## Implementation Checklist
+- **[NEW]** `modules/werewolf/tests/test_store.py` (4 tests)
+  - `test_create_table_sql_validity`: Smoke test for SQL syntax.
+  - `test_store_create_character_success`: Verifies full CRUD (Create/Read).
+  - `test_store_discord_id_precision`: **P0** Validates 19-digit ID storage.
+  - `test_store_immutability_enforcement`: **P1** Validates business logic for updates.
+  - `test_store_unique_constraint`: **P1** Validates DB constraints.
 
-- [x] Définir le Schéma SQL (DDL)
-- [x] Implémenter le DTO `WerewolfData` (Dataclass)
-- [x] Implémenter les fonctions CRUD dans `store.py`
-- [x] Ajouter le garde-fou pour l'immuabilité (Logic)
-- [x] Vérifier la protection contre les injections SQL
-- [x] Validation des Enums au niveau du DTO/Service
+### Infrastructure
+
+- **[NEW]** `modules/werewolf/tests/fixtures/factories.py`
+  - `create_werewolf_data(overrides)`: Faker-based factory for valid character data.
+  - Generates valid Breeds, Auspices, Tribes randomly.
+  - Handles Discord ID generation (18-19 digits).
+
+- **[NEW]** `modules/werewolf/tests/conftest.py`
+  - `db_connection`: Async fixture for `aiosqlite` in-memory database.
+  - `cleanup_tables`: Auto-cleanup fixture (DROP TABLE) for isolation.
+
+---
+
+## Implementation Checklist (Dev Team)
+
+Complete these tasks to reach GREEN phase:
+
+- [ ] **Infrastructure**
+    - [ ] Create `modules/werewolf/models/` directory.
+    - [ ] verified `aiosqlite` is installed/available.
+
+- [ ] **Model Implementation** (`modules/werewolf/models/store.py`)
+    - [ ] Define `WerewolfData` DTO (dataclass/pydantic).
+    - [ ] Implement `create_werewolf_table(db)` DDL.
+        - [ ] Ensure `user_id` is PRIMARY KEY.
+        - [ ] Ensure `discord_thread_id` is TEXT or BIGINT (for ID precision).
+    - [ ] Implement `create_werewolf_data(db, dto)`.
+    - [ ] Implement `get_werewolf_data(db, user_id)`.
+    - [ ] Implement `update_werewolf_data(db, user_id, updates)`.
+        - [ ] Filter out `breed`, `auspice`, `tribe` from updates (Immutability).
+
+- [ ] **Verification**
+    - [ ] Run tests: `pytest modules/werewolf/tests/test_store.py`
+    - [ ] Fix any failures until all 4 tests pass.
+
+---
 
 ## Execution Commands
 
 ```bash
-# Lancer les tests du store
-pytest tests/modules/werewolf/test_store.py
+# Run all specific tests for this story
+python -m pytest modules/werewolf/tests/test_store.py
+
+# Run only P0 critical tests
+python -m pytest modules/werewolf/tests/test_store.py -k "precision"
 ```
 
-## Red-Green-Refactor Progress
+## Mock & Data Requirements
 
-- **RED**: Tests de base échouent sans table.
-- **GREEN**: CRUD opérationnel.
-- **REFACTOR**: Correction de la faille SQL et ajout de la validation par Enums suite à la Code Review.
+- **Discord IDs**: Must be handled as `str` in Python and `TEXT` or `INTEGER` (BigInt) in SQLite to preserve 64-bit precision.
+- **Immutability**: The backend store MUST silently ignore or reject attempts to change Breed/Auspice/Tribe.
+
+---
+
+## Red-Green-Refactor Log
+
+- **RED**: Tests created on 2026-01-22. Verified failure (ImportError/ModuleNotFound).
+- **GREEN**: [Pending Dev]
+- **REFACTOR**: [Pending Dev]

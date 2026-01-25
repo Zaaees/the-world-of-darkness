@@ -7,6 +7,7 @@ import WerewolfLoading from './components/WerewolfLoading';
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const CreateCharacter = lazy(() => import('./pages/CreateCharacter'));
 const CharacterSheet = lazy(() => import('./pages/CharacterSheet'));
+const RenownAdminPage = lazy(() => import('./pages/RenownAdminPage'));
 
 /**
  * Routes internes du module Werewolf.
@@ -43,6 +44,16 @@ export default function WerewolfRoutes() {
                     element={
                         <Suspense fallback={<WerewolfLoading />}>
                             <DashboardPage />
+                        </Suspense>
+                    }
+                />
+
+                {/* Admin - Story 4.3 */}
+                <Route
+                    path="admin/renown"
+                    element={
+                        <Suspense fallback={<WerewolfLoading />}>
+                            <RenownAdminPage />
                         </Suspense>
                     }
                 />

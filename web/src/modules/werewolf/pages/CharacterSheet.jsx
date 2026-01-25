@@ -7,6 +7,9 @@ import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
+import RenownSubmissionModal from '../components/RenownSubmissionModal';
+import { useRenown } from '../hooks/useRenown';
+import { toast } from 'sonner';
 
 /**
  * Page CharacterSheet
@@ -20,11 +23,37 @@ const CharacterSheet = () => {
     const [isEditingStory, setIsEditingStory] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [storyDraft, setStoryDraft] = useState('');
+    const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
     const { discordUser } = useUserRoles();
+    const { submitRenown } = useRenown();
 
     useEffect(() => {
         fetchCharacter();
-    }, []);
+
+        // Poll for updates (Review fix 4.4 - AC 7 Real-time approximation)
+        const interval = setInterval(() => {
+            // Background refresh - silent if error
+            fetch(`${API_URL}/api/modules/werewolf/character`, {
+                headers: { 'X-Discord-User-ID': discordUser?.id || 'unknown' }
+            })
+                .then(res => res.ok ? res.json() : null)
+                .then(data => {
+                    if (data && data.character) {
+                        // Only update if rank changed to avoid jitters
+                        setCharacter(prev => {
+                            if (prev && prev.rank !== data.character.rank) {
+                                toast.success(`Votre rang a changé ! (Rang ${data.character.rank})`);
+                                return { ...prev, ...data.character };
+                            }
+                            return prev; // No change
+                        });
+                    }
+                })
+                .catch(() => { }); // Ignore poll errors
+        }, 10000); // 10s interval
+
+        return () => clearInterval(interval);
+    }, [discordUser?.id]);
 
     const fetchCharacter = async () => {
         try {
@@ -54,6 +83,17 @@ const CharacterSheet = () => {
         }
     };
 
+    const handleRenownSubmit = async (data) => {
+        try {
+            await submitRenown(data);
+            toast.success("Haut Fait envoyé aux Esprits (MJ)");
+            setIsRenownModalOpen(false);
+        } catch (err) {
+            console.error("Renown submission error:", err);
+            toast.error(err.message || "Erreur lors de la soumission");
+        }
+    };
+
     const handleUpdateStory = async (newStory) => {
         if (!discordUser) return;
 
@@ -75,7 +115,7 @@ const CharacterSheet = () => {
             const data = await response.json();
             setCharacter(prev => ({ ...prev, story: data.character.story }));
             setStoryDraft(data.character.story);
-            return data.character.story;
+            return { story: data.character.story, synced: data.synced };
         } catch (err) {
             console.error('Update story error:', err);
             if (!isEditingStory) console.error("Save error:", err.message);
@@ -126,7 +166,20 @@ const CharacterSheet = () => {
                         </p>
                     </div>
                     <RenownBadge rank={character.rank} />
+                    <button
+                        onClick={() => setIsRenownModalOpen(true)}
+                        className="px-3 py-1 bg-amber-900/40 hover:bg-amber-800/60 border border-amber-800 text-amber-200 text-sm rounded transition-colors flex items-center gap-2"
+                        data-testid="renown-submit-button"
+                    >
+                        <span>+</span> Haut Fait
+                    </button>
                 </div>
+
+                <RenownSubmissionModal
+                    isOpen={isRenownModalOpen}
+                    onClose={() => setIsRenownModalOpen(false)}
+                    onSubmit={handleRenownSubmit}
+                />
 
                 {/* Grille d'informations */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -192,7 +245,7 @@ const CharacterSheet = () => {
                             initialValue={storyDraft}
                             onSave={async (newStory) => {
                                 setStoryDraft(newStory);
-                                await handleUpdateStory(newStory);
+                                return await handleUpdateStory(newStory);
                             }}
                             onCancel={() => {
                                 setIsEditingStory(false);

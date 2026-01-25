@@ -26,9 +26,14 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
             if (content !== lastSavedContent.current && saveStatus !== 'saving') {
                 setSaveStatus('saving');
                 try {
-                    await onSave(content);
+                    const result = await onSave(content);
                     lastSavedContent.current = content;
-                    setSaveStatus('saved');
+
+                    if (result && result.synced) {
+                        setSaveStatus('synced');
+                    } else {
+                        setSaveStatus('saved');
+                    }
                     setTimeout(() => setSaveStatus('idle'), 3000);
                 } catch (error) {
                     console.error('Erreur auto-save:', error);
@@ -103,6 +108,12 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                             <>
                                 <Check size={12} className="text-emerald-500 mr-1" />
                                 <span className="text-emerald-500/80">Sauvegardé</span>
+                            </>
+                        )}
+                        {saveStatus === 'synced' && (
+                            <>
+                                <Check size={12} className="text-indigo-400 mr-1" />
+                                <span className="text-indigo-400/80">Synchronisé avec Discord</span>
                             </>
                         )}
                         {saveStatus === 'error' && (

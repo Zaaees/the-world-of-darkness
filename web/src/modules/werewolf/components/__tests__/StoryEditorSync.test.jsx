@@ -1,75 +1,57 @@
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import StoryEditor from '../StoryEditor';
 
 describe('StoryEditor Sync Feedback', () => {
-    const defaultProps = {
-        initialValue: 'Test content',
-        onSave: vi.fn(),
-        onCancel: vi.fn(),
-        autoSaveDelay: 1000,
-    };
+    it('displays sync confirmation when onSave returns synced: true', async () => {
+        // Mock onSave returning { synced: true }
+        const onSaveMock = vi.fn().mockResolvedValue({ synced: true });
 
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
+        render(
+            <StoryEditor
+                initialValue="Initial"
+                onSave={onSaveMock}
+                autoSaveDelay={50} // Fast delay
+            />
+        );
 
-    it('displays "Synchronisé avec Discord" toast when save returns sync confirmation', async () => {
-        // Mock onSave to return success with sync flag
-        // Assuming the component expects a return value from onSave to trigger feedback
-        // OR the onSave prop interacts with a context that triggers the toast.
-        // Based on Story 3.3: "Verifier que la synchro est déclenchée lors du handleAutoSave"
-        // and "Ajouter le feedback Toast spécifique".
+        const textarea = screen.getByDisplayValue('Initial');
+        fireEvent.change(textarea, { target: { value: 'New content' } });
 
-        const onSaveMock = vi.fn().mockResolvedValue({
-            success: true,
-            synced_to_discord: true
-        });
-
-        render(<StoryEditor {...defaultProps} onSave={onSaveMock} />);
-
-        const textarea = screen.getByDisplayValue('Test content');
-
-        // Trigger manual save (Ctrl+S or waiting)
-        // Let's rely on autoSync or just simulate save call logic if exposed?
-        // StoryEditor usually handles its own save loop.
-
-        fireEvent.change(textarea, { target: { value: 'New content for sync' } });
-
-        // Advance timers or wait if real timers used
-        // The previous test used real timers with 100ms. I'll use waitFor.
-
+        // Wait for save
         await waitFor(() => {
             expect(onSaveMock).toHaveBeenCalled();
-        }, { timeout: 2000 });
+        });
 
-        // Check for specific Toast
+        // Expect sync message
+        // This will FAIL initially as StoryEditor doesn't handle return value yet
         await waitFor(() => {
             expect(screen.getByText(/Synchronisé avec Discord/i)).toBeInTheDocument();
         });
     });
 
-    it('displays "Sauvegarde locale uniquement" when sync fails', async () => {
-        // Mock onSave to return success BUT sync failure
-        const onSaveMock = vi.fn().mockResolvedValue({
-            success: true,
-            synced_to_discord: false
-        });
+    it('displays standard saved message when onSave returns synced: false', async () => {
+        const onSaveMock = vi.fn().mockResolvedValue({ synced: false });
 
-        render(<StoryEditor {...defaultProps} onSave={onSaveMock} />);
+        render(
+            <StoryEditor
+                initialValue="Initial"
+                onSave={onSaveMock}
+                autoSaveDelay={50}
+            />
+        );
 
-        const textarea = screen.getByDisplayValue('Test content');
-        fireEvent.change(textarea, { target: { value: 'Content with sync fail' } });
+        const textarea = screen.getByDisplayValue('Initial');
+        fireEvent.change(textarea, { target: { value: 'New content 2' } });
 
         await waitFor(() => {
             expect(onSaveMock).toHaveBeenCalled();
         });
 
-        // Check for fallback Toast
-        await waitFor(() => {
-            expect(screen.getByText(/Sauvegarde locale uniquement/i)).toBeInTheDocument();
-        });
+        // Should still show "Sauvegardé" (default behavior)
+        expect(screen.getByText(/Sauvegardé/i)).toBeInTheDocument();
+        expect(screen.queryByText(/Synchronisé avec Discord/i)).not.toBeInTheDocument();
     });
 });

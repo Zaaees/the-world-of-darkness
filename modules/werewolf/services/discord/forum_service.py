@@ -8,6 +8,31 @@ logger = logging.getLogger(__name__)
 # Forum ID defined in story
 FORUM_CHANNEL_ID = 1462941781761986732
 
+def create_character_embed(character_data: WerewolfData) -> discord.Embed:
+    """
+    Génère l'embed standard pour une fiche de personnage.
+    """
+    embed = discord.Embed(
+        title=character_data.name,
+        description=character_data.story or "Pas d'histoire pour le moment.",
+        color=0x7289da # Discord Blurple or any theme color
+    )
+    
+    # Add fields
+    # Handle Enums or Strings safely
+    breed = character_data.breed.value if hasattr(character_data.breed, 'value') else str(character_data.breed)
+    auspice = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
+    tribe = character_data.tribe.value if hasattr(character_data.tribe, 'value') else str(character_data.tribe)
+    
+    embed.add_field(name="Race", value=breed, inline=True)
+    embed.add_field(name="Auspice", value=auspice, inline=True)
+    embed.add_field(name="Tribu", value=tribe, inline=True)
+    
+    if character_data.rank:
+        embed.add_field(name="Rang", value=str(character_data.rank), inline=True)
+        
+    return embed
+
 async def create_character_thread(bot: discord.Client, character_data: WerewolfData) -> str:
     """
     Crée un thread pour le personnage dans le Forum dédié.
@@ -30,24 +55,7 @@ async def create_character_thread(bot: discord.Client, character_data: WerewolfD
         raise ValueError(f"Forum channel {FORUM_CHANNEL_ID} not found")
         
     # Create Embed
-    embed = discord.Embed(
-        title=character_data.name,
-        description=character_data.story or "Pas d'histoire pour le moment.",
-        color=0x7289da # Discord Blurple or any theme color
-    )
-    
-    # Add fields
-    # Handle Enums or Strings safely
-    breed = character_data.breed.value if hasattr(character_data.breed, 'value') else str(character_data.breed)
-    auspice = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
-    tribe = character_data.tribe.value if hasattr(character_data.tribe, 'value') else str(character_data.tribe)
-    
-    embed.add_field(name="Race", value=breed, inline=True)
-    embed.add_field(name="Auspice", value=auspice, inline=True)
-    embed.add_field(name="Tribu", value=tribe, inline=True)
-    
-    if character_data.rank:
-        embed.add_field(name="Rang", value=str(character_data.rank), inline=True)
+    embed = create_character_embed(character_data)
         
     # Create Thread
     # Note: create_thread signature varies between ForumChannel and TextChannel.

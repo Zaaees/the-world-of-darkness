@@ -10,6 +10,9 @@ from .middleware import require_werewolf_role
 import aiosqlite
 from utils.database import DATABASE_PATH
 from .services.character_service import create_character, get_character, update_character
+from .services.sheet import sync_sheet_to_discord
+from .services.audit import log_character_update, calculate_diff
+import asyncio
 
 logger = logging.getLogger(__name__)
 
@@ -137,18 +140,52 @@ async def update_character_handler(request: web.Request) -> web.Response:
     
     try:
         async with aiosqlite.connect(DATABASE_PATH) as db:
+            # Récupérer l'état AVANT modification pour le diff
+            old_character = await get_character(db, user_id)
+            
             character = await update_character(db, user_id, updates)
             
             if not character:
                 return web.json_response({"error": "Character not found"}, status=404)
-            
+
+            # Audit Logging (Async)
+            if old_character:
+                changes = calculate_diff(old_character, character)
+                if changes:
+                    bot = request.app.get("bot")
+                    if bot:
+                        # Fetch user info for logging (we use a fake user object wrapper or real fetch if needed, 
+                        # but audit log expects user object with .display_name and .id)
+                        # The route only has user_id. We try to fetch user from bot cache.
+                        try:
+                            # Discord IDs are int
+                            d_user = bot.get_user(int(user_id))
+                            if not d_user:
+                                # Fallback object if user not in cache/found
+                                class MockUser:
+                                    def __init__(self, uid):
+                                        self.id = uid
+                                        self.display_name = f"User {uid}"
+                                d_user = MockUser(user_id)
+                            
+                            asyncio.create_task(log_character_update(bot, d_user, character, changes))
+                        except Exception as e:
+                            logger.error(f"Failed to schedule audit log: {e}")
+
+            # Trigger Discord Sync
+            synced = False
+            bot = request.app.get("bot")
+            if bot:
+                synced = await sync_sheet_to_discord(bot, character)
+
             return web.json_response({
                 "success": True,
                 "character": {
                     "name": character.name,
                     "story": character.story,
                     "rank": character.rank
-                }
+                },
+                "synced": synced
             })
             
     except Exception as e:

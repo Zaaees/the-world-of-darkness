@@ -62,8 +62,12 @@ class TestStory2_5_DiscordPublication:
         call_args = mock_channel.create_thread.call_args
         assert call_args is not None
         assert call_args.kwargs.get('name') == "Luna's Claw"
-        # Content verification (Embed or content)
-        assert "Silver Fangs" in str(call_args.kwargs.get('content')) or "Silver Fangs" in str(call_args.kwargs.get('embed'))
+        # Content verification - check embed fields
+        embed = call_args.kwargs.get('embed')
+        assert embed is not None
+        # Check that the tribe (Silver Fangs) appears in one of the embed fields
+        field_values = [field.value for field in embed.fields]
+        assert "Silver Fangs" in field_values, f"Expected 'Silver Fangs' in embed fields, got {field_values}"
         
         assert thread_id == "999999999"
 

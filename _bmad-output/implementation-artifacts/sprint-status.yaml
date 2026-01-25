@@ -37,7 +37,7 @@ generated: 2026-01-21
 project: the-world-of-darkness
 project_key: TWD
 tracking_system: file-system
-story_location: c:/Users/freed/Desktop/the-world-of-darkness/_bmad-output/implementation-artifacts
+story_location: "{project-root}/_bmad-output/implementation-artifacts"
 
 development_status:
   epic-1: done
@@ -56,18 +56,18 @@ development_status:
   2-5-publication-automatique-sur-le-forum-discord: done
   epic-2-retrospective: optional
 
-  epic-3: in-progress
+  epic-3: done
   3-1-page-de-consultation-de-la-fiche: done
   3-2-composant-storyeditor-edition-narrative: done
-  3-3-synchronisation-discord-live-sync: ready-for-dev
-  3-4-audit-log-des-modifications: backlog
+  3-3-synchronisation-discord-live-sync: done
+  3-4-audit-log-des-modifications: done
   epic-3-retrospective: optional
 
-  epic-4: backlog
-  4-1-modele-de-donnees-renommee: backlog
-  4-2-formulaire-de-soumission-de-haut-fait: backlog
-  4-3-dashboard-mj-liste-des-demandes-de-renommee: backlog
-  4-4-validation-et-mise-a-jour-du-rang: backlog
+  epic-4: in-progress
+  4-1-modele-de-donnees-renommee: done
+  4-2-formulaire-de-soumission-de-haut-fait: done
+  4-3-dashboard-mj-liste-des-demandes-de-renommee: done
+  4-4-validation-et-mise-a-jour-du-rang: done
   epic-4-retrospective: optional
 
   epic-5: backlog
