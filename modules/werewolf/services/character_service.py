@@ -39,12 +39,30 @@ async def create_character(db: aiosqlite.Connection, character_data: Dict[str, A
          raise ValueError(f"Invalid character data: {e}")
 
     
-    # Persist
+    # Persist to SQLite
     try:
         await create_werewolf_data(db, new_character)
     except Exception as e:
         logger.error(f"Failed to persist character for user {user_id}: {e}")
         raise
+
+    # Sync to Google Sheets (pour le reset instantané comme vampire)
+    try:
+        from utils.database import set_player
+        # guild_id est passé dans character_data ou 0 par défaut
+        guild_id = character_data.get('guild_id', 0)
+        await set_player(
+            int(user_id), 
+            guild_id, 
+            race="werewolf",
+            auspice=character_data['auspice'],
+            name=character_data['name']
+        )
+        logger.info(f"Werewolf character synced to Google Sheets for user {user_id}")
+    except Exception as e:
+        # Log but don't fail - SQLite is the primary store
+        logger.warning(f"Failed to sync werewolf to Google Sheets for user {user_id}: {e}")
+
 
     # Discord Forum Publication
     if bot:

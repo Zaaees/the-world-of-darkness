@@ -38,19 +38,24 @@ async def create_character_handler(request: web.Request) -> web.Response:
     POST /api/modules/werewolf/character - Créer une fiche de personnage.
     """
     user_id_raw = request.headers.get("X-Discord-User-ID")
+    guild_id_raw = request.headers.get("X-Discord-Guild-ID")
+    
     if not user_id_raw:
         return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
     
     # Store as string to match DB model (TEXT)
     user_id = str(user_id_raw)
+    guild_id = int(guild_id_raw) if guild_id_raw else 0
     
     try:
         data = await request.json()
     except Exception:
         return web.json_response({"error": "Invalid JSON"}, status=400)
     
-    # Inject user_id
+    # Inject user_id and guild_id
     data['user_id'] = user_id
+    data['guild_id'] = guild_id
+
     
     try:
         async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -396,14 +401,35 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
     """
     GET /api/modules/werewolf/profile - Récupérer le profil de base du loup-garou.
     Utilisé par le frontend pour vérifier l'accès et afficher les infos de base.
+    
+    Utilise Google Sheets comme source de vérité (comme vampire) pour permettre
+    le reset instantané via la commande !reset.
     """
     user_id_raw = request.headers.get("X-Discord-User-ID")
+    guild_id_raw = request.headers.get("X-Discord-Guild-ID")
+    
     if not user_id_raw:
         return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
     
     user_id = str(user_id_raw)
+    guild_id = int(guild_id_raw) if guild_id_raw else 0
     
     try:
+        # Vérifier d'abord Google Sheets (source de vérité pour le reset)
+        from utils.database import get_player
+        player = await get_player(int(user_id), guild_id)
+        
+        # Si pas de données dans Google Sheets ou race pas werewolf -> pas de profil
+        if not player or player.get("race") != "werewolf":
+            return web.json_response({
+                "success": True,
+                "has_werewolf_role": True,
+                "tribe": None,
+                "display_name": None,
+                "rank": 1
+            })
+        
+        # Si Google Sheets OK, récupérer les détails depuis SQLite
         async with aiosqlite.connect(DATABASE_PATH) as db:
             character = await get_character(db, user_id)
             
@@ -417,6 +443,8 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
     except Exception as e:
         logger.exception(f"Error fetching werewolf profile for {user_id}")
         return web.json_response({"error": "Failed to fetch profile"}, status=500)
+
+
 
 
 def register_werewolf_routes(app: web.Application) -> None:
