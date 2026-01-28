@@ -5,7 +5,7 @@ import { API_URL } from '../../../../config'; // Correct path to web/src/config.
 
 // Composant Page
 export default function AdminGiftsPage() {
-    const { isAuthenticated } = useUserRoles(); // We rely on API 403 for role check
+    const { isAuthenticated, discordUser, guildId } = useUserRoles();
     const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [players, setPlayers] = useState([]);
     const [gifts, setGifts] = useState([]);
@@ -18,10 +18,13 @@ export default function AdminGiftsPage() {
     // Initial Load: Players
     useEffect(() => {
         const fetchPlayers = async () => {
-            if (!isAuthenticated) return;
+            if (!isAuthenticated || !discordUser?.id || !guildId) return;
             try {
                 const response = await fetch(`${API_URL}/api/modules/werewolf/admin/players`, {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('discord_token')}` }
+                    headers: {
+                        'X-Discord-User-ID': discordUser.id,
+                        'X-Discord-Guild-ID': guildId
+                    }
                 });
 
                 if (response.status === 403) {
@@ -42,11 +45,11 @@ export default function AdminGiftsPage() {
             }
         };
         fetchPlayers();
-    }, [isAuthenticated]);
+    }, [isAuthenticated, discordUser, guildId]);
 
     // Fetch Gifts when Player selected
     useEffect(() => {
-        if (!selectedPlayer) {
+        if (!selectedPlayer || !discordUser?.id || !guildId) {
             setGifts([]);
             return;
         }
@@ -55,7 +58,10 @@ export default function AdminGiftsPage() {
             setLoadingGifts(true);
             try {
                 const response = await fetch(`${API_URL}/api/modules/werewolf/admin/players/${selectedPlayer}/gifts`, {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('discord_token')}` }
+                    headers: {
+                        'X-Discord-User-ID': discordUser.id,
+                        'X-Discord-Guild-ID': guildId
+                    }
                 });
 
                 if (response.ok) {
@@ -70,7 +76,7 @@ export default function AdminGiftsPage() {
         };
 
         fetchGifts();
-    }, [selectedPlayer]);
+    }, [selectedPlayer, discordUser, guildId]);
 
     const handleToggleGift = async (giftId, currentState) => {
         // Optimistic update
@@ -83,7 +89,8 @@ export default function AdminGiftsPage() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('discord_token')}`
+                    'X-Discord-User-ID': discordUser.id,
+                    'X-Discord-Guild-ID': guildId
                 },
                 body: JSON.stringify({
                     playerId: selectedPlayer,

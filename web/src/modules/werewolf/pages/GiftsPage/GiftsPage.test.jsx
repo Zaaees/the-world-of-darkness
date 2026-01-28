@@ -13,6 +13,7 @@ import { createGift } from '../../../../test/factories/gift-factory';
 vi.mock('../../../../core/hooks/useUserRoles', () => ({
     default: () => ({
         discordUser: { id: '123' },
+        guildId: '999',
         hasWerewolfRole: true
     })
 }));

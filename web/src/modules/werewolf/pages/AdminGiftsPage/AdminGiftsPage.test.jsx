@@ -16,6 +16,7 @@ describe('AdminGiftsPage', () => {
         useUserRoles.mockReturnValue({
             isAuthenticated: true,
             discordUser: { id: '123' },
+            guildId: '999',
             isLoading: false
         });
     });

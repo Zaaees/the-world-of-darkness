@@ -11,7 +11,7 @@ import './GiftsPage.css';
  * et de voir les dons débloqués par le joueur.
  */
 export const GiftsPage = ({ gifts: propGifts, unlockedIds: propUnlockedIds }) => {
-    const { discordUser } = useUserRoles();
+    const { discordUser, guildId } = useUserRoles();
     const [gifts, setGifts] = useState(propGifts || []);
     const [unlockedIds, setUnlockedIds] = useState(propUnlockedIds || []);
     const [playerTribe, setPlayerTribe] = useState(null);
@@ -28,13 +28,14 @@ export const GiftsPage = ({ gifts: propGifts, unlockedIds: propUnlockedIds }) =>
         if (propGifts) return;
 
         const fetchGifts = async () => {
-            if (!discordUser?.id) return;
+            if (!discordUser?.id || !guildId) return;
 
             try {
                 setIsLoading(true);
                 const response = await fetch(`${API_URL}/api/modules/werewolf/gifts`, {
                     headers: {
-                        'X-Discord-User-ID': discordUser.id
+                        'X-Discord-User-ID': discordUser.id,
+                        'X-Discord-Guild-ID': guildId
                     }
                 });
 
@@ -60,7 +61,7 @@ export const GiftsPage = ({ gifts: propGifts, unlockedIds: propUnlockedIds }) =>
         };
 
         fetchGifts();
-    }, [discordUser, propGifts]);
+    }, [discordUser, guildId, propGifts]);
 
     // Filtrage et Tri
     const processedGifts = useMemo(() => {
