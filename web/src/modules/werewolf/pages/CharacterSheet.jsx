@@ -21,6 +21,8 @@ const toast = {
  * Inclut le nom, race, auspice, tribu, rang et histoire.
  */
 const CharacterSheet = () => {
+    // Force rebuild timestamp: 2026-01-28 17:55
+
     const [character, setCharacter] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
