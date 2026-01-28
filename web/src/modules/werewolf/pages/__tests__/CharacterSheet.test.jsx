@@ -3,6 +3,17 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import CharacterSheet from '../CharacterSheet';
 
+// Mock useUserRoles
+vi.mock('../../../../core/hooks/useUserRoles', () => ({
+    useUserRoles: () => ({
+        discordUser: { id: '123' },
+        guildId: '456',
+        isLoading: false,
+        isAuthenticated: true
+    }),
+    WEREWOLF_ROLE_ID: '1453870972376584192'
+}));
+
 // Mocking the fetch API
 global.fetch = vi.fn();
 

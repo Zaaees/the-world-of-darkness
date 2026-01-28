@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import WerewolfLayout from '../components/WerewolfLayout';
 import RenownBadge from '../components/RenownBadge';
 import WerewolfLoading from '../components/WerewolfLoading';
@@ -164,9 +165,9 @@ const CharacterSheet = () => {
                 <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
                     <h2 className="text-2xl text-amber-200 mb-4">Aucune fiche trouvée</h2>
                     <p className="text-stone-400 mb-8">Vous n'avez pas encore créé de personnage Loup-Garou.</p>
-                    <a href="/werewolf/create" className="px-6 py-2 bg-emerald-900 border border-emerald-600 text-emerald-100 rounded hover:bg-emerald-800 transition-colors">
+                    <Link to="/werewolf/create" className="px-6 py-2 bg-emerald-900 border border-emerald-600 text-emerald-100 rounded hover:bg-emerald-800 transition-colors">
                         Créer un personnage
-                    </a>
+                    </Link>
                 </div>
             </WerewolfLayout>
         );
@@ -287,9 +288,9 @@ const CharacterSheet = () => {
 
                 {/* Footer Section */}
                 <div className="mt-12 pt-8 border-t border-amber-900/10 text-center">
-                    <a href="/werewolf/dashboard" className="text-stone-500 hover:text-amber-200 transition-colors tracking-widest uppercase text-xs">
+                    <Link to="/werewolf/dashboard" className="text-stone-500 hover:text-amber-200 transition-colors tracking-widest uppercase text-xs">
                         ← Retour au Dashboard
-                    </a>
+                    </Link>
                 </div>
             </div>
         </WerewolfLayout>
