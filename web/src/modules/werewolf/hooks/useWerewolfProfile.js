@@ -23,8 +23,8 @@ export function useWerewolfProfile() {
                 setLoading(true);
                 const response = await fetch(`${API_URL}/api/modules/werewolf/profile`, {
                     headers: {
-                        'X-Discord-User-ID': discordUser.id,
-                        'X-Discord-Guild-ID': guildId.toString()
+                        'X-Discord-User-ID': discordUser?.id || 'unknown',
+                        'X-Discord-Guild-ID': guildId || ''
                     }
                 });
 
@@ -60,7 +60,7 @@ export function useWerewolfProfile() {
         };
 
         fetchProfile();
-    }, [discordUser, guildId]);
+    }, [discordUser?.id, guildId]);
 
     return { profile, loading, error, hasProfile };
 }
