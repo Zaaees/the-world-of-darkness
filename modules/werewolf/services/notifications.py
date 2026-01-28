@@ -65,22 +65,17 @@ class NotificationService:
     async def send_renown_submission_notification(bot, user_id: str, request_title: str, renown_type: str, request_id: int):
         """
         Notifie les MJs de la soumission d'un haut fait.
-        
-        Args:
-            bot: Client bot Discord
-            user_id: ID Discord du demandeur
-            request_title: Titre du haut fait
-            renown_type: Type de renommée (Gloire, Honneur, Sagesse)
-            request_id: ID de la demande en DB
         """
+        DEST_CHANNEL_ID = 1457856977660022844
+        
         try:
-            channel = bot.get_channel(SHEET_LOG_CHANNEL_ID)
+            channel = bot.get_channel(DEST_CHANNEL_ID)
             if not channel:
-                # Fallback: fetch
+                logger.warning(f"Channel {DEST_CHANNEL_ID} not in cache, fetching...")
                 try:
-                    channel = await bot.fetch_channel(SHEET_LOG_CHANNEL_ID)
-                except Exception:
-                    logger.error(f"Log channel {SHEET_LOG_CHANNEL_ID} not found for renown notification")
+                    channel = await bot.fetch_channel(DEST_CHANNEL_ID)
+                except Exception as e:
+                    logger.error(f"CRITICAL: Log channel {DEST_CHANNEL_ID} not found/accessible: {e}")
                     return
 
             # Récupérer le nom du joueur
@@ -102,7 +97,7 @@ class NotificationService:
             embed.timestamp = discord.utils.utcnow()
 
             await channel.send(content=f"<@&{ROLE_MJ_WEREWOLF}>", embed=embed)
-            logger.info(f"Renown submission notification sent for request {request_id}")
+            logger.info(f"Renown submission notification sent to channel {DEST_CHANNEL_ID} for request {request_id}")
 
         except Exception as e:
             logger.exception(f"Error sending renown submission notification: {e}")
