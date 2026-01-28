@@ -30,10 +30,12 @@ const CharacterSheet = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [storyDraft, setStoryDraft] = useState('');
     const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
-    const { discordUser, guildId } = useUserRoles();
+    const { discordUser, guildId, isLoading: isAuthLoading } = useUserRoles();
     const { submitRenown } = useRenown();
 
     useEffect(() => {
+        if (isAuthLoading || !discordUser || !guildId) return;
+
         fetchCharacter();
 
         // Poll for updates (Review fix 4.4 - AC 7 Real-time approximation)
@@ -62,9 +64,10 @@ const CharacterSheet = () => {
         }, 10000); // 10s interval
 
         return () => clearInterval(interval);
-    }, [discordUser?.id, guildId]);
+    }, [discordUser?.id, guildId, isAuthLoading]);
 
     const fetchCharacter = async () => {
+        setError(null);
         try {
             const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
                 headers: {
