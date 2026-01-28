@@ -41,14 +41,15 @@ from modules.werewolf.routes import register_werewolf_routes
 from modules.werewolf.routes import register_werewolf_routes
 from modules.werewolf.views.api_routes import setup_routes as setup_renown_routes
 from modules.werewolf.models.renown import create_renown_table
-from modules.werewolf.models.store import create_player_gifts_table
+from modules.werewolf.models.store import create_player_gifts_table, create_werewolf_table
 
 async def on_startup_tasks(app):
     """Tâches au démarrage de l'API."""
     if 'db' in app:
+        await create_werewolf_table(app['db'])
         await create_renown_table(app['db'])
         await create_player_gifts_table(app['db'])
-        logger.info("Tables renown_requests et player_gifts vérifiées/créées au démarrage.")
+        logger.info("Tables werewolf_data, renown_requests et player_gifts vérifiées/créées au démarrage.")
 
 load_dotenv()
 logger = logging.getLogger(__name__)
