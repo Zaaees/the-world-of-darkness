@@ -28,7 +28,7 @@ const CharacterSheet = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [storyDraft, setStoryDraft] = useState('');
     const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
-    const { discordUser } = useUserRoles();
+    const { discordUser, guildId } = useUserRoles();
     const { submitRenown } = useRenown();
 
     useEffect(() => {
@@ -38,7 +38,10 @@ const CharacterSheet = () => {
         const interval = setInterval(() => {
             // Background refresh - silent if error
             fetch(`${API_URL}/api/modules/werewolf/character`, {
-                headers: { 'X-Discord-User-ID': discordUser?.id || 'unknown' }
+                headers: {
+                    'X-Discord-User-ID': discordUser?.id || 'unknown',
+                    'X-Discord-Guild-ID': guildId || ''
+                }
             })
                 .then(res => res.ok ? res.json() : null)
                 .then(data => {
@@ -57,13 +60,14 @@ const CharacterSheet = () => {
         }, 10000); // 10s interval
 
         return () => clearInterval(interval);
-    }, [discordUser?.id]);
+    }, [discordUser?.id, guildId]);
 
     const fetchCharacter = async () => {
         try {
             const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
                 headers: {
-                    'X-Discord-User-ID': discordUser?.id || 'unknown'
+                    'X-Discord-User-ID': discordUser?.id || 'unknown',
+                    'X-Discord-Guild-ID': guildId || ''
                 }
             });
 
@@ -107,7 +111,8 @@ const CharacterSheet = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Discord-User-ID': discordUser.id
+                    'X-Discord-User-ID': discordUser.id,
+                    'X-Discord-Guild-ID': guildId ? guildId.toString() : ''
                 },
                 body: JSON.stringify({ story: newStory })
             });
