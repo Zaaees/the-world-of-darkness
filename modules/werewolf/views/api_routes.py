@@ -39,6 +39,18 @@ async def submit_renown_request(request):
             "message": "Demande soumise aux Esprits"
         }, status=201)
         
+        # Trigger Notification (Async)
+        bot = request.app.get("bot")
+        if bot:
+            import asyncio
+            asyncio.create_task(NotificationService.send_renown_submission_notification(
+                bot, 
+                str(user_id), 
+                title, 
+                renown_request.renown_type.value,
+                renown_request.id
+            ))
+            
     except ValueError as e:
         return web.json_response({"error": str(e)}, status=400)
     except Exception as e:

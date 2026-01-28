@@ -4,6 +4,9 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
+from utils.sheet_manager import SHEET_LOG_CHANNEL_ID
+from data.config import ROLE_MJ_WEREWOLF
+
 class NotificationService:
     @staticmethod
     async def send_renown_approval_notification(discord_client, user_id: str, request_title: str, new_rank: int):
@@ -57,4 +60,50 @@ class NotificationService:
                  
         except Exception as e:
             logger.exception(f"Error in send_renown_approval_notification for {user_id}")
+
+    @staticmethod
+    async def send_renown_submission_notification(bot, user_id: str, request_title: str, renown_type: str, request_id: int):
+        """
+        Notifie les MJs de la soumission d'un haut fait.
+        
+        Args:
+            bot: Client bot Discord
+            user_id: ID Discord du demandeur
+            request_title: Titre du haut fait
+            renown_type: Type de renommée (Gloire, Honneur, Sagesse)
+            request_id: ID de la demande en DB
+        """
+        try:
+            channel = bot.get_channel(SHEET_LOG_CHANNEL_ID)
+            if not channel:
+                # Fallback: fetch
+                try:
+                    channel = await bot.fetch_channel(SHEET_LOG_CHANNEL_ID)
+                except Exception:
+                    logger.error(f"Log channel {SHEET_LOG_CHANNEL_ID} not found for renown notification")
+                    return
+
+            # Récupérer le nom du joueur
+            user_name = f"Utilisateur {user_id}"
+            try:
+                user = await bot.fetch_user(int(user_id))
+                if user:
+                    user_name = user.display_name
+            except Exception:
+                pass
+
+            import discord
+            embed = discord.Embed(
+                title="📜 Nouveau Haut Fait Soumis",
+                description=f"**Joueur :** {user_name} (<@{user_id}>)\n**Titre :** {request_title}\n**Type :** {renown_type.capitalize()}",
+                color=0xFFFF00 # Jaune
+            )
+            embed.set_footer(text=f"ID Demande : {request_id}")
+            embed.timestamp = discord.utils.utcnow()
+
+            await channel.send(content=f"<@&{ROLE_MJ_WEREWOLF}>", embed=embed)
+            logger.info(f"Renown submission notification sent for request {request_id}")
+
+        except Exception as e:
+            logger.exception(f"Error sending renown submission notification: {e}")
 
