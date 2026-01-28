@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import WerewolfLayout from '../components/WerewolfLayout';
+import { useWerewolfProfile } from '../hooks/useWerewolfProfile';
 
 /**
  * Page Dashboard Werewolf
@@ -8,6 +9,8 @@ import WerewolfLayout from '../components/WerewolfLayout';
  * Affiche le thème Deep Woods et un message de bienvenue.
  */
 export default function DashboardPage() {
+    const { hasProfile, loading } = useWerewolfProfile();
+
     return (
         <WerewolfLayout>
             <div className="min-h-screen flex flex-col items-center justify-center p-6">
@@ -37,20 +40,32 @@ export default function DashboardPage() {
 
                     {/* Actions de navigation */}
                     <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        <Link
-                            to="/werewolf/sheet"
-                            className="px-8 py-3 bg-amber-900/30 border border-amber-600/50 text-amber-100 rounded-lg hover:bg-amber-800/40 transition-all font-header tracking-widest uppercase text-sm shadow-lg shadow-black/20"
-                        >
-                            Voir ma Fiche
-                        </Link>
+                        {loading ? (
+                            <div className="px-8 py-3 text-amber-100/50 font-header animate-pulse">
+                                ... Communication avec les Esprits ...
+                            </div>
+                        ) : hasProfile ? (
+                            <Link
+                                to="/werewolf/sheet"
+                                className="px-8 py-3 bg-amber-900/30 border border-amber-600/50 text-amber-100 rounded-lg hover:bg-amber-800/40 transition-all font-header tracking-widest uppercase text-sm shadow-lg shadow-black/20"
+                            >
+                                Voir ma Fiche
+                            </Link>
+                        ) : (
+                            <Link
+                                to="/werewolf/create"
+                                className="px-8 py-3 bg-emerald-900/30 border border-emerald-600/50 text-emerald-100 rounded-lg hover:bg-emerald-800/40 transition-all font-header tracking-widest uppercase text-sm shadow-lg shadow-black/20 animate-pulse"
+                            >
+                                Créer mon Personnage
+                            </Link>
+                        )}
                     </div>
 
                     {/* Message d'état */}
                     <div className="mt-8 text-stone-500 text-sm">
                         <p>Module Werewolf en cours de développement</p>
                         <p className="mt-2 text-xs text-stone-600">
-                            Les fonctionnalités de création de personnage et de gestion
-                            de la fiche arriveront prochainement.
+                            Les fonctionnalités de gestion de la fiche arriveront prochainement.
                         </p>
                     </div>
                 </div>
