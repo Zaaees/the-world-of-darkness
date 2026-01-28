@@ -25,14 +25,19 @@ async def verify_werewolf_auth(request: web.Request) -> Optional[Tuple[int, int]
     user_id = request.headers.get("X-Discord-User-ID")
     guild_id = request.headers.get("X-Discord-Guild-ID")
 
+    logger.info(f"Werewolf Auth Check: UserID={user_id}, GuildID={guild_id}")
+    logger.debug(f"Full Headers: {request.headers}")
+
     if not user_id or not guild_id:
+        logger.error("Werewolf Auth Failed: Missing headers")
         return None
 
     try:
         user_id = int(user_id)
         guild_id = int(guild_id)
         return (user_id, guild_id)
-    except ValueError:
+    except ValueError as e:
+        logger.error(f"Werewolf Auth Failed: ValueError {e}")
         return None
 
 
