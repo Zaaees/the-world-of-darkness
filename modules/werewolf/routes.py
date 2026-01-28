@@ -394,6 +394,34 @@ async def unlock_gift_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": "Failed to update gift"}, status=500)
 
 
+
+@require_werewolf_role
+async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/profile - Récupérer le profil de base du loup-garou.
+    Utilisé par le frontend pour vérifier l'accès et afficher les infos de base.
+    """
+    user_id_raw = request.headers.get("X-Discord-User-ID")
+    if not user_id_raw:
+        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+    
+    user_id = str(user_id_raw)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            character = await get_character(db, user_id)
+            
+            return web.json_response({
+                "success": True,
+                "has_werewolf_role": True,
+                "tribe": character.tribe.value if character and hasattr(character.tribe, 'value') else (character.tribe if character else None),
+                "display_name": character.name if character else None
+            })
+    except Exception as e:
+        logger.exception(f"Error fetching werewolf profile for {user_id}")
+        return web.json_response({"error": "Failed to fetch profile"}, status=500)
+
+
 def register_werewolf_routes(app: web.Application) -> None:
     """
     Enregistre toutes les routes du module Werewolf sur l'application.
@@ -405,6 +433,9 @@ def register_werewolf_routes(app: web.Application) -> None:
     # Route de santé pour vérifier l'accès au module
     app.router.add_get("/api/modules/werewolf/health", werewolf_health_handler)
     
+    # Profil (pour vérification de rôle frontend)
+    app.router.add_get("/api/modules/werewolf/profile", get_werewolf_profile_handler)
+
     # Création de personnage
     app.router.add_post("/api/modules/werewolf/character", create_character_handler)
     
