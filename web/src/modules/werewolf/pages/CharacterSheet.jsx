@@ -41,10 +41,15 @@ const CharacterSheet = () => {
         // Poll for updates (Review fix 4.4 - AC 7 Real-time approximation)
         const interval = setInterval(() => {
             // Background refresh - silent if error
+            const userId = String(discordUser?.id);
+            const gId = String(guildId);
+
+            if (!userId || !gId) return;
+
             fetch(`${API_URL}/api/modules/werewolf/character`, {
                 headers: {
-                    'X-Discord-User-ID': discordUser?.id || 'unknown',
-                    'X-Discord-Guild-ID': guildId || ''
+                    'X-Discord-User-ID': userId,
+                    'X-Discord-Guild-ID': gId
                 }
             })
                 .then(res => res.ok ? res.json() : null)
@@ -68,11 +73,23 @@ const CharacterSheet = () => {
 
     const fetchCharacter = async () => {
         setError(null);
+        const userId = String(discordUser?.id);
+        const gId = String(guildId);
+
+        console.log('[CharacterSheet] Fetching character...', { userId, gId });
+
+        if (!userId || !gId || userId === 'undefined' || gId === 'undefined') {
+            console.error('[CharacterSheet] Missing auth info:', { userId, gId });
+            setError('Auth information missing');
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
                 headers: {
-                    'X-Discord-User-ID': discordUser?.id || 'unknown',
-                    'X-Discord-Guild-ID': guildId || ''
+                    'X-Discord-User-ID': userId,
+                    'X-Discord-Guild-ID': gId
                 }
             });
 
@@ -116,8 +133,8 @@ const CharacterSheet = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Discord-User-ID': discordUser.id,
-                    'X-Discord-Guild-ID': guildId ? guildId.toString() : ''
+                    'X-Discord-User-ID': String(discordUser.id),
+                    'X-Discord-Guild-ID': String(guildId)
                 },
                 body: JSON.stringify({ story: newStory })
             });
