@@ -373,19 +373,14 @@ async def unlock_gift_handler(request: web.Request) -> web.Response:
             
         async with aiosqlite.connect(DATABASE_PATH) as db:
             if should_unlock:
+                from .services.gifts import unlock_gift
                 success = await unlock_gift(db, target_user_id, gift_id, editor_id)
-                # To clear, we would need a remove_gift function, assuming unlock only for now based on service
-                # If service only has unlock, we can't lock yet unless we add it. 
-                # Story says "Cocher/Décocher".
-                # For now let's assume unlock only or implement remove if critical.
-                # Service `unlock_gift` does INSERT. Removing would be DELETE.
                 if not success: 
                      # Already unlocked is fine
                      pass
             else:
-                # Remove
-                await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ? AND gift_id = ?", (target_user_id, gift_id))
-                await db.commit()
+                from .services.gifts import lock_gift
+                await lock_gift(db, target_user_id, gift_id)
                 
             return web.json_response({"success": True, "new_state": "unlocked" if should_unlock else "locked"})
             
@@ -415,7 +410,8 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
                 "success": True,
                 "has_werewolf_role": True,
                 "tribe": character.tribe.value if character and hasattr(character.tribe, 'value') else (character.tribe if character else None),
-                "display_name": character.name if character else None
+                "display_name": character.name if character else None,
+                "rank": character.rank if character else 1
             })
     except Exception as e:
         logger.exception(f"Error fetching werewolf profile for {user_id}")

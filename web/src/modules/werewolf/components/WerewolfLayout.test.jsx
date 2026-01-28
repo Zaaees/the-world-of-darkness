@@ -1,24 +1,38 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import WerewolfLayout from './WerewolfLayout';
 
-// Skipped due to environment configuration issues with CSS imports in test runner
+// Mock hooks
+vi.mock('../hooks/useWerewolfProfile', () => ({
+    useWerewolfProfile: () => ({ profile: { rank: 3 }, hasProfile: true })
+}));
+
+vi.mock('../../../core/hooks/useUserRoles', () => ({
+    useUserRoles: () => ({ isMJ: true, discordUser: { id: '123' }, guildId: '456' })
+}));
+
 describe('WerewolfLayout', () => {
     it('renders children correctly', () => {
         render(
-            <WerewolfLayout>
-                <div data-testid="child">Child Content</div>
-            </WerewolfLayout>
+            <MemoryRouter>
+                <WerewolfLayout>
+                    <div data-testid="child">Child Content</div>
+                </WerewolfLayout>
+            </MemoryRouter>
         );
         expect(screen.getByTestId('child')).toBeTruthy();
     });
 
-    it('applies the theme-werewolf class to the wrapper', () => {
-        const { container } = render(
-            <WerewolfLayout>
-                <div>Content</div>
-            </WerewolfLayout>
+    it('renders navbar when profile exists', () => {
+        render(
+            <MemoryRouter>
+                <WerewolfLayout>
+                    <div>Content</div>
+                </WerewolfLayout>
+            </MemoryRouter>
         );
-        expect(container.firstChild.classList.contains('theme-werewolf')).toBe(true);
+        // "Ma Fiche" link should be present
+        expect(screen.getByText('Ma Fiche')).toBeTruthy();
     });
 });

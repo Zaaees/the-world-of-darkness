@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import WerewolfLayout from '../components/WerewolfLayout';
 import RenownBadge from '../components/RenownBadge';
 import WerewolfLoading from '../components/WerewolfLoading';
@@ -23,6 +23,7 @@ const toast = {
  */
 const CharacterSheet = () => {
     // Force rebuild timestamp: 2026-01-28 17:55
+    const navigate = useNavigate();
 
     const [character, setCharacter] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -159,19 +160,14 @@ const CharacterSheet = () => {
 
     if (loading) return <WerewolfLoading />;
 
-    if (error === 'NOT_FOUND') {
-        return (
-            <WerewolfLayout>
-                <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-                    <h2 className="text-2xl text-amber-200 mb-4">Aucune fiche trouvée</h2>
-                    <p className="text-stone-400 mb-8">Vous n'avez pas encore créé de personnage Loup-Garou.</p>
-                    <Link to="/werewolf/create" className="px-6 py-2 bg-emerald-900 border border-emerald-600 text-emerald-100 rounded hover:bg-emerald-800 transition-colors">
-                        Créer un personnage
-                    </Link>
-                </div>
-            </WerewolfLayout>
-        );
-    }
+
+    useEffect(() => {
+        if (error === 'NOT_FOUND') {
+            navigate('/werewolf/create');
+        }
+    }, [error, navigate]);
+
+    if (error === 'NOT_FOUND') return <WerewolfLoading />; // Show loading while redirecting
 
     if (error) {
         return (
@@ -184,116 +180,13 @@ const CharacterSheet = () => {
         );
     }
 
-    return (
-        <WerewolfLayout>
-            <div className="max-w-4xl mx-auto p-6 md:p-10 animate-in fade-in duration-700">
-                {/* Header de la fiche */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b border-amber-900/30 pb-6">
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-header text-amber-200 tracking-tight">
-                            {character.name}
-                        </h1>
-                        <p className="text-emerald-400 font-serif italic text-lg mt-1">
-                            {character.tribe}
-                        </p>
-                    </div>
-                    <RenownBadge rank={character.rank} />
-                    <button
-                        onClick={() => setIsRenownModalOpen(true)}
-                        className="px-3 py-1 bg-amber-900/40 hover:bg-amber-800/60 border border-amber-800 text-amber-200 text-sm rounded transition-colors flex items-center gap-2"
-                        data-testid="renown-submit-button"
-                    >
-                        <span>+</span> Haut Fait
-                    </button>
-                </div>
+    // ... rest of component until footer ...
 
-                <RenownSubmissionModal
-                    isOpen={isRenownModalOpen}
-                    onClose={() => setIsRenownModalOpen(false)}
-                    onSubmit={handleRenownSubmit}
-                />
-
-                {/* Grille d'informations */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div className="bg-stone-900/60 p-4 rounded border border-emerald-900/20">
-                        <span className="block text-xs uppercase tracking-widest text-stone-500 mb-1">Race</span>
-                        <span className="text-amber-100 font-medium">{character.breed}</span>
-                    </div>
-                    <div className="bg-stone-900/60 p-4 rounded border border-emerald-900/20">
-                        <span className="block text-xs uppercase tracking-widest text-stone-500 mb-1">Auspice</span>
-                        <span className="text-amber-100 font-medium">{character.auspice}</span>
-                    </div>
-                    <div className="bg-stone-900/60 p-4 rounded border border-emerald-900/20">
-                        <span className="block text-xs uppercase tracking-widest text-stone-500 mb-1">Forum</span>
-                        <span className="text-xs text-stone-400 truncate block">ID: {character.discord_thread_id || 'Non généré'}</span>
-                    </div>
-                </div>
-
-                {/* Section Histoire / Story */}
-                <div className="bg-stone-900/40 p-6 md:p-8 rounded-lg border border-amber-900/10 relative">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-header text-amber-500/80 uppercase tracking-widest">Histoire</h3>
-                        {!isEditingStory ? (
-                            <button
-                                onClick={() => setIsEditingStory(true)}
-                                className="text-stone-500 hover:text-amber-400 text-sm transition-colors"
-                            >
-                                [ Éditer ]
-                            </button>
-                        ) : (
-                            <div className="space-x-4">
-                                <button
-                                    onClick={() => handleUpdateStory(storyDraft).then(() => setIsEditingStory(false))}
-                                    disabled={isSaving}
-                                    className={`${isSaving ? 'text-stone-500' : 'text-emerald-500 hover:text-emerald-400'} text-sm font-bold`}
-                                >
-                                    {isSaving ? 'ENREGISTREMENT...' : 'TERMINER'}
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setIsEditingStory(false);
-                                        setStoryDraft(character.story || '');
-                                    }}
-                                    className="text-stone-500 hover:text-red-400 text-sm"
-                                >
-                                    Fermer
-                                </button>
-                            </div>
-                        )}
-                    </div>
-
-                    {!isEditingStory ? (
-                        <div className="prose prose-invert max-w-none">
-                            <div className="text-stone-300 leading-relaxed font-serif whitespace-pre-wrap">
-                                {character.story ? (
-                                    <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{character.story}</ReactMarkdown>
-                                ) : (
-                                    "Les ombres n'ont pas encore raconté ton histoire..."
-                                )}
-                            </div>
-                        </div>
-                    ) : (
-                        <StoryEditor
-                            initialValue={storyDraft}
-                            onSave={async (newStory) => {
-                                setStoryDraft(newStory);
-                                return await handleUpdateStory(newStory);
-                            }}
-                            onCancel={() => {
-                                setIsEditingStory(false);
-                            }}
-                        />
-                    )}
-                </div>
-
-                {/* Footer Section */}
-                <div className="mt-12 pt-8 border-t border-amber-900/10 text-center">
-                    <Link to="/werewolf/dashboard" className="text-stone-500 hover:text-amber-200 transition-colors tracking-widest uppercase text-xs">
-                        ← Retour au Dashboard
-                    </Link>
-                </div>
-            </div>
-        </WerewolfLayout>
+    // ... inside return ...
+                </div >
+    {/* Footer removed */ }
+            </div >
+        </WerewolfLayout >
     );
 };
 

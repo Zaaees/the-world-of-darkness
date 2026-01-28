@@ -64,3 +64,17 @@ async def unlock_gift(db: aiosqlite.Connection, user_id: str, gift_id: str, unlo
         return False
     except Exception:
         return False
+
+async def lock_gift(db: aiosqlite.Connection, user_id: str, gift_id: str) -> bool:
+    """
+    Verrouille (retire) un don pour un joueur.
+    """
+    try:
+        await db.execute(
+            "DELETE FROM werewolf_player_gifts WHERE user_id = ? AND gift_id = ?",
+            (user_id, gift_id)
+        )
+        await db.commit()
+        return True
+    except Exception:
+        return False

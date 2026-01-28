@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import WerewolfLayout from '../components/WerewolfLayout';
-// Import des assets Story 2.2 - données des races, auspices et tribus
+import WizardLayout from '../components/WizardLayout';
+import WizardStep from '../components/WizardStep';
 import werewolfData from '../assets/werewolf_data.json';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
 
-// Constantes de validation
 const NAME_MIN_LENGTH = 2;
 const NAME_MAX_LENGTH = 50;
 
-/**
- * CreateCharacter - Formulaire de création de personnage Werewolf
- * 
- * Permet à un nouveau joueur Loup-Garou de définir son personnage :
- * - Race (Breed)
- * - Auspice
- * - Tribu
- * - Nom du personnage
- * 
- * Tous les champs sont obligatoires et les choix sont définitifs.
- */
 export default function CreateCharacter() {
     const navigate = useNavigate();
     const { discordUser, guildId } = useUserRoles();
 
+    const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: '',
         breed: '',
@@ -34,25 +23,43 @@ export default function CreateCharacter() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
-    const [successMsg, setSuccessMsg] = useState(null); // Pour le Toast
+    const [successMsg, setSuccessMsg] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value,
-        }));
+    // Helpers to get full object from ID
+    const getBreed = (id) => werewolfData.breeds.find(b => b.id === id);
+    const getAuspice = (id) => werewolfData.auspices.find(a => a.id === id);
+    const getTribe = (id) => werewolfData.tribes.find(t => t.id === id);
+
+    const handleSelect = (key, value) => {
+        setFormData(prev => ({ ...prev, [key]: value }));
+        // Auto-advance logic could be added here if desired, 
+        // but for now we let the user click "Suivant" or keep selection manual
+        // Actually, WizardStep is just big cards. Let's make clicking them select + maybe scroll/focus?
+        // For this UX, selecting highlights it. User needs to click "Suivant".
+    };
+
+    const nextStep = () => {
+        if (step === 1 && !formData.breed) return;
+        if (step === 2 && !formData.auspice) return;
+        if (step === 3 && !formData.tribu) return;
+        setStep(prev => prev + 1);
+        window.scrollTo(0, 0);
+    };
+
+    const prevStep = () => {
+        setStep(prev => prev - 1);
+        window.scrollTo(0, 0);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!formData.name) return;
+
         setError(null);
         setIsSubmitting(true);
 
         try {
-            if (!discordUser || !guildId) {
-                throw new Error("Impossible de vous identifier. Veuillez recharger la page.");
-            }
+            if (!discordUser || !guildId) throw new Error("Impossible de vous identifier.");
 
             const headers = {
                 'Content-Type': 'application/json',
@@ -60,12 +67,6 @@ export default function CreateCharacter() {
                 'X-Discord-Guild-ID': guildId.toString()
             };
 
-            // Mapper 'tribu' vers 'tribe' pour le backend si nécessaire, 
-            // mais routes.py utilise character_data['tribe'], donc 'tribu' doit être 'tribe' si c'est ce qu'attend le backend?
-            // Vérifions character_service.py... il attend character_data['tribe'].
-            // Frontend envoie 'tribu'.
-
-            // On va mapper les clés pour correspondre exactement au backend
             const payload = {
                 name: formData.name,
                 breed: formData.breed,
@@ -81,196 +82,190 @@ export default function CreateCharacter() {
 
             const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || "Une erreur est survenue lors de la création.");
-            }
+            if (!response.ok) throw new Error(data.error || "Erreur lors de la création.");
 
-            // Success
-            setSuccessMsg(data.message || "Personnage créé avec succès !");
+            setSuccessMsg("Votre légende commence...");
+            setSuccessMsg("Votre légende commence...");
 
-            // Redirection après délai pour laisser le temps de lire le toast
+            // Immediate redirection after a short minimal UI feedback delay (optional but better than fixed 2s)
+            // Or ideally wait for next render tick. 
+            // Better UX: Redirect immediately or show success then redirect.
+            // Using a shorter, clearer delay for reading the success message if needed, 
+            // but ensuring unmount is safe.
+            const target = data.redirect || '/werewolf/sheet';
             setTimeout(() => {
-                if (data.redirect) {
-                    navigate(data.redirect);
-                }
-            }, 2000);
+                navigate(target);
+            }, 1000);
 
         } catch (err) {
-            console.error("Erreur création perso:", err);
             setError(err.message);
             setIsSubmitting(false);
         }
     };
 
-    return (
-        <WerewolfLayout>
-            <div className="theme-deep-woods" data-theme="deep-woods">
-                <div className="min-h-screen flex flex-col items-center justify-center p-6">
-                    <div className="max-w-lg w-full">
-                        {/* Titre */}
-                        <h1 className="text-3xl md:text-4xl font-header text-amber-200 mb-2 text-center tracking-wide">
-                            Création de Personnage
-                        </h1>
-                        <p className="text-emerald-400 font-serif text-lg mb-6 text-center">
-                            Réponds à l'appel de Gaïa
-                        </p>
+    // Prepare data for WizardStep
+    const breedsOptions = werewolfData.breeds.map(b => ({ ...b, title: b.name_fr }));
+    const auspicesOptions = werewolfData.auspices.map(a => ({ ...a, title: a.name_fr }));
+    const tribesOptions = werewolfData.tribes.map(t => ({ ...t, title: t.name_fr }));
 
-                        {/* Toast de Succès (Fixed/Absolute) */}
-                        {successMsg && (
-                            <div className="fixed top-4 right-4 z-50 animate-bounce-in">
-                                <div className="bg-emerald-900/90 border border-emerald-500 text-emerald-100 px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 backdrop-blur-md">
-                                    <span className="text-2xl">🎉</span>
-                                    <div>
-                                        <h4 className="font-bold text-lg">Félicitations !</h4>
-                                        <p>{successMsg}</p>
-                                    </div>
-                                </div>
+    const renderStepContent = () => {
+        switch (step) {
+            case 1:
+                return (
+                    <WizardStep
+                        options={breedsOptions}
+                        selectedId={formData.breed}
+                        onSelect={(id) => handleSelect('breed', id)}
+                    />
+                );
+            case 2:
+                return (
+                    <WizardStep
+                        options={auspicesOptions}
+                        selectedId={formData.auspice}
+                        onSelect={(id) => handleSelect('auspice', id)}
+                    />
+                );
+            case 3:
+                return (
+                    <WizardStep
+                        options={tribesOptions}
+                        selectedId={formData.tribu}
+                        onSelect={(id) => handleSelect('tribu', id)}
+                    />
+                );
+            case 4:
+                // Résumé et Nom
+                const b = getBreed(formData.breed);
+                const a = getAuspice(formData.auspice);
+                const t = getTribe(formData.tribu);
+
+                return (
+                    <div className="max-w-2xl mx-auto">
+                        <div className="bg-black/40 rounded-lg p-6 mb-8 border border-gray-600">
+                            <h3 className="text-2xl font-serif text-amber-500 mb-4 border-b border-gray-700 pb-2">Récapitulatif</h3>
+                            <div className="space-y-3 text-gray-300">
+                                <p><strong className="text-gray-400 uppercase text-xs tracking-wider">Race:</strong> <span className="text-white text-lg ml-2">{b?.name_fr}</span></p>
+                                <p><strong className="text-gray-400 uppercase text-xs tracking-wider">Auspice:</strong> <span className="text-white text-lg ml-2">{a?.name_fr}</span></p>
+                                <p><strong className="text-gray-400 uppercase text-xs tracking-wider">Tribu:</strong> <span className="text-white text-lg ml-2">{t?.name_fr}</span></p>
                             </div>
-                        )}
-
-                        {/* Avertissement - Choix définitifs */}
-                        <div
-                            id="definitive-warning"
-                            className="bg-red-900/30 border border-red-700/50 rounded-lg p-4 mb-6"
-                            role="alert"
-                        >
-                            <p className="text-red-300 text-sm text-center">
-                                ⚠️ <strong>Attention :</strong> Ces choix sont <strong>définitifs</strong> et ne pourront pas être modifiés ultérieurement.
-                            </p>
                         </div>
 
-                        {/* Message d'Erreur */}
-                        {error && (
-                            <div className="bg-red-950/50 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg mb-6 text-center">
-                                <p>❌ {error}</p>
-                            </div>
-                        )}
-
-                        {/* Formulaire */}
-                        <form
-                            onSubmit={handleSubmit}
-                            className="bg-stone-900/50 border border-emerald-900/30 rounded-lg p-6 backdrop-blur-sm space-y-5"
-                        >
-                            {/* Nom du personnage */}
-                            <div>
-                                <label
-                                    htmlFor="character-name"
-                                    className="block text-stone-300 text-sm font-medium mb-2"
-                                >
-                                    Nom du personnage
-                                </label>
-                                <input
-                                    type="text"
-                                    id="character-name"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                    minLength={NAME_MIN_LENGTH}
-                                    maxLength={NAME_MAX_LENGTH}
-                                    aria-label="Nom"
-                                    aria-describedby="definitive-warning"
-                                    placeholder="Entre le nom de ton personnage..."
-                                    className="w-full bg-stone-800/50 border border-stone-600 rounded-md px-4 py-2 text-stone-100 placeholder-stone-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none transition"
-                                />
-                            </div>
-
-                            {/* Race (Breed) */}
-                            <div>
-                                <label
-                                    htmlFor="character-race"
-                                    className="block text-stone-300 text-sm font-medium mb-2"
-                                >
-                                    Race
-                                </label>
-                                <select
-                                    id="character-race"
-                                    name="breed"
-                                    value={formData.breed}
-                                    onChange={handleChange}
-                                    required
-                                    aria-label="Race"
-                                    aria-describedby="definitive-warning"
-                                    className="w-full bg-stone-800/50 border border-stone-600 rounded-md px-4 py-2 text-stone-100 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none transition"
-                                >
-                                    <option value="">-- Sélectionne ta race --</option>
-                                    {werewolfData.breeds.map(breed => (
-                                        <option key={breed.id} value={breed.id}>
-                                            {breed.name_fr}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Auspice */}
-                            <div>
-                                <label
-                                    htmlFor="character-auspice"
-                                    className="block text-stone-300 text-sm font-medium mb-2"
-                                >
-                                    Auspice
-                                </label>
-                                <select
-                                    id="character-auspice"
-                                    name="auspice"
-                                    value={formData.auspice}
-                                    onChange={handleChange}
-                                    required
-                                    aria-label="Auspice"
-                                    aria-describedby="definitive-warning"
-                                    className="w-full bg-stone-800/50 border border-stone-600 rounded-md px-4 py-2 text-stone-100 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none transition"
-                                >
-                                    <option value="">-- Sélectionne ton auspice --</option>
-                                    {werewolfData.auspices.map(auspice => (
-                                        <option key={auspice.id} value={auspice.id}>
-                                            {auspice.name_fr}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Tribu */}
-                            <div>
-                                <label
-                                    htmlFor="character-tribu"
-                                    className="block text-stone-300 text-sm font-medium mb-2"
-                                >
-                                    Tribu
-                                </label>
-                                <select
-                                    id="character-tribu"
-                                    name="tribu"
-                                    value={formData.tribu}
-                                    onChange={handleChange}
-                                    required
-                                    aria-label="Tribu"
-                                    aria-describedby="definitive-warning"
-                                    className="w-full bg-stone-800/50 border border-stone-600 rounded-md px-4 py-2 text-stone-100 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none transition"
-                                >
-                                    <option value="">-- Sélectionne ta tribu --</option>
-                                    {werewolfData.tribes.map(tribe => (
-                                        <option key={tribe.id} value={tribe.id}>
-                                            {tribe.name_fr}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Bouton de soumission */}
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className={`w-full font-medium py-3 px-4 rounded-md transition-colors duration-200 mt-4 
-                                    ${isSubmitting
-                                        ? 'bg-stone-700 text-stone-400 cursor-not-allowed'
-                                        : 'bg-amber-700 hover:bg-amber-600 text-white'}`}
-                            >
-                                {isSubmitting ? 'Rituel en cours...' : 'Créer mon personnage'}
-                            </button>
-                        </form>
+                        <div className="bg-black/40 rounded-lg p-6 border border-gray-600">
+                            <label className="block text-amber-500 font-serif text-xl mb-3">Comment vous nommez-vous ?</label>
+                            <input
+                                type="text"
+                                value={formData.name}
+                                onChange={(e) => handleSelect('name', e.target.value)}
+                                className="w-full bg-gray-900 border border-gray-600 rounded p-4 text-white text-lg focus:border-red-600 transition outline-none"
+                                placeholder="Nom de votre Garou..."
+                                minLength={NAME_MIN_LENGTH}
+                                maxLength={NAME_MAX_LENGTH}
+                            />
+                        </div>
                     </div>
-                </div>
+                );
+            default: return null;
+        }
+    };
+
+    const getStepTitle = () => {
+        switch (step) {
+            case 1: return "Choisissez votre Race";
+            case 2: return "Sous quelle lune êtes-vous né ?";
+            case 3: return "Quelle Tribu rejoignez-vous ?";
+            case 4: return "L'Incarnation";
+            default: return "";
+        }
+    };
+
+    const getStepSubtitle = () => {
+        switch (step) {
+            case 1: return "Votre forme de naissance détermine votre lien avec le monde.";
+            case 2: return "L'Auspice définit votre rôle au sein de la meute.";
+            case 3: return "Votre tribu est votre famille élargie, votre culture, votre cause.";
+            case 4: return "Donnez un nom à votre légende.";
+            default: return "";
+        }
+    };
+
+    const canProceed = () => {
+        if (step === 1) return !!formData.breed;
+        if (step === 2) return !!formData.auspice;
+        if (step === 3) return !!formData.tribu;
+        if (step === 4) return !!formData.name && formData.name.length >= NAME_MIN_LENGTH;
+        return false;
+    };
+
+    return (
+        <WizardLayout title={getStepTitle()} subtitle={getStepSubtitle()}>
+            {/* Progress Bar */}
+            <div className="w-full h-1 bg-gray-700 mb-8 rounded-full overflow-hidden">
+                <div
+                    className="h-full bg-red-600 transition-all duration-500 ease-out"
+                    style={{ width: `${(step / 4) * 100}%` }}
+                ></div>
             </div>
-        </WerewolfLayout>
+
+            {/* Content */}
+            <div className="min-h-[400px]">
+                {error && (
+                    <div className="bg-red-900/50 border border-red-500 text-red-200 p-4 rounded mb-6 text-center animate-shake">
+                        {error}
+                    </div>
+                )}
+
+                {renderStepContent()}
+            </div>
+
+            {/* Navigation Actions */}
+            <div className="flex justify-between mt-8 pt-6 border-t border-gray-700">
+                <button
+                    onClick={prevStep}
+                    disabled={step === 1 || isSubmitting}
+                    className={`px-6 py-2 rounded border border-gray-600 text-gray-300 hover:bg-gray-800 transition ${step === 1 ? 'opacity-0 cursor-default' : ''}`}
+                >
+                    Précédent
+                </button>
+
+                {step < 4 ? (
+                    <button
+                        onClick={nextStep}
+                        disabled={!canProceed()}
+                        className={`px-8 py-3 rounded font-bold transition duration-300 transform
+                            ${canProceed()
+                                ? 'bg-red-700 hover:bg-red-600 text-white hover:scale-105 shadow-lg'
+                                : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                            }
+                        `}
+                    >
+                        Suivant
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleSubmit}
+                        disabled={!canProceed() || isSubmitting}
+                        className={`px-8 py-3 rounded font-bold flex items-center gap-2 transition duration-300 transform
+                            ${canProceed()
+                                ? 'bg-gradient-to-r from-red-700 to-red-900 hover:from-red-600 hover:to-red-800 text-white hover:scale-105 shadow-xl shadow-red-900/30'
+                                : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                            }
+                        `}
+                    >
+                        {isSubmitting ? (
+                            <>
+                                <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                                Création...
+                            </>
+                        ) : (
+                            <>
+                                <span>Confirmer l'Incarnation</span>
+                                <span className="text-xl">🌕</span>
+                            </>
+                        )}
+                    </button>
+                )}
+            </div>
+        </WizardLayout>
     );
 }

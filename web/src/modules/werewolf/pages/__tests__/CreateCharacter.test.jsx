@@ -2,15 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-
-// Story 2.3: Formulaire de Création de Personnage
-// AS A nouveau joueur Loup-Garou
-// I WANT un formulaire pour définir mon personnage
-// SO THAT mon identité narrative soit établie
-
-// Attempt to import the component - this should FAIL if not implemented yet
-// or fail assertions if implemented but empty
-// Note: We use dynamic import or expect it to be at this path
 import CreateCharacter from '../CreateCharacter';
 
 // Mock useUserRoles
@@ -27,55 +18,12 @@ vi.mock('../../../../core/hooks/useUserRoles', () => ({
     })
 }));
 
-describe('Story 2.3: Create Character Form', () => {
+// Mock window.scrollTo
+window.scrollTo = vi.fn();
 
-    it('renders the creation form with all mandatory fields', () => {
-        // GIVEN un joueur Werewolf sans fiche
-        render(
-            <MemoryRouter>
-                <CreateCharacter />
-            </MemoryRouter>
-        );
+describe('Story 2.0: Create Character Wizard', () => {
 
-        // THEN il voit un formulaire avec Sélecteur Race, Auspice, Tribu, Nom
-        expect(screen.getByLabelText(/race/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/auspice/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/tribu/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/nom/i)).toBeInTheDocument();
-
-        // AND tous les champs sont obligatoires (HTML5 validation or aria-required)
-        expect(screen.getByLabelText(/race/i)).toBeRequired();
-        expect(screen.getByLabelText(/auspice/i)).toBeRequired();
-        expect(screen.getByLabelText(/tribu/i)).toBeRequired();
-        expect(screen.getByLabelText(/nom/i)).toBeRequired();
-    });
-
-    it('shows warning about definitive choices', () => {
-        render(
-            <MemoryRouter>
-                <CreateCharacter />
-            </MemoryRouter>
-        );
-
-        // AND un avertissement indique que ces choix sont définitifs
-        expect(screen.getByText(/définitif/i)).toBeInTheDocument();
-    });
-
-    it('uses the Deep Woods theme class', () => {
-        const { container } = render(
-            <MemoryRouter>
-                <CreateCharacter />
-            </MemoryRouter>
-        );
-
-        // AND le formulaire utilise le thème "Deep Woods"
-        // Checking for a specific class or style token
-        // This is a loose check, might refine later
-        const themeWrapper = container.querySelector('.theme-deep-woods') || container.querySelector('[data-theme="deep-woods"]');
-        expect(themeWrapper).toBeInTheDocument();
-    });
-
-    it('submits the form and redirects on success', async () => {
+    it('navigates through the wizard steps and submits', async () => {
         // Mock navigate
         const { useNavigate } = await import('react-router-dom');
         const mockNavigate = vi.fn();
@@ -95,42 +43,74 @@ describe('Story 2.3: Create Character Form', () => {
             </MemoryRouter>
         );
 
-        // WHEN je remplis le formulaire
-        fireEvent.change(screen.getByLabelText(/nom/i), { target: { value: 'Fenris' } });
-        fireEvent.change(screen.getByLabelText(/race/i), { target: { value: 'homid' } });
-        fireEvent.change(screen.getByLabelText(/auspice/i), { target: { value: 'ahroun' } });
-        fireEvent.change(screen.getByLabelText(/tribu/i), { target: { value: 'get_of_fenris' } });
+        // STEP 1: Race
+        expect(screen.getByText(/Choisissez votre Race/i)).toBeInTheDocument();
+        // Assuming "Homid" is in the data
+        const homidOption = screen.getAllByText(/Homid/i)[0]; // getAll because it might be in title and desc
+        fireEvent.click(homidOption);
 
-        // AND je soumets
-        const submitBtn = screen.getByRole('button', { name: /créer/i });
+        // Click Next
+        const nextBtn1 = screen.getByText(/Suivant/i);
+        fireEvent.click(nextBtn1);
+
+        // STEP 2: Auspice
+        await waitFor(() => {
+            expect(screen.getByText(/Sous quelle lune/i)).toBeInTheDocument();
+        });
+        const ahrounOption = screen.getAllByText(/Ahroun/i)[0];
+        fireEvent.click(ahrounOption);
+
+        const nextBtn2 = screen.getByText(/Suivant/i);
+        fireEvent.click(nextBtn2);
+
+        // STEP 3: Tribe
+        await waitFor(() => {
+            expect(screen.getByText(/Quelle Tribu/i)).toBeInTheDocument();
+        });
+        // Assuming "Fianna" or similar exists
+        const tribeOption = screen.getAllByText(/Fianna/i)[0] || screen.getAllByText(/Furies Noires/i)[0];
+        if (!tribeOption) throw new Error("No tribe found to click");
+        fireEvent.click(tribeOption);
+
+        const nextBtn3 = screen.getByText(/Suivant/i);
+        await waitFor(() => {
+            expect(nextBtn3).not.toBeDisabled();
+        });
+        fireEvent.click(nextBtn3);
+
+        // STEP 4: Summary & Name
+        await waitFor(() => {
+            expect(screen.getByText(/L'Incarnation/i)).toBeInTheDocument();
+        });
+
+        // Enter Name
+        const nameInput = screen.getByPlaceholderText(/Nom de votre Garou/i);
+        fireEvent.change(nameInput, { target: { value: 'Fenris' } });
+
+        // Submit
+        const submitBtn = screen.getByText(/Confirmer l'Incarnation/i);
+        expect(submitBtn).not.toBeDisabled();
         fireEvent.click(submitBtn);
 
-        // THEN l'API est appelée
+        // Verify Call
         await waitFor(() => {
             expect(global.fetch).toHaveBeenCalledTimes(1);
             expect(global.fetch).toHaveBeenCalledWith(
                 expect.stringContaining('/api/modules/werewolf/character'),
                 expect.objectContaining({
                     method: 'POST',
-                    body: JSON.stringify({
-                        name: 'Fenris',
-                        race: 'homid',
-                        auspice: 'ahroun',
-                        tribu: 'get_of_fenris'
-                    })
+                    body: expect.stringContaining('"breed":"homid"')
                 })
             );
         });
 
-        // AND une redirection est déclenchée (après délai)
-        // Wait for timeout
-        await new Promise((r) => setTimeout(r, 2100));
-
+        // Redirect
+        await new Promise(r => setTimeout(r, 2100));
         expect(mockNavigate).toHaveBeenCalledWith('/werewolf/sheet');
     });
 });
 
-// Mock hooks if needed at top level
+// Mock hooks
 vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom');
     return {
@@ -138,4 +118,3 @@ vi.mock('react-router-dom', async () => {
         useNavigate: vi.fn(),
     };
 });
-

@@ -4,11 +4,9 @@ import RequireWerewolfRole from './components/RequireWerewolfRole';
 import WerewolfLoading from './components/WerewolfLoading';
 
 // Lazy load des pages
-const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const CreateCharacter = lazy(() => import('./pages/CreateCharacter'));
 const CharacterSheet = lazy(() => import('./pages/CharacterSheet'));
-
-const RenownAdminPage = lazy(() => import('./pages/RenownAdminPage'));
+const WerewolfAdminPage = lazy(() => import('./pages/WerewolfAdminPage'));
 const GiftsPage = lazy(() => import('./pages/GiftsPage/GiftsPage'));
 
 /**
@@ -30,7 +28,7 @@ export default function WerewolfRoutes() {
                     }
                 />
 
-                {/* Fiche personnage - Story 3.1 */}
+                {/* Fiche personnage - Story 3.1 & Default Home */}
                 <Route
                     path="sheet"
                     element={
@@ -50,31 +48,22 @@ export default function WerewolfRoutes() {
                     }
                 />
 
-                {/* Dashboard - page d'accueil du module */}
+                {/* Admin - Story 4.3 & New Gift Management */}
                 <Route
-                    path="dashboard"
+                    path="admin"
                     element={
                         <Suspense fallback={<WerewolfLoading />}>
-                            <DashboardPage />
+                            <WerewolfAdminPage />
                         </Suspense>
                     }
                 />
 
-                {/* Admin - Story 4.3 */}
-                <Route
-                    path="admin/renown"
-                    element={
-                        <Suspense fallback={<WerewolfLoading />}>
-                            <RenownAdminPage />
-                        </Suspense>
-                    }
-                />
+                {/* Redirect racine vers sheet (qui redirigera vers create si besoin) */}
+                <Route path="/" element={<Navigate to="sheet" replace />} />
+                <Route path="dashboard" element={<Navigate to="sheet" replace />} />
 
-                {/* Redirect racine vers dashboard */}
-                <Route path="/" element={<Navigate to="dashboard" replace />} />
-
-                {/* Catch-all - redirige vers dashboard */}
-                <Route path="*" element={<Navigate to="dashboard" replace />} />
+                {/* Catch-all */}
+                <Route path="*" element={<Navigate to="sheet" replace />} />
             </Routes>
         </RequireWerewolfRole>
     );
