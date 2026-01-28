@@ -59,23 +59,29 @@ class WerewolfData:
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+    def _fuzzy_match(self, enum_cls, value):
+        if not isinstance(value, str):
+            return value
+        
+        # Try direct
+        try:
+            return enum_cls(value)
+        except ValueError:
+            pass
+            
+        # Try normalized
+        norm_val = value.lower().replace("_", "").replace(" ", "")
+        for member in enum_cls:
+            if member.value.lower().replace("_", "").replace(" ", "") == norm_val:
+                return member
+        
+        # Return original if no match (will strict fail later or be stored as is)
+        return value
+
     def __post_init__(self):
-        # Validate Enums if passed as strings
-        if isinstance(self.breed, str):
-            try:
-                self.breed = WerewolfBreed(self.breed)
-            except ValueError:
-                pass 
-        if isinstance(self.auspice, str):
-            try:
-                self.auspice = WerewolfAuspice(self.auspice)
-            except ValueError:
-                pass
-        if isinstance(self.tribe, str):
-            try:
-                self.tribe = WerewolfTribe(self.tribe)
-            except ValueError:
-                pass
+        self.breed = self._fuzzy_match(WerewolfBreed, self.breed)
+        self.auspice = self._fuzzy_match(WerewolfAuspice, self.auspice)
+        self.tribe = self._fuzzy_match(WerewolfTribe, self.tribe)
 
 @dataclass
 class WerewolfRenown:

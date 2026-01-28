@@ -27,7 +27,7 @@ export default function CreateCharacter() {
 
     const [formData, setFormData] = useState({
         name: '',
-        race: '',
+        breed: '',
         auspice: '',
         tribu: '',
     });
@@ -60,10 +60,23 @@ export default function CreateCharacter() {
                 'X-Discord-Guild-ID': guildId.toString()
             };
 
+            // Mapper 'tribu' vers 'tribe' pour le backend si nécessaire, 
+            // mais routes.py utilise character_data['tribe'], donc 'tribu' doit être 'tribe' si c'est ce qu'attend le backend?
+            // Vérifions character_service.py... il attend character_data['tribe'].
+            // Frontend envoie 'tribu'.
+
+            // On va mapper les clés pour correspondre exactement au backend
+            const payload = {
+                name: formData.name,
+                breed: formData.breed,
+                auspice: formData.auspice,
+                tribe: formData.tribu
+            };
+
             const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
                 method: 'POST',
                 headers,
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payload)
             });
 
             const data = await response.json();
@@ -172,8 +185,8 @@ export default function CreateCharacter() {
                                 </label>
                                 <select
                                     id="character-race"
-                                    name="race"
-                                    value={formData.race}
+                                    name="breed"
+                                    value={formData.breed}
                                     onChange={handleChange}
                                     required
                                     aria-label="Race"
