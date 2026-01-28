@@ -374,3 +374,32 @@ async def get_all_werewolves(db: aiosqlite.Connection) -> list[WerewolfData]:
                 updated_at=updated_at
             ))
         return results
+
+async def delete_werewolf_data(db: aiosqlite.Connection, user_id: str) -> bool:
+    """
+    Supprime complètement un personnage loup-garou et toutes ses données associées.
+    
+    Args:
+        db: Connexion base de données.
+        user_id: L'ID Discord de l'utilisateur.
+        
+    Returns:
+        True si le personnage existait et a été supprimé, False sinon.
+    """
+    # Vérifier si le personnage existe
+    existing = await get_werewolf_data(db, user_id)
+    if not existing:
+        return False
+    
+    # Supprimer les dons du joueur
+    await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (user_id,))
+    
+    # Supprimer les demandes de renommée
+    await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (user_id,))
+    
+    # Supprimer le personnage
+    await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (user_id,))
+    
+    await db.commit()
+    logger.info(f"Personnage werewolf supprimé pour user_id={user_id}")
+    return True

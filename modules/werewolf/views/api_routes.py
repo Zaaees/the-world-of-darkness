@@ -10,20 +10,16 @@ logger = logging.getLogger(__name__)
 async def submit_renown_request(request):
     """
     Endpoint pour soumettre une demande de renommée.
-    POST /api/modules/werewolf/renown
+    POST /api/modules/werewolf/renown/submit
     """
     db = request.app['db']
     
-    # Ensure table exists check removed (moved to startup)
+    # Authentication check via headers (consistent with other werewolf routes)
+    user_id = request.headers.get("X-Discord-User-ID")
+    guild_id = request.headers.get("X-Discord-Guild-ID")
     
-    # Authentication check (Mock for now or rely on middleware if configured)
-    # The test expects 401 if not authenticated.
-    # In this project context, 'user' is usually set in request by middleware.
-    user = request.get('user')
-    if not user:
-        return web.json_response({"error": "Unauthorized"}, status=401)
-    
-    user_id = user.get('id') # Authenticated user ID
+    if not user_id or not guild_id:
+        return web.json_response({"error": "Unauthorized", "message": "Missing authentication headers"}, status=401)
 
     try:
         data = await request.json()
@@ -47,7 +43,7 @@ async def submit_renown_request(request):
         return web.json_response({"error": str(e)}, status=400)
     except Exception as e:
         logger.exception("Error processing renown request")
-        return web.json_response({"error": "Internal Server Error"}, status=500)
+        return web.json_response({"error": "Erreur interne du serveur"}, status=500)
 
 from modules.werewolf.models.renown import RenownStatus
 
