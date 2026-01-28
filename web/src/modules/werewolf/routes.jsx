@@ -59,11 +59,10 @@ export default function WerewolfRoutes() {
                 />
 
                 {/* Redirect racine vers sheet (qui redirigera vers create si besoin) */}
-                <Route path="/" element={<Navigate to="sheet" replace />} />
-                <Route path="dashboard" element={<Navigate to="sheet" replace />} />
+                <Route path="/" element={<Navigate to="/werewolf/sheet" replace />} />
 
                 {/* Catch-all */}
-                <Route path="*" element={<Navigate to="sheet" replace />} />
+                <Route path="*" element={<Navigate to="/werewolf/sheet" replace />} />
             </Routes>
         </RequireWerewolfRole>
     );

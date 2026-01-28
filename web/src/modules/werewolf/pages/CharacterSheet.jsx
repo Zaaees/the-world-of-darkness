@@ -286,12 +286,7 @@ const CharacterSheet = () => {
                     )}
                 </div>
 
-                {/* Footer Section */}
-                <div className="mt-12 pt-8 border-t border-amber-900/10 text-center">
-                    <Link to="/werewolf/dashboard" className="text-stone-500 hover:text-amber-200 transition-colors tracking-widest uppercase text-xs">
-                        ← Retour au Dashboard
-                    </Link>
-                </div>
+
             </div>
         </WerewolfLayout>
     );
