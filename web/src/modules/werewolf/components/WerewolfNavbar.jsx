@@ -68,7 +68,7 @@ export default function WerewolfNavbar() {
                             <span className="text-gray-500 text-[10px] uppercase">Rage</span>
                             <div className="flex space-x-0.5 mt-1">
                                 {[...Array(5)].map((_, i) => (
-                                    <div key={i} className={`w-2 h-2 rounded-full ${i < 3 ? 'bg-red-600' : 'bg-gray-800'}`}></div>
+                                    <div key={i} className={`w-2 h-2 rounded-full ${i < 0 ? 'bg-red-600' : 'bg-gray-800'}`}></div>
                                 ))}
                             </div>
                         </div>

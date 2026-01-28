@@ -35,7 +35,7 @@ const RootRedirect = () => {
 
     // Redirection basée sur les rôles
     if (hasWerewolfRole) {
-        return <Navigate to={`/werewolf/dashboard${hash}`} replace />;
+        return <Navigate to={`/werewolf/sheet${hash}`} replace />;
     }
 
     // Par défaut, redirection vers Vampire (comportement existant préservé)

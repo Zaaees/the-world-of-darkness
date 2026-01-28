@@ -219,6 +219,7 @@ async def get_gifts_handler(request: web.Request) -> web.Response:
             
             player_breed = character.breed.value if hasattr(character.breed, 'value') else character.breed
             player_auspice = character.auspice.value if hasattr(character.auspice, 'value') else character.auspice
+            player_tribe = character.tribe.value if hasattr(character.tribe, 'value') else character.tribe
 
             # AC: "Affiche tous les Dons de la Tribu du joueur (plus les dons génériques/races si applicable)"
             # On inclut:
@@ -451,3 +452,10 @@ def register_werewolf_routes(app: web.Application) -> None:
     app.router.add_post("/api/modules/werewolf/gifts/unlock", unlock_gift_handler)
     
     logger.info("Routes Werewolf enregistrées sur /api/modules/werewolf/*")
+
+    # Initialisation de la BDD au démarrage
+    async def on_startup(app):
+        from .database.init_db import init_werewolf_gifts_table
+        await init_werewolf_gifts_table()
+        
+    app.on_startup.append(on_startup)

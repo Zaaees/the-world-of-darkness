@@ -3,11 +3,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import RequireWerewolfRole from './components/RequireWerewolfRole';
 import WerewolfLoading from './components/WerewolfLoading';
 
-// Lazy load des pages
-const CreateCharacter = lazy(() => import('./pages/CreateCharacter'));
-const CharacterSheet = lazy(() => import('./pages/CharacterSheet'));
-const WerewolfAdminPage = lazy(() => import('./pages/WerewolfAdminPage'));
-const GiftsPage = lazy(() => import('./pages/GiftsPage/GiftsPage'));
+import CreateCharacter from './pages/CreateCharacter';
+import CharacterSheet from './pages/CharacterSheet';
+import WerewolfAdminPage from './pages/WerewolfAdminPage';
+import GiftsPage from './pages/GiftsPage/GiftsPage';
 
 /**
  * Routes internes du module Werewolf.
@@ -21,41 +20,25 @@ export default function WerewolfRoutes() {
                 {/* Création de personnage - Story 2.3 */}
                 <Route
                     path="create"
-                    element={
-                        <Suspense fallback={<WerewolfLoading />}>
-                            <CreateCharacter />
-                        </Suspense>
-                    }
+                    element={<CreateCharacter />}
                 />
 
                 {/* Fiche personnage - Story 3.1 & Default Home */}
                 <Route
                     path="sheet"
-                    element={
-                        <Suspense fallback={<WerewolfLoading />}>
-                            <CharacterSheet />
-                        </Suspense>
-                    }
+                    element={<CharacterSheet />}
                 />
 
                 {/* Dons - Story 5.3 */}
                 <Route
                     path="gifts"
-                    element={
-                        <Suspense fallback={<WerewolfLoading />}>
-                            <GiftsPage />
-                        </Suspense>
-                    }
+                    element={<GiftsPage />}
                 />
 
                 {/* Admin - Story 4.3 & New Gift Management */}
                 <Route
                     path="admin"
-                    element={
-                        <Suspense fallback={<WerewolfLoading />}>
-                            <WerewolfAdminPage />
-                        </Suspense>
-                    }
+                    element={<WerewolfAdminPage />}
                 />
 
                 {/* Redirect racine vers sheet (qui redirigera vers create si besoin) */}
