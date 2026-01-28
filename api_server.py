@@ -42,14 +42,27 @@ from modules.werewolf.routes import register_werewolf_routes
 from modules.werewolf.views.api_routes import setup_routes as setup_renown_routes
 from modules.werewolf.models.renown import create_renown_table
 from modules.werewolf.models.store import create_player_gifts_table, create_werewolf_table
+from utils.database import DATABASE_PATH
+import aiosqlite
 
-async def on_startup_tasks(app):
+async def on_startup(app):
     """Tâches au démarrage de l'API."""
+    logger.info(f"Initialisation de la base de données : {DATABASE_PATH}")
+    app['db'] = await aiosqlite.connect(DATABASE_PATH)
+    app['db'].row_factory = aiosqlite.Row
+    logger.info("Connexion DB établie et attachée à app['db']")
+
+    # Vérification des tables
+    await create_werewolf_table(app['db'])
+    await create_renown_table(app['db'])
+    await create_player_gifts_table(app['db'])
+    logger.info("Tables werewolf_data, renown_requests et player_gifts vérifiées/créées.")
+
+async def on_cleanup(app):
+    """Nettoyage à l'arrêt."""
     if 'db' in app:
-        await create_werewolf_table(app['db'])
-        await create_renown_table(app['db'])
-        await create_player_gifts_table(app['db'])
-        logger.info("Tables werewolf_data, renown_requests et player_gifts vérifiées/créées au démarrage.")
+        await app['db'].close()
+        logger.info("Connexion DB fermée.")
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -1023,6 +1036,10 @@ def create_app(bot=None):
     if bot:
         app["bot"] = bot
 
+    # Lifecycle handlers
+    app.on_startup.append(on_startup)
+    app.on_cleanup.append(on_cleanup)
+
     # Routes
     app.router.add_get("/health", health_check)
     app.router.add_get("/api/guild", get_user_guild_handler)
@@ -1075,7 +1092,7 @@ async def start_api_server(port: int = 8080, bot=None):
     # However, 'db' is usually attached in a startup signal or passed to create_app.
     # I'll rely on a lazy check or proper startup signal.
     
-    app.on_startup.append(on_startup_tasks)
+    # app.on_startup.append(on_startup_tasks)
 
     runner = web.AppRunner(app)
     await runner.setup()

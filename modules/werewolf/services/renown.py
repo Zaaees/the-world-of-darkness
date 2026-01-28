@@ -97,7 +97,7 @@ class RenownService:
         Returns:
             Liste des RenownRequest
         """
-        query = "SELECT * FROM renown_requests"
+        query = "SELECT * FROM werewolf_renown_requests"
         params = []
         
         if status:
@@ -123,22 +123,22 @@ class RenownService:
             La demande mise à jour ou None si non trouvée
         """
         # Vérifier si la demande existe
-        async with self.db.execute("SELECT * FROM renown_requests WHERE id = ?", (request_id,)) as cursor:
+        async with self.db.execute("SELECT * FROM werewolf_renown_requests WHERE id = ?", (request_id,)) as cursor:
             row = await cursor.fetchone()
             if not row:
                 return None
                 
         # Update db
         query = """
-            UPDATE renown_requests 
-            SET status = ?, validator_id = ?, validated_at = ?
+            UPDATE werewolf_renown_requests 
+            SET status = ?, reviewer_id = ?
             WHERE id = ?
         """
-        await self.db.execute(query, (status.value, validator_id, datetime.now(), request_id))
+        await self.db.execute(query, (status.value, validator_id, request_id))
         await self.db.commit()
         
         # Return updated object
-        async with self.db.execute("SELECT * FROM renown_requests WHERE id = ?", (request_id,)) as cursor:
+        async with self.db.execute("SELECT * FROM werewolf_renown_requests WHERE id = ?", (request_id,)) as cursor:
             row = await cursor.fetchone()
             updated_request = RenownRequest.from_row(row)
             
