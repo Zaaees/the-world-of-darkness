@@ -26,13 +26,17 @@ async def create_character(db: aiosqlite.Connection, character_data: Dict[str, A
     logger.info(f"Creating character for user {user_id}")
     
     # Supprimer l'ancien personnage s'il existe (cas de re-création après reset)
-    from modules.werewolf.models.store import delete_werewolf_data
+    # On fait un DELETE direct car get_werewolf_data peut échouer sur des données mal formées
     try:
-        deleted = await delete_werewolf_data(db, user_id)
-        if deleted:
+        await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (user_id,))
+        await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (user_id,))
+        result = await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (user_id,))
+        await db.commit()
+        if result.rowcount > 0:
             logger.info(f"Ancien personnage werewolf supprimé pour user {user_id}")
     except Exception as e:
         logger.warning(f"Erreur suppression ancien personnage pour {user_id}: {e}")
+
     
     # Create DTO
     try:
