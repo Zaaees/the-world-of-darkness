@@ -66,10 +66,10 @@ workflow_status:
         purpose: "Validates PRD + Architecture + Epics + UX"
   - phase: 4
     name: "Implementation"
-    status: "in-progress"
+    status: "completed"
     workflows:
       - id: "sprint-planning"
-        status: "required"
+        status: "f:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/_bmad-output/implementation-artifacts/sprint-status.yaml"
         workflow: "{project-root}/_bmad/bmm/workflows/4-implementation/sprint-planning/workflow.yaml"
         agent: "sm"
         command: "/bmad-bmm-workflows-sprint-planning"

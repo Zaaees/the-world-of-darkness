@@ -1,82 +1,138 @@
-# ATDD Checklist - Epic 5, Story 5.2: Business Logic - Unlock Elder Levels
+# ATDD Checklist - Epic 5, Story 5.2: Composant GiftCard
 
-**Date:** 2026-01-25
-**Author:** Zaès (via Antigravity)
-**Primary Test Level:** Unit (Business Logic)
+**Date:** 2026-01-26
+**Author:** Zaès
+**Primary Test Level:** Component
 
 ---
 
 ## Story Summary
 
-**As a** Player
-**I want** my available discipline level cap to reflect my Blood Potency (Generation power)
-**So that** I can access level 6+ disciplines if my Elder status allows it
+As a joueur, I want voir mes Dons dans un format visuel attractif, so that je comprenne immédiatement ce qui est disponible ou non.
 
 ---
 
 ## Acceptance Criteria
 
-1.  **Given** a character with high Blood Potency (6 to 10)
-2.  **When** the `getAvailableDisciplines` function is evaluated
-3.  **Then** the `maxAccessibleLevel` property for each discipline should return the correct value (6 to 10)
-4.  **And** the returned `powers` array should include powers up to that level
-5.  **And** characters with lower Blood Potency (1-5) should still be capped at level 5 or lower (according to existing progression)
-6.  **And** fallback safety: invalid/missing Blood Potency should default to safe minimums (Level 1-2)
+1. **Visual States (Locked vs Unlocked):**
+    - **Locked:** Display "Don Mystère" instead of name. Show a lock icon/glyph. Appearance should be "dimmed" or "grayed out" (Deep Woods variations). No details visible.
+    - **Unlocked:** Display full details: Name, Level, Tribe (if applicable), Gnosis Cost. Appearance should be "active" (Gold/Amber accents).
+2. **Interaction:**
+    - **Locked:** Not clickable (or shows "Locked" tooltip).
+    - **Unlocked:** Clickable, triggering an action (e.g., opening a modal).
+3. **Technical Compliance:**
+    - Must pass the existing test suite `web/src/modules/werewolf/components/GiftCard/GiftCard.test.tsx`.
+    - Must use the "Deep Woods" CSS variables (`--wild-primary`, `--wild-surface`, etc.).
+    - Component must be a `.jsx` file: `web/src/modules/werewolf/components/GiftCard/GiftCard.jsx`.
 
 ---
 
 ## Failing Tests Created (RED Phase)
 
-> **Note**: This verification was performed retroactively on completed work.
+### Component Tests (1 test file)
 
-### Unit Tests (Logic)
+**File:** `web/src/modules/werewolf/components/GiftCard/GiftCard.test.tsx` (59 lines)
 
-**File:** `web/src/data/disciplines.test.js`
+- ✅ **Test:** `GiftCard Component > renders locked state correctly`
+  - **Status:** RED - `Failed to resolve import "./GiftCard"` (Missing implementation)
+  - **Verifies:** Locked state UI (name hidden, lock icon, styling)
 
-- ✅ **Test:** `should map BP 6-10 correctly to Levels 6-10`
-  - **Status:** GREEN
-  - **Verifies:** `MAX_DISCIPLINE_LEVEL` constant mapping.
+- ✅ **Test:** `GiftCard Component > renders unlocked state correctly`
+  - **Status:** RED - `Failed to resolve import "./GiftCard"` (Missing implementation)
+  - **Verifies:** Unlocked state UI (details visible, styling)
 
-- ✅ **Test:** `should return clan disciplines with maxLevel cap for BP 10`
-  - **Status:** GREEN
-  - **Verifies:** `getAvailableDisciplines` logic for Elder BP.
+- ✅ **Test:** `GiftCard Component > calls onClick handler when unlocked`
+  - **Status:** RED - `Failed to resolve import "./GiftCard"` (Missing implementation)
+  - **Verifies:** Interaction (click handler)
 
-- ✅ **Test:** `should cap maxLevel at 10 for BP > 10 (e.g. Caine)`
-  - **Status:** GREEN
-  - **Verifies:** Safety cap for super-elders.
+- ✅ **Test:** `GiftCard Component > does NOT call onClick handler when locked`
+  - **Status:** RED - `Failed to resolve import "./GiftCard"` (Missing implementation)
+  - **Verifies:** Interaction (locked state)
 
-- ✅ **Test:** `should default to maxLevel 1 if BP is missing or invalid`
-  - **Status:** GREEN
-  - **Verifies:** Fallback safety.
+---
+
+## Data Factories Created
+
+### Gift Factory
+
+**File:** `web/src/test/factories/gift-factory.ts` (Existing)
+
+**Exports:**
+- `createGift(overrides?)`
+
+---
+
+## Fixtures Created
+
+None required for this pure component test (uses `render` from `@testing-library/react`).
+
+---
+
+## Mock Requirements
+
+None.
+
+---
+
+## Required data-testid Attributes
+
+### GiftCard Component
+
+- `gift-card-{id}` - The main card container
+- `gift-card-locked-icon` - The lock icon element in locked state
 
 ---
 
 ## Implementation Checklist
 
-### Logic Update
-- [x] Update `MAX_DISCIPLINE_LEVEL` logic in `disciplines.js`
-- [x] Verify `getAvailableDisciplines` filter logic
+### Test: GiftCard Component
 
-### Verification
-- [x] Run Unit Tests (`disciplines.test.js`) -> PASS
+**File:** `web/src/modules/werewolf/components/GiftCard/GiftCard.test.tsx`
+
+**Tasks to make this test pass:**
+
+- [ ] Create `web/src/modules/werewolf/components/GiftCard/GiftCard.jsx`
+- [ ] Create `web/src/modules/werewolf/components/GiftCard/GiftCard.css` (or module)
+- [ ] Implement `GiftCard` component logic (Visual states, Props: `gift`, `isUnlocked`, `onClick`)
+- [ ] Implement Locked state rendering (Don Mystère, Icon)
+- [ ] Implement Unlocked state rendering (Details)
+- [ ] Add `data-testid="gift-card-{id}"` and `gift-card-locked-icon`
+- [ ] Implement CSS styling using "Deep Woods" variables
+- [ ] Run test: `npm test src/modules/werewolf/components/GiftCard/GiftCard.test.tsx`
+- [ ] ✅ Test passes (green phase)
+
+**Estimated Effort:** 2 hours
 
 ---
 
 ## Running Tests
 
 ```bash
-# Run logic tests
-npm test -- disciplines.test.js
+# Run failing test
+npm test src/modules/werewolf/components/GiftCard/GiftCard.test.tsx
 ```
 
 ---
 
 ## Red-Green-Refactor Workflow
 
-### GREEN Phase (Complete) ✅
-- Logic verified via unit tests.
-- Core business requirement (Unlock Elder Levels) is met in the data layer.
+### RED Phase (Complete) ✅
 
-***
+**TEA Agent Responsibilities:**
+- ✅ Failing tests identified and verified (import fixed)
+- ✅ Factory availability confirmed
+- ✅ Implementation checklist created
 
-**Generated by BMad TEA Agent** - 2026-01-25
+### GREEN Phase (DEV Team - Next Steps)
+
+1. **Pick one failing test**
+2. **Implement minimal code** (Create JSX, CSS)
+3. **Run the test**
+4. **Repeat**
+
+---
+
+## Knowledge Base References Applied
+
+- **component-tdd.md**: Used standard Red-Green-Refactor loop for component.
+- **data-factories.md**: Verified use of `createGift` factory.

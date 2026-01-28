@@ -72,7 +72,7 @@ const PowerCard = ({ power, isLocked, onClick }) => {
     <div
       onClick={!isLocked ? onClick : undefined}
       className={`
-      p-4 rounded-lg border transition-all duration-300 relative group overflow-hidden
+      p-4 rounded border transition-all duration-300 relative group overflow-hidden
       ${isLocked
           ? 'bg-stone-950/40 border-stone-800/60 opacity-60 cursor-not-allowed grayscale-[0.5]'
           : 'bg-gradient-to-br from-stone-900/80 to-stone-950/80 border-stone-800 hover:border-red-900/40 cursor-pointer hover:shadow-lg hover:shadow-red-900/5 hover:-translate-y-0.5'

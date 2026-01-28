@@ -14,8 +14,10 @@ const RitualCard = ({ ritual }) => {
             <div
                 onClick={() => useGrimoireStore.getState().setSelectedRitual(ritual)}
                 className="h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden
-                    transition-all duration-300 ease-out
-                    hover:border-red-900/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)]
+                    transition-all duration-200 ease-out
+                    hover:scale-[1.02] active:scale-[0.98]
+                    hover:border-red-700/50 hover:shadow-lg
+                    motion-reduce:hover:scale-100 motion-reduce:active:scale-100
                     before:absolute before:inset-0 before:bg-noise before:opacity-30 before:pointer-events-none"
             >
                 {/* Decorative corners */}

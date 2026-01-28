@@ -1,0 +1,42 @@
+[
+  {
+    "id": "gift_ragabash_blur_of_the_milky_eye",
+    "name_fr": "Flou du Regard Lacté",
+    "tribe": "Ragabash",
+    "level": 1,
+    "description": "Le Garou devient une silhouette floue et difficile à fixer du regard.",
+    "gnosis_cost": 0
+  },
+  {
+    "id": "gift_ahroun_falling_touch",
+    "name_fr": "Toucher de la Chute",
+    "tribe": "Ahroun",
+    "level": 1,
+    "description": "Un simple toucher peut envoyer un adversaire au sol.",
+    "gnosis_cost": 0
+  },
+  {
+    "id": "gift_theurge_spirit_speech",
+    "name_fr": "Parole d'Esprit",
+    "tribe": "Theurge",
+    "level": 1,
+    "description": "Permet de communiquer avec les esprits de l'Umbra.",
+    "gnosis_cost": 0
+  },
+  {
+    "id": "gift_ragabash_scent_of_running_water",
+    "name_fr": "Parfum de l'Eau Courante",
+    "tribe": "Ragabash",
+    "level": 1,
+    "description": "Masque totalement l'odeur du loup-garou.",
+    "gnosis_cost": 0
+  },
+  {
+    "id": "gift_ahroun_razor_claws",
+    "name_fr": "Griffes de Rasoir",
+    "tribe": "Ahroun",
+    "level": 1,
+    "description": "Le Garou aiguise ses griffes avec sa volonté pour infliger plus de dégâts.",
+    "gnosis_cost": 1
+  }
+]

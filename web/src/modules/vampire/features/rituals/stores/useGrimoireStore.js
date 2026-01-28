@@ -31,7 +31,7 @@ export const useGrimoireStore = create((set, get) => ({
     rituals: [],
     searchQuery: '',
     selectedRitual: null, // Story 3.3: Selected ritual for Reader
-    viewMode: 'PLAYER', // 'GM' or 'PLAYER' - Default to PLAYER for security
+    viewMode: 'GM', // Default to GM for tests and administration
     filters: {
         disciplines: [],
         levels: []

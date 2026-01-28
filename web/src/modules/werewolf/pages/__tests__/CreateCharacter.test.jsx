@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -12,6 +12,20 @@ import { MemoryRouter } from 'react-router-dom';
 // or fail assertions if implemented but empty
 // Note: We use dynamic import or expect it to be at this path
 import CreateCharacter from '../CreateCharacter';
+
+// Mock useUserRoles
+vi.mock('../../../../core/hooks/useUserRoles', () => ({
+    useUserRoles: () => ({
+        discordUser: { id: '123' },
+        guildId: '456',
+        isAuthenticated: true
+    }),
+    default: () => ({
+        discordUser: { id: '123' },
+        guildId: '456',
+        isAuthenticated: true
+    })
+}));
 
 describe('Story 2.3: Create Character Form', () => {
 
@@ -63,8 +77,9 @@ describe('Story 2.3: Create Character Form', () => {
 
     it('submits the form and redirects on success', async () => {
         // Mock navigate
+        const { useNavigate } = await import('react-router-dom');
         const mockNavigate = vi.fn();
-        vi.mocked(require('react-router-dom').useNavigate).mockReturnValue(mockNavigate);
+        vi.mocked(useNavigate).mockReturnValue(mockNavigate);
 
         // Mock fetch
         global.fetch = vi.fn(() =>
@@ -91,19 +106,21 @@ describe('Story 2.3: Create Character Form', () => {
         fireEvent.click(submitBtn);
 
         // THEN l'API est appelée
-        expect(global.fetch).toHaveBeenCalledTimes(1);
-        expect(global.fetch).toHaveBeenCalledWith(
-            expect.stringContaining('/api/modules/werewolf/character'),
-            expect.objectContaining({
-                method: 'POST',
-                body: JSON.stringify({
-                    name: 'Fenris',
-                    race: 'homid',
-                    auspice: 'ahroun',
-                    tribu: 'get_of_fenris'
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledTimes(1);
+            expect(global.fetch).toHaveBeenCalledWith(
+                expect.stringContaining('/api/modules/werewolf/character'),
+                expect.objectContaining({
+                    method: 'POST',
+                    body: JSON.stringify({
+                        name: 'Fenris',
+                        race: 'homid',
+                        auspice: 'ahroun',
+                        tribu: 'get_of_fenris'
+                    })
                 })
-            })
-        );
+            );
+        });
 
         // AND une redirection est déclenchée (après délai)
         // Wait for timeout

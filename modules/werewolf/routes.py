@@ -6,12 +6,14 @@ Toutes les routes sont protégées par le middleware de vérification de rôle D
 import logging
 from aiohttp import web
 
-from .middleware import require_werewolf_role
+from .middleware import require_werewolf_role, require_mj_role
 import aiosqlite
 from utils.database import DATABASE_PATH
 from .services.character_service import create_character, get_character, update_character
 from .services.sheet import sync_sheet_to_discord
 from .services.audit import log_character_update, calculate_diff
+from .services.gifts import load_gift_catalogue, get_player_gifts, unlock_gift
+from modules.werewolf.models.store import get_all_werewolves
 import asyncio
 
 logger = logging.getLogger(__name__)
@@ -193,6 +195,205 @@ async def update_character_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": "Failed to update character"}, status=500)
 
 
+@require_werewolf_role
+async def get_gifts_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/gifts - Récupérer le catalogue des dons et les déblocages.
+    Filtre automatiquement par la tribu du joueur.
+    """
+    user_id_raw = request.headers.get("X-Discord-User-ID")
+    if not user_id_raw:
+        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+    
+    user_id = str(user_id_raw)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            # 1. Récupérer le personnage pour connaître sa tribu
+            character = await get_character(db, user_id)
+            if not character:
+                return web.json_response({"error": "Character not found"}, status=404)
+            
+            # 2. Charger le catalogue et filtrer
+            full_catalogue = load_gift_catalogue()
+            
+            player_breed = character.breed.value if hasattr(character.breed, 'value') else character.breed
+            player_auspice = character.auspice.value if hasattr(character.auspice, 'value') else character.auspice
+
+            # AC: "Affiche tous les Dons de la Tribu du joueur (plus les dons génériques/races si applicable)"
+            # On inclut:
+            # - Dons de la Tribu
+            # - Dons de la Race (Breed)
+            # - Dons de l'Auspice
+            # - Dons "Universel" / "Garou"
+            
+            tribe_gifts = []
+            for g in full_catalogue:
+                g_tribe = g.get('tribe')
+                g_breed = g.get('breed')
+                g_auspice = g.get('auspice')
+                
+                # Si le don a une restriction explicite, on vérifie si ça match
+                is_match = False
+                
+                if g_tribe and g_tribe == player_tribe:
+                    is_match = True
+                elif g_breed and g_breed == player_breed:
+                    is_match = True
+                elif g_auspice and g_auspice == player_auspice:
+                    is_match = True
+                elif g_tribe == "Universel" or (not g_tribe and not g_breed and not g_auspice):
+                    # Don sans restriction ou marqué Universel
+                    is_match = True
+                    
+                if is_match:
+                    tribe_gifts.append(g)
+            
+            # 3. Récupérer les dons débloqués
+            # get_player_gifts retourne les objets enrichis, mais on veut peut-être juste les IDs 
+            # pour le frontend qui a déjà le catalogue ?
+            # Le frontend demande: "Les Dons débloqués apparaissent en premier."
+            # On va renvoyer la liste des IDs débloqués pour simplifier le frontend
+            
+            # Note: get_player_gifts retourne une liste de dicts avec 'id', 'unlocked_at', etc.
+            player_gifts_enriched = await get_player_gifts(db, user_id)
+            unlocked_ids = [g['id'] for g in player_gifts_enriched]
+            
+            return web.json_response({
+                "success": True,
+                "profile": {
+                    "tribe": character.tribe.value if hasattr(character.tribe, 'value') else character.tribe,
+                    "breed": character.breed.value if hasattr(character.breed, 'value') else character.breed,
+                    "auspice": character.auspice.value if hasattr(character.auspice, 'value') else character.auspice
+                },
+                "catalogue": tribe_gifts,
+                "unlocked_ids": unlocked_ids
+            })
+            
+    except Exception as e:
+        logger.exception(f"Error retrieving gifts for user {user_id}")
+        return web.json_response({"error": "Failed to retrieve gifts"}, status=500)
+
+
+@require_mj_role
+async def get_admin_players_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/admin/players - Récupérer la liste des joueurs (Pour MJ).
+    """
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            players = await get_all_werewolves(db)
+            
+            return web.json_response({
+                "success": True,
+                "players": [{
+                    "id": p.user_id,
+                    "name": p.name,
+                    "tribe": p.tribe.value if hasattr(p.tribe, 'value') else p.tribe,
+                    "rank": p.rank
+                } for p in players]
+            })
+    except Exception as e:
+        logger.exception("Error listing players")
+        return web.json_response({"error": "Failed to list players"}, status=500)
+
+
+@require_mj_role
+async def get_admin_player_gifts_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/admin/players/{user_id}/gifts - Récupérer les dons d'un joueur pour admin.
+    """
+    target_user_id = request.match_info['user_id']
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            character = await get_character(db, target_user_id)
+            if not character:
+                return web.json_response({"error": "Character not found"}, status=404)
+            
+            # Logic similar to get_gifts_handler but for target user
+            full_catalogue = load_gift_catalogue()
+            
+            player_breed = character.breed.value if hasattr(character.breed, 'value') else character.breed
+            player_auspice = character.auspice.value if hasattr(character.auspice, 'value') else character.auspice
+            player_tribe = character.tribe.value if hasattr(character.tribe, 'value') else character.tribe
+            
+            available_gifts = []
+            for g in full_catalogue:
+                g_tribe = g.get('tribe')
+                g_breed = g.get('breed')
+                g_auspice = g.get('auspice')
+                
+                is_match = False
+                if g_tribe and g_tribe == player_tribe: is_match = True
+                elif g_breed and g_breed == player_breed: is_match = True
+                elif g_auspice and g_auspice == player_auspice: is_match = True
+                elif g_tribe == "Universel" or (not g_tribe and not g_breed and not g_auspice): is_match = True
+                    
+                if is_match:
+                    available_gifts.append(g)
+                    
+            player_gifts_enriched = await get_player_gifts(db, target_user_id)
+            unlocked_ids = [g['id'] for g in player_gifts_enriched]
+            
+            # Return enriched list for admin (merged state)
+            final_list = []
+            for g in available_gifts:
+                final_list.append({
+                    **g,
+                    "unlocked": g['id'] in unlocked_ids
+                })
+                
+            return web.json_response({
+                "success": True,
+                "gifts": final_list,
+                "character": {"name": character.name, "tribe": player_tribe}
+            })
+            
+    except Exception as e:
+        logger.exception(f"Error fetching admin gifts for {target_user_id}")
+        return web.json_response({"error": "Failed to fetch gifts"}, status=500)
+
+
+@require_mj_role
+async def unlock_gift_handler(request: web.Request) -> web.Response:
+    """
+    POST /api/modules/werewolf/gifts/unlock - Débloquer/Verrouiller un don (MJ).
+    """
+    editor_id = request.headers.get("X-Discord-User-ID")
+    
+    try:
+        data = await request.json()
+        target_user_id = data.get('playerId')
+        gift_id = data.get('giftId')
+        should_unlock = data.get('unlock', True)
+        
+        if not target_user_id or not gift_id:
+            return web.json_response({"error": "Missing playerId or giftId"}, status=400)
+            
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            if should_unlock:
+                success = await unlock_gift(db, target_user_id, gift_id, editor_id)
+                # To clear, we would need a remove_gift function, assuming unlock only for now based on service
+                # If service only has unlock, we can't lock yet unless we add it. 
+                # Story says "Cocher/Décocher".
+                # For now let's assume unlock only or implement remove if critical.
+                # Service `unlock_gift` does INSERT. Removing would be DELETE.
+                if not success: 
+                     # Already unlocked is fine
+                     pass
+            else:
+                # Remove
+                await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ? AND gift_id = ?", (target_user_id, gift_id))
+                await db.commit()
+                
+            return web.json_response({"success": True, "new_state": "unlocked" if should_unlock else "locked"})
+            
+    except Exception as e:
+        logger.exception("Error unlocking gift")
+        return web.json_response({"error": "Failed to update gift"}, status=500)
+
+
 def register_werewolf_routes(app: web.Application) -> None:
     """
     Enregistre toutes les routes du module Werewolf sur l'application.
@@ -211,6 +412,15 @@ def register_werewolf_routes(app: web.Application) -> None:
     app.router.add_get("/api/modules/werewolf/character", get_character_handler)
     
     # Mise à jour de personnage
+    # Calcul du diff
     app.router.add_put("/api/modules/werewolf/character", update_character_handler)
+
+    # Gestion des Dons
+    app.router.add_get("/api/modules/werewolf/gifts", get_gifts_handler)
+    
+    # Administration (MJ)
+    app.router.add_get("/api/modules/werewolf/admin/players", get_admin_players_handler)
+    app.router.add_get("/api/modules/werewolf/admin/players/{user_id}/gifts", get_admin_player_gifts_handler)
+    app.router.add_post("/api/modules/werewolf/gifts/unlock", unlock_gift_handler)
     
     logger.info("Routes Werewolf enregistrées sur /api/modules/werewolf/*")

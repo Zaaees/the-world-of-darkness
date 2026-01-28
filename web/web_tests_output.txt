@@ -1,0 +1,983 @@
+
+> docs@0.0.0 test
+> vitest --run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.16 [39m[90mF:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web[39m
+
+ [32m✓[39m src/modules/werewolf/components/__tests__/RenownRequestList.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 131[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/components/__tests__/StoryEditorSync.test.jsx [2m([22m[2m2 tests[22m[2m)[22m[32m 145[2mms[22m[39m
+ [32m✓[39m src/modules/vampire/features/rituals/components/SearchInput.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 98[2mms[22m[39m
+ [31m❯[39m src/modules/vampire/features/rituals/stores/useGrimoireStore.test.js [2m([22m[2m16 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 29[2mms[22m[39m
+[31m     [31m×[31m should initialize with correct default state[39m[32m 15[2mms[22m[39m
+[31m     [31m×[31m should toggle view mode[39m[32m 2[2mms[22m[39m
+     [32m✓[39m should add a filter[32m 1[2mms[22m[39m
+     [32m✓[39m should not add duplicate filters[32m 1[2mms[22m[39m
+     [32m✓[39m should remove a filter[32m 1[2mms[22m[39m
+     [32m✓[39m should clear all filters[32m 1[2mms[22m[39m
+     [32m✓[39m should select filtered rituals (AND logic)[32m 1[2mms[22m[39m
+     [32m✓[39m should select filtered rituals with search[32m 1[2mms[22m[39m
+       [32m✓[39m should initialize with mock character[32m 0[2mms[22m[39m
+       [32m✓[39m should return check result for learning[32m 0[2mms[22m[39m
+       [32m✓[39m should learn ritual if forced[32m 0[2mms[22m[39m
+       [32m✓[39m should not learn if validation fails and not forced[32m 0[2mms[22m[39m
+       [32m✓[39m should learn ritual if validation passes and not forced[32m 0[2mms[22m[39m
+     [32m✓[39m should filter rituals by search query (Fuzzy simulation)[32m 1[2mms[22m[39m
+     [32m✓[39m should use fuzzy search integration (Story 2.3)[32m 1[2mms[22m[39m
+     [32m✓[39m should filter rituals by viewMode (Story 3.2)[32m 1[2mms[22m[39m
+ [31m❯[39m src/modules/vampire/features/rituals/components/RitualCard.test.jsx [2m([22m[2m6 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 41[2mms[22m[39m
+     [32m✓[39m renders ritual information correctly[32m 20[2mms[22m[39m
+     [32m✓[39m renders correctly[32m 2[2mms[22m[39m
+[31m       [31m×[31m has hover scale and shadow transition classes[39m[32m 10[2mms[22m[39m
+[31m       [31m×[31m has active/pressed scale feedback class[39m[32m 3[2mms[22m[39m
+[31m       [31m×[31m has CSS transition for smooth animations[39m[32m 3[2mms[22m[39m
+[31m       [31m×[31m respects reduced motion preference with motion-reduce classes[39m[32m 2[2mms[22m[39m
+ [32m✓[39m src/core/hooks/useUserRoles.test.js [2m([22m[2m6 tests[22m[2m)[22m[33m 401[2mms[22m[39m
+ [31m❯[39m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx [2m([22m[2m6 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[32m 122[2mms[22m[39m
+[31m     [31m×[31m should render disciplines and levels[39m[32m 18[2mms[22m[39m
+[31m     [31m×[31m should add discipline filter on click[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m should remove discipline filter on second click[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m should add level filter on click[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m should clear filters when clear button clicked[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m should toggle view mode when button clicked[39m[32m 94[2mms[22m[39m
+ [31m❯[39m src/modules/vampire/features/rituals/components/MobileFilterDrawer.test.jsx [2m([22m[2m14 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 173[2mms[22m[39m
+       [32m✓[39m does not render when isOpen is false[32m 13[2mms[22m[39m
+       [32m✓[39m renders when isOpen is true[32m 83[2mms[22m[39m
+       [32m✓[39m displays filter header title[32m 9[2mms[22m[39m
+[31m       [31m×[31m contains disciplines from store[39m[32m 10[2mms[22m[39m
+       [32m✓[39m contains level buttons[32m 5[2mms[22m[39m
+       [32m✓[39m has close button with accessible aria-label[32m 6[2mms[22m[39m
+       [32m✓[39m calls onClose when close button is clicked[32m 7[2mms[22m[39m
+       [32m✓[39m close button has minimum 44x44px touch target[32m 3[2mms[22m[39m
+       [32m✓[39m calls onClose when Escape key is pressed[32m 9[2mms[22m[39m
+       [32m✓[39m calls onClose when backdrop is clicked[32m 4[2mms[22m[39m
+       [32m✓[39m level buttons have minimum 44x44px touch target[32m 5[2mms[22m[39m
+[31m       [31m×[31m discipline labels have minimum 44px height[39m[32m 4[2mms[22m[39m
+       [32m✓[39m has role="dialog" and aria-modal="true"[32m 10[2mms[22m[39m
+       [32m✓[39m has aria-labelledby pointing to title[32m 5[2mms[22m[39m
+[90mstderr[2m | src/modules/werewolf/components/__tests__/StoryEditor.test.jsx[2m > [22m[2mStoryEditor Component[2m > [22m[2mdisplays error status when onSave fails
+[22m[39mErreur auto-save: Error: API Error
+    at F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/werewolf/components/__tests__/StoryEditor.test.jsx:57:54
+    at [90mfile:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at [90mfile:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:915:26
+    at [90mfile:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1653:37
+    at Traces.$ [90m(file:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.U4xDYhzZ.js:115:27[90m)[39m
+    at trace [90m(file:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+    at runTest [90m(file:///F:/Dossiers%20Utilisateur/Desktop/World%20of%20Darkness%20Code%20-%20BMAT/web/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1653:12[90m)[39m
+
+ [32m✓[39m src/modules/werewolf/components/__tests__/StoryEditor.test.jsx [2m([22m[2m7 tests[22m[2m)[22m[33m 433[2mms[22m[39m
+[90mstderr[2m | src/modules/werewolf/pages/AdminGiftsPage/AdminGiftsPage.test.jsx[2m > [22m[2mAdminGiftsPage[2m > [22m[2mhandles API error when loading players
+[22m[39mError: Erreur API
+    at fetchPlayers (F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/werewolf/pages/AdminGiftsPage/AdminGiftsPage.jsx:33:41)
+
+[90mstderr[2m | src/modules/werewolf/pages/AdminGiftsPage/AdminGiftsPage.test.jsx[2m > [22m[2mAdminGiftsPage[2m > [22m[2mhandles API error when toggling gift
+[22m[39mUpdate failed: Error: Failed to update
+    at handleToggleGift (F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/werewolf/pages/AdminGiftsPage/AdminGiftsPage.jsx:96:23)
+
+ [32m✓[39m src/modules/werewolf/pages/AdminGiftsPage/AdminGiftsPage.test.jsx [2m([22m[2m7 tests[22m[2m)[22m[33m 322[2mms[22m[39m
+ [32m✓[39m src/core/router/AppRouter.test.jsx [2m([22m[2m6 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m src/modules/vampire/features/rituals/components/RitualCatalog.test.jsx [2m([22m[2m4 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/components/WerewolfLayout.test.jsx [2m([22m[2m2 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/components/__tests__/RenownBadge.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m src/components/ErrorBoundary.test.jsx [2m([22m[2m2 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m src/modules/vampire/features/rituals/components/AnimatedView.test.jsx [2m([22m[2m9 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/components/RequireWerewolfRole.test.jsx [2m([22m[2m4 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+[90mstdout[2m | src/modules/vampire/pages/SheetPage.test.jsx[2m > [22m[2mSheetPage[2m > [22m[2mrenders login screen initially when no user is connected
+[22m[39mURL hash: 
+Saved token exists: [33mfalse[39m
+
+[90mstdout[2m | src/modules/vampire/pages/SheetPage.test.jsx[2m > [22m[2mSheetPage[2m > [22m[2mhandles null discordUser in auto-refresh effect without crashing
+[22m[39mURL hash: 
+Saved token exists: [33mfalse[39m
+
+[90mstdout[2m | src/modules/vampire/pages/SheetPage.test.jsx[2m > [22m[2mSheetPage[2m > [22m[2mattempts to load user if token exists in localStorage
+[22m[39mURL hash: 
+Saved token exists: [33mtrue[39m
+Fetching Discord user with token...
+
+[90mstdout[2m | src/modules/vampire/pages/SheetPage.test.jsx[2m > [22m[2mSheetPage[2m > [22m[2mattempts to load user if token exists in localStorage
+[22m[39mDiscord user: TestUser | global_name: Test Global
+
+[90mstderr[2m | src/modules/vampire/pages/SheetPage.test.jsx[2m > [22m[2mSheetPage[2m > [22m[2mattempts to load user if token exists in localStorage
+[22m[39mErreur chargement member info: TypeError: Cannot read properties of undefined (reading 'toString')
+    at F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/vampire/pages/SheetPage.jsx:649:49
+    at loadData (F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/vampire/pages/SheetPage.jsx:755:37)
+
+ [32m✓[39m src/modules/vampire/pages/SheetPage.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32m✓[39m src/modules/vampire/features/rituals/utils/search.test.js [2m([22m[2m6 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m src/data/rituals.test.js [2m([22m[2m6 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/modules/vampire/features/rituals/utils/rules.test.js [2m([22m[2m7 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m src/data/disciplines.test.js [2m([22m[2m8 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/pages/__tests__/CreateCharacter.test.jsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2323[2mms[22m[39m
+     [33m[2m✓[22m[39m submits the form and redirects on success [33m 2248[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/components/GiftCard/GiftCard.test.jsx [2m([22m[2m4 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/pages/GiftsPage/GiftsPage.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 60[2mms[22m[39m
+[90mstderr[2m | fetchGifts (F:\Dossiers Utilisateur\Desktop\World of Darkness Code - BMAT\web\src\modules\werewolf\pages\GiftsPage\GiftsPage.jsx:55:25)
+[22m[39mErreur fetch gifts: TypeError: fetch failed
+[90m    at node:internal/deps/undici/undici:15845:13[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at fetchGifts (F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/werewolf/pages/GiftsPage/GiftsPage.jsx:35:34) {
+  [cause]: AggregateError: 
+  [90m    at internalConnectMultiple (node:net:1134:18)[39m
+  [90m    at afterConnectMultiple (node:net:1715:7)[39m {
+    code: [32m'ECONNREFUSED'[39m,
+    [errors]: [ [36m[Error][39m, [36m[Error][39m ]
+  }
+}
+
+ [32m✓[39m src/modules/werewolf/pages/GiftsPage/GiftsPage.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 72[2mms[22m[39m
+[90mstderr[2m | fetchGifts (F:\Dossiers Utilisateur\Desktop\World of Darkness Code - BMAT\web\src\modules\werewolf\pages\GiftsPage\GiftsPage.jsx:55:25)
+[22m[39mErreur fetch gifts: TypeError: fetch failed
+[90m    at node:internal/deps/undici/undici:15845:13[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at fetchGifts (F:/Dossiers Utilisateur/Desktop/World of Darkness Code - BMAT/web/src/modules/werewolf/pages/GiftsPage/GiftsPage.jsx:35:34) {
+  [cause]: AggregateError: 
+  [90m    at internalConnectMultiple (node:net:1134:18)[39m
+  [90m    at afterConnectMultiple (node:net:1715:7)[39m {
+    code: [32m'ECONNREFUSED'[39m,
+    [errors]: [ [36m[Error][39m, [36m[Error][39m ]
+  }
+}
+
+ [32m✓[39m src/modules/werewolf/pages/RenownAdminPage.test.jsx [2m([22m[2m2 tests[22m[2m)[22m[32m 87[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/components/__tests__/RenownSubmissionModal.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+ [32m✓[39m src/modules/werewolf/pages/__tests__/CharacterSheet.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 54[2mms[22m[39m
+ [32m✓[39m src/modules/vampire/components/DisciplinesTab.test.jsx [2m([22m[2m6 tests[22m[2m)[22m[32m 164[2mms[22m[39m
+ [31m❯[39m src/modules/vampire/features/rituals/components/RitualReader.test.jsx [2m([22m[2m15 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 176[2mms[22m[39m
+       [32m✓[39m renders empty state when no ritual is provided[32m 20[2mms[22m[39m
+       [32m✓[39m shows BookOpen icon in empty state[32m 5[2mms[22m[39m
+       [32m✓[39m renders ritual name as heading[32m 92[2mms[22m[39m
+       [32m✓[39m displays ritual level[32m 5[2mms[22m[39m
+[31m       [31m×[31m displays discipline name[39m[32m 7[2mms[22m[39m
+       [32m✓[39m renders markdown headers with serif font[32m 8[2mms[22m[39m
+       [32m✓[39m renders paragraphs with body font class[32m 4[2mms[22m[39m
+       [32m✓[39m renders System: text in a styled box[32m 3[2mms[22m[39m
+       [32m✓[39m renders Système: (French) text in a styled box[32m 3[2mms[22m[39m
+       [32m✓[39m calls onClose when close button is clicked[32m 11[2mms[22m[39m
+       [32m✓[39m has accessible aria-label[32m 6[2mms[22m[39m
+       [32m✓[39m does not render close button when onClose is not provided[32m 3[2mms[22m[39m
+       [32m✓[39m shows description text when description_md is missing but description exists[32m 2[2mms[22m[39m
+       [32m✓[39m shows fallback message when both description_md and description are missing[32m 3[2mms[22m[39m
+       [32m✓[39m applies overflow protection classes to content wrapper[32m 2[2mms[22m[39m
+ [32m✓[39m src/test/atdd/DisciplinesTab.atdd.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 78[2mms[22m[39m
+ [31m❯[39m src/modules/vampire/components/DisciplinesTab.CaineMode.test.jsx [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 421[2mms[22m[39m
+     [32m✓[39m should display all disciplines when isCainMode is true[32m 215[2mms[22m[39m
+     [32m✓[39m should show up to level 10 powers when isCainMode is true[32m 96[2mms[22m[39m
+[31m     [31m×[31m should allow clicking level 10 powers in Caine Mode[39m[32m 108[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 16 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/components/DisciplinesTab.CaineMode.test.jsx[2m > [22mDisciplinesTab - Caine Mode[2m > [22mshould allow clicking level 10 powers in Caine Mode
+[31m[1mTypeError[22m: Cannot read properties of null (reading 'className')[39m
+[36m [2m❯[22m src/modules/vampire/components/DisciplinesTab.CaineMode.test.jsx:[2m42:28[22m[39m
+    [90m 40| [39m        const level10Card = level10Indicators[0].closest('.rounded.bor…
+    [90m 41| [39m
+    [90m 42| [39m        [34mexpect[39m(level10Card[33m.[39mclassName)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'opacity-60'[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 43| [39m        [34mexpect[39m(level10Card[33m.[39mclassName)[33m.[39m[34mtoContain[39m([32m'hover:shadow-lg'[39m)[33m;[39m
+    [90m 44| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/MobileFilterDrawer.test.jsx[2m > [22mMobileFilterDrawer[2m > [22mContent[2m > [22mcontains disciplines from store
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: Thaumaturgy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33manimate[39m=[32m"visible"[39m
+      [33mclass[39m=[32m"fixed inset-0 z-50 md:hidden"[39m
+      [33mexit[39m=[32m"hidden"[39m
+      [33minitial[39m=[32m"hidden"[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"absolute inset-0 bg-black/60 backdrop-blur-sm"[39m
+        [33mtransition[39m=[32m"[object Object]"[39m
+        [33mvariants[39m=[32m"[object Object]"[39m
+      [36m/>[39m
+      [36m<div[39m
+        [33maria-labelledby[39m=[32m"filter-drawer-title"[39m
+        [33maria-modal[39m=[32m"true"[39m
+        [33mclass[39m=[32m"absolute bottom-0 left-0 right-0 bg-stone-900 border-t border-stone-700 rounded-t-2xl shadow-2xl max-h-[80vh] flex flex-col"[39m
+        [33mrole[39m=[32m"dialog"[39m
+        [33mtransition[39m=[32m"[object Object]"[39m
+        [33mvariants[39m=[32m"[object Object]"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-center pt-3 pb-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"w-12 h-1 bg-stone-600 rounded-full"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center justify-between px-4 pb-3 border-b border-stone-800"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-lg font-serif font-bold text-stone-300 flex items-center gap-2"[39m
+            [33mid[39m=[32m"filter-drawer-title"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-funnel text-red-600"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mFiltres[0m
+          [36m</h2>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Fermer les filtres"[39m
+            [33mclass[39m=[32m"min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-stone-800 text-stone-400 hover:text-stone-200 transition-colors"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-x"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M18 6 6 18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m6 6 12 12"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex-1 overflow-y-auto p-4 overscroll-contain"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-6 font-serif"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"space-y-3"[39m
+            [36m>[39m
+              [36m<h4[39m
+                [33mclass[39m=[32m"text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1"[39m
+              [36m>[39m
+                [0mNiveau[0m
+              [36m</h4>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap gap-2"[39m
+              [36m>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m1[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m2[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m3[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m4[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m5[0m
+                [36m</button>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/MobileFilterDrawer.test.jsx:[2m62:27[22m[39m
+    [90m 60| [39m        [34mtest[39m([32m'contains disciplines from store'[39m[33m,[39m () [33m=>[39m {
+    [90m 61| [39m            render(<MobileFilterDrawer isOpen={true} onClose={mockOnCl…
+    [90m 62| [39m            [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Thaumaturgy'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 63| [39m            [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Necromancy'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m 64| [39m        })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/MobileFilterDrawer.test.jsx[2m > [22mMobileFilterDrawer[2m > [22mTouch Targets[2m > [22mdiscipline labels have minimum 44px height
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: Thaumaturgy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33manimate[39m=[32m"visible"[39m
+      [33mclass[39m=[32m"fixed inset-0 z-50 md:hidden"[39m
+      [33mexit[39m=[32m"hidden"[39m
+      [33minitial[39m=[32m"hidden"[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"absolute inset-0 bg-black/60 backdrop-blur-sm"[39m
+        [33mtransition[39m=[32m"[object Object]"[39m
+        [33mvariants[39m=[32m"[object Object]"[39m
+      [36m/>[39m
+      [36m<div[39m
+        [33maria-labelledby[39m=[32m"filter-drawer-title"[39m
+        [33maria-modal[39m=[32m"true"[39m
+        [33mclass[39m=[32m"absolute bottom-0 left-0 right-0 bg-stone-900 border-t border-stone-700 rounded-t-2xl shadow-2xl max-h-[80vh] flex flex-col"[39m
+        [33mrole[39m=[32m"dialog"[39m
+        [33mtransition[39m=[32m"[object Object]"[39m
+        [33mvariants[39m=[32m"[object Object]"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex justify-center pt-3 pb-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"w-12 h-1 bg-stone-600 rounded-full"[39m
+          [36m/>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex items-center justify-between px-4 pb-3 border-b border-stone-800"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-lg font-serif font-bold text-stone-300 flex items-center gap-2"[39m
+            [33mid[39m=[32m"filter-drawer-title"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-funnel text-red-600"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mFiltres[0m
+          [36m</h2>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Fermer les filtres"[39m
+            [33mclass[39m=[32m"min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-stone-800 text-stone-400 hover:text-stone-200 transition-colors"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-x"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M18 6 6 18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m6 6 12 12"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex-1 overflow-y-auto p-4 overscroll-contain"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-6 font-serif"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"space-y-3"[39m
+            [36m>[39m
+              [36m<h4[39m
+                [33mclass[39m=[32m"text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1"[39m
+              [36m>[39m
+                [0mNiveau[0m
+              [36m</h4>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap gap-2"[39m
+              [36m>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m1[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m2[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m3[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m4[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"
+                                        w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200
+                                        bg-stone-900 border-stone-800 text-stone-600 hover:border-stone-600 hover:text-stone-400
+                                    "[39m
+                [36m>[39m
+                  [0m5[0m
+                [36m</button>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/MobileFilterDrawer.test.jsx:[2m120:44[22m[39m
+    [90m118| [39m        [34mtest[39m([32m'discipline labels have minimum 44px height'[39m[33m,[39m () [33m=>[39m {
+    [90m119| [39m            render(<MobileFilterDrawer isOpen={true} onClose={mockOnCl…
+    [90m120| [39m            const disciplineLabel = screen.getByText('Thaumaturgy').cl…
+    [90m   | [39m                                           [31m^[39m
+    [90m121| [39m            expect(disciplineLabel.className).toContain('min-h-[44px]'…
+    [90m122| [39m        })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualCard.test.jsx[2m > [22mRitualCard[2m > [22mAnimation Styles[2m > [22mhas hover scale and shadow transition classes
+[31m[1mAssertionError[22m: expected 'h-full border border-stone-800 bg-[#1…' to contain 'hover:scale-[1.02]'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- h[7mover:scale-[1.02][27m[39m
+[31m+ h[7m-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden[27m[39m
+[31m+                     transition-all duration-300 ease-out[39m
+[31m+                     hover:border-red-900/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)][39m
+[31m+                     before:absolute before:inset-0 before:bg-noise before:opacity-30 before:pointer-events-none[39m
+
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualCard.test.jsx:[2m35:41[22m[39m
+    [90m 33| [39m            [35mconst[39m cardInner [33m=[39m container[33m.[39m[34mquerySelector[39m([32m'.group'[39m)[33m;[39m
+    [90m 34| [39m
+    [90m 35| [39m            expect(cardInner.className).toContain('hover:scale-[1.02]'…
+    [90m   | [39m                                        [31m^[39m
+    [90m 36| [39m            [34mexpect[39m(cardInner[33m.[39mclassName)[33m.[39m[34mtoContain[39m([32m'hover:shadow-lg'[39m)[33m;[39m
+    [90m 37| [39m            expect(cardInner.className).toContain('hover:border-red-70…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualCard.test.jsx[2m > [22mRitualCard[2m > [22mAnimation Styles[2m > [22mhas active/pressed scale feedback class
+[31m[1mAssertionError[22m: expected 'h-full border border-stone-800 bg-[#1…' to contain 'active:scale-[0.98]'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- active:scale-[0.98][39m
+[31m+ h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden[39m
+[31m+                     transition-all duration-300 ease-out[39m
+[31m+                     hover:border-red-900/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)][39m
+[31m+                     before:absolute before:inset-0 before:bg-noise before:opacity-30 before:pointer-events-none[39m
+
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualCard.test.jsx:[2m44:41[22m[39m
+    [90m 42| [39m            [35mconst[39m cardInner [33m=[39m container[33m.[39m[34mquerySelector[39m([32m'.group'[39m)[33m;[39m
+    [90m 43| [39m
+    [90m 44| [39m            expect(cardInner.className).toContain('active:scale-[0.98]…
+    [90m   | [39m                                        [31m^[39m
+    [90m 45| [39m        })[33m;[39m
+    [90m 46| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualCard.test.jsx[2m > [22mRitualCard[2m > [22mAnimation Styles[2m > [22mhas CSS transition for smooth animations
+[31m[1mAssertionError[22m: expected 'h-full border border-stone-800 bg-[#1…' to contain 'duration-200'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- duration-200[39m
+[31m+ h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden[39m
+[31m+                     transition-all duration-300 ease-out[39m
+[31m+                     hover:border-red-900/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)][39m
+[31m+                     before:absolute before:inset-0 before:bg-noise before:opacity-30 before:pointer-events-none[39m
+
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualCard.test.jsx:[2m52:41[22m[39m
+    [90m 50| [39m
+    [90m 51| [39m            [34mexpect[39m(cardInner[33m.[39mclassName)[33m.[39m[34mtoContain[39m([32m'transition-all'[39m)[33m;[39m
+    [90m 52| [39m            [34mexpect[39m(cardInner[33m.[39mclassName)[33m.[39m[34mtoContain[39m([32m'duration-200'[39m)[33m;[39m
+    [90m   | [39m                                        [31m^[39m
+    [90m 53| [39m        })[33m;[39m
+    [90m 54| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualCard.test.jsx[2m > [22mRitualCard[2m > [22mAnimation Styles[2m > [22mrespects reduced motion preference with motion-reduce classes
+[31m[1mAssertionError[22m: expected 'h-full border border-stone-800 bg-[#1…' to contain 'motion-reduce:hover:scale-100'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- motion-reduce:hover:scale-100[39m
+[31m+ h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden[39m
+[31m+                     transition-all duration-300 ease-out[39m
+[31m+                     hover:border-red-900/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.5)][39m
+[31m+                     before:absolute before:inset-0 before:bg-noise before:opacity-30 before:pointer-events-none[39m
+
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualCard.test.jsx:[2m59:41[22m[39m
+    [90m 57| [39m            [35mconst[39m cardInner [33m=[39m container[33m.[39m[34mquerySelector[39m([32m'.group'[39m)[33m;[39m
+    [90m 58| [39m
+    [90m 59| [39m            expect(cardInner.className).toContain('motion-reduce:hover…
+    [90m   | [39m                                        [31m^[39m
+    [90m 60| [39m            expect(cardInner.className).toContain('motion-reduce:activ…
+    [90m 61| [39m        })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx[2m > [22mRitualFilter[2m > [22mshould render disciplines and levels
+[31m[1mTestingLibraryElementError[22m: Unable to find an element with the text: Thaumaturgy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"bg-stone-900 border-r border-stone-800 w-full md:w-64 flex-shrink-0 flex flex-col h-full overflow-y-auto p-4"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"space-y-6 font-serif"[31m
+      [36m/>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx:[2m22:23[22m[39m
+    [90m 20| [39m    [34mit[39m([32m'should render disciplines and levels'[39m[33m,[39m () [33m=>[39m {
+    [90m 21| [39m        [34mrender[39m([33m<[39m[33mRitualFilter[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 22| [39m        [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Thaumaturgy'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                      [31m^[39m
+    [90m 23| [39m        [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Necromancy'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m 24| [39m        [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'1'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx[2m > [22mRitualFilter[2m > [22mshould add discipline filter on click
+[31m[1mTestingLibraryElementError[22m: Unable to find an element with the text: Thaumaturgy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"bg-stone-900 border-r border-stone-800 w-full md:w-64 flex-shrink-0 flex flex-col h-full overflow-y-auto p-4"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"space-y-6 font-serif"[31m
+      [36m/>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx:[2m32:35[22m[39m
+    [90m 30| [39m    [34mit[39m([32m'should add discipline filter on click'[39m[33m,[39m () [33m=>[39m {
+    [90m 31| [39m        [34mrender[39m([33m<[39m[33mRitualFilter[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 32| [39m        [35mconst[39m discipline [33m=[39m screen[33m.[39m[34mgetByText[39m([32m'Thaumaturgy'[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m 33| [39m
+    [90m 34| [39m        fireEvent[33m.[39m[34mclick[39m(discipline)[33m;[39m [90m// Click label[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx[2m > [22mRitualFilter[2m > [22mshould remove discipline filter on second click
+[31m[1mTestingLibraryElementError[22m: Unable to find an element with the text: Thaumaturgy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"bg-stone-900 border-r border-stone-800 w-full md:w-64 flex-shrink-0 flex flex-col h-full overflow-y-auto p-4"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"space-y-6 font-serif"[31m
+      [36m/>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx:[2m42:35[22m[39m
+    [90m 40| [39m    [34mit[39m([32m'should remove discipline filter on second click'[39m[33m,[39m () [33m=>[39m {
+    [90m 41| [39m        [34mrender[39m([33m<[39m[33mRitualFilter[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 42| [39m        [35mconst[39m discipline [33m=[39m screen[33m.[39m[34mgetByText[39m([32m'Thaumaturgy'[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m 43| [39m
+    [90m 44| [39m        fireEvent[33m.[39m[34mclick[39m(discipline)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx[2m > [22mRitualFilter[2m > [22mshould add level filter on click
+[31m[1mTestingLibraryElementError[22m: Unable to find an element with the text: 3. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"bg-stone-900 border-r border-stone-800 w-full md:w-64 flex-shrink-0 flex flex-col h-full overflow-y-auto p-4"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"space-y-6 font-serif"[31m
+      [36m/>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx:[2m53:33[22m[39m
+    [90m 51| [39m    [34mit[39m([32m'should add level filter on click'[39m[33m,[39m () [33m=>[39m {
+    [90m 52| [39m        [34mrender[39m([33m<[39m[33mRitualFilter[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 53| [39m        [35mconst[39m levelBtn [33m=[39m screen[33m.[39m[34mgetByText[39m([32m'3'[39m)[33m;[39m
+    [90m   | [39m                                [31m^[39m
+    [90m 54| [39m
+    [90m 55| [39m        fireEvent[33m.[39m[34mclick[39m(levelBtn)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx[2m > [22mRitualFilter[2m > [22mshould clear filters when clear button clicked
+[31m[1mTestingLibraryElementError[22m: Unable to find an element with the text: Effacer. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"bg-stone-900 border-r border-stone-800 w-full md:w-64 flex-shrink-0 flex flex-col h-full overflow-y-auto p-4"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"space-y-6 font-serif"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"flex items-center justify-end pt-2 pb-4"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33mclass[31m=[32m"text-xs text-red-500 hover:text-red-400 transition-colors uppercase tracking-wider flex items-center gap-2 border border-red-900/30 px-3 py-1 rounded bg-red-950/20"[31m
+          [36m>[31m
+            [36m<span>[31m
+              [0mEffacer les filtres[0m
+            [36m</span>[31m
+            [36m<span[31m
+              [33mclass[31m=[32m"text-[10px] opacity-70"[31m
+            [36m>[31m
+              [0m✕[0m
+            [36m</span>[31m
+          [36m</button>[31m
+        [36m</div>[31m
+      [36m</div>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx:[2m68:33[22m[39m
+    [90m 66| [39m
+    [90m 67| [39m        [34mrender[39m([33m<[39m[33mRitualFilter[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 68| [39m        [35mconst[39m clearBtn [33m=[39m screen[33m.[39m[34mgetByText[39m([32m'Effacer'[39m)[33m;[39m
+    [90m   | [39m                                [31m^[39m
+    [90m 69| [39m
+    [90m 70| [39m        fireEvent[33m.[39m[34mclick[39m(clearBtn)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx[2m > [22mRitualFilter[2m > [22mshould toggle view mode when button clicked
+[31m[1mTestingLibraryElementError[22m: Unable to find an accessible element with the role "button" and name `/Bibliothèque \(MJ\)/i`
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<div[31m
+      [33mclass[31m=[32m"bg-stone-900 border-r border-stone-800 w-full md:w-64 flex-shrink-0 flex flex-col h-full overflow-y-auto p-4"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"space-y-6 font-serif"[31m
+      [36m/>[31m
+    [36m</div>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualFilter.test.jsx:[2m81:34[22m[39m
+    [90m 79| [39m
+    [90m 80| [39m        [90m// Initial State (GM)[39m
+    [90m 81| [39m        const toggleBtn = screen.getByRole('button', { name: /Biblioth…
+    [90m   | [39m                                 [31m^[39m
+    [90m 82| [39m        [34mexpect[39m(toggleBtn)[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m 83| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/components/RitualReader.test.jsx[2m > [22mRitualReader[2m > [22mRitual Display[2m > [22mdisplays discipline name
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: Thaumaturgy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"h-full flex flex-col bg-[#1c1917] border-l border-[#292524] relative shadow-2xl"[39m
+      [33mstyle[39m=[32m"opacity: 0; transform: translateX(20px);"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"p-6 border-b border-[#292524] bg-stone-950/30 flex justify-between items-start sticky top-0 z-10 backdrop-blur-sm"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"font-serif text-3xl text-red-600 leading-none mb-2"[39m
+          [36m>[39m
+            [0mLame Ardente[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center gap-3 text-xs uppercase tracking-widest text-stone-500 font-serif"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mNiveau [0m
+              [0m2[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"w-1 h-1 rounded-full bg-red-900"[39m
+            [36m/>[39m
+            [36m<span>[39m
+              [0mThaumaturgie[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex-1 overflow-y-auto overflow-x-hidden p-8 custom-scrollbar"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"max-w-5xl mx-auto break-words [overflow-wrap:anywhere]"[39m
+        [36m>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"font-serif text-3xl text-red-600 mt-6 mb-4 leading-tight"[39m
+          [36m>[39m
+            [0mGrand Titre[0m
+          [36m</h1>[39m
+          [0m
+[0m
+          [36m<p[39m
+            [33mclass[39m=[32m"font-body text-stone-300 mb-4 leading-relaxed first-of-type:first-letter:text-5xl first-of-type:first-letter:font-serif first-of-type:first-letter:text-red-700 first-of-type:first-letter:float-left first-of-type:first-letter:mr-3 first-of-type:first-letter:mt-[-4px]"[39m
+          [36m>[39m
+            [0mCeci est le premier paragraphe avec une [0m
+            [36m<strong[39m
+              [33mclass[39m=[32m"font-bold text-stone-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.3)]"[39m
+            [36m>[39m
+              [0mlettrine[0m
+            [36m</strong>[39m
+            [0m.[0m
+          [36m</p>[39m
+          [0m
+[0m
+          [36m<p[39m
+            [33mclass[39m=[32m"font-body text-stone-300 mb-4 leading-relaxed first-of-type:first-letter:text-5xl first-of-type:first-letter:font-serif first-of-type:first-letter:text-red-700 first-of-type:first-letter:float-left first-of-type:first-letter:mr-3 first-of-type:first-letter:mt-[-4px]"[39m
+          [36m>[39m
+            [0mDeuxième paragraphe normal.[0m
+          [36m</p>[39m
+          [0m
+[0m
+          [36m<div[39m
+            [33mclass[39m=[32m"my-6 p-4 bg-stone-900/80 border border-red-900/50 rounded-lg shadow-inner relative overflow-hidden group"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"absolute top-0 left-0 w-1 h-full bg-red-800/50"[39m
+            [36m/>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"font-sans text-sm text-stone-300 leading-relaxed pl-3"[39m
+            [36m>[39m
+              [0mSystem: Jet de Dés requis.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"mt-8 space-y-6 border-t border-stone-800 pt-8"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"grid grid-cols-1 md:grid-cols-2 gap-4"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"bg-stone-900/40 p-3 rounded border border-stone-800 flex items-center gap-3"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"p-2 bg-stone-950 rounded-full text-red-600/70 border border-red-900/20"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-droplets"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"16"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"16"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</div>[39m
+                [36m<div>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-[10px] uppercase tracking-widest text-stone-500 block"[39m
+                  [36m>[39m
+                    [0mCoût[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-stone-300 font-serif text-sm"[39m
+                  [36m>[39m
+                    [0mVariable (selon niveau)[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m76:38[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m52:17[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m src/modules/vampire/features/rituals/components/RitualReader.test.jsx:[2m41:27[22m[39m
+    [90m 39| [39m        [34mit[39m([32m'displays discipline name'[39m[33m,[39m () [33m=>[39m {
+    [90m 40| [39m            [34mrender[39m([33m<[39m[33mRitualReader[39m [33mritual[39m[33m=[39m[33m{[39mmockRitual[33m}[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 41| [39m            [34mexpect[39m(screen[33m.[39m[34mgetByText[39m([32m'Thaumaturgy'[39m))[33m.[39m[34mtoBeDefined[39m()[33m;[39m
+    [90m   | [39m                          [31m^[39m
+    [90m 42| [39m        })[33m;[39m
+    [90m 43| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/stores/useGrimoireStore.test.js[2m > [22museGrimoireStore[2m > [22mshould initialize with correct default state
+[31m[1mAssertionError[22m: expected 'PLAYER' to be 'GM' // Object.is equality[39m
+
+Expected: [32m"GM"[39m
+Received: [31m"PLAYER"[39m
+
+[36m [2m❯[22m src/modules/vampire/features/rituals/stores/useGrimoireStore.test.js:[2m22:41[22m[39m
+    [90m 20| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39msearchQuery)[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m 21| [39m        [90m// New default for Story 3.2[39m
+    [90m 22| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mviewMode)[33m.[39m[34mtoBe[39m([32m'GM'[39m)[33m;[39m
+    [90m   | [39m                                        [31m^[39m
+    [90m 23| [39m    })[33m;[39m
+    [90m 24| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/16]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/modules/vampire/features/rituals/stores/useGrimoireStore.test.js[2m > [22museGrimoireStore[2m > [22mshould toggle view mode
+[31m[1mAssertionError[22m: expected 'GM' to be 'PLAYER' // Object.is equality[39m
+
+Expected: [32m"PLAYER"[39m
+Received: [31m"GM"[39m
+
+[36m [2m❯[22m src/modules/vampire/features/rituals/stores/useGrimoireStore.test.js:[2m31:41[22m[39m
+    [90m 29| [39m            result[33m.[39mcurrent[33m.[39m[34mtoggleViewMode[39m()[33m;[39m
+    [90m 30| [39m        })[33m;[39m
+    [90m 31| [39m        [34mexpect[39m(result[33m.[39mcurrent[33m.[39mviewMode)[33m.[39m[34mtoBe[39m([32m'PLAYER'[39m)[33m;[39m
+    [90m   | [39m                                        [31m^[39m
+    [90m 32| [39m
+    [90m 33| [39m        [34mact[39m(() [33m=>[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/16]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m27 passed[39m[22m[90m (33)[39m
+[2m      Tests [22m [1m[31m16 failed[39m[22m[2m | [22m[1m[32m169 passed[39m[22m[90m (185)[39m
+[2m   Start at [22m 06:51:28
+[2m   Duration [22m 16.88s[2m (transform 14.88s, setup 19.80s, import 80.78s, tests 5.71s, environment 159.52s)[22m
+
+npm notice
+npm notice New minor version of npm available! 11.6.2 -> 11.8.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.8.0
+npm notice To update run: npm install -g npm@11.8.0
+npm notice

@@ -74,8 +74,7 @@ class TestStory4_2_RenownSubmissionAPI:
         mock_request.app['db'].commit = AsyncMock()
         
         # Call the handler with patched create_renown_table
-        with patch('modules.werewolf.views.api_routes.create_renown_table', new_callable=AsyncMock):
-            response = await submit_renown_request(mock_request)
+        response = await submit_renown_request(mock_request)
         
         # Assertions
         assert response.status == 201, (
@@ -119,8 +118,7 @@ class TestStory4_2_RenownSubmissionAPI:
         mock_request.app = {'db': MagicMock()}
 
         
-        with patch('modules.werewolf.views.api_routes.create_renown_table', new_callable=AsyncMock):
-            response = await submit_renown_request(mock_request)
+        response = await submit_renown_request(mock_request)
         
         assert response.status == 400, (
             "Should return 400 when title is missing"
@@ -160,8 +158,7 @@ class TestStory4_2_RenownSubmissionAPI:
         mock_request.get.return_value = {"id": "123456789"} # Authenticated
         mock_request.app = {'db': MagicMock()}
         
-        with patch('modules.werewolf.views.api_routes.create_renown_table', new_callable=AsyncMock):
-            response = await submit_renown_request(mock_request)
+        response = await submit_renown_request(mock_request)
         
         assert response.status == 400, (
             "Should return 400 for invalid renown_type"
@@ -201,8 +198,7 @@ class TestStory4_2_RenownSubmissionAPI:
         mock_request.get.return_value = None # Not authenticated
         mock_request.app = {'db': MagicMock()}
         
-        with patch('modules.werewolf.views.api_routes.create_renown_table', new_callable=AsyncMock):
-            response = await submit_renown_request(mock_request)
+        response = await submit_renown_request(mock_request)
         
         assert response.status == 401, (
             "Should return 401 for unauthenticated requests"

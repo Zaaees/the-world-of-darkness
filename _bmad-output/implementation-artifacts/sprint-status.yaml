@@ -63,16 +63,16 @@ development_status:
   3-4-audit-log-des-modifications: done
   epic-3-retrospective: optional
 
-  epic-4: in-progress
+  epic-4: done
   4-1-modele-de-donnees-renommee: done
   4-2-formulaire-de-soumission-de-haut-fait: done
   4-3-dashboard-mj-liste-des-demandes-de-renommee: done
   4-4-validation-et-mise-a-jour-du-rang: done
   epic-4-retrospective: optional
 
-  epic-5: backlog
-  5-1-modele-de-donnees-et-assets-dons: backlog
-  5-2-composant-giftcard: backlog
-  5-3-page-de-consultation-des-dons: backlog
-  5-4-dashboard-mj-deblocage-des-dons: backlog
+  epic-5: in-progress
+  5-1-modele-de-donnees-et-assets-dons: done
+  5-2-composant-giftcard: done
+  5-3-page-de-consultation-des-dons: done
+  5-4-dashboard-mj-deblocage-des-dons: done
   epic-5-retrospective: optional

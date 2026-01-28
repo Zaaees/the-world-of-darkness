@@ -38,7 +38,7 @@ describe('RitualReader', () => {
 
         it('displays discipline name', () => {
             render(<RitualReader ritual={mockRitual} />);
-            expect(screen.getByText('Thaumaturgy')).toBeDefined();
+            expect(screen.getByText('Thaumaturgie')).toBeDefined();
         });
 
         it('renders markdown headers with serif font', () => {

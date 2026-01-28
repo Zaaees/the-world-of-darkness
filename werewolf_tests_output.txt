@@ -1,0 +1,88 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.0.2, pluggy-1.6.0 -- C:\Users\freed\AppData\Local\Programs\Python\Python311\python.exe
+cachedir: .pytest_cache
+rootdir: F:\Dossiers Utilisateur\Desktop\World of Darkness Code - BMAT
+configfile: pytest.ini
+plugins: anyio-4.10.0, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 65 items
+
+tests/modules/werewolf/services/test_sheet.py::test_sync_sheet_to_discord_updates_thread_starter_message PASSED [  1%]
+tests/modules/werewolf/test_assets_atdd.py::TestStory2_2_WerewolfAssets::test_assets_file_exists PASSED [  3%]
+tests/modules/werewolf/test_assets_atdd.py::TestStory2_2_WerewolfAssets::test_assets_structure_breeds PASSED [  4%]
+tests/modules/werewolf/test_assets_atdd.py::TestStory2_2_WerewolfAssets::test_assets_structure_auspices PASSED [  6%]
+tests/modules/werewolf/test_assets_atdd.py::TestStory2_2_WerewolfAssets::test_assets_structure_tribes PASSED [  7%]
+tests/modules/werewolf/test_audit_atdd.py::TestStory3_4_AuditLog::test_calculate_diff_changes PASSED [  9%]
+tests/modules/werewolf/test_audit_atdd.py::TestStory3_4_AuditLog::test_calculate_diff_no_changes PASSED [ 10%]
+tests/modules/werewolf/test_audit_atdd.py::TestStory3_4_AuditLog::test_log_character_update_sends_discord_message PASSED [ 12%]
+tests/modules/werewolf/test_audit_atdd.py::TestStory3_4_AuditLog::test_log_character_update_minor_modification PASSED [ 13%]
+tests/modules/werewolf/test_audit_atdd.py::TestStory3_4_AuditLog::test_audit_constant_exists PASSED [ 15%]
+tests/modules/werewolf/test_audit_route_integration.py::test_update_character_calls_audit_log PASSED [ 16%]
+tests/modules/werewolf/test_character_service_integration.py::test_create_character_with_discord_integration PASSED [ 18%]
+tests/modules/werewolf/test_character_service_integration.py::test_create_character_discord_failure_graceful PASSED [ 20%]
+tests/modules/werewolf/test_character_sheet_atdd.py::TestStory3_1_CharacterSheetAPI::test_get_character_data_api PASSED [ 21%]
+tests/modules/werewolf/test_character_sheet_atdd.py::TestStory3_1_CharacterSheetAPI::test_get_character_not_found PASSED [ 23%]
+tests/modules/werewolf/test_create_sheet_atdd.py::TestStory2_4_CharacterCreation::test_create_character_persistence PASSED [ 24%]
+tests/modules/werewolf/test_create_sheet_atdd.py::TestStory2_4_CharacterCreation::test_create_character_api_handler PASSED [ 26%]
+tests/modules/werewolf/test_discord_publish_atdd.py::TestStory2_5_DiscordPublication::test_publish_to_forum PASSED [ 27%]
+tests/modules/werewolf/test_discord_publish_atdd.py::TestStory2_5_DiscordPublication::test_save_thread_id PASSED [ 29%]
+tests/modules/werewolf/test_discord_service.py::test_create_character_thread_success PASSED [ 30%]
+tests/modules/werewolf/test_discord_service.py::test_create_character_thread_channel_not_found PASSED [ 32%]
+tests/modules/werewolf/test_discord_service.py::test_create_character_thread_embed_content PASSED [ 33%]
+tests/modules/werewolf/test_gifts_data_integrity.py::TestGiftsDataIntegrity::test_gifts_data_file_exists PASSED [ 35%]
+tests/modules/werewolf/test_gifts_data_integrity.py::TestGiftsDataIntegrity::test_gifts_data_valid_json PASSED [ 36%]
+tests/modules/werewolf/test_gifts_data_integrity.py::TestGiftsDataIntegrity::test_gifts_schema_compliance PASSED [ 38%]
+tests/modules/werewolf/test_gifts_data_integrity.py::TestGiftsDataIntegrity::test_gift_ids_unique PASSED [ 40%]
+tests/modules/werewolf/test_gifts_model.py::TestGiftsModelIntegration::test_player_gifts_table_exists PASSED [ 41%]
+tests/modules/werewolf/test_gifts_model.py::TestGiftsModelIntegration::test_insert_unlocked_gift PASSED [ 43%]
+tests/modules/werewolf/test_gifts_model.py::TestGiftsModelIntegration::test_fetch_player_gifts PASSED [ 44%]
+tests/modules/werewolf/test_gifts_service.py::test_load_gift_catalogue PASSED [ 46%]
+tests/modules/werewolf/test_gifts_service.py::test_get_player_gifts_empty PASSED [ 47%]
+tests/modules/werewolf/test_gifts_service.py::test_unlock_and_get_player_gifts PASSED [ 49%]
+tests/modules/werewolf/test_gifts_unlock_atdd.py::TestStory5_4_MJGiftsAPI::test_get_admin_players_mj_only PASSED [ 50%]
+tests/modules/werewolf/test_gifts_unlock_atdd.py::TestStory5_4_MJGiftsAPI::test_get_admin_player_gifts_mj_success PASSED [ 52%]
+tests/modules/werewolf/test_gifts_unlock_atdd.py::TestStory5_4_MJGiftsAPI::test_unlock_gift_mj_success PASSED [ 53%]
+tests/modules/werewolf/test_gifts_unlock_atdd.py::TestStory5_4_MJGiftsAPI::test_unlock_gift_missing_params PASSED [ 55%]
+tests/modules/werewolf/test_mj_dashboard_atdd.py::TestStory4_3_MJDashboardAPI::test_get_renown_requests_mj_only PASSED [ 56%]
+tests/modules/werewolf/test_mj_dashboard_atdd.py::TestStory4_3_MJDashboardAPI::test_get_pending_renown_requests_list PASSED [ 58%]
+tests/modules/werewolf/test_mj_dashboard_atdd.py::TestStory4_3_MJDashboardAPI::test_validate_renown_request_mj_only PASSED [ 60%]
+tests/modules/werewolf/test_mj_dashboard_atdd.py::TestStory4_3_MJDashboardAPI::test_validate_updates_status PASSED [ 61%]
+tests/modules/werewolf/test_mj_dashboard_atdd.py::TestStory4_3_MJDashboardAPI::test_reject_renown_request_mj_only PASSED [ 63%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_renown_table_exists PASSED [ 64%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_renown_table_has_required_columns PASSED [ 66%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_renown_type_enum_values PASSED [ 67%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_renown_status_enum_values PASSED [ 69%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_renown_dataclass_exists PASSED [ 70%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_create_renown_request_function PASSED [ 72%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_get_renown_requests_by_user PASSED [ 73%]
+tests/modules/werewolf/test_renown_atdd.py::TestStory4_1_RenownDataModel::test_user_id_foreign_key_relationship PASSED [ 75%]
+tests/modules/werewolf/test_renown_submission_atdd.py::TestStory4_2_RenownSubmissionAPI::test_submit_renown_request_api_creates_pending_entry PASSED [ 76%]
+tests/modules/werewolf/test_renown_submission_atdd.py::TestStory4_2_RenownSubmissionAPI::test_submit_renown_request_requires_title_and_description PASSED [ 78%]
+tests/modules/werewolf/test_renown_submission_atdd.py::TestStory4_2_RenownSubmissionAPI::test_submit_renown_request_requires_valid_renown_type PASSED [ 80%]
+tests/modules/werewolf/test_renown_submission_atdd.py::TestStory4_2_RenownSubmissionAPI::test_submit_renown_request_requires_authentication PASSED [ 81%]
+tests/modules/werewolf/test_renown_submission_atdd.py::TestStory4_2_RenownSubmissionAPI::test_submit_renown_persists_to_database PASSED [ 83%]
+tests/modules/werewolf/test_renown_submission_atdd.py::TestStory4_2_RenownSubmissionAPI::test_submitted_at_timestamp_is_set_automatically PASSED [ 84%]
+tests/modules/werewolf/test_renown_validation_atdd.py::TestStory4_4_RenownValidation::test_rank_calculation_logic_unit PASSED [ 86%]
+tests/modules/werewolf/test_renown_validation_atdd.py::TestStory4_4_RenownValidation::test_rank_update_persisted PASSED [ 87%]
+tests/modules/werewolf/test_renown_validation_atdd.py::TestStory4_4_RenownValidation::test_discord_notification_content PASSED [ 89%]
+tests/modules/werewolf/test_renown_validation_atdd.py::TestStory4_4_RenownValidation::test_validate_request_triggers_rank_update PASSED [ 90%]
+tests/modules/werewolf/test_store.py::test_create_table PASSED           [ 92%]
+tests/modules/werewolf/test_store.py::test_create_and_get_data PASSED    [ 93%]
+tests/modules/werewolf/test_store.py::test_create_data_with_strings PASSED [ 95%]
+tests/modules/werewolf/test_store.py::test_update_data_mutability PASSED [ 96%]
+tests/modules/werewolf/test_store.py::test_update_data_immutability_and_security PASSED [ 98%]
+tests/modules/werewolf/test_sync_route_atdd.py::test_update_character_calls_sync PASSED [100%]
+
+============================== warnings summary ===============================
+C:\Users\freed\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\player.py:30
+  C:\Users\freed\AppData\Local\Programs\Python\Python311\Lib\site-packages\discord\player.py:30: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+tests/modules/werewolf/test_create_sheet_atdd.py::TestStory2_4_CharacterCreation::test_create_character_api_handler
+  C:\Users\freed\AppData\Local\Programs\Python\Python311\Lib\unittest\mock.py:2133: RuntimeWarning: coroutine 'AsyncMockMixin._execute_mock_call' was never awaited
+    setattr(_type, entry, MagicProxy(entry, self))
+  Enable tracemalloc to get traceback where the object was allocated.
+  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 65 passed, 2 warnings in 0.42s ========================

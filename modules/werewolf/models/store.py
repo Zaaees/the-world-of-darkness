@@ -309,5 +309,62 @@ async def update_werewolf_renown(db: aiosqlite.Connection, renown_id: int, updat
     values = list(valid_updates.values())
     values.append(renown_id)
     
-    await db.execute(f"UPDATE werewolf_renown SET {set_clause} WHERE id = ?", values)
+
+@dataclass
+class WerewolfPlayerGift:
+    user_id: str
+    gift_id: str
+    unlocked_by: str
+    unlocked_at: Optional[datetime] = None
+
+async def create_player_gifts_table(db: aiosqlite.Connection) -> None:
+    """Crée la table werewolf_player_gifts si elle n'existe pas."""
+    await db.execute("""
+        CREATE TABLE IF NOT EXISTS werewolf_player_gifts (
+            user_id TEXT NOT NULL,
+            gift_id TEXT NOT NULL,
+            unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            unlocked_by TEXT NOT NULL,
+            PRIMARY KEY (user_id, gift_id),
+            FOREIGN KEY (user_id) REFERENCES werewolf_data(user_id)
+        )
+    """)
+    await db.execute("CREATE INDEX IF NOT EXISTS idx_werewolf_player_gifts_user_id ON werewolf_player_gifts(user_id)")
     await db.commit()
+
+async def get_all_werewolves(db: aiosqlite.Connection) -> list[WerewolfData]:
+    """Récupère tous les personnages loup-garou."""
+    db.row_factory = aiosqlite.Row
+    async with db.execute("SELECT * FROM werewolf_data") as cursor:
+        rows = await cursor.fetchall()
+        
+        results = []
+        for row in rows:
+            # Handle datetime conversion
+            created_at = row['created_at']
+            if isinstance(created_at, str):
+                try:
+                    created_at = datetime.fromisoformat(created_at)
+                except ValueError:
+                    pass
+            
+            updated_at = row['updated_at']
+            if isinstance(updated_at, str):
+                try:
+                    updated_at = datetime.fromisoformat(updated_at)
+                except ValueError:
+                    pass
+
+            results.append(WerewolfData(
+                user_id=row['user_id'],
+                breed=WerewolfBreed(row['breed']) if row['breed'] in [b.value for b in WerewolfBreed] else row['breed'],
+                auspice=WerewolfAuspice(row['auspice']) if row['auspice'] in [a.value for a in WerewolfAuspice] else row['auspice'],
+                tribe=WerewolfTribe(row['tribe']) if row['tribe'] in [t.value for t in WerewolfTribe] else row['tribe'],
+                name=row['name'],
+                story=row['story'],
+                rank=row['rank'],
+                discord_thread_id=row['discord_thread_id'],
+                created_at=created_at,
+                updated_at=updated_at
+            ))
+        return results

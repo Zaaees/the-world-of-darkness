@@ -9,7 +9,7 @@ from typing import Callable, Optional, Tuple
 
 from aiohttp import web
 
-from data.config import ROLE_LOUP_GAROU
+from data.config import ROLE_LOUP_GAROU, ROLE_MJ_WEREWOLF
 
 logger = logging.getLogger(__name__)
 
@@ -114,6 +114,56 @@ def require_werewolf_role(handler: Callable) -> Callable:
             )
         
         # L'utilisateur est autorisé, continuer vers le handler
+        return await handler(request)
+    
+    return wrapper
+
+
+async def has_mj_role(request: web.Request, user_id: int, guild_id: int) -> bool:
+    """
+    Vérifie si l'utilisateur possède le rôle MJ Werewolf sur le serveur Discord.
+    """
+    bot = request.app.get("bot")
+    if not bot:
+        return False
+
+    guild = bot.get_guild(guild_id)
+    if not guild:
+        return False
+
+    member = guild.get_member(user_id)
+    if not member:
+        try:
+            member = await guild.fetch_member(user_id)
+        except Exception:
+            return False
+
+    role_ids = [role.id for role in member.roles]
+    return ROLE_MJ_WEREWOLF in role_ids
+
+
+def require_mj_role(handler: Callable) -> Callable:
+    """
+    Décorateur pour protéger les routes d'administration du module Werewolf.
+    """
+    @wraps(handler)
+    async def wrapper(request: web.Request) -> web.Response:
+        auth = await verify_werewolf_auth(request)
+        if not auth:
+            return web.json_response(
+                {"error": "Non authentifié", "code": 401},
+                status=401
+            )
+        
+        user_id, guild_id = auth
+        
+        if not await has_mj_role(request, user_id, guild_id):
+            logger.info(f"Accès refusé à {user_id}: rôle MJ Werewolf manquant")
+            return web.json_response(
+                {"error": "Vous n'avez pas les droits de Conteur", "code": 403},
+                status=403
+            )
+        
         return await handler(request)
     
     return wrapper

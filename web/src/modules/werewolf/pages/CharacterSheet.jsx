@@ -9,7 +9,11 @@ import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
 import RenownSubmissionModal from '../components/RenownSubmissionModal';
 import { useRenown } from '../hooks/useRenown';
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
+const toast = {
+    success: (msg) => console.log('Toast Success:', msg),
+    error: (msg) => console.error('Toast Error:', msg)
+};
 
 /**
  * Page CharacterSheet

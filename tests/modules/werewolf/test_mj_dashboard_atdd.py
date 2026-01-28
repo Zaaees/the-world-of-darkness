@@ -143,11 +143,15 @@ class TestStory4_3_MJDashboardAPI:
         mock_guild.get_member.return_value = mock_member
         mock_request.app["bot"].get_guild.return_value = mock_guild
 
-        with patch('modules.werewolf.views.api_routes.RenownService') as MockService:
+        with patch('modules.werewolf.views.api_routes.RenownService') as MockService, \
+             patch('modules.werewolf.views.api_routes.NotificationService') as MockNotification:
+             
             service_instance = MockService.return_value
             service_instance.update_request_status = AsyncMock(return_value=RenownRequest(
                 id=1, user_id="101", title="T", description="D", renown_type=RenownType.GLORY, status=RenownStatus.APPROVED
             ))
+            service_instance.recalculate_player_rank = AsyncMock(return_value=2)
+            MockNotification.send_renown_approval_notification = AsyncMock()
             
             response = await validate_renown_request(mock_request)
             
