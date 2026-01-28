@@ -4,8 +4,12 @@ import { useWerewolfProfile } from '../hooks/useWerewolfProfile';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 
 export default function WerewolfNavbar() {
-    const { profile, hasProfile } = useWerewolfProfile();
+    const { profile, hasProfile, loading } = useWerewolfProfile();
     const { isMJ } = useUserRoles();
+
+    // Ne pas afficher le menu conditionnel tant que le profil est en cours de chargement
+    const showCreateButton = !loading && !hasProfile;
+    const showProfileMenu = !loading && hasProfile;
 
     return (
         <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50 shadow-lg bg-opacity-95 backdrop-blur">
@@ -21,14 +25,16 @@ export default function WerewolfNavbar() {
                     {/* Desktop Menu */}
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
-                            {!hasProfile ? (
+                            {loading ? (
+                                <span className="text-gray-500 text-sm animate-pulse">Chargement...</span>
+                            ) : showCreateButton ? (
                                 <NavLink
                                     to="/werewolf/create"
                                     className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? 'bg-red-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                                 >
                                     Créer un Personnage
                                 </NavLink>
-                            ) : (
+                            ) : showProfileMenu ? (
                                 <>
                                     <NavLink
                                         to="/werewolf/sheet"
@@ -43,7 +49,7 @@ export default function WerewolfNavbar() {
                                         Mes Dons
                                     </NavLink>
                                 </>
-                            )}
+                            ) : null}
                             {isMJ && (
                                 <NavLink
                                     to="/werewolf/admin"
@@ -79,14 +85,16 @@ export default function WerewolfNavbar() {
             {/* Mobile Menu (simplified) */}
             <div className="md:hidden border-t border-gray-800 bg-gray-900">
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex justify-around">
-                    {!hasProfile ? (
+                    {loading ? (
+                        <span className="text-gray-500 text-sm animate-pulse">...</span>
+                    ) : showCreateButton ? (
                         <NavLink to="/werewolf/create" className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>Créer</NavLink>
-                    ) : (
+                    ) : showProfileMenu ? (
                         <>
                             <NavLink to="/werewolf/sheet" className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>Fiche</NavLink>
                             <NavLink to="/werewolf/gifts" className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>Dons</NavLink>
                         </>
-                    )}
+                    ) : null}
                     {isMJ && <NavLink to="/werewolf/admin" className="block px-3 py-2 rounded-md text-base font-medium text-amber-500">Admin</NavLink>}
                 </div>
             </div>
