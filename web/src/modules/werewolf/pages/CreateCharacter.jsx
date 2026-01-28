@@ -85,7 +85,6 @@ export default function CreateCharacter() {
             if (!response.ok) throw new Error(data.error || "Erreur lors de la création.");
 
             setSuccessMsg("Votre légende commence...");
-            setSuccessMsg("Votre légende commence...");
 
             // Immediate redirection after a short minimal UI feedback delay (optional but better than fixed 2s)
             // Or ideally wait for next render tick. 
