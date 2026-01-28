@@ -81,18 +81,20 @@ class GeneralCog(commands.Cog, name="Général"):
         except Exception as e:
             logger.error(f"Erreur suppression fiche Google Sheet pour {member.id}: {e}")
 
-        # Supprimer les données Werewolf SQLite si applicable
-        if has_werewolf_role:
-            try:
-                from modules.werewolf.models.store import delete_werewolf_data
-                from utils.database import DATABASE_PATH
-                import aiosqlite
-                async with aiosqlite.connect(DATABASE_PATH) as db:
-                    deleted = await delete_werewolf_data(db, str(member.id))
-                    if deleted:
-                        logger.info(f"Données werewolf supprimées pour {member.id}")
-            except Exception as e:
-                logger.error(f"Erreur suppression données werewolf pour {member.id}: {e}")
+        # Supprimer les données Werewolf SQLite (toujours essayer, même sans rôle)
+        try:
+            from modules.werewolf.models.store import delete_werewolf_data
+            from utils.database import DATABASE_PATH
+            import aiosqlite
+            async with aiosqlite.connect(DATABASE_PATH) as db:
+                deleted = await delete_werewolf_data(db, str(member.id))
+                if deleted:
+                    logger.info(f"Données werewolf supprimées pour {member.id}")
+                else:
+                    logger.info(f"Aucune donnée werewolf à supprimer pour {member.id}")
+        except Exception as e:
+            logger.error(f"Erreur suppression données werewolf pour {member.id}: {e}")
+
 
         # Retirer les rôles de clan/augure
         roles_removed = []
