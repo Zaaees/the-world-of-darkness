@@ -2,8 +2,6 @@ from aiohttp import web
 import logging
 from modules.werewolf.services.renown import RenownService
 from modules.werewolf.services.notifications import NotificationService
-from modules.werewolf.services.renown import RenownService
-from modules.werewolf.services.notifications import NotificationService
 
 logger = logging.getLogger(__name__)
 
@@ -31,14 +29,6 @@ async def submit_renown_request(request):
     try:
         renown_request = await service.submit_request(user_id, data)
         
-        return web.json_response({
-            "id": renown_request.id,
-            "status": renown_request.status.value,
-            "title": renown_request.title,
-            "renown_type": renown_request.renown_type.value,
-            "message": "Demande soumise aux Esprits"
-        }, status=201)
-        
         # Trigger Notification (Async)
         bot = request.app.get("bot")
         if bot:
@@ -46,10 +36,18 @@ async def submit_renown_request(request):
             asyncio.create_task(NotificationService.send_renown_submission_notification(
                 bot, 
                 str(user_id), 
-                title, 
+                renown_request.title,
                 renown_request.renown_type.value,
                 renown_request.id
             ))
+
+        return web.json_response({
+            "id": renown_request.id,
+            "status": renown_request.status.value,
+            "title": renown_request.title,
+            "renown_type": renown_request.renown_type.value,
+            "message": "Demande soumise aux Esprits"
+        }, status=201)
             
     except ValueError as e:
         return web.json_response({"error": str(e)}, status=400)
