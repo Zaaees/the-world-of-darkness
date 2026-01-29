@@ -88,6 +88,8 @@ class NotificationService:
                 pass
 
             import discord
+            from modules.werewolf.views.renown_validation import RenownValidationView
+
             embed = discord.Embed(
                 title="📜 Nouveau Haut Fait Soumis",
                 description=f"**Joueur :** {user_name} (<@{user_id}>)\n**Titre :** {request_title}\n**Type :** {renown_type.capitalize()}",
@@ -96,7 +98,10 @@ class NotificationService:
             embed.set_footer(text=f"ID Demande : {request_id}")
             embed.timestamp = discord.utils.utcnow()
 
-            await channel.send(content=f"<@&{ROLE_MJ_WEREWOLF}>", embed=embed)
+            # Attach View
+            view = RenownValidationView(request_id)
+
+            await channel.send(content=f"<@&{ROLE_MJ_WEREWOLF}>", embed=embed, view=view)
             logger.info(f"Renown submission notification sent to channel {DEST_CHANNEL_ID} for request {request_id}")
 
         except Exception as e:
