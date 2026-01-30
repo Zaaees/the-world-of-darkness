@@ -119,6 +119,6 @@ class RenownValidationView(ui.View):
         except Exception as e:
             logger.exception(f"Error handling renown action for request {self.request_id}")
             await interaction.followup.send(
-                "❌ Erreur interne lors du traitement.",
+                f"❌ Erreur interne lors du traitement : {e}",
                 ephemeral=True
             )
