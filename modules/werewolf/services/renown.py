@@ -159,7 +159,7 @@ class RenownService:
         # 1. Get all approved requests
         query = """
             SELECT COUNT(*) 
-            FROM werewolf_renown 
+            FROM werewolf_renown_requests 
             WHERE user_id = ? AND status = ?
         """
         async with self.db.execute(query, (user_id, RenownStatus.APPROVED.value)) as cursor:
