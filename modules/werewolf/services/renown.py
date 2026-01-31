@@ -11,30 +11,81 @@ from modules.werewolf.models.renown import (
 from modules.werewolf.models.store import (
     get_werewolf_data,
     update_werewolf_data,
-    WerewolfData
+    WerewolfData,
+    WerewolfAuspice
 )
+
+# W20 Rank Requirements
+# For Ragabash, requirements are TOTAL renown (any combination).
+# For others, requirements are specific (Glory, Honor, Wisdom).
+RANK_RULES = {
+    WerewolfAuspice.RAGABASH: {
+        1: {"total": 3},
+        2: {"total": 7},
+        3: {"total": 13},
+        4: {"total": 19},
+        5: {"total": 25}
+    },
+    WerewolfAuspice.THEURGE: {
+        1: {"glory": 0, "honor": 0, "wisdom": 3},
+        2: {"glory": 1, "honor": 0, "wisdom": 5},
+        3: {"glory": 2, "honor": 1, "wisdom": 7},
+        4: {"glory": 4, "honor": 2, "wisdom": 9},
+        5: {"glory": 4, "honor": 9, "wisdom": 10}
+    },
+    WerewolfAuspice.PHILODOX: {
+        1: {"glory": 0, "honor": 3, "wisdom": 0},
+        2: {"glory": 1, "honor": 4, "wisdom": 1},
+        3: {"glory": 2, "honor": 6, "wisdom": 2},
+        4: {"glory": 3, "honor": 8, "wisdom": 4},
+        5: {"glory": 4, "honor": 10, "wisdom": 9}
+    },
+    WerewolfAuspice.GALLIARD: {
+        1: {"glory": 2, "honor": 0, "wisdom": 1},
+        2: {"glory": 4, "honor": 0, "wisdom": 2},
+        3: {"glory": 4, "honor": 2, "wisdom": 4},
+        4: {"glory": 7, "honor": 2, "wisdom": 6},
+        5: {"glory": 9, "honor": 5, "wisdom": 9}
+    },
+    WerewolfAuspice.AHROUN: {
+        1: {"glory": 2, "honor": 1, "wisdom": 0},
+        2: {"glory": 4, "honor": 1, "wisdom": 1},
+        3: {"glory": 6, "honor": 3, "wisdom": 1},
+        4: {"glory": 9, "honor": 5, "wisdom": 2},
+        5: {"glory": 10, "honor": 9, "wisdom": 4}
+    }
+}
 
 class RankCalculator:
     @staticmethod
-    def calculate_rank(total_renown: int) -> int:
+    def calculate_rank(auspice: WerewolfAuspice, glory: int, honor: int, wisdom: int) -> int:
         """
-        Calcule le rang basé sur la renommée totale.
-        0-2: Rank 1 (Cliath)
-        3-9: Rank 2 (Fostern)
-        10-19: Rank 3 (Adren)
-        20-29: Rank 4 (Athro)
-        30+: Rank 5 (Elder)
+        Calcule le rang basé sur l'Auspice et les types de renommée.
+        Retourne le rang le plus élevé atteint (1 à 5).
+        Retourne 0 si les prérequis de Rang 1 ne sont pas atteints (ex: Cub).
         """
-        if total_renown >= 30:
-            return 5
-        elif total_renown >= 20:
-            return 4
-        elif total_renown >= 10:
-            return 3
-        elif total_renown >= 3:
-            return 2
-        else:
-            return 1
+        # Ensure auspice is Enum (it currently comes as string from DB sometimes if not parsed, 
+        # but our tests pass Enum. Safety check handled by type hinting but runtime might need check if called directly)
+        
+        # We check ranks from 5 down to 1
+        for rank in range(5, 0, -1):
+            reqs = RANK_RULES.get(auspice, {}).get(rank)
+            if not reqs:
+                continue
+                
+            if auspice == WerewolfAuspice.RAGABASH:
+                # Ragabash rule: "Any combination" summing to total
+                total_renown = glory + honor + wisdom
+                if total_renown >= reqs["total"]:
+                    return rank
+            else:
+                # Proper strict rule
+                if (glory >= reqs["glory"] and 
+                    honor >= reqs["honor"] and 
+                    wisdom >= reqs["wisdom"]):
+                    return rank
+                    
+        return 0 # Less than Rank 1 (Cub)
 
 
 logger = logging.getLogger(__name__)
@@ -152,33 +203,49 @@ class RenownService:
 
     async def recalculate_player_rank(self, user_id: str) -> int:
         """
-        Recalcule le rang du joueur basé sur ses demandes validées.
+        Recalcule le rang du joueur basé sur ses demandes validées et son Auspice.
         Met à jour la DB si le rang change.
         Retourne le rang final (nouveau ou actuel).
         """
-        # 1. Get all approved requests
+        # 1. Get user data for Auspice
+        user_data = await get_werewolf_data(self.db, user_id)
+        if not user_data:
+            logger.warning(f"Could not find werewolf data for user {user_id} during rank recalc")
+            return 1
+            
+        auspice = user_data.auspice
+        
+        # 2. Get approved renown counts by type
         query = """
-            SELECT COUNT(*) 
+            SELECT renown_type, COUNT(*) 
             FROM werewolf_renown_requests 
             WHERE user_id = ? AND status = ?
+            GROUP BY renown_type
         """
-        async with self.db.execute(query, (user_id, RenownStatus.APPROVED.value)) as cursor:
-            row = await cursor.fetchone()
-            total_renown = row[0] if row else 0
-            
-        # 2. Calculate theoretical rank
-        new_rank = RankCalculator.calculate_rank(total_renown)
         
-        # 3. Check current rank
-        current_data = await get_werewolf_data(self.db, user_id)
-        if not current_data:
-            logger.warning(f"Could not find werewolf data for user {user_id} during rank recalc")
-            # Fallback or assume calculation is correct and we implicitly 'init' rank?
-            # But we can't update if no user data.
-            return 1 # Default
-            
-        if current_data.rank != new_rank:
-            # 4. Update if different
+        glory = 0
+        honor = 0
+        wisdom = 0
+        
+        async with self.db.execute(query, (user_id, RenownStatus.APPROVED.value)) as cursor:
+            rows = await cursor.fetchall()
+            for row in rows:
+                r_type = row[0]
+                count = row[1]
+                
+                # Normalize type string just in case (DB should match Enum values)
+                if r_type == RenownType.GLORY.value:
+                    glory = count
+                elif r_type == RenownType.HONOR.value:
+                    honor = count
+                elif r_type == RenownType.WISDOM.value:
+                    wisdom = count
+                    
+        # 3. Calculate rank
+        new_rank = RankCalculator.calculate_rank(auspice, glory, honor, wisdom)
+        
+        # 4. Update if different
+        if user_data.rank != new_rank:
             await self.update_player_rank(user_id, new_rank)
             
         return new_rank
