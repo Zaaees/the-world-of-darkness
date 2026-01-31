@@ -7,7 +7,7 @@ import { useRenown } from '../hooks/useRenown';
 import WerewolfLayout from '../components/WerewolfLayout';
 
 export default function WerewolfRenownPage() {
-    const { fetchMyRenown, loading, error } = useRenown();
+    const { fetchMyRenown, loading, error, authReady } = useRenown();
     const [renownData, setRenownData] = useState({
         glory: [],
         honor: [],
@@ -21,6 +21,8 @@ export default function WerewolfRenownPage() {
     const [initialized, setInitialized] = useState(false);
 
     useEffect(() => {
+        if (!authReady) return; // Wait for auth
+
         let mounted = true;
         const loadData = async () => {
             try {
@@ -37,7 +39,7 @@ export default function WerewolfRenownPage() {
         loadData();
         return () => { mounted = false; };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [authReady]);
 
     const processData = (results) => {
         const newRenown = { glory: [], honor: [], wisdom: [] };

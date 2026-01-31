@@ -67,6 +67,7 @@ export const useRenown = () => {
         submitRenown,
         fetchMyRenown,
         loading,
-        error
+        error,
+        authReady: !!discordUser && !!guildId
     };
 };
