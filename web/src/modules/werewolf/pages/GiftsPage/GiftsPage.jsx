@@ -3,6 +3,7 @@ import useUserRoles from '../../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../../config';
 import WerewolfLayout from '../../components/WerewolfLayout';
 import { GiftCard } from '../../components/GiftCard/GiftCard';
+import { translate } from '../../utils/translations';
 import './GiftsPage.css';
 
 /**
@@ -104,7 +105,7 @@ export const GiftsPage = ({ gifts: propGifts, unlockedIds: propUnlockedIds }) =>
                 <header className="gifts-page__header">
                     <h1 className="gifts-page__title">Mes Dons</h1>
                     <p className="gifts-page__subtitle">
-                        {playerTribe ? `Catalogue: ${playerTribe}` : "Consultation des esprits..."}
+                        {playerTribe ? `Catalogue: ${translate('tribe', playerTribe)}` : "Consultation des esprits..."}
                     </p>
                 </header>
 

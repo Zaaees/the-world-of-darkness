@@ -42,7 +42,7 @@ async def create_character_handler(request: web.Request) -> web.Response:
     guild_id_raw = request.headers.get("X-Discord-Guild-ID")
     
     if not user_id_raw:
-        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     # Store as string to match DB model (TEXT)
     user_id = str(user_id_raw)
@@ -51,7 +51,7 @@ async def create_character_handler(request: web.Request) -> web.Response:
     try:
         data = await request.json()
     except Exception:
-        return web.json_response({"error": "Invalid JSON"}, status=400)
+        return web.json_response({"error": "JSON invalide"}, status=400)
     
     # Inject user_id and guild_id
     data['user_id'] = user_id
@@ -79,7 +79,7 @@ async def create_character_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": str(e)}, status=400)
     except Exception as e:
         logger.exception(f"Error creating character for user {user_id}")
-        return web.json_response({"error": "Failed to create character"}, status=500)
+        return web.json_response({"error": "Échec de la création du personnage"}, status=500)
 
 
 @require_werewolf_role
@@ -89,7 +89,7 @@ async def get_character_handler(request: web.Request) -> web.Response:
     """
     user_id_raw = request.headers.get("X-Discord-User-ID")
     if not user_id_raw:
-        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     user_id = str(user_id_raw)
     
@@ -100,7 +100,7 @@ async def get_character_handler(request: web.Request) -> web.Response:
             if not character:
                 return web.json_response({
                     "success": False,
-                    "error": "Character not found",
+                    "error": "Personnage introuvable",
                     "code": "NO_CHARACTER"
                 }, status=404)
             
@@ -119,7 +119,7 @@ async def get_character_handler(request: web.Request) -> web.Response:
             
     except Exception as e:
         logger.exception(f"Error retrieving character for user {user_id}")
-        return web.json_response({"error": "Failed to retrieve character"}, status=500)
+        return web.json_response({"error": "Échec de la récupération du personnage"}, status=500)
 
 
 @require_werewolf_role
@@ -130,21 +130,21 @@ async def update_character_handler(request: web.Request) -> web.Response:
     """
     user_id_raw = request.headers.get("X-Discord-User-ID")
     if not user_id_raw:
-        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     user_id = str(user_id_raw)
     
     try:
         data = await request.json()
     except Exception:
-        return web.json_response({"error": "Invalid JSON"}, status=400)
+        return web.json_response({"error": "JSON invalide"}, status=400)
     
     # Validation basique
     allowed_fields = {'story'}
     updates = {k: v for k, v in data.items() if k in allowed_fields}
     
     if not updates:
-         return web.json_response({"error": "No valid fields to update"}, status=400)
+         return web.json_response({"error": "Aucun champ valide à mettre à jour"}, status=400)
     
     try:
         async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -154,7 +154,7 @@ async def update_character_handler(request: web.Request) -> web.Response:
             character = await update_character(db, user_id, updates)
             
             if not character:
-                return web.json_response({"error": "Character not found"}, status=404)
+                return web.json_response({"error": "Personnage introuvable"}, status=404)
 
             # Audit Logging (Async)
             if old_character:
@@ -198,7 +198,7 @@ async def update_character_handler(request: web.Request) -> web.Response:
             
     except Exception as e:
         logger.exception(f"Error updating character for user {user_id}")
-        return web.json_response({"error": "Failed to update character"}, status=500)
+        return web.json_response({"error": "Échec de la mise à jour du personnage"}, status=500)
 
 
 @require_werewolf_role
@@ -209,7 +209,7 @@ async def get_gifts_handler(request: web.Request) -> web.Response:
     """
     user_id_raw = request.headers.get("X-Discord-User-ID")
     if not user_id_raw:
-        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     user_id = str(user_id_raw)
     
@@ -218,7 +218,7 @@ async def get_gifts_handler(request: web.Request) -> web.Response:
             # 1. Récupérer le personnage pour connaître sa tribu
             character = await get_character(db, user_id)
             if not character:
-                return web.json_response({"error": "Character not found"}, status=404)
+                return web.json_response({"error": "Personnage introuvable"}, status=404)
             
             # 2. Charger le catalogue et filtrer
             full_catalogue = load_gift_catalogue()
@@ -279,7 +279,7 @@ async def get_gifts_handler(request: web.Request) -> web.Response:
             
     except Exception as e:
         logger.exception(f"Error retrieving gifts for user {user_id}")
-        return web.json_response({"error": "Failed to retrieve gifts"}, status=500)
+        return web.json_response({"error": "Échec de la récupération des dons"}, status=500)
 
 
 @require_mj_role
@@ -302,7 +302,7 @@ async def get_admin_players_handler(request: web.Request) -> web.Response:
             })
     except Exception as e:
         logger.exception("Error listing players")
-        return web.json_response({"error": "Failed to list players"}, status=500)
+        return web.json_response({"error": "Échec de la récupération de la liste des joueurs"}, status=500)
 
 
 @require_mj_role
@@ -316,7 +316,7 @@ async def get_admin_player_gifts_handler(request: web.Request) -> web.Response:
         async with aiosqlite.connect(DATABASE_PATH) as db:
             character = await get_character(db, target_user_id)
             if not character:
-                return web.json_response({"error": "Character not found"}, status=404)
+                return web.json_response({"error": "Personnage introuvable"}, status=404)
             
             # Logic similar to get_gifts_handler but for target user
             full_catalogue = load_gift_catalogue()
@@ -359,7 +359,7 @@ async def get_admin_player_gifts_handler(request: web.Request) -> web.Response:
             
     except Exception as e:
         logger.exception(f"Error fetching admin gifts for {target_user_id}")
-        return web.json_response({"error": "Failed to fetch gifts"}, status=500)
+        return web.json_response({"error": "Échec de la récupération des dons"}, status=500)
 
 
 @require_mj_role
@@ -376,7 +376,7 @@ async def unlock_gift_handler(request: web.Request) -> web.Response:
         should_unlock = data.get('unlock', True)
         
         if not target_user_id or not gift_id:
-            return web.json_response({"error": "Missing playerId or giftId"}, status=400)
+            return web.json_response({"error": "playerId ou giftId manquant"}, status=400)
             
         async with aiosqlite.connect(DATABASE_PATH) as db:
             if should_unlock:
@@ -393,7 +393,7 @@ async def unlock_gift_handler(request: web.Request) -> web.Response:
             
     except Exception as e:
         logger.exception("Error unlocking gift")
-        return web.json_response({"error": "Failed to update gift"}, status=500)
+        return web.json_response({"error": "Échec de la mise à jour du don"}, status=500)
 
 
 
@@ -410,7 +410,7 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
     guild_id_raw = request.headers.get("X-Discord-Guild-ID")
     
     if not user_id_raw:
-        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     user_id = str(user_id_raw)
     guild_id = int(guild_id_raw) if guild_id_raw else 0
@@ -433,7 +433,7 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
             })
     except Exception as e:
         logger.exception(f"Error fetching werewolf profile for {user_id}")
-        return web.json_response({"error": "Failed to fetch profile"}, status=500)
+        return web.json_response({"error": "Échec de la récupération du profil"}, status=500)
 
 
 
@@ -446,7 +446,7 @@ async def get_my_renown_handler(request: web.Request) -> web.Response:
     """
     user_id_raw = request.headers.get("X-Discord-User-ID")
     if not user_id_raw:
-        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     user_id = str(user_id_raw)
     
@@ -488,7 +488,7 @@ async def get_my_renown_handler(request: web.Request) -> web.Response:
                 
     except Exception as e:
         logger.exception(f"Error retrieving renown for user {user_id}")
-        return web.json_response({"error": "Failed to retrieve renown"}, status=500)
+        return web.json_response({"error": "Échec de la récupération de la renommée"}, status=500)
 
 
 def register_werewolf_routes(app: web.Application) -> None:

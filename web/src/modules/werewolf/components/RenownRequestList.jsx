@@ -1,4 +1,5 @@
 import React from 'react';
+import { translate } from '../utils/translations';
 
 /**
  * Composant de liste des demandes de renommée.
@@ -55,7 +56,7 @@ export default function RenownRequestList({ requests, onValidate, onReject }) {
 
                                     return (
                                         <span className={`inline-flex px-2 py-0.5 rounded border text-xs font-serif uppercase tracking-wider ${conf.classes}`}>
-                                            {conf.label}
+                                            {translate('renown', typeKey)}
                                         </span>
                                     );
                                 })()}

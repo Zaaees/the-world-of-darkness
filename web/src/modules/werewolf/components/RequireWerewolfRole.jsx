@@ -16,7 +16,8 @@ export default function RequireWerewolfRole({ children }) {
     if (error) {
         // En cas d'erreur (réseau, session), on peut rediriger ou afficher une erreur
         // Pour l'instant, fail-safe vers 403 ou page d'erreur dédiée
-        return <Navigate to="/403" state={{ reason: error }} replace />;
+        const errorMsg = error === "Auth information missing" ? "Informations d'authentification manquantes" : error;
+        return <Navigate to="/403" state={{ reason: errorMsg }} replace />;
     }
 
     // Vérification du rôle Werewolf

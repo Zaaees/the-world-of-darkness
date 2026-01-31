@@ -5,19 +5,19 @@ import { Info, ChevronDown } from 'lucide-react';
 const GUIDE_ITEMS = [
     {
         key: 'glory',
-        title: 'Gloire (Glory)',
+        title: 'Gloire',
         color: 'text-amber-500',
         description: "La Gloire mesure votre bravoure au combat et vos exploits physiques. Elle s'acquiert en vainquant des ennemis du Wyrm, en survivant à des situations désespérées, ou en accomplissant des prouesses légendaires."
     },
     {
         key: 'honor',
-        title: 'Honneur (Honor)',
+        title: 'Honneur',
         color: 'text-stone-300',
         description: "L'Honneur reflète votre intégrité, votre respect des traditions et votre parole. Il se gagne en tenant ses promesses, en protégeant les lieux sacrés, et en faisant preuve de justice et de loyauté envers la meute et la Sept."
     },
     {
         key: 'wisdom',
-        title: 'Sagesse (Wisdom)',
+        title: 'Sagesse',
         color: 'text-emerald-400',
         description: "La Sagesse représente votre compréhension spirituelle, votre calme et votre jugement. Elle s'obtient par la médiation, la purification, l'apprentissage des rituels et la résolution pacifique de conflits."
     }

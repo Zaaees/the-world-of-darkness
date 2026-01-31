@@ -10,6 +10,7 @@ import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
 import RenownSubmissionModal from '../components/RenownSubmissionModal';
 import { useRenown } from '../hooks/useRenown';
+import { translate } from '../utils/translations';
 // import { toast } from 'sonner';
 const toast = {
     success: (msg) => console.log('Toast Success:', msg),
@@ -81,7 +82,7 @@ const CharacterSheet = () => {
 
         if (!userId || !gId || userId === 'undefined' || gId === 'undefined') {
             console.error('[CharacterSheet] Missing auth info:', { userId, gId });
-            setError('Auth information missing');
+            setError('Informations d\'authentification manquantes');
             setLoading(false);
             return;
         }
@@ -108,7 +109,9 @@ const CharacterSheet = () => {
             }
         } catch (err) {
             console.error('Fetch error:', err);
-            setError(err.message);
+            // Si le message d'erreur vient du backend, il est peut-être en anglais si l'erreur n'est pas gérée.
+            // On peut tenter de le traduire ou laisser tel quel si c'est technique.
+            setError(err.message === "Failed to retrieve character" ? "Échec de la récupération du personnage" : err.message);
         } finally {
             setLoading(false);
         }
@@ -194,7 +197,7 @@ const CharacterSheet = () => {
                             {character.name}
                         </h1>
                         <p className="text-emerald-400 font-serif italic text-lg mt-1">
-                            {character.tribe}
+                            {translate('tribe', character.tribe)}
                         </p>
                     </div>
                     <RenownBadge rank={character.rank} />
@@ -217,11 +220,11 @@ const CharacterSheet = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                     <div className="bg-stone-900/60 p-4 rounded border border-emerald-900/20">
                         <span className="block text-xs uppercase tracking-widest text-stone-500 mb-1">Race</span>
-                        <span className="text-amber-100 font-medium">{character.breed}</span>
+                        <span className="text-amber-100 font-medium">{translate('breed', character.breed)}</span>
                     </div>
                     <div className="bg-stone-900/60 p-4 rounded border border-emerald-900/20">
                         <span className="block text-xs uppercase tracking-widest text-stone-500 mb-1">Auspice</span>
-                        <span className="text-amber-100 font-medium">{character.auspice}</span>
+                        <span className="text-amber-100 font-medium">{translate('auspice', character.auspice)}</span>
                     </div>
                     <div className="bg-stone-900/60 p-4 rounded border border-emerald-900/20">
                         <span className="block text-xs uppercase tracking-widest text-stone-500 mb-1">Forum</span>
