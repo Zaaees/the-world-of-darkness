@@ -3,11 +3,18 @@ import { motion } from 'framer-motion';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import RenownGuide from '../components/RenownGuide';
 import RenownCard from '../components/RenownCard';
+import RenownSubmissionModal from '../components/RenownSubmissionModal';
 import { useRenown } from '../hooks/useRenown';
 import WerewolfLayout from '../components/WerewolfLayout';
+// import { toast } from 'sonner';
+const toast = {
+    success: (msg) => console.log('Toast Success:', msg),
+    error: (msg) => console.error('Toast Error:', msg)
+};
 
 export default function WerewolfRenownPage() {
-    const { fetchMyRenown, loading, error, authReady } = useRenown();
+    const { fetchMyRenown, submitRenown, loading, error, authReady } = useRenown();
+    const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
     const [renownData, setRenownData] = useState({
         glory: [],
         honor: [],
@@ -58,6 +65,20 @@ export default function WerewolfRenownPage() {
         setScores(newScores);
     };
 
+    const handleRenownSubmit = async (data) => {
+        try {
+            await submitRenown(data);
+            toast.success("Haut Fait envoyé aux Esprits (MJ)");
+            setIsRenownModalOpen(false);
+            // Reload data
+            const results = await fetchMyRenown();
+            if (results) processData(results);
+        } catch (err) {
+            console.error("Renown submission error:", err);
+            toast.error(err.message || "Erreur lors de la soumission");
+        }
+    };
+
     if (loading && !initialized) {
         return (
             <WerewolfLayout>
@@ -73,15 +94,29 @@ export default function WerewolfRenownPage() {
     return (
         <WerewolfLayout>
             <div className="max-w-7xl mx-auto p-6 space-y-8 animate-in fade-in duration-500">
-                <header>
-                    <h1 className="text-3xl font-serif font-bold text-stone-100 flex items-center gap-3">
-                        <span className="text-amber-600">✦</span>
-                        Hauts Faits & Renommée
-                    </h1>
-                    <p className="text-stone-500 mt-2 max-w-2xl">
-                        Consultez vos actes de gloire, d'honneur et de sagesse reconnus par les esprits et la nation Garou.
-                    </p>
+                <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 className="text-3xl font-serif font-bold text-stone-100 flex items-center gap-3">
+                            <span className="text-amber-600">✦</span>
+                            Hauts Faits & Renommée
+                        </h1>
+                        <p className="text-stone-500 mt-2 max-w-2xl">
+                            Consultez vos actes de gloire, d'honneur et de sagesse reconnus par les esprits et la nation Garou.
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => setIsRenownModalOpen(true)}
+                        className="px-4 py-2 bg-gradient-to-r from-amber-900 to-amber-800 border border-amber-700 hover:border-amber-500 text-amber-100 rounded-md shadow-lg shadow-black/40 transition-all flex items-center gap-2 font-serif tracking-wide"
+                    >
+                        <span>+</span> Déclarer un Haut Fait
+                    </button>
                 </header>
+
+                <RenownSubmissionModal
+                    isOpen={isRenownModalOpen}
+                    onClose={() => setIsRenownModalOpen(false)}
+                    onSubmit={handleRenownSubmit}
+                />
 
                 {error && (
                     <div className="bg-red-950/30 border border-red-900/50 p-4 rounded-lg flex items-center gap-3 text-red-400">

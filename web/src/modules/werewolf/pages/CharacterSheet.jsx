@@ -8,8 +8,8 @@ import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
-import RenownSubmissionModal from '../components/RenownSubmissionModal';
-import { useRenown } from '../hooks/useRenown';
+// import RenownSubmissionModal from '../components/RenownSubmissionModal';
+// import { useRenown } from '../hooks/useRenown';
 import { translate } from '../utils/translations';
 // import { toast } from 'sonner';
 const toast = {
@@ -31,9 +31,9 @@ const CharacterSheet = () => {
     const [isEditingStory, setIsEditingStory] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [storyDraft, setStoryDraft] = useState('');
-    const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
+    // const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
     const { discordUser, guildId, isLoading: isAuthLoading } = useUserRoles();
-    const { submitRenown } = useRenown();
+    // const { submitRenown } = useRenown();
 
     useEffect(() => {
         if (isAuthLoading || !discordUser || !guildId) return;
@@ -117,16 +117,7 @@ const CharacterSheet = () => {
         }
     };
 
-    const handleRenownSubmit = async (data) => {
-        try {
-            await submitRenown(data);
-            toast.success("Haut Fait envoyé aux Esprits (MJ)");
-            setIsRenownModalOpen(false);
-        } catch (err) {
-            console.error("Renown submission error:", err);
-            toast.error(err.message || "Erreur lors de la soumission");
-        }
-    };
+
 
     const handleUpdateStory = async (newStory) => {
         if (!discordUser) return;
@@ -201,20 +192,7 @@ const CharacterSheet = () => {
                         </p>
                     </div>
                     <RenownBadge rank={character.rank} />
-                    <button
-                        onClick={() => setIsRenownModalOpen(true)}
-                        className="px-3 py-1 bg-amber-900/40 hover:bg-amber-800/60 border border-amber-800 text-amber-200 text-sm rounded transition-colors flex items-center gap-2"
-                        data-testid="renown-submit-button"
-                    >
-                        <span>+</span> Haut Fait
-                    </button>
                 </div>
-
-                <RenownSubmissionModal
-                    isOpen={isRenownModalOpen}
-                    onClose={() => setIsRenownModalOpen(false)}
-                    onSubmit={handleRenownSubmit}
-                />
 
                 {/* Grille d'informations */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
