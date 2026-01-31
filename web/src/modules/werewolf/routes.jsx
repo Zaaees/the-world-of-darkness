@@ -9,6 +9,8 @@ import WerewolfAdminPage from './pages/WerewolfAdminPage';
 import GiftsPage from './pages/GiftsPage/GiftsPage';
 import WerewolfRenownPage from './pages/WerewolfRenownPage';
 
+import WerewolfNavbar from './components/WerewolfNavbar';
+
 /**
  * Routes internes du module Werewolf.
  * Gère le routing au sein du module avec le layout Deep Woods.
@@ -17,43 +19,46 @@ import WerewolfRenownPage from './pages/WerewolfRenownPage';
 export default function WerewolfRoutes() {
     return (
         <RequireWerewolfRole>
-            <Routes>
-                {/* Création de personnage - Story 2.3 */}
-                <Route
-                    path="create"
-                    element={<CreateCharacter />}
-                />
+            <div className="min-h-screen bg-stone-950 text-stone-200 font-sans">
+                <WerewolfNavbar />
+                <Routes>
+                    {/* Création de personnage - Story 2.3 */}
+                    <Route
+                        path="create"
+                        element={<CreateCharacter />}
+                    />
 
-                {/* Fiche personnage - Story 3.1 & Default Home */}
-                <Route
-                    path="sheet"
-                    element={<CharacterSheet />}
-                />
+                    {/* Fiche personnage - Story 3.1 & Default Home */}
+                    <Route
+                        path="sheet"
+                        element={<CharacterSheet />}
+                    />
 
-                {/* Dons - Story 5.3 */}
-                <Route
-                    path="gifts"
-                    element={<GiftsPage />}
-                />
+                    {/* Dons - Story 5.3 */}
+                    <Route
+                        path="gifts"
+                        element={<GiftsPage />}
+                    />
 
-                {/* Hauts Faits - Renommée */}
-                <Route
-                    path="renown"
-                    element={<WerewolfRenownPage />}
-                />
+                    {/* Hauts Faits - Renommée */}
+                    <Route
+                        path="renown"
+                        element={<WerewolfRenownPage />}
+                    />
 
-                {/* Admin - Story 4.3 & New Gift Management */}
-                <Route
-                    path="admin"
-                    element={<WerewolfAdminPage />}
-                />
+                    {/* Admin - Story 4.3 & New Gift Management */}
+                    <Route
+                        path="admin"
+                        element={<WerewolfAdminPage />}
+                    />
 
-                {/* Redirect racine vers sheet (qui redirigera vers create si besoin) */}
-                <Route path="/" element={<Navigate to="/werewolf/sheet" replace />} />
+                    {/* Redirect racine vers sheet (qui redirigera vers create si besoin) */}
+                    <Route path="/" element={<Navigate to="/werewolf/sheet" replace />} />
 
-                {/* Catch-all */}
-                <Route path="*" element={<Navigate to="/werewolf/sheet" replace />} />
-            </Routes>
+                    {/* Catch-all */}
+                    <Route path="*" element={<Navigate to="/werewolf/sheet" replace />} />
+                </Routes>
+            </div>
         </RequireWerewolfRole>
     );
 }
