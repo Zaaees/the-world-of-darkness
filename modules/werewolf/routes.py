@@ -416,19 +416,9 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
     guild_id = int(guild_id_raw) if guild_id_raw else 0
     
     try:
-        # Vérifier d'abord Google Sheets (source de vérité pour le reset)
-        from utils.database import get_player
-        player = await get_player(int(user_id), guild_id)
-        
-        # Si pas de données dans Google Sheets ou race pas werewolf -> pas de profil
-        if not player or player.get("race") != "werewolf":
-            return web.json_response({
-                "success": True,
-                "has_werewolf_role": True,
-                "tribe": None,
-                "display_name": None,
-                "rank": 1
-            })
+        # NOTE: On désactive la vérification Google Sheets car elle crée une incohérence avec get_character_handler.
+        # Si le personnage existe en SQLite, il doit être accessible.
+        # Le reset doit gérer la suppression SQLite.
         
         # Si Google Sheets OK, récupérer les détails depuis SQLite
         async with aiosqlite.connect(DATABASE_PATH) as db:
