@@ -4,13 +4,70 @@ import { AlertCircle, Loader2 } from 'lucide-react';
 import RenownGuide from '../components/RenownGuide';
 import RenownCard from '../components/RenownCard';
 import { useRenown } from '../hooks/useRenown';
-
 import WerewolfLayout from '../components/WerewolfLayout';
 
 export default function WerewolfRenownPage() {
-    // ... hooks ...
+    const { fetchMyRenown, loading, error } = useRenown();
+    const [renownData, setRenownData] = useState({
+        glory: [],
+        honor: [],
+        wisdom: []
+    });
+    const [scores, setScores] = useState({
+        glory: 0,
+        honor: 0,
+        wisdom: 0
+    });
+    const [initialized, setInitialized] = useState(false);
 
-    // ... render ...
+    useEffect(() => {
+        let mounted = true;
+        const loadData = async () => {
+            try {
+                const results = await fetchMyRenown();
+                if (mounted && results) {
+                    processData(results);
+                }
+            } catch (e) {
+                console.error("Failed to load renown", e);
+            } finally {
+                if (mounted) setInitialized(true);
+            }
+        };
+        loadData();
+        return () => { mounted = false; };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const processData = (results) => {
+        const newRenown = { glory: [], honor: [], wisdom: [] };
+        const newScores = { glory: 0, honor: 0, wisdom: 0 };
+
+        results.forEach(item => {
+            const type = item.renown_type ? item.renown_type.toLowerCase() : 'glory';
+
+            if (newRenown[type]) {
+                newRenown[type].push(item);
+                newScores[type] += 1;
+            }
+        });
+
+        setRenownData(newRenown);
+        setScores(newScores);
+    };
+
+    if (loading && !initialized) {
+        return (
+            <WerewolfLayout>
+                <div className="flex items-center justify-center p-12 min-h-[60vh]">
+                    <Loader2 className="animate-spin text-amber-600" size={32} />
+                </div>
+            </WerewolfLayout>
+        );
+    }
+
+    const isEmpty = scores.glory === 0 && scores.honor === 0 && scores.wisdom === 0;
+
     return (
         <WerewolfLayout>
             <div className="max-w-7xl mx-auto p-6 space-y-8 animate-in fade-in duration-500">
