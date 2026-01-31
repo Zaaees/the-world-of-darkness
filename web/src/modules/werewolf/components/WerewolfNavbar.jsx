@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useWerewolfProfile } from '../hooks/useWerewolfProfile';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
+import { Trophy } from 'lucide-react';
 
 export default function WerewolfNavbar() {
     const { profile, hasProfile, loading } = useWerewolfProfile();
@@ -48,6 +49,13 @@ export default function WerewolfNavbar() {
                                     >
                                         Mes Dons
                                     </NavLink>
+                                    <NavLink
+                                        to="/werewolf/renown"
+                                        className={({ isActive }) => `px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${isActive ? 'bg-red-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                                    >
+                                        <Trophy size={16} />
+                                        Hauts Faits
+                                    </NavLink>
                                 </>
                             ) : null}
                             {isMJ && (
@@ -93,6 +101,7 @@ export default function WerewolfNavbar() {
                         <>
                             <NavLink to="/werewolf/sheet" className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>Fiche</NavLink>
                             <NavLink to="/werewolf/gifts" className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>Dons</NavLink>
+                            <NavLink to="/werewolf/renown" className={({ isActive }) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'text-white' : 'text-gray-400'}`}>Hauts Faits</NavLink>
                         </>
                     ) : null}
                     {isMJ && <NavLink to="/werewolf/admin" className="block px-3 py-2 rounded-md text-base font-medium text-amber-500">Admin</NavLink>}

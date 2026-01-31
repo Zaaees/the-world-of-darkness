@@ -14,6 +14,7 @@ from .services.sheet import sync_sheet_to_discord
 from .services.audit import log_character_update, calculate_diff
 from .services.gifts import load_gift_catalogue, get_player_gifts, unlock_gift
 from modules.werewolf.models.store import get_all_werewolves
+from modules.werewolf.models.renown import RenownStatus
 import asyncio
 
 logger = logging.getLogger(__name__)
@@ -447,6 +448,59 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
 
 
 
+
+@require_werewolf_role
+async def get_my_renown_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/renown - Récupérer les hauts faits validés.
+    """
+    user_id_raw = request.headers.get("X-Discord-User-ID")
+    if not user_id_raw:
+        return web.json_response({"error": "Missing X-Discord-User-ID header"}, status=400)
+    
+    user_id = str(user_id_raw)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            db.row_factory = aiosqlite.Row
+            # Fix F1, F2: Select from werewolf_renown_requests, filter by user and approved status
+            # Fix F4: Explicitly exclude validated_by (reviewer_id)
+            # Schema difference: using submitted_at as validated_at since the latter doesn't exist in requests table
+            query = """
+                SELECT id, title, description, renown_type, submitted_at, xp_awarded 
+                FROM werewolf_renown_requests 
+                WHERE user_id = ? AND status = ? 
+                ORDER BY submitted_at DESC 
+                LIMIT 50
+            """
+            
+            async with db.execute(query, (user_id, RenownStatus.APPROVED.value)) as cursor:
+                rows = await cursor.fetchall()
+                
+                results = []
+                for row in rows:
+                    # Fix F7: Dates ISO 8601
+                    submitted_at = row['submitted_at']
+                    # Ensure datetime string
+                    if not isinstance(submitted_at, str):
+                        submitted_at = str(submitted_at)
+                    
+                    results.append({
+                        "id": row['id'],
+                        "title": row['title'],
+                        "description": row['description'],
+                        "renown_type": row['renown_type'],
+                        "validated_at": submitted_at, # Mapping submitted_at to validated_at as per spec contract
+                        "xp_awarded": row['xp_awarded']
+                    })
+                
+                return web.json_response({"results": results})
+                
+    except Exception as e:
+        logger.exception(f"Error retrieving renown for user {user_id}")
+        return web.json_response({"error": "Failed to retrieve renown"}, status=500)
+
+
 def register_werewolf_routes(app: web.Application) -> None:
     """
     Enregistre toutes les routes du module Werewolf sur l'application.
@@ -478,6 +532,9 @@ def register_werewolf_routes(app: web.Application) -> None:
     app.router.add_get("/api/modules/werewolf/admin/players", get_admin_players_handler)
     app.router.add_get("/api/modules/werewolf/admin/players/{user_id}/gifts", get_admin_player_gifts_handler)
     app.router.add_post("/api/modules/werewolf/gifts/unlock", unlock_gift_handler)
+    
+    # Hauts Faits (Renommée)
+    app.router.add_get("/api/modules/werewolf/renown", get_my_renown_handler)
     
     logger.info("Routes Werewolf enregistrées sur /api/modules/werewolf/*")
 

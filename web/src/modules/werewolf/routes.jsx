@@ -7,6 +7,7 @@ import CreateCharacter from './pages/CreateCharacter';
 import CharacterSheet from './pages/CharacterSheet';
 import WerewolfAdminPage from './pages/WerewolfAdminPage';
 import GiftsPage from './pages/GiftsPage/GiftsPage';
+import WerewolfRenownPage from './pages/WerewolfRenownPage';
 
 /**
  * Routes internes du module Werewolf.
@@ -33,6 +34,12 @@ export default function WerewolfRoutes() {
                 <Route
                     path="gifts"
                     element={<GiftsPage />}
+                />
+
+                {/* Hauts Faits - Renommée */}
+                <Route
+                    path="renown"
+                    element={<WerewolfRenownPage />}
                 />
 
                 {/* Admin - Story 4.3 & New Gift Management */}

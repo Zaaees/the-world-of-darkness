@@ -35,8 +35,37 @@ export const useRenown = () => {
         }
     };
 
+    const fetchMyRenown = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${API_URL}/api/modules/werewolf/renown`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Discord-User-ID': discordUser?.id,
+                    'X-Discord-Guild-ID': guildId
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erreur lors de la récupération de la renommée');
+            }
+
+            const data = await response.json();
+            return data.results;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         submitRenown,
+        fetchMyRenown,
         loading,
         error
     };
