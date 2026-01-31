@@ -9,7 +9,7 @@ import WerewolfAdminPage from './pages/WerewolfAdminPage';
 import GiftsPage from './pages/GiftsPage/GiftsPage';
 import WerewolfRenownPage from './pages/WerewolfRenownPage';
 
-import WerewolfNavbar from './components/WerewolfNavbar';
+
 
 /**
  * Routes internes du module Werewolf.
