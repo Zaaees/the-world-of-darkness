@@ -327,6 +327,8 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
         "race": current_race,  # Garde la race si keep_race=True
         "clan": "",
         "auspice": "",
+        "tribe": "",
+        "breed": "",
         "name": "",
         "bloodPotency": 0,
         "saturationPoints": 0,
@@ -335,6 +337,8 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
         "pendingActions": [],
         "cooldowns": {},
         "ghouls": [],
+        "history": "",
+        "notes": "",
     }
     await save_to_google_sheets(user_id, cleared_data)
 

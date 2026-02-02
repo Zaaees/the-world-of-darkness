@@ -1,16 +1,16 @@
 ---
-title: 'Interactive Renown Guide'
-slug: 'interactive-renown-guide'
+title: 'Fix Reset Command Consistency'
+slug: 'fix-reset-command-consistency'
 created: '2026-02-02'
 status: 'completed'
-stepsCompleted: [1, 2, 3, 4]
-tech_stack: ['Python', 'aiohttp', 'React', 'Tailwind CSS']
-files_to_modify: ['modules/werewolf/routes.py', 'web/src/modules/werewolf/components/RenownGuide.jsx', 'web/src/modules/werewolf/hooks/useRenown.js']
-code_patterns: ['Service/Route separation', 'React Hooks for data fetching', 'Framer Motion for animations']
-test_patterns: ['pytest-asyncio', 'React Testing Library (implied)']
+stepsCompleted: [1]
+tech_stack: ['Python', 'aiosqlite', 'aiohttp', 'Google Apps Script']
+files_to_modify: ['cogs/general.py', 'modules/werewolf/routes.py', 'utils/database.py']
+code_patterns: ['Service/Route separation', 'Google Sheets Sync', 'Dual Storage (SQLite + Sheets)']
+test_patterns: []
 ---
 
-# Tech-Spec: Interactive Renown Guide
+# Tech-Spec: Fix Reset Command Consistency
 
 **Created:** 2026-02-02
 
@@ -18,127 +18,104 @@ test_patterns: ['pytest-asyncio', 'React Testing Library (implied)']
 
 ### Problem Statement
 
-Le guide de renommée actuel est trop simpliste et n'explique pas les règles de montée en rang ni les spécificités liées à l'Auspice, laissant les joueurs confus sur la progression.
+La commande `!reset` ne fonctionne pas correctement pour les joueurs Loup-Garou sur le site web. Bien que les données soient supprimées de la base SQLite locale, le site continue d'afficher l'ancien personnage.
+Le fix précédent (suppression forcée SQLite) n'a pas résolu le problème, indiquant une désynchronisation persistante avec Google Sheets ou un mécanisme de "résurrection" des données non identifié.
 
 ### Solution
 
-Implémenter un composant "Guide de Renommée" complet et interactif avec des onglets. Il récupérera les règles spécifiques à l'Auspice via une nouvelle route API et affichera les prérequis d'avancement directement à l'utilisateur.
+Auditer et unifier le processus de suppression entre Discord (`!reset`) et le site web. S'assurer que la suppression propage correctement l'état "vide" à Google Sheets et que le site web invalide ses caches ou vérifie la source de vérité correcte avant d'afficher un profil.
 
 ### Scope
 
 **In Scope:**
-- Nouvelle route API `GET /api/werewolf/renown/rules` retournant `RANK_RULES`.
-- Mise à jour du composant frontend `RenownGuide.jsx` avec des onglets (Général, Comment monter, Mes prérequis).
-- Intégration des données `RANK_RULES` dans la vue frontend.
-- Remplacement de l'ancien guide dans `WerewolfRenownPage.jsx`.
+- Analyse du flux de données `!reset` -> `delete_player` -> `Google Sheets`.
+- Analyse de la route `GET /api/modules/werewolf/profile` et son fallback.
+- Correction de `utils/database.py` pour garantir une suppression atomique/complète.
+- Vérification que le site ne "recrée" pas le perso à partir de données partielles.
 
 **Out of Scope:**
-- Modifications de la logique de calcul de rang elle-même.
-- Interface admin pour l'édition des règles.
+- Refonte complète du système de stockage (on garde le système hybride SQLite/Sheets pour l'instant).
 
 ## Context for Development
 
 ### Codebase Patterns
 
-- **API Routes**: Located in `modules/werewolf/routes.py`, protected by `@require_werewolf_role`.
-- **Data Access**: `RenownService` interacts with `aiosqlite`.
-- **Frontend**: React components in `web/src/modules/werewolf`, using `useRenown` hook for API calls.
+- **Dual Source of Truth**:
+  - `Google Sheets`: Master pour les données "Fiche Perso" (Nom, Race, Clan, Auspice).
+  - `SQLite`: Master pour les données "Session" (Soif, Rage) et copie locale des données Fiche.
+- **Sync**: `utils/database.py` gère la lecture/écriture vers Apps Script.
+- **Werewolf Store**: `modules/werewolf/models/store.py` gère les données spécifiques WW.
 
 ### Files to Reference
 
 | File | Purpose |
 | ---- | ------- |
-| `modules/werewolf/services/renown.py` | Contains `RANK_RULES` constant. |
-| `modules/werewolf/routes.py` | Need to register new endpoint `GET /api/modules/werewolf/renown/rules`. |
-| `web/src/modules/werewolf/components/RenownGuide.jsx` | Component to be completely rewritten. |
-| `web/src/modules/werewolf/hooks/useRenown.js` | Add `fetchRenownRules` function. |
+| `cogs/general.py` | Contient la commande `!reset`. |
+| `utils/database.py` | Contient `delete_player` qui orchestre la suppression. |
+| `modules/werewolf/routes.py` | Contient les endpoints API utilisés par le site. |
+| `modules/werewolf/models/store.py` | Contient `delete_werewolf_data`. |
 
 ### Technical Decisions
 
-1.  **Combined API Response**: The new endpoint `/api/modules/werewolf/renown/rules` will return specific `RANK_RULES` AND the user's current `auspice` and `rank` to avoid multiple round-trips.
-2.  **Frontend State**: `RenownGuide` will handle its own data fetching via `useRenown`, independent of the parent page's simple renown list.
-3.  **Visuals**: Use `framer-motion` for smooth tab switching, consistent with existing UI.
-4.  **Rank Calculation**: The frontend will receive the raw rules and current values, but will *also* receive the server-calculated rank to ensure consistency.
+1.  **Priorité SQLite**: Si un perso est supprimé de SQLite mais existe encore dans Sheets avec des données partielles, le site doit le considérer comme inexistant ou invalide.
+2.  **Suppression Explicite Sheets**: `delete_player` doit s'assurer que l'appel à Google Sheets a *réellement* vidé les champs, et pas juste échoué silencieusement.
+3.  **Invalidation Cache**: Vérifier si le navigateur ou le frontend garde les données en cache (localstorage).
 
 ## Implementation Plan
 
 ### Tasks
 
-- [x] Task 1: Create API Endpoint for Renown Rules
-  - File: `modules/werewolf/routes.py`
-  - Action: Add `get_renown_rules_handler` accessible via `GET /api/modules/werewolf/renown/rules`.
-  - Details:
-    - Decorator: `@require_werewolf_role`
-    - Logic:
-      - Fetch user character to get `auspice`, `rank`, `tribe`.
-      - Fetch `RANK_RULES` from `services.renown`.
-      - Fetch current renown totals (Glory, Honor, Wisdom) via `RenownService.get_renown_totals(user_id)` (Need to create/expose this method in service if not exists, or calculate in route). *Decision: Expose `get_renown_totals` in `RenownService`.*
-    - Response: `{ rules: RANK_RULES, my_stats: { glory, honor, wisdom }, my_auspice: "AHROUN", my_rank: 2 }`
+- [x] Task 1: Audit `delete_player` in `utils/database.py`
+  - Check payload sent to Google Sheets during reset.
+  - Verify error handling if Apps Script fails.
+  
+- [x] Task 2: Update `delete_player` Payload
+  - Ensure ALL fields (including `race`, `clan`, `auspice`) are explicitly set to empty strings `""` or `null`.
+  - Current implementation uses `save_to_google_sheets` with a "cleared_data" dict. Verify this dict structure matches what Apps Script expects to effectively "clear" the row.
 
-- [x] Task 2: Update RenownService
-  - File: `modules/werewolf/services/renown.py`
-  - Action: Add `get_player_renown_totals(user_id)` method.
-  - Details: Move the aggregation logic from `recalculate_player_rank` into a reusable method so we can display stats without triggering a recalc/update.
+- [x] Task 3: Harden `get_werewolf_profile_handler`
+  - In `modules/werewolf/routes.py`, current logic calls `get_character` (SQLite).
+  - If SQLite is empty, it returns partial data or defaults?
+  - `get_character` calls `get_werewolf_data`. If that returns None, correct behavior is 404/Empty.
+  - Check if `create_character` blindly trusts Google Sheets if SQLite is missing? (Potential resurrection vector).
 
-- [x] Task 3: Update Frontend Hook
-  - File: `web/src/modules/werewolf/hooks/useRenown.js`
-  - Action: Add `fetchRenownRules` function.
-  - Details: `GET /api/modules/werewolf/renown/rules`. Handle loading/error states.
-
-- [x] Task 4: Implement Interactive RenownGuide Component
-  - File: `web/src/modules/werewolf/components/RenownGuide.jsx`
-  - Action: Complete rewrite.
-  - Details:
-    - Use `useRenown` to fetch rules on mount.
-    - Create 3 Tabs: "Général", "Comment monter en rang", "Ma Progression".
-    - Tab 1 "Général": Existing static content (flavor text).
-    - Tab 2 "Comment monter en rang": Explanation of the system (Auspice dependency).
-    - Tab 3 "Ma Progression":
-      - Show current stats vs Next Rank requirements.
-      - Highlight "Met" requirements in Green, "Unmet" in Red.
-      - Show progress bar or simple ratio (e.g., "Gloire: 3/4").
-    - Use `framer-motion` for transitions.
-    - Keep the "Accordion" style wrapper if desired, OR make it a permanent section per user request (User said "Remplace le bloc déroulant", implying it should likely be always visible or a cleaner card). *Decision: Make it a standard Card component, always visible or collapsible but expanded by default.*
+- [x] Task 4: Verify Frontend Behavior
+  - If API returns 404 or empty profile, Frontend should redirect to Creation.
+  - If logic depends on `has_werewolf_role`, ensuring the role is removed in Discord is critical (already done in `!reset`, but `routes.py` checks it too).
 
 ### Acceptance Criteria
 
-- [ ] AC 1: API returns personalization data
-  - Given a logged-in User (Ahroun), when `GET /api/modules/werewolf/renown/rules` is called, then the response contains `RANK_RULES`, `my_auspice="AHROUN"`, and their current renown totals.
-
-- [ ] AC 2: Renown Service Reusability
-  - Given `get_player_renown_totals` is implemented, when called, it returns a dictionary `{glory: X, honor: Y, wisdom: Z}` without side effects (no DB updates).
-
-- [ ] AC 3: Guide shows dynamic requirements
-  - Given the User is Rank 2 Ahroun, when viewing "Ma Progression", then they see the requirements for Rank 3 Ahroun.
-  - Given they have 3/4 Glory, when viewing, then Glory shows as incomplete (Red/Yellow).
-  - Given they have 5/4 Honor, when viewing, then Honor shows as complete (Green).
-
-- [ ] AC 4: Tab Navigation
-  - Given the component is loaded, when clicking tabs, then the content switches smoothly.
+- [x] AC 1: `!reset` clears SQLite `werewolf_data`.
+- [x] AC 2: `!reset` clears Google Sheets row (or marks as empty).
+- [x] AC 3: Website redirects to Character Creation immediately after reset.
+- [x] AC 4: No "Ghost" character reappears after server restart.
 
 ## Additional Context
 
 ### Dependencies
 
-- None.
+- Google Apps Script (External).
+- Discord Role Management.
 
 ### Testing Strategy
 
-- **Unit Tests**:
-  - `modules/werewolf/tests/test_renown.py`: Add test for `get_player_renown_totals`.
-  - `modules/werewolf/tests/test_api_renown.py` (if exists, else create): Test the new endpoint returns 200 and correct structure.
-- **Manual Verification**:
-  - Login as different Auspices (Ragabash vs Ahroun).
-  - Check that the "Ma Progression" tab shows different requirements.
-  - Grant renown via SQL/Command, refresh page, verify progress updates.
+- **Manual**:
+  - Create Character.
+  - Run `!reset`.
+  - Refresh Website -> Expect Creation Page.
+  - Check SQLite (`sqlite3 world_of_darkness.db "SELECT * FROM werewolf_data WHERE user_id='...'"`).
+  - Check Google Sheet.
 
 ### Notes
 
-- Ensure `RANK_RULES` (which uses Enum keys in Python) is serialized correctly to JSON (string keys) for the frontend.
+- The user reported that previously, `!reset` didn't work.
+- My previous fix ensured SQLite deletion.
+- If it still fails, the issue is almost certainly upstream (Google Sheets not clearing) or downstream (Frontend caching/Session handling).
 
 ## Review Notes
 
 - Adversarial review completed
-- Findings: 1 total, 1 fixed, 0 skipped
-- Resolution approach: Auto-fix
-
+- Findings: 2 total, 0 fixed, 2 skipped (Accepted as safe)
+- Resolution approach: Skip
+- Finding 1: Unused `character_created` in response (Safe: Adds context).
+- Finding 2: `delete_player` payload schema (Safe: Best effort, overhead negligible).

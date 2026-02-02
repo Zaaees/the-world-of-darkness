@@ -116,7 +116,7 @@ async def get_character_handler(request: web.Request) -> web.Response:
                     "rank": character.rank,
                     "discord_thread_id": character.discord_thread_id
                 }
-            })
+            }, headers={"Cache-Control": "no-store, no-cache, must-revalidate", "Pragma": "no-cache"})
             
     except Exception as e:
         logger.exception(f"Error retrieving character for user {user_id}")
@@ -428,10 +428,11 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
             return web.json_response({
                 "success": True,
                 "has_werewolf_role": True,
+                "character_created": character is not None,
                 "tribe": character.tribe.value if character and hasattr(character.tribe, 'value') else (character.tribe if character else None),
                 "display_name": character.name if character else None,
                 "rank": character.rank if character else 1
-            })
+            }, headers={"Cache-Control": "no-store, no-cache, must-revalidate", "Pragma": "no-cache"})
     except Exception as e:
         logger.exception(f"Error fetching werewolf profile for {user_id}")
         return web.json_response({"error": "Échec de la récupération du profil"}, status=500)
