@@ -42,73 +42,19 @@ class GeneralCog(commands.Cog, name="Général"):
 
         Usage: !reset @membre
         """
-        # Récupérer les données du joueur
+        # Récupérer les données du joueur (juste pour infos avant delete, facultatif)
         player = await get_player(member.id, ctx.guild.id)
 
-        # Vérifier si le joueur a le rôle Vampire ou Loup-garou
-        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
-        has_werewolf_role = any(role.id == ROLE_LOUP_GAROU for role in member.roles)
-
-        # Vérifier s'il y a des données à supprimer
-        vampire_data = await get_vampire_data(member.id, ctx.guild.id) if has_vampire_role else None
-
-        if not player and not vampire_data and not has_vampire_role and not has_werewolf_role:
-            await ctx.send(
-                f"❌ {member.display_name} n'a pas de personnage à réinitialiser.",
-            )
-            return
-
-        # Récupérer les infos avant suppression
-        clan = player.get("clan") if player else None
-        auspice = player.get("auspice") if player else None
-        race = player.get("race") if player else None
-
-        # Supprimer la fiche Discord si elle existe
-        try:
-            await delete_discord_sheet(self.bot, member.id, ctx.guild.id)
-        except Exception as e:
-            logger.error(f"Erreur suppression fiche Discord pour {member.id}: {e}")
-
-        # Supprimer les données (mais garder la race si l'utilisateur a encore le rôle)
-        await delete_player(member.id, ctx.guild.id, keep_race=has_vampire_role or has_werewolf_role)
+        # 1. RETIRER LES ROLES (Visuel immédiat)
+        roles_removed = []
         
-        # Supprimer les rituels connus
-        await delete_player_rituals(member.id, ctx.guild.id)
-
-        # Supprimer la fiche Google Sheet si elle existe
-        try:
-            await delete_google_sheet_character(member.id)
-        except Exception as e:
-            logger.error(f"Erreur suppression fiche Google Sheet pour {member.id}: {e}")
-
-        # Supprimer les données Werewolf SQLite (toujours essayer, même sans rôle)
-        try:
-            from modules.werewolf.models.store import delete_werewolf_data
-            from utils.database import DATABASE_PATH
-            import aiosqlite
-            async with aiosqlite.connect(DATABASE_PATH) as db:
-                deleted = await delete_werewolf_data(db, str(member.id))
-                if deleted:
-                    logger.info(f"Données werewolf supprimées pour {member.id}")
-                else:
-                    logger.info(f"Aucune donnée werewolf à supprimer pour {member.id}")
-        except Exception as e:
-            logger.error(f"Erreur suppression données werewolf pour {member.id}: {e}")
-
-
-        # Retirer les rôles de clan/augure
-        roles_removed = []
-
-        # Retirer les rôles de clan/augure (Méthode robuste : tout vérifier)
-        roles_removed = []
-
         # Vérifier tous les clans possibles
         for clan_info in CLANS.values():
             role_name = clan_info["nom"]
             role = discord.utils.get(ctx.guild.roles, name=role_name)
             if role and role in member.roles:
                 try:
-                    await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
+                    await member.remove_roles(role, reason="Reset: Nettoyage Clan")
                     roles_removed.append(role_name)
                 except discord.Forbidden:
                     logger.warning(f"Impossible de retirer le rôle {role_name} à {member.display_name}")
@@ -119,32 +65,78 @@ class GeneralCog(commands.Cog, name="Général"):
             role = discord.utils.get(ctx.guild.roles, name=role_name)
             if role and role in member.roles:
                 try:
-                    await member.remove_roles(role, reason="Réinitialisation du personnage par admin")
+                    await member.remove_roles(role, reason="Reset: Nettoyage Auspice")
                     roles_removed.append(role_name)
                 except discord.Forbidden:
                     logger.warning(f"Impossible de retirer le rôle {role_name} à {member.display_name}")
+                    
+        # 2. SUPPRIMER DONNEES SPECIFIQUES (LOCAL FIRST)
+        
+        # Werewolf Data (Module spécifique)
+        try:
+            from modules.werewolf.models.store import delete_werewolf_data
+            from utils.database import DATABASE_PATH
+            import aiosqlite
+            async with aiosqlite.connect(DATABASE_PATH) as db:
+                # Force delete regardless of role (zombie check)
+                deleted = await delete_werewolf_data(db, str(member.id))
+                if deleted:
+                    logger.info(f"RESET: Werewolf data purged for {member.id}")
+        except Exception as e:
+            logger.error(f"RESET ERROR (Werewolf): {e}")
+
+        # Vampire Data (implied by delete_player cleaning vampire_soif, but good to be explicit if we had a service)
+        # Currently handled by delete_player's table cleanup.
+        
+        # 3. SUPPRIMER DONNEES GENERIQUES & GOOGLE SHEETS
+        try:
+            # Supprimer la fiche Discord
+            await delete_discord_sheet(self.bot, member.id, ctx.guild.id)
+        except Exception as e:
+            logger.error(f"RESET ERROR (Discord Sheet): {e}")
+            
+        try:
+            # Supprimer rituels
+            await delete_player_rituals(member.id, ctx.guild.id)
+        except Exception as e:
+            logger.error(f"RESET ERROR (Rituals): {e}")
+
+        try:
+            # Clean Google Sheet separately if possible? 
+            # delete_player does both Local + Google Sheets.
+            # We want to ensure Local is cleared even if Google Sheets fails.
+            # delete_player implementation does `save_to_google_sheets` first.
+            # We rely on delete_player's internal error handling or we accept it might log errors.
+            await delete_player(member.id, ctx.guild.id, keep_race=False)
+        except Exception as e:
+             logger.error(f"RESET ERROR (Generic/Player): {e}")
+
+        try:
+            # Supprimer la fiche Google Sheet distincte (File deletion vs Data clearing)
+            await delete_google_sheet_character(member.id)
+        except Exception as e:
+             # C'est souvent moins grave si ça échoue, tant que les données sont wipées
+             logger.warning(f"RESET WARNING (Google Sheet File): {e}")
+
 
         # Message de confirmation
         description = f"Le personnage de {member.display_name} a été réinitialisé.\n\n"
-        description += "**Données supprimées :**\n"
-
-        if race == "vampire" or has_vampire_role or vampire_data:
-            description += "• Clan et niveau de Soif\n"
-        elif race == "loup-garou" or has_werewolf_role:
-            description += "• Augure et Rage (toutes les scènes)\n"
-        else:
-            description += "• Toutes les données de personnage\n"
-            description += "• Grimoire de rituels\n"
+        description += "**Actions effectuées :**\n"
+        description += "• Suppression des données locales (Werewolf/Vampire)\n"
+        description += "• Nettoyage de la base de données\n"
+        description += "• Tentative de nettoyage Google Sheets\n"
 
         if roles_removed:
             description += f"\n**Rôles retirés :** {', '.join(roles_removed)}"
+        else:
+            description += "\n*Aucun rôle de clan/augure trouvé à retirer.*"
 
-        description += "\n\n*Le joueur peut maintenant utiliser `/vampire` ou `/lycan` pour créer un nouveau personnage.*"
+        description += "\n\n*Le joueur peut maintenant utiliser `/vampire` ou `/lycan`.*"
 
         embed = discord.Embed(
-            title="🔄 Personnage Réinitialisé",
+            title="🔄 Réinitialisation Terminée",
             description=description,
-            color=discord.Color.blue(),
+            color=discord.Color.green(), # Green for success/clean slate
         )
 
         await ctx.send(embed=embed)

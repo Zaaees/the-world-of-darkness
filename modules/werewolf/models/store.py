@@ -375,34 +375,40 @@ async def get_all_werewolves(db: aiosqlite.Connection) -> list[WerewolfData]:
             ))
         return results
 
-async def delete_werewolf_data(db: aiosqlite.Connection, user_id: str) -> bool:
+async def delete_werewolf_data(db: aiosqlite.Connection, user_id: Union[str, int]) -> bool:
     """
     Supprime complètement un personnage loup-garou et toutes ses données associées.
     
     Args:
         db: Connexion base de données.
-        user_id: L'ID Discord de l'utilisateur.
+        user_id: L'ID Discord de l'utilisateur (sera converti en string).
         
     Returns:
         True si le personnage existait et a été supprimé, False sinon.
     """
+    # Ensure ID is a string for DB matching
+    uid_str = str(user_id)
+    
     # Ne pas vérifier l'existence via get_werewolf_data pour éviter que des données 
     # corrompues (illisisbles) empêchent la suppression.
     
     # Supprimer les dons du joueur
-    await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (user_id,))
+    cursor_gifts = await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (uid_str,))
+    gifts_deleted = cursor_gifts.rowcount
     
     # Supprimer les demandes de renommée
-    await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (user_id,))
+    cursor_renown = await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (uid_str,))
+    renown_deleted = cursor_renown.rowcount
     
     # Supprimer le personnage
-    cursor = await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (user_id,))
+    cursor = await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (uid_str,))
     deleted = cursor.rowcount > 0
     
     await db.commit()
+    
     if deleted:
-        logger.info(f"Personnage werewolf supprimé pour user_id={user_id}")
+        logger.info(f"Werewolf data DELETED for user_id={uid_str}: main=1, gifts={gifts_deleted}, renown={renown_deleted}")
     else:
-        logger.info(f"Tentative de suppression werewolf pour user_id={user_id}: aucune donnée trouvée")
+        logger.info(f"Werewolf deletion attempt for user_id={uid_str}: No main data found (legacy cleanup: gifts={gifts_deleted}, renown={renown_deleted})")
         
     return deleted
