@@ -257,6 +257,18 @@ export default function RenownGuide() {
                             <span>Consultation des esprits...</span>
                         </div>
                     </div>
+                ) : error ? (
+                    <div className="flex flex-col items-center justify-center h-full text-red-400 gap-2 p-6">
+                        <AlertCircle size={32} />
+                        <p className="font-bold">Erreur de chargement</p>
+                        <p className="text-sm text-center opacity-80">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="mt-4 px-4 py-2 bg-stone-800 hover:bg-stone-700 rounded-lg text-sm transition-colors"
+                        >
+                            Réessayer
+                        </button>
+                    </div>
                 ) : (
                     <AnimatePresence mode="wait">
                         <motion.div
