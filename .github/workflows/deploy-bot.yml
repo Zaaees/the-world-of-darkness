@@ -17,6 +17,7 @@ on:
 
 jobs:
   deploy:
+    # Pinning ubuntu-22.04 to resolve 'Internal Server Error' / 'Job not acquired' issues with ubuntu-latest
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4

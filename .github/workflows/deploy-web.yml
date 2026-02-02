@@ -18,6 +18,7 @@ concurrency:
 
 jobs:
   build:
+    # Pinning ubuntu-22.04 to resolve 'Internal Server Error' / 'Job not acquired' issues with ubuntu-latest
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -52,6 +53,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    # Pinning ubuntu-22.04 to resolve 'Internal Server Error' / 'Job not acquired' issues with ubuntu-latest
     runs-on: ubuntu-22.04
     needs: build
     steps:
