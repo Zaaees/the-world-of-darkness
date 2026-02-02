@@ -267,19 +267,45 @@ async def init_database():
 
 
 async def get_player(user_id: int, guild_id: int) -> Optional[dict]:
-    """Récupère les informations d'un joueur depuis Google Sheets."""
+    """
+    Récupère les informations d'un joueur. 
+    Priorité: SQLite Local > Google Sheets
+    """
+    # 1. Essai Local SQLite
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute("SELECT race, clan, auspice FROM players WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        row = await cursor.fetchone()
+        if row:
+            # Found in local cache!
+            return {
+                "user_id": user_id,
+                "guild_id": guild_id,
+                "race": row[0],
+                "clan": row[1],
+                "auspice": row[2]
+            }
+
+    # 2. Fallback Google Sheets
     character = await get_from_google_sheets(user_id)
     if not character:
         return None
 
-    # Adapter le format Google Sheets au format attendu par le bot
-    return {
+    # Adapt & Cache formatted dict
+    player_data = {
         "user_id": user_id,
         "guild_id": guild_id,
         "race": character.get("race"),
         "clan": character.get("clan"),
         "auspice": character.get("auspice"),
     }
+    
+    # Cache it for next time!
+    try:
+        await set_player(user_id, guild_id, race=player_data["race"], clan=player_data["clan"], auspice=player_data["auspice"])
+    except Exception as e:
+        logger.warning(f"Failed to cache player to SQLite: {e}")
+
+    return player_data
 
 
 async def set_player(
@@ -290,11 +316,35 @@ async def set_player(
     auspice: Optional[str] = None,
     name: Optional[str] = None,
 ):
-    """Crée ou met à jour un joueur dans Google Sheets."""
-    # Récupérer les données existantes
+    """Crée ou met à jour un joueur dans Google Sheets ET en local."""
+    # 1. Mise à jour Locale (Source de vérité immédiate)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Lire l'existant pour préserver les champs non modifiés
+        cursor = await db.execute("SELECT * FROM players WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        row = await cursor.fetchone()
+        
+        current_race = row[2] if row else None
+        current_clan = row[3] if row else None
+        current_auspice = row[4] if row else None
+        
+        new_race = race if race is not None else current_race
+        new_clan = clan if clan is not None else current_clan
+        new_auspice = auspice if auspice is not None else current_auspice
+        
+        await db.execute("""
+            INSERT INTO players (user_id, guild_id, race, clan, auspice, updated_at)
+            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                race = excluded.race,
+                clan = excluded.clan,
+                auspice = excluded.auspice,
+                updated_at = CURRENT_TIMESTAMP
+        """, (user_id, guild_id, new_race, new_clan, new_auspice))
+        await db.commit()
+
+    # 2. Synchronisation Google Sheets (Best effort)
     character = await get_from_google_sheets(user_id) or {}
 
-    # Mettre à jour les champs fournis
     if race is not None:
         character["race"] = race
     if clan is not None:
@@ -304,7 +354,6 @@ async def set_player(
     if name is not None:
         character["name"] = name
 
-    # Sauvegarder dans Google Sheets
     await save_to_google_sheets(user_id, character)
 
 
@@ -344,6 +393,19 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
 
     # Réinitialiser aussi les données de session SQLite
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        # Réinitialiser la table players (locale cache)
+        # On ne supprime pas la ligne si keep_race=True, on met à jour.
+        if keep_race:
+            await db.execute(
+                "UPDATE players SET clan=NULL, auspice=NULL WHERE user_id = ? AND guild_id = ?",
+                (user_id, guild_id)
+            )
+        else:
+            await db.execute(
+                "DELETE FROM players WHERE user_id = ? AND guild_id = ?",
+                (user_id, guild_id)
+            )
+
         # Réinitialiser vampire_soif
         await db.execute(
             "DELETE FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
