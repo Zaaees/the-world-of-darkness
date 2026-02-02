@@ -118,8 +118,9 @@ async def get_character_handler(request: web.Request) -> web.Response:
                     has_race = bool(primary_player.get("race"))
                     has_auspice = bool(primary_player.get("auspice"))
                     
-                    if not has_race and not has_auspice:
-                        logger.warning(f"Orphaned werewolf data detected for {user_id}. Primary source is empty. Treating as 404.")
+                    # If Auspice is missing, the character is incomplete/reset.
+                    if not has_auspice:
+                        logger.warning(f"Orphaned werewolf data detected for {user_id}. Primary source has no Auspice. Auto-deleting.")
                         # Auto-cleanup orphaned data
                         from modules.werewolf.models.store import delete_werewolf_data
                         await delete_werewolf_data(db, user_id)
@@ -464,7 +465,9 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
                     has_race = bool(primary_player.get("race"))
                     has_auspice = bool(primary_player.get("auspice"))
                     
-                    if not has_race and not has_auspice:
+                    # If Auspice is missing, the character is incomplete/reset.
+                    # Even if they have the 'werewolf' race (role kept), they aren't a playable character yet.
+                    if not has_auspice:
                          # Orphaned data, treat as null
                          character = None
             except Exception as e:
