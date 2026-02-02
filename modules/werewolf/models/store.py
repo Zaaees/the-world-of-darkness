@@ -386,10 +386,8 @@ async def delete_werewolf_data(db: aiosqlite.Connection, user_id: str) -> bool:
     Returns:
         True si le personnage existait et a été supprimé, False sinon.
     """
-    # Vérifier si le personnage existe
-    existing = await get_werewolf_data(db, user_id)
-    if not existing:
-        return False
+    # Ne pas vérifier l'existence via get_werewolf_data pour éviter que des données 
+    # corrompues (illisisbles) empêchent la suppression.
     
     # Supprimer les dons du joueur
     await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (user_id,))
@@ -398,8 +396,13 @@ async def delete_werewolf_data(db: aiosqlite.Connection, user_id: str) -> bool:
     await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (user_id,))
     
     # Supprimer le personnage
-    await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (user_id,))
+    cursor = await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (user_id,))
+    deleted = cursor.rowcount > 0
     
     await db.commit()
-    logger.info(f"Personnage werewolf supprimé pour user_id={user_id}")
-    return True
+    if deleted:
+        logger.info(f"Personnage werewolf supprimé pour user_id={user_id}")
+    else:
+        logger.info(f"Tentative de suppression werewolf pour user_id={user_id}: aucune donnée trouvée")
+        
+    return deleted
