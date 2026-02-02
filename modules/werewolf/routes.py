@@ -98,6 +98,36 @@ async def get_character_handler(request: web.Request) -> web.Response:
         async with aiosqlite.connect(DATABASE_PATH) as db:
             character = await get_character(db, user_id)
             
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            character = await get_character(db, user_id)
+            
+            # CRITICAL FIX: Verify against primary source (Google Sheets/Players)
+            # !reset clears the primary source. If primary is gone, SQLite werewolf_data is orphaned.
+            try:
+                from utils.database import get_player
+                # Guild ID is not strictly needed for get_player read if we trust user_id, 
+                # but get_player signature requires it. We try with guild_id from headers if present,
+                # otherwise we might need a workaround. 
+                # get_player(user_id, guild_id) -> calls get_from_google_sheets(user_id) which IGNORES guild_id.
+                # So passing 0 is safe for the check.
+                primary_player = await get_player(int(user_id), 0)
+                
+                # If primary player has no race/clan/auspice (cleared), treat as deleted.
+                # !reset sets them to empty strings.
+                if primary_player:
+                    has_race = bool(primary_player.get("race"))
+                    has_auspice = bool(primary_player.get("auspice"))
+                    
+                    if not has_race and not has_auspice:
+                        logger.warning(f"Orphaned werewolf data detected for {user_id}. Primary source is empty. Treating as 404.")
+                        # Auto-cleanup orphaned data
+                        from modules.werewolf.models.store import delete_werewolf_data
+                        await delete_werewolf_data(db, user_id)
+                        character = None
+            except Exception as e:
+                logger.error(f"Failed to verify primary player for {user_id}: {e}")
+                # Fallback to trusting SQLite if check fails
+            
             if not character:
                 return web.json_response({
                     "success": False,
@@ -425,6 +455,21 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
         async with aiosqlite.connect(DATABASE_PATH) as db:
             character = await get_character(db, user_id)
             
+            # CRITICAL FIX: Verify against primary source (Google Sheets/Players)
+            try:
+                from utils.database import get_player
+                primary_player = await get_player(int(user_id), 0)
+                
+                if primary_player:
+                    has_race = bool(primary_player.get("race"))
+                    has_auspice = bool(primary_player.get("auspice"))
+                    
+                    if not has_race and not has_auspice:
+                         # Orphaned data, treat as null
+                         character = None
+            except Exception as e:
+                 logger.error(f"Failed to verify primary player for {user_id}: {e}")
+
             return web.json_response({
                 "success": True,
                 "has_werewolf_role": True,
