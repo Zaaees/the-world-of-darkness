@@ -394,17 +394,22 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
     # Réinitialiser aussi les données de session SQLite
     async with aiosqlite.connect(DATABASE_PATH) as db:
         # Réinitialiser la table players (locale cache)
-        # On ne supprime pas la ligne si keep_race=True, on met à jour.
-        if keep_race:
-            await db.execute(
-                "UPDATE players SET clan=NULL, auspice=NULL WHERE user_id = ? AND guild_id = ?",
-                (user_id, guild_id)
-            )
-        else:
-            await db.execute(
-                "DELETE FROM players WHERE user_id = ? AND guild_id = ?",
-                (user_id, guild_id)
-            )
+        # AU LIEU DE SUPPRIMER, on remplace par des valeurs vides.
+        # Cela force get_player à lire ces valeurs vides (rapide) au lieu de fallback sur Google Sheets (lent/stale).
+        # C'est la clé pour empêcher la résurrection zombie.
+        
+        new_race = current_race if keep_race else None
+        
+        # On utilise INSERT OR REPLACE pour s'assurer que l'enregistrement existe en état "vide"
+        await db.execute("""
+            INSERT INTO players (user_id, guild_id, race, clan, auspice, updated_at)
+            VALUES (?, ?, ?, NULL, NULL, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET
+                race = excluded.race,
+                clan = NULL,
+                auspice = NULL,
+                updated_at = CURRENT_TIMESTAMP
+        """, (user_id, guild_id, new_race))
 
         # Réinitialiser vampire_soif
         await db.execute(
