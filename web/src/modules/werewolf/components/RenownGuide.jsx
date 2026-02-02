@@ -16,13 +16,15 @@ const STAT_CONFIG = {
 };
 
 export default function RenownGuide() {
-    const { fetchRenownRules } = useRenown();
+    const { fetchRenownRules, authReady } = useRenown();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('general');
 
     useEffect(() => {
+        if (!authReady) return;
+
         let mounted = true;
 
         const loadRules = async () => {
@@ -44,7 +46,7 @@ export default function RenownGuide() {
         loadRules();
 
         return () => { mounted = false; };
-    }, []);
+    }, [authReady]);
 
     const renderGeneralTab = () => (
         <div className="space-y-6">
