@@ -34,7 +34,8 @@ export default function RenownGuide() {
                     setActiveTab('progress');
                 }
             } catch (err) {
-                if (mounted) setError("Impossible de charger les règles.");
+                console.error("RenownGuide fetch error:", err);
+                if (mounted) setError(err.message || "Impossible de charger les règles.");
             } finally {
                 if (mounted) setLoading(false);
             }
