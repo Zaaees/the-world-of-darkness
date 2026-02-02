@@ -63,9 +63,37 @@ export const useRenown = () => {
         }
     };
 
+    const fetchRenownRules = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${API_URL}/api/modules/werewolf/renown/rules`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Discord-User-ID': discordUser?.id,
+                    'X-Discord-Guild-ID': guildId
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erreur lors de la récupération des règles de renommée');
+            }
+
+            return await response.json();
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         submitRenown,
         fetchMyRenown,
+        fetchRenownRules,
         loading,
         error,
         authReady: !!discordUser && !!guildId

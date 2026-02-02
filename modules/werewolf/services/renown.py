@@ -201,6 +201,37 @@ class RenownService:
         await update_werewolf_data(self.db, user_id, {"rank": new_rank})
         logger.info(f"Updated user {user_id} rank to {new_rank}")
 
+
+    async def get_player_renown_totals(self, user_id: str) -> Dict[str, int]:
+        """
+        Récupère les totaux de renommée (Gloire, Honneur, Sagesse) pour un joueur.
+        Basé sur les demandes APPROUVÉES.
+        """
+        query = """
+            SELECT renown_type, COUNT(*) 
+            FROM werewolf_renown_requests 
+            WHERE user_id = ? AND status = ?
+            GROUP BY renown_type
+        """
+        
+        totals = {"glory": 0, "honor": 0, "wisdom": 0}
+        
+        async with self.db.execute(query, (user_id, RenownStatus.APPROVED.value)) as cursor:
+            rows = await cursor.fetchall()
+            for row in rows:
+                r_type = row[0]
+                count = row[1]
+                
+                # Normalize type string just in case
+                if r_type == RenownType.GLORY.value:
+                    totals["glory"] = count
+                elif r_type == RenownType.HONOR.value:
+                    totals["honor"] = count
+                elif r_type == RenownType.WISDOM.value:
+                    totals["wisdom"] = count
+                    
+        return totals
+
     async def recalculate_player_rank(self, user_id: str) -> int:
         """
         Recalcule le rang du joueur basé sur ses demandes validées et son Auspice.
@@ -215,31 +246,11 @@ class RenownService:
             
         auspice = user_data.auspice
         
-        # 2. Get approved renown counts by type
-        query = """
-            SELECT renown_type, COUNT(*) 
-            FROM werewolf_renown_requests 
-            WHERE user_id = ? AND status = ?
-            GROUP BY renown_type
-        """
-        
-        glory = 0
-        honor = 0
-        wisdom = 0
-        
-        async with self.db.execute(query, (user_id, RenownStatus.APPROVED.value)) as cursor:
-            rows = await cursor.fetchall()
-            for row in rows:
-                r_type = row[0]
-                count = row[1]
-                
-                # Normalize type string just in case (DB should match Enum values)
-                if r_type == RenownType.GLORY.value:
-                    glory = count
-                elif r_type == RenownType.HONOR.value:
-                    honor = count
-                elif r_type == RenownType.WISDOM.value:
-                    wisdom = count
+        # 2. Get approved renown counts
+        totals = await self.get_player_renown_totals(user_id)
+        glory = totals["glory"]
+        honor = totals["honor"]
+        wisdom = totals["wisdom"]
                     
         # 3. Calculate rank
         new_rank = RankCalculator.calculate_rank(auspice, glory, honor, wisdom)

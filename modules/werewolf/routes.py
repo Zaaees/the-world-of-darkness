@@ -15,6 +15,7 @@ from .services.audit import log_character_update, calculate_diff
 from .services.gifts import load_gift_catalogue, get_player_gifts, unlock_gift
 from modules.werewolf.models.store import get_all_werewolves
 from modules.werewolf.models.renown import RenownStatus
+from .services.renown import RenownService, RANK_RULES
 import asyncio
 
 logger = logging.getLogger(__name__)
@@ -440,6 +441,48 @@ async def get_werewolf_profile_handler(request: web.Request) -> web.Response:
 
 
 @require_werewolf_role
+async def get_renown_rules_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/renown/rules
+    Retourne les règles de renommée, les stats du joueur et son rang.
+    """
+    user_id_raw = request.headers.get("X-Discord-User-ID")
+    if not user_id_raw:
+        return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
+    
+    user_id = str(user_id_raw)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            # 1. Get Character (for Auspice/Rank)
+            character = await get_character(db, user_id)
+            if not character:
+                return web.json_response({"error": "Personnage introuvable"}, status=404)
+            
+            # 2. Get Renown Totals
+            renown_service = RenownService(db)
+            totals = await renown_service.get_player_renown_totals(user_id)
+            
+            # 3. Serialize Rules (Enum keys to string)
+            rules_serialized = {}
+            for auspice, ranks in RANK_RULES.items():
+                auspice_key = auspice.value if hasattr(auspice, 'value') else str(auspice)
+                rules_serialized[auspice_key] = ranks
+
+            return web.json_response({
+                "success": True,
+                "rules": rules_serialized,
+                "my_stats": totals,
+                "my_auspice": character.auspice.value if hasattr(character.auspice, 'value') else character.auspice,
+                "my_rank": character.rank
+            })
+            
+    except Exception as e:
+        logger.exception(f"Error fetching renown rules for {user_id}")
+        return web.json_response({"error": "Échec de la récupération des règles"}, status=500)
+
+
+@require_werewolf_role
 async def get_my_renown_handler(request: web.Request) -> web.Response:
     """
     GET /api/modules/werewolf/renown - Récupérer les hauts faits validés.
@@ -525,6 +568,8 @@ def register_werewolf_routes(app: web.Application) -> None:
     
     # Hauts Faits (Renommée)
     app.router.add_get("/api/modules/werewolf/renown", get_my_renown_handler)
+    app.router.add_get("/api/modules/werewolf/renown/rules", get_renown_rules_handler)
+    
     
     logger.info("Routes Werewolf enregistrées sur /api/modules/werewolf/*")
 
