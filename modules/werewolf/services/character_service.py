@@ -116,48 +116,23 @@ async def create_character(db: aiosqlite.Connection, character_data: Dict[str, A
 async def get_character(db: aiosqlite.Connection, user_id: str) -> Optional[WerewolfData]:
     """
     Récupère un personnage loup-garou par user_id.
-    Vérifie également la validité du personnage par rapport à la source de vérité (Google Sheets).
+    La table werewolf_data dans SQLite est la source de vérité.
+    Si le personnage a été supprimé via !reset (delete_werewolf_data), 
+    cette fonction retourne None directement.
     
     Args:
         db: Connexion base de données.
         user_id: L'ID Discord de l'utilisateur.
         
     Returns:
-        L'objet WerewolfData si trouvé et valide, None sinon.
+        L'objet WerewolfData si trouvé, None sinon.
     """
     logger.info(f"Retrieving character for user {user_id}")
     
-    # 1. Fetch from Local SQLite
+    # Fetch from Local SQLite (authoritative store for werewolf data)
     character = await get_werewolf_data(db, user_id)
     if not character:
         return None
-
-    # 2. Zombie Check: Verify against Google Sheets (via utils.database.get_player)
-    # This prevents deleted characters from lingering in SQLite cache
-    try:
-        from utils.database import get_player
-        # We use 0 for guild_id as get_player ignores it for remote GETs
-        primary_player = await get_player(int(user_id), 0)
-        
-        if primary_player:
-            # A valid Werewolf MUST have an Auspice. 
-            # !reset clears Auspice.
-            has_auspice = bool(primary_player.get("auspice"))
-            
-            if not has_auspice:
-                logger.warning(f"[Zombie Check] Character found in SQLite but missing Auspice in Primary Store for user {user_id}. Treating as Deleted.")
-                
-                # Auto-Cleanup: Kill the zombie
-                from modules.werewolf.models.store import delete_werewolf_data
-                await delete_werewolf_data(db, user_id)
-                await db.commit() # Ensure deletion is committed
-                
-                return None
-                
-    except Exception as e:
-        logger.error(f"Failed Zombie Check for user {user_id}: {e}")
-        # Fail safe: If we can't check, we return the character but log error.
-        # This biases towards availability vs consistency, but avoids outages if Google is down.
 
     return character
 

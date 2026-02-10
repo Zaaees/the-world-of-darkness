@@ -379,6 +379,7 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
         "tribe": "",
         "breed": "",
         "name": "",
+        "rank": 0,
         "bloodPotency": 0,
         "saturationPoints": 0,
         "soif": 0,
