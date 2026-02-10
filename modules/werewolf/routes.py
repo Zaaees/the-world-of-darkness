@@ -574,6 +574,14 @@ async def debug_character_handler(request: web.Request) -> web.Response:
             count = await cursor2.fetchone()
             result["werewolf_data_total_rows"] = count[0] if count else 0
             
+            # List ALL rows (user_id, name, rank) to identify what's in the table
+            cursor3 = await db.execute("SELECT user_id, name, rank, auspice, tribe FROM werewolf_data")
+            all_rows = await cursor3.fetchall()
+            result["all_werewolf_rows"] = [
+                {"user_id": r[0], "name": r[1], "rank": r[2], "auspice": r[3], "tribe": r[4]}
+                for r in all_rows
+            ]
+            
             # Check via ORM
             character = await get_character(db, user_id)
             result["get_character_result"] = {
