@@ -8,6 +8,9 @@ import { WerewolfModule } from '../../modules/werewolf';
 // Hook pour les rôles
 import { useUserRoles } from '../hooks/useUserRoles';
 
+// Page sans rôle
+import NoRolePage from '../components/NoRolePage';
+
 // Loading Component
 const Loading = () => <div className="p-10 text-center text-white">Chargement du module...</div>;
 
@@ -16,13 +19,14 @@ const Loading = () => <div className="p-10 text-center text-white">Chargement du
  * Préserve le hash fragment pour l'authentification OAuth Discord.
  * 
  * Logique de redirection:
- * - Si rôle Werewolf → /werewolf/dashboard
- * - Sinon → /vampire (comportement par défaut)
- * - Si les deux rôles → Werewolf prioritaire (à affiner plus tard avec sélecteur)
+ * - Si rôle Werewolf → /werewolf/sheet
+ * - Si rôle Vampire → /vampire
+ * - Si aucun rôle (mais authentifié) → page immersive "accès refusé"
+ * - Si non authentifié → /vampire (pour le flux login)
  */
 const RootRedirect = () => {
     const { hash } = useLocation();
-    const { isLoading, hasWerewolfRole } = useUserRoles();
+    const { isLoading, hasWerewolfRole, hasVampireRole, isAuthenticated } = useUserRoles();
 
     // Pendant le chargement, afficher un loader
     if (isLoading) {
@@ -33,13 +37,22 @@ const RootRedirect = () => {
         );
     }
 
+    // Non authentifié → page vampire pour le login Discord
+    if (!isAuthenticated) {
+        return <Navigate to={`/vampire${hash}`} replace />;
+    }
+
     // Redirection basée sur les rôles
     if (hasWerewolfRole) {
         return <Navigate to={`/werewolf/sheet${hash}`} replace />;
     }
 
-    // Par défaut, redirection vers Vampire (comportement existant préservé)
-    return <Navigate to={`/vampire${hash}`} replace />;
+    if (hasVampireRole) {
+        return <Navigate to={`/vampire${hash}`} replace />;
+    }
+
+    // Authentifié mais aucun rôle de jeu → page immersive
+    return <NoRolePage />;
 };
 
 export default function AppRouter() {
