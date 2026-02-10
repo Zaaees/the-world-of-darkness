@@ -74,16 +74,41 @@ class GeneralCog(commands.Cog, name="Général"):
         
         # Werewolf Data (Module spécifique)
         try:
-            from modules.werewolf.models.store import delete_werewolf_data
+            from modules.werewolf.models.store import delete_werewolf_data, get_werewolf_data
             from utils.database import DATABASE_PATH
             import aiosqlite
-            async with aiosqlite.connect(DATABASE_PATH) as db:
-                # Force delete regardless of role (zombie check)
+            
+            logger.info(f"RESET DEBUG: Using DATABASE_PATH={DATABASE_PATH}")
+            logger.info(f"RESET DEBUG: member.id={member.id} (type={type(member.id).__name__})")
+            
+            async with aiosqlite.connect(str(DATABASE_PATH)) as db:
+                # Check if data exists BEFORE delete
+                pre_check = await get_werewolf_data(db, str(member.id))
+                logger.info(f"RESET DEBUG PRE-DELETE: werewolf_data exists={pre_check is not None}, rank={pre_check.rank if pre_check else 'N/A'}")
+                
+                # Also check with raw SQL to rule out any ORM issues
+                cursor_check = await db.execute("SELECT user_id, rank FROM werewolf_data WHERE user_id = ?", (str(member.id),))
+                raw_row = await cursor_check.fetchone()
+                logger.info(f"RESET DEBUG PRE-DELETE RAW: row={raw_row}")
+                
+                # Force delete regardless of role
                 deleted = await delete_werewolf_data(db, str(member.id))
+                logger.info(f"RESET DEBUG: delete_werewolf_data returned {deleted}")
+                
+                # Verify AFTER delete
+                post_check = await get_werewolf_data(db, str(member.id))
+                logger.info(f"RESET DEBUG POST-DELETE: werewolf_data exists={post_check is not None}")
+                
+                cursor_check2 = await db.execute("SELECT user_id, rank FROM werewolf_data WHERE user_id = ?", (str(member.id),))
+                raw_row2 = await cursor_check2.fetchone()
+                logger.info(f"RESET DEBUG POST-DELETE RAW: row={raw_row2}")
+                
                 if deleted:
                     logger.info(f"RESET: Werewolf data purged for {member.id}")
+                else:
+                    logger.warning(f"RESET: delete_werewolf_data returned False for {member.id} - data may not have existed")
         except Exception as e:
-            logger.error(f"RESET ERROR (Werewolf): {e}")
+            logger.error(f"RESET ERROR (Werewolf): {e}", exc_info=True)
 
         # Vampire Data (implied by delete_player cleaning vampire_soif, but good to be explicit if we had a service)
         # Currently handled by delete_player's table cleanup.

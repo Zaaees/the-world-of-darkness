@@ -93,13 +93,12 @@ async def get_character_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": "En-tête X-Discord-User-ID manquant"}, status=400)
     
     user_id = str(user_id_raw)
+    logger.info(f"[GET_CHARACTER] user_id={user_id}, DATABASE_PATH={DATABASE_PATH}")
     
     try:
         async with aiosqlite.connect(DATABASE_PATH) as db:
             character = await get_character(db, user_id)
-            
-        async with aiosqlite.connect(DATABASE_PATH) as db:
-            character = await get_character(db, user_id)
+            logger.info(f"[GET_CHARACTER] get_character returned: exists={character is not None}, rank={character.rank if character else 'N/A'}")
             
             if not character:
                 return web.json_response({
@@ -538,6 +537,57 @@ async def get_my_renown_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": "Échec de la récupération de la renommée"}, status=500)
 
 
+async def debug_character_handler(request: web.Request) -> web.Response:
+    """
+    GET /api/modules/werewolf/debug/character?user_id=XXX
+    Debug endpoint - shows raw database state. TEMPORARY.
+    """
+    user_id = request.query.get('user_id', request.headers.get('X-Discord-User-ID', ''))
+    if not user_id:
+        return web.json_response({"error": "user_id required (query param or header)"}, status=400)
+    
+    user_id = str(user_id)
+    result = {
+        "database_path": str(DATABASE_PATH),
+        "database_exists": DATABASE_PATH.exists() if hasattr(DATABASE_PATH, 'exists') else 'unknown',
+        "user_id_queried": user_id,
+    }
+    
+    try:
+        import os
+        result["database_size_bytes"] = os.path.getsize(str(DATABASE_PATH))
+    except Exception as e:
+        result["database_size_error"] = str(e)
+    
+    try:
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            # Raw SQL check
+            cursor = await db.execute("SELECT user_id, name, rank, auspice, tribe, breed FROM werewolf_data WHERE user_id = ?", (user_id,))
+            row = await cursor.fetchone()
+            result["werewolf_data_raw"] = {
+                "exists": row is not None,
+                "row": list(row) if row else None
+            }
+            
+            # Count all rows
+            cursor2 = await db.execute("SELECT COUNT(*) FROM werewolf_data")
+            count = await cursor2.fetchone()
+            result["werewolf_data_total_rows"] = count[0] if count else 0
+            
+            # Check via ORM
+            character = await get_character(db, user_id)
+            result["get_character_result"] = {
+                "exists": character is not None,
+                "rank": character.rank if character else None,
+                "name": character.name if character else None
+            }
+            
+    except Exception as e:
+        result["error"] = str(e)
+    
+    return web.json_response(result, headers={"Cache-Control": "no-store"})
+
+
 def register_werewolf_routes(app: web.Application) -> None:
     """
     Enregistre toutes les routes du module Werewolf sur l'application.
@@ -548,6 +598,9 @@ def register_werewolf_routes(app: web.Application) -> None:
     """
     # Route de santé pour vérifier l'accès au module
     app.router.add_get("/api/modules/werewolf/health", werewolf_health_handler)
+    
+    # Debug endpoint (TEMPORARY)
+    app.router.add_get("/api/modules/werewolf/debug/character", debug_character_handler)
     
     # Profil (pour vérification de rôle frontend)
     app.router.add_get("/api/modules/werewolf/profile", get_werewolf_profile_handler)
