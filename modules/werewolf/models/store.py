@@ -379,6 +379,10 @@ async def delete_werewolf_data(db: aiosqlite.Connection, user_id: Union[str, int
     """
     Supprime complètement un personnage loup-garou et toutes ses données associées.
     
+    Chaque suppression est isolée dans son propre try/except pour garantir
+    que la suppression du personnage principal (werewolf_data) n'est JAMAIS
+    bloquée par l'absence d'une table secondaire.
+    
     Args:
         db: Connexion base de données.
         user_id: L'ID Discord de l'utilisateur (sera converti en string).
@@ -389,26 +393,41 @@ async def delete_werewolf_data(db: aiosqlite.Connection, user_id: Union[str, int
     # Ensure ID is a string for DB matching
     uid_str = str(user_id)
     
-    # Ne pas vérifier l'existence via get_werewolf_data pour éviter que des données 
-    # corrompues (illisisbles) empêchent la suppression.
+    gifts_deleted = 0
+    renown_deleted = 0
+    renown_requests_deleted = 0
     
-    # Supprimer les dons du joueur
-    cursor_gifts = await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (uid_str,))
-    gifts_deleted = cursor_gifts.rowcount
+    # Supprimer les dons du joueur (table optionnelle)
+    try:
+        cursor_gifts = await db.execute("DELETE FROM werewolf_player_gifts WHERE user_id = ?", (uid_str,))
+        gifts_deleted = cursor_gifts.rowcount
+    except Exception as e:
+        logger.warning(f"delete_werewolf_data: werewolf_player_gifts cleanup failed (table may not exist): {e}")
     
-    # Supprimer les demandes de renommée
-    cursor_renown = await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (uid_str,))
-    renown_deleted = cursor_renown.rowcount
+    # Supprimer les demandes de renommée - table legacy (table optionnelle)
+    try:
+        cursor_renown = await db.execute("DELETE FROM werewolf_renown WHERE user_id = ?", (uid_str,))
+        renown_deleted = cursor_renown.rowcount
+    except Exception as e:
+        logger.warning(f"delete_werewolf_data: werewolf_renown cleanup failed (table may not exist): {e}")
     
-    # Supprimer le personnage
+    # Supprimer les demandes de renommée - table actuelle (table optionnelle)
+    try:
+        cursor_renown_req = await db.execute("DELETE FROM werewolf_renown_requests WHERE user_id = ?", (uid_str,))
+        renown_requests_deleted = cursor_renown_req.rowcount
+    except Exception as e:
+        logger.warning(f"delete_werewolf_data: werewolf_renown_requests cleanup failed (table may not exist): {e}")
+    
+    # CRITICAL: Supprimer le personnage principal - DOIT toujours s'exécuter
     cursor = await db.execute("DELETE FROM werewolf_data WHERE user_id = ?", (uid_str,))
     deleted = cursor.rowcount > 0
     
     await db.commit()
     
     if deleted:
-        logger.info(f"Werewolf data DELETED for user_id={uid_str}: main=1, gifts={gifts_deleted}, renown={renown_deleted}")
+        logger.info(f"Werewolf data DELETED for user_id={uid_str}: main=1, gifts={gifts_deleted}, renown={renown_deleted}, renown_requests={renown_requests_deleted}")
     else:
-        logger.info(f"Werewolf deletion attempt for user_id={uid_str}: No main data found (legacy cleanup: gifts={gifts_deleted}, renown={renown_deleted})")
+        logger.info(f"Werewolf deletion attempt for user_id={uid_str}: No main data found (legacy cleanup: gifts={gifts_deleted}, renown={renown_deleted}, renown_requests={renown_requests_deleted})")
         
     return deleted
+

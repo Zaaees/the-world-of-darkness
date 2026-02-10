@@ -48,6 +48,16 @@ class GeneralCog(commands.Cog, name="Général"):
         # 1. RETIRER LES ROLES (Visuel immédiat)
         roles_removed = []
         
+        # Retirer les rôles principaux (Loup-Garou / Vampire)
+        for role_id, role_label in [(ROLE_LOUP_GAROU, "Loup-Garou"), (ROLE_VAMPIRE, "Vampire")]:
+            role = ctx.guild.get_role(role_id)
+            if role and role in member.roles:
+                try:
+                    await member.remove_roles(role, reason=f"Reset: Nettoyage rôle {role_label}")
+                    roles_removed.append(role_label)
+                except discord.Forbidden:
+                    logger.warning(f"Impossible de retirer le rôle {role_label} à {member.display_name}")
+        
         # Vérifier tous les clans possibles
         for clan_info in CLANS.values():
             role_name = clan_info["nom"]
