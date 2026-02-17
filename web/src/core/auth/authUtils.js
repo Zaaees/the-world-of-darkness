@@ -36,8 +36,9 @@ export const extractAuthData = (hashString) => {
 export const validateToken = (token) => {
   if (!token || typeof token !== 'string') return false;
 
-  const parts = token.split('.');
-  return parts.length === 3;
+  // Discord Access Tokens are opaque strings, not JWTs.
+  // We just check for a reasonable length to avoid empty or garbage strings.
+  return token.length > 10;
 };
 
 /**

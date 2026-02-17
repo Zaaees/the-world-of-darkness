@@ -80,12 +80,9 @@ describe('useUserRoles', () => {
 
     describe('Hash Token Extraction', () => {
         it('Case 1: Extracts valid token from hash, sets expiry, and cleans URL', async () => {
-            // Setup valid hash
-            const validToken = 'valid.token.part'; // Mock 3 parts for validation logic if strictly enforced
-            // But our authUtils check is "split by dot length === 3". 
-            // So "a.b.c" is valid.
-            const jwtToken = 'header.payload.signature';
-            mockLocation.hash = `#access_token=${jwtToken}&expires_in=3600&token_type=Bearer`;
+            // Setup valid hash (Opaque Discord Token)
+            const validOpaqueToken = 'vKPA354q54.sdg54.SafeOpaqueTokenString';
+            mockLocation.hash = `#access_token=${validOpaqueToken}&expires_in=3600&token_type=Bearer`;
 
             mockSuccessFetch();
 
@@ -96,7 +93,7 @@ describe('useUserRoles', () => {
             });
 
             // check token is in storage
-            expect(localStorage.getItem('discord_token')).toBe(jwtToken);
+            expect(localStorage.getItem('discord_token')).toBe(validOpaqueToken);
 
             // check expiry is set (approximate)
             const expiry = localStorage.getItem('discord_token_expires_at');
@@ -112,8 +109,8 @@ describe('useUserRoles', () => {
         });
 
         it('Case 2: Ignores invalid token in hash and preserves existing session (F3 Fix)', async () => {
-            // Setup invalid hash
-            mockLocation.hash = '#access_token=invalidTokenString';
+            // Setup invalid hash (Too short)
+            mockLocation.hash = '#access_token=short';
 
             // Pre-set a valid token in storage
             localStorage.setItem('discord_token', 'valid.stored.token');
@@ -138,8 +135,8 @@ describe('useUserRoles', () => {
         });
 
         it('Case 4: Preserves deep links when cleaning hash', async () => {
-            const jwtToken = 'header.payload.signature';
-            mockLocation.hash = `#access_token=${jwtToken}&expires_in=3600&foo=bar`;
+            const validOpaqueToken = 'vKPA354q54.sdg54.SafeOpaqueTokenString';
+            mockLocation.hash = `#access_token=${validOpaqueToken}&expires_in=3600&foo=bar`;
 
             mockSuccessFetch();
 
