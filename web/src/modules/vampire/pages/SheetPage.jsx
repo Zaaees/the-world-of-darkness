@@ -11,6 +11,7 @@ import GmDashboard from '../../../core/components/GmDashboard';
 import { getClanDescription } from '../../../data/clanDescriptions';
 
 import { API_URL, GOOGLE_SHEETS_API, DISCORD_CLIENT_ID, REDIRECT_URI } from '../../../config';
+import { useUserRoles } from '../../../core/hooks/useUserRoles';
 
 // --- CONFIGURATION ---
 // Imported from config.js to ensure consistency across the application
@@ -387,7 +388,7 @@ const LoginPage = ({ onLogin, error }) => {
 };
 
 export default function VampireSheet() {
-  const [discordUser, setDiscordUser] = useState(null);
+  const { discordUser, isAuthenticated, isLoading: authLoading, error: authErrorMsg } = useUserRoles();
   const [memberInfo, setMemberInfo] = useState(null);
   const [guildId, setGuildId] = useState(null); // Stocké séparément pour éviter crash si memberInfo null
   const [character, setCharacter] = useState(null);
@@ -396,7 +397,7 @@ export default function VampireSheet() {
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
   const [error, setError] = useState(null);
-  const [authError, setAuthError] = useState(null);
+  // const [authError, setAuthError] = useState(null); // Replaced by authErrorMsg
   const [submittingAction, setSubmittingAction] = useState(null);
   const [notVampire, setNotVampire] = useState(false);
   const [needsClanSelection, setNeedsClanSelection] = useState(false);
@@ -411,109 +412,15 @@ export default function VampireSheet() {
   const [debugLogs, setDebugLogs] = useState([]);
   const addDebug = (msg) => setDebugLogs(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
 
-  // Récupérer les infos Discord
-  const fetchDiscordUser = useCallback(async (token, signal) => {
-    addDebug('fetchDiscordUser call start');
-    try {
-      console.log('Fetching Discord user with token...');
-      addDebug('Fetching https://discord.com/api/users/@me');
-
-      const response = await fetch('https://discord.com/api/users/@me', {
-        headers: { Authorization: `Bearer ${token}` },
-        signal
-      });
-
-      addDebug(`Fetch response status: ${response.status}`);
-
-      if (response.ok) {
-        const user = await response.json();
-        addDebug(`User loaded: ${user.username}`);
-        console.log('Discord user:', user.username, '| global_name:', user.global_name);
-        setDiscordUser(user);
-        // Ne pas mettre loading=false ici, le useEffect va charger les données
-      } else {
-        console.error('Discord API error:', response.status);
-        addDebug(`Fetch error: ${response.status} ${response.statusText}`);
-
-        // CORRECTION BOUCLE: Ne supprimer le token que si strictement non autorisé (401)
-        // Les erreurs 429 (Rate Limit) ou 500 ne doivent pas déconnecter l'utilisateur
-        if (response.status === 401) {
-          localStorage.removeItem('discord_token');
-          setAuthError('Session expirée. Veuillez vous reconnecter.');
-        } else {
-          setAuthError(`Erreur Discord (${response.status}). Veuillez rafraîchir.`);
-        }
-        setLoading(false);
-      }
-    } catch (err) {
-      if (err.name === 'AbortError') {
-        console.log('Requête Discord annulée (Nettoyage/Strict Mode)');
-        addDebug('Request aborted');
-        return;
-      }
-      console.error('Erreur Discord:', err);
-      addDebug(`Fetch exception: ${err.message}`);
-      // Ne pas supprimer le token sur une erreur réseau (peut être transitoire)
-      setAuthError('Erreur de connexion à Discord. Vérifiez votre connexion.');
+  // Sync loading state with auth
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
       setLoading(false);
     }
-  }, []);
+  }, [authLoading, isAuthenticated]);
 
-  // Vérifier le token Discord au chargement
-  useEffect(() => {
-    const controller = new AbortController();
-    addDebug('useEffect init start');
-
-    const init = async () => {
-      // Vérifier s'il y a des paramètres userId et guildId dans l'URL (depuis Discord)
-      const urlParams = new URLSearchParams(window.location.search);
-      const userIdParam = urlParams.get('userId');
-      const guildIdParam = urlParams.get('guildId');
-
-      if (userIdParam && guildIdParam) {
-        addDebug('Params found in URL');
-        // L'utilisateur vient depuis Discord sans être authentifié
-        // On stocke ces infos pour plus tard et on demande l'authentification
-        sessionStorage.setItem('pending_clan_selection', JSON.stringify({
-          userId: userIdParam,
-          guildId: guildIdParam
-        }));
-      }
-
-      const hash = window.location.hash;
-      console.log('URL hash:', hash);
-      addDebug(`Hash detected: ${hash ? 'YES' : 'NO'} (${hash.substring(0, 20)}...)`);
-
-      if (hash && hash.includes('access_token')) {
-        const params = new URLSearchParams(hash.substring(1));
-        const access_token = params.get('access_token');
-        addDebug(`Token extracted from hash: ${access_token ? 'YES' : 'NO'}`);
-
-        if (access_token) {
-          console.log('Token found in URL, saving...');
-          localStorage.setItem('discord_token', access_token);
-          // window.history.replaceState(null, '', window.location.pathname); // TEMP DEBUG: COMMENTED OUT
-          await fetchDiscordUser(access_token, controller.signal);
-          return;
-        }
-      }
-
-      const savedToken = localStorage.getItem('discord_token');
-      console.log('Saved token exists:', !!savedToken);
-      addDebug(`Saved token exists: ${!!savedToken}`);
-
-      if (savedToken) {
-        await fetchDiscordUser(savedToken, controller.signal);
-      } else {
-        addDebug('No token found anywhere. Stopping load.');
-        setLoading(false);
-      }
-    };
-
-    init();
-
-    return () => controller.abort();
-  }, [fetchDiscordUser]);
+  // Anciennes fonctions fetchDiscordUser et useEffect d'initialisation supprimées (Legacy)
+  // Remplacées par useUserRoles
 
   // GESTION PERSISTANCE PNJ (URL)
   useEffect(() => {
@@ -949,8 +856,10 @@ export default function VampireSheet() {
 
   const handleLogout = () => {
     localStorage.removeItem('discord_token');
-    setDiscordUser(null);
-    setCharacter(null);
+    localStorage.removeItem('discord_token_expires_at');
+    // setDiscordUser(null); // Géré par reload
+    // setCharacter(null);
+    window.location.reload();
   };
 
   // Soumettre une action pour validation
@@ -994,7 +903,7 @@ export default function VampireSheet() {
 
   // Page de login si pas connecté
   if (!discordUser && !loading) {
-    return <LoginPage onLogin={handleLogin} error={authError} />;
+    return <LoginPage onLogin={handleLogin} error={authErrorMsg} />;
   }
 
   // Afficher une erreur si le chargement a échoué

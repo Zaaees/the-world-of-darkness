@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../../config';
+import { extractAuthData, validateToken, clearAuthParams, safeStorage } from '../auth/authUtils';
 
 // Constantes des rôles Discord
 export const WEREWOLF_ROLE_ID = '1453870972376584192';
@@ -41,8 +42,42 @@ export function useUserRoles() {
                 setIsLoading(true);
                 setError(null);
 
-                // 1. Vérifier le token Discord
-                const token = localStorage.getItem('discord_token');
+                // 0. Interception et gestion du token OAuth (Hash > Storage)
+                const authData = extractAuthData(window.location.hash);
+
+                if (authData) {
+                    if (validateToken(authData.token)) {
+                        // Token valide trouvé dans l'URL
+                        safeStorage.setItem('discord_token', authData.token);
+
+                        // Gestion de l'expiration
+                        if (authData.expiresIn) {
+                            const expiresAt = Date.now() + authData.expiresIn * 1000;
+                            safeStorage.setItem('discord_token_expires_at', expiresAt.toString());
+                        }
+
+                        // Nettoyage de l'URL
+                        clearAuthParams(window.history, window.location);
+                    } else {
+                        // Token invalide dans l'URL -> On ignore et on nettoie l'URL sans casser la session existante
+                        console.warn('Invalid OAuth token detected. Ignoring.');
+                        clearAuthParams(window.history, window.location);
+                    }
+                }
+
+                // 1. Vérifier le token Discord (Stockage)
+                const token = safeStorage.getItem('discord_token');
+                const expiresAt = safeStorage.getItem('discord_token_expires_at');
+
+                // Vérification de l'expiration
+                if (expiresAt && Date.now() > parseInt(expiresAt, 10)) {
+                    safeStorage.removeItem('discord_token');
+                    safeStorage.removeItem('discord_token_expires_at');
+                    setIsLoading(false);
+                    setIsAuthenticated(false);
+                    return;
+                }
+
                 if (!token) {
                     setIsLoading(false);
                     setIsAuthenticated(false);
@@ -57,7 +92,8 @@ export function useUserRoles() {
 
                 if (!userResponse.ok) {
                     if (userResponse.status === 401) {
-                        localStorage.removeItem('discord_token');
+                        safeStorage.removeItem('discord_token');
+                        safeStorage.removeItem('discord_token_expires_at');
                     }
                     setError('Session Discord expirée');
                     setIsLoading(false);
