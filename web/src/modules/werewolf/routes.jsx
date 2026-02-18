@@ -1,20 +1,17 @@
-import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import RequireWerewolfRole from './components/RequireWerewolfRole';
-import WerewolfLoading from './components/WerewolfLoading';
 
 import CreateCharacter from './pages/CreateCharacter';
 import CharacterSheet from './pages/CharacterSheet';
 import WerewolfAdminPage from './pages/WerewolfAdminPage';
-import GiftsPage from './pages/GiftsPage/GiftsPage';
-import WerewolfRenownPage from './pages/WerewolfRenownPage';
-
-
 
 /**
  * Routes internes du module Werewolf.
  * Gère le routing au sein du module avec le layout Deep Woods.
  * TOUTES les routes sont protégées par RequireWerewolfRole.
+ *
+ * Les routes /sheet, /gifts et /renown pointent toutes vers CharacterSheet
+ * qui gère les onglets en interne (architecture SPA) pour une navigation instantanée.
  */
 export default function WerewolfRoutes() {
     return (
@@ -26,22 +23,22 @@ export default function WerewolfRoutes() {
                     element={<CreateCharacter />}
                 />
 
-                {/* Fiche personnage - Story 3.1 & Default Home */}
+                {/* Fiche personnage (onglet par défaut) */}
                 <Route
                     path="sheet"
-                    element={<CharacterSheet />}
+                    element={<CharacterSheet initialTab="sheet" />}
                 />
 
-                {/* Dons - Story 5.3 */}
+                {/* Dons — SPA Tab dans CharacterSheet */}
                 <Route
                     path="gifts"
-                    element={<GiftsPage />}
+                    element={<CharacterSheet initialTab="gifts" />}
                 />
 
-                {/* Hauts Faits - Renommée */}
+                {/* Hauts Faits — SPA Tab dans CharacterSheet */}
                 <Route
                     path="renown"
-                    element={<WerewolfRenownPage />}
+                    element={<CharacterSheet initialTab="renown" />}
                 />
 
                 {/* Admin - Story 4.3 & New Gift Management */}
