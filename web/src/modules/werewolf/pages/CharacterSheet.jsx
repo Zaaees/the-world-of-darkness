@@ -122,6 +122,10 @@ const CharacterSheet = ({ initialTab }) => {
             .then(res => {
                 if (!res.ok) throw new Error(`Erreur HTTP Gifts: ${res.status}`);
                 return res.json();
+            })
+            .catch(err => {
+                console.warn('[CharacterSheet] Gifts fetch failed (non-blocking):', err);
+                return null;
             });
 
         const fetchRenown = fetchMyRenown().catch(err => {
