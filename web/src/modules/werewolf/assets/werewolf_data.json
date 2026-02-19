@@ -3,111 +3,195 @@
         {
             "id": "homid",
             "name_fr": "Homid",
-            "description": "Né d'humains, il a grandi comme un humain et s'adapte facilement à la société moderne."
+            "description": "Né d'humains, il a grandi comme un humain et s'adapte facilement à la société moderne.",
+            "quote": "Je marche parmi eux, je parle comme eux, je ris comme eux. Mais quand la lune appelle, je suis tout ce qu'ils craignent dans la nuit.",
+            "long_description": "Les Homids sont nés de parents humains et ont grandi dans la civilisation humaine avant leur Premier Changement. Ils comprennent instinctivement la technologie, le langage et les subtilités de la société moderne. Cependant, leur lien instinctif avec Gaïa et le monde spirituel est plus faible que celui des autres races, et ils doivent apprendre à écouter le loup en eux.",
+            "roleplay": "Tu as vécu comme un humain pendant des années avant que tout bascule. Tu connais le monde moderne, ses règles, ses mensonges. Mais depuis ton Premier Changement, une partie de toi sait que tout ça n'est qu'une façade fragile posée sur un abîme.",
+            "specificities": "Maîtrise naturelle de la technologie et du langage humain. Gnosis de départ plus faible. Forme de naissance : Humaine."
         },
         {
             "id": "metis",
             "name_fr": "Métis",
-            "description": "Né de l'union interdite de deux Garous, stérile et souvent difforme, il comprend la société Garou mieux que quiconque."
+            "description": "Né de l'union interdite de deux Garous, stérile et souvent difforme, il comprend la société Garou mieux que quiconque.",
+            "quote": "Ils me regardent avec dégoût, mais je suis né au cœur de ce qu'ils sont. Je connais leurs secrets mieux qu'eux-mêmes.",
+            "long_description": "Les Métis sont le fruit de l'union interdite entre deux Garous, un tabou absolu de la Litanie. Nés sous forme Crinos, ils portent toujours une difformité — cicatrice de la transgression de leurs parents. Stériles et souvent méprisés, ils grandissent néanmoins au sein des Caerns et comprennent la société Garou comme personne d'autre. Leur rage est profonde, nourrie par le rejet.",
+            "roleplay": "Tu es un paria né. Élevé dans les Caerns, tu connais chaque rite, chaque loi, chaque secret de la Nation Garou — mais tu en seras toujours exclu. Ta difformité est ta marque, ton fardeau. Prouve que tu vaux mieux que ce qu'ils pensent de toi.",
+            "specificities": "Difformité obligatoire (au choix). Connaissance innée de la société Garou. Stérile. Gnosis de départ élevée. Forme de naissance : Crinos."
         },
         {
             "id": "lupus",
             "name_fr": "Lupus",
-            "description": "Né de loups, il a grandi dans la nature. Ses instincts sont aiguisés mais la technologie et le langage humain lui sont étrangers."
+            "description": "Né de loups, il a grandi dans la nature. Ses instincts sont aiguisés mais la technologie et le langage humain lui sont étrangers.",
+            "quote": "Les mots sont des cages. La forêt ne ment jamais. Le vent porte la vérité que vos villes étouffent.",
+            "long_description": "Les Lupus sont nés loups et ont vécu au sein d'une meute de loups avant leur Premier Changement. Leurs instincts sont les plus aiguisés de toutes les races. Ils perçoivent le monde par les sens — l'odeur, le son, le mouvement. Le langage humain et la technologie leur sont profondément étrangers, sources de confusion et de frustration. Mais leur connexion à Gaïa est la plus pure.",
+            "roleplay": "Le monde des humains est un cauchemar de bruit, d'odeurs mortes et de lumières agressives. Tu penses en images, en sensations, pas en mots. Chaque voiture est un prédateur d'acier, chaque écran une fenêtre sur le néant. Mais dans la forêt, tu es chez toi.",
+            "specificities": "Instincts animaux puissants. Gnosis de départ la plus élevée. Difficulté avec la technologie et le langage complexe. Forme de naissance : Lupine."
         }
     ],
     "auspices": [
         {
             "id": "ragabash",
             "name_fr": "Ragabash",
-            "description": "La Nouvelle Lune. Le filou, le questionneur des traditions."
+            "description": "La Nouvelle Lune. Le filou, le questionneur des traditions.",
+            "quote": "Les règles existent pour être questionnées. Si personne ne pose la question, la réponse pourrit dans le silence.",
+            "long_description": "Nés sous la Nouvelle Lune, les Ragabash sont les tricksters, les fous sacrés de la Nation Garou. Leur rôle est de questionner l'autorité, de briser les certitudes et de rappeler aux autres que la tradition sans réflexion mène à la stagnation. Espions, éclaireurs et saboteurs, ils opèrent dans l'ombre avec malice et intelligence.",
+            "roleplay": "Tu es celui qui rit quand tout le monde tremble. Tu poses les questions que personne n'ose poser. Tu es le grain de sable dans la machine, le doute salutaire. Utilise la ruse, l'humour et la discrétion — la force brute, c'est pour les Ahrouns.",
+            "specificities": "Rôle : Trickster, éclaireur, questionneur. Rage de départ la plus faible. Peut enfreindre la Litanie plus facilement sans perdre l'Honneur. Lune : Nouvelle Lune (absence)."
         },
         {
             "id": "theurge",
             "name_fr": "Theurge",
-            "description": "Le Croissant de Lune. Le mystique, l'interlocuteur des esprits."
+            "description": "Le Croissant de Lune. Le mystique, l'interlocuteur des esprits.",
+            "quote": "Les esprits murmurent à ceux qui savent écouter. Je suis le pont entre la chair et l'invisible.",
+            "long_description": "Les Theurges sont les mystiques et les chamans de la Nation Garou. Nés sous le Croissant de Lune, ils servent de pont entre le monde matériel et l'Umbra, le monde des esprits. Ils négocient avec les esprits, accomplissent les rites sacrés et perçoivent les vérités cachées derrière le voile de la réalité.",
+            "roleplay": "Le monde invisible est aussi réel pour toi que la terre sous tes pattes. Tu parles aux esprits, tu décryptes les présages, tu accomplis les rites. Les autres te respectent et te craignent — car tu vois ce qu'ils ne peuvent pas voir.",
+            "specificities": "Rôle : Mystique, chaman, gardien des rites. Connexion privilégiée avec les esprits et l'Umbra. Peut apprendre les Rites plus facilement. Lune : Croissant de Lune."
         },
         {
             "id": "philodox",
             "name_fr": "Philodox",
-            "description": "La Demi-Lune. Le juge, le gardien des lois et des traditions."
+            "description": "La Demi-Lune. Le juge, le gardien des lois et des traditions.",
+            "quote": "La Litanie n'est pas une suggestion. Elle est le ciment qui empêche notre rage de nous consumer tous.",
+            "long_description": "Les Philodox sont les juges, les médiateurs et les gardiens de la Litanie. Nés sous la Demi-Lune, symbole d'équilibre entre lumière et ombre, ils arbitrent les disputes, jugent les transgressions et maintiennent l'ordre au sein des meutes et des septs. Leur parole fait loi, et leur sens de la justice est inébranlable.",
+            "roleplay": "Tu es la loi vivante de la Nation Garou. Quand deux Ahrouns veulent s'étriper, c'est toi qui tranches. Quand un Ragabash va trop loin, c'est toi qui rappelles les limites. L'équilibre est ta quête éternelle.",
+            "specificities": "Rôle : Juge, médiateur, gardien de la Litanie. Sens inné de la vérité (détection du mensonge). Respecté pour sa neutralité. Lune : Demi-Lune."
         },
         {
             "id": "galliard",
             "name_fr": "Galliard",
-            "description": "La Lune Gibbeuse. Le barde, l'historien, celui qui inspire par ses récits."
+            "description": "La Lune Gibbeuse. Le barde, l'historien, celui qui inspire par ses récits.",
+            "quote": "Chaque cicatrice est un vers. Chaque victoire, un chant. Et moi, je suis la mémoire de notre peuple.",
+            "long_description": "Les Galliards sont les bardes, les conteurs et les historiens de la Nation Garou. Nés sous la Lune Gibbeuse, presque pleine, ils brûlent d'une passion intense. Ils préservent l'histoire orale des Garous, inspirent les guerriers au combat par leurs chants et leurs hurlements, et tissent les légendes qui uniront les générations futures.",
+            "roleplay": "Tu es la voix de la meute, celui qui transforme une bataille sanglante en légende éternelle. Tu chantes, tu hurles, tu racontes. Sans toi, les exploits des héros seraient oubliés comme des feuilles mortes dans le vent.",
+            "specificities": "Rôle : Barde, historien, inspirateur. Charisme naturel et force d'expression. Connaissance des légendes Garou. Lune : Lune Gibbeuse."
         },
         {
             "id": "ahroun",
             "name_fr": "Ahroun",
-            "description": "La Pleine Lune. Le guerrier, le chef de guerre, la rage incarnée."
+            "description": "La Pleine Lune. Le guerrier, le chef de guerre, la rage incarnée.",
+            "quote": "La Pleine Lune se lève. Mon sang bouillonne. Ce soir, le Wyrm apprendra la peur.",
+            "long_description": "Les Ahrouns sont les guerriers suprêmes de la Nation Garou. Nés sous la Pleine Lune, ils incarnent la Rage à son paroxysme. Ils sont les premiers au combat, les derniers à fuir, les chefs de guerre qui mènent les assauts contre les forces du Wyrm. Leur fureur est terrifiante, mais c'est cette même fureur qui protège Gaïa.",
+            "roleplay": "Tu es né pour le combat. La Rage brûle en toi comme un incendie permanent. Tu es le bouclier de la meute, la lame qui tranche les ténèbres. Mais attention : la Rage est un outil, pas un maître. Celui qui s'y perd devient le monstre qu'il combat.",
+            "specificities": "Rôle : Guerrier, chef de guerre. Rage de départ la plus élevée. Prouesses martiales naturelles. Risque accru de Frénésie. Lune : Pleine Lune."
         }
     ],
     "tribes": [
         {
             "id": "black_furies",
             "name_fr": "Furies Noires",
-            "description": "Tribu exclusivement féminine venue de Grèce, défenderesses des Wyld places."
+            "description": "Tribu exclusivement féminine venue de Grèce, défenderesses des Wyld places.",
+            "quote": "Nous sommes les filles d'Artémis, et la vengeance de Gaïa coule dans nos veines comme un fleuve de feu.",
+            "long_description": "Les Furies Noires descendent des anciennes prêtresses guerrières de la Grèce antique. Tribu quasi-exclusivement féminine, elles vouent leur existence à protéger les lieux sauvages et les victimes d'injustice. Féroces et passionnées, elles combattent le Wyrm avec une rage née de millénaires d'oppression et de résistance.",
+            "roleplay": "Tu es une guerrière née, héritière d'une lignée millénaire de combattantes. La justice n'est pas un idéal abstrait pour toi — c'est une lame que tu brandis contre quiconque profane les lieux sacrés ou opprime les innocents.",
+            "specificities": "Quasi-exclusivement féminine (Métis mâles acceptés). Totem : Pégase. Spécialisées dans la protection des sites sauvages et la défense des opprimés."
         },
         {
             "id": "bone_gnawers",
             "name_fr": "Rongeurs d'Os",
-            "description": "Les survivants urbains, vivant parmi les pauvres et les déshérités."
+            "description": "Les survivants urbains, vivant parmi les pauvres et les déshérités.",
+            "quote": "Vous nous méprisez depuis vos trônes dorés. Mais qui survit quand tout s'effondre ? Nous. Toujours nous.",
+            "long_description": "Les Rongeurs d'Os sont les parias de la Nation Garou, la tribu la plus méprisée et la plus résiliente. Ils vivent dans les marges de la civilisation — ruelles sombres, squats, décharges. Là où les autres tribus voient de la saleté, ils voient des ressources. Maîtres de la survie urbaine, ils connaissent chaque recoin de la ville.",
+            "roleplay": "Tu viens de la rue, du béton, de la faim. L'honneur des Crocs d'Argent te fait doucement rigoler. Toi, tu sais ce que c'est que de fouiller les poubelles pour nourrir ta meute. Et c'est ça, ta force : rien ne peut te briser.",
+            "specificities": "Tribu urbaine et populaire. Totem : Rat. Maîtres de la survie, du recyclage et de l'infiltration urbaine. Souvent méprisés par les autres tribus."
         },
         {
             "id": "children_of_gaia",
             "name_fr": "Enfants de Gaïa",
-            "description": "Pacifistes et unificateurs, ils cherchent à guérir le monde plutôt qu'à le venger."
+            "description": "Pacifistes et unificateurs, ils cherchent à guérir le monde plutôt qu'à le venger.",
+            "quote": "La Rage est notre malédiction. La compassion, notre seul espoir de rédemption.",
+            "long_description": "Les Enfants de Gaïa sont les pacifistes et les diplomates de la Nation Garou. Ils croient que la guerre incessante entre les tribus ne fait que servir le Wyrm, et que seule l'unité peut sauver Gaïa. Souvent considérés comme faibles par les tribus guerrières, ils sont en réalité d'une détermination à toute épreuve.",
+            "roleplay": "Tu crois en la paix, même au milieu de la guerre. Ce n'est pas de la naïveté — c'est du courage. Quand tous les autres hurlent à la mort, toi tu cherches la solution. Et quand on te pousse trop loin, ta Rage est d'autant plus terrifiante qu'elle est rare.",
+            "specificities": "Tribu pacifiste et diplomatique. Totem : Licorne. Médiateurs naturels entre les tribus. Combattent le Wyrm par l'unité et la compassion autant que par la force."
         },
         {
             "id": "fianna",
             "name_fr": "Fianna",
-            "description": "Guerriers celtiques, bardes et fêtards, liés aux faes."
+            "description": "Guerriers celtiques, bardes et fêtards, liés aux faes.",
+            "quote": "Chante avec moi, frère ! Car demain nous pourrions être morts, et ce soir la bière coule encore !",
+            "long_description": "Les Fianna sont les bardes-guerriers de la Nation Garou, héritiers des traditions celtiques et gaéliques. Passionnés, exubérants et souvent excessifs, ils célèbrent la vie avec autant d'intensité qu'ils combattent le Wyrm. Leurs légendes parlent de liaisons avec les faes, et leurs fêtes sont aussi épiques que leurs batailles.",
+            "roleplay": "Tu vis chaque instant comme s'il pouvait être le dernier — et souvent, il l'est presque. Tu te bats avec la fureur d'un héros de saga, tu bois comme un trou, tu aimes avec passion et tu chantes même en mourant. La vie est trop courte pour être terne.",
+            "specificities": "Guerriers-bardes d'héritage celtique. Totem : Cerf. Liés au monde des faes. Excellents conteurs et musiciens. Réputés pour leurs fêtes monstrueuses."
         },
         {
             "id": "get_of_fenris",
             "name_fr": "Rejetons de Fenris",
-            "description": "Guerriers féroces d'origine nordique, valorisant la force avant tout."
+            "description": "Guerriers féroces d'origine nordique, valorisant la force avant tout.",
+            "quote": "La douleur est un professeur. La peur est un ennemi. Seuls les forts méritent de voir l'aube.",
+            "long_description": "Les Rejetons de Fenris sont les guerriers les plus brutaux de la Nation Garou. D'héritage nordique et germanique, ils vénèrent la force, l'endurance et le courage au combat. Pour eux, chaque jour est un test de survie, chaque combat une occasion de prouver sa valeur. Les faibles sont méprisés, les forts sont respectés.",
+            "roleplay": "Tu ne recules jamais. Jamais. La douleur est ton alliée, la peur est ton ennemie jurée. Tu te jettes dans le combat avec un sourire sauvage et tu en ressors couvert de cicatrices — ou pas du tout. C'est le seul chemin honorable.",
+            "specificities": "Guerriers nordiques d'élite. Totem : Fenris. Les plus redoutables combattants au corps à corps. Méprisent la faiblesse. Rituels d'épreuve extrêmes."
         },
         {
             "id": "glass_walkers",
             "name_fr": "Arpenteurs de Verre",
-            "description": "Les Garous technologiques, maîtres de la ville et de la machine."
+            "description": "Les Garous technologiques, maîtres de la ville et de la machine.",
+            "quote": "Les esprits vivent aussi dans les circuits, les réseaux et le code. L'Umbra a changé. Nous avec.",
+            "long_description": "Les Arpenteurs de Verre sont les Garous de la modernité. Là où les autres tribus fuient la civilisation, eux l'embrassent. Ils voient dans la technologie un outil pour combattre le Wyrm, et dans les villes un territoire à protéger. Hackers, entrepreneurs et ingénieurs, ils parlent aux esprits des machines aussi naturellement que les Theurges parlent aux esprits de la forêt.",
+            "roleplay": "Ton smartphone est un fétiche, ton laptop un autel. Tu navigues entre les réseaux sociaux et l'Umbra avec la même aisance. Les autres tribus te trouvent bizarre ? Qu'ils essaient de survivre dans une mégalopole sans toi.",
+            "specificities": "Tribu technologique et urbaine. Totem : Cockroach (Cafard). Spécialisés dans la technologie et les esprits de la Toile. Gèrent des fortunes et des empires numériques."
         },
         {
             "id": "red_talons",
             "name_fr": "Griffes Rouges",
-            "description": "Tribu composée uniquement de Lupus, haïssant l'humanité pour sa destruction de la nature."
+            "description": "Tribu composée uniquement de Lupus, haïssant l'humanité pour sa destruction de la nature.",
+            "quote": "L'humanité est un cancer. La seule cure est l'éradication.",
+            "long_description": "Les Griffes Rouges sont la tribu la plus radicale de la Nation Garou. Composée exclusivement de Lupus, ils considèrent l'humanité comme la plus grande menace pour Gaïa — pire encore que le Wyrm, car c'est l'humanité qui l'a nourri. Ils rêvent d'un monde sans humains, un retour à l'état sauvage primordial.",
+            "roleplay": "Les humains ont empoisonné les rivières, abattu les forêts, tué tes frères loups. Tu ne leur fais pas confiance, tu ne les comprends pas, et tu ne pleures pas quand ils disparaissent. Le monde serait meilleur sans eux. Point.",
+            "specificities": "Exclusivement Lupus. Totem : Griffin. Les plus radicaux et sauvages. Haine viscérale de l'humanité. Peu de contacts avec la civilisation humaine."
         },
         {
             "id": "shadow_lords",
             "name_fr": "Seigneurs de l'Ombre",
-            "description": "Manipulateurs et ambitieux, ils croient pouvoir diriger la Nation Garou mieux que quiconque."
+            "description": "Manipulateurs et ambitieux, ils croient pouvoir diriger la Nation Garou mieux que quiconque.",
+            "quote": "Le pouvoir ne se demande pas. Il se prend. Et ceux qui le méritent sont ceux qui osent.",
+            "long_description": "Les Seigneurs de l'Ombre sont les politiciens et les stratèges de la Nation Garou. Originaires d'Europe de l'Est, ils opèrent dans l'ombre, tissant des réseaux d'influence et d'espionnage. Leur ambition est sans limites : ils croient sincèrement que la Nation Garou ne survivra que sous leur direction. La fin justifie toujours les moyens.",
+            "roleplay": "Tu ne fais rien par hasard. Chaque mot est calculé, chaque alliance temporaire, chaque faveur un investissement. Tu veux le pouvoir — non pas par vanité, mais parce que tu es convaincu que tu es le seul capable de sauver la Nation.",
+            "specificities": "Politiciens et stratèges d'Europe de l'Est. Totem : Grand-Père Tonnerre. Maîtres de la manipulation, du chantage et de l'espionnage. Rivaux éternels des Crocs d'Argent."
         },
         {
             "id": "silent_striders",
             "name_fr": "Marcheurs Silencieux",
-            "description": "Voyageurs mystérieux d'origine égyptienne, messagers des morts."
+            "description": "Voyageurs mystérieux d'origine égyptienne, messagers des morts.",
+            "quote": "La route est ma demeure. Le vent porte les voix de ceux qui ne sont plus. Je marche, et j'écoute.",
+            "long_description": "Les Marcheurs Silencieux sont les nomades éternels de la Nation Garou. Chassés de leur terre natale d'Égypte par une malédiction ancienne, ils errent sans fin à travers le monde, portant des messages entre les septs et les tribus. Ils ont un lien troublant avec les morts et les fantômes, et leurs voyages les mènent autant dans le monde physique que dans l'Umbra.",
+            "roleplay": "Tu n'as pas de foyer. Tu n'en auras jamais. La route est tout ce que tu connais, et elle te suffit. Tu portes les nouvelles, les avertissements et les secrets d'un bout à l'autre du monde. Les fantômes te murmurent des choses — parfois des vérités, parfois des mensonges.",
+            "specificities": "Nomades éternels maudits. Totem : Hibou. Liés aux fantômes et au royaume des morts. Messagers et éclaireurs par excellence. Ne possèdent pas de Caerns."
         },
         {
             "id": "silver_fangs",
             "name_fr": "Crocs d'Argent",
-            "description": "L'aristocratie Garou, les souverains traditionnels, souvent en proie à la folie."
+            "description": "L'aristocratie Garou, les souverains traditionnels, souvent en proie à la folie.",
+            "quote": "Nous avons porté la couronne depuis l'aube des temps. Le poids de cette couronne... brise parfois l'esprit.",
+            "long_description": "Les Crocs d'Argent sont la noblesse de la Nation Garou, les rois et les reines auto-proclamés depuis des millénaires. Leur lignage est le plus pur, leurs rites les plus anciens, leur autorité la plus respectée. Mais des siècles de consanguinité ont laissé des traces : la folie rôde dans leurs rangs, et leur empire s'effrite lentement.",
+            "roleplay": "Tu es né pour régner. Dans tes veines coule le sang le plus pur de la Nation. Les autres tribus te doivent respect et obéissance — du moins, c'est ce que tu crois. Le poids de la couronne est réel, et parfois, tard dans la nuit, les murmures de la folie se font entendre.",
+            "specificities": "Aristocratie et royauté Garou. Totem : Faucon. Lignée noble mais consanguine. Risque de démence héréditaire. Autorité naturelle sur les autres tribus."
         },
         {
             "id": "stargazers",
             "name_fr": "Astrolâtres",
-            "description": "Mystiques et philosophes orientaux, cherchant l'équilibre intérieur."
+            "description": "Mystiques et philosophes orientaux, cherchant l'équilibre intérieur.",
+            "quote": "La Rage est un océan. La sagesse, le navire. Sans l'un, l'autre est inutile.",
+            "long_description": "Les Astrolâtres sont les philosophes et les mystiques de la Nation Garou. D'origine asiatique, principalement tibétaine et indienne, ils cherchent la maîtrise de soi et l'harmonie intérieure. Là où les autres tribus hurlent à la lune, eux méditent sous les étoiles. Leur quête n'est pas de vaincre le Wyrm par la force, mais de transcender la Rage.",
+            "roleplay": "Tu cherches l'équilibre là où les autres ne voient que chaos. La méditation est ton arme, la contemplation ton bouclier. Tu ne fuis pas la Rage — tu l'observes, tu la comprends, tu la maîtrises. Le vrai combat est intérieur.",
+            "specificities": "Mystiques et philosophes d'Asie. Totem : Chimère. Maîtrise de la Rage par la méditation. Art martiaux et kailindo. Tribu en déclin, certains ont quitté la Nation."
         },
         {
             "id": "uktena",
             "name_fr": "Uktena",
-            "description": "Gardiens de secrets mystiques et d'esprits liés, d'origine amérindienne."
+            "description": "Gardiens de secrets mystiques et d'esprits liés, d'origine amérindienne.",
+            "quote": "Nous gardons les portes que les autres ont oubliées. Certaines choses doivent rester enchaînées.",
+            "long_description": "Les Uktena sont les gardiens des secrets les plus sombres de la Nation Garou. D'origine amérindienne, ils se sont spécialisés dans la traque et le confinement des esprits maléfiques et des artefacts dangereux. Ils flirtent dangereusement avec les forces qu'ils combattent, étudiant le Wyrm pour mieux le combattre, au risque d'être corrompus.",
+            "roleplay": "Tu connais des choses que les autres tribus préfèrent ignorer. Tu gardes des esprits enchaînés, tu étudies des grimoires interdits, tu marches sur le fil du rasoir entre savoir et corruption. C'est un fardeau solitaire, mais quelqu'un doit le porter.",
+            "specificities": "Gardiens de secrets et d'esprits liés. Totem : Uktena (serpent-esprit). Spécialisés dans la magie occulte et la liaison d'esprits. Risque de corruption par les forces étudiées."
         },
         {
             "id": "wendigo",
             "name_fr": "Wendigo",
-            "description": "Guerriers du grand nord, féroces protecteurs de leurs terres glacées."
+            "description": "Guerriers du grand nord, féroces protecteurs de leurs terres glacées.",
+            "quote": "Le vent du nord porte notre colère. Les envahisseurs apprendront que cette terre a des dents.",
+            "long_description": "Les Wendigo sont les guerriers du Grand Nord, les plus féroces protecteurs des terres gelées d'Amérique du Nord. D'origine amérindienne comme les Uktena, ils n'ont jamais pardonné aux tribus européennes d'avoir envahi leurs terres. Leur rage est froide comme le blizzard, implacable comme l'hiver. Ils combattent avec la fureur de la tempête arctique.",
+            "roleplay": "Tu es un guerrier du froid, forgé par les hivers les plus rudes. Ta rage est froide, contrôlée, mortelle. Les Européens ont volé ta terre, massacré ton peuple — tu ne l'oublieras jamais. Chaque combat est un acte de résistance.",
+            "specificities": "Guerriers autochtones du Grand Nord. Totem : Wendigo (esprit du froid). Maîtres du combat en milieu arctique. Hostiles aux tribus européennes. Rage froide et implacable."
         }
     ]
 }

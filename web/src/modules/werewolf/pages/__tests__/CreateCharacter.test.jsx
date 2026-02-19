@@ -80,7 +80,7 @@ describe('Story 2.0: Create Character Wizard', () => {
 
         // STEP 4: Summary & Name
         await waitFor(() => {
-            expect(screen.getByText(/L'Incarnation/i)).toBeInTheDocument();
+            expect(screen.getByRole('heading', { name: /L'Incarnation/i })).toBeInTheDocument();
         });
 
         // Enter Name

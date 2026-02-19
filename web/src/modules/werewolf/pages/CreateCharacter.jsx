@@ -142,11 +142,34 @@ export default function CreateCharacter() {
                 return (
                     <div className="max-w-2xl mx-auto">
                         <div className="bg-black/40 rounded-lg p-6 mb-8 border border-gray-600">
-                            <h3 className="text-2xl font-serif text-amber-500 mb-4 border-b border-gray-700 pb-2">Récapitulatif</h3>
-                            <div className="space-y-3 text-gray-300">
-                                <p><strong className="text-gray-400 uppercase text-xs tracking-wider">Race:</strong> <span className="text-white text-lg ml-2">{b?.name_fr}</span></p>
-                                <p><strong className="text-gray-400 uppercase text-xs tracking-wider">Auspice:</strong> <span className="text-white text-lg ml-2">{a?.name_fr}</span></p>
-                                <p><strong className="text-gray-400 uppercase text-xs tracking-wider">Tribu:</strong> <span className="text-white text-lg ml-2">{t?.name_fr}</span></p>
+                            <h3 className="text-2xl font-serif text-amber-500 mb-6 border-b border-gray-700 pb-2">Récapitulatif</h3>
+                            <div className="space-y-5">
+                                {/* Race */}
+                                <div className="border-l-2 border-emerald-800 pl-4">
+                                    <span className="text-gray-500 uppercase text-xs tracking-wider block mb-1">Race</span>
+                                    <span className="text-white text-lg font-serif">{b?.name_fr}</span>
+                                    {b?.quote && (
+                                        <p className="text-gray-500 text-xs italic mt-1">"{b.quote}"</p>
+                                    )}
+                                </div>
+
+                                {/* Auspice */}
+                                <div className="border-l-2 border-amber-800 pl-4">
+                                    <span className="text-gray-500 uppercase text-xs tracking-wider block mb-1">Auspice</span>
+                                    <span className="text-white text-lg font-serif">{a?.name_fr}</span>
+                                    {a?.quote && (
+                                        <p className="text-gray-500 text-xs italic mt-1">"{a.quote}"</p>
+                                    )}
+                                </div>
+
+                                {/* Tribu */}
+                                <div className="border-l-2 border-red-800 pl-4">
+                                    <span className="text-gray-500 uppercase text-xs tracking-wider block mb-1">Tribu</span>
+                                    <span className="text-white text-lg font-serif">{t?.name_fr}</span>
+                                    {t?.quote && (
+                                        <p className="text-gray-500 text-xs italic mt-1">"{t.quote}"</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
