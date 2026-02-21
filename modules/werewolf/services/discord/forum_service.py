@@ -27,11 +27,6 @@ def format_werewolf_sheet_content(character_data: WerewolfData, author_name: str
     lines.append("─── ─── ─── ─── ───")
     lines.append("")
     
-    breed = character_data.breed.value if hasattr(character_data.breed, 'value') else str(character_data.breed)
-    auspice = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
-    tribe = character_data.tribe.value if hasattr(character_data.tribe, 'value') else str(character_data.tribe)
-    
-    lines.append(f"**Race** : *{breed}*  ·  **Auspice** : *{auspice}*  ·  **Tribu** : *{tribe}*")
     if character_data.rank:
         lines.append(f"*Rang {character_data.rank}*")
     lines.append("")
@@ -96,10 +91,15 @@ async def publish_werewolf_to_discord(bot: discord.Client, character_data: Werew
         
     char_name = character_data.name
     tribe_name = character_data.tribe.value if hasattr(character_data.tribe, 'value') else str(character_data.tribe)
+    breed_name = character_data.breed.value if hasattr(character_data.breed, 'value') else str(character_data.breed)
+    auspice_name = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
     image_url = getattr(character_data, 'image_url', None)
 
-    tag = await get_or_create_tag(channel, tribe_name)
-    applied_tags = [tag] if tag else []
+    tag_tribe = await get_or_create_tag(channel, tribe_name)
+    tag_breed = await get_or_create_tag(channel, breed_name)
+    tag_auspice = await get_or_create_tag(channel, auspice_name)
+    
+    applied_tags = [t for t in (tag_tribe, tag_breed, tag_auspice) if t]
 
     content_parts = format_werewolf_sheet_content(character_data, author_name)
 
