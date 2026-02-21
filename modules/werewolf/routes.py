@@ -202,25 +202,20 @@ async def update_character_handler(request: web.Request) -> web.Response:
 
             # Audit Logging (Async)
             if old_character and changes:
-                    bot = request.app.get("bot")
-                    if bot:
-                        # Fetch user info for logging (we use a fake user object wrapper or real fetch if needed, 
-                        # but audit log expects user object with .display_name and .id)
-                        # The route only has user_id. We try to fetch user from bot cache.
-                        try:
-                            # Discord IDs are int
-                            d_user = bot.get_user(int(user_id))
-                            if not d_user:
-                                # Fallback object if user not in cache/found
-                                class MockUser:
-                                    def __init__(self, uid):
-                                        self.id = uid
-                                        self.display_name = f"User {uid}"
-                                d_user = MockUser(user_id)
-                            
-                            asyncio.create_task(log_character_update(bot, d_user, character, changes))
-                        except Exception as e:
-                            logger.error(f"Failed to schedule audit log: {e}")
+                bot = request.app.get("bot")
+                if bot:
+                    try:
+                        d_user = bot.get_user(int(user_id))
+                        if not d_user:
+                            class MockUser:
+                                def __init__(self, uid):
+                                    self.id = uid
+                                    self.display_name = f"User {uid}"
+                            d_user = MockUser(user_id)
+                        
+                        asyncio.create_task(log_character_update(bot, d_user, character, changes))
+                    except Exception as e:
+                        logger.error(f"Failed to schedule audit log: {e}")
 
             return web.json_response({
                 "success": True,
@@ -234,8 +229,7 @@ async def update_character_handler(request: web.Request) -> web.Response:
                     "mental_desc_pre": character.mental_desc_pre,
                     "first_change": character.first_change,
                     "image_url": character.image_url
-                },
-                "synced": synced
+                }
             })
             
     except Exception as e:
