@@ -405,89 +405,105 @@ const CharacterSheet = ({ initialTab }) => {
                         <RenownBadge rank={character.rank} />
                     </div>
 
-                    {/* Grille d'informations — design immersif avec lore */}
-                    {(() => {
-                        const breedData = findLoreData('breeds', character.breed);
-                        const auspiceData = findLoreData('auspices', character.auspice);
-                        const tribeData = findLoreData('tribes', character.tribe);
-                        return (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                                {/* Carte Race */}
-                                <div className="bg-stone-900/60 p-5 rounded-lg border border-emerald-900/30 hover:border-emerald-700/50 transition-colors">
-                                    <span className="block text-xs uppercase tracking-widest text-emerald-600 mb-2">Race</span>
-                                    <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
-                                        {breedData?.name_fr || translate('breed', character.breed)}
-                                    </h3>
-                                    {breedData?.quote && (
-                                        <blockquote className="italic text-xs text-stone-500 border-l-2 border-emerald-900/50 pl-2 mb-2 leading-relaxed">
-                                            "{breedData.quote}"
-                                        </blockquote>
-                                    )}
-                                    <p className="text-stone-400 text-xs leading-relaxed">
-                                        {breedData?.description || ''}
-                                    </p>
-                                </div>
-
-                                {/* Carte Auspice */}
-                                <div className="bg-stone-900/60 p-5 rounded-lg border border-amber-900/30 hover:border-amber-700/50 transition-colors">
-                                    <span className="block text-xs uppercase tracking-widest text-amber-600 mb-2">Auspice</span>
-                                    <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
-                                        {auspiceData?.name_fr || translate('auspice', character.auspice)}
-                                    </h3>
-                                    {auspiceData?.quote && (
-                                        <blockquote className="italic text-xs text-stone-500 border-l-2 border-amber-900/50 pl-2 mb-2 leading-relaxed">
-                                            "{auspiceData.quote}"
-                                        </blockquote>
-                                    )}
-                                    <p className="text-stone-400 text-xs leading-relaxed">
-                                        {auspiceData?.description || ''}
-                                    </p>
-                                </div>
-
-                                {/* Carte Tribu */}
-                                <div className="bg-stone-900/60 p-5 rounded-lg border border-red-900/30 hover:border-red-700/50 transition-colors">
-                                    <span className="block text-xs uppercase tracking-widest text-red-600 mb-2">Tribu</span>
-                                    <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
-                                        {tribeData?.name_fr || translate('tribe', character.tribe)}
-                                    </h3>
-                                    {tribeData?.quote && (
-                                        <blockquote className="italic text-xs text-stone-500 border-l-2 border-red-900/50 pl-2 mb-2 leading-relaxed">
-                                            "{tribeData.quote}"
-                                        </blockquote>
-                                    )}
-                                    <p className="text-stone-400 text-xs leading-relaxed">
-                                        {tribeData?.description || ''}
-                                    </p>
-                                </div>
-                            </div>
-                        );
-                    })()}
-
                     {/* Mode Edition ou Lecture */}
                     {!isEditing ? (
                         <div className="space-y-6">
+                            {/* Identity Header */}
                             {character.image_url && (
-                                <div className="mb-6 flex justify-center">
+                                <div className="mb-6 flex justify-center animate-in fade-in zoom-in-95 duration-500">
                                     <img src={character.image_url} alt="Personnage" className="max-h-[500px] w-auto rounded border border-stone-800 shadow-lg object-contain bg-black/20" />
                                 </div>
                             )}
 
-                            <div className="bg-stone-900/50 p-3 rounded border border-stone-800 flex flex-wrap gap-6 items-center justify-center mb-6">
+                            <div className="bg-stone-900/50 p-4 rounded border border-stone-800 flex flex-wrap gap-8 items-center justify-center mb-10 shadow-lg">
                                 <div className="text-center">
-                                    <span className="text-stone-500 text-xs uppercase tracking-wider block">Nom</span>
-                                    <span className="text-lg font-serif text-stone-200">{character.name !== "Jeune Garou inconnu" ? character.name : "-"}</span>
+                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Nom</span>
+                                    <span className="text-xl font-serif text-stone-200">{character.name !== "Jeune Garou inconnu" ? character.name : "-"}</span>
                                 </div>
-                                <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
+                                <div className="h-10 w-px bg-stone-700 hidden sm:block"></div>
                                 <div className="text-center">
-                                    <span className="text-stone-500 text-xs uppercase tracking-wider block">Âge</span>
-                                    <span className="text-base text-stone-300">{character.age || "-"}</span>
+                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Âge</span>
+                                    <span className="text-lg text-stone-300">{character.age || "-"}</span>
                                 </div>
-                                <div className="h-8 w-px bg-stone-800 hidden sm:block"></div>
+                                <div className="h-10 w-px bg-stone-700 hidden sm:block"></div>
                                 <div className="text-center">
-                                    <span className="text-stone-500 text-xs uppercase tracking-wider block">Sexe</span>
-                                    <span className="text-base text-stone-300">{character.sex || "-"}</span>
+                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Sexe</span>
+                                    <span className="text-lg text-stone-300">{character.sex || "-"}</span>
+                                </div>
+                                <div className="h-10 w-px bg-stone-700 hidden sm:block"></div>
+                                <div className="text-center flex gap-6">
+                                    <div>
+                                        <span className="text-emerald-700/80 text-xs uppercase tracking-wider block mb-1">Race</span>
+                                        <span className="text-lg text-emerald-200/80">{translate('breed', character.breed)}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-amber-700/80 text-xs uppercase tracking-wider block mb-1">Auspice</span>
+                                        <span className="text-lg text-amber-200/80">{translate('auspice', character.auspice)}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-red-700/80 text-xs uppercase tracking-wider block mb-1">Tribu</span>
+                                        <span className="text-lg text-red-200/80">{translate('tribe', character.tribe)}</span>
+                                    </div>
                                 </div>
                             </div>
+
+                            {/* Info Grids */}
+                            {(() => {
+                                const breedData = findLoreData('breeds', character.breed);
+                                const auspiceData = findLoreData('auspices', character.auspice);
+                                const tribeData = findLoreData('tribes', character.tribe);
+                                return (
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                                        {/* Carte Race */}
+                                        <div className="bg-stone-900/60 p-5 rounded-lg border border-emerald-900/30 hover:border-emerald-700/50 transition-colors">
+                                            <span className="block text-xs uppercase tracking-widest text-emerald-600 mb-2">Race</span>
+                                            <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
+                                                {breedData?.name_fr || translate('breed', character.breed)}
+                                            </h3>
+                                            {breedData?.quote && (
+                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-emerald-900/50 pl-2 mb-2 leading-relaxed">
+                                                    "{breedData.quote}"
+                                                </blockquote>
+                                            )}
+                                            <p className="text-stone-400 text-xs leading-relaxed">
+                                                {breedData?.description || ''}
+                                            </p>
+                                        </div>
+
+                                        {/* Carte Auspice */}
+                                        <div className="bg-stone-900/60 p-5 rounded-lg border border-amber-900/30 hover:border-amber-700/50 transition-colors">
+                                            <span className="block text-xs uppercase tracking-widest text-amber-600 mb-2">Auspice</span>
+                                            <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
+                                                {auspiceData?.name_fr || translate('auspice', character.auspice)}
+                                            </h3>
+                                            {auspiceData?.quote && (
+                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-amber-900/50 pl-2 mb-2 leading-relaxed">
+                                                    "{auspiceData.quote}"
+                                                </blockquote>
+                                            )}
+                                            <p className="text-stone-400 text-xs leading-relaxed">
+                                                {auspiceData?.description || ''}
+                                            </p>
+                                        </div>
+
+                                        {/* Carte Tribu */}
+                                        <div className="bg-stone-900/60 p-5 rounded-lg border border-red-900/30 hover:border-red-700/50 transition-colors">
+                                            <span className="block text-xs uppercase tracking-widest text-red-600 mb-2">Tribu</span>
+                                            <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
+                                                {tribeData?.name_fr || translate('tribe', character.tribe)}
+                                            </h3>
+                                            {tribeData?.quote && (
+                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-red-900/50 pl-2 mb-2 leading-relaxed">
+                                                    "{tribeData.quote}"
+                                                </blockquote>
+                                            )}
+                                            <p className="text-stone-400 text-xs leading-relaxed">
+                                                {tribeData?.description || ''}
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            })()}
 
                             <SectionView title="Apparence Physique" content={character.physical_desc} />
 

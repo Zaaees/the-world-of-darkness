@@ -171,34 +171,37 @@ async def update_character_handler(request: web.Request) -> web.Response:
             
             character = await update_character(db, user_id, updates)
             
-            # Trigger Discord Post if first complete submit
-            if old_character and not old_character.discord_thread_id:
-                # Check if all required fields are filled
-                req = ['name', 'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'story']
-                is_complete = True
-                for field in req:
-                    val = getattr(character, field, None)
-                    if not val or val == "Jeune Garou inconnu":
-                        is_complete = False
-                        break
-                
-                if is_complete:
-                    bot = request.app.get("bot")
-                    if bot:
-                        try:
-                            from modules.werewolf.services.discord.forum_service import create_character_thread
-                            thread_id = await create_character_thread(bot, character)
-                            if thread_id:
-                                await update_character(db, user_id, {"discord_thread_id": thread_id})
-                                character.discord_thread_id = thread_id
-                                logger.info(f"Saved discord thread ID {thread_id} for user {user_id}")
-                        except Exception as e:
-                            logger.error(f"Failed to publish to Discord for user {user_id}: {e}")
+            # Check completion
+            is_complete = True
+            req = ['name', 'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'story']
+            for field in req:
+                val = getattr(character, field, None)
+                if not val or val == "Jeune Garou inconnu":
+                    is_complete = False
+                    break
 
-            # Audit Logging (Async)
+            # Diff Calculation
+            changes = None
             if old_character:
                 changes = calculate_diff(old_character, character)
-                if changes:
+
+            # Trigger Discord Post if complete (Create or Update)
+            if is_complete:
+                bot = request.app.get("bot")
+                if bot:
+                    try:
+                        from modules.werewolf.services.discord.forum_service import publish_werewolf_to_discord
+                        # Seuls les champs modifiés généreront une notification de log
+                        thread_id = await publish_werewolf_to_discord(bot, character, diff_text=changes)
+                        if thread_id and thread_id != character.discord_thread_id:
+                            await update_character(db, user_id, {"discord_thread_id": thread_id})
+                            character.discord_thread_id = thread_id
+                            logger.info(f"Saved discord thread ID {thread_id} for user {user_id}")
+                    except Exception as e:
+                        logger.error(f"Failed to publish to Discord for user {user_id}: {e}")
+
+            # Audit Logging (Async)
+            if old_character and changes:
                     bot = request.app.get("bot")
                     if bot:
                         # Fetch user info for logging (we use a fake user object wrapper or real fetch if needed, 

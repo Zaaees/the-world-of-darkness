@@ -1,4 +1,8 @@
-import logging
+import os
+
+filepath = r"f:\Dossiers Utilisateur\Desktop\World of Darkness Code - BMAT\modules\werewolf\services\discord\forum_service.py"
+
+content = """import logging
 import discord
 from typing import Optional, List
 from modules.werewolf.models.store import WerewolfData
@@ -16,7 +20,7 @@ logger = logging.getLogger(__name__)
 FORUM_CHANNEL_ID = 1462941781761986732
 
 def format_werewolf_sheet_content(character_data: WerewolfData, author_name: str) -> List[str]:
-    """Formate la fiche loup-garou et la découpe en morceaux de < 2000 caractères."""
+    \"\"\"Formate la fiche loup-garou et la découpe en morceaux de < 2000 caractères.\"\"\"
     
     lines = []
     
@@ -56,18 +60,18 @@ def format_werewolf_sheet_content(character_data: WerewolfData, author_name: str
     lines.append("**__Histoire__**")
     lines.append(format_paragraph(character_data.story or "-"))
 
-    full_text = "\n".join(lines)
+    full_text = "\\n".join(lines)
     
     parts = []
     current_part = ""
     
-    for line in full_text.split('\n'):
+    for line in full_text.split('\\n'):
         if len(current_part) + len(line) + 1 > 1900:
             parts.append(current_part)
             current_part = line
         else:
             if current_part:
-                current_part += "\n" + line
+                current_part += "\\n" + line
             else:
                 current_part = line
                 
@@ -77,9 +81,9 @@ def format_werewolf_sheet_content(character_data: WerewolfData, author_name: str
     return parts
 
 async def publish_werewolf_to_discord(bot: discord.Client, character_data: WerewolfData, diff_text: str = None) -> Optional[str]:
-    """
+    \"\"\"
     Crée ou met à jour le thread pour le personnage dans le Forum dédié.
-    """
+    \"\"\"
     logger.info(f"Publishing/Updating character {character_data.name} to Discord Forum {FORUM_CHANNEL_ID}")
     
     channel = await bot.fetch_channel(FORUM_CHANNEL_ID)
@@ -129,3 +133,8 @@ async def publish_werewolf_to_discord(bot: discord.Client, character_data: Werew
     await send_notification(guild, author_name, char_name, thread.jump_url, is_update=(thread is not None), notify_gm=(thread is None), diff_text=diff_text)
 
     return forum_post_id
+"""
+
+with open(filepath, 'w', encoding='utf-8') as f:
+    f.write(content)
+print("Updated forum_service.py")
