@@ -430,21 +430,6 @@ const CharacterSheet = ({ initialTab }) => {
                                     <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Sexe</span>
                                     <span className="text-lg text-stone-300">{character.sex || "-"}</span>
                                 </div>
-                                <div className="h-10 w-px bg-stone-700 hidden sm:block"></div>
-                                <div className="text-center flex gap-6">
-                                    <div>
-                                        <span className="text-emerald-700/80 text-xs uppercase tracking-wider block mb-1">Race</span>
-                                        <span className="text-lg text-emerald-200/80">{translate('breed', character.breed)}</span>
-                                    </div>
-                                    <div>
-                                        <span className="text-amber-700/80 text-xs uppercase tracking-wider block mb-1">Auspice</span>
-                                        <span className="text-lg text-amber-200/80">{translate('auspice', character.auspice)}</span>
-                                    </div>
-                                    <div>
-                                        <span className="text-red-700/80 text-xs uppercase tracking-wider block mb-1">Tribu</span>
-                                        <span className="text-lg text-red-200/80">{translate('tribe', character.tribe)}</span>
-                                    </div>
-                                </div>
                             </div>
 
                             {/* Info Grids */}
@@ -461,13 +446,25 @@ const CharacterSheet = ({ initialTab }) => {
                                                 {breedData?.name_fr || translate('breed', character.breed)}
                                             </h3>
                                             {breedData?.quote && (
-                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-emerald-900/50 pl-2 mb-2 leading-relaxed">
+                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-emerald-900/50 pl-2 mb-3 leading-relaxed">
                                                     "{breedData.quote}"
                                                 </blockquote>
                                             )}
-                                            <p className="text-stone-400 text-xs leading-relaxed">
-                                                {breedData?.description || ''}
+                                            <p className="text-stone-400 text-xs leading-relaxed mb-3">
+                                                {breedData?.long_description || breedData?.description || ''}
                                             </p>
+                                            {breedData?.roleplay && (
+                                                <div className="mt-3 pt-3 border-t border-emerald-900/20">
+                                                    <p className="text-emerald-600/80 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
+                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{breedData.roleplay}</p>
+                                                </div>
+                                            )}
+                                            {breedData?.specificities && (
+                                                <div className="mt-3 bg-stone-950/50 p-2.5 rounded border border-stone-800">
+                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
+                                                    <p className="text-stone-400 text-xs leading-relaxed">{breedData.specificities}</p>
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Carte Auspice */}
@@ -477,13 +474,25 @@ const CharacterSheet = ({ initialTab }) => {
                                                 {auspiceData?.name_fr || translate('auspice', character.auspice)}
                                             </h3>
                                             {auspiceData?.quote && (
-                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-amber-900/50 pl-2 mb-2 leading-relaxed">
+                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-amber-900/50 pl-2 mb-3 leading-relaxed">
                                                     "{auspiceData.quote}"
                                                 </blockquote>
                                             )}
-                                            <p className="text-stone-400 text-xs leading-relaxed">
-                                                {auspiceData?.description || ''}
+                                            <p className="text-stone-400 text-xs leading-relaxed mb-3">
+                                                {auspiceData?.long_description || auspiceData?.description || ''}
                                             </p>
+                                            {auspiceData?.roleplay && (
+                                                <div className="mt-3 pt-3 border-t border-amber-900/20">
+                                                    <p className="text-amber-600/80 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
+                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{auspiceData.roleplay}</p>
+                                                </div>
+                                            )}
+                                            {auspiceData?.specificities && (
+                                                <div className="mt-3 bg-stone-950/50 p-2.5 rounded border border-stone-800">
+                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
+                                                    <p className="text-stone-400 text-xs leading-relaxed">{auspiceData.specificities}</p>
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Carte Tribu */}
@@ -493,13 +502,25 @@ const CharacterSheet = ({ initialTab }) => {
                                                 {tribeData?.name_fr || translate('tribe', character.tribe)}
                                             </h3>
                                             {tribeData?.quote && (
-                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-red-900/50 pl-2 mb-2 leading-relaxed">
+                                                <blockquote className="italic text-xs text-stone-500 border-l-2 border-red-900/50 pl-2 mb-3 leading-relaxed">
                                                     "{tribeData.quote}"
                                                 </blockquote>
                                             )}
-                                            <p className="text-stone-400 text-xs leading-relaxed">
-                                                {tribeData?.description || ''}
+                                            <p className="text-stone-400 text-xs leading-relaxed mb-3">
+                                                {tribeData?.long_description || tribeData?.description || ''}
                                             </p>
+                                            {tribeData?.roleplay && (
+                                                <div className="mt-3 pt-3 border-t border-red-900/20">
+                                                    <p className="text-red-600/80 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
+                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{tribeData.roleplay}</p>
+                                                </div>
+                                            )}
+                                            {tribeData?.specificities && (
+                                                <div className="mt-3 bg-stone-950/50 p-2.5 rounded border border-stone-800">
+                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
+                                                    <p className="text-stone-400 text-xs leading-relaxed">{tribeData.specificities}</p>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 );

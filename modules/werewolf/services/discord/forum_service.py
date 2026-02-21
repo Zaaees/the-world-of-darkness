@@ -20,25 +20,20 @@ def format_werewolf_sheet_content(character_data: WerewolfData, author_name: str
     
     lines = []
     
-    lines.append(f"*{'='*20}*")
-    lines.append(f"*Nom et Prénom : {character_data.name}*")
-    lines.append(f"*Âge : {getattr(character_data, 'age', '-')}*")
-    lines.append(f"*Sexe : {getattr(character_data, 'sex', '-')}*")
+    # ── En-tête identité ──
+    lines.append("─── ─── ─── ─── ───")
+    lines.append(f"**{character_data.name}**")
+    lines.append(f"*Âge : {getattr(character_data, 'age', '-')}  ·  Sexe : {getattr(character_data, 'sex', '-')}*")
+    lines.append("─── ─── ─── ─── ───")
+    lines.append("")
     
     breed = character_data.breed.value if hasattr(character_data.breed, 'value') else str(character_data.breed)
     auspice = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
     tribe = character_data.tribe.value if hasattr(character_data.tribe, 'value') else str(character_data.tribe)
     
-    lines.append(f"*{'='*20}*")
-    lines.append("")
-
-    lines.append(f"**Race : {breed}**")
-    lines.append(f"**Auspice : {auspice}**")
-    lines.append(f"**Tribu : {tribe}**")
-    
+    lines.append(f"**Race** : *{breed}*  ·  **Auspice** : *{auspice}*  ·  **Tribu** : *{tribe}*")
     if character_data.rank:
-        lines.append(f"*Rang : {character_data.rank}*")
-
+        lines.append(f"*Rang {character_data.rank}*")
     lines.append("")
     
     lines.append("**__Description Physique__**")
