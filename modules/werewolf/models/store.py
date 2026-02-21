@@ -138,6 +138,10 @@ async def create_werewolf_table(db: aiosqlite.Connection) -> None:
     
     # Migrations
     try:
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN discord_thread_id TEXT")
+    except Exception:
+        pass
+    try:
         await db.execute("ALTER TABLE werewolf_data ADD COLUMN age INTEGER")
         await db.execute("ALTER TABLE werewolf_data ADD COLUMN sex TEXT")
         await db.execute("ALTER TABLE werewolf_data ADD COLUMN physical_desc TEXT")
