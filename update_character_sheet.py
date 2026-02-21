@@ -1,163 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import WerewolfLayout from '../components/WerewolfLayout';
-import RenownBadge from '../components/RenownBadge';
-import WerewolfLoading from '../components/WerewolfLoading';
+import re
 
-import GiftsTab from './GiftsPage/GiftsTab';
-import RenownTab from './RenownTab';
-import ReactMarkdown from 'react-markdown';
-import { Save, Edit2, AlertCircle, Image as ImageIcon, Upload } from 'lucide-react';
-import rehypeSanitize from 'rehype-sanitize';
-import { useUserRoles } from '../../../core/hooks/useUserRoles';
-import { useRenown } from '../hooks/useRenown';
-import { API_URL } from '../../../config';
-import { translate } from '../utils/translations';
-import werewolfLoreData from '../assets/werewolf_data.json';
-// import { toast } from 'sonner';
-const toast = {
-    success: (msg) => console.log('Toast Success:', msg),
-    error: (msg) => console.error('Toast Error:', msg)
-};
+filepath = r"f:\Dossiers Utilisateur\Desktop\World of Darkness Code - BMAT\web\src\modules\werewolf\pages\CharacterSheet.jsx"
 
-/**
- * Détermine l'onglet initial à partir du chemin URL.
- * @param {string} pathname - Le chemin de l'URL courante.
- * @returns {'sheet' | 'gifts' | 'renown'} L'onglet correspondant.
- */
-const getTabFromPath = (pathname) => {
-    if (pathname.includes('/gifts')) return 'gifts';
-    if (pathname.includes('/renown')) return 'renown';
-    return 'sheet';
-};
+with open(filepath, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-/** Mapping onglet → chemin URL */
-const TAB_PATHS = {
-    sheet: '/werewolf/sheet',
-    gifts: '/werewolf/gifts',
-    renown: '/werewolf/renown'
-};
+# 1. Imports
+content = content.replace(
+    "import ReactMarkdown from 'react-markdown';",
+    "import ReactMarkdown from 'react-markdown';\nimport { Save, Edit2, AlertCircle, Image as ImageIcon, Upload } from 'lucide-react';"
+)
 
-/**
- * Page CharacterSheet (Architecture SPA à onglets)
- * Container principal du module Werewolf qui gère les 3 onglets :
- * - Fiche (sheet) : informations du personnage
- * - Dons (gifts) : catalogue de dons
- * - Renommée (renown) : hauts faits et scores
- *
- * Les données des 3 sections sont chargées en parallèle au montage
- * pour garantir une navigation instantanée entre les onglets.
- */
-/**
- * Retrouve les données de lore enrichies pour un personnage.
- * Compare par ID (snake_case) ET par nom traduit (français) pour la compatibilité.
- */
-const findLoreData = (type, value) => {
-    if (!value) return null;
-    const collection = werewolfLoreData[type];
-    if (!collection) return null;
-    // Chercher par ID d'abord (snake_case)
-    const byId = collection.find(item => item.id === value.toLowerCase().replace(/\s+/g, '_'));
-    if (byId) return byId;
-    // Chercher par nom français
-    return collection.find(item => item.name_fr === value || item.name_fr === translate(type === 'breeds' ? 'breed' : type === 'auspices' ? 'auspice' : 'tribe', value));
-};
-
-const CharacterSheet = ({ initialTab }) => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState(
-        initialTab || getTabFromPath(location.pathname)
-    );
-
-    // ── État du personnage (onglet Sheet) ──
-    const [character, setCharacter] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
+# 2. States
+content = content.replace(
+    """    const [isEditingStory, setIsEditingStory] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [storyDraft, setStoryDraft] = useState('');""",
+    """    const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [formError, setFormError] = useState(null);
     const [sheetData, setSheetData] = useState({
         name: '', age: '', sex: '', physical_desc: '', mental_desc_pre: '', first_change: '', story: '', image_url: ''
     });
-    const [uploadingImage, setUploadingImage] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);"""
+)
 
-    // ── État des Dons (onglet Gifts) ──
-    const [giftsData, setGiftsData] = useState({
-        catalogue: [],
-        unlockedIds: [],
-        playerTribe: null,
-        loaded: false
-    });
-
-    // ── État de la Renommée (onglet Renown) ──
-    const [renownState, setRenownState] = useState({
-        data: { glory: [], honor: [], wisdom: [] },
-        scores: { glory: 0, honor: 0, wisdom: 0 },
-        loaded: false
-    });
-
-    // ── Auth ──
-    const { discordUser, guildId, isLoading: isAuthLoading } = useUserRoles();
-    const { submitRenown, fetchMyRenown } = useRenown();
-
-    // ── Sync onglet avec URL quand la location change (navigation externe/navbar) ──
-    useEffect(() => {
-        const newTab = initialTab || getTabFromPath(location.pathname);
-        setActiveTab(newTab);
-    }, [location.pathname, initialTab]);
-
-    /**
-     * Change d'onglet et synchronise l'URL.
-     */
-    const handleTabChange = useCallback((tab) => {
-        setActiveTab(tab);
-        navigate(TAB_PATHS[tab], { replace: true });
-    }, [navigate]);
-
-    // ── Chargement parallèle de toutes les données ──
-    useEffect(() => {
-        if (isAuthLoading || !discordUser || !guildId) return;
-
-        const userId = String(discordUser?.id);
-        const gId = String(guildId);
-
-        if (!userId || !gId || userId === 'undefined' || gId === 'undefined') {
-            setError('Informations d\'authentification manquantes');
-            setLoading(false);
-            return;
-        }
-
-        const headers = {
-            'X-Discord-User-ID': userId,
-            'X-Discord-Guild-ID': gId
-        };
-
-        const fetchCharacter = fetch(`${API_URL}/api/modules/werewolf/character`, { headers })
-            .then(res => {
-                if (!res.ok) return res.json().then(d => { throw { ...d, httpStatus: res.status }; });
-                return res.json();
-            });
-
-        const fetchGifts = fetch(`${API_URL}/api/modules/werewolf/gifts`, { headers })
-            .then(res => {
-                if (!res.ok) throw new Error(`Erreur HTTP Gifts: ${res.status}`);
-                return res.json();
-            })
-            .catch(err => {
-                console.warn('[CharacterSheet] Gifts fetch failed (non-blocking):', err);
-                return null;
-            });
-
-        const fetchRenown = fetchMyRenown().catch(err => {
-            console.warn('[CharacterSheet] Renown fetch failed (non-blocking):', err);
-            return null;
-        });
-
-        // Lancer les 3 fetches en parallèle
-        Promise.all([fetchCharacter, fetchGifts, fetchRenown])
-            .then(([charData, giftsResult, renownResults]) => {
-                // Personnage
+# 3. API Population
+content = content.replace(
+    """                // Personnage
+                if (charData?.character) {
+                    setCharacter(charData.character);
+                    setStoryDraft(charData.character.story || '');
+                } else if (charData?.code === 'NO_CHARACTER') {""",
+    """                // Personnage
                 if (charData?.character) {
                     setCharacter(charData.character);
                     const c = charData.character;
@@ -177,93 +52,14 @@ const CharacterSheet = ({ initialTab }) => {
                         if (!c[f] || c[f] === "Jeune Garou inconnu") { complete = false; break; }
                     }
                     setIsEditing(!complete);
-                } else if (charData?.code === 'NO_CHARACTER') {
-                    setError('NOT_FOUND');
-                }
+                } else if (charData?.code === 'NO_CHARACTER') {"""
+)
 
-                // Dons
-                if (giftsResult?.success) {
-                    setGiftsData({
-                        catalogue: giftsResult.catalogue || [],
-                        unlockedIds: giftsResult.unlocked_ids || [],
-                        playerTribe: giftsResult.profile?.tribe || giftsResult.tribe || null,
-                        loaded: true
-                    });
-                }
+# 4. handleUpdateStory -> handleChange etc
+start_idx = content.find("    /**\n     * Met à jour l'histoire du personnage.")
+end_idx = content.find("    // ── Rendu : états de chargement et d'erreur ──")
 
-                // Renommée
-                if (renownResults) {
-                    processRenownData(renownResults);
-                }
-            })
-            .catch(err => {
-                console.error('[CharacterSheet] Fetch error:', err);
-                if (err?.code === 'NO_CHARACTER') {
-                    setError('NOT_FOUND');
-                } else {
-                    setError(err.message || 'Erreur lors du chargement');
-                }
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-
-        // Poll pour les mises à jour du personnage (rang)
-        const interval = setInterval(() => {
-            fetch(`${API_URL}/api/modules/werewolf/character`, { headers })
-                .then(res => res.ok ? res.json() : null)
-                .then(data => {
-                    if (data?.character) {
-                        setCharacter(prev => {
-                            if (prev && prev.rank !== data.character.rank) {
-                                toast.success(`Votre rang a changé ! (Rang ${data.character.rank})`);
-                                return { ...prev, ...data.character };
-                            }
-                            return prev;
-                        });
-                    }
-                })
-                .catch(() => { });
-        }, 10000);
-
-        return () => clearInterval(interval);
-    }, [discordUser?.id, guildId, isAuthLoading]);
-
-    /**
-     * Traite les données brutes de renommée en structure triée.
-     */
-    const processRenownData = (results) => {
-        const newRenown = { glory: [], honor: [], wisdom: [] };
-        const newScores = { glory: 0, honor: 0, wisdom: 0 };
-
-        results.forEach(item => {
-            const type = item.renown_type ? item.renown_type.toLowerCase() : 'glory';
-            if (newRenown[type]) {
-                newRenown[type].push(item);
-                newScores[type] += 1;
-            }
-        });
-
-        setRenownState({
-            data: newRenown,
-            scores: newScores,
-            loaded: true
-        });
-    };
-
-    /**
-     * Rafraîchit les données de renommée (après soumission d'un haut fait).
-     */
-    const handleRenownRefresh = async () => {
-        try {
-            const results = await fetchMyRenown();
-            if (results) processRenownData(results);
-        } catch (err) {
-            console.error('[CharacterSheet] Renown refresh error:', err);
-        }
-    };
-
-    const handleChange = (e) => {
+replacement_handlers = """    const handleChange = (e) => {
         const { name, value } = e.target;
         setSheetData(prev => ({ ...prev, [name]: value }));
     };
@@ -308,9 +104,9 @@ const CharacterSheet = ({ initialTab }) => {
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Erreur sauvegarde');
-
+            
             setCharacter(prev => ({ ...prev, ...data.character }));
-
+            
             const req = ['name', 'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'story'];
             let complete = true;
             for (const f of req) {
@@ -318,7 +114,7 @@ const CharacterSheet = ({ initialTab }) => {
             }
             if (complete) setIsEditing(false);
             else setFormError("Veuillez remplir tous les champs obligatoires (Image optionnelle).");
-
+            
         } catch (err) {
             setFormError(err.message);
         } finally {
@@ -326,60 +122,15 @@ const CharacterSheet = ({ initialTab }) => {
         }
     };
 
-    // ── Rendu : états de chargement et d'erreur ──
-    if (loading) return <WerewolfLoading />;
+"""
+content = content[:start_idx] + replacement_handlers + content[end_idx:]
 
-    if (error === 'NOT_FOUND') {
-        return (
-            <WerewolfLayout>
-                <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-                    <h2 className="text-2xl text-amber-200 mb-4">Aucune fiche trouvée</h2>
-                    <p className="text-stone-400 mb-8">Vous n'avez pas encore créé de personnage Loup-Garou.</p>
-                    <Link to="/werewolf/create" className="px-6 py-2 bg-emerald-900 border border-emerald-600 text-emerald-100 rounded hover:bg-emerald-800 transition-colors">
-                        Créer un personnage
-                    </Link>
-                </div>
-            </WerewolfLayout>
-        );
-    }
+# 5. JSX Render for activeTab === 'sheet'
+# We will use Regex to capture the block safely because it is large
+import ast
 
-    if (error) {
-        return (
-            <WerewolfLayout>
-                <div className="p-6 text-center">
-                    <h2 className="text-2xl text-red-400 mb-4">Erreur</h2>
-                    <p className="text-red-300">{error}</p>
-                </div>
-            </WerewolfLayout>
-        );
-    }
-
-    // ── Rendu principal avec onglets ──
-    return (
-        <WerewolfLayout>
-            {/* Sélecteur d'onglets */}
-            <div className="max-w-7xl mx-auto px-6 pt-4">
-                <div className="flex border-b border-stone-700/50 gap-1">
-                    {[
-                        { id: 'sheet', label: 'Ma Fiche' },
-                        { id: 'gifts', label: 'Mes Dons' },
-                        { id: 'renown', label: 'Hauts Faits' }
-                    ].map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => handleTabChange(tab.id)}
-                            className={`px-4 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px ${activeTab === tab.id
-                                ? 'border-amber-500 text-amber-200'
-                                : 'border-transparent text-stone-500 hover:text-stone-300 hover:border-stone-600'
-                                }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Contenu de l'onglet actif */}
+def get_new_sheet_jsx():
+    return """            {/* Contenu de l'onglet actif */}
             {activeTab === 'sheet' && character && (
                 <div className="max-w-4xl mx-auto p-6 md:p-10 animate-in fade-in duration-700">
                     {/* Header de la fiche */}
@@ -490,7 +241,7 @@ const CharacterSheet = ({ initialTab }) => {
                             </div>
 
                             <SectionView title="Apparence Physique" content={character.physical_desc} />
-
+                            
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <SectionView title="Mentalité avant le changement" content={character.mental_desc_pre} />
                                 <SectionView title="Le Premier Changement" content={character.first_change} highlight />
@@ -578,45 +329,39 @@ const CharacterSheet = ({ initialTab }) => {
                         </div>
                     )}
                 </div>
-            )}
+            )}"""
 
-            {activeTab === 'gifts' && (
-                <GiftsTab
-                    gifts={giftsData.catalogue}
-                    unlockedIds={giftsData.unlockedIds}
-                    playerTribe={giftsData.playerTribe}
-                    isLoading={!giftsData.loaded}
-                />
-            )}
+start_token = "{/* Contenu de l'onglet actif */}"
+end_token = "{activeTab === 'gifts' && ("
 
-            {activeTab === 'renown' && (
-                <RenownTab
-                    renownData={renownState.data}
-                    scores={renownState.scores}
-                    onRefresh={handleRenownRefresh}
-                    submitRenown={submitRenown}
-                    loading={!renownState.loaded}
-                />
-            )}
-        </WerewolfLayout>
-    );
-};
+idx_start = content.find(start_token)
+idx_end = content.find(end_token)
 
-export default CharacterSheet;
+content = content[:idx_start] + get_new_sheet_jsx() + "\n\n            " + content[idx_end:]
 
+
+# 6. Add SectionView component at the end
+section_view = """
 function SectionView({ title, content, highlight = false }) {
-    return (
-        <div className={`p-4 rounded border ${highlight ? 'bg-red-950/10 border-red-900/30' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
-            <h3 className={`font-serif text-sm uppercase tracking-widest mb-3 border-b pb-2 ${highlight ? 'text-red-400 border-red-900/40' : 'text-stone-500 border-stone-800'}`}>
-                {title}
-            </h3>
-            <div className="text-sm text-stone-300 whitespace-pre-line leading-relaxed text-justify">
-                {content ? (
-                    <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{content}</ReactMarkdown>
-                ) : (
-                    <span className="text-stone-600 italic">Non renseigné</span>
-                )}
-            </div>
-        </div>
-    );
+  return (
+    <div className={`p-4 rounded border ${highlight ? 'bg-red-950/10 border-red-900/30' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
+      <h3 className={`font-serif text-sm uppercase tracking-widest mb-3 border-b pb-2 ${highlight ? 'text-red-400 border-red-900/40' : 'text-stone-500 border-stone-800'}`}>
+        {title}
+      </h3>
+      <div className="text-sm text-stone-300 whitespace-pre-line leading-relaxed text-justify">
+        {content ? (
+            <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{content}</ReactMarkdown>
+        ) : (
+            <span className="text-stone-600 italic">Non renseigné</span>
+        )}
+      </div>
+    </div>
+  );
 }
+"""
+content = content + section_view
+
+with open(filepath, 'w', encoding='utf-8') as f:
+    f.write(content)
+
+print("Modification complete.")

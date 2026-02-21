@@ -56,6 +56,12 @@ class WerewolfData:
     story: Optional[str] = None
     rank: int = 1
     discord_thread_id: Optional[str] = None
+    age: Optional[int] = None
+    sex: Optional[str] = None
+    physical_desc: Optional[str] = None
+    mental_desc_pre: Optional[str] = None
+    first_change: Optional[str] = None
+    image_url: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -119,10 +125,28 @@ async def create_werewolf_table(db: aiosqlite.Connection) -> None:
             story TEXT,
             rank INTEGER DEFAULT 1,
             discord_thread_id TEXT,
+            age INTEGER,
+            sex TEXT,
+            physical_desc TEXT,
+            mental_desc_pre TEXT,
+            first_change TEXT,
+            image_url TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    
+    # Migrations
+    try:
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN age INTEGER")
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN sex TEXT")
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN physical_desc TEXT")
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN mental_desc_pre TEXT")
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN first_change TEXT")
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN image_url TEXT")
+    except Exception:
+        pass
+        
     await db.commit()
 
 async def create_renown_table(db: aiosqlite.Connection) -> None:
@@ -155,8 +179,10 @@ async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> 
 
     await db.execute("""
         INSERT INTO werewolf_data (
-            user_id, breed, auspice, tribe, name, story, rank, discord_thread_id, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            user_id, breed, auspice, tribe, name, story, rank, discord_thread_id,
+            age, sex, physical_desc, mental_desc_pre, first_change, image_url,
+            created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         data.user_id,
         breed_val,
@@ -166,6 +192,12 @@ async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> 
         data.story,
         data.rank,
         data.discord_thread_id,
+        data.age,
+        data.sex,
+        data.physical_desc,
+        data.mental_desc_pre,
+        data.first_change,
+        data.image_url,
         now,
         now
     ))
@@ -203,6 +235,12 @@ async def get_werewolf_data(db: aiosqlite.Connection, user_id: str) -> Optional[
             story=row['story'],
             rank=row['rank'],
             discord_thread_id=row['discord_thread_id'],
+            age=row['age'] if 'age' in row.keys() else None,
+            sex=row['sex'] if 'sex' in row.keys() else None,
+            physical_desc=row['physical_desc'] if 'physical_desc' in row.keys() else None,
+            mental_desc_pre=row['mental_desc_pre'] if 'mental_desc_pre' in row.keys() else None,
+            first_change=row['first_change'] if 'first_change' in row.keys() else None,
+            image_url=row['image_url'] if 'image_url' in row.keys() else None,
             created_at=created_at,
             updated_at=updated_at
         )
@@ -214,7 +252,10 @@ async def update_werewolf_data(db: aiosqlite.Connection, user_id: str, updates: 
     """
     
     # Whitelist of allowed columns to update
-    ALLOWED_UPDATE_COLUMNS = {'name', 'story', 'rank', 'discord_thread_id'}
+    ALLOWED_UPDATE_COLUMNS = {
+        'name', 'story', 'rank', 'discord_thread_id', 
+        'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'image_url'
+    }
     
     valid_updates = {k: v for k, v in updates.items() if k in ALLOWED_UPDATE_COLUMNS}
     
@@ -370,6 +411,12 @@ async def get_all_werewolves(db: aiosqlite.Connection) -> list[WerewolfData]:
                 story=row['story'],
                 rank=row['rank'],
                 discord_thread_id=row['discord_thread_id'],
+                age=row['age'] if 'age' in row.keys() else None,
+                sex=row['sex'] if 'sex' in row.keys() else None,
+                physical_desc=row['physical_desc'] if 'physical_desc' in row.keys() else None,
+                mental_desc_pre=row['mental_desc_pre'] if 'mental_desc_pre' in row.keys() else None,
+                first_change=row['first_change'] if 'first_change' in row.keys() else None,
+                image_url=row['image_url'] if 'image_url' in row.keys() else None,
                 created_at=created_at,
                 updated_at=updated_at
             ))

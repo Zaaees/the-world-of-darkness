@@ -2,7 +2,7 @@
 title: 'Refonte Création et Fiche de Personnage Garou'
 slug: 'refonte-creation-fiche-garou'
 created: '2026-02-19T22:12:13+01:00'
-status: 'implementation-complete'
+status: 'ready-for-dev'
 stepsCompleted: [1, 2, 3, 4]
 tech_stack: ['React', 'React Router', 'TailwindCSS']
 files_to_modify: ['web/src/modules/werewolf/assets/werewolf_data.json', 'web/src/modules/werewolf/pages/CreateCharacter.jsx', 'web/src/modules/werewolf/components/WizardStep.jsx', 'web/src/modules/werewolf/pages/CharacterSheet.jsx']

@@ -53,7 +53,6 @@ export default function CreateCharacter() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.name) return;
 
         setError(null);
         setIsSubmitting(true);
@@ -68,7 +67,7 @@ export default function CreateCharacter() {
             };
 
             const payload = {
-                name: formData.name,
+                name: "Jeune Garou inconnu",
                 breed: formData.breed,
                 auspice: formData.auspice,
                 tribe: formData.tribu
@@ -133,60 +132,6 @@ export default function CreateCharacter() {
                         onSelect={(id) => handleSelect('tribu', id)}
                     />
                 );
-            case 4:
-                // Résumé et Nom
-                const b = getBreed(formData.breed);
-                const a = getAuspice(formData.auspice);
-                const t = getTribe(formData.tribu);
-
-                return (
-                    <div className="max-w-2xl mx-auto">
-                        <div className="bg-black/40 rounded-lg p-6 mb-8 border border-gray-600">
-                            <h3 className="text-2xl font-serif text-amber-500 mb-6 border-b border-gray-700 pb-2">Récapitulatif</h3>
-                            <div className="space-y-5">
-                                {/* Race */}
-                                <div className="border-l-2 border-emerald-800 pl-4">
-                                    <span className="text-gray-500 uppercase text-xs tracking-wider block mb-1">Race</span>
-                                    <span className="text-white text-lg font-serif">{b?.name_fr}</span>
-                                    {b?.quote && (
-                                        <p className="text-gray-500 text-xs italic mt-1">"{b.quote}"</p>
-                                    )}
-                                </div>
-
-                                {/* Auspice */}
-                                <div className="border-l-2 border-amber-800 pl-4">
-                                    <span className="text-gray-500 uppercase text-xs tracking-wider block mb-1">Auspice</span>
-                                    <span className="text-white text-lg font-serif">{a?.name_fr}</span>
-                                    {a?.quote && (
-                                        <p className="text-gray-500 text-xs italic mt-1">"{a.quote}"</p>
-                                    )}
-                                </div>
-
-                                {/* Tribu */}
-                                <div className="border-l-2 border-red-800 pl-4">
-                                    <span className="text-gray-500 uppercase text-xs tracking-wider block mb-1">Tribu</span>
-                                    <span className="text-white text-lg font-serif">{t?.name_fr}</span>
-                                    {t?.quote && (
-                                        <p className="text-gray-500 text-xs italic mt-1">"{t.quote}"</p>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-black/40 rounded-lg p-6 border border-gray-600">
-                            <label className="block text-amber-500 font-serif text-xl mb-3">Comment vous nommez-vous ?</label>
-                            <input
-                                type="text"
-                                value={formData.name}
-                                onChange={(e) => handleSelect('name', e.target.value)}
-                                className="w-full bg-gray-900 border border-gray-600 rounded p-4 text-white text-lg focus:border-red-600 transition outline-none"
-                                placeholder="Nom de votre Garou..."
-                                minLength={NAME_MIN_LENGTH}
-                                maxLength={NAME_MAX_LENGTH}
-                            />
-                        </div>
-                    </div>
-                );
             default: return null;
         }
     };
@@ -196,7 +141,6 @@ export default function CreateCharacter() {
             case 1: return "Choisissez votre Race";
             case 2: return "Sous quelle lune êtes-vous né ?";
             case 3: return "Quelle Tribu rejoignez-vous ?";
-            case 4: return "L'Incarnation";
             default: return "";
         }
     };
@@ -206,7 +150,6 @@ export default function CreateCharacter() {
             case 1: return "Votre forme de naissance détermine votre lien avec le monde.";
             case 2: return "L'Auspice définit votre rôle au sein de la meute.";
             case 3: return "Votre tribu est votre famille élargie, votre culture, votre cause.";
-            case 4: return "Donnez un nom à votre légende.";
             default: return "";
         }
     };
@@ -215,7 +158,6 @@ export default function CreateCharacter() {
         if (step === 1) return !!formData.breed;
         if (step === 2) return !!formData.auspice;
         if (step === 3) return !!formData.tribu;
-        if (step === 4) return !!formData.name && formData.name.length >= NAME_MIN_LENGTH;
         return false;
     };
 
@@ -225,7 +167,7 @@ export default function CreateCharacter() {
             <div className="w-full h-1 bg-gray-700 mb-8 rounded-full overflow-hidden">
                 <div
                     className="h-full bg-red-600 transition-all duration-500 ease-out"
-                    style={{ width: `${(step / 4) * 100}%` }}
+                    style={{ width: `${(step / 3) * 100}%` }}
                 ></div>
             </div>
 
@@ -250,7 +192,7 @@ export default function CreateCharacter() {
                     Précédent
                 </button>
 
-                {step < 4 ? (
+                {step < 3 ? (
                     <button
                         onClick={nextStep}
                         disabled={!canProceed()}

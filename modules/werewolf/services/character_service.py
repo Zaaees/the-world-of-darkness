@@ -86,23 +86,7 @@ async def create_character(db: aiosqlite.Connection, character_data: Dict[str, A
         logger.warning(f"Failed to sync werewolf to Google Sheets for user {user_id}: {e}")
 
 
-    # Discord Forum Publication
-    if bot:
-        try:
-            from modules.werewolf.services.discord.forum_service import create_character_thread
-            from modules.werewolf.models.store import update_werewolf_data
-            
-            thread_id = await create_character_thread(bot, new_character)
-            
-            # Update DB with thread ID
-            if thread_id:
-                await update_werewolf_data(db, user_id, {"discord_thread_id": thread_id})
-                logger.info(f"Saved discord thread ID {thread_id} for user {user_id}")
-                
-        except Exception as e:
-            # We log but do NOT fail the creation if discord fails
-            # The character is created, just not posted.
-            logger.error(f"Failed to publish to Discord for user {user_id}: {e}")
+
 
     # Fetch back to get complete object (verify persistence and updates)
     created_char = await get_werewolf_data(db, user_id)

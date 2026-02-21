@@ -116,7 +116,13 @@ async def get_character_handler(request: web.Request) -> web.Response:
                     "tribe": character.tribe.value if hasattr(character.tribe, 'value') else character.tribe,
                     "story": character.story or "",
                     "rank": character.rank,
-                    "discord_thread_id": character.discord_thread_id
+                    "discord_thread_id": character.discord_thread_id,
+                    "age": character.age,
+                    "sex": character.sex,
+                    "physical_desc": character.physical_desc,
+                    "mental_desc_pre": character.mental_desc_pre,
+                    "first_change": character.first_change,
+                    "image_url": character.image_url
                 }
             }, headers={"Cache-Control": "no-store, no-cache, must-revalidate", "Pragma": "no-cache"})
             
@@ -143,7 +149,7 @@ async def update_character_handler(request: web.Request) -> web.Response:
         return web.json_response({"error": "JSON invalide"}, status=400)
     
     # Validation basique
-    allowed_fields = {'story'}
+    allowed_fields = {'name', 'story', 'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'image_url'}
     updates = {k: v for k, v in data.items() if k in allowed_fields}
     
     if not updates:
@@ -153,11 +159,41 @@ async def update_character_handler(request: web.Request) -> web.Response:
         async with aiosqlite.connect(DATABASE_PATH) as db:
             # Récupérer l'état AVANT modification pour le diff
             old_character = await get_character(db, user_id)
+            if not old_character:
+                return web.json_response({"error": "Personnage introuvable"}, status=404)
+
+            # Unicité du nom
+            if 'name' in updates and updates['name'] != "Jeune Garou inconnu" and updates['name'].lower() != old_character.name.lower():
+                cursor = await db.execute("SELECT user_id FROM werewolf_data WHERE LOWER(name) = ?", (updates['name'].lower(),))
+                existing = await cursor.fetchone()
+                if existing:
+                    return web.json_response({"error": "Ce nom est déjà pris par un autre personnage."}, status=400)
             
             character = await update_character(db, user_id, updates)
             
-            if not character:
-                return web.json_response({"error": "Personnage introuvable"}, status=404)
+            # Trigger Discord Post if first complete submit
+            if old_character and not old_character.discord_thread_id:
+                # Check if all required fields are filled
+                req = ['name', 'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'story']
+                is_complete = True
+                for field in req:
+                    val = getattr(character, field, None)
+                    if not val or val == "Jeune Garou inconnu":
+                        is_complete = False
+                        break
+                
+                if is_complete:
+                    bot = request.app.get("bot")
+                    if bot:
+                        try:
+                            from modules.werewolf.services.discord.forum_service import create_character_thread
+                            thread_id = await create_character_thread(bot, character)
+                            if thread_id:
+                                await update_character(db, user_id, {"discord_thread_id": thread_id})
+                                character.discord_thread_id = thread_id
+                                logger.info(f"Saved discord thread ID {thread_id} for user {user_id}")
+                        except Exception as e:
+                            logger.error(f"Failed to publish to Discord for user {user_id}: {e}")
 
             # Audit Logging (Async)
             if old_character:
@@ -194,7 +230,13 @@ async def update_character_handler(request: web.Request) -> web.Response:
                 "character": {
                     "name": character.name,
                     "story": character.story,
-                    "rank": character.rank
+                    "rank": character.rank,
+                    "age": character.age,
+                    "sex": character.sex,
+                    "physical_desc": character.physical_desc,
+                    "mental_desc_pre": character.mental_desc_pre,
+                    "first_change": character.first_change,
+                    "image_url": character.image_url
                 },
                 "synced": synced
             })

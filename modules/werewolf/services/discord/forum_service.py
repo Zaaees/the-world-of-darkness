@@ -28,8 +28,26 @@ def create_character_embed(character_data: WerewolfData) -> discord.Embed:
     embed.add_field(name="Auspice", value=auspice, inline=True)
     embed.add_field(name="Tribu", value=tribe, inline=True)
     
+    if getattr(character_data, 'age', None):
+        embed.add_field(name="Âge", value=str(character_data.age), inline=True)
+        
+    if getattr(character_data, 'sex', None):
+        embed.add_field(name="Sexe", value=character_data.sex, inline=True)
+        
+    if getattr(character_data, 'physical_desc', None):
+        embed.add_field(name="Apparence", value=character_data.physical_desc[:1024], inline=False)
+        
+    if getattr(character_data, 'mental_desc_pre', None):
+        embed.add_field(name="Mentalité", value=character_data.mental_desc_pre[:1024], inline=False)
+        
+    if getattr(character_data, 'first_change', None):
+        embed.add_field(name="Le Premier Changement", value=character_data.first_change[:1024], inline=False)
+    
     if character_data.rank:
         embed.add_field(name="Rang", value=str(character_data.rank), inline=True)
+        
+    if getattr(character_data, 'image_url', None):
+        embed.set_image(url=character_data.image_url)
         
     return embed
 
