@@ -89,17 +89,19 @@ async def publish_werewolf_to_discord(bot: discord.Client, character_data: Werew
     except Exception:
         pass
         
-    char_name = character_data.name
     tribe_name = character_data.tribe.value if hasattr(character_data.tribe, 'value') else str(character_data.tribe)
     breed_name = character_data.breed.value if hasattr(character_data.breed, 'value') else str(character_data.breed)
     auspice_name = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
     image_url = getattr(character_data, 'image_url', None)
 
+    # Breed in the title
+    char_name = f"[{breed_name}] {character_data.name}"
+
+    # Tribe and Auspice as tags
     tag_tribe = await get_or_create_tag(channel, tribe_name)
-    tag_breed = await get_or_create_tag(channel, breed_name)
     tag_auspice = await get_or_create_tag(channel, auspice_name)
     
-    applied_tags = [t for t in (tag_tribe, tag_breed, tag_auspice) if t]
+    applied_tags = [t for t in (tag_tribe, tag_auspice) if t]
 
     content_parts = format_werewolf_sheet_content(character_data, author_name)
 
