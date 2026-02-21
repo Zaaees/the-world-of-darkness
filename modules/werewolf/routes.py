@@ -193,7 +193,8 @@ async def update_character_handler(request: web.Request) -> web.Response:
                     try:
                         from modules.werewolf.services.discord.forum_service import publish_werewolf_to_discord
                         logger.info(f"DISCORD_DEBUG: Calling publish with discord_thread_id={character.discord_thread_id!r}")
-                        thread_id = await publish_werewolf_to_discord(bot, character, diff_text=changes)
+                        diff_str = "\n".join(changes) if changes else None
+                        thread_id = await publish_werewolf_to_discord(bot, character, diff_text=diff_str)
                         logger.info(f"DISCORD_DEBUG: publish returned thread_id={thread_id!r}, character.discord_thread_id={character.discord_thread_id!r}")
                         if thread_id and thread_id != character.discord_thread_id:
                             logger.info(f"DISCORD_DEBUG: Saving new thread_id={thread_id} to DB")
