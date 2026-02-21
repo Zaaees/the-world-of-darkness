@@ -105,13 +105,20 @@ async def publish_werewolf_to_discord(bot: discord.Client, character_data: Werew
 
     forum_post_id = character_data.discord_thread_id
     thread = None
+    logger.info(f"DISCORD_DEBUG publish: forum_post_id from character={forum_post_id!r}")
 
     if forum_post_id:
         try:
             thread = await guild.fetch_channel(int(forum_post_id))
-        except (discord.NotFound, ValueError, TypeError):
-            logger.warning(f"Thread {forum_post_id} introuvable, création d'un nouveau.")
+            logger.info(f"DISCORD_DEBUG publish: Found existing thread {thread.id}")
+        except (discord.NotFound, ValueError, TypeError) as e:
+            logger.warning(f"Thread {forum_post_id} introuvable ({e}), création d'un nouveau.")
             forum_post_id = None
+        except Exception as e:
+            logger.error(f"DISCORD_DEBUG publish: Unexpected error fetching thread {forum_post_id}: {e}")
+            forum_post_id = None
+    else:
+        logger.info("DISCORD_DEBUG publish: No forum_post_id, will create new thread")
 
     if thread:
         await update_existing_thread(thread, char_name, applied_tags, image_url, content_parts)

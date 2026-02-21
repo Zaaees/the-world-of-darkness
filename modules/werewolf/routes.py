@@ -170,6 +170,7 @@ async def update_character_handler(request: web.Request) -> web.Response:
                     return web.json_response({"error": "Ce nom est déjà pris par un autre personnage."}, status=400)
             
             character = await update_character(db, user_id, updates)
+            logger.info(f"DISCORD_DEBUG: After update_character, discord_thread_id={character.discord_thread_id!r} for user {user_id}")
             
             # Check completion
             is_complete = True
@@ -191,14 +192,18 @@ async def update_character_handler(request: web.Request) -> web.Response:
                 if bot:
                     try:
                         from modules.werewolf.services.discord.forum_service import publish_werewolf_to_discord
-                        # Seuls les champs modifiés généreront une notification de log
+                        logger.info(f"DISCORD_DEBUG: Calling publish with discord_thread_id={character.discord_thread_id!r}")
                         thread_id = await publish_werewolf_to_discord(bot, character, diff_text=changes)
+                        logger.info(f"DISCORD_DEBUG: publish returned thread_id={thread_id!r}, character.discord_thread_id={character.discord_thread_id!r}")
                         if thread_id and thread_id != character.discord_thread_id:
+                            logger.info(f"DISCORD_DEBUG: Saving new thread_id={thread_id} to DB")
                             await update_character(db, user_id, {"discord_thread_id": thread_id})
                             character.discord_thread_id = thread_id
                             logger.info(f"Saved discord thread ID {thread_id} for user {user_id}")
+                        else:
+                            logger.info(f"DISCORD_DEBUG: thread_id matches, no DB update needed")
                     except Exception as e:
-                        logger.error(f"Failed to publish to Discord for user {user_id}: {e}")
+                        logger.error(f"Failed to publish to Discord for user {user_id}: {e}", exc_info=True)
 
             # Audit Logging (Async)
             if old_character and changes:
