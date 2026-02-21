@@ -88,30 +88,24 @@ class GeneralCog(commands.Cog, name="Général"):
             from utils.database import DATABASE_PATH
             import aiosqlite
             
-            logger.info(f"RESET DEBUG: Using DATABASE_PATH={DATABASE_PATH}")
-            logger.info(f"RESET DEBUG: member.id={member.id} (type={type(member.id).__name__})")
-            
             async with aiosqlite.connect(str(DATABASE_PATH)) as db:
                 # Check if data exists BEFORE delete
                 pre_check = await get_werewolf_data(db, str(member.id))
-                logger.info(f"RESET DEBUG PRE-DELETE: werewolf_data exists={pre_check is not None}, rank={pre_check.rank if pre_check else 'N/A'}")
                 
-                # Also check with raw SQL to rule out any ORM issues
-                cursor_check = await db.execute("SELECT user_id, rank FROM werewolf_data WHERE user_id = ?", (str(member.id),))
-                raw_row = await cursor_check.fetchone()
-                logger.info(f"RESET DEBUG PRE-DELETE RAW: row={raw_row}")
+                # Delete the Discord forum thread if it exists
+                if pre_check and pre_check.discord_thread_id:
+                    try:
+                        thread = await self.bot.fetch_channel(int(pre_check.discord_thread_id))
+                        if thread:
+                            await thread.delete()
+                            logger.info(f"RESET: Deleted Discord thread {pre_check.discord_thread_id} for {member.id}")
+                    except discord.NotFound:
+                        logger.info(f"RESET: Discord thread {pre_check.discord_thread_id} already deleted")
+                    except Exception as e:
+                        logger.warning(f"RESET: Failed to delete Discord thread {pre_check.discord_thread_id}: {e}")
                 
                 # Force delete regardless of role
                 deleted = await delete_werewolf_data(db, str(member.id))
-                logger.info(f"RESET DEBUG: delete_werewolf_data returned {deleted}")
-                
-                # Verify AFTER delete
-                post_check = await get_werewolf_data(db, str(member.id))
-                logger.info(f"RESET DEBUG POST-DELETE: werewolf_data exists={post_check is not None}")
-                
-                cursor_check2 = await db.execute("SELECT user_id, rank FROM werewolf_data WHERE user_id = ?", (str(member.id),))
-                raw_row2 = await cursor_check2.fetchone()
-                logger.info(f"RESET DEBUG POST-DELETE RAW: row={raw_row2}")
                 
                 if deleted:
                     logger.info(f"RESET: Werewolf data purged for {member.id}")

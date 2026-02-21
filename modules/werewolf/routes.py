@@ -222,12 +222,6 @@ async def update_character_handler(request: web.Request) -> web.Response:
                         except Exception as e:
                             logger.error(f"Failed to schedule audit log: {e}")
 
-            # Trigger Discord Sync
-            synced = False
-            bot = request.app.get("bot")
-            if bot:
-                synced = await sync_sheet_to_discord(bot, character)
-
             return web.json_response({
                 "success": True,
                 "character": {
