@@ -221,7 +221,7 @@ async def publish_npc_to_discord(bot, guild, npc_data: dict, diff_text: str = No
         return None
 
 
-async def get_or_create_tag(forum_channel: discord.ForumChannel, tag_name: str) -> Optional[discord.ForumTag]:
+async def get_or_create_tag(forum_channel: discord.ForumChannel, tag_name: str, emoji: str = None) -> Optional[discord.ForumTag]:
     """Récupère un tag existant ou le crée s'il n'existe pas."""
     # Chercher dans les tags existants
     for tag in forum_channel.available_tags:
@@ -230,7 +230,7 @@ async def get_or_create_tag(forum_channel: discord.ForumChannel, tag_name: str) 
     
     # Créer le tag s'il n'existe pas
     try:
-        new_tag = discord.ForumTag(name=tag_name, emoji=None)
+        new_tag = discord.ForumTag(name=tag_name, emoji=emoji)
         # Convertir SequenceProxy en list pour l'addition
         updated_tags = list(forum_channel.available_tags) + [new_tag]
         await forum_channel.edit(available_tags=updated_tags)

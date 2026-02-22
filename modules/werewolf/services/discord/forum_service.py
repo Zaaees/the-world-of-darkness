@@ -94,12 +94,54 @@ async def publish_werewolf_to_discord(bot: discord.Client, character_data: Werew
     auspice_name = character_data.auspice.value if hasattr(character_data.auspice, 'value') else str(character_data.auspice)
     image_url = getattr(character_data, 'image_url', None)
 
+    # Translations to French
+    translations = {
+        # Races
+        "Homid": "Homidé",
+        "Metis": "Métis",
+        "Lupus": "Lupus",
+        # Auspices
+        "Ragabash": "Ragabash",
+        "Theurge": "Théurge",
+        "Philodox": "Philodox",
+        "Galliard": "Galliard",
+        "Ahroun": "Ahroun",
+        # Tribus
+        "Black Furies": "Furies Noires",
+        "Bone Gnawers": "Rongeurs d'Os",
+        "Children of Gaia": "Enfants de Gaïa",
+        "Fianna": "Fianna",
+        "Get of Fenris": "Fils de Fenris",
+        "Glass Walkers": "Marcheurs sur Verre",
+        "Red Talons": "Griffes Rouges",
+        "Shadow Lords": "Seigneurs de l'Ombre",
+        "Silent Striders": "Arpenteurs Silencieux",
+        "Silver Fangs": "Crocs d'Argent",
+        "Stargazers": "Astreants",
+        "Uktena": "Uktena",
+        "Wendigo": "Wendigo"
+    }
+    
+    fr_tribe = translations.get(tribe_name, tribe_name)
+    fr_breed = translations.get(breed_name, breed_name)
+    fr_auspice = translations.get(auspice_name, auspice_name)
+
     # Breed in the title
-    char_name = f"[{breed_name}] {character_data.name}"
+    char_name = f"[{fr_breed}] {character_data.name}"
+
+    # Determine Auspice Moon Emoji dynamically
+    auspice_emojis = {
+        "Ragabash": "🌑", # New Moon
+        "Theurge": "🌒", # Crescent
+        "Philodox": "🌓", # Half
+        "Galliard": "🌔", # Gibbous
+        "Ahroun": "🌕", # Full
+    }
+    a_emoji = auspice_emojis.get(auspice_name, "🌙")
 
     # Tribe and Auspice as tags
-    tag_tribe = await get_or_create_tag(channel, tribe_name)
-    tag_auspice = await get_or_create_tag(channel, auspice_name)
+    tag_tribe = await get_or_create_tag(channel, fr_tribe, emoji="🐺")
+    tag_auspice = await get_or_create_tag(channel, fr_auspice, emoji=a_emoji)
     
     applied_tags = [t for t in (tag_tribe, tag_auspice) if t]
 
