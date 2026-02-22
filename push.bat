@@ -23,7 +23,7 @@ if exist ".env" (
 )
 
 if exist .commit_msg.tmp (
-    set /p generated_msg=<.commit_msg.tmp
+    set /p msg=<.commit_msg.tmp
     del .commit_msg.tmp
 ) else (
     echo [AVERTISSEMENT] Gemini n'a pas pu generer de message ^(clef API manquante ou erreur^).
@@ -31,14 +31,7 @@ if exist .commit_msg.tmp (
 )
 
 echo.
-echo Message propose : "!generated_msg!"
-set /p user_msg="Appuyez sur Entree pour valider, ou tapez un autre message : "
-
-if "!user_msg!"=="" (
-    set "msg=!generated_msg!"
-) else (
-    set "msg=!user_msg!"
-)
+echo Message IA genere : "!msg!"
 goto :COMMIT
 
 :MANUAL_MSG
@@ -52,7 +45,7 @@ if "!msg!"=="" (
 
 :COMMIT
 echo.
-echo [3/4] Commit en cours avec le message : "!msg!"...
+echo [3/4] Commit en cours...
 git commit -m "!msg!"
 
 echo.
@@ -62,10 +55,10 @@ git push origin main
 if %ERRORLEVEL% neq 0 (
     echo.
     echo [ERREUR] Le push a echoue. Verifiez votre connexion ou les conflits.
+    pause
 ) else (
-    echo.
     echo [SUCCES] Modifications poussees avec succes !
+    timeout /t 2 > nul
 )
 
-echo.
-pause
+exit
