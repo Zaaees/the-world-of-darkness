@@ -3,6 +3,7 @@
         {
             "id": "homid",
             "name_fr": "Homid",
+            "icon": "👤",
             "description": "Né d'humains, il a grandi comme un humain et s'adapte facilement à la société moderne.",
             "quote": "Je marche parmi eux, je parle comme eux, je ris comme eux. Mais quand la lune appelle, je suis tout ce qu'ils craignent dans la nuit.",
             "long_description": "Les Homids sont nés de parents humains et ont grandi dans la civilisation humaine avant leur Premier Changement. Ils comprennent instinctivement la technologie, le langage et les subtilités de la société moderne. Cependant, leur lien instinctif avec Gaïa et le monde spirituel est plus faible que celui des autres races, et ils doivent apprendre à écouter le loup en eux.",
@@ -12,6 +13,7 @@
         {
             "id": "metis",
             "name_fr": "Métis",
+            "icon": "🧬",
             "description": "Né de l'union interdite de deux Garous, stérile et souvent difforme, il comprend la société Garou mieux que quiconque.",
             "quote": "Ils me regardent avec dégoût, mais je suis né au cœur de ce qu'ils sont. Je connais leurs secrets mieux qu'eux-mêmes.",
             "long_description": "Les Métis sont le fruit de l'union interdite entre deux Garous, un tabou absolu de la Litanie. Nés sous forme Crinos, ils portent toujours une difformité — cicatrice de la transgression de leurs parents. Stériles et souvent méprisés, ils grandissent néanmoins au sein des Caerns et comprennent la société Garou comme personne d'autre. Leur rage est profonde, nourrie par le rejet.",
@@ -21,6 +23,7 @@
         {
             "id": "lupus",
             "name_fr": "Lupus",
+            "icon": "🐾",
             "description": "Né de loups, il a grandi dans la nature. Ses instincts sont aiguisés mais la technologie et le langage humain lui sont étrangers.",
             "quote": "Les mots sont des cages. La forêt ne ment jamais. Le vent porte la vérité que vos villes étouffent.",
             "long_description": "Les Lupus sont nés loups et ont vécu au sein d'une meute de loups avant leur Premier Changement. Leurs instincts sont les plus aiguisés de toutes les races. Ils perçoivent le monde par les sens — l'odeur, le son, le mouvement. Le langage humain et la technologie leur sont profondément étrangers, sources de confusion et de frustration. Mais leur connexion à Gaïa est la plus pure.",
@@ -32,6 +35,7 @@
         {
             "id": "ragabash",
             "name_fr": "Ragabash",
+            "icon": "🌑",
             "description": "La Nouvelle Lune. Le filou, le questionneur des traditions.",
             "quote": "Les règles existent pour être questionnées. Si personne ne pose la question, la réponse pourrit dans le silence.",
             "long_description": "Nés sous la Nouvelle Lune, les Ragabash sont les tricksters, les fous sacrés de la Nation Garou. Leur rôle est de questionner l'autorité, de briser les certitudes et de rappeler aux autres que la tradition sans réflexion mène à la stagnation. Espions, éclaireurs et saboteurs, ils opèrent dans l'ombre avec malice et intelligence.",
@@ -41,6 +45,7 @@
         {
             "id": "theurge",
             "name_fr": "Theurge",
+            "icon": "🌒",
             "description": "Le Croissant de Lune. Le mystique, l'interlocuteur des esprits.",
             "quote": "Les esprits murmurent à ceux qui savent écouter. Je suis le pont entre la chair et l'invisible.",
             "long_description": "Les Theurges sont les mystiques et les chamans de la Nation Garou. Nés sous le Croissant de Lune, ils servent de pont entre le monde matériel et l'Umbra, le monde des esprits. Ils négocient avec les esprits, accomplissent les rites sacrés et perçoivent les vérités cachées derrière le voile de la réalité.",
@@ -50,6 +55,7 @@
         {
             "id": "philodox",
             "name_fr": "Philodox",
+            "icon": "🌓",
             "description": "La Demi-Lune. Le juge, le gardien des lois et des traditions.",
             "quote": "La Litanie n'est pas une suggestion. Elle est le ciment qui empêche notre rage de nous consumer tous.",
             "long_description": "Les Philodox sont les juges, les médiateurs et les gardiens de la Litanie. Nés sous la Demi-Lune, symbole d'équilibre entre lumière et ombre, ils arbitrent les disputes, jugent les transgressions et maintiennent l'ordre au sein des meutes et des septs. Leur parole fait loi, et leur sens de la justice est inébranlable.",
@@ -59,6 +65,7 @@
         {
             "id": "galliard",
             "name_fr": "Galliard",
+            "icon": "🌔",
             "description": "La Lune Gibbeuse. Le barde, l'historien, celui qui inspire par ses récits.",
             "quote": "Chaque cicatrice est un vers. Chaque victoire, un chant. Et moi, je suis la mémoire de notre peuple.",
             "long_description": "Les Galliards sont les bardes, les conteurs et les historiens de la Nation Garou. Nés sous la Lune Gibbeuse, presque pleine, ils brûlent d'une passion intense. Ils préservent l'histoire orale des Garous, inspirent les guerriers au combat par leurs chants et leurs hurlements, et tissent les légendes qui uniront les générations futures.",
@@ -68,6 +75,7 @@
         {
             "id": "ahroun",
             "name_fr": "Ahroun",
+            "icon": "🌕",
             "description": "La Pleine Lune. Le guerrier, le chef de guerre, la rage incarnée.",
             "quote": "La Pleine Lune se lève. Mon sang bouillonne. Ce soir, le Wyrm apprendra la peur.",
             "long_description": "Les Ahrouns sont les guerriers suprêmes de la Nation Garou. Nés sous la Pleine Lune, ils incarnent la Rage à son paroxysme. Ils sont les premiers au combat, les derniers à fuir, les chefs de guerre qui mènent les assauts contre les forces du Wyrm. Leur fureur est terrifiante, mais c'est cette même fureur qui protège Gaïa.",
@@ -79,6 +87,7 @@
         {
             "id": "black_furies",
             "name_fr": "Furies Noires",
+            "icon": "🏹",
             "description": "Tribu exclusivement féminine venue de Grèce, défenderesses des Wyld places.",
             "quote": "Nous sommes les filles d'Artémis, et la vengeance de Gaïa coule dans nos veines comme un fleuve de feu.",
             "long_description": "Les Furies Noires descendent des anciennes prêtresses guerrières de la Grèce antique. Tribu quasi-exclusivement féminine, elles vouent leur existence à protéger les lieux sauvages et les victimes d'injustice. Féroces et passionnées, elles combattent le Wyrm avec une rage née de millénaires d'oppression et de résistance.",
@@ -88,6 +97,7 @@
         {
             "id": "bone_gnawers",
             "name_fr": "Rongeurs d'Os",
+            "icon": "🐀",
             "description": "Les survivants urbains, vivant parmi les pauvres et les déshérités.",
             "quote": "Vous nous méprisez depuis vos trônes dorés. Mais qui survit quand tout s'effondre ? Nous. Toujours nous.",
             "long_description": "Les Rongeurs d'Os sont les parias de la Nation Garou, la tribu la plus méprisée et la plus résiliente. Ils vivent dans les marges de la civilisation — ruelles sombres, squats, décharges. Là où les autres tribus voient de la saleté, ils voient des ressources. Maîtres de la survie urbaine, ils connaissent chaque recoin de la ville.",
@@ -97,6 +107,7 @@
         {
             "id": "children_of_gaia",
             "name_fr": "Enfants de Gaïa",
+            "icon": "🌿",
             "description": "Pacifistes et unificateurs, ils cherchent à guérir le monde plutôt qu'à le venger.",
             "quote": "La Rage est notre malédiction. La compassion, notre seul espoir de rédemption.",
             "long_description": "Les Enfants de Gaïa sont les pacifistes et les diplomates de la Nation Garou. Ils croient que la guerre incessante entre les tribus ne fait que servir le Wyrm, et que seule l'unité peut sauver Gaïa. Souvent considérés comme faibles par les tribus guerrières, ils sont en réalité d'une détermination à toute épreuve.",
@@ -106,6 +117,7 @@
         {
             "id": "fianna",
             "name_fr": "Fianna",
+            "icon": "🦌",
             "description": "Guerriers celtiques, bardes et fêtards, liés aux faes.",
             "quote": "Chante avec moi, frère ! Car demain nous pourrions être morts, et ce soir la bière coule encore !",
             "long_description": "Les Fianna sont les bardes-guerriers de la Nation Garou, héritiers des traditions celtiques et gaéliques. Passionnés, exubérants et souvent excessifs, ils célèbrent la vie avec autant d'intensité qu'ils combattent le Wyrm. Leurs légendes parlent de liaisons avec les faes, et leurs fêtes sont aussi épiques que leurs batailles.",
@@ -115,6 +127,7 @@
         {
             "id": "get_of_fenris",
             "name_fr": "Rejetons de Fenris",
+            "icon": "⚔️",
             "description": "Guerriers féroces d'origine nordique, valorisant la force avant tout.",
             "quote": "La douleur est un professeur. La peur est un ennemi. Seuls les forts méritent de voir l'aube.",
             "long_description": "Les Rejetons de Fenris sont les guerriers les plus brutaux de la Nation Garou. D'héritage nordique et germanique, ils vénèrent la force, l'endurance et le courage au combat. Pour eux, chaque jour est un test de survie, chaque combat une occasion de prouver sa valeur. Les faibles sont méprisés, les forts sont respectés.",
@@ -124,6 +137,7 @@
         {
             "id": "glass_walkers",
             "name_fr": "Arpenteurs de Verre",
+            "icon": "💻",
             "description": "Les Garous technologiques, maîtres de la ville et de la machine.",
             "quote": "Les esprits vivent aussi dans les circuits, les réseaux et le code. L'Umbra a changé. Nous avec.",
             "long_description": "Les Arpenteurs de Verre sont les Garous de la modernité. Là où les autres tribus fuient la civilisation, eux l'embrassent. Ils voient dans la technologie un outil pour combattre le Wyrm, et dans les villes un territoire à protéger. Hackers, entrepreneurs et ingénieurs, ils parlent aux esprits des machines aussi naturellement que les Theurges parlent aux esprits de la forêt.",
@@ -133,6 +147,7 @@
         {
             "id": "red_talons",
             "name_fr": "Griffes Rouges",
+            "icon": "🩸",
             "description": "Tribu composée uniquement de Lupus, haïssant l'humanité pour sa destruction de la nature.",
             "quote": "L'humanité est un cancer. La seule cure est l'éradication.",
             "long_description": "Les Griffes Rouges sont la tribu la plus radicale de la Nation Garou. Composée exclusivement de Lupus, ils considèrent l'humanité comme la plus grande menace pour Gaïa — pire encore que le Wyrm, car c'est l'humanité qui l'a nourri. Ils rêvent d'un monde sans humains, un retour à l'état sauvage primordial.",
@@ -142,6 +157,7 @@
         {
             "id": "shadow_lords",
             "name_fr": "Seigneurs de l'Ombre",
+            "icon": "🌩️",
             "description": "Manipulateurs et ambitieux, ils croient pouvoir diriger la Nation Garou mieux que quiconque.",
             "quote": "Le pouvoir ne se demande pas. Il se prend. Et ceux qui le méritent sont ceux qui osent.",
             "long_description": "Les Seigneurs de l'Ombre sont les politiciens et les stratèges de la Nation Garou. Originaires d'Europe de l'Est, ils opèrent dans l'ombre, tissant des réseaux d'influence et d'espionnage. Leur ambition est sans limites : ils croient sincèrement que la Nation Garou ne survivra que sous leur direction. La fin justifie toujours les moyens.",
@@ -151,6 +167,7 @@
         {
             "id": "silent_striders",
             "name_fr": "Marcheurs Silencieux",
+            "icon": "🦉",
             "description": "Voyageurs mystérieux d'origine égyptienne, messagers des morts.",
             "quote": "La route est ma demeure. Le vent porte les voix de ceux qui ne sont plus. Je marche, et j'écoute.",
             "long_description": "Les Marcheurs Silencieux sont les nomades éternels de la Nation Garou. Chassés de leur terre natale d'Égypte par une malédiction ancienne, ils errent sans fin à travers le monde, portant des messages entre les septs et les tribus. Ils ont un lien troublant avec les morts et les fantômes, et leurs voyages les mènent autant dans le monde physique que dans l'Umbra.",
@@ -160,6 +177,7 @@
         {
             "id": "silver_fangs",
             "name_fr": "Crocs d'Argent",
+            "icon": "👑",
             "description": "L'aristocratie Garou, les souverains traditionnels, souvent en proie à la folie.",
             "quote": "Nous avons porté la couronne depuis l'aube des temps. Le poids de cette couronne... brise parfois l'esprit.",
             "long_description": "Les Crocs d'Argent sont la noblesse de la Nation Garou, les rois et les reines auto-proclamés depuis des millénaires. Leur lignage est le plus pur, leurs rites les plus anciens, leur autorité la plus respectée. Mais des siècles de consanguinité ont laissé des traces : la folie rôde dans leurs rangs, et leur empire s'effrite lentement.",
@@ -169,6 +187,7 @@
         {
             "id": "stargazers",
             "name_fr": "Astrolâtres",
+            "icon": "🌌",
             "description": "Mystiques et philosophes orientaux, cherchant l'équilibre intérieur.",
             "quote": "La Rage est un océan. La sagesse, le navire. Sans l'un, l'autre est inutile.",
             "long_description": "Les Astrolâtres sont les philosophes et les mystiques de la Nation Garou. D'origine asiatique, principalement tibétaine et indienne, ils cherchent la maîtrise de soi et l'harmonie intérieure. Là où les autres tribus hurlent à la lune, eux méditent sous les étoiles. Leur quête n'est pas de vaincre le Wyrm par la force, mais de transcender la Rage.",
@@ -178,6 +197,7 @@
         {
             "id": "uktena",
             "name_fr": "Uktena",
+            "icon": "🐍",
             "description": "Gardiens de secrets mystiques et d'esprits liés, d'origine amérindienne.",
             "quote": "Nous gardons les portes que les autres ont oubliées. Certaines choses doivent rester enchaînées.",
             "long_description": "Les Uktena sont les gardiens des secrets les plus sombres de la Nation Garou. D'origine amérindienne, ils se sont spécialisés dans la traque et le confinement des esprits maléfiques et des artefacts dangereux. Ils flirtent dangereusement avec les forces qu'ils combattent, étudiant le Wyrm pour mieux le combattre, au risque d'être corrompus.",
@@ -187,6 +207,7 @@
         {
             "id": "wendigo",
             "name_fr": "Wendigo",
+            "icon": "❄️",
             "description": "Guerriers du grand nord, féroces protecteurs de leurs terres glacées.",
             "quote": "Le vent du nord porte notre colère. Les envahisseurs apprendront que cette terre a des dents.",
             "long_description": "Les Wendigo sont les guerriers du Grand Nord, les plus féroces protecteurs des terres gelées d'Amérique du Nord. D'origine amérindienne comme les Uktena, ils n'ont jamais pardonné aux tribus européennes d'avoir envahi leurs terres. Leur rage est froide comme le blizzard, implacable comme l'hiver. Ils combattent avec la fureur de la tempête arctique.",
