@@ -539,7 +539,7 @@ const CharacterSheet = ({ initialTab }) => {
                         </div>
                     ) : (
                         <div className="space-y-6">
-                            <StarterPackDisplay character={character} />
+                            <StarterPackDisplay character={{ ...character, ...sheetData }} />
 
                             {formError && (
                                 <div className="mb-6 p-4 bg-red-900/30 border border-red-800 rounded flex items-center gap-3 text-red-200 animate-in fade-in">
