@@ -21,7 +21,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
     mental_desc_pre: initialData?.mental_desc_pre || '',
     mental_desc_post: initialData?.mental_desc_post || '',
     history: initialData?.history || '',
-    image_url: initialData?.image_url || ''
+    image_url: initialData?.image_url || '',
+    starter_pack_answers: initialData?.starter_pack_answers || null
   });
   const [uploadingImage, setUploadingImage] = useState(false);
 

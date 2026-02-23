@@ -79,7 +79,7 @@ const CharacterSheet = ({ initialTab }) => {
     const [isSaving, setIsSaving] = useState(false);
     const [formError, setFormError] = useState(null);
     const [sheetData, setSheetData] = useState({
-        name: '', age: '', sex: '', physical_desc: '', mental_desc_pre: '', first_change: '', story: '', image_url: ''
+        name: '', age: '', sex: '', physical_desc: '', mental_desc_pre: '', first_change: '', story: '', image_url: '', starter_pack_answers: null
     });
     const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -170,7 +170,8 @@ const CharacterSheet = ({ initialTab }) => {
                         mental_desc_pre: c.mental_desc_pre || '',
                         first_change: c.first_change || '',
                         story: c.story || '',
-                        image_url: c.image_url || ''
+                        image_url: c.image_url || '',
+                        starter_pack_answers: c.starter_pack_answers || null
                     });
                     const req = ['name', 'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'story'];
                     let complete = true;
