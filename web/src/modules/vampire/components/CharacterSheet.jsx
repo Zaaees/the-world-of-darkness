@@ -223,8 +223,6 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
           </div>
         </div>
 
-        <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
-
         {/* Histoire - Large */}
         <SectionView title="Histoire" content={sheetData.history} />
       </div>
@@ -249,6 +247,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
       )}
 
       <div className="space-y-6">
+        <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
+
         {/* Image Upload */}
         <div className="bg-stone-900/50 border border-stone-800 rounded p-6 text-center">
           {sheetData.image_url ? (

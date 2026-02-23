@@ -21,7 +21,7 @@ export default function StarterPackStep({ formData, answers, onAnswerChange }) {
                 Le commencement de votre Légende
             </h3>
             <p className="text-gray-400 mb-4">
-                Prenez quelques instants pour définir qui vous êtes vraiment. Vos réponses nous aideront à façonner votre histoire et seront inscrites sur votre fiche. (Minimum 10 caractères par réponse).
+                Prenez quelques instants pour définir qui vous êtes vraiment. Vos réponses nous aideront à façonner votre histoire et seront inscrites sur votre fiche.
             </p>
 
             <div className="bg-gray-800/50 p-6 rounded border border-gray-700">

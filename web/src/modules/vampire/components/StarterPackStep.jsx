@@ -19,7 +19,7 @@ export default function StarterPackStep({ selectedClan, answers, onAnswerChange 
                 L'Éveil de votre Sang
             </h3>
             <p className="text-stone-400 mb-4 text-sm">
-                Avant de sceller définitivement votre destin au sein de ce clan, prenez le temps de définir votre histoire. Ces réponses forgeront votre identité et seront conservées sur votre fiche de personnage. (Minimum 10 caractères par réponse).
+                Avant de sceller définitivement votre destin au sein de ce clan, prenez le temps de définir votre histoire. Ces réponses forgeront votre identité et seront conservées sur votre fiche de personnage.
             </p>
 
             <div className="bg-stone-950/80 p-5 rounded border border-stone-800">

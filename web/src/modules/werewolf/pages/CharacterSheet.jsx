@@ -534,12 +534,12 @@ const CharacterSheet = ({ initialTab }) => {
                                 <SectionView title="Le Premier Changement" content={character.first_change} highlight />
                             </div>
 
-                            <StarterPackDisplay character={character} />
-
                             <SectionView title="Histoire" content={character.story} />
                         </div>
                     ) : (
                         <div className="space-y-6">
+                            <StarterPackDisplay character={character} />
+
                             {formError && (
                                 <div className="mb-6 p-4 bg-red-900/30 border border-red-800 rounded flex items-center gap-3 text-red-200 animate-in fade-in">
                                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -606,7 +606,7 @@ const CharacterSheet = ({ initialTab }) => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium text-stone-400">Histoire complète (Supporte le Markdown)</label>
+                                <label className="block text-sm font-medium text-stone-400">Histoire complète</label>
                                 <textarea name="story" value={sheetData.story} onChange={handleChange} rows={12} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none" />
                             </div>
 
