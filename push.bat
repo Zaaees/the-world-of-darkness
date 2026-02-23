@@ -48,6 +48,13 @@ echo.
 echo [3/4] Commit en cours...
 git commit -m "!msg!"
 
+if %ERRORLEVEL% neq 0 (
+    echo.
+    echo [ERREUR] Le commit a echoue. Verifiez le message ou les permissions.
+    pause
+    exit /b
+)
+
 echo.
 echo [4/4] Push vers GitHub (origin main)...
 git push origin main

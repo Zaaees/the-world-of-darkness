@@ -48,7 +48,7 @@ ${truncatedDiff}`;
             const message = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
             if (message) {
                 // Nettoyer les sauts de ligne ou guillemets éventuels
-                const cleanMsg = message.replace(/^["'`]|["'`]$/g, '').replace(/\n/g, ' - ').trim();
+                const cleanMsg = message.replace(/^["'`]|["'`]$/g, '').replace(/\n/g, ' - ').replace(/"/g, "'").trim();
                 fs.writeFileSync('.commit_msg.tmp', cleanMsg);
             } else {
                 console.error("Erreur avec l'API Gemini:", JSON.stringify(data));
