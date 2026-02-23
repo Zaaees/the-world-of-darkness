@@ -2,207 +2,207 @@
   "werewolf": {
     "breeds": {
       "homid": [
-        "Décrivez la vie que vous meniez avant le Premier Changement. Quels liens, quelles habitudes, quelles certitudes définissaient votre existence humaine ?",
-        "Le Premier Changement a révélé une vérité que votre vie humaine vous avait cachée. Comment s'est passée cette transition entre le monde que vous connaissiez et celui que vous ne pouvez plus ignorer ?",
-        "En tant qu'Homid, vous gardez un pied dans le monde des humains. Quelle relation entretenez-vous aujourd'hui avec votre ancienne vie mortelle ?"
+        "Avant votre Premier Changement (le moment où votre nature de Garou s'est éveillée), vous étiez un humain ordinaire. Quel événement précis de votre vie humaine a, sans que vous le sachiez, planté les graines de ce que vous alliez devenir ?",
+        "Le Premier Changement est souvent un moment de chaos et de violence. Racontez les circonstances de cette nuit : où étiez-vous, qui était présent, et qu'est-il arrivé physiquement à ceux qui se trouvaient là ?",
+        "Après avoir découvert votre vraie nature, votre ancienne vie ne pouvait plus continuer. Qu'avez-vous dû abandonner brutalement — une personne, un lieu, une carrière — et comment s'est déroulée la scène de cette rupture ?"
       ],
       "metis": [
-        "La Litanie interdit l'union entre Garous, et votre simple existence en est la preuve vivante. Quelle difformité portez-vous, et comment a-t-elle façonné votre rapport aux autres Garous ?",
-        "Vous êtes né en Crinos, élevé au sein du sept, sans jamais connaître le monde humain autrement qu'à travers les récits des autres. Comment décririez-vous votre enfance parmi les Garous ?",
-        "Les regards des autres pèsent lourd sur un Métis. Comment vivez-vous avec le stigmate de votre naissance au sein de la Nation Garou ?"
+        "La Litanie (la loi sacrée) interdit l'union entre deux Garous. Votre existence prouve que vos parents l'ont brisée. Comment le Sept (la communauté) a-t-il réagi le jour de votre naissance, et quel Ancien a accepté de vous élever ?",
+        "Tous les Métis naissent avec une difformité. Racontez un événement précis de votre enfance au Cairn (le sanctuaire) où cette difformité vous a mis en danger ou a provoqué un grave incident avec les autres louveteaux.",
+        "Vous n'avez connu que la vie de meute, de la crèche aux camps d'entraînement. Quel a été l'acte de bravoure inattendu qui vous a enfin valu le respect public (même contraint) d'un chef de Sept ?"
       ],
       "lupus": [
-        "Avant le Premier Changement, vous étiez un loup parmi les vôtres. Quel souvenir gardez-vous de cette vie sauvage, et qu'est-ce qui vous manque le plus de cette simplicité ?",
-        "L'intelligence humaine s'est éveillée en vous comme un orage. Comment percevez-vous le monde des Hommes — leur langage, leurs villes, leurs rituels incompréhensibles ?",
-        "Votre instinct de loup et votre conscience de Garou cohabitent en permanence. Lequel guide vos décisions quand les deux s'opposent ?"
+        "Avant de connaître votre nature de Garou, vous étiez un loup parmi les loups. Racontez une chasse ou un conflit animal où votre instinct a été testé au-delà de ses limites naturelles.",
+        "Le Premier Changement a éveillé en vous l'intelligence humaine, un orage de pensées. Quel événement a déclenché cette première transformation, et comment votre meute d'origine a-t-elle réagi à votre nouvelle forme ?",
+        "Le monde des Hommes (leurs villes, leurs outils) est souvent incompréhensible pour un Lupus. Racontez votre toute première confrontation douloureuse avec un objet ou une règle de la société humaine."
       ]
     },
     "auspices": {
       "ragabash": [
-        "La Nouvelle Lune vous a désigné comme le questionneur, celui qui défie les traditions qui ne tiennent plus debout. Quelle est votre manière de remettre en cause ce qui mérite de l'être ?",
-        "Les Ragabash sont souvent perçus comme des bouffons ou des insolents. Comment faites-vous comprendre à votre meute que vos provocations servent Gaïa autant que les crocs d'un Ahroun ?",
-        "Questionner le pouvoir est votre devoir sacré. Mais existe-t-il une règle, une tradition ou une autorité que même vous n'oseriez pas défier ?"
+        "La Nouvelle Lune a fait de vous le Ragabash (le questionneur, le trickster). Quel a été votre premier acte de rébellion marquant où vous avez défié une autorité du Sept, et quelles en ont été les conséquences ?",
+        "Les Ragabash utilisent la ruse là où les autres utilisent les muscles. Racontez une mission où une de vos supercheries a sauvé la mise de votre meute face à une menace écrasante.",
+        "Même le bouffon a une limite à ne pas franchir. Décrivez la fois où votre insolence vous a mis dans un danger de mort dont vous avez eu grand peine à vous extraire."
       ],
       "theurge": [
-        "Le Croissant de Lune a fait de vous le pont entre le monde de chair et l'Umbra. Comment décririez-vous votre relation avec le monde des esprits ?",
-        "Les esprits ne pensent pas comme les vivants — leur logique est ancienne, étrange, parfois cruelle. Quelle leçon difficile avez-vous apprise en traitant avec eux ?",
-        "Votre meute compte sur vous pour interpréter les signes et négocier avec l'invisible. Comment portez-vous cette responsabilité ?"
+        "Le Theurge (le chaman) est le lien avec les esprits. Racontez la demande la plus dangereuse ou immorale qu'un esprit de l'Umbra vous ait faite en échange d'une aide vitale lors d'un combat.",
+        "L'Umbra (le monde spirituel) est magnifique mais féroce. Quel a été votre premier voyage marquant de l'autre côté du Voile, et quelle créature y avez-vous rencontrée qui vous hante encore ?",
+        "Vos présages guident la meute. Décrivez une erreur d'interprétation d'un signe spirituel qui a conduit vos frères et sœurs droit dans une embuscade mortelle."
       ],
       "philodox": [
-        "La Demi-Lune vous a confié le rôle de juge et de gardien de la Litanie. Comment interprétez-vous ces lois anciennes dans un monde qui a changé depuis leur écriture ?",
-        "Juger ses propres frères et sœurs de combat est un fardeau que peu envient. Comment trouvez-vous l'équilibre entre la justice et la loyauté envers votre meute ?",
-        "La vérité et le mensonge vous apparaissent plus clairement qu'aux autres. Cette lucidité est-elle un don ou un poids ?"
+        "Le Philodox (le juge) est le gardien de la Litanie. Racontez le premier conflit majeur au sein de votre meute que vous avez dû arbitrer, et la sanction sévère que vous avez appliquée.",
+        "La Litanie est stricte, mais le monde est gris. Décrivez une situation où vous avez délibérément fermé les yeux sur une violation de la Litanie pour sauver des vies, et qui d'autre est au courant.",
+        "Vous êtes la voix de la raison. Racontez le moment désastreux où vous avez échoué à calmer la Rage meurtrière d'un compagnon, et comment vous avez dû gérer les retombées sanglantes."
       ],
       "galliard": [
-        "La Lune Gibbeuse a fait de vous le gardien des légendes, celui dont la voix porte le souvenir des héros et des défaites. Quelle histoire vous a le plus marqué, et pourquoi la portez-vous en vous ?",
-        "Chanter la gloire ou pleurer les morts — votre art est le cœur émotionnel de la meute. Comment exprimez-vous ce don : par le chant, le conte, la musique, ou une autre forme ?",
-        "Un Galliard qui n'inspire plus n'est qu'une voix dans le vent. Qu'est-ce qui nourrit votre flamme créatrice, même dans les heures les plus sombres de la guerre contre le Wyrm ?"
+        "Le Galliard (le barde) garde la mémoire. Racontez l'histoire de l'acte héroïque d'un Garou oublié de tous, que vous avez été le seul à observer et que vous tentez de faire entrer dans la légende.",
+        "Un Galliard chante aussi la tragédie. Quelle a été la bataille la plus coûteuse de votre Sept pour laquelle vous avez dû composer le requiem, et qui avez-vous porté en terre ce jour-là ?",
+        "Vos mots déclenchent la Rage. Lors d'un affrontement presque perdu, quel chant ou quel acte de bravoure public avez-vous accompli pour relancer vos frères d'armes vers une victoire désespérée ?"
       ],
       "ahroun": [
-        "La Pleine Lune a fait de vous un guerrier-né. La Rage brûle en vous plus fort que chez les autres. Comment la canalisez-vous — et que se passe-t-il quand vous échouez ?",
-        "On attend de vous que vous soyez le premier dans la mêlée et le dernier à battre en retraite. Comment concevez-vous votre rôle de protecteur au sein de votre meute ?",
-        "La guerre contre le Wyrm consume des vies. Qu'est-ce qui vous donne la force de continuer à vous battre, nuit après nuit ?"
+        "L'Ahroun (le guerrier) est le fer de lance de Gaïa. Racontez votre premier combat sanglant contre une créature du Wyrm qui vous a véritablement fait douter de votre capacité à survivre.",
+        "La Rage bouillonne en vous, prête à exploser. Décrivez une scène précise où cette perte de contrôle a fait de vous un danger pour des innocents ou pour votre propre meute.",
+        "On attend de vous le sacrifice ultime pour protéger les autres. Racontez comment vous avez écopé de votre pire cicatrice — la blessure dont vous êtes le plus fier — en sauvant la vie d'un allié."
       ]
     },
     "tribes": {
       "black_furies": [
-        "Les Furies Noires sont les gardiennes des lieux sauvages et les défenderesses des opprimés, guidées par Pégase. Quelle cause ou quel lieu sacré vous anime au plus profond de votre être ?",
-        "Votre tribu porte en elle une colère ancienne face aux injustices du monde. Comment cette colère se manifeste-t-elle dans votre quête — est-elle un moteur ou devez-vous parfois la contenir ?",
-        "Les Furies Noires possèdent des traditions et des mystères qui leur sont propres. Que représente pour vous cette sororité et la force que vous y puisez ?"
+        "Les Furies Noires protègent les femmes et les lieux sauvages sacrés. Racontez la nuit où vous avez violemment arraché une mortelle aux griffes de ses oppresseurs. Que lui est-il arrivé ensuite ?",
+        "Votre tribu voue une haine sans merci aux agents de la corruption. Quel site naturel n'avez-vous pas réussi à sauver d'une destruction par des machines ou des esprits du Wyrm, et comment vous êtes-vous vengé ?",
+        "La sororité des Furies exige une loyauté totale. Racontez la rude épreuve physique ou spirituelle qu'une de vos Mères de Sept vous a imposée pour prouver votre dévouement absolu au groupe."
       ],
       "bone_gnawers": [
-        "Les Rongeurs d'Os survivent là où personne d'autre ne le pourrait — dans les ruelles, les squats, les marges de la civilisation humaine. Comment êtes-vous devenu un survivant, et où Rat vous a-t-il mené ?",
-        "Les autres tribus vous regardent de haut, vous méprisent ou vous ignorent. Que pensez-vous de la place que la Nation Garou accorde aux vôtres ?",
-        "Malgré le dédain des autres, votre tribu connaît les entrailles des villes mieux que quiconque. Comment utilisez-vous cette connaissance du monde d'en bas pour servir Gaïa ?"
+        "Les Rongeurs d'Os survivent dans les bas-fonds urbains. Quel acte dégradant, illégal ou extrême avez-vous dû commettre dans la rue pour survivre à votre premier hiver seul avant de trouver le Sept ?",
+        "Votre meute excelle dans la guerre d'usure et les embuscades crasseuses. Racontez un combat dans un égout ou une ruelle où l'utilisation du terrain urbain vous a permis de terrasser un ennemi supérieur en force.",
+        "Les gangs humains et la police sont vos ennemis quotidiens. Racontez votre dernière confrontation directe face à une faction mortelle qui tentait de contrôler votre territoire."
       ],
       "children_of_gaia": [
-        "Les Enfants de Gaïa croient que l'unité entre les tribus est la seule voie vers la victoire. Comment défendez-vous cette conviction face à des frères et sœurs qui ne jurent que par la violence ?",
-        "Licorne accueille presque tout le monde sous sa bannière. Qu'est-ce qui vous a mené vers les Enfants de Gaïa plutôt que vers une autre tribu ?",
-        "Être pacifiste dans une Nation bâtie sur la Rage et la guerre — est-ce un acte de courage ou de foi ? Comment vivez-vous cette tension ?"
+        "Vous prônez la diplomatie et l'unité dans une société de tueurs nés. Racontez la fois où vous vous êtes littéralement interposé physiquement entre deux Garous prêts à s'entretuer.",
+        "Votre miséricorde est souvent perçue comme de la faiblesse. Racontez comment vous avez sauvé et caché un individu (comme un orphelin ou même un ennemi fuyard) que le reste du Sept voulait exécuter.",
+        "La paix demande parfois de prendre des coups sans répliquer. Quel Garou d'une tribu violente vous a ouvertement humilié publiquement, et comment avez-vous répondu pour prouver votre force morale ?"
       ],
       "fianna": [
-        "Les Fianna sont guerriers et bardes, nourris de traditions celtiques, de fêtes tumultueuses et de liens mystérieux avec les faes. Quel aspect de l'héritage Fianna résonne le plus puissamment en vous ?",
-        "Cerf guide vos pas entre le monde des vivants et les lisières enchantées. Quelle est votre relation avec les mystères et les récits anciens de votre tribu ?",
-        "Les Fianna rient aussi fort qu'ils se battent. Comment trouvez-vous la joie dans un monde rongé par le Wyrm ?"
+        "Liés au monde féérique, vos fêtes sont aussi dangereuses que vos guerres. Racontez le dernier rassemblement festif qui a dégénéré en foire d'empoigne ou en duel mortel à cause d'un ego blessé.",
+        "L'Arcadie de l'Umbra recèle de merveilles et d'illusions. Racontez votre première rencontre avec une créature des songes (un Fae ou esprit sylvestre) et le dangereux pacte que vous avez dû forger avec elle.",
+        "Vous êtes connus pour rire au nez du désespoir. Quelle provocation éclatante, sous forme de chanson ou de moquerie, avez-vous lancée au visage d'un monstre du Wyrm avant de l'attaquer ?"
       ],
       "get_of_fenris": [
-        "Les Rejetons de Fenris mesurent la valeur d'un Garou à l'aune de sa force et de son courage. Quelle épreuve avez-vous traversée qui définit votre valeur ?",
-        "Fenris enseigne que la faiblesse est une maladie à purger. Cette vision absolue de la force vous a-t-elle déjà mis en conflit avec d'autres Garous ou avec vos propres limites ?",
-        "L'honneur nordique coule dans les veines de votre tribu. Que signifie l'honneur pour vous, au-delà de la bataille ?"
+        "L'échec est intolérable pour votre tribu nordique. Racontez le douloureux premier combat rituel du Premier Sang où vos instructeurs vous ont physiquement brisé pour tester votre résistance.",
+        "Le Fenris méprise ce qu'il perçoit comme de la faiblesse. Lors d'un assaut majeur, quel membre de votre tribu ou meute avez-vous refusé d'aider parce qu'il s'était comporté comme un lâche ?",
+        "L'honneur militaire prévaut sur tout. Racontez le moment inattendu où un adversaire que vous jugiez inférieur a gagné votre total respect en accomplissant un exploit martial sidérant sous vos yeux."
       ],
       "glass_walkers": [
-        "Les Arpenteurs de Verre embrassent la technologie et la ville là où la plupart des Garous ne voient que corruption du Tisserand. Comment justifiez-vous cette voie auprès de ceux qui vous considèrent comme des traîtres à la nature ?",
-        "Cafard, votre totem, prospère partout et s'adapte à tout. Comment ce principe d'adaptation guide-t-il votre manière de servir Gaïa dans un monde de béton et de fibre optique ?",
-        "Les esprits de la Toile et des machines sont vos alliés. Comment percevez-vous la frontière entre le progrès qui sert Gaïa et celui qui nourrit le Tisserand ?"
+        "Vous utilisez la technologie du Tisserand pour combattre le mal urbain. Racontez la nuit où vous avez piraté ou infiltré les bureaux locaux de Pentex (la multinationale corrompue) et ce que vous y avez volé.",
+        "La frontière entre l'allégeance à Gaïa et la dépendance à la Machine est mince. Racontez un piratage dans l'Umbra cybernétique qui a mal tourné et où un esprit-machine a failli consumer votre esprit.",
+        "La guerre économique et de l'ombre est votre doctrine. Comment avez-vous ruiné la carrière, détruit les finances et isolé publiquement un serviteur mortel du Wyrm sans jamais sortir vos griffes ?"
       ],
       "red_talons": [
-        "Les Griffes Rouges voient dans l'humanité le cancer de Gaïa. Quelle est votre vision de la relation entre les Garous et les humains — et jusqu'où êtes-vous prêt à aller pour défendre les terres sauvages ?",
-        "Votre tribu n'accepte que les Lupus parmi ses rangs. Que pensez-vous des Garous nés parmi les humains, ceux qui portent l'odeur de la ville ?",
-        "Griffin, votre totem, se dresse contre l'avancée du Tisserand. Quel territoire ou quel espace sauvage brûlez-vous de protéger ?"
+        "Composée exclusivement de loups (Lupus), votre tribu déteste cordialement l'humanité. Racontez la première fois où vous avez mené ou participé au massacre d'un campement de bûcherons ou de braconniers humains.",
+        "La vue et l'odeur des villes bétonnées provoque un grand malaise chez vous. Racontez la mission désespérée où vous avez dû vous enfoncer au cœur d'une zone industrielle humaine qui vous étouffait.",
+        "Même les Garous nés humains suscitent votre méfiance. Racontez la dispute la plus violente que vous ayez eue avec un Garou Homidé qui n'arrivait pas à renier son ancienne humanité."
       ],
       "shadow_lords": [
-        "Grand-Père Tonnerre exige que les faibles cèdent la place aux forts. Que signifie la force pour vous — et la faiblesse, telle que votre Tribu la conçoit, vous a-t-elle déjà effleuré ?",
-        "Les Seigneurs de l'Ombre servent Gaïa par l'ambition et la stratégie, là où d'autres préfèrent les crocs nus. Comment concevez-vous votre place dans la hiérarchie de votre meute et de votre sept ?",
-        "Votre tribu porte la réputation d'être manipulatrice et sans scrupules aux yeux de la Nation Garou. Que pensez-vous de ce regard que les autres tribus posent sur vous ?"
+        "La manipulation et le commandement autoritaire sont votre héritage. Racontez le premier complot où vous avez œuvré dans l'ombre pour faire destituer un rival (d'une autre tribu) de sa position de pouvoir.",
+        "Grand-Père Tonnerre n'aime pas la faiblesse, même chez ses serviteurs. Quel châtiment exemplaire mais sans appel avez-vous infligé à l'un de vos subordonnés pour assurer la loyauté des autres ?",
+        "Jouer avec les ténèbres finit par tacher les mains. Racontez une alliance à haut risque avec une force corrompue (ou un pion du Wyrm) qui s'est finalement retournée contre vous de manière sanglante."
       ],
       "silent_striders": [
-        "Les Marcheurs Silencieux sont maudits à errer sans fin, chassés de leur terre natale par une force ancienne et terrible. Comment vivez-vous cette errance — est-elle un fardeau ou avez-vous trouvé un foyer dans le mouvement ?",
-        "Hibou guide vos pas silencieux entre les mondes. Quelle est votre relation avec les morts et les fantômes qui semblent attirés par votre tribu ?",
-        "Vous portez les nouvelles d'un bout à l'autre de la Nation Garou — et ces nouvelles sont souvent sombres. Comment portez-vous ce rôle de messager ?"
+        "Maudits à errer loin de vos terres ancestrales égyptiennes, vous êtes le courrier de la Nation. Racontez le voyage le plus périlleux où vous avez dû traverser une zone contrôlée par l'ennemi pour livrer un message urgent.",
+        "La malédiction lie votre peuple aux fantômes et à la mort. Racontez la nuit où l'esprit tourmenté d'un Garou assassiné est venu réclamer que vous accomplissiez sa vengeance mortelle.",
+        "Vous croisez plus d'horreurs solitaires que n'importe qui. Racontez la vision terrifiante d'une manifestation du Wyrm dont vous avez réchappé de justesse lors d'une nuit isolée sur l'autoroute."
       ],
       "silver_fangs": [
-        "Les Crocs d'Argent portent le poids d'une lignée royale et la responsabilité de mener la Nation Garou. Comment vivez-vous cet héritage — comme un honneur, un devoir, ou une chaîne ?",
-        "Faucon a béni votre sang noble, mais la consanguinité de votre lignée laisse des traces. Quelles ombres ou quelles fêlures se cachent derrière la couronne que vous portez ?",
-        "Les autres tribus vous respectent, vous craignent, ou vous contestent. Comment maintenez-vous votre autorité dans une Nation qui remet de plus en plus en question le droit de naissance ?"
+        "Bien qu'étant l'élite noble, la consanguinité de votre lignée cache de profonds secrets. Quelle humiliante démonstration personnelle votre famille vous a-t-elle réclamée pour prouver publiquement la pureté de votre sang ?",
+        "Gouverner implique de prendre les blâmes pour tous. Racontez le moment cuisant où, après une défaite militaire de votre faction, vous avez dû faire face à la fronde colérique des tribus dites 'inférieures'.",
+        "La folie rôde derrière les masques royaux. Comment avez-vous découvert, puis dû couvrir de vos mains, le scandale impliquant le comportement grotesque et monstrueux d'un héros vénéré de votre arbre généalogique ?"
       ],
       "stargazers": [
-        "Les Astrolâtres cherchent l'équilibre intérieur par la méditation et la maîtrise de soi, là où d'autres se laissent consumer par la Rage. Quel chemin philosophique ou spirituel suivez-vous pour dompter la Bête en vous ?",
-        "Chimère guide vos méditations entre rêve et réalité. Comment votre quête de sagesse intérieure sert-elle la cause de Gaïa dans un monde au bord de l'Apocalypse ?",
-        "Votre tribu s'est éloignée de la Nation Garou pour chercher sa propre voie. Comment vivez-vous cette distance — comme un exil ou comme une libération ?"
+        "La recherche de l'équilibre intérieur par le Kalindo (art martial) exige une discipline de fer. Racontez l'intense retraite spirituelle lointaine où un chuchotement hostile de l'Umbra a bien failli briser votre équilibre mental.",
+        "Vous ne pouvez pas toujours fuir la Bête féroce qui est en vous. Racontez une confrontation avec un ennemi vicieux où toute votre sagesse s'est effondrée et où vous avez tué avec une violence bestiale insensée.",
+        "Votre tribu s'est largement éloignée des affaires de la Nation Garou. Quel événement dramatique ou vision tragique vous a poussé, presque à contrecœur, à rejoindre une meute très loin de votre cloître méditatif ?"
       ],
       "uktena": [
-        "Les Uktena gardent les secrets les plus anciens et les plus dangereux du monde des esprits. Qu'est-ce qui vous pousse à étudier les mystères que les autres tribus préfèrent ignorer ou craindre ?",
-        "Votre totem, le grand serpent Uktena, veille sur des savoirs interdits. Comment faites-vous la différence entre la connaissance qui sert Gaïa et celle qui pourrait vous corrompre ?",
-        "Votre tribu accueille ceux que les autres rejettent et rassemble des traditions venues de nombreux peuples. Comment cette diversité façonne-t-elle votre identité de Garou ?"
+        "Votre faim de mysticisme frôle les sciences interdites. Racontez l'infiltration effroyable d'une ruine obscure pour y dérober un fétiche corrompu, et comment celui-ci murmure parfois à votre esprit.",
+        "Explorer les ténèbres sans s'y corrompre est un équilibre mortel. Racontez le rituel Umbral complexe ayant mal tourné, vous exposant brièvement à l'emprise étouffante d'un Puits de Magie sombre (un Danseur de la Spirale Noire ou un Fléau).",
+        "L'intégration d'orphelins d'autres peuples crée des tensions. Racontez le dangereux test de loyauté que les Anciens de la tribu ont imposé au mystique paria (ou à l'humain sorcier) que vous aviez ramené au Cairn sous votre propre garantie verbale."
       ],
       "wendigo": [
-        "Les Wendigo sont les gardiens farouches des terres du Grand Nord, héritiers de traditions anciennes que les tribus européennes ont tenté d'effacer. Que représentent ces traditions pour vous ?",
-        "L'esprit Wendigo, le cannibale de l'hiver, est votre totem — une force terrible et sacrée. Comment honorez-vous ce pacte glacial ?",
-        "Votre tribu porte une rancœur profonde envers les Garous venus d'Europe, responsables de tant de destruction. Quelle est votre position face à ces tribus avec lesquelles vous devez pourtant coopérer contre le Wyrm ?"
+        "Soutenus par l'effroyable esprit cannibale de l'hiver, vous menez une guerre froide contre les envahisseurs de vos Terres. Racontez l'embuscade nocturne acharnée et décisive dans la neige où vous avez massacré une équipe lourdement armée venue détruire votre forêt sacrée.",
+        "La rancœur contre les Garous européens envahisseurs (Fianna, Crocs d'Argent...) reste brûlante. Lors d'un rassemblement politique ou d'un conseil commun récent, comment vous êtes-vous violemment heurté physiquement à un de leurs émissaires ?",
+        "Purger la corruption exige la cruauté de la glace et du sang. Racontez l'acte de terreur punitive, un châtiment macabre laissé délibérément en trace d'avertissement féroce, infligé aux employés d'une entreprise destructrice de la nature (liée au Wyrm) pour marquer sans la moindre pitié le strict interdit d'entrée de votre frontière."
       ]
     }
   },
   "vampire": {
     "clans": {
       "brujah": [
-        "Les Brujah portent en eux une passion ardente que l'Étreinte a transformée en colère éternelle. Quelle cause, quelle conviction ou quelle injustice fait bouillir votre Sang ?",
-        "Votre clan a engendré des philosophes et des destructeurs en parts égales. Comment votre Sire vous a-t-il choisi — et qu'a-t-il vu en vous qui méritait la Damnation ?",
-        "La Bête Brujah brûle plus proche de la surface que chez les autres Damnés. Comment vivez-vous avec cette rage qui menace d'exploser à chaque contrariété ?"
+        "L'Étreinte d'un Brujah survient souvent lors d'un acte de rébellion enflammée. Quel événement violemment libérateur (émeute, affrontement idéologique, vengeance sanglante) dans votre vie mortelle a incité votre Sire à vous donner son Sang ?",
+        "Les Brujah vivent dangereusement près de la Frénésie. Racontez un incident récent lors d'une réception guindée de la Camarilla (un Élyséum) où une petite insulte a déclenché chez vous un éclat de Rage tellement incontrôlable qu'il vous a mis dans une situation périlleuse.",
+        "Le clan valorise le combat autant que la philosophie. Lors de vos premières nuits, quel affrontement brutal d'entraînement contre votre Sire ou une autre goule vous a enseigné l'extase et l'horreur des pouvoirs cinétiques vampiriques inhérents à votre sang ?"
       ],
       "gangrel": [
-        "Les Gangrel sont plus proches de la Bête que de la civilisation. Comment percevez-vous le monde autour de vous — à travers des yeux humains, ou ceux d'un prédateur ?",
-        "Chaque frénésie laisse une marque bestiale sur votre corps. Quelles traces la Bête a-t-elle déjà imprimées en vous, et qu'annoncent-elles de ce que vous êtes en train de devenir ?",
-        "Les Gangrel sont souvent solitaires et nomades. Qu'est-ce qui vous pousse à la route — ou au contraire, qu'est-ce qui pourrait vous convaincre de rester ?"
+        "Liés à la Bête, les Gangrel arpentent les routes et la plaine à l'écart du béton. Racontez la nuit la plus éprouvante de vos premiers mois de prédateur, perdue et traquée dans une nature hostile par des menaces lupines ou des braconniers jusqu'à la frénésie.",
+        "Chaque Frénésie bestiale laisse sur vous une marque animale définitive (une écaille, des yeux de chat, etc). Quelle fut la montée de terreur viscérale spécifique qui s'est achevée en vous imposant votre plus évidente altération physique bestiale ?",
+        "La politique des villes vampiriques vous irrite au plus haut point. Lors de votre première tentative d'intégration en Cours princière, quelle réaction purement instinctive, vulgaire mais honnête, de votre part a scandalisé à jamais un aristocrate local figé dans sa civilité décadente ?"
       ],
       "malkavian": [
-        "L'Étreinte Malkavienne a brisé quelque chose dans votre esprit — ou peut-être ouvert une porte qui aurait dû rester fermée. Quelle forme prend votre folie, et comment se manifeste-t-elle au quotidien dans votre non-vie ?",
-        "Le Réseau de la Folie relie tous les Malkaviens dans un murmure collectif. Qu'entendez-vous quand le silence tombe — et comment faites-vous la différence entre vos propres pensées et celles de la toile ?",
-        "Les autres Damnés vous traitent de fou, de prophète, ou les deux. Comment vous définissez-vous face à ceux qui ne voient dans votre lucidité qu'une forme de démence ?"
+        "La Morsure Malkavienne fracture définitivement l'esprit humain à l'Etreinte. Quelle était votre plus absolue et structurante certitude mortelle (votre métier, une obsession maniaque, votre dogme) qui a volé en éclats sous l'assaut soudain de votre nouvelle folie à votre réveil de damné ?",
+        "« Le Réseau de la Folie » murmure en permanence, telle une radio en bruit de fond avec les autres de votre secte invisible. Quel indice cauchemardesque mais vital, apparu subitement sous forme d'hallucination déroutante, a permis à ce même réseau de vous sauver d'un piège mortel en plein milieu de la ville il y a quelques temps ?",
+        "Certains sont effrayés par vos visions prophétiques énigmatiques. Révélez comment l'une de vos élucubrations ou prédictions apparemment hors-sujet a accidentellement sauvé un allié proche du complot minutieux élaboré par le chef politique rival de sa cité sans même qu'ils s'y attendent."
       ],
       "nosferatu": [
-        "L'Étreinte Nosferatu a détruit tout ce que vous étiez en surface, transformant votre corps en quelque chose que nul mortel ne peut regarder sans terreur. Comment vivez-vous dans un monde qui ne peut plus vous voir sans hurler ?",
-        "Les égouts, les catacombes, les ténèbres profondes — c'est devenu votre territoire. Comment avez-vous construit votre existence dans l'ombre, loin du regard des mortels et des autres Damnés ?",
-        "Les Nosferatu sont les maîtres de l'information — les secrets sont votre monnaie, votre armure, votre pouvoir. Comment avez-vous commencé à tisser votre réseau ?"
+        "L'Étreinte Nosferatu transforme votre corps en une horreur indicible lors d'une agonie métamorphique. Racontez l'horrible nuit où on vous a plongé dans le sang et les effluves d'égouts, et la douleur physique subite du déchirement corporel à mesure que vous quittiez définitivement la vue commune des mortels.",
+        "Vous avez rapidement dû fuir la lumière pour la survie du Souterrain et de ses maîtres des secrets. Quelle intrusion périlleuse et clandestine (archives princières, domaine d'une faction ou domaine humain sécurisé) vous a valu de gagner la plus sombre information de valeur encore utilisée par votre aïeul de repaire ?",
+        "Le secret représente votre or ; aucune cour aristocrate ne peut vivre sans vous. Quel piège embarrassant ou odieux contrat d'information avez-vous dressé implacablement à un jeune noble Ventrue arrogant afin de le mettre cruellement mais subtilement sous votre dette pour des siècles encore à venir ?"
       ],
       "toreador": [
-        "Les Toreador sont esclaves de la beauté sous toutes ses formes. Quelle est votre obsession esthétique — l'art, la musique, un visage, une sensation — et comment l'éternité a-t-elle transformé votre rapport à cette passion ?",
-        "La Fascination peut vous figer devant la perfection, vous rendant vulnérable et impuissant. Comment gérez-vous cette malédiction qui fait de votre plus grand plaisir votre plus grande faiblesse ?",
-        "L'éternité sans art ne serait qu'une prison. Mais l'éternité use aussi les passions. Comment nourrissez-vous votre flamme créatrice à travers les décennies ?"
+        "Amants de la beauté sublime et de la perfection formelle figée. Quelle est la toute dernière œuvre artistique ou représentation scénique grandiose humaine que vous avez produite de vos propres mains, et que vous avez délibérément brisée à votre Éveil, vous rendant alors pleinement compte que la véritable l'étincelle mortelle allait vous déserter ?",
+        "La « Fascination » peut vous river sur place, immobilisé en extase devant une belle chose, quelle que soit la menace. Face à quelle splendeur (un visage divin, une merveilleuse aube macabre ou l'écarlate envoûtant de la mort sanglante) la fascination toreador vous a-t-elle tétanisé, rendant totalement aisé la proximité de la mort face au soleil du matin venu ?",
+        "Un chef d'œuvre mortel, c'est aussi un prodige qui attire la jalousie noire ou la possession amoureuse. Quel danseur divin, peintre ou virtuose d'opéra vous teniez ardemment sous votre protection charnelle que l'un de vos rivaux a saccagé (ou pire, transformé ou assassiné), déclenchant ainsi l'une des pires vendettas claniques des Années Folles selon vous ?"
       ],
       "tremere": [
-        "Les Tremere ont volé l'immortalité par la sorcellerie du sang, et le monde des Damnés ne l'a jamais oublié. Comment vivez-vous avec l'héritage de cette usurpation — dans la fierté ou sous le poids de la méfiance perpétuelle ?",
-        "La Pyramide Tremere exigeait obéissance et loyauté absolues. Quelle est votre position au sein de cette hiérarchie de sorciers, et comment la vivez-vous ?",
-        "La Thaumaturgie vous donne un pouvoir que les autres clans craignent et convoitent. Comment percevez-vous la frontière entre la connaissance qui sert vos intérêts et celle qui pourrait vous consumer ?"
+        "Apprentis occultes de la Pyramide, le Sang y exige de la soumission. Au sein de vos tout premiers mois de novice en Sorcellerie d'Hématologie (Thaumaturgie), quelle incursion clandestine dans la bibliothèque des Régents Supérieurs, pour y voler furtivement le composant sombre d'un rituel impie, a provoqué la sanction indélébile et mémorable qu'ils vous imposèrent plus tard en échange d'avoir survécu ?",
+        "Tout dissident subit une malédiction cruelle sans répit de la part des hauts dirigeants de votre clan. Laquelle de vos actions macabres (briser magiquement l'âme à un frère transfuge traître du Coven, ou dissimuler un de vos propres accidents rituels ayant détruit une petite aile de l'université locale mortelle) avez-vous maquillée ou accomplie en tremblant sur ses ordres implacables récemment ?",
+        "La « magie sanguine » nécessite parfois des abominations et l'asservissement bestial comme lors de la conception d'homoncules de pierre et d'os pour défendre la Chantrie (le manoir Tremere local). Au gré d'un dérapage de manipulation en Thaumaturgie de rituel d'esprit de ces rudes matières qui faillit vous coûter une main, quelle terreur occulte vous lorgne depuis à la lisière des visions de votre don mortel ?"
       ],
       "ventrue": [
-        "Les Ventrue se considèrent comme les dirigeants naturels des Damnés. La couronne est-elle un droit que vous réclamez, ou un fardeau que vous portez — et pourquoi ?",
-        "Votre palais raffiné vous empêche de vous nourrir de n'importe quel mortel. Quel type de sang très spécifique êtes-vous contraint de chasser, et comment cette restriction affecte-t-elle votre non-vie ?",
-        "Le pouvoir attire les rivaux et les courtisans en parts égales. Comment naviguez-vous dans les eaux politiques de la société des Damnés ?"
+        "Dynastes du sang dirigeant les cités par volonté froide de fer. Quel acte machiavélique de destitution féroce, d'éradication d'une dynastie rivale du commerce mortel des hautes sphères de la ville avez-vous ordonné à l'aube du siècle précédent, prouvant ainsi à votre Sire de famille (vampirique) toute l'impeccable absence de cruauté empathique au fond de vos yeux glaciaux ?",
+        "La tare prestigieuse Ventrue vous restreint le breuvage exclusif ou spécifique à une seule typologie de victimes humaines (ex : prêtres, mères, soldats..). À quel sombre instant extrême de grande faim, d'une inouïe rareté de *ce* sang d'exception requise, et alors quasi incapable de survivre une lune, le sort hasardeux a-t-il pu placer sur le bord d'un Élysée la pitoyable proie idéale, bien qu'honteuse de réputation pour vous... et comment fut votre repas dissimulé ?",
+        "Même couronné et en majesté on est testé ardemment à la loyauté de l'édifice hiérarchique : lors de votre intromission à l'assemblée du domaine d'autrefois, ce dernier s'effondrait : relatez cette grande soirée de la haute Camarilla vampirique de minuit à laquelle votre premier ghoul (serviteur du sang et confident) a humilié, même minime, votre stature à la cause du manoir adverse dont tout Ventrue connaît pourtant la sentence sanglante coutumière."
       ],
       "lasombra": [
-        "Les Lasombra croient que seuls les forts méritent le pouvoir et que la pitié est une faiblesse mortelle. Comment cette philosophie darwiniste façonne-t-elle vos relations avec les autres Damnés ?",
-        "Votre reflet n'existe plus — ni dans les miroirs, ni dans les caméras, ni dans l'eau. Comment cette absence affecte-t-elle votre existence dans un monde de surveillance constante ?",
-        "Les Lasombra commandent les ténèbres elles-mêmes. Quelle est votre relation avec l'obscurité — est-elle un outil, un allié, ou quelque chose de plus intime ?"
+        "Un Clan de Darwiniste du sombre néant qui brise le faible ; lors de l'Etreinte implacable à votre l'endroit de survie de votre choix passés de gloire : comment votre sombre Créateur a ordonné le meurtre de pitié de votre bienfaiteur ou votre parent inhérent qu'il voulait rayer des attaches, plongeant subitement son existence à genoux pour que pleurent vos funestes faiblesses d'humanité à jamais enfuies dans la mare fangeuse du néant du sombre sang qu'il instilla alors ?",
+        "Maître et Serviteur des Abysses des ombres (l'Obténébration est sa magie noire), de grands risques d'abominables retraits attendent. Ce noir tentaculaire vivant qui gèle, à quelle circonstance précise son maniement chaotique lors de la capture farouche d'un espion mortel du domaine s'est montré trop vif pour vous et s'agita comme de la cendre démoniaque vous consumant des profondeurs pour le repousser au désespoir !",
+        "L'élite obscure ecclésiastique (bien qu'il compte tout pontifie ambitieux) perd son reflet sur commande : miroirs d'or et de laque sombres qui révèlent que les traits mortes se voient au rien ! Devant cette foule aristocratique, comment s'est avérée de manière dévastatrice cette révélation fâcheuse qu'il a fallu expier par ruses diaboliquement complexes — dans sa manipulation — la capture vidéo et son propriétaire humain sous vos impitoyables doigts obscurs lors des soirs à en dissimuler la grande vérité absurde qui fait votre condition redoutable."
       ],
       "tzimisce": [
-        "Les Tzimisce façonnent la chair et l'os comme de l'argile vivante. Comment percevez-vous la forme physique — comme une identité, ou comme un matériau brut à perfectionner ?",
-        "Votre sang vous lie mystiquement à une terre, un territoire sacré sans lequel le repos vous est impossible. Quel est ce lieu, et que représente-t-il pour vous ?",
-        "Les traditions d'hospitalité Tzimisce sont sacrées et impitoyables. Que signifient l'honneur et le territoire dans votre conception du monde ?"
+        "Démons Carpates manipulant la Vicissitude comme art des chairs pures vivaces modelées au sadisme créateur du Sang pur sans remords du Sabbat : évoquez cette fameuses séance intarissable dans le manège macabre à vous amuser sur ce noble prisonnier malvenu qui tenta la profanation de forteresse avant que de ses suppliques déformées se sculpta peu à peu le tabouret de garde bestial, et d'os à vif des nuits de pure épouvante à travers son corps tordu sous chaque mouvement subtil expérimental !",
+        "Ancré jusqu'aux os de sa terre natale sans laquelle un repos se voit enfiévré : évoquez la terrifiante nuit d'exil récent quand l'on vint profaner, saccager puis piller le cercueil ou la terre morte sépulcrale de Roumanie qui abritait dans son refuge urbain excentré ! Quelle purge sauvage, dans des flammes infernales sanglantes des chairs vives d'ennemis, ce jour a-te-elle causé sur ce repaire sans même sourciller pour en arracher le dernier des voleurs de sa chair sacrée tellurique impérative à la préservation des ombres de l'ancien monde.",
+        "Cruels Maîtres, aux codes de l'honneur inviolables envers un hôte qui passe la porte ou l'offense ennemie. Relatez-nous de ce drame absurde par un vassal arrogant venu requérir asile sans prononcer vos rituelles politesses d'ancien monde dans un repaire et quelle monstrueuse punition l'asymétrie sanglante et l'horreur des mutations le punirent à la vie pour honorer ce tabou ancestral non pardonné sous voûte des aïeuls au cœur noir et silencieux ?"
       ],
       "ravnos": [
-        "Les Ravnos ne peuvent pas rester en place — une compulsion irrésistible vous pousse à errer sans fin. Comment vivez-vous cette malédiction du mouvement perpétuel ?",
-        "Votre clan maîtrise l'art de l'illusion, créant des chimères si réelles qu'elles trompent tous les sens. Quel rapport entretenez-vous avec la vérité et le mensonge ?",
-        "Les Ravnos ont été presque anéantis lors de la Semaine des Cauchemars. Comment portez-vous l'héritage d'un clan au bord de l'extinction ?"
+        "Nomades perpétuels des ruses chimeriques pris et corrompus au Péché du vol et du crime ou d'escroquerie ; lors de vos rudes errances nomades de continent avec de grand bandits ou familles maudites, quelle inénarrable mystification publique (vente d'artefact faussement magique et frauduleux ou le vol de forteresse via ruse effroyable) fut votre grand chef d'oeuvre de survie qui, au bord de s'écrouler face au soleil et des courroux du grand prince de cours s'est vue exulter parmi les rires de la grande route sans trace à leur grand dam funeste ?",
+        "Les illusions vivantes créés sur-mesure d'illusions, en chimérisme... ont des répercutions quand on s'en empêtre dans leurs files de vérités sombres ! Par quelle arrogance lors de jeux illusoires grandioses d'une foule de monstre infernal à divertir en tromperie la cour de clan adverses du Sabbat et que le rêve se teinta si atrocement sous pression cauchemardesque jusqu'au vertige, ce qui manqua de perdre les vôtres par paniques meurtrières si l'on fuyait pas au devant la furie hurlante qui déchira l'auberge et toute illusion ?",
+        "Le drame génocidaire ravagea l'Orient ! Ce réveil infernale en transe cataclysmique la 'Semaine des Cauchemars' a consumé les Aïeux déments en échos mental télépathiques à mort de folie. Lors des heures de crise sanglantes dont l'histoire secrète l'énonce, quelle effroyable vague vous est retombée dessus pour arracher, et saigner cruellement en exil lors d'apocalypse dévorante vos frères d'antan nomade que l'affrontement surnaturel aveugle en Europe de l'Est a balayés dans ce cri des Enfers, vous en faisant un errant terrifié et seul de ce passé détruit ?"
       ],
       "setites": [
-        "Les Disciples de Set servent un dieu ancien et terrible, cherchant à libérer les âmes des chaînes de la morale. Comment concevez-vous cette mission — comme une corruption ou comme une véritable libération ?",
-        "La lumière est votre ennemie la plus cruelle — plus encore que pour les autres Damnés. Comment cette vulnérabilité extrême façonne-t-elle vos nuits et vos stratégies ?",
-        "Les autres clans vous craignent et vous méprisent, voyant en vous des corrupteurs et des tentateurs. Comment percevez-vous ce rejet, et quel visage montrez-vous à ceux que vous approchez ?"
+        "Le Culte corrupteur millénaire adorant le Serpent Ténébreux à saper l'hypocrite lumière civile par les tentations, drogue ou péchés ! Expliquez par quelle manipulation insidieuse d'une finesse implacable avec un réseau du vice, vous êtes lentement et vicieusement instillé en provoquant l'inévitable suicide déshonorable — après ses actes coupables publics — de ce noble bienfaiteur (un procureur de renom ou prince noble des clans immaculés de charité sociale des ombres humaines) pour lui arracher pour l'abîme le secret convoité de tous lors d'Élysées d'hiver précédent, dont tous suspectent aujourd'hui mais on s'incline devant tel secret.",
+        "Le bannissement purificateur : La lumière dévorante, némésis plus que pour quiconque damnés. Au couronnement rituel du sable funeste l'aube ensoleillée vous surprend d'aventure après querelle mafieuse ou Sabbat incisif au Caire ou du repère de corruption sectaire ou vos rites de plaisirs sadiques vampiriques charnels d'hier se tenait sous serre ; quelle affreuse mutilation corporelle de brûlure indélébile et désastreuse le jet de ce simple rai solaire du zénith maudit, qu'aucun autre clan de sang ne sentait à peine alors, ce jour vous a scarifié avec violence en fuyant l'enclave de sa morsure fatale sous hurlements morbides ?",
+        "Il vous considère tels des monstres maudits parjures de Set ou trafiquants à la confiance perfide des cultes démoniaques ! Dans quelle occasion de survie de pacte aux armes lourdes vous vous fûtes vus obliger de conclure une protection, contre d'atroces vampires fanatisés ou du grand Sabbat occulte du pire, en vendant aux enchères sous de terribles charmes mortifères un être pure aux vertus pures de foi pour protéger votre existence, acte exécrable pour vos rivaux que depuis ce funestre troc aux Abysses... vous rendra crains au double d'envergure de manipulation inaliénable avec ces puissantes ombres de la Secte d'Amis perfides de la Nuit ?"
       ],
       "giovanni": [
-        "Les Giovanni sont à la fois un clan et une famille mortelle, où le sang du lignage compte autant que le Sang vampirique. Quelle est votre place au sein de cette dynastie, et comment la famille façonne-t-elle votre non-vie ?",
-        "Votre Baiser inflige une douleur atroce au lieu de l'extase — chaque repas est une scène de souffrance. Comment gérez-vous cette malédiction qui fait de chaque chasse un acte de violence brute ?",
-        "La Nécromancie vous donne pouvoir sur les morts et les esprits des défunts. Quel rapport entretenez-vous avec l'au-delà et les fantômes que vous côtoyez ?"
+        "Un Clan Marchand nécromantique incestueux rattaché par le seul sceau sanglant et filial au monde et mafieux du mortel... Le sang humain y est un festin abominablement pervers d'horreurs et foudroyante torture car leur baiser d'Etreinte glace au mal pur lors de ses morsures fatales ! Évoquer la nuit fatale d'effroyable et pure boucherie macabre dans ce restaurant majestueux dont une tentative amoureuse discrète d'antan a, avec de si pires crampes mortuaires sanguinolente sans d'échappatoire à arracher vif vos premières gorgée des cœurs paniqués hurlantes aux supplices de l'aube pour laisser sous saignent sans nom les proches et convives ?",
+        "Les Nécromanciens jouent des Dettes des morts (outremonde des fantômes et spectres abyssaux vénitiens)... Quel est l'enjeu terrible sur le serment par cette incantation rituelle infernale impie où la capture du spectre furieux en torture d'un grand chef banquier mafieux trahi des décennies en aval (mort sans avoué le grand secret) ; son refus violent dans l'au delà vous a déclenché sur la maison italienne, par esprits et ombres funestes vengeant un cauchemar psychique mortel sur l'entourage d'affaire vivant très cruels du clan et causant des drames aux nuits des vivants !",
+        "L'Étreinte d'une Famiglia, le baiser à jamais (La Promesse). Pour préserver ses affaires la famille tue autant en trahisons impitoyables. Révéler le sang au coulis poignard avec son amertume du lâche abandon : à titre d'initiation fatale pour sauver votre prestige criminel sombre au regard des puissants Dons oncles, vous deviez occire cruellement sur serment ou arracher à vie par trahison absolue à un membre aimé (femme douce ou mari loyal mortel aimant) la confiance pure et vie dans des actes inavouables odiement pour l'enfer éternel devant toute leur noblesse vénitiens des ténébreux complots d'alors et l'ambition mafieuse requises éternellement ?"
       ],
       "assamites": [
-        "Les Assamites suivent le code d'Haqim et jugent les autres Damnés selon ses enseignements. Comment interprétez-vous la loi de votre fondateur, et quel rôle vous êtes-vous assigné parmi les vôtres ?",
-        "Le sang des autres vampires exerce sur vous une attraction dangereuse, une soif qui pourrait vous mener à la diablerie. Comment résistez-vous à cet appel — ou y avez-vous déjà cédé ?",
-        "Les Assamites sont craints comme assassins et juges implacables par le reste des Damnés. Comment portez-vous cette réputation — la cultivez-vous, ou cherchez-vous à la dépasser ?"
+        "Fanatiques juges du sang occulte de guerre d'Alamut qui empoisonne les ennemis pour l'ancestral rituel. Au cours de votre toute dernière traque imposée par votre aïeul sanguinaire, comment avez-vous brisé sans prévenir pour le Haqim (votre foi sacrée sectaire) et avec froideur toute les protections secrètes mortuaires magiques au sein d'une demeure fortifiée et éliminé les gardes assoiffés afin d'appliquer à un Ancilla Tremere (des jeteurs de sang ennemis honnis) la frappe invisible empoisonnée au cimeterre qui fit basculer un tribunal nocturne sous effroi du serment assassin brisé pour cette nuit d'apocalypse silencieuse silencieuse ?!",
+        "La quête du sang, le châtiment pour la diablerie, floué des siècles par magie en de malédictions de la Soif. Racontez ces nuits d'inquisition et l'agonie du festin, dont déchu de foi la vue des plaies de guerre des ancêtres aux effluves vampirique mortifères a fini par réveiller à briser la discipline, où il eut failli à une gorge d'un puissant membre du Clan Brujah de la secte alliée que la soif irrésistible féroce en plein secret eut été consumé en la pire aberration pour l'âme maudite ashkénaze de buveur d'enfant en cet antre inavouable jusqu'à rompre ses serments d'orient ?",
+        "Vous demeurez les craintes incarnées d'une caste d'élite froide... Lors des temps de trêves mondaines et d'ambassade cruelle : comment cette redoutable renommée a-t-elle su prévaloir en effroi viscéral ce jour au lieu du combat lorsque l'Élyséum et son grand primogène princier du complot face aux affronts vous provoqua de se repentir ; quel fut alors l'unique sentence (chuchotement terrifiant sur le sang occulte de vengeance et l'épée fatale) avec un calme insoutenable a su clouer d'épouvantes les grandes assemblées entières sur places et dont vous profitez de sa fuite jusqu'à sa déchéance de statut sans la peine de l'immolant au néant mortel ?"
       ],
       "gargoyles": [
-        "Les Gargouilles n'ont pas été Étreintes — elles ont été créées, forgées par les Tremere à partir d'autres vampires. Comment vivez-vous avec le fait d'avoir été conçu comme un outil, un serviteur ?",
-        "L'instinct de servitude est gravé dans votre sang. Comment luttez-vous contre cette programmation qui vous pousse à obéir — ou avez-vous choisi de l'accepter ?",
-        "Votre corps de pierre et vos ailes vous distinguent de tout autre Damné. Comment percevez-vous votre propre nature — comme une malédiction, une force, ou quelque chose d'unique ?"
+        "Esclaves crées brutalement et arrachées à l'Etreinte des autres clans vampiriques (Gangrel, Tzimisce...) par modelage monstrueux, magies de sang rituelles occultes infernales des Thaumaturge Tremère et sans d'amnésie du vol des âmes vives par cette affreuse création du minerais cuir ! Racontez l'aube d'esclavage qui brisa votre cœur mort quand une bribe fugitive mémorielle à vous (visage de cette mortelle aimée ou frère jadis ou de lumière heureuse des siens d'avant le Tisserand d'ombre, disparu), s'arracha violemment et secrètement par cette nuit noire aux orages devant la souffrance affreuse pour renaître a brisé des pierres par ses sanglots sourds avec colère viscéral aveuglante vers les maîtres qui soumettent vos consciences de chimères ?",
+        "Les geôliers Tremere détiennent la loyauté ensorcelée impie pour des assauts en meute aux gardes. Pourtant... Par un frisson de la conscience monstrueusement réveillée, racontez comment le dernier combat de vol aux grandes barricades en voûte de pierre la nuit tombée contre vos proies, dont vous receviez commande inaliénable de fracasser le bataillon maudit d'arrogant ennemi, l'ordre fut contourné par l'ingéniosité d'apparences ou une tromperie sanglante afin de traîtreusement blesser cette fois au visage de vengeance en feignant la maladresse brutale bestial de votre maître de chantrie sans pouvoir réagir devant de ces ruses insoupçonnée de servitude sournoise sous ses ailles sanglantes !",
+        "Des solitudes éternelles au de hauts des flèches cathédrales en d'hivers d'horreurs sombres sans refuge. Narrez votre face à face monstrueur et cruel, au sein des abîmes ou des toits noirs d'un vieil immeuble et ses rudes gardes dont pour sauver l'innocence isolée et chétive de l'effroi lors des conflits armés sanguinaires du sabbat vous en êtes venu miraculeusement terrasser un prédateur démoniaque. Comment cette intervention inattendues des airs, devant l'effrois mortel de ces cibles vulnérable figeant de cauchemar de voir de l'ogre avec vos grandes cornes grises les épargné dans un vrombissement spectral lourd vers la nuit étoilé de brume, d'ou des rumeurs éternel naquit ?"
       ],
       "samedi": [
-        "Les Samedi portent la décomposition comme une seconde peau — votre chair pourrit sans fin, l'odeur de la tombe vous suit partout. Comment existez-vous dans un monde qui recule devant vous ?",
-        "Vos origines sont liées aux rites vaudou des Caraïbes. Comment cet héritage spirituel influence-t-il votre rapport à la non-mort et aux puissances invisibles ?",
-        "La mort vous habite plus intimement que chez tout autre Damné. Comment cette proximité constante avec la putréfaction affecte-t-elle votre vision de l'éternité ?"
+        "Un héritage vaudou maudit, avec cette immondice infecte charnelle ou du cadavres rance décomposée dont exalte la nécromancie lugubres de pourriture. Lors la terrible et terrifiante nuit d'intronisation par secte obscure d'Etreinte sans pareille : quelle abjecte scène au creux du profond caveau de cendre enfouies avec ces corps suppliciés des l'horribles sacrifices humains des loas vous a plongé dans l'étouffement visqueux charnel dans l'agonies infernales mortelle de loutre monde d'où ressuscite la mort en chairs putréfiée sous des relents effroyables par de Baron Samedi pour vos résurrections vaudous foudroyantes nauséabondes d'hier soir cauchemardesques ?!",
+        "Sous les masques d'outre tombe se déguisent des Tueurs obscurs ou mercenaires au pacte Vaudous et Thanatosis macabre mortelle infâme pour l'or mystique (ou l'esprit captif). Quelle vendetta ou exécution mafieuse des d'un Prince du sang ou de puissant sbire, confiée par l'élite arrogante et d'ennemi farouches de vampires de ville sous grand secret occulte avez-vous atrocement commise sans aucunes des traces sanglantes apparentes la veille au matins dans la crasse misérables de cadavres rongé pour réclamer vôtre dû par pure intimidations répugnante en un reliquats morbides déposés en salle d'éclat courtoises à stupeur mortel figeant !",
+        "Fuir ses aînés est à double de ruses avec les immenses et redoutable illusions (ou votre ruses) devant se soustraire pour évoluer secrètement... Au grand banquet macabre lors du congrès d'Elysée (réceptions nobles vampires aux masques) : dont nul de la camarilla de pouvoir ne doit repéré vos charnels hideux reliquats délabrés dans des rites si hautains... Par quelles effroyables terreurs lors cette grande réunion sous la lune votre poudre morbide, avec quelques viles malfaisances effrayantes occultes à se briser, pourchassé ou bafoué sur de fausses apparences mondaines fit lever un grand tourbillon de paniques épouvantables du pouvoir mortelle avec le sang s'insinuant en exils foudroyant !?"
       ],
       "daughters_cacophony": [
-        "Les Filles de la Cacophonie n'entendent jamais le silence — un concert perpétuel joue dans votre esprit, nuit et jour. Comment vivez-vous avec cette symphonie intérieure qui ne s'arrête jamais ?",
-        "Votre voix est votre pouvoir, votre arme et votre malédiction. Comment avez-vous découvert l'étendue de ce don, et comment en mesurez-vous les conséquences ?",
-        "Les origines de votre lignée restent un mystère, même pour vous. Comment vivez-vous cette incertitude sur votre propre nature ?"
+        "Elles dansent avec la voix spectrale de folies hurlantes déchirante éternelle avec d'Etreintes dont chaque jours, l'Aria résonne d'une malédiction dans d'hallucinations intérieures sans répit en esprit ni paix fuyant ! Narrez la fureur psychique avec frisson mortel dévastant qui lors de l'Aria folles en crescendo dans une ruelle de la misères : de cette voix avec la brisure mortelle Melpoménée a-t-elle su d'un simple de sifflements déchirés effroi assourdissante explosé les verres, cervelles d'asphalte puis os mortelles cruelles à vos agresseurs mafieux nocturnes par paniques avant vos rires aux sanglots frénétiques l'aubes éteintes aux larmes d'adieux effrayantes ?",
+        "Des sirènes de la Camarillas au mondains des salons et aux charmes vampirique de séductions fascinations. Au grand bals tragique orchestrée en un opéra funèbres par secte arrogants nobles d'aristocrate prince : racontez cette odieuse offense cruelle ou rivale hautaine (Toreadors ou d'aïeuls d'élysées..) qui subirent en un fracas d'éclats mortelles quand sous colère hypnotique votre chant dévastateur d'ensorcellement plongea et figea, sans verser aux sangs visibles mais ruineux déboires la foule complète sous stupeurs pleurantes des mortels au grand dam infernales dont l'humilié gardent échos des larmes sanglantes sadiques des siècles fuyant à de vengeance éternels de leurs âmes !",
+        "Un secret mystique autour de sang des chimères ou fées éteints de votre lignée perdue ? Cette affreuse réclusion de douleur par folie et de sang pur avec l'outremondes. Au cours lors du de dénuement cruel faim : avec une simple chanson ou complainte de berceuses à ensorceler de tendresse morbides qui a amené si paisiblement sa victime du calvaire innocentes de ses pires tourments mortelles pour le doux du fleuves à de d'agonies et des voluptés si douces au faim macabres vampires afin le consumer par des larmes et songe infinis et cauchemardés de cette extase tragiquement ensorcelante dont de fantômes murmurent la funestes réputation cruelles mortelles ?"
       ],
       "baali": [
-        "Les Baali ont prêté allégeance aux puissances infernales, et chaque vampire du monde vous chasserait à vue s'il découvrait votre nature. Comment naviguez-vous dans un monde qui vous veut détruit ?",
-        "Les symboles sacrés de toutes les religions — sans exception — vous brûlent et vous repoussent. Comment cette vulnérabilité universelle au sacré affecte-t-elle votre existence nocturne ?",
-        "Vous avez posé le regard au-delà du voile, vers les puissances infernales. Qu'est-ce qui vous a mené sur ce chemin — ou est-ce le chemin qui vous a choisi ?"
+        "Pacte funèbre de damnation et corrupteurs ultimes et infâmes d'Enfers ! La quête aveugle vers le Sombre Néants et pacte démoniaque d'Abysses en sacrifiant âme pure, avec un puit Diabolismes obscurs... Relatez-nous de ce blasphème cauchemardesques odieux du l'Aube (secte, amour de famille ou du Cairn anciens) où l'innocence d'antan et d'amis pourchassés fut impitoyablement consumé en hurlements sans espoirs lors rituel atroce, pactant vos sombres d'allégeances diaboliques à cette secte pour fuir cette fragilités dont l'humain à toujours dégoûté à travers tant pour le sang vers de pouvoir occulte destructeur des Démons fangeux infernaux foudroyants !?",
+        "Toutes foi pures ou d'insigne sacrées (la moindres étoiles divines, relique du soleil ou ferveur pieuse simple) incinère leurs peaux vampiriques de Baals avec d'insupportables tortures au flammes. Lors d'aventure d'infiltration trahisons secrète d'antan ou un convent du Sabbat se déploie avec un rituel et croix aux saints sang : narrez avec que grand désarroi foudroyant ou cris vous a été carbonisé d'agonies insoutenable, et fuyant ces flammes devant d'abjectes inquisiteurs alliés sans masques révélé aux traîtres d'Eglise, évitant l'exécution brûlante purificatrice lors rituels mondains avec le Daimonion noir aux effroyables d'angoisses ruses de magies mortifères fangeuses enfui !?",
+        "Maîtres dissimulateurs démoniaques de mensonge à faire chuter le mondre d'hommes forts pour la ruine des anges par les vils ruses sectaire... Quel royaume vertueux du clan ou de prêtrise vampirique mortelles de grands espoirs héroïques de croyance avez, lors d'années sombres de jadis avec finesses vicieuses insidieuse patientes fait sombrer perfidement, poussant l'innocents chef bienfaiteurs pures au paroxysme de honte à folies corruptrices meurtre afin anéantissantes en folies ou suicide funestes d'affrois désespoir en regardant les empires crouler dans du sang inhérent sans aucuns qui à soupçon de ces l'implications de secte infâmes noires s'exécutaient de vous diabolique triomphe démons !?"
       ],
       "salubri": [
-        "Les Salubri sont les survivants d'un génocide perpétré par les Tremere, traqués et presque éteints. Comment portez-vous cet héritage de souffrance et de persécution ?",
-        "Votre troisième œil s'ouvre et saigne chaque fois que vous utilisez vos dons, révélant votre nature au monde. Comment vivez-vous avec ce stigmate qui transforme chaque usage de vos pouvoirs en risque mortel ?",
-        "Les Tremere ont convaincu le monde des Damnés que les Salubri sont des diabolistes. Comment existez-vous dans l'ombre d'un mensonge qui pourrait vous faire détruire à tout instant ?"
+        "Lignée persécutée jusqu'aux génocides massifs (faussent imputés aux sectes de Baali) et massacrées perfidement à des Diablerie et mensonge (guerre) et magie occultes. Un soir macabres où traqués aveuglément.. de ce sauveur et d'Amour Sire aux guérisseur d'orients du sang : quelle fin sacrificielle atroces cruelles, afin de s'exempter fuyards d'un grand péril mortelles inquisitoriales, le preux Héritier Obeah ou mentor pacifistes de sage a endossé à lui l'embrasement fatal pour saignant des cœurs et à s'immoler de désespoir sanglants aux mains griffés d'épées l'effroyable ennemies Tremère foudroyantes pour couvrir du de sables et désert enfui lors de sa fuites d'Ames martyres foudroyant !",
+        "Détenteur de compassion et Guérisons spirituelle pacifiques pour expier fardeaux des démons de Rages ou de doutes (discipline Obeah, l'âme). Au lourd du stigmate indéniable aux yeux aveugle troisième fendu de Sang pour toutes usage ! Narrez l'instant terrifiante en de rues ou de combats d'émeutes : voulant à tout cœur et pureté innocente expurger un enfant (ou créature innocente égarés) des tourments foudroyés, son acte a dévoilé l'effroyable du de saignement funestes des masques sous Oeil, figeant des brutes ennemis en alertants du Sabbat tortionnais... l'héroïsme l'âme qui s'échappe au ruses extrêmes dont l'incursion et ses amers regrets sacrifié restera funestes martyres à perpétuel !",
+        "Consommations d'absolue du don mortelles de sang de clémences au consentement fidu de la pitié seule sans abus sadique. De l'ascèse au grand Golcondas, foudroyé devant miséres crasse et délires d'une soifs désastreuse à perdre son esprit en chaos, et à sombrer lors tempêtes infernale : relatez de ce failles monstrueusement cruelles du festin de l'Aubes ! Quel de l'innocent humain refusant fiers ce funeste dons (ou lutta de paniques sans espoirs d'effrois mortel) a cependant subie la morsure atroce charnelle à le consommer pour vos survie, de diableries aux crimes qui à entacher de malédictions de pleures et honte l'ascension aux ciels infinis de vos éternelles remords ténébreux cruelles éternels ?"
       ]
     }
   }
