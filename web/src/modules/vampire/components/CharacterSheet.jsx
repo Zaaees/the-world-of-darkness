@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Edit2, AlertCircle, FileText, Loader, Image as ImageIcon, Upload } from 'lucide-react';
 import { getClanDescription } from '../../../data/clanDescriptions';
+import StarterPackDisplay from './StarterPackDisplay';
 
 import { API_URL } from '../../../config';
 
@@ -221,6 +222,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
             <SectionView title="Mentalité Corrompue" content={sheetData.mental_desc_post} highlight />
           </div>
         </div>
+
+        <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
 
         {/* Histoire - Large */}
         <SectionView title="Histoire" content={sheetData.history} />

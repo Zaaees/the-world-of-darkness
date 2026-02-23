@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import WerewolfLayout from '../components/WerewolfLayout';
 import RenownBadge from '../components/RenownBadge';
 import WerewolfLoading from '../components/WerewolfLoading';
+import StarterPackDisplay from '../components/StarterPackDisplay';
 
 import GiftsTab from './GiftsPage/GiftsTab';
 import RenownTab from './RenownTab';
@@ -532,6 +533,8 @@ const CharacterSheet = ({ initialTab }) => {
                                 <SectionView title="Mentalité avant le changement" content={character.mental_desc_pre} />
                                 <SectionView title="Le Premier Changement" content={character.first_change} highlight />
                             </div>
+
+                            <StarterPackDisplay character={character} />
 
                             <SectionView title="Histoire" content={character.story} />
                         </div>

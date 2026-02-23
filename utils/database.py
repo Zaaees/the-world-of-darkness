@@ -248,6 +248,11 @@ async def init_database():
         except Exception:
             pass
             
+        try:
+            await db.execute("ALTER TABLE character_sheets ADD COLUMN starter_pack_answers TEXT")
+        except Exception:
+            pass
+            
         # Migration : ajouter sheet_data à npcs
         try:
             await db.execute("ALTER TABLE npcs ADD COLUMN sheet_data TEXT")
@@ -1446,7 +1451,16 @@ async def get_character_sheet(user_id: int, guild_id: int) -> Optional[dict]:
             (user_id, guild_id),
         )
         row = await cursor.fetchone()
-        return dict(row) if row else None
+        if not row:
+            return None
+            
+        sheet = dict(row)
+        if sheet.get("starter_pack_answers"):
+            try:
+                sheet["starter_pack_answers"] = json.loads(sheet["starter_pack_answers"])
+            except Exception:
+                sheet["starter_pack_answers"] = None
+        return sheet
 
 
 async def save_character_sheet(user_id: int, guild_id: int, data: dict):
@@ -1462,15 +1476,21 @@ async def save_character_sheet(user_id: int, guild_id: int, data: dict):
 
         # Utiliser le post_id fourni ou conserver l'existant
         forum_post_id = data.get("forum_post_id", current_post_id)
+        
+        starter_pack_answers = data.get("starter_pack_answers")
+        if isinstance(starter_pack_answers, (dict, list)):
+            starter_pack_answers_str = json.dumps(starter_pack_answers)
+        else:
+            starter_pack_answers_str = starter_pack_answers
 
         await db.execute(
             """
             INSERT INTO character_sheets (
                 user_id, guild_id, name, age, sex,
                 physical_desc, mental_desc_pre, mental_desc_post, history,
-                image_url, forum_post_id, last_updated
+                image_url, forum_post_id, last_updated, starter_pack_answers
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
             ON CONFLICT(user_id, guild_id) DO UPDATE SET
                 name = excluded.name,
                 age = excluded.age,
@@ -1481,6 +1501,7 @@ async def save_character_sheet(user_id: int, guild_id: int, data: dict):
                 history = excluded.history,
                 image_url = excluded.image_url,
                 forum_post_id = excluded.forum_post_id,
+                starter_pack_answers = COALESCE(excluded.starter_pack_answers, character_sheets.starter_pack_answers),
                 last_updated = CURRENT_TIMESTAMP
             """,
             (
@@ -1495,6 +1516,7 @@ async def save_character_sheet(user_id: int, guild_id: int, data: dict):
                 data.get("history"),
                 data.get("image_url"),
                 forum_post_id,
+                starter_pack_answers_str,
             ),
         )
         await db.commit()

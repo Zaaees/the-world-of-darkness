@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Check, AlertTriangle, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { getAllClans } from '../../../data/clanDescriptions';
 import { API_URL } from '../../../config';
+import StarterPackStep from '../components/StarterPackStep';
 
 /**
  * Composant de sélection de clan pour les nouveaux vampires
@@ -10,7 +11,8 @@ import { API_URL } from '../../../config';
 export default function ClanSelection({ userId, guildId, onClanSelected }) {
   const [selectedClan, setSelectedClan] = useState(null);
   const [expandedClan, setExpandedClan] = useState(null);
-  const [isConfirming, setIsConfirming] = useState(false);
+  const [step, setStep] = useState(1);
+  const [starterPackAnswers, setStarterPackAnswers] = useState({ q1: '', q2: '', q3: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +21,6 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
   const handleSelectClan = (clan) => {
     setSelectedClan(clan);
     setExpandedClan(clan.id);
-    setIsConfirming(false);
   };
 
   const handleConfirm = async () => {
@@ -37,7 +38,8 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
           'X-Discord-Guild-ID': guildId,
         },
         body: JSON.stringify({
-          clan: selectedClan.id
+          clan: selectedClan.id,
+          starter_pack_answers: starterPackAnswers
         })
       });
 
@@ -58,6 +60,73 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
       setLoading(false);
     }
   };
+
+  const handleAnswerChange = (key, val) => {
+    setStarterPackAnswers(prev => ({ ...prev, [key]: val }));
+  };
+
+  const getCanConfirm = () => {
+    return starterPackAnswers.q1.trim().length >= 10 &&
+      starterPackAnswers.q2.trim().length >= 10 &&
+      starterPackAnswers.q3.trim().length >= 10;
+  };
+
+  if (step === 2 && selectedClan) {
+    return (
+      <div className="min-h-screen bg-[#0c0a09] p-6 md:p-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3">
+              L'Étreinte
+            </h1>
+            <p className="text-stone-400 max-w-xl mx-auto text-sm md:text-base">
+              Le Sang du fondateur coule désormais dans tes veines. Raconte-nous comment la malédiction s'est éveillée.
+            </p>
+          </div>
+
+          <StarterPackStep
+            selectedClan={selectedClan}
+            answers={starterPackAnswers}
+            onAnswerChange={handleAnswerChange}
+          />
+
+          <div className="mt-8 bg-stone-900/80 border border-stone-700 rounded-lg p-5">
+            <div className="bg-amber-950/30 border border-amber-900/50 rounded p-3 mb-4">
+              <p className="text-amber-500 text-sm font-medium mb-1">
+                Dernière confirmation
+              </p>
+              <p className="text-stone-400 text-xs">
+                Es-tu certain de vouloir rejoindre le clan {selectedClan.name} ?
+                Ce choix est définitif.
+              </p>
+            </div>
+
+            {error && (
+              <div className="mb-4 p-3 bg-red-900/30 border border-red-900 rounded text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => { setStep(1); setStarterPackAnswers({ q1: '', q2: '', q3: '' }); window.scrollTo(0, 0); }}
+                className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-300 font-medium rounded-lg transition-colors"
+              >
+                Retour
+              </button>
+              <button
+                onClick={handleConfirm}
+                disabled={loading || !getCanConfirm()}
+                className="flex-1 py-3 bg-red-800 hover:bg-red-700 border border-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Enregistrement...' : 'Confirmer l\'Incarnation'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0c0a09] p-6 md:p-8">
@@ -197,42 +266,12 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                   </div>
                 )}
 
-                {!isConfirming ? (
-                  <button
-                    onClick={() => setIsConfirming(true)}
-                    className="w-full py-3 bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-stone-200 font-medium rounded-lg transition-colors"
-                  >
-                    Rejoindre le clan {selectedClan.name}
-                  </button>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="bg-amber-950/30 border border-amber-900/50 rounded p-3">
-                      <p className="text-amber-500 text-sm font-medium mb-1">
-                        Dernière confirmation
-                      </p>
-                      <p className="text-stone-400 text-xs">
-                        Es-tu certain de vouloir rejoindre le clan {selectedClan.name} ?
-                        Ce choix est définitif.
-                      </p>
-                    </div>
-
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => setIsConfirming(false)}
-                        className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-300 font-medium rounded-lg transition-colors"
-                      >
-                        Annuler
-                      </button>
-                      <button
-                        onClick={handleConfirm}
-                        disabled={loading}
-                        className="flex-1 py-3 bg-red-800 hover:bg-red-700 border border-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {loading ? 'Enregistrement...' : 'Confirmer'}
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <button
+                  onClick={() => { setStep(2); window.scrollTo(0, 0); }}
+                  className="w-full py-3 bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-stone-200 font-medium rounded-lg transition-colors"
+                >
+                  Continuer vers l'Étreinte
+                </button>
               </div>
             </div>
           </div>

@@ -1,0 +1,209 @@
+{
+  "werewolf": {
+    "breeds": {
+      "homid": [
+        "Décrivez la vie que vous meniez avant le Premier Changement. Quels liens, quelles habitudes, quelles certitudes définissaient votre existence humaine ?",
+        "Le Premier Changement a révélé une vérité que votre vie humaine vous avait cachée. Comment s'est passée cette transition entre le monde que vous connaissiez et celui que vous ne pouvez plus ignorer ?",
+        "En tant qu'Homid, vous gardez un pied dans le monde des humains. Quelle relation entretenez-vous aujourd'hui avec votre ancienne vie mortelle ?"
+      ],
+      "metis": [
+        "La Litanie interdit l'union entre Garous, et votre simple existence en est la preuve vivante. Quelle difformité portez-vous, et comment a-t-elle façonné votre rapport aux autres Garous ?",
+        "Vous êtes né en Crinos, élevé au sein du sept, sans jamais connaître le monde humain autrement qu'à travers les récits des autres. Comment décririez-vous votre enfance parmi les Garous ?",
+        "Les regards des autres pèsent lourd sur un Métis. Comment vivez-vous avec le stigmate de votre naissance au sein de la Nation Garou ?"
+      ],
+      "lupus": [
+        "Avant le Premier Changement, vous étiez un loup parmi les vôtres. Quel souvenir gardez-vous de cette vie sauvage, et qu'est-ce qui vous manque le plus de cette simplicité ?",
+        "L'intelligence humaine s'est éveillée en vous comme un orage. Comment percevez-vous le monde des Hommes — leur langage, leurs villes, leurs rituels incompréhensibles ?",
+        "Votre instinct de loup et votre conscience de Garou cohabitent en permanence. Lequel guide vos décisions quand les deux s'opposent ?"
+      ]
+    },
+    "auspices": {
+      "ragabash": [
+        "La Nouvelle Lune vous a désigné comme le questionneur, celui qui défie les traditions qui ne tiennent plus debout. Quelle est votre manière de remettre en cause ce qui mérite de l'être ?",
+        "Les Ragabash sont souvent perçus comme des bouffons ou des insolents. Comment faites-vous comprendre à votre meute que vos provocations servent Gaïa autant que les crocs d'un Ahroun ?",
+        "Questionner le pouvoir est votre devoir sacré. Mais existe-t-il une règle, une tradition ou une autorité que même vous n'oseriez pas défier ?"
+      ],
+      "theurge": [
+        "Le Croissant de Lune a fait de vous le pont entre le monde de chair et l'Umbra. Comment décririez-vous votre relation avec le monde des esprits ?",
+        "Les esprits ne pensent pas comme les vivants — leur logique est ancienne, étrange, parfois cruelle. Quelle leçon difficile avez-vous apprise en traitant avec eux ?",
+        "Votre meute compte sur vous pour interpréter les signes et négocier avec l'invisible. Comment portez-vous cette responsabilité ?"
+      ],
+      "philodox": [
+        "La Demi-Lune vous a confié le rôle de juge et de gardien de la Litanie. Comment interprétez-vous ces lois anciennes dans un monde qui a changé depuis leur écriture ?",
+        "Juger ses propres frères et sœurs de combat est un fardeau que peu envient. Comment trouvez-vous l'équilibre entre la justice et la loyauté envers votre meute ?",
+        "La vérité et le mensonge vous apparaissent plus clairement qu'aux autres. Cette lucidité est-elle un don ou un poids ?"
+      ],
+      "galliard": [
+        "La Lune Gibbeuse a fait de vous le gardien des légendes, celui dont la voix porte le souvenir des héros et des défaites. Quelle histoire vous a le plus marqué, et pourquoi la portez-vous en vous ?",
+        "Chanter la gloire ou pleurer les morts — votre art est le cœur émotionnel de la meute. Comment exprimez-vous ce don : par le chant, le conte, la musique, ou une autre forme ?",
+        "Un Galliard qui n'inspire plus n'est qu'une voix dans le vent. Qu'est-ce qui nourrit votre flamme créatrice, même dans les heures les plus sombres de la guerre contre le Wyrm ?"
+      ],
+      "ahroun": [
+        "La Pleine Lune a fait de vous un guerrier-né. La Rage brûle en vous plus fort que chez les autres. Comment la canalisez-vous — et que se passe-t-il quand vous échouez ?",
+        "On attend de vous que vous soyez le premier dans la mêlée et le dernier à battre en retraite. Comment concevez-vous votre rôle de protecteur au sein de votre meute ?",
+        "La guerre contre le Wyrm consume des vies. Qu'est-ce qui vous donne la force de continuer à vous battre, nuit après nuit ?"
+      ]
+    },
+    "tribes": {
+      "black_furies": [
+        "Les Furies Noires sont les gardiennes des lieux sauvages et les défenderesses des opprimés, guidées par Pégase. Quelle cause ou quel lieu sacré vous anime au plus profond de votre être ?",
+        "Votre tribu porte en elle une colère ancienne face aux injustices du monde. Comment cette colère se manifeste-t-elle dans votre quête — est-elle un moteur ou devez-vous parfois la contenir ?",
+        "Les Furies Noires possèdent des traditions et des mystères qui leur sont propres. Que représente pour vous cette sororité et la force que vous y puisez ?"
+      ],
+      "bone_gnawers": [
+        "Les Rongeurs d'Os survivent là où personne d'autre ne le pourrait — dans les ruelles, les squats, les marges de la civilisation humaine. Comment êtes-vous devenu un survivant, et où Rat vous a-t-il mené ?",
+        "Les autres tribus vous regardent de haut, vous méprisent ou vous ignorent. Que pensez-vous de la place que la Nation Garou accorde aux vôtres ?",
+        "Malgré le dédain des autres, votre tribu connaît les entrailles des villes mieux que quiconque. Comment utilisez-vous cette connaissance du monde d'en bas pour servir Gaïa ?"
+      ],
+      "children_of_gaia": [
+        "Les Enfants de Gaïa croient que l'unité entre les tribus est la seule voie vers la victoire. Comment défendez-vous cette conviction face à des frères et sœurs qui ne jurent que par la violence ?",
+        "Licorne accueille presque tout le monde sous sa bannière. Qu'est-ce qui vous a mené vers les Enfants de Gaïa plutôt que vers une autre tribu ?",
+        "Être pacifiste dans une Nation bâtie sur la Rage et la guerre — est-ce un acte de courage ou de foi ? Comment vivez-vous cette tension ?"
+      ],
+      "fianna": [
+        "Les Fianna sont guerriers et bardes, nourris de traditions celtiques, de fêtes tumultueuses et de liens mystérieux avec les faes. Quel aspect de l'héritage Fianna résonne le plus puissamment en vous ?",
+        "Cerf guide vos pas entre le monde des vivants et les lisières enchantées. Quelle est votre relation avec les mystères et les récits anciens de votre tribu ?",
+        "Les Fianna rient aussi fort qu'ils se battent. Comment trouvez-vous la joie dans un monde rongé par le Wyrm ?"
+      ],
+      "get_of_fenris": [
+        "Les Rejetons de Fenris mesurent la valeur d'un Garou à l'aune de sa force et de son courage. Quelle épreuve avez-vous traversée qui définit votre valeur ?",
+        "Fenris enseigne que la faiblesse est une maladie à purger. Cette vision absolue de la force vous a-t-elle déjà mis en conflit avec d'autres Garous ou avec vos propres limites ?",
+        "L'honneur nordique coule dans les veines de votre tribu. Que signifie l'honneur pour vous, au-delà de la bataille ?"
+      ],
+      "glass_walkers": [
+        "Les Arpenteurs de Verre embrassent la technologie et la ville là où la plupart des Garous ne voient que corruption du Tisserand. Comment justifiez-vous cette voie auprès de ceux qui vous considèrent comme des traîtres à la nature ?",
+        "Cafard, votre totem, prospère partout et s'adapte à tout. Comment ce principe d'adaptation guide-t-il votre manière de servir Gaïa dans un monde de béton et de fibre optique ?",
+        "Les esprits de la Toile et des machines sont vos alliés. Comment percevez-vous la frontière entre le progrès qui sert Gaïa et celui qui nourrit le Tisserand ?"
+      ],
+      "red_talons": [
+        "Les Griffes Rouges voient dans l'humanité le cancer de Gaïa. Quelle est votre vision de la relation entre les Garous et les humains — et jusqu'où êtes-vous prêt à aller pour défendre les terres sauvages ?",
+        "Votre tribu n'accepte que les Lupus parmi ses rangs. Que pensez-vous des Garous nés parmi les humains, ceux qui portent l'odeur de la ville ?",
+        "Griffin, votre totem, se dresse contre l'avancée du Tisserand. Quel territoire ou quel espace sauvage brûlez-vous de protéger ?"
+      ],
+      "shadow_lords": [
+        "Grand-Père Tonnerre exige que les faibles cèdent la place aux forts. Que signifie la force pour vous — et la faiblesse, telle que votre Tribu la conçoit, vous a-t-elle déjà effleuré ?",
+        "Les Seigneurs de l'Ombre servent Gaïa par l'ambition et la stratégie, là où d'autres préfèrent les crocs nus. Comment concevez-vous votre place dans la hiérarchie de votre meute et de votre sept ?",
+        "Votre tribu porte la réputation d'être manipulatrice et sans scrupules aux yeux de la Nation Garou. Que pensez-vous de ce regard que les autres tribus posent sur vous ?"
+      ],
+      "silent_striders": [
+        "Les Marcheurs Silencieux sont maudits à errer sans fin, chassés de leur terre natale par une force ancienne et terrible. Comment vivez-vous cette errance — est-elle un fardeau ou avez-vous trouvé un foyer dans le mouvement ?",
+        "Hibou guide vos pas silencieux entre les mondes. Quelle est votre relation avec les morts et les fantômes qui semblent attirés par votre tribu ?",
+        "Vous portez les nouvelles d'un bout à l'autre de la Nation Garou — et ces nouvelles sont souvent sombres. Comment portez-vous ce rôle de messager ?"
+      ],
+      "silver_fangs": [
+        "Les Crocs d'Argent portent le poids d'une lignée royale et la responsabilité de mener la Nation Garou. Comment vivez-vous cet héritage — comme un honneur, un devoir, ou une chaîne ?",
+        "Faucon a béni votre sang noble, mais la consanguinité de votre lignée laisse des traces. Quelles ombres ou quelles fêlures se cachent derrière la couronne que vous portez ?",
+        "Les autres tribus vous respectent, vous craignent, ou vous contestent. Comment maintenez-vous votre autorité dans une Nation qui remet de plus en plus en question le droit de naissance ?"
+      ],
+      "stargazers": [
+        "Les Astrolâtres cherchent l'équilibre intérieur par la méditation et la maîtrise de soi, là où d'autres se laissent consumer par la Rage. Quel chemin philosophique ou spirituel suivez-vous pour dompter la Bête en vous ?",
+        "Chimère guide vos méditations entre rêve et réalité. Comment votre quête de sagesse intérieure sert-elle la cause de Gaïa dans un monde au bord de l'Apocalypse ?",
+        "Votre tribu s'est éloignée de la Nation Garou pour chercher sa propre voie. Comment vivez-vous cette distance — comme un exil ou comme une libération ?"
+      ],
+      "uktena": [
+        "Les Uktena gardent les secrets les plus anciens et les plus dangereux du monde des esprits. Qu'est-ce qui vous pousse à étudier les mystères que les autres tribus préfèrent ignorer ou craindre ?",
+        "Votre totem, le grand serpent Uktena, veille sur des savoirs interdits. Comment faites-vous la différence entre la connaissance qui sert Gaïa et celle qui pourrait vous corrompre ?",
+        "Votre tribu accueille ceux que les autres rejettent et rassemble des traditions venues de nombreux peuples. Comment cette diversité façonne-t-elle votre identité de Garou ?"
+      ],
+      "wendigo": [
+        "Les Wendigo sont les gardiens farouches des terres du Grand Nord, héritiers de traditions anciennes que les tribus européennes ont tenté d'effacer. Que représentent ces traditions pour vous ?",
+        "L'esprit Wendigo, le cannibale de l'hiver, est votre totem — une force terrible et sacrée. Comment honorez-vous ce pacte glacial ?",
+        "Votre tribu porte une rancœur profonde envers les Garous venus d'Europe, responsables de tant de destruction. Quelle est votre position face à ces tribus avec lesquelles vous devez pourtant coopérer contre le Wyrm ?"
+      ]
+    }
+  },
+  "vampire": {
+    "clans": {
+      "brujah": [
+        "Les Brujah portent en eux une passion ardente que l'Étreinte a transformée en colère éternelle. Quelle cause, quelle conviction ou quelle injustice fait bouillir votre Sang ?",
+        "Votre clan a engendré des philosophes et des destructeurs en parts égales. Comment votre Sire vous a-t-il choisi — et qu'a-t-il vu en vous qui méritait la Damnation ?",
+        "La Bête Brujah brûle plus proche de la surface que chez les autres Damnés. Comment vivez-vous avec cette rage qui menace d'exploser à chaque contrariété ?"
+      ],
+      "gangrel": [
+        "Les Gangrel sont plus proches de la Bête que de la civilisation. Comment percevez-vous le monde autour de vous — à travers des yeux humains, ou ceux d'un prédateur ?",
+        "Chaque frénésie laisse une marque bestiale sur votre corps. Quelles traces la Bête a-t-elle déjà imprimées en vous, et qu'annoncent-elles de ce que vous êtes en train de devenir ?",
+        "Les Gangrel sont souvent solitaires et nomades. Qu'est-ce qui vous pousse à la route — ou au contraire, qu'est-ce qui pourrait vous convaincre de rester ?"
+      ],
+      "malkavian": [
+        "L'Étreinte Malkavienne a brisé quelque chose dans votre esprit — ou peut-être ouvert une porte qui aurait dû rester fermée. Quelle forme prend votre folie, et comment se manifeste-t-elle au quotidien dans votre non-vie ?",
+        "Le Réseau de la Folie relie tous les Malkaviens dans un murmure collectif. Qu'entendez-vous quand le silence tombe — et comment faites-vous la différence entre vos propres pensées et celles de la toile ?",
+        "Les autres Damnés vous traitent de fou, de prophète, ou les deux. Comment vous définissez-vous face à ceux qui ne voient dans votre lucidité qu'une forme de démence ?"
+      ],
+      "nosferatu": [
+        "L'Étreinte Nosferatu a détruit tout ce que vous étiez en surface, transformant votre corps en quelque chose que nul mortel ne peut regarder sans terreur. Comment vivez-vous dans un monde qui ne peut plus vous voir sans hurler ?",
+        "Les égouts, les catacombes, les ténèbres profondes — c'est devenu votre territoire. Comment avez-vous construit votre existence dans l'ombre, loin du regard des mortels et des autres Damnés ?",
+        "Les Nosferatu sont les maîtres de l'information — les secrets sont votre monnaie, votre armure, votre pouvoir. Comment avez-vous commencé à tisser votre réseau ?"
+      ],
+      "toreador": [
+        "Les Toreador sont esclaves de la beauté sous toutes ses formes. Quelle est votre obsession esthétique — l'art, la musique, un visage, une sensation — et comment l'éternité a-t-elle transformé votre rapport à cette passion ?",
+        "La Fascination peut vous figer devant la perfection, vous rendant vulnérable et impuissant. Comment gérez-vous cette malédiction qui fait de votre plus grand plaisir votre plus grande faiblesse ?",
+        "L'éternité sans art ne serait qu'une prison. Mais l'éternité use aussi les passions. Comment nourrissez-vous votre flamme créatrice à travers les décennies ?"
+      ],
+      "tremere": [
+        "Les Tremere ont volé l'immortalité par la sorcellerie du sang, et le monde des Damnés ne l'a jamais oublié. Comment vivez-vous avec l'héritage de cette usurpation — dans la fierté ou sous le poids de la méfiance perpétuelle ?",
+        "La Pyramide Tremere exigeait obéissance et loyauté absolues. Quelle est votre position au sein de cette hiérarchie de sorciers, et comment la vivez-vous ?",
+        "La Thaumaturgie vous donne un pouvoir que les autres clans craignent et convoitent. Comment percevez-vous la frontière entre la connaissance qui sert vos intérêts et celle qui pourrait vous consumer ?"
+      ],
+      "ventrue": [
+        "Les Ventrue se considèrent comme les dirigeants naturels des Damnés. La couronne est-elle un droit que vous réclamez, ou un fardeau que vous portez — et pourquoi ?",
+        "Votre palais raffiné vous empêche de vous nourrir de n'importe quel mortel. Quel type de sang très spécifique êtes-vous contraint de chasser, et comment cette restriction affecte-t-elle votre non-vie ?",
+        "Le pouvoir attire les rivaux et les courtisans en parts égales. Comment naviguez-vous dans les eaux politiques de la société des Damnés ?"
+      ],
+      "lasombra": [
+        "Les Lasombra croient que seuls les forts méritent le pouvoir et que la pitié est une faiblesse mortelle. Comment cette philosophie darwiniste façonne-t-elle vos relations avec les autres Damnés ?",
+        "Votre reflet n'existe plus — ni dans les miroirs, ni dans les caméras, ni dans l'eau. Comment cette absence affecte-t-elle votre existence dans un monde de surveillance constante ?",
+        "Les Lasombra commandent les ténèbres elles-mêmes. Quelle est votre relation avec l'obscurité — est-elle un outil, un allié, ou quelque chose de plus intime ?"
+      ],
+      "tzimisce": [
+        "Les Tzimisce façonnent la chair et l'os comme de l'argile vivante. Comment percevez-vous la forme physique — comme une identité, ou comme un matériau brut à perfectionner ?",
+        "Votre sang vous lie mystiquement à une terre, un territoire sacré sans lequel le repos vous est impossible. Quel est ce lieu, et que représente-t-il pour vous ?",
+        "Les traditions d'hospitalité Tzimisce sont sacrées et impitoyables. Que signifient l'honneur et le territoire dans votre conception du monde ?"
+      ],
+      "ravnos": [
+        "Les Ravnos ne peuvent pas rester en place — une compulsion irrésistible vous pousse à errer sans fin. Comment vivez-vous cette malédiction du mouvement perpétuel ?",
+        "Votre clan maîtrise l'art de l'illusion, créant des chimères si réelles qu'elles trompent tous les sens. Quel rapport entretenez-vous avec la vérité et le mensonge ?",
+        "Les Ravnos ont été presque anéantis lors de la Semaine des Cauchemars. Comment portez-vous l'héritage d'un clan au bord de l'extinction ?"
+      ],
+      "setites": [
+        "Les Disciples de Set servent un dieu ancien et terrible, cherchant à libérer les âmes des chaînes de la morale. Comment concevez-vous cette mission — comme une corruption ou comme une véritable libération ?",
+        "La lumière est votre ennemie la plus cruelle — plus encore que pour les autres Damnés. Comment cette vulnérabilité extrême façonne-t-elle vos nuits et vos stratégies ?",
+        "Les autres clans vous craignent et vous méprisent, voyant en vous des corrupteurs et des tentateurs. Comment percevez-vous ce rejet, et quel visage montrez-vous à ceux que vous approchez ?"
+      ],
+      "giovanni": [
+        "Les Giovanni sont à la fois un clan et une famille mortelle, où le sang du lignage compte autant que le Sang vampirique. Quelle est votre place au sein de cette dynastie, et comment la famille façonne-t-elle votre non-vie ?",
+        "Votre Baiser inflige une douleur atroce au lieu de l'extase — chaque repas est une scène de souffrance. Comment gérez-vous cette malédiction qui fait de chaque chasse un acte de violence brute ?",
+        "La Nécromancie vous donne pouvoir sur les morts et les esprits des défunts. Quel rapport entretenez-vous avec l'au-delà et les fantômes que vous côtoyez ?"
+      ],
+      "assamites": [
+        "Les Assamites suivent le code d'Haqim et jugent les autres Damnés selon ses enseignements. Comment interprétez-vous la loi de votre fondateur, et quel rôle vous êtes-vous assigné parmi les vôtres ?",
+        "Le sang des autres vampires exerce sur vous une attraction dangereuse, une soif qui pourrait vous mener à la diablerie. Comment résistez-vous à cet appel — ou y avez-vous déjà cédé ?",
+        "Les Assamites sont craints comme assassins et juges implacables par le reste des Damnés. Comment portez-vous cette réputation — la cultivez-vous, ou cherchez-vous à la dépasser ?"
+      ],
+      "gargoyles": [
+        "Les Gargouilles n'ont pas été Étreintes — elles ont été créées, forgées par les Tremere à partir d'autres vampires. Comment vivez-vous avec le fait d'avoir été conçu comme un outil, un serviteur ?",
+        "L'instinct de servitude est gravé dans votre sang. Comment luttez-vous contre cette programmation qui vous pousse à obéir — ou avez-vous choisi de l'accepter ?",
+        "Votre corps de pierre et vos ailes vous distinguent de tout autre Damné. Comment percevez-vous votre propre nature — comme une malédiction, une force, ou quelque chose d'unique ?"
+      ],
+      "samedi": [
+        "Les Samedi portent la décomposition comme une seconde peau — votre chair pourrit sans fin, l'odeur de la tombe vous suit partout. Comment existez-vous dans un monde qui recule devant vous ?",
+        "Vos origines sont liées aux rites vaudou des Caraïbes. Comment cet héritage spirituel influence-t-il votre rapport à la non-mort et aux puissances invisibles ?",
+        "La mort vous habite plus intimement que chez tout autre Damné. Comment cette proximité constante avec la putréfaction affecte-t-elle votre vision de l'éternité ?"
+      ],
+      "daughters_cacophony": [
+        "Les Filles de la Cacophonie n'entendent jamais le silence — un concert perpétuel joue dans votre esprit, nuit et jour. Comment vivez-vous avec cette symphonie intérieure qui ne s'arrête jamais ?",
+        "Votre voix est votre pouvoir, votre arme et votre malédiction. Comment avez-vous découvert l'étendue de ce don, et comment en mesurez-vous les conséquences ?",
+        "Les origines de votre lignée restent un mystère, même pour vous. Comment vivez-vous cette incertitude sur votre propre nature ?"
+      ],
+      "baali": [
+        "Les Baali ont prêté allégeance aux puissances infernales, et chaque vampire du monde vous chasserait à vue s'il découvrait votre nature. Comment naviguez-vous dans un monde qui vous veut détruit ?",
+        "Les symboles sacrés de toutes les religions — sans exception — vous brûlent et vous repoussent. Comment cette vulnérabilité universelle au sacré affecte-t-elle votre existence nocturne ?",
+        "Vous avez posé le regard au-delà du voile, vers les puissances infernales. Qu'est-ce qui vous a mené sur ce chemin — ou est-ce le chemin qui vous a choisi ?"
+      ],
+      "salubri": [
+        "Les Salubri sont les survivants d'un génocide perpétré par les Tremere, traqués et presque éteints. Comment portez-vous cet héritage de souffrance et de persécution ?",
+        "Votre troisième œil s'ouvre et saigne chaque fois que vous utilisez vos dons, révélant votre nature au monde. Comment vivez-vous avec ce stigmate qui transforme chaque usage de vos pouvoirs en risque mortel ?",
+        "Les Tremere ont convaincu le monde des Damnés que les Salubri sont des diabolistes. Comment existez-vous dans l'ombre d'un mensonge qui pourrait vous faire détruire à tout instant ?"
+      ]
+    }
+  }
+}

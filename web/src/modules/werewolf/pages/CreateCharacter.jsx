@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WizardLayout from '../components/WizardLayout';
 import WizardStep from '../components/WizardStep';
+import StarterPackStep from '../components/StarterPackStep';
 import werewolfData from '../assets/werewolf_data.json';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
@@ -20,6 +21,11 @@ export default function CreateCharacter() {
         auspice: '',
         tribu: '',
     });
+    const [starterPackAnswers, setStarterPackAnswers] = useState({
+        breed: '',
+        auspice: '',
+        tribu: '',
+    });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
@@ -32,16 +38,17 @@ export default function CreateCharacter() {
 
     const handleSelect = (key, value) => {
         setFormData(prev => ({ ...prev, [key]: value }));
-        // Auto-advance logic could be added here if desired, 
-        // but for now we let the user click "Suivant" or keep selection manual
-        // Actually, WizardStep is just big cards. Let's make clicking them select + maybe scroll/focus?
-        // For this UX, selecting highlights it. User needs to click "Suivant".
+    };
+
+    const handleAnswerChange = (key, value) => {
+        setStarterPackAnswers(prev => ({ ...prev, [key]: value }));
     };
 
     const nextStep = () => {
         if (step === 1 && !formData.breed) return;
         if (step === 2 && !formData.auspice) return;
         if (step === 3 && !formData.tribu) return;
+        if (step === 4) return;
         setStep(prev => prev + 1);
         window.scrollTo(0, 0);
     };
@@ -70,7 +77,8 @@ export default function CreateCharacter() {
                 name: "Jeune Garou inconnu",
                 breed: formData.breed,
                 auspice: formData.auspice,
-                tribe: formData.tribu
+                tribe: formData.tribu,
+                starter_pack_answers: starterPackAnswers
             };
 
             const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
@@ -132,6 +140,14 @@ export default function CreateCharacter() {
                         onSelect={(id) => handleSelect('tribu', id)}
                     />
                 );
+            case 4:
+                return (
+                    <StarterPackStep
+                        formData={formData}
+                        answers={starterPackAnswers}
+                        onAnswerChange={handleAnswerChange}
+                    />
+                );
             default: return null;
         }
     };
@@ -141,6 +157,7 @@ export default function CreateCharacter() {
             case 1: return "Choisissez votre Race";
             case 2: return "Sous quelle lune êtes-vous né ?";
             case 3: return "Quelle Tribu rejoignez-vous ?";
+            case 4: return "Écrivez votre Légende";
             default: return "";
         }
     };
@@ -150,6 +167,7 @@ export default function CreateCharacter() {
             case 1: return "Votre forme de naissance détermine votre lien avec le monde.";
             case 2: return "L'Auspice définit votre rôle au sein de la meute.";
             case 3: return "Votre tribu est votre famille élargie, votre culture, votre cause.";
+            case 4: return "Répondez à ces questions pour donner vie à votre personnage.";
             default: return "";
         }
     };
@@ -158,6 +176,13 @@ export default function CreateCharacter() {
         if (step === 1) return !!formData.breed;
         if (step === 2) return !!formData.auspice;
         if (step === 3) return !!formData.tribu;
+        if (step === 4) {
+            return (
+                starterPackAnswers.breed.trim().length >= 10 &&
+                starterPackAnswers.auspice.trim().length >= 10 &&
+                starterPackAnswers.tribu.trim().length >= 10
+            );
+        }
         return false;
     };
 
@@ -167,7 +192,7 @@ export default function CreateCharacter() {
             <div className="w-full h-1 bg-gray-700 mb-8 rounded-full overflow-hidden">
                 <div
                     className="h-full bg-red-600 transition-all duration-500 ease-out"
-                    style={{ width: `${(step / 3) * 100}%` }}
+                    style={{ width: `${(step / 4) * 100}%` }}
                 ></div>
             </div>
 
@@ -192,7 +217,7 @@ export default function CreateCharacter() {
                     Précédent
                 </button>
 
-                {step < 3 ? (
+                {step < 4 ? (
                     <button
                         onClick={nextStep}
                         disabled={!canProceed()}

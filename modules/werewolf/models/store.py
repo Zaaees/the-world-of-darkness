@@ -62,6 +62,7 @@ class WerewolfData:
     mental_desc_pre: Optional[str] = None
     first_change: Optional[str] = None
     image_url: Optional[str] = None
+    starter_pack_answers: Optional[dict] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -131,6 +132,7 @@ async def create_werewolf_table(db: aiosqlite.Connection) -> None:
             mental_desc_pre TEXT,
             first_change TEXT,
             image_url TEXT,
+            starter_pack_answers TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -148,6 +150,11 @@ async def create_werewolf_table(db: aiosqlite.Connection) -> None:
         await db.execute("ALTER TABLE werewolf_data ADD COLUMN mental_desc_pre TEXT")
         await db.execute("ALTER TABLE werewolf_data ADD COLUMN first_change TEXT")
         await db.execute("ALTER TABLE werewolf_data ADD COLUMN image_url TEXT")
+    except Exception:
+        pass
+        
+    try:
+        await db.execute("ALTER TABLE werewolf_data ADD COLUMN starter_pack_answers TEXT")
     except Exception:
         pass
         
@@ -184,9 +191,9 @@ async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> 
     await db.execute("""
         INSERT INTO werewolf_data (
             user_id, breed, auspice, tribe, name, story, rank, discord_thread_id,
-            age, sex, physical_desc, mental_desc_pre, first_change, image_url,
+            age, sex, physical_desc, mental_desc_pre, first_change, image_url, starter_pack_answers,
             created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         data.user_id,
         breed_val,
@@ -202,6 +209,7 @@ async def create_werewolf_data(db: aiosqlite.Connection, data: WerewolfData) -> 
         data.mental_desc_pre,
         data.first_change,
         data.image_url,
+        json.dumps(data.starter_pack_answers) if data.starter_pack_answers else None,
         now,
         now
     ))
@@ -245,6 +253,7 @@ async def get_werewolf_data(db: aiosqlite.Connection, user_id: str) -> Optional[
             mental_desc_pre=row['mental_desc_pre'] if 'mental_desc_pre' in row.keys() else None,
             first_change=row['first_change'] if 'first_change' in row.keys() else None,
             image_url=row['image_url'] if 'image_url' in row.keys() else None,
+            starter_pack_answers=json.loads(row['starter_pack_answers']) if 'starter_pack_answers' in row.keys() and row['starter_pack_answers'] else None,
             created_at=created_at,
             updated_at=updated_at
         )
@@ -258,10 +267,13 @@ async def update_werewolf_data(db: aiosqlite.Connection, user_id: str, updates: 
     # Whitelist of allowed columns to update
     ALLOWED_UPDATE_COLUMNS = {
         'name', 'story', 'rank', 'discord_thread_id', 
-        'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'image_url'
+        'age', 'sex', 'physical_desc', 'mental_desc_pre', 'first_change', 'image_url', 'starter_pack_answers'
     }
     
     valid_updates = {k: v for k, v in updates.items() if k in ALLOWED_UPDATE_COLUMNS}
+    
+    if 'starter_pack_answers' in valid_updates and isinstance(valid_updates['starter_pack_answers'], (dict, list)):
+        valid_updates['starter_pack_answers'] = json.dumps(valid_updates['starter_pack_answers'])
     
     if not valid_updates:
         logger.warning(f"Update attempt for {user_id} contained no valid fields. Original updates: {updates.keys()}")
@@ -421,6 +433,7 @@ async def get_all_werewolves(db: aiosqlite.Connection) -> list[WerewolfData]:
                 mental_desc_pre=row['mental_desc_pre'] if 'mental_desc_pre' in row.keys() else None,
                 first_change=row['first_change'] if 'first_change' in row.keys() else None,
                 image_url=row['image_url'] if 'image_url' in row.keys() else None,
+                starter_pack_answers=json.loads(row['starter_pack_answers']) if 'starter_pack_answers' in row.keys() and row['starter_pack_answers'] else None,
                 created_at=created_at,
                 updated_at=updated_at
             ))

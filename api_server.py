@@ -744,6 +744,12 @@ async def set_vampire_clan_handler(request):
         # Définir le clan
         await set_player(user_id, guild_id, race="vampire", clan=clan)
 
+        # Enregistrer les réponses au Starter Pack RP s'il y en a
+        starter_pack_answers = data.get("starter_pack_answers")
+        if starter_pack_answers:
+            from utils.database import save_character_sheet
+            await save_character_sheet(user_id, guild_id, {"starter_pack_answers": starter_pack_answers})
+
         return web.json_response({
             "success": True,
             "clan": clan,
