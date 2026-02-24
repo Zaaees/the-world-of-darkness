@@ -248,8 +248,6 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
       )}
 
       <div className="space-y-6">
-        <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
-
         {/* Image Upload */}
         <div className="bg-stone-900/50 border border-stone-800 rounded p-6 text-center">
           {sheetData.image_url ? (
@@ -363,16 +361,55 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
           </p>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           <label className="block text-sm font-medium text-stone-400">Histoire</label>
-          <textarea
-            name="history"
-            value={sheetData.history}
-            onChange={handleChange}
-            rows={24}
-            className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none"
-            placeholder="Votre vie avant l'Etreinte, les circonstances de votre mort, vos premières nuits..."
-          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <textarea
+                name="history"
+                value={sheetData.history}
+                onChange={handleChange}
+                rows={24}
+                className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 focus:outline-none h-full"
+                placeholder="Votre vie avant l'Etreinte, les circonstances de votre mort, vos premières nuits... (Inspirez-vous des origines de votre légende ci-contre)"
+              />
+            </div>
+
+            <div className="bg-stone-900/40 border border-stone-800 rounded p-4 h-full overflow-y-auto max-h-[600px]">
+              <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2">L'Éveil de votre Sang</h4>
+
+              {(() => {
+                const ans = sheetData.starter_pack_answers;
+                if (!ans || (!ans.q1 && !ans.q2 && !ans.q3)) {
+                  return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
+                }
+
+                return (
+                  <div className="space-y-5">
+                    {ans.q1 && (
+                      <div className="border-l-2 border-red-900/50 pl-3">
+                        <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">Première Nuit</span>
+                        <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.q1}</p>
+                      </div>
+                    )}
+                    {ans.q2 && (
+                      <div className="border-l-2 border-red-900/50 pl-3">
+                        <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">La Bête</span>
+                        <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.q2}</p>
+                      </div>
+                    )}
+                    {ans.q3 && (
+                      <div className="border-l-2 border-red-900/50 pl-3">
+                        <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">Lien à l'Humanité</span>
+                        <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.q3}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
         </div>
 
         {/* Actions */}

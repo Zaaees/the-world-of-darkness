@@ -539,8 +539,6 @@ const CharacterSheet = ({ initialTab }) => {
                         </div>
                     ) : (
                         <div className="space-y-6">
-                            <StarterPackDisplay character={{ ...character, ...sheetData }} />
-
                             {formError && (
                                 <div className="mb-6 p-4 bg-red-900/30 border border-red-800 rounded flex items-center gap-3 text-red-200 animate-in fade-in">
                                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -606,9 +604,51 @@ const CharacterSheet = ({ initialTab }) => {
                                 <textarea name="first_change" value={sheetData.first_change} onChange={handleChange} rows={6} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none placeholder-stone-600" placeholder="Comment avez-vous vécu votre première transformation ? La Rage primordiale s'est-elle emparée de vous ?" />
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="space-y-4">
                                 <label className="block text-sm font-medium text-stone-400">Histoire complète</label>
-                                <textarea name="story" value={sheetData.story} onChange={handleChange} rows={12} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none" />
+
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    <div className="lg:col-span-2">
+                                        <textarea name="story" value={sheetData.story} onChange={handleChange} rows={15} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none h-full" placeholder="Rédigez votre histoire ici en vous inspirant de vos réponses aux origines de votre légende..." />
+                                    </div>
+
+                                    <div className="bg-stone-900/40 border border-stone-800 rounded p-4 h-full overflow-y-auto max-h-[400px]">
+                                        <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2">Rappels de votre Légende</h4>
+
+                                        {(() => {
+                                            if (!sheetData.starter_pack_answers || (!sheetData.starter_pack_answers.breed && !sheetData.starter_pack_answers.auspice && !sheetData.starter_pack_answers.tribu)) {
+                                                return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
+                                            }
+
+                                            const ans = sheetData.starter_pack_answers;
+
+                                            // Optional: Displaying the questions directly from starter_pack_data isn't really needed since we can use simple labels, 
+                                            // which is much cleaner visually and doesn't require importing the JSON.
+                                            return (
+                                                <div className="space-y-4">
+                                                    {ans.breed && (
+                                                        <div className="border-l-2 border-emerald-900/50 pl-3">
+                                                            <span className="text-[10px] uppercase tracking-wider text-emerald-600 block mb-1">Métamorphose (Race)</span>
+                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.breed}</p>
+                                                        </div>
+                                                    )}
+                                                    {ans.auspice && (
+                                                        <div className="border-l-2 border-amber-900/50 pl-3">
+                                                            <span className="text-[10px] uppercase tracking-wider text-amber-600 block mb-1">Lune de Naissance (Auspice)</span>
+                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.auspice}</p>
+                                                        </div>
+                                                    )}
+                                                    {ans.tribu && (
+                                                        <div className="border-l-2 border-red-900/50 pl-3">
+                                                            <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">Affiliation (Tribu)</span>
+                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.tribu}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="flex justify-end pt-4 border-t border-stone-800">
