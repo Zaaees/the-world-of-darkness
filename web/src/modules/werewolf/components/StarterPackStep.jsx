@@ -2,10 +2,16 @@ import React, { useMemo } from 'react';
 import starterPackData from '../../../assets/starter_pack_data.json';
 
 export default function StarterPackStep({ formData, answers, onAnswerChange }) {
+    const normalizeKey = (key) => (key ? key.toLowerCase().replace(/\s+/g, '_') : '');
+
     // Determine the questions to ask based on formData
-    const breedQuestions = starterPackData.werewolf.breeds[formData.breed] || [];
-    const auspiceQuestions = starterPackData.werewolf.auspices[formData.auspice] || [];
-    const tribeQuestions = starterPackData.werewolf.tribes[formData.tribu] || [];
+    const breedKey = normalizeKey(formData.breed);
+    const auspiceKey = normalizeKey(formData.auspice);
+    const tribeKey = normalizeKey(formData.tribu);
+
+    const breedQuestions = starterPackData.werewolf.breeds[breedKey] || [];
+    const auspiceQuestions = starterPackData.werewolf.auspices[auspiceKey] || [];
+    const tribeQuestions = starterPackData.werewolf.tribes[tribeKey] || [];
 
     const selectedQuestions = useMemo(() => {
         return {

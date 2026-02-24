@@ -9,7 +9,10 @@ export default function StarterPackDisplay({ answers, clanId }) {
         return null;
     }
 
-    const clanQuestions = starterPackData.vampire.clans[clanId] || [];
+    // Normalize clanId to snake_case (e.g. "Silent Striders" -> "silent_striders" just in case, or "Brujah" -> "brujah")
+    const normalizedClanId = clanId ? clanId.toLowerCase().replace(/\s+/g, '_') : '';
+
+    const clanQuestions = starterPackData.vampire.clans[normalizedClanId] || [];
     const q1 = clanQuestions[0] || "Décrivez votre première nuit en tant que Damné.";
     const q2 = clanQuestions[1] || "Comment percevez-vous la Bête qui sommeille en vous ?";
     const q3 = clanQuestions[2] || "Quel lien vous unit encore à l'humanité, si tant est qu'il en reste un ?";

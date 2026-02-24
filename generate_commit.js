@@ -1,7 +1,11 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
+const dns = require('dns');
 
-const API_KEY = process.env.GEMINI_API_KEY;
+// Force IPv4 resolution to prevent Node.js fetch from failing on some networks with broken IPv6
+dns.setDefaultResultOrder('ipv4first');
+
+const API_KEY = process.env.GEMINI_API_KEY ? process.env.GEMINI_API_KEY.replace(/^["'`]|["'`]$/g, '').trim() : undefined;
 
 if (!API_KEY) {
     console.error("Veuillez definir la variable d'environnement GEMINI_API_KEY dans votre fichier .env.");
@@ -57,6 +61,9 @@ ${truncatedDiff}`;
         })
         .catch(err => {
             console.error("Erreur API:", err.message);
+            if (err.cause) {
+                console.error("Cause de l'erreur réseau:", err.cause.message || err.cause);
+            }
             process.exitCode = 1;
         });
 

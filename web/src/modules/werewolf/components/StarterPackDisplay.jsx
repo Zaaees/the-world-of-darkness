@@ -15,10 +15,17 @@ export default function StarterPackDisplay({ character }) {
         return null;
     }
 
+    // Normalize keys to snake_case (e.g. "Black Furies" -> "black_furies")
+    const normalizeKey = (key) => (key ? key.toLowerCase().replace(/\s+/g, '_') : '');
+
+    const breedKey = normalizeKey(character.breed);
+    const auspiceKey = normalizeKey(character.auspice);
+    const tribeKey = normalizeKey(character.tribe);
+
     // Récupérer les questions pour la race, l'auspice et la tribu du personnage
-    const breedQuestions = starterPackData.werewolf.breeds[character.breed] || [];
-    const auspiceQuestions = starterPackData.werewolf.auspices[character.auspice] || [];
-    const tribeQuestions = starterPackData.werewolf.tribes[character.tribe] || [];
+    const breedQuestions = starterPackData.werewolf.breeds[breedKey] || [];
+    const auspiceQuestions = starterPackData.werewolf.auspices[auspiceKey] || [];
+    const tribeQuestions = starterPackData.werewolf.tribes[tribeKey] || [];
 
     const qs = {
         breed: breedQuestions[0] || "Parlez-nous de votre métamorphose.",
