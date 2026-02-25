@@ -53,7 +53,8 @@ async def create_character(db: aiosqlite.Connection, character_data: Dict[str, A
             name=character_data['name'],
             breed=character_data['breed'],
             auspice=character_data['auspice'],
-            tribe=character_data['tribe']
+            tribe=character_data['tribe'],
+            starter_pack_answers=character_data.get('starter_pack_answers')
         )
     except (TypeError, ValueError, KeyError) as e:
          logger.error(f"Invalid character data for user {user_id}: {e}")
