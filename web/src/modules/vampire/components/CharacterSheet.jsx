@@ -380,7 +380,11 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
               <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2">L'Éveil de votre Sang</h4>
 
               {(() => {
-                const ans = sheetData.starter_pack_answers;
+                let ans = sheetData.starter_pack_answers;
+                if (typeof ans === 'string') {
+                  try { ans = JSON.parse(ans); } catch (e) { ans = null; }
+                }
+
                 if (!ans || (!ans.q1 && !ans.q2 && !ans.q3)) {
                   return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
                 }

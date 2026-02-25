@@ -616,12 +616,15 @@ const CharacterSheet = ({ initialTab }) => {
                                         <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2">Rappels de votre Légende</h4>
 
                                         {(() => {
-                                            if (!sheetData.starter_pack_answers || (!sheetData.starter_pack_answers.breed && !sheetData.starter_pack_answers.auspice && !sheetData.starter_pack_answers.tribu)) {
+                                            let ans = sheetData.starter_pack_answers || character?.starter_pack_answers;
+                                            if (typeof ans === 'string') {
+                                                try { ans = JSON.parse(ans); } catch(e) { ans = null; }
+                                            }
+                                            
+                                            if (!ans || (!ans.breed && !ans.auspice && !ans.tribu)) {
                                                 return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
                                             }
-
-                                            const ans = sheetData.starter_pack_answers;
-
+                                            
                                             // Optional: Displaying the questions directly from starter_pack_data isn't really needed since we can use simple labels, 
                                             // which is much cleaner visually and doesn't require importing the JSON.
                                             return (
