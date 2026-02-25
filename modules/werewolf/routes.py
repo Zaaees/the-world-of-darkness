@@ -122,7 +122,8 @@ async def get_character_handler(request: web.Request) -> web.Response:
                     "physical_desc": character.physical_desc,
                     "mental_desc_pre": character.mental_desc_pre,
                     "first_change": character.first_change,
-                    "image_url": character.image_url
+                    "image_url": character.image_url,
+                    "starter_pack_answers": character.starter_pack_answers
                 }
             }, headers={"Cache-Control": "no-store, no-cache, must-revalidate", "Pragma": "no-cache"})
             
@@ -234,7 +235,8 @@ async def update_character_handler(request: web.Request) -> web.Response:
                     "physical_desc": character.physical_desc,
                     "mental_desc_pre": character.mental_desc_pre,
                     "first_change": character.first_change,
-                    "image_url": character.image_url
+                    "image_url": character.image_url,
+                    "starter_pack_answers": character.starter_pack_answers
                 }
             })
             
