@@ -4,6 +4,7 @@ import WerewolfLayout from '../components/WerewolfLayout';
 import RenownBadge from '../components/RenownBadge';
 import WerewolfLoading from '../components/WerewolfLoading';
 import StarterPackDisplay from '../components/StarterPackDisplay';
+import starterPackData from '../../../assets/starter_pack_data.json';
 
 import GiftsTab from './GiftsPage/GiftsTab';
 import RenownTab from './RenownTab';
@@ -618,32 +619,39 @@ const CharacterSheet = ({ initialTab }) => {
                                         {(() => {
                                             let ans = sheetData.starter_pack_answers || character?.starter_pack_answers;
                                             if (typeof ans === 'string') {
-                                                try { ans = JSON.parse(ans); } catch(e) { ans = null; }
+                                                try { ans = JSON.parse(ans); } catch (e) { ans = null; }
                                             }
-                                            
+
                                             if (!ans || (!ans.breed && !ans.auspice && !ans.tribu)) {
                                                 return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
                                             }
-                                            
-                                            // Optional: Displaying the questions directly from starter_pack_data isn't really needed since we can use simple labels, 
-                                            // which is much cleaner visually and doesn't require importing the JSON.
+
+                                            const normalizeKey = (key) => (key ? key.toLowerCase().replace(/\s+/g, '_') : '');
+                                            const breedKey = normalizeKey(character?.breed);
+                                            const auspiceKey = normalizeKey(character?.auspice);
+                                            const tribeKey = normalizeKey(character?.tribe);
+
+                                            const breedQ = (starterPackData.werewolf.breeds[breedKey] || [])[0] || "Race";
+                                            const auspiceQ = (starterPackData.werewolf.auspices[auspiceKey] || [])[0] || "Auspice";
+                                            const tribeQ = (starterPackData.werewolf.tribes[tribeKey] || [])[0] || "Tribu";
+
                                             return (
                                                 <div className="space-y-4">
                                                     {ans.breed && (
                                                         <div className="border-l-2 border-emerald-900/50 pl-3">
-                                                            <span className="text-[10px] uppercase tracking-wider text-emerald-600 block mb-1">Métamorphose (Race)</span>
+                                                            <p className="text-[11px] italic text-emerald-600/80 mb-1 leading-snug">{breedQ}</p>
                                                             <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.breed}</p>
                                                         </div>
                                                     )}
                                                     {ans.auspice && (
                                                         <div className="border-l-2 border-amber-900/50 pl-3">
-                                                            <span className="text-[10px] uppercase tracking-wider text-amber-600 block mb-1">Lune de Naissance (Auspice)</span>
+                                                            <p className="text-[11px] italic text-amber-600/80 mb-1 leading-snug">{auspiceQ}</p>
                                                             <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.auspice}</p>
                                                         </div>
                                                     )}
                                                     {ans.tribu && (
                                                         <div className="border-l-2 border-red-900/50 pl-3">
-                                                            <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">Affiliation (Tribu)</span>
+                                                            <p className="text-[11px] italic text-red-600/80 mb-1 leading-snug">{tribeQ}</p>
                                                             <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.tribu}</p>
                                                         </div>
                                                     )}
