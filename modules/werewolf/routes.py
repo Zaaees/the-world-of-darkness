@@ -77,10 +77,11 @@ async def create_character_handler(request: web.Request) -> web.Response:
             }, status=201)
             
     except ValueError as e:
+        logger.error(f"ValueError creating character for user {user_id}: {e}")
         return web.json_response({"error": str(e)}, status=400)
     except Exception as e:
-        logger.exception(f"Error creating character for user {user_id}")
-        return web.json_response({"error": "Échec de la création du personnage"}, status=500)
+        logger.exception(f"Error creating character for user {user_id}: {e}")
+        return web.json_response({"error": f"Échec de la création du personnage: {e}"}, status=500)
 
 
 @require_werewolf_role
