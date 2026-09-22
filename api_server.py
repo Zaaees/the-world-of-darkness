@@ -137,6 +137,35 @@ async def verify_vampire_auth(request) -> Optional[tuple]:
         return None
 
 
+async def verify_gm_auth(request) -> Optional[tuple]:
+    """
+    Vérifie l'authentification et les droits GM (MJ Vampire ou Fondateur).
+    Retourne (user_id, guild_id, member) ou None si non autorisé.
+    """
+    auth = await verify_vampire_auth(request)
+    if not auth:
+        return None
+    user_id, guild_id = auth
+    bot = request.app.get("bot")
+    if not bot:
+        return None
+    guild = bot.get_guild(guild_id)
+    if not guild:
+        return None
+    member = guild.get_member(user_id)
+    if not member:
+        try:
+            member = await guild.fetch_member(user_id)
+        except Exception:
+            return None
+
+    from data.config import ROLE_MJ_VAMPIRE, ROLE_FONDATEUR
+    member_roles = [r.id for r in member.roles]
+    if ROLE_MJ_VAMPIRE in member_roles or ROLE_FONDATEUR in member_roles:
+        return (user_id, guild_id, member)
+    return None
+
+
 # --- ENDPOINTS GOULES ---
 
 
@@ -644,9 +673,9 @@ async def get_vampire_profile_handler(request):
         player = await get_player(user_id, guild_id)
         vampire_data = await get_vampire_data(user_id, guild_id)
 
-        # Vérifier si le membre est MJ (Caïn Mode)
-        ROLE_GM = 1454188335957282897
-        is_gm = ROLE_GM in member_role_ids
+        # Vérifier si le membre est MJ (Caïn Mode) ou Fondateur
+        from data.config import ROLE_MJ_VAMPIRE, ROLE_FONDATEUR
+        is_gm = ROLE_MJ_VAMPIRE in member_role_ids or ROLE_FONDATEUR in member_role_ids
 
         # Construire le profil
         profile = {
@@ -800,16 +829,12 @@ async def get_player_rituals_handler(request):
 
 async def get_npcs_handler(request):
     """GET /api/gm/npcs - Récupérer tous les PNJ."""
-    auth = await verify_vampire_auth(request)
+    auth = await verify_gm_auth(request)
     if not auth:
-        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+        return web.json_response({"success": False, "error": "Accès refusé : rôle MJ requis"}, status=403)
 
-    user_id, guild_id = auth
+    user_id, guild_id, _ = auth
 
-    # Vérifier si GM (simple vérification si l'utilisateur est connu pour l'instant, 
-    # une vraie vérification de rôle serait mieux mais verify_vampire_auth ne renvoie que l'ID)
-    # On suppose que l'accès au frontend est protégé
-    
     try:
         npcs = await get_npcs(guild_id)
         return web.json_response({"success": True, "npcs": npcs})
@@ -820,11 +845,11 @@ async def get_npcs_handler(request):
 
 async def create_npc_handler(request):
     """POST /api/gm/npcs - Créer un PNJ."""
-    auth = await verify_vampire_auth(request)
+    auth = await verify_gm_auth(request)
     if not auth:
-        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+        return web.json_response({"success": False, "error": "Accès refusé : rôle MJ requis"}, status=403)
 
-    user_id, guild_id = auth
+    user_id, guild_id, _ = auth
 
     try:
         data = await request.json()
@@ -852,9 +877,9 @@ async def create_npc_handler(request):
 
 async def get_npc_handler(request):
     """GET /api/gm/npcs/{npc_id} - Récupérer un PNJ spécifique."""
-    auth = await verify_vampire_auth(request)
+    auth = await verify_gm_auth(request)
     if not auth:
-        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+        return web.json_response({"success": False, "error": "Accès refusé : rôle MJ requis"}, status=403)
 
     npc_id = request.match_info.get("npc_id")
 
@@ -870,11 +895,11 @@ async def get_npc_handler(request):
 
 async def delete_npc_handler(request):
     """DELETE /api/gm/npcs/{npc_id} - Supprimer un PNJ."""
-    auth = await verify_vampire_auth(request)
+    auth = await verify_gm_auth(request)
     if not auth:
-        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+        return web.json_response({"success": False, "error": "Accès refusé : rôle MJ requis"}, status=403)
 
-    user_id, guild_id = auth
+    user_id, guild_id, _ = auth
     npc_id = request.match_info.get("npc_id")
 
     try:
@@ -935,10 +960,11 @@ async def delete_npc_handler(request):
 
 async def update_npc_handler(request):
     """PUT /api/gm/npcs/{npc_id} - Mettre à jour un PNJ."""
-    auth = await verify_vampire_auth(request)
+    auth = await verify_gm_auth(request)
     if not auth:
-        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+        return web.json_response({"success": False, "error": "Accès refusé : rôle MJ requis"}, status=403)
 
+    user_id, guild_id, _ = auth
     npc_id = request.match_info.get("npc_id")
 
     try:
@@ -963,16 +989,13 @@ async def update_npc_handler(request):
         if updated_npc:
             bot = request.app.get("bot")
             if bot:
-                guild_id = request.headers.get("X-Discord-Guild-ID")
-                guild = bot.get_guild(int(guild_id)) if guild_id else None
+                guild = bot.get_guild(guild_id)
                 if guild:
                     # Calculer le diff
                     from utils.sheet_manager import calculate_diff
                     diff_text = calculate_diff(old_npc or {}, updated_npc)
                     
                     # Publier (création ou mise à jour du thread)
-                    # On le fait en async sans bloquer la réponse HTTP critique, 
-                    # mais ici on await pour être sûr que ça marche ou loguer l'erreur
                     forum_post_id = await publish_npc_to_discord(bot, guild, updated_npc, diff_text=diff_text)
                     
                     if forum_post_id:
@@ -989,11 +1012,11 @@ async def update_npc_handler(request):
 
 async def publish_npc_handler(request):
     """POST /api/gm/npcs/{npc_id}/publish - Publier le PNJ sur Discord."""
-    auth = await verify_vampire_auth(request)
+    auth = await verify_gm_auth(request)
     if not auth:
-        return web.json_response({"success": False, "error": "Non authentifié"}, status=401)
+        return web.json_response({"success": False, "error": "Accès refusé : rôle MJ requis"}, status=403)
 
-    user_id, guild_id = auth
+    user_id, guild_id, _ = auth
     npc_id = request.match_info.get("npc_id")
 
     try:

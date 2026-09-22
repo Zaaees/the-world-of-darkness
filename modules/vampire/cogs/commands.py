@@ -15,6 +15,7 @@ from discord.ext import commands
 from data.clans import get_clan, list_clans
 from data.config import ROLE_VAMPIRE
 from utils.database import get_player, get_soif, get_vampire_data
+from utils.rp_check import is_rp_channel
 
 # Import from the specific module view
 from modules.vampire.views.panel import VampirePanel, ClanSelectView
@@ -41,15 +42,31 @@ class VampireCog(commands.Cog, name="Vampire"):
         """
         Ouvre le panneau Vampire avec les boutons de contrôle de la Soif.
 
-        Accessible uniquement aux membres avec le rôle "Vampire".
+        Accessible uniquement aux membres avec le rôle "Vampire" dans un salon RP.
         """
         # Defer la réponse pour éviter le timeout Discord lors des appels à Google Sheets
         await interaction.response.defer(ephemeral=True)
+
+        # Vérifier si on est sur un serveur
+        if not interaction.guild:
+            await interaction.followup.send(
+                "❌ Cette commande ne peut être utilisée que sur un serveur Discord.",
+                ephemeral=True,
+            )
+            return
 
         # Vérifier le rôle
         if not has_vampire_role(interaction.user):
             await interaction.followup.send(
                 "❌ Tu dois avoir le rôle **Vampire** pour utiliser cette commande.",
+                ephemeral=True,
+            )
+            return
+
+        # Vérifier si on est dans un canal RP
+        if not is_rp_channel(interaction.channel):
+            await interaction.followup.send(
+                "❌ Cette commande ne fonctionne que dans les catégories **[RP]**.",
                 ephemeral=True,
             )
             return
