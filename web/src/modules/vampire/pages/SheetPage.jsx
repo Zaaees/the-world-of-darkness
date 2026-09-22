@@ -229,7 +229,7 @@ const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, 
       onClick={() => onSubmit(action)}
       disabled={isDisabled || isPending || isCompleted || isCooldown || isSubmitting}
       className={`
-        w-full text-left p-4 rounded border transition-all relative overflow-hidden group
+        vp-action w-full text-left p-4 rounded border transition-all relative overflow-hidden group
         ${isSubmitting
           ? 'action-submitting bg-yellow-950/30 border-yellow-700/50 cursor-wait'
           : isCompleted
@@ -289,7 +289,7 @@ const ActionCategory = ({ category, character, completedActions, pendingActions,
   if (visibleActions.length === 0) return null;
 
   return (
-    <div className="mb-6">
+    <div className="vp-action-category mb-6">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center gap-3 py-2 text-left group"
@@ -351,7 +351,7 @@ const DEFAULT_CHARACTER = {
 // --- PAGE DE LOGIN ---
 const LoginPage = ({ onLogin, error }) => {
   return (
-    <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
+    <div className="vp-login min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full text-center">
         <h1 className="text-4xl font-serif text-red-600 mb-2">World of Darkness</h1>
         <p className="text-stone-500 mb-8">Fiche de Personnage Vampire</p>
@@ -1065,7 +1065,7 @@ export default function VampireSheet() {
       </div>
 
       {/* HEADER FIXE - Toujours visible pour permettre l'accès au bouton Caïn */}
-      <header className="bg-stone-950/80 backdrop-blur border-b border-red-900/10 sticky top-0 z-20 px-6 py-4">
+      <header className="vp-mast bg-stone-950/80 backdrop-blur border-b border-red-900/10 sticky top-0 z-20 px-6 py-4">
         <div className="max-w-2xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
             <img
@@ -1221,7 +1221,7 @@ export default function VampireSheet() {
 
           {/* NAVIGATION PAR ONGLETS - Masquer si on est en sélection de clan */}
           {!needsClanSelection && (
-            <div className="bg-stone-950/50 border-b border-stone-800">
+            <div className="vp-tabs bg-stone-950/50 border-b border-stone-800">
               <div className="max-w-2xl mx-auto flex">
                 <button
                   onClick={() => setActiveTab('character')}
@@ -1281,7 +1281,7 @@ export default function VampireSheet() {
             </div>
           )}
 
-          <main className={`mx-auto p-6 space-y-10 ${activeTab === 'rules' || activeTab === 'rituals' ? 'max-w-[1600px]' : 'max-w-2xl'}`}>
+          <main data-active-tab={activeTab} className={`vp-content mx-auto p-6 space-y-10 ${activeTab === 'rules' || activeTab === 'rituals' ? 'max-w-[1600px]' : 'max-w-2xl'}`}>
 
             {/* ONGLET RÈGLEMENT */}
             {activeTab === 'rules' && (
@@ -1333,7 +1333,7 @@ export default function VampireSheet() {
                 <section>
                   <BloodGauge current={activeChar.saturationPoints} max={maxPoints} isMutating={activeChar.isMutating} level={activeChar.bloodPotency} />
 
-                  <div className="bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
+                  <div className="vp-blood-story bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
                       <CurrentIcon size={100} />
                     </div>
@@ -1389,7 +1389,7 @@ export default function VampireSheet() {
                 )}
 
                 {/* ACTIONS PAR CATÉGORIE */}
-                <section>
+                <section className="vp-vitae-actions">
                   <div className="flex items-center gap-3 mb-6">
                     <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
                     <div className="h-px bg-stone-900 flex-1"></div>

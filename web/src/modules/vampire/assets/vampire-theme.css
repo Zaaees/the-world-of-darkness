@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600&display=swap');
+
+/* Scoped to Vampire: status colours, forms, permissions and game behaviour stay
+   owned by their components. Blood is decorative and never covers controls. */
+.vampire-ui {
+  --vp-ink: #141314;
+  --vp-paper: #e2dcd0;
+  --vp-muted: #b3aaa1;
+  --vp-red: #cb8980;
+  --vp-line: #403636;
+  background: var(--vp-ink);
+  color: var(--vp-paper);
+  font-family: 'Manrope', sans-serif;
+  color-scheme: dark;
+  min-height: 100vh;
+}
+.vampire-ui .font-sans { font-family: 'Manrope', sans-serif; }
+.vampire-ui .font-serif, .vampire-ui .font-header {
+  font-family: 'EB Garamond', Georgia, serif;
+}
+.vampire-ui :is(.text-stone-200, .text-stone-300) { color: var(--vp-paper); }
+.vampire-ui :is(.text-stone-400, .text-stone-500, .text-stone-600) { color: var(--vp-muted); }
+.vampire-ui :is(.text-red-400, .text-red-500, .text-red-600, .text-red-700) { color: var(--vp-red); }
+.vampire-ui .bg-\[\#0c0a09\] { background-color: var(--vp-ink); }
+.vampire-ui :is(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid var(--vp-paper);
+  outline-offset: 4px;
+}
+.vampire-ui :is(input, textarea, select) { font-size: 1rem; }
+.vampire-ui textarea { line-height: 1.7; }
+
+.vampire-ui .vp-mast {
+  background: #cdc3ae;
+  color: #251e1e;
+  color-scheme: light;
+  backdrop-filter: none;
+  border: 0;
+  padding: 64px 32px 25px;
+  isolation: isolate;
+}
+.vampire-ui .vp-mast::before, .vampire-ui .vp-login > div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 180px;
+  height: 64px;
+  background: url('./blood-stain.svg') right top / 180px 80px no-repeat;
+  pointer-events: none;
+}
+.vampire-ui .vp-mast::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--vp-ink);
+  clip-path: polygon(0 65%,7% 40%,15% 70%,23% 40%,35% 60%,46% 30%,57% 65%,69% 40%,80% 70%,92% 35%,100% 55%,100% 100%,0 100%);
+  pointer-events: none;
+}
+.vampire-ui .vp-mast > div { max-width: 1120px; gap: 20px; flex-wrap: wrap; }
+.vampire-ui .vp-mast > div > div { flex-wrap: wrap; min-width: 0; }
+.vampire-ui .vp-mast .truncate { width: auto; max-width: min(55vw, 36rem); white-space: normal; overflow-wrap: anywhere; }
+.vampire-ui .vp-mast .text-xl { font-size: 1.9rem; line-height: 1.15; }
+.vampire-ui .vp-mast :is(.text-stone-200, .text-stone-300, .text-stone-400, .text-stone-500, .text-stone-600) { color: #251e1e; }
+.vampire-ui .vp-mast :is(.text-red-600, .text-red-700) { color: #712c30; }
+.vampire-ui .vp-mast button { min-height: 44px; padding: 8px 12px; border-radius: 2px; }
+.vampire-ui .vp-mast button:focus-visible { outline-color: #251e1e; }
+.vampire-ui .vp-mast :is(.bg-stone-800, .bg-stone-900) { background: #ded5c4; border-color: #958677; box-shadow: none; }
+.vampire-ui .vp-mast img { border-color: #8e6862; border-radius: 2px; }
+.vampire-ui .vp-mast .tracking-widest { letter-spacing: .06em; }
+
+.vampire-ui .vp-tabs { background: #171515; border-color: var(--vp-line); }
+.vampire-ui .vp-tabs > div { max-width: 1120px; padding-inline: 24px; flex-wrap: wrap; gap: 0 24px; }
+.vampire-ui .vp-tabs button {
+  flex: 0 1 auto;
+  min-height: 48px;
+  padding: 14px 3px;
+  font: 500 .875rem 'Manrope', sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.vampire-ui .vp-tabs button svg { display: none; }
+.vampire-ui .vp-tabs .border-red-600 { border-color: var(--vp-red); color: var(--vp-paper); background: transparent; }
+.vampire-ui .vp-content { max-width: 1120px; padding: 36px 32px; }
+.vampire-ui .vp-content:is([data-active-tab='rules'], [data-active-tab='rituals']) { max-width: 1600px; }
+.vampire-ui .vp-content[data-active-tab='sheet'] {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: 32px 44px;
+  align-items: start;
+}
+.vampire-ui .vp-content[data-active-tab='sheet'] > section { grid-column: 1; margin: 0; min-width: 0; }
+.vampire-ui .vp-content[data-active-tab='sheet'] > .vp-vitae-actions {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  border-left: 1px solid var(--vp-line);
+  padding-left: 32px;
+}
+.vampire-ui .vp-blood-story { padding: 20px 0 0; border: 0; background: none; border-radius: 0; overflow: visible; }
+.vampire-ui .vp-blood-story > .absolute { display: none; }
+.vampire-ui .vp-blood-story h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); line-height: 1.1; color: #dfb7a9; position: relative; padding-bottom: 17px; }
+.vampire-ui .vp-blood-story h2::after {
+  content: ''; position: absolute; left: 35px; bottom: 6px; width: 2px; height: 14px;
+  background: #872f2d; border-radius: 0 0 70% 80%; box-shadow: 37px -4px 0 -.3px #872f2d;
+  pointer-events: none;
+}
+.vampire-ui .vp-blood-story p { font-size: 1.2rem; line-height: 1.7; font-style: normal; padding: 0; border: 0; }
+.vampire-ui .vp-action { border-radius: 0; border-width: 0 0 1px; padding: 18px 8px; box-shadow: none; }
+.vampire-ui .vp-action:not(:disabled):not(.action-submitting) { background: transparent; border-color: var(--vp-line); }
+.vampire-ui .vp-action:not(:disabled):hover { background: #261c1d; }
+.vampire-ui .vp-action .text-xs { font-size: .8125rem; line-height: 1.65; }
+.vampire-ui .vp-action .font-serif { font-size: 1.2rem; }
+.vampire-ui .vp-action .border-l { border: 0; }
+.vampire-ui .vp-action .border-l > svg { display: none; }
+.vampire-ui .vp-action-category { border-bottom: 1px solid var(--vp-line); margin-bottom: 6px; }
+.vampire-ui .vp-action-category > button { padding-block: 18px; min-height: 48px; }
+.vampire-ui .vp-action-category > button > .w-8 { display: none; }
+.vampire-ui .vp-action-category h4 { font-size: 1.35rem; text-transform: none; letter-spacing: normal; }
+.vampire-ui .vp-action-category > button p { font-size: .8125rem; line-height: 1.6; margin-top: 4px; }
+.vampire-ui .vp-action-category > .pl-11 { padding-left: 0; }
+.vampire-ui .vp-content[data-active-tab='sheet'] > section > .bg-red-950\/20 { background: transparent; border-width: 0 0 1px; border-radius: 0; padding: 0 0 22px; }
+
+.vampire-ui .vp-character { min-height: 0; padding: 0; }
+.vampire-ui .vp-character h1 { font-size: 2.3rem; line-height: 1.2; color: var(--vp-paper); }
+.vampire-ui .vp-character h1 > svg { display: none; }
+.vampire-ui .vp-character > div:first-child { flex-wrap: wrap; gap: 16px; padding-bottom: 20px; }
+.vampire-ui .vp-character button { min-height: 44px; }
+.vampire-ui .vp-identity { justify-content: flex-start; border-width: 0 0 1px; border-radius: 0; background: none; padding: 20px 0; }
+.vampire-ui .vp-identity > div { text-align: left; }
+.vampire-ui .vp-chapter { border-width: 0 0 1px; border-color: var(--vp-line); border-radius: 0; background: transparent; padding: 20px 0 28px; }
+.vampire-ui .vp-chapter h3 { font-size: 1.5rem; line-height: 1.3; text-transform: none; letter-spacing: normal; border: 0; color: var(--vp-paper); }
+.vampire-ui .vp-chapter .text-red-400 { color: var(--vp-red); }
+.vampire-ui .vp-chapter > div { font: 1.2rem/1.8 'EB Garamond', Georgia, serif; text-align: left; max-width: 72ch; overflow-wrap: anywhere; }
+.vampire-ui .vp-character .md\:grid-cols-2 { grid-template-columns: 1fr; }
+.vampire-ui .vp-login > div { position: relative; border-top: 1px solid #8b5550; padding-top: 80px; }
+.vampire-ui .vp-login h1 { font-size: 3rem; color: var(--vp-paper); }
+.vampire-ui .vp-login > div > .rounded-lg { border-radius: 0; border-width: 1px 0; background: transparent; }
+
+@media (max-width: 760px) {
+  .vampire-ui .vp-mast { position: relative; padding: 60px 20px 22px; }
+  .vampire-ui .vp-mast > div > div:last-child { gap: 8px; }
+  .vampire-ui .vp-mast .truncate { max-width: calc(100vw - 112px); }
+  .vampire-ui .vp-tabs > div { padding-inline: 18px; gap: 0 18px; }
+  .vampire-ui .vp-content { padding: 28px 20px; }
+  .vampire-ui .vp-content[data-active-tab='sheet'] { display: block; }
+  .vampire-ui .vp-content[data-active-tab='sheet'] > section { margin-bottom: 32px; }
+  .vampire-ui .vp-content[data-active-tab='sheet'] > .vp-vitae-actions { border-left: 0; padding-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vampire-ui *, .vampire-ui *::before, .vampire-ui *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

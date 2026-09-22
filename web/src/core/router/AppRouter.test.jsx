@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import AppRouter from './AppRouter';
 
 // Mock the useUserRoles hook
@@ -23,7 +23,7 @@ vi.mock('../../modules/werewolf', () => ({
         id: 'werewolf',
         name: 'Werewolf',
         path: '/werewolf',
-        RootComponent: () => <div data-testid="werewolf-module">Werewolf Module</div>,
+        RootComponent: () => <div data-testid="werewolf-module">Werewolf Module {useLocation().hash}</div>,
     },
 }));
 
@@ -54,6 +54,7 @@ describe('AppRouter', () => {
         it('redirects to werewolf when user has werewolf role', async () => {
             useUserRoles.mockReturnValue({
                 isLoading: false,
+                isAuthenticated: true,
                 hasWerewolfRole: true,
                 hasVampireRole: false,
             });
@@ -71,6 +72,7 @@ describe('AppRouter', () => {
         it('redirects to vampire when user does not have werewolf role', async () => {
             useUserRoles.mockReturnValue({
                 isLoading: false,
+                isAuthenticated: true,
                 hasWerewolfRole: false,
                 hasVampireRole: true,
             });
@@ -88,6 +90,7 @@ describe('AppRouter', () => {
         it('preserves hash fragment during redirect', () => {
             useUserRoles.mockReturnValue({
                 isLoading: false,
+                isAuthenticated: true,
                 hasWerewolfRole: true,
                 hasVampireRole: false,
             });
@@ -99,8 +102,8 @@ describe('AppRouter', () => {
                 </MemoryRouter>
             );
 
-            // Should still show werewolf module (hash preserved in redirect)
-            expect(screen.getByTestId('werewolf-module')).toBeTruthy();
+            // Check both the destination and the preserved OAuth fragment
+            expect(screen.getByTestId('werewolf-module')).toHaveTextContent('#access_token=test123');
         });
     });
 
@@ -108,6 +111,7 @@ describe('AppRouter', () => {
         it('renders vampire module at /vampire path', () => {
             useUserRoles.mockReturnValue({
                 isLoading: false,
+                isAuthenticated: true,
                 hasWerewolfRole: false,
                 hasVampireRole: true,
             });
@@ -124,6 +128,7 @@ describe('AppRouter', () => {
         it('renders werewolf module at /werewolf path', () => {
             useUserRoles.mockReturnValue({
                 isLoading: false,
+                isAuthenticated: true,
                 hasWerewolfRole: true,
                 hasVampireRole: false,
             });

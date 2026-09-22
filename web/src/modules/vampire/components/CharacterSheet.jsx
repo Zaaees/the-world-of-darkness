@@ -171,7 +171,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
   // --- MODE VUE ---
   if (!isEditing) {
     return (
-      <div className="max-w-6xl mx-auto p-4 md:p-6 bg-[#0c0a09] min-h-screen text-stone-300 text-sm">
+      <div className="vp-character max-w-6xl mx-auto p-4 md:p-6 bg-[#0c0a09] min-h-screen text-stone-300 text-sm">
         <div className="flex justify-between items-center mb-4 border-b border-stone-800 pb-2">
           <h1 className="text-xl font-serif text-red-600 flex items-center gap-2">
             <FileText className="w-5 h-5" />
@@ -197,7 +197,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         )}
 
         {/* Identité Compacte */}
-        <div className="bg-stone-900/50 p-3 rounded border border-stone-800 flex flex-wrap gap-6 items-center justify-center mb-6">
+        <div className="vp-identity bg-stone-900/50 p-3 rounded border border-stone-800 flex flex-wrap gap-6 items-center justify-center mb-6">
           <div className="text-center">
             <span className="text-stone-500 text-xs uppercase tracking-wider block">Nom</span>
             <span className="text-lg font-serif text-stone-200">{sheetData.name || "-"}</span>
@@ -445,7 +445,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
 
 function SectionView({ title, content, highlight = false }) {
   return (
-    <div className={`p-3 rounded border ${highlight ? 'bg-red-950/10 border-red-900/20' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
+    <div className={`vp-chapter p-3 rounded border ${highlight ? 'bg-red-950/10 border-red-900/20' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
       <h3 className={`font-serif text-sm uppercase tracking-widest mb-2 border-b pb-1 ${highlight ? 'text-red-400 border-red-900/30' : 'text-stone-500 border-stone-800'}`}>
         {title}
       </h3>

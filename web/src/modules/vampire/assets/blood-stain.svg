@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="80" viewBox="0 0 180 80" fill="none">
+  <!-- Decorative edge stain; the blood runs into the physical top/right edge. -->
+  <g fill="#641d24">
+    <path d="M143-8 158-3 169-8 182-4 189 15 178 27 172 24 170 34 161 29 153 36 150 30 141 33 139 26 128 27 133 20 123 18 127 11 122 7 133 4 131-2Z"/>
+    <path opacity=".8" d="m148 19-9 10-14 4-9-2-8 5-10-1 6-6 17-1 11-7Z"/>
+    <path opacity=".4" d="M139 23c-19 17-37 18-61 17l-9 2c23 4 51 1 70-12Z"/>
+    <ellipse cx="105" cy="21" rx="4" ry="2.5" transform="rotate(-24 105 21)"/>
+    <ellipse cx="115" cy="53" rx="3.3" ry="2.2"/>
+    <ellipse cx="161" cy="52" rx="4.4" ry="3.1"/>
+    <ellipse cx="146" cy="43" rx="2.7" ry="2"/>
+    <ellipse cx="93" cy="44" rx="2.5" ry="1.7"/>
+    <circle cx="86" cy="16" r="1.6"/><circle cx="121" cy="9" r="1.1"/>
+    <circle cx="132" cy="58" r="1.9"/><circle cx="174" cy="65" r="1.2"/>
+    <circle cx="152" cy="70" r="1.3"/><circle cx="99" cy="62" r=".9"/>
+    <circle cx="75" cy="31" r=".8"/><circle cx="112" cy="66" r="1"/>
+  </g>
+  <g stroke="#641d24" stroke-linecap="round">
+    <path opacity=".4" d="M142 25C120 42 99 44 75 43M137 29C113 44 99 47 80 45M131 27C115 39 97 40 83 39"/>
+    <path opacity=".25" d="M142 28C119 43 100 49 85 48M139 32C120 45 108 49 93 50"/>
+  </g>
+</svg>
