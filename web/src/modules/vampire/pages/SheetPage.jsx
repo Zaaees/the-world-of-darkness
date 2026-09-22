@@ -1179,7 +1179,7 @@ export default function VampireSheet() {
           }}
         />
       ) : needsClanSelection && !isCainMode && activeTab !== 'rules' ? (
-        <div className="max-w-4xl mx-auto p-6">
+        <div className="w-full">
           <ClanSelection
             userId={discordUser.id}
             guildId={guildId}

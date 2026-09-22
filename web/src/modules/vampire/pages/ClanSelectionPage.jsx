@@ -73,8 +73,8 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
   if (step === 2 && selectedClan) {
     return (
-      <div className="min-h-screen bg-[#0c0a09] p-6 md:p-8">
-        <div className="max-w-3xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div>
           <div className="text-center mb-10">
             <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3">
               L'Étreinte
@@ -129,14 +129,14 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0c0a09] p-6 md:p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div>
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3">
             Choisis Ton Lignage
           </h1>
-          <p className="text-stone-400 max-w-xl mx-auto text-sm md:text-base">
+          <p className="text-stone-400 max-w-2xl mx-auto text-sm md:text-base">
             Tu viens de rejoindre les rangs des Damnés. Chaque clan porte un héritage millénaire,
             une malédiction unique, et des disciplines qui te définiront pour l'éternité.
           </p>
@@ -149,7 +149,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
         </div>
 
         {/* Grille des clans */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 ${selectedClan ? 'pb-48' : ''}`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start mb-8 ${selectedClan ? 'pb-48' : ''}`}>
           {clans.map((clan) => {
             const isSelected = selectedClan?.id === clan.id;
             const isExpanded = expandedClan === clan.id;
@@ -158,11 +158,11 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
               <div
                 key={clan.id}
                 className={`
-                  relative bg-stone-900/50 border rounded-lg p-5 cursor-pointer
-                  transition-colors duration-200
+                  relative bg-stone-900/50 border rounded-lg p-5 sm:p-6 cursor-pointer
+                  transition-all duration-200
                   ${isSelected
-                    ? 'border-red-700 bg-stone-900/80'
-                    : 'border-stone-800 hover:border-stone-700'
+                    ? 'border-red-700 bg-stone-900/80 ring-1 ring-red-700'
+                    : 'border-stone-800 hover:border-stone-700 hover:bg-stone-900/70'
                   }
                 `}
                 onClick={() => handleSelectClan(clan)}
@@ -243,9 +243,9 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
         {/* Zone de confirmation */}
         {selectedClan && (
-          <div className="fixed bottom-0 left-0 right-0 bg-[#0c0a09] border-t border-stone-800 p-4 md:p-6">
+          <div className="fixed bottom-0 left-0 right-0 bg-[#0c0a09]/95 backdrop-blur-md border-t border-stone-800 p-4 md:p-6 z-30 shadow-2xl">
             <div className="max-w-3xl mx-auto">
-              <div className="bg-stone-900/80 border border-stone-700 rounded-lg p-4 md:p-5">
+              <div className="bg-stone-900/90 border border-stone-700 rounded-lg p-4 md:p-5 shadow-xl">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-10 h-10 bg-red-900/50 border border-red-800 rounded-full flex items-center justify-center flex-shrink-0">
                     <Check className="w-5 h-5 text-red-500" />
