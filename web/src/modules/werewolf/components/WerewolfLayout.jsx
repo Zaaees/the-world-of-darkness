@@ -10,8 +10,9 @@ import WerewolfNavbar from './WerewolfNavbar';
  */
 export default function WerewolfLayout({ children }) {
     return (
-        <div className="theme-werewolf min-h-screen">
+        <div className="theme-werewolf ww-archive min-h-screen">
             <WerewolfNavbar />
+            <div className="ww-landscape" aria-hidden="true" />
             {children}
         </div>
     );

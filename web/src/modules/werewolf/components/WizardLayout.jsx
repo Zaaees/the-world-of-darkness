@@ -12,7 +12,7 @@ import '../assets/werewolf-theme.css';
  */
 export default function WizardLayout({ children, title, subtitle }) {
     return (
-        <div className="theme-werewolf min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-4">
+        <div className="theme-werewolf ww-wizard min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-4">
             <div className="w-full max-w-7xl">
                 <div className="mb-8 text-center">
                     {title && <h1 className="text-4xl md:text-5xl font-serif text-red-600 mb-3 tracking-wide drop-shadow-lg">{title}</h1>}

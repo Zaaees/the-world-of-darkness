@@ -1,6 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="80" viewBox="0 0 180 80" fill="none">
   <!-- Decorative edge stain; the blood runs into the physical top/right edge. -->
-  <g fill="#641d24">
+  <defs>
+    <filter id="wicked-ink" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".24" numOctaves="3" seed="17" result="fibres"/>
+      <feDisplacementMap in="SourceGraphic" in2="fibres" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g fill="#641d24" filter="url(#wicked-ink)">
     <path d="M143-8 158-3 169-8 182-4 189 15 178 27 172 24 170 34 161 29 153 36 150 30 141 33 139 26 128 27 133 20 123 18 127 11 122 7 133 4 131-2Z"/>
     <path opacity=".8" d="m148 19-9 10-14 4-9-2-8 5-10-1 6-6 17-1 11-7Z"/>
     <path opacity=".4" d="M139 23c-19 17-37 18-61 17l-9 2c23 4 51 1 70-12Z"/>

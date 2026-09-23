@@ -216,7 +216,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
 
         {/* Descriptions - Pleine largeur */}
         <div className="space-y-4 mb-6">
-          <SectionView title="Description Physique" content={sheetData.physical_desc} />
+          <SectionView title="Description Physique" content={sheetData.physical_desc} scene="mirror" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <SectionView title="Mentalité (Avant l'Etreinte)" content={sheetData.mental_desc_pre} />
@@ -225,7 +225,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         </div>
 
         {/* Histoire - Large */}
-        <SectionView title="Histoire" content={sheetData.history} />
+        <SectionView title="Histoire" content={sheetData.history} scene="archive" />
       </div>
     );
   }
@@ -443,9 +443,9 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
   );
 }
 
-function SectionView({ title, content, highlight = false }) {
+function SectionView({ title, content, highlight = false, scene }) {
   return (
-    <div className={`vp-chapter p-3 rounded border ${highlight ? 'bg-red-950/10 border-red-900/20' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
+    <div data-scene={scene} className={`vp-chapter p-3 rounded border ${highlight ? 'bg-red-950/10 border-red-900/20' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
       <h3 className={`font-serif text-sm uppercase tracking-widest mb-2 border-b pb-1 ${highlight ? 'text-red-400 border-red-900/30' : 'text-stone-500 border-stone-800'}`}>
         {title}
       </h3>

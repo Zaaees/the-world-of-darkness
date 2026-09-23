@@ -8,12 +8,13 @@
   --vp-muted: #b3aaa1;
   --vp-red: #cb8980;
   --vp-line: #403636;
-  background: var(--vp-ink);
+  background: url('../../../assets/atmosphere/paper-grain.svg'), var(--vp-ink);
   color: var(--vp-paper);
   font-family: 'Manrope', sans-serif;
   color-scheme: dark;
   min-height: 100vh;
 }
+
 .vampire-ui .font-sans { font-family: 'Manrope', sans-serif; }
 .vampire-ui .font-serif, .vampire-ui .font-header {
   font-family: 'EB Garamond', Georgia, serif;
@@ -154,4 +155,211 @@
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* Archives: decorative layers never participate in hit testing. */
+.vampire-ui .vp-mast {
+  padding-top: 116px;
+  background-image: url('../../../assets/atmosphere/paper-grain.svg'),
+    linear-gradient(180deg, transparent 64px, #cdc3ae 100px),
+    url('../../../assets/atmosphere/nocturnal-city.jpg');
+  background-size: 180px 180px, 100% 100%, cover;
+  background-position: top left, top left, center 43%;
+  background-repeat: repeat, no-repeat, no-repeat;
+  box-shadow: 0 8px 28px #0003;
+}
+.vampire-ui .vp-mast::before { top: 38px; opacity: .8; }
+.vampire-ui .vp-tabs { border-bottom: 1px solid #635044; }
+.vampire-ui .vp-tabs button { transition: color .18s, border-color .18s; }
+.vampire-ui .vp-content { background-image: url('../../../assets/atmosphere/paper-grain.svg'); }
+.vampire-ui .vp-blood-story {
+  padding: 28px 26px;
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #d8cfbc;
+  color: #302724;
+  border: 1px solid #a49880;
+  border-left: 3px solid #743b38;
+  box-shadow: 4px 5px 0 #0003, inset 0 0 40px #8b72591c;
+}
+.vampire-ui .vp-blood-story h2 { color: #71332f; }
+.vampire-ui .vp-blood-story p { color: #302724; }
+.vampire-ui .vp-character h1 { letter-spacing: -.025em; }
+.vampire-ui .vp-identity {
+  padding: 22px;
+  border: 1px solid #615043;
+  border-left: 3px solid #89554e;
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #211d1b;
+}
+.vampire-ui .vp-chapter {
+  padding: 26px 24px 30px;
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #1c1918;
+  border: 1px solid #3e3530;
+  border-top: 1px solid #766052;
+  box-shadow: 3px 4px 0 #0002;
+}
+.vampire-ui .vp-chapter h3::after {
+  content: ''; display: block; width: 52px; margin-top: 14px;
+  border-bottom: 3px double #8f6259; pointer-events: none;
+}
+.vampire-ui .vp-action-category h4 { color: #dbc8ae; }
+.vampire-ui .vp-action:not(:disabled):hover { box-shadow: inset 2px 0 #ac7165; }
+.vampire-ui .vp-login {
+  background: linear-gradient(90deg, #100e0db3, #100e0d45),
+    url('../../../assets/atmosphere/nocturnal-city.jpg') center / cover;
+  padding-block: 64px;
+}
+.vampire-ui .vp-login > div {
+  max-width: 500px;
+  padding: 64px 32px 32px;
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #171413f5;
+  border: 1px solid #685247;
+  border-top: 3px double #ae8b71;
+  box-shadow: 0 24px 80px #0009, 7px 7px 0 #17141388;
+}
+.vampire-ui .vp-login h1 { font-size: clamp(2.6rem, 6vw, 3.6rem); line-height: 1.05; }
+.vampire-ui .vp-login > div > .rounded-lg { padding: 24px 0; border-color: #554038; }
+.vampire-ui .vp-login button { border-radius: 2px; }
+.vampire-ui .vp-lineage { padding-top: 56px; }
+.vampire-ui .vp-lineage > div > .text-center:first-child {
+  padding: 48px 20px 32px;
+  border-top: 1px solid #725649;
+  border-bottom: 3px double #725649;
+  background: linear-gradient(#14131499, #141314ed),
+    url('../../../assets/atmosphere/nocturnal-city.jpg') center 45% / cover;
+}
+@media (max-width: 760px) {
+  .vampire-ui .vp-mast { padding-top: 104px; }
+  .vampire-ui .vp-login { padding: 32px 18px; }
+  .vampire-ui .vp-login > div { padding: 60px 22px 26px; }
+  .vampire-ui .vp-blood-story, .vampire-ui .vp-chapter { padding-inline: 18px; }
+  .vampire-ui .vp-lineage { padding-top: 24px; }
+}
+
+/* Second pass: photographs belong to the dossier, not only its masthead. */
+.vampire-ui .vp-mast::before,
+.vampire-ui .vp-login > div::before {
+  width: 220px;
+  height: 90px;
+  background: url('../../../assets/atmosphere/blood-smear.png') right center / contain no-repeat;
+  opacity: .88;
+}
+.vampire-ui .vp-mast::before { top: 6px; }
+.vampire-ui .vp-login > div::before { top: 0; height: 64px; }
+.vampire-ui .vp-blood-story h2::after { content: none; }
+.vampire-ui .vp-content[data-active-tab='sheet'] {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: 36px 48px;
+}
+.vampire-ui .vp-blood-story::before {
+  content: '';
+  display: block;
+  height: clamp(160px, 17vw, 220px);
+  margin: -28px -26px 28px;
+  background: linear-gradient(0deg, #33251b22, transparent),
+    url('../../../assets/atmosphere/vitae-glass.jpg') center 62% / cover;
+  border-bottom: 1px solid #a49880;
+  pointer-events: none;
+}
+.vampire-ui .vp-blood-story { border-left-width: 1px; box-shadow: 0 12px 35px #0004; }
+.vampire-ui .vp-blood-story h2 { font-size: clamp(1.85rem, 3vw, 2.5rem); }
+.vampire-ui .vp-vitae-photograph {
+  height: clamp(190px, 23vw, 280px);
+  margin-bottom: 30px;
+  background: linear-gradient(0deg, #14131455, transparent 40%),
+    url('../../../assets/atmosphere/nocturnal-passage.jpg') center 48% / cover;
+  border: 1px solid #615043;
+  outline: 1px solid #61504355;
+  outline-offset: -8px;
+  pointer-events: none;
+}
+.vampire-ui .vp-action-category { border-bottom-color: #584337; }
+.vampire-ui .vp-action-category > button { padding-block: 23px; }
+.vampire-ui .vp-action-category h4 { font-size: 1.55rem; }
+.vampire-ui .vp-vitae-actions > div:first-of-type + div { border-color: #665344; }
+.vampire-ui .vp-content[data-active-tab='sheet'] > section > .bg-red-950\/20 {
+  padding: 24px;
+  border: 1px solid #544039;
+  border-left: 2px solid #8e554b;
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #231c1a;
+}
+.vampire-ui .vp-character .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.vampire-ui .vp-character > .space-y-4 { margin-bottom: 24px; }
+.vampire-ui .vp-character > .space-y-4 > * + * { margin-top: 24px; }
+.vampire-ui .vp-character .grid { gap: 24px; }
+.vampire-ui .vp-chapter { box-shadow: none; border-top-color: #776050; }
+.vampire-ui .vp-chapter[data-scene] {
+  display: grid;
+  grid-template-columns: minmax(180px, .65fr) minmax(0, 1.35fr);
+  grid-template-rows: auto 1fr;
+  gap: 0 32px;
+  padding: 0 32px 0 0;
+  min-height: 270px;
+}
+.vampire-ui .vp-chapter[data-scene]::before {
+  content: '';
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  background: url('../../../assets/atmosphere/absent-reflection.jpg') center / cover;
+  border-right: 1px solid #615043;
+  pointer-events: none;
+}
+.vampire-ui .vp-chapter[data-scene='archive']::before {
+  background-image: url('../../../assets/atmosphere/private-archive.jpg');
+}
+.vampire-ui .vp-chapter[data-scene] > h3 { grid-column: 2; padding-top: 30px; }
+.vampire-ui .vp-chapter[data-scene] > div { grid-column: 2; padding-bottom: 30px; }
+.vampire-ui .vp-identity {
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #d1c6b0;
+  border: 1px solid #9c8a70;
+  border-left: 3px solid #773b37;
+  color: #302724;
+  padding-block: 26px;
+}
+.vampire-ui .vp-identity :is(.text-stone-200, .text-stone-300, .text-stone-500) { color: #40352b; }
+.vampire-ui .vp-content:is([data-active-tab='disciplines'], [data-active-tab='ghouls'], [data-active-tab='rituals'])::before {
+  content: '';
+  display: block;
+  height: 170px;
+  margin-bottom: 32px;
+  background: linear-gradient(90deg, #14131455, transparent),
+    var(--vp-rubric-image) center 62% / cover;
+  border-block: 1px solid #665344;
+  pointer-events: none;
+}
+.vampire-ui .vp-content[data-active-tab='disciplines'] {
+  --vp-rubric-image: url('../../../assets/atmosphere/discipline-watch.jpg');
+}
+.vampire-ui .vp-content[data-active-tab='ghouls'] {
+  --vp-rubric-image: url('../../../assets/atmosphere/ghoul-corridor.jpg');
+}
+.vampire-ui .vp-content[data-active-tab='rituals'] {
+  --vp-rubric-image: url('../../../assets/atmosphere/ritual-altar.jpg');
+}
+@media (max-width: 760px) {
+  .vampire-ui .vp-blood-story::before { margin-inline: -18px; height: 180px; }
+  .vampire-ui .vp-vitae-photograph { height: 210px; }
+  .vampire-ui .vp-character .md\:grid-cols-2 { grid-template-columns: 1fr; }
+  .vampire-ui .vp-chapter[data-scene] { display: block; padding: 0 18px 24px; }
+  .vampire-ui .vp-chapter[data-scene]::before { height: 190px; margin-inline: -18px; border-right: 0; border-bottom: 1px solid #615043; }
+  .vampire-ui .vp-chapter[data-scene] > div { padding-bottom: 0; }
+  .vampire-ui .vp-mast::before { width: 170px; }
+}
+
+/* Absorbed pigment belongs on paper; keep the translucent highlights out of the dark photograph. */
+.vampire-ui .vp-mast::before { content: none; }
+.vampire-ui .vp-blood-story { padding-bottom: 155px; }
+.vampire-ui .vp-blood-story::after {
+  content: '';
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: min(100%, 320px);
+  height: 135px;
+  background: url('../../../assets/atmosphere/blood-smear.png') right center / 400px auto no-repeat;
+  mix-blend-mode: multiply;
+  opacity: .85;
+  pointer-events: none;
+}
+.vampire-ui .vp-login > div::before { filter: brightness(.55) saturate(.8); }
+@media (max-width: 760px) {
+  .vampire-ui .vp-mast::before { top: 74px; height: 26px; }
 }

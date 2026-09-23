@@ -1390,6 +1390,7 @@ export default function VampireSheet() {
 
                 {/* ACTIONS PAR CATÉGORIE */}
                 <section className="vp-vitae-actions">
+                  <div className="vp-vitae-photograph" aria-hidden="true" />
                   <div className="flex items-center gap-3 mb-6">
                     <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
                     <div className="h-px bg-stone-900 flex-1"></div>

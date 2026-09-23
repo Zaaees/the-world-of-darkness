@@ -73,7 +73,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
   if (step === 2 && selectedClan) {
     return (
-      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="vp-lineage w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div>
           <div className="text-center mb-10">
             <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3">
@@ -129,7 +129,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
   }
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="vp-lineage w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div>
         {/* Header */}
         <div className="text-center mb-10">

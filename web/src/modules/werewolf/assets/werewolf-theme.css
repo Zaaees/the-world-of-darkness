@@ -30,3 +30,65 @@
   font-family: var(--font-heading);
   color: var(--primary-color);
 }
+
+/* Forest archives: the scenery stays outside the reading surfaces. */
+.theme-werewolf {
+  --primary-color: #c9a16b;
+  --background-color: #141815;
+  --surface-color: #1d231e;
+  background: url('../../../assets/atmosphere/paper-grain.svg'), var(--background-color);
+  color-scheme: dark;
+}
+.theme-werewolf.ww-archive > nav {
+  background: #131814f5;
+  border-bottom-color: #61533e;
+  box-shadow: 0 3px 20px #0004;
+}
+.theme-werewolf.ww-archive > nav > .md\:hidden { background: #131814; border-color: #393d31; }
+.theme-werewolf.ww-archive > nav a { border-radius: 2px; }
+.theme-werewolf .ww-landscape {
+  height: clamp(110px, 16vw, 210px);
+  background: url('../../../assets/atmosphere/claw-marks.svg') right 6% top / 150px auto no-repeat,
+    linear-gradient(180deg, #14181522, #14181500 35%, #141815),
+    url('../../../assets/atmosphere/moonlit-forest.jpg') center 42% / cover;
+  pointer-events: none;
+  border-top: 1px solid #a8866026;
+}
+.theme-werewolf.ww-archive > .max-w-4xl {
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #191e1a;
+  border-inline: 1px solid #8a78532b;
+  box-shadow: 0 20px 60px #0002;
+}
+.theme-werewolf.ww-archive > .max-w-4xl > .border-b {
+  border-bottom: 3px double #756346;
+  padding-bottom: 28px;
+}
+.theme-werewolf :is(h1, h2) { text-wrap: balance; }
+.theme-werewolf :is(input, textarea, select) { font-size: 1rem; }
+.theme-werewolf :is(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid #dbc49a;
+  outline-offset: 4px;
+}
+.theme-werewolf.ww-wizard {
+  padding-block: 64px;
+  background: linear-gradient(#14181588, #141815e8 70%),
+    url('../../../assets/atmosphere/moonlit-forest.jpg') center top / cover;
+}
+.theme-werewolf.ww-wizard > div > .bg-gray-800 {
+  background: url('../../../assets/atmosphere/paper-grain.svg'), #1b211bf5;
+  border: 1px solid #655c46;
+  border-top: 3px double #aa8e61;
+  border-radius: 2px;
+  box-shadow: 8px 8px 0 #10171066, 0 20px 60px #0005;
+}
+@media (max-width: 760px) {
+  .theme-werewolf .ww-landscape { height: 100px; background-position: right top, center, center; }
+  .theme-werewolf.ww-wizard { padding-block: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-werewolf *, .theme-werewolf *::before, .theme-werewolf *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
