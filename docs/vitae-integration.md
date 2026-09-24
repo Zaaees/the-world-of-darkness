@@ -2,7 +2,7 @@
 
 Le catalogue partagé est `data/blood_actions.json` : 90 voies de clan (18 lignées, cinq niveaux) et 14 actions communes ou uniques. Le site le charge via `web/src/data/bloodActions.js` ; le bot le charge via `data/blood_actions.py`.
 
-Chaque action contient un intitulé, un objectif, une piste de réalisation et une condition de validation. Les pistes sont dépliables indépendamment du bouton de soumission. Au niveau 5, les voies d'héritage sont lisibles sans soumission ni points.
+Chaque action contient un intitulé, un objectif et une piste de réalisation. Les rappels de validation et de règles restent dans les règles générales, sans répétition dans les fiches. Les pistes sont dépliables indépendamment du bouton de soumission. Au niveau 5, les voies d'héritage sont lisibles sans soumission ni points.
 
 Les points sont recalculés par le bot lors de l'enregistrement de la demande et conservés avec cette demande. Le montant transmis par le navigateur n'est pas utilisé par ce chemin de validation. Les actions indisponibles pour le niveau ou le clan sont écartées. Plusieurs actions distinctes peuvent être en attente pour une même scène ; la vérification du double compte narratif reste du ressort du MJ.
 

@@ -25,7 +25,6 @@
       "hints": [
         "Exigez la restitution d’un bien confisqué ou la levée d’une interdiction de chasse."
       ],
-      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -46,7 +45,6 @@
       "hints": [
         "Réunissez des alliés autour d’une action précise : obtenir un accès, protéger un témoin ou faire retirer une sanction."
       ],
-      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -67,7 +65,6 @@
       "hints": [
         "Coupez le levier d’un maître chanteur ou empêchez une querelle de faire échouer une opération commune."
       ],
-      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -88,7 +85,6 @@
       "hints": [
         "Faites appliquer de nouvelles conditions de partage du sang malgré ceux qui profitent des anciennes."
       ],
-      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -109,7 +105,6 @@
       "hints": [
         "Confiez une cause à ceux qui la porteront autrement que vous."
       ],
-      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -130,7 +125,6 @@
       "hints": [
         "Obtenez l’accès à une friche surveillée ou rendez un abri compatible avec vos besoins nocturnes."
       ],
-      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -151,7 +145,6 @@
       "hints": [
         "Conduisez des compagnons à travers un secteur surveillé ou négociez l’usage d’un terrain revendiqué."
       ],
-      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -172,7 +165,6 @@
       "hints": [
         "Identifiez puis neutralisez ce qui rend un refuge dangereux, ou déjouez les moyens employés pour vous suivre."
       ],
-      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -193,7 +185,6 @@
       "hints": [
         "Reliez des abris menacés par un itinéraire réellement praticable, malgré une surveillance active."
       ],
-      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -214,7 +205,6 @@
       "hints": [
         "Donnez à un autre les moyens de vivre sur ce territoire sans dépendre de votre présence."
       ],
-      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -233,9 +223,8 @@
       "name": "La fissure du masque",
       "description": "Mettez au jour une contradiction cachée. Ou Rendez exploitable un indice incompris.",
       "hints": [
-        "Confrontez des témoignages incompatibles ou donnez un sens vérifiable à un détail déjà établi en scène."
+        "Confrontez des témoignages incompatibles ou donnez un sens vérifiable à un détail passé inaperçu."
       ],
-      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -256,7 +245,6 @@
       "hints": [
         "Réunissez les indices d’une tromperie et obtenez qu’un interlocuteur méfiant agisse sur cette base."
       ],
-      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -277,7 +265,6 @@
       "hints": [
         "Reliez plusieurs faits épars ou démontez le procédé utilisé pour fausser vos perceptions."
       ],
-      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -298,7 +285,6 @@
       "hints": [
         "Établissez une vérité assez solide pour déjouer un plan ou contredire un groupe qui cherche à l’étouffer."
       ],
-      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -319,7 +305,6 @@
       "hints": [
         "Transmettez vos découvertes à quelqu’un qui pourra aussi les remettre en question."
       ],
-      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -340,7 +325,6 @@
       "hints": [
         "Gagnez la confiance d’un gardien réticent ou vérifiez un renseignement que son détenteur protège."
       ],
-      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -361,7 +345,6 @@
       "hints": [
         "Établissez une preuve compromettante, ou faites réellement exécuter une concession négociée grâce à elle."
       ],
-      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -382,7 +365,6 @@
       "hints": [
         "Accédez à un canal fermé ou soustrayez un informateur à ceux qui le surveillent."
       ],
-      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -403,7 +385,6 @@
       "hints": [
         "Identifiez les relais d’une surveillance puis privez-les de leur efficacité, ou retournez leur coopération."
       ],
-      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -424,7 +405,6 @@
       "hints": [
         "Confiez des sources et leurs moyens de protection sans conserver seul toutes les clés."
       ],
-      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -445,7 +425,6 @@
       "hints": [
         "Obtenez une commande refusée jusque-là ou l’admission dans un cercle fermé grâce à votre intervention."
       ],
-      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -466,7 +445,6 @@
       "hints": [
         "Faites d’une création l’enjeu d’un accord, ou obtenez pour un artiste des moyens qu’on lui refusait."
       ],
-      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -487,7 +465,6 @@
       "hints": [
         "Neutralisez une menace sur un atelier ou faites adopter une autre lecture d’une réputation contestée."
       ],
-      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -508,7 +485,6 @@
       "hints": [
         "Rendez un lieu culturel opérationnel malgré ceux qui veulent l’empêcher, ou faites aboutir un projet disputé."
       ],
-      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -529,7 +505,6 @@
       "hints": [
         "Laissez d’autres reprendre une création ou préserver un lieu selon leur propre sensibilité."
       ],
-      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -550,7 +525,6 @@
       "hints": [
         "Négociez un accès fiable à des proies compatibles ou faites accepter une responsabilité que l’on vous conteste."
       ],
-      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -571,7 +545,6 @@
       "hints": [
         "Obtenez l’exécution d’un accord entre rivaux ou le contrôle réel d’une ressource disputée."
       ],
-      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -592,7 +565,6 @@
       "hints": [
         "Ralliez un intermédiaire hostile, ou rétablissez la capacité d’un groupe à suivre des décisions contestées."
       ],
-      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -613,7 +585,6 @@
       "hints": [
         "Faites fonctionner une organisation commune malgré des intérêts rivaux et une opposition active."
       ],
-      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -634,7 +605,6 @@
       "hints": [
         "Préparez une relève qui puisse effectivement décider sans attendre chacun de vos ordres."
       ],
-      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -653,9 +623,8 @@
       "name": "Les veines du savoir",
       "description": "Élucidez un phénomène sanguin. Ou Acquérez un savoir protégé et démontrer son usage.",
       "hints": [
-        "Analysez une anomalie avec une méthode possédée ou obtenez un texte protégé puis démontrez son utilité."
+        "Analysez une anomalie par l’étude de son sang ou obtenez un texte protégé puis démontrez son utilité."
       ],
-      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -676,7 +645,6 @@
       "hints": [
         "Récupérez un composant défendu ou surmontez une contrainte inhabituelle pendant un rituel connu."
       ],
-      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -693,11 +661,10 @@
       "clan": "tremere",
       "category": "clan",
       "name": "Délier le sort",
-      "description": "Neutralisez un effet occulte. Ou Reconstituez une méthode fragmentaire autorisée.",
+      "description": "Neutralisez un effet occulte. Ou Reconstituez une méthode fragmentaire.",
       "hints": [
-        "Levez un effet identifié ou reconstituez une méthode autorisée à partir d’éléments incomplets."
+        "Levez un effet identifié ou reconstituez une méthode à partir d’éléments incomplets."
       ],
-      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -718,7 +685,6 @@
       "hints": [
         "Déjouez une opération adverse ou rendez une protection efficace malgré ceux qui cherchent à l’empêcher."
       ],
-      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -739,7 +705,6 @@
       "hints": [
         "Transmettez une méthode éprouvée ou rendez votre pratique indépendante d’une tutelle établie."
       ],
-      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -760,7 +725,6 @@
       "hints": [
         "Changez les conditions d’un accord défavorable ou gagnez le concours d’un intermédiaire qui connaît votre faiblesse."
       ],
-      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -781,7 +745,6 @@
       "hints": [
         "Supprimez le levier d’une mise sous tutelle ou neutralisez un obstacle concret à votre projet."
       ],
-      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -802,7 +765,6 @@
       "hints": [
         "Faites changer de camp un partenaire adverse ou remplacez un moyen essentiel perdu en cours d’opération."
       ],
-      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -823,7 +785,6 @@
       "hints": [
         "Préservez une position conquise contre une riposte réelle, ou prenez l’ascendant sur un réseau rival."
       ],
-      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -844,7 +805,6 @@
       "hints": [
         "Établissez des relais qui restent efficaces même lorsqu’ils refusent de vous obéir aveuglément."
       ],
-      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -865,7 +825,6 @@
       "hints": [
         "Faites appliquer une hospitalité contestée ou adaptez un refuge à une contrainte concrète de votre condition."
       ],
-      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -884,9 +843,8 @@
       "name": "Façonner ce qui est sien",
       "description": "Réalisez une transformation répondant à un besoin difficile. Ou Soustrayez une dépendance du domaine à une ingérence.",
       "hints": [
-        "Écartez une ingérence dans votre domaine, ou réalisez une transformation utile permise par vos pouvoirs."
+        "Écartez une ingérence dans votre domaine, ou réalisez une transformation qui répond aux besoins de votre domaine."
       ],
-      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -907,7 +865,6 @@
       "hints": [
         "Récupérez un domaine compromis ou surmontez les contraintes d’une transformation réellement complexe."
       ],
-      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -928,7 +885,6 @@
       "hints": [
         "Obtenez un accord protégeant un lieu disputé ou achevez une transformation qui change son fonctionnement."
       ],
-      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -945,11 +901,10 @@
       "clan": "tzimisce",
       "category": "clan",
       "name": "Au-delà de la possession",
-      "description": "Faites exister un héritage au-delà de sa possession. Ou Accomplissez une métamorphose autorisée de longue portée narrative.",
+      "description": "Faites exister un héritage au-delà de sa possession. Ou Accomplissez une métamorphose de longue portée narrative.",
       "hints": [
-        "Transmettez un domaine ou poursuivez une métamorphose sans effacer l’autonomie des autres personnages."
+        "Transmettez un domaine ou poursuivez une métamorphose dont votre domaine portera la marque."
       ],
-      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -970,7 +925,6 @@
       "hints": [
         "Récupérez un objet funéraire disputé ou faites honorer une obligation laissée par un défunt."
       ],
-      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -991,7 +945,6 @@
       "hints": [
         "Négociez un service réellement rendu par un esprit accessible, ou réglez un héritage qui ouvre une ressource."
       ],
-      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1010,9 +963,8 @@
       "name": "Délier les ombres",
       "description": "Neutralisez une emprise nécromantique. Ou Obtenez une vérité protégée par des intérêts familiaux concurrents.",
       "hints": [
-        "Levez une emprise avec les moyens possédés, ou vérifiez une vérité que des intérêts familiaux dissimulent."
+        "Déliez une emprise nécromantique, ou vérifiez une vérité que des intérêts familiaux dissimulent."
       ],
-      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1033,7 +985,6 @@
       "hints": [
         "Faites fonctionner un arrangement entre héritiers et morts, ou établissez un dispositif patrimonial contesté."
       ],
-      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1054,7 +1005,6 @@
       "hints": [
         "Transmettez les moyens d’honorer des obligations qui ne s’arrêteront pas avec votre départ."
       ],
-      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1075,7 +1025,6 @@
       "hints": [
         "Obtenez l’abandon effectif d’une règle défendue ou entrez dans un cercle fermé par une offre ciblée."
       ],
-      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1096,7 +1045,6 @@
       "hints": [
         "Détachez quelqu’un d’une emprise ou obtenez une adhésion qui change réellement ses décisions."
       ],
-      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1117,7 +1065,6 @@
       "hints": [
         "Retournez un relais d’influence ou démontrez une contradiction qui affaiblit une autorité établie."
       ],
-      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1138,7 +1085,6 @@
       "hints": [
         "Faites fonctionner un cercle malgré l’opposition de ceux qui veulent conserver leur emprise."
       ],
-      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1159,7 +1105,6 @@
       "hints": [
         "Laissez votre enseignement vivre chez ceux qui peuvent aussi retourner vos arguments contre vous."
       ],
-      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1180,7 +1125,6 @@
       "hints": [
         "Vérifiez une accusation contestée ou faites réellement restituer ce qui a été pris."
       ],
-      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1201,7 +1145,6 @@
       "hints": [
         "Retrouvez une cible et accomplissez l’objectif de la mission, ou faites exécuter un arbitrage refusé."
       ],
-      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1222,7 +1165,6 @@
       "hints": [
         "Contournez la protection d’un coupable ou retirez le levier qui empêchait une réparation."
       ],
-      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1243,7 +1185,6 @@
       "hints": [
         "Obtenez une réparation malgré une protection organisée, y compris dans votre propre camp."
       ],
-      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1264,7 +1205,6 @@
       "hints": [
         "Établissez un arbitrage qui ne repose plus sur votre seule présence."
       ],
-      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1285,7 +1225,6 @@
       "hints": [
         "Contournez un accès gardé par une ruse crédible ou gagnez un refuge auprès d’un hôte méfiant."
       ],
-      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1306,7 +1245,6 @@
       "hints": [
         "Faites perdre votre trace à un poursuivant ou remplacez un objet sous une surveillance effective."
       ],
-      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1327,7 +1265,6 @@
       "hints": [
         "Obtenez un bien défendu sans affronter directement ses gardiens, ou désorganisez une opération adverse."
       ],
-      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1348,7 +1285,6 @@
       "hints": [
         "Rendez un passage utilisable sous surveillance ou faites échouer une chasse en retournant ses moyens."
       ],
-      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1367,9 +1303,8 @@
       "name": "Un nom laissé derrière",
       "description": "Transmettez une liberté de mouvement. Ou Sortez d'une identité construite devenue contraignante.",
       "hints": [
-        "Transmettez une route sûre ou quittez une identité devenue une entrave, sans quitter le serveur."
+        "Transmettez une route sûre ou quittez une identité devenue une entrave."
       ],
-      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1390,7 +1325,6 @@
       "hints": [
         "Mettez un bénéficiaire à l’abri malgré un obstacle ou obtenez pour lui une assistance refusée."
       ],
-      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1407,11 +1341,10 @@
       "clan": "salubri",
       "category": "clan",
       "name": "Délivrer sans posséder",
-      "description": "Restaurez une capacité compromise par des moyens autorisés. Ou Soustrayez un bénéficiaire à une dépendance dangereuse.",
+      "description": "Restaurez une capacité compromise par des moyens. Ou Soustrayez un bénéficiaire à une dépendance dangereuse.",
       "hints": [
-        "Restaurez une capacité par des moyens autorisés ou retirez un levier de dépendance dangereux."
+        "Aidez un blessé à retrouver une faculté perdue ou retirez un levier de dépendance dangereux."
       ],
-      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1432,7 +1365,6 @@
       "hints": [
         "Préservez un lieu d’accueil menacé ou déjouez les recherches visant une personne protégée."
       ],
-      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1453,7 +1385,6 @@
       "hints": [
         "Brisez l’exploitation organisée de vos dons ou maintenez un sanctuaire face à une offensive."
       ],
-      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1474,7 +1405,6 @@
       "hints": [
         "Donnez à d’autres les moyens d’aider sans dépendre indéfiniment de votre disponibilité."
       ],
-      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1495,7 +1425,6 @@
       "hints": [
         "Empêchez une intrusion établie ou obtenez l’exercice d’une liberté jusque-là refusée."
       ],
-      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1516,7 +1445,6 @@
       "hints": [
         "Préservez une cible réellement attaquée ou neutralisez un moyen concret de servitude."
       ],
-      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1537,7 +1465,6 @@
       "hints": [
         "Faites tenir une défense dont l’ennemi connaît la faille, ou retirez quelqu’un d’un dispositif de contrôle."
       ],
-      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1558,7 +1485,6 @@
       "hints": [
         "Défendez un refuge collectif contre une offensive ou obtenez une autonomie face à des adversaires organisés."
       ],
-      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1579,7 +1505,6 @@
       "hints": [
         "Formez une relève capable de choisir ses engagements plutôt que de reproduire votre servitude."
       ],
-      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1600,7 +1525,6 @@
       "hints": [
         "Gagnez un accès refusé à cause de votre condition ou récupérez un corps placé hors de portée."
       ],
-      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1619,9 +1543,8 @@
       "name": "La peur a un prix",
       "description": "Réussissez une opération discrète malgré son apparence. Ou Obtenez un résultat défendu en employant l'effroi.",
       "hints": [
-        "Conduisez une opération discrète malgré votre apparence, ou obtenez un résultat par un effroi réellement joué."
+        "Conduisez une opération discrète malgré votre apparence, ou obtenez un résultat en faisant de votre apparence une arme de terreur."
       ],
-      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1642,7 +1565,6 @@
       "hints": [
         "Neutralisez une exploitation des morts ou établissez une ressource dans un milieu qui vous excluait."
       ],
-      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1663,7 +1585,6 @@
       "hints": [
         "Préservez un refuge attaqué ou faites coopérer ceux qui ne vous traitaient que comme un instrument."
       ],
-      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1684,7 +1605,6 @@
       "hints": [
         "Transmettez une place reconnue qui ne dépende pas uniquement de votre utilité macabre."
       ],
-      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1705,7 +1625,6 @@
       "hints": [
         "Obtenez une audience refusée ou faites aboutir une intervention vocale malgré une perturbation réelle."
       ],
-      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1722,11 +1641,10 @@
       "clan": "daughters_cacophony",
       "category": "clan",
       "name": "Le chant perce le silence",
-      "description": "Brisez une hostilité par une intervention autorisée. Ou Transmettez un message malgré une opposition à sa réception.",
+      "description": "Brisez une hostilité par une intervention. Ou Transmettez un message malgré une opposition à sa réception.",
       "hints": [
-        "Faites parvenir un message que l’on cherche à empêcher, ou désamorcez une hostilité par vos moyens autorisés."
+        "Faites parvenir un message que l’on cherche à empêcher, ou désamorcez une hostilité par votre voix."
       ],
-      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1747,7 +1665,6 @@
       "hints": [
         "Déjouez une manipulation par votre intervention ou sauvez une opération malgré une voix compromise."
       ],
-      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1768,7 +1685,6 @@
       "hints": [
         "Faites basculer une confrontation organisée ou établissez un cercle d’influence contre une opposition active."
       ],
-      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1789,7 +1705,6 @@
       "hints": [
         "Transmettez un répertoire ou construisez une œuvre où les autres voix gardent leur autonomie."
       ],
-      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1810,7 +1725,6 @@
       "hints": [
         "Récupérez une preuve qui vous expose ou gagnez un intermédiaire dans un cercle occulte fermé."
       ],
-      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
       "minBp": 1,
       "maxBp": 5,
       "points": 3,
@@ -1831,7 +1745,6 @@
       "hints": [
         "Menez une opération liée à un engagement établi ou déjouez l’enquête menaçant un complice."
       ],
-      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
       "minBp": 2,
       "maxBp": 5,
       "points": 5,
@@ -1852,7 +1765,6 @@
       "hints": [
         "Neutralisez le levier d’une dette occulte ou déjouez un adversaire qui connaît vos pratiques."
       ],
-      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
       "minBp": 3,
       "maxBp": 5,
       "points": 8,
@@ -1873,7 +1785,6 @@
       "hints": [
         "Démantelez un dispositif adverse ou obtenez une autonomie réelle face à une tutelle établie."
       ],
-      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
       "minBp": 4,
       "maxBp": 5,
       "points": 12,
@@ -1892,9 +1803,8 @@
       "name": "La dette ultime",
       "description": "Résolvez le prix d'un engagement majeur. Ou Transmettez ou abolir une structure occulte sans effacer ses conséquences.",
       "hints": [
-        "Résolvez le prix d’un engagement majeur sans inventer de pouvoir ou effacer ses conséquences."
+        "Résolvez le prix d’un engagement majeur en affrontant celui qui vient réclamer son dû."
       ],
-      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
       "minBp": 5,
       "maxBp": 5,
       "points": 0,
@@ -1912,9 +1822,8 @@
       "name": "La Bête à votre porte",
       "description": "Affrontez pour la première fois une crise où la Bête menace une vie, une couverture ou un engagement.",
       "hints": [
-        "Une faim pressante ou une provocation peut mettre un allié en danger. Jouez la crise jusqu’à sa résolution, par la résistance ou la perte de contrôle."
+        "Une faim pressante ou une provocation peut mettre un allié en danger. Contenez la Bête ou affrontez ce que sa libération laisse derrière elle."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 3,
       "minBp": 1,
       "maxBp": 4,
@@ -1934,9 +1843,8 @@
       "name": "Le sang fait des chaînes",
       "description": "Établissez votre première dépendance de sang et donnez-lui une place réelle dans la nuit.",
       "hints": [
-        "Créez une goule ou constituez un lien selon les règles du serveur, puis jouez une obligation issue de cette dépendance. Une gorgée isolée ne suffit pas."
+        "Créez une goule ou nouez un lien de sang, puis répondez aux exigences de cette nouvelle dépendance."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 3,
       "minBp": 1,
       "maxBp": 4,
@@ -1957,9 +1865,8 @@
       "name": "Ce nom n’est plus le vôtre",
       "description": "Abandonnez irréversiblement une part importante de votre vie mortelle pour préserver votre existence vampirique.",
       "hints": [
-        "Renoncez à une identité devenue dangereuse, à un accès précieux ou à une relation impossible à préserver. Une visite ou une déclaration de détachement ne suffit pas."
+        "Renoncez à une identité devenue dangereuse, à un accès précieux ou à une relation impossible à préserver."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 4,
       "minBp": 1,
       "maxBp": 4,
@@ -1977,9 +1884,8 @@
       "name": "La première traque",
       "description": "Menez à terme votre première chasse autonome malgré un obstacle qui aurait pu vous démasquer.",
       "hints": [
-        "Obtenez le sang recherché puis traitez un témoin, une surveillance ou une intrusion territoriale. Le repas sans incident n’est pas cette épreuve."
+        "Obtenez le sang recherché puis traitez un témoin, une surveillance ou une intrusion territoriale."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 2,
       "minBp": 1,
       "maxBp": 2,
@@ -1995,9 +1901,8 @@
       "name": "Une veine dans la cité",
       "description": "Ouvrez une source de chasse réellement exploitable là où vos proies ou les maîtres des lieux vous fermaient le passage.",
       "hints": [
-        "Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies. Une victime de plus ne constitue pas une ressource."
+        "Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 3,
       "minBp": 1,
       "maxBp": 4,
@@ -2015,9 +1920,8 @@
       "name": "Rouvrir les veines",
       "description": "Rendez au sang un chemin que la menace avait fermé.",
       "hints": [
-        "Identifiez ce qui a compromis votre ressource de chasse, traitez cette cause et rétablissez un accès utilisable. Remplacer simplement un repas manqué ne suffit pas."
+        "Identifiez ce qui a compromis votre ressource de chasse, traitez cette cause et rétablissez un accès utilisable."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 4,
       "minBp": 1,
       "maxBp": 4,
@@ -2035,9 +1939,8 @@
       "name": "Recoudre le voile",
       "description": "Étouffez une menace crédible avant qu’elle ne déchire la Mascarade.",
       "hints": [
-        "Récupérez une preuve compromettante, déjouez une enquête ou neutralisez le risque posé par un témoin. L’opposition doit être établie et le danger effectivement traité."
+        "Récupérez une preuve compromettante, déjouez une enquête ou neutralisez le risque posé par un témoin."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 5,
       "minBp": 1,
       "maxBp": 4,
@@ -2055,9 +1958,8 @@
       "name": "Briser la laisse",
       "description": "Arrachez une autonomie réelle à une emprise qui organisait votre existence ou celle d’un autre.",
       "hints": [
-        "Supprimez un levier de chantage ou démantelez un dispositif de contrôle. Un lien surnaturel ne disparaît que par les moyens prévus par les règles."
+        "Supprimez un levier de chantage ou démantelez un dispositif de contrôle."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 6,
       "minBp": 1,
       "maxBp": 4,
@@ -2075,9 +1977,8 @@
       "name": "Soustraire une vie à la nuit",
       "description": "Ramenez un allié ou une ressource vivante hors d’un danger qui pouvait réellement l’emporter.",
       "hints": [
-        "Préparez une sortie, déjouez des poursuivants ou franchissez une défense. L’extraction doit aboutir malgré une opposition ; accompagner quelqu’un à l’abri ne suffit pas."
+        "Préparez une sortie, déjouez des poursuivants ou franchissez une défense."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 6,
       "minBp": 1,
       "maxBp": 4,
@@ -2095,9 +1996,8 @@
       "name": "Revenir du bord des cendres",
       "description": "Surmontez une crise vampirique qui menace un objectif important.",
       "hints": [
-        "Sauvez votre opération malgré la faim, la Bête, le feu ou une exposition. Un danger provoqué puis annulé pour obtenir des points ne compte pas."
+        "Sauvez votre opération malgré la faim, la Bête, le feu ou une exposition."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 5,
       "minBp": 1,
       "maxBp": 4,
@@ -2115,9 +2015,8 @@
       "name": "Le savoir sous les sceaux",
       "description": "Obtenez un enseignement occulte que l’on ne livrait pas au premier venu.",
       "hints": [
-        "Gagnez l’accès à un maître réticent ou à un savoir protégé et accomplissez l’apprentissage prévu par le serveur. Les points n’accordent aucun pouvoir supplémentaire."
+        "Gagnez l’accès à un maître réticent ou à un savoir protégé et mettez son enseignement en pratique."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 4,
       "minBp": 1,
       "maxBp": 4,
@@ -2135,9 +2034,8 @@
       "name": "Que le refuge demeure",
       "description": "Brisez une offensive organisée contre un refuge ou un réseau de chasse.",
       "hints": [
-        "Identifiez les moyens de l’adversaire puis faites échouer son opération, par défense, négociation ou détournement. Une ronde sans incident n’est pas une victoire."
+        "Identifiez les moyens de l’adversaire puis faites échouer son opération, par défense, négociation ou détournement."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 8,
       "minBp": 1,
       "maxBp": 4,
@@ -2155,9 +2053,8 @@
       "name": "Le goût d’une âme vive",
       "description": "Atteignez une source au sang chargé d’une émotion établie, au terme d’une chasse qui ne vous était pas acquise.",
       "hints": [
-        "Identifiez rage, passion, mélancolie ou calme dans la fiction puis surmontez l’obstacle d’accès. Ne comptez pas la même acquisition à la fois comme chasse et résonance."
+        "Identifiez rage, passion, mélancolie ou calme chez une proie et trouvez le moyen de l’approcher."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 2,
       "minBp": 1,
       "maxBp": 2,
@@ -2171,11 +2068,10 @@
       "id": "vitae_dyscrasia",
       "category": "resonance",
       "name": "L’empreinte dans le sang",
-      "description": "Exploitez une dyscrasie exceptionnelle reconnue par le MJ, après en avoir conquis l’accès.",
+      "description": "Découvrez une dyscrasie et goûtez ce que cette empreinte singulière a laissé dans le sang.",
       "hints": [
-        "Enquêtez sur une source déjà établie et remplissez les conditions de son exploitation. Déclarer une émotion extrême ne crée pas une dyscrasie."
+        "Suivez la trace d’une émotion qui hante une proie, gagnez sa proximité et percez le secret de son sang."
       ],
-      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
       "points": 5,
       "minBp": 1,
       "maxBp": 4,

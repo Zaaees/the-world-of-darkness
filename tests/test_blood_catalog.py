@@ -13,7 +13,6 @@ class VitaeCatalogTests(unittest.TestCase):
             self.assertEqual([a['min_bp'] for a in get_clan_actions(clan)], [1, 2, 3, 4, 5])
         for action in ACTIONS.values():
             self.assertTrue(action['hints'])
-            self.assertTrue(action['requirement'])
             self.assertNotIn('cooldown_days', action)
             self.assertEqual(get_action_points(action, 5), 0)
 
