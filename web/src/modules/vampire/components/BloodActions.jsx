@@ -15,8 +15,6 @@ export function ActionButton({ action, isDisabled, isPending, isCompleted, isSub
       <details className="mt-3 text-sm text-stone-400">
         <summary className="cursor-pointer text-stone-300 focus-visible:outline focus-visible:outline-red-500">Pistes pour votre récit</summary>
         <ul className="list-disc pl-5 mt-3 space-y-2">{action.hints.map(hint => <li key={hint}>{hint}</li>)}</ul>
-        <p className="mt-3"><strong className="text-stone-300">Pour accomplir cette action :</strong> {action.requirement}</p>
-        <p className="text-xs text-stone-500 mt-2">Ces pistes sont des possibilités, pas un scénario imposé. Employez uniquement les pouvoirs et ressources de votre personnage.</p>
       </details>
       {!terminal && <button type="button" disabled={disabled} onClick={() => onSubmit(action)}
         className="mt-4 inline-flex items-center gap-2 rounded border border-red-900 px-3 py-2 text-sm text-stone-200 hover:bg-red-950/40 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-red-500">
