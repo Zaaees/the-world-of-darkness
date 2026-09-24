@@ -13,12 +13,13 @@ import aiohttp
 import discord
 from discord.ext import commands, tasks
 
-from data.blood_actions import get_action_by_id
+from data.blood_actions import get_action_by_id, get_action_points, is_action_available, normalize_clan
 from utils.database import (
     init_blood_actions_tables,
     create_pending_action,
     has_pending_action,
     GOOGLE_SHEETS_API,
+    get_from_google_sheets,
 )
 from views.blood_action_validation import (
     PersistentActionValidationView,
@@ -93,6 +94,22 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
                 logger.warning(f"Action {action_id} non trouvée")
                 return
 
+            character = await get_from_google_sheets(user_id)
+            if not character:
+                return
+            potency = int(character.get("bloodPotency", 1))
+            if (potency >= 5 or not is_action_available(action_info, potency)
+                    or (action_info.get("clan") and action_info["clan"] != normalize_clan(character.get("clan", "")))):
+                logger.warning("Action de Vitae indisponible pour ce personnage")
+                return
+            completed = character.get("completedActions", [])
+            if action_info["category"] == "unique" and any(
+                key in completed for key in [action_id, *action_info.get("legacyCompletedIds", [])]
+            ):
+                return
+            # Freeze server-calculated points when the request is registered.
+            points = get_action_points(action_info, potency)
+
             # Vérifier si l'action est déjà en attente localement
             if await has_pending_action(user_id, guild.id, action_id):
                 return
@@ -103,7 +120,7 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
                 guild_id=guild.id,
                 action_id=action_id,
                 action_name=action_info["name"],
-                points=action_info["points"],
+                points=points,
                 category=action_info.get("category", "unknown"),
             )
 
@@ -115,8 +132,9 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
                 action_db_id=action_db_id,
                 action_id=action_id,
                 action_name=action_info["name"],
-                action_description=action_info.get("description", ""),
-                points=action_info["points"],
+                action_description=(action_info.get("description", "") + "\n\n"
+                                    + "\n".join(action_info.get("hints", [])))[:900],
+                points=points,
                 category=action_info.get("category", "unknown"),
             )
 

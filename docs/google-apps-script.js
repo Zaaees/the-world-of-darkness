@@ -317,13 +317,7 @@ function validateAction(userId, actionId, points, isUnique, hasCooldown) {
     }
   }
 
-  // Ajouter le cooldown si nécessaire
-  if (hasCooldown) {
-    char.cooldowns = char.cooldowns || {};
-    const cooldownDate = new Date();
-    cooldownDate.setDate(cooldownDate.getDate() + 30);
-    char.cooldowns[actionId] = cooldownDate.toISOString();
-  }
+  // Vitae v2 : aucun délai de récupération, même pour un ancien identifiant.
 
   // Ajouter les points de saturation
   char.saturationPoints = (parseInt(char.saturationPoints) || 0) + points;
@@ -331,14 +325,13 @@ function validateAction(userId, actionId, points, isUnique, hasCooldown) {
   // Vérifier si mutation
   const thresholds = { 1: 30, 2: 60, 3: 120, 4: 250 };
   const currentBP = parseInt(char.bloodPotency) || 1;
-  const threshold = thresholds[currentBP];
-
-  let mutated = false;
-  if (threshold && char.saturationPoints >= threshold) {
-    char.bloodPotency = Math.min(currentBP + 1, 5);
-    char.saturationPoints = 0;
-    mutated = true;
+  char.bloodPotency = currentBP;
+  while (char.bloodPotency < 5 && char.saturationPoints >= thresholds[char.bloodPotency]) {
+    char.saturationPoints -= thresholds[char.bloodPotency];
+    char.bloodPotency += 1;
   }
+  if (char.bloodPotency >= 5) char.saturationPoints = 0;
+  const mutated = char.bloodPotency !== currentBP;
 
   // Ajouter à l'historique
   char.history = char.history || [];

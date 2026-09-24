@@ -242,12 +242,12 @@ export default function RulesTab({ setActiveTab }) {
 
                     <div className="bg-stone-900/30 p-5 rounded border border-stone-800 space-y-4">
                         <h3 className="font-serif text-lg text-stone-300">Progression de la Puissance</h3>
-                        <p className="text-sm text-stone-500">Le sang s'épaissit par l'expérience et le temps.</p>
+                        <p className="text-sm text-stone-500">Les épreuves de la nuit éveillent la puissance de votre sang. Surmontez un obstacle réel et obtenez un résultat.</p>
                         <ol className="list-decimal list-inside space-y-2 text-sm text-stone-400">
-                            <li><strong className="text-stone-300">Actions RP :</strong> Dans l'onglet <strong>Vitae</strong> du Vis Vitae, vous trouverez une liste d'actions spécifiques à accomplir (ex: "Créer une goule", "Gagner un duel", "Contrôler un quartier").</li>
-                            <li><strong className="text-stone-300">Validation :</strong> Une fois l'action jouée en scène, cochez-la dans l'interface. Le MJ Vampire recevra une notification pour valider l'accomplissement.</li>
-                            <li><strong className="text-stone-300">Saturation :</strong> Chaque action validée ajoute des points de saturation à votre sang.</li>
-                            <li><strong className="text-stone-300">Mutation (Incubation) :</strong> Lorsque vous atteignez le seuil requis pour le rang suivant, votre sang ne change pas instantanément. Il entre dans une phase de <strong>mutation</strong>. Vous devrez attendre la nuit suivante ("Incubation") pour que votre physiologie s'adapte et que votre Puissance de Sang augmente effectivement.</li>
+                            <li><strong className="text-stone-300">Actions RP :</strong> L'onglet <strong>Vitae</strong> propose des épreuves communes et des voies propres à votre clan. Ouvrez « Pistes pour votre récit » pour découvrir des moyens possibles de les accomplir.</li>
+                            <li><strong className="text-stone-300">Validation :</strong> Après la réalisation, utilisez « Soumettre au MJ ». Le MJ vérifie l'obstacle rencontré et le résultat obtenu dans la scène.</li>
+                            <li><strong className="text-stone-300">Saturation :</strong> Les récompenses varient selon l'action et votre niveau. Plusieurs accomplissements indépendants peuvent se cumuler dans une scène, sans plafond ni délai de récupération. Un même résultat ne se rémunère pas deux fois. Répéter une action demande une nouvelle difficulté réelle.</li>
+                            <li><strong className="text-stone-300">Progression :</strong> Les passages coûtent respectivement 30, 60, 120 et 250 points. L'excédent est conservé au niveau suivant, sans incubation imposée. Au niveau 5, les objectifs d'héritage poursuivent votre récit sans nouveaux points.</li>
                         </ol>
                     </div>
 

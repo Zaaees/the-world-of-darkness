@@ -13,6 +13,7 @@ from typing import Optional
 import logging
 import uuid
 import random
+from data.blood_actions import SATURATION_THRESHOLDS, advance_saturation
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -609,30 +610,19 @@ async def add_saturation_points(user_id: int, guild_id: int, points: int) -> dic
     # Récupérer les données existantes
     character = await get_from_google_sheets(user_id) or {}
 
-    current_bp = character.get("bloodPotency", 1)
-    current_saturation = character.get("saturationPoints", 0)
+    current_bp = int(character.get("bloodPotency", 1))
+    current_saturation = int(character.get("saturationPoints", 0))
 
     # Seuils par niveau de BP
-    thresholds = {
-        1: 30,
-        2: 60,
-        3: 120,
-        4: 250,
-    }
-
-    new_saturation = current_saturation + points
-    new_bp = current_bp
-    mutated = False
-
-    # Vérifier si on franchit un seuil
-    if current_bp < 5 and new_saturation >= thresholds.get(current_bp, float("inf")):
-        new_bp = current_bp + 1
-        new_saturation = 0
-        mutated = True
+    thresholds = SATURATION_THRESHOLDS
+    new_bp, new_saturation = advance_saturation(current_bp, current_saturation, points)
+    mutated = new_bp != current_bp
 
     # Mettre à jour les données
     character["bloodPotency"] = new_bp
     character["saturationPoints"] = new_saturation
+    character["isMutating"] = False
+    character["mutationEndsAt"] = None
 
     # Sauvegarder dans Google Sheets
     await save_to_google_sheets(user_id, character)
@@ -984,6 +974,19 @@ async def validate_blood_action(
         action_id = action_dict["action_id"]
         category = action_dict["category"]
 
+        from data.blood_actions import get_action_by_id
+        catalog_action = get_action_by_id(action_id)
+        if not catalog_action:
+            return {"success": False, "reason": "Ancienne action retirée du catalogue : refusez cette demande et soumettez un accomplissement actuel."}
+        if category == "unique":
+            completed_cursor = await db.execute(
+                "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
+                (user_id, guild_id),
+            )
+            completed = {row[0] for row in await completed_cursor.fetchall()}
+            if any(key in completed for key in [action_id, *catalog_action.get("legacyCompletedIds", [])]):
+                return {"success": False, "reason": "Cette expérience unique a déjà été accomplie."}
+
         # Points à attribuer (utiliser points_awarded s'il est fourni, sinon les points de l'action)
         points = points_awarded if points_awarded is not None else action_dict["points"]
 
@@ -1030,16 +1033,6 @@ async def validate_blood_action(
                 validator_id,
             ),
         )
-
-        # Pour les actions vampiriques, ajouter un cooldown
-        if category == "vampire_blood":
-            await db.execute(
-                """
-                INSERT OR REPLACE INTO action_cooldowns (user_id, guild_id, action_id, expires_at)
-                VALUES (?, ?, ?, datetime('now', '+30 days'))
-                """,
-                (user_id, guild_id, action_id),
-            )
 
         await db.commit()
 
@@ -1613,8 +1606,7 @@ def get_max_vitae(blood_potency: int) -> int:
 def get_saturation_threshold(blood_potency: int) -> int:
     """Calcule le seuil de saturation pour passer au niveau suivant."""
     # Seuils ajustés à la nouvelle progression linéaire
-    thresholds = {1: 25, 2: 50, 3: 80, 4: 120, 5: float("inf")}
-    return thresholds.get(blood_potency, 25)
+    return SATURATION_THRESHOLDS.get(blood_potency, 30)
 
 
 async def reset_vampire_data(user_id: int, guild_id: int):
@@ -1623,7 +1615,6 @@ async def reset_vampire_data(user_id: int, guild_id: int):
 
 
 # Constante pour views.vampire_panel
-SATURATION_THRESHOLDS = {1: 30, 2: 60, 3: 120, 4: 250, 5: float("inf")}
 
 
 # Alias pour cogs.werewolf et cogs.general

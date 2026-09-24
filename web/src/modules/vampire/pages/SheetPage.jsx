@@ -1,3 +1,5 @@
+import { BLOOD_ACTIONS, SATURATION_THRESHOLDS, getClanActions } from '../../../data/bloodActions';
+import { ActionCategory } from '../components/BloodActions';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText, Book, ArrowLeft, Share2, Eye } from 'lucide-react';
 import DisciplinesTab from '../components/DisciplinesTab';
@@ -30,13 +32,7 @@ const getDiscordAuthUrl = () => {
 
 // --- LOGIQUE V5 NARRATIVE ---
 
-const SATURATION_THRESHOLDS = {
-  1: 30,
-  2: 60,
-  3: 120,
-  4: 250,
-  5: null
-};
+
 
 const BLOOD_STAGES = {
   1: {
@@ -78,83 +74,11 @@ const BLOOD_STAGES = {
 
 // --- DÉFINITION DES ACTIONS ---
 
-// Fonction utilitaire pour calculer les points selon le BP
-const getActionPoints = (action, bloodPotency) => {
-  if (action.scaling) {
-    return action.scaling[bloodPotency] ?? action.points;
-  }
-  return action.points;
-};
-
-// Fonction pour vérifier si une action est visible pour un BP donné
-const isActionVisible = (action, bloodPotency) => {
-  const minBp = action.minBp ?? 1;
-  const maxBp = action.maxBp ?? 5;
-  return bloodPotency >= minBp && bloodPotency <= maxBp;
-};
-
-const UNIQUE_ACTIONS = [
-  { id: "first_frenzy", name: "Première danse avec la Bête", description: "Jouer sa première frénésie", points: 5, minBp: 1, maxBp: 5 },
-  { id: "first_kill", name: "Le goût des cendres", description: "Tuer un mortel pour la première fois", points: 8, minBp: 1, maxBp: 5 },
-  { id: "first_sun", name: "Baiser du soleil", description: "Survivre à une exposition au soleil", points: 6, minBp: 1, maxBp: 5 },
-  { id: "first_blood_bond", name: "Le Sang qui lie", description: "Créer son premier Lien de Sang sur quelqu'un", points: 4, minBp: 1, maxBp: 5 },
-  { id: "last_mortal", name: "Dernier souffle mortel", description: "Revoir un proche de sa vie humaine", points: 5, minBp: 1, maxBp: 3 },
-  { id: "first_ghoul", name: "La première servitude", description: "Créer sa première goule", points: 4, minBp: 1, maxBp: 5 },
-  { id: "ghoul_pack", name: "Maître de la meute", description: "Avoir 3 goules ou plus en même temps", points: 5, minBp: 1, maxBp: 5 },
-  { id: "acceptance", name: "L'Acceptation", description: "Accepter pleinement sa nature de monstre (scène RP significative)", points: 6, minBp: 3, maxBp: 5 },
-];
-
-const CLAN_ACTIONS = {
-  nosferatu: { id: "clan_nosferatu", name: "Le secret qui tue", description: "Révéler une information qui change la donne", points: 4, minBp: 1, maxBp: 5 },
-  brujah: { id: "clan_brujah", name: "Le poing levé", description: "Défendre une cause ou mener une révolte", points: 4, minBp: 1, maxBp: 5 },
-  toreador: { id: "clan_toreador", name: "L'œuvre immortelle", description: "Créer ou inspirer une œuvre marquante", points: 4, minBp: 1, maxBp: 5 },
-  ventrue: { id: "clan_ventrue", name: "La couronne de fer", description: "Asseoir son autorité ou écraser un rival", points: 4, minBp: 1, maxBp: 5 },
-  tremere: { id: "clan_tremere", name: "Le sang qui commande", description: "Accomplir un rituel de sang significatif", points: 4, minBp: 1, maxBp: 5 },
-  malkavian: { id: "clan_malkavian", name: "La vérité dans la folie", description: "Avoir une vision qui s'avère vraie", points: 4, minBp: 1, maxBp: 5 },
-  gangrel: { id: "clan_gangrel", name: "L'appel sauvage", description: "Survivre seul en milieu hostile", points: 4, minBp: 1, maxBp: 5 },
-  lasombra: { id: "clan_lasombra", name: "L'ombre qui dévore", description: "Éliminer un obstacle par ambition", points: 4, minBp: 1, maxBp: 5 },
-  tzimisce: { id: "clan_tzimisce", name: "Chair de ma chair", description: "Modifier sa chair ou défendre son domaine", points: 4, minBp: 1, maxBp: 5 },
-  giovanni: { id: "clan_giovanni", name: "Murmures d'outre-tombe", description: "Communiquer avec les morts ou accomplir un rite funéraire", points: 4, minBp: 1, maxBp: 5 },
-  setites: { id: "clan_setites", name: "La tentation du serpent", description: "Corrompre quelqu'un ou répandre le vice", points: 4, minBp: 1, maxBp: 5 },
-  assamites: { id: "clan_assamites", name: "Le jugement du sang", description: "Exécuter un contrat ou punir un coupable", points: 4, minBp: 1, maxBp: 5 },
-};
-
-const RESONANCE_ACTIONS = [
-  { id: "resonance_choleric", name: "Sang colérique", description: "Se nourrir sur quelqu'un en pleine rage ou violence", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
-  { id: "resonance_melancholic", name: "Sang mélancolique", description: "Se nourrir sur quelqu'un en profond désespoir", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
-  { id: "resonance_sanguine", name: "Sang sanguin", description: "Se nourrir sur quelqu'un en pleine euphorie ou passion", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
-  { id: "resonance_phlegmatic", name: "Sang flegmatique", description: "Se nourrir sur quelqu'un en paix absolue ou apathie", points: 2, minBp: 1, maxBp: 3, scaling: { 1: 2, 2: 2, 3: 1 } },
-  { id: "resonance_dyscrasia", name: "Dyscrasie", description: "Se nourrir sur une émotion extrême, à son paroxysme", points: 5, minBp: 1, maxBp: 4, scaling: { 1: 5, 2: 5, 3: 5, 4: 3 } },
-];
-
-const VAMPIRE_BLOOD_ACTIONS = [
-  { id: "vampire_kiss", name: "Le baiser du prédateur", description: "Boire le sang d'un autre vampire (sans le tuer)", points: 4, cooldownDays: 30, minBp: 1, maxBp: 3 },
-  { id: "elder_blood", name: "Sang d'Ancien", description: "Vider complètement un vampire de Puissance supérieure (le tuer)", points: 8, cooldownDays: 30, minBp: 1, maxBp: 4 },
-  { id: "vaulderie", name: "La Vaulderie", description: "Participer à un rituel de partage de sang collectif", points: 5, cooldownDays: 30, minBp: 1, maxBp: 5 },
-  { id: "diablerie", name: "L'Étreinte inversée", description: "Commettre une diablerie sur un vampire de rang supérieur (absorber son âme)", points: 25, cooldownDays: 30, minBp: 1, maxBp: 4 },
-  { id: "methuselah_blood", name: "Sang de Mathusalem", description: "Boire le sang d'un Mathusalem (vampire millénaire, impossible à tuer)", points: 15, cooldownDays: 30, minBp: 3, maxBp: 5 },
-  { id: "wassail_blood", name: "Vitae Corrompue", description: "Vider complètement un vampire en Wassail (perdu à la Bête)", points: 10, cooldownDays: 30, minBp: 3, maxBp: 5 },
-];
-
-const CRISIS_ACTIONS = [
-  { id: "crisis_near_death", name: "Frôler la Mort Finale", description: "Survivre de justesse à un danger mortel", points: 5, minBp: 1, maxBp: 5, scaling: { 1: 5, 2: 5, 3: 5, 4: 3, 5: 2 } },
-  { id: "crisis_resist_frenzy", name: "Dompter la Bête", description: "Résister à une frénésie en situation critique", points: 3, minBp: 1, maxBp: 4, scaling: { 1: 3, 2: 3, 3: 3, 4: 2 } },
-  { id: "crisis_unleash_beast", name: "La Bête déchaînée", description: "Céder à la frénésie avec conséquences assumées", points: 4, minBp: 1, maxBp: 4, scaling: { 1: 4, 2: 4, 3: 4, 4: 2 } },
-  { id: "crisis_final_death", name: "Mort Finale évitée", description: "Survivre à un staking ou une exposition solaire prolongée", points: 12, minBp: 3, maxBp: 5 },
-];
-
-const TORPOR_ACTIONS = [
-  { id: "torpor_enter", name: "Le poids des siècles", description: "Entrer en torpeur volontaire (ellipse temporelle)", points: 10, minBp: 1, maxBp: 5 },
-  { id: "torpor_wake", name: "Éveillé", description: "Se réveiller de torpeur", points: 3, minBp: 1, maxBp: 5 },
-];
-
 const ACTION_CATEGORIES = [
-  { id: "unique", name: "Premières fois", icon: Star, description: "Actions uniques qui disparaissent après accomplissement", actions: UNIQUE_ACTIONS },
-  { id: "resonance", name: "Résonance du Sang", icon: Heart, description: "Se nourrir de sang émotionnel", actions: RESONANCE_ACTIONS },
-  { id: "vampire_blood", name: "Sang Vampirique", icon: Droplet, description: "Boire le sang d'autres vampires (cooldown: 1 mois)", actions: VAMPIRE_BLOOD_ACTIONS },
-  { id: "crisis", name: "Crises", icon: Zap, description: "Moments de confrontation avec la Bête", actions: CRISIS_ACTIONS },
-  { id: "torpor", name: "Torpeur", icon: Moon, description: "Le long sommeil des anciens", actions: TORPOR_ACTIONS },
-];
+  { id: 'unique', name: 'Les premières cicatrices', icon: Star, description: 'Des expériences fondatrices, une fois dans votre existence.' },
+  { id: 'general', name: 'Les épreuves de la nuit', icon: Flame, description: 'Conquérir, protéger, apprendre : des accomplissements qui laissent une trace.' },
+  { id: 'resonance', name: 'Les saveurs du sang', icon: Heart, description: 'Atteindre une source singulière au-delà d’une chasse ordinaire.' },
+].map(category => ({ ...category, actions: BLOOD_ACTIONS.filter(action => action.category === category.id) }));
 
 // --- COMPOSANTS UI ---
 
@@ -165,7 +89,7 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
         <Crown className="text-red-600 mb-3 animate-pulse" size={32} />
         <h3 className="text-red-500 font-serif text-lg tracking-widest uppercase">Zénith Atteint</h3>
         <p className="text-stone-500 text-xs mt-2 max-w-xs">
-          Votre sang a atteint son épaisseur maximale. Seule la Diablerie ou les siècles peuvent désormais l'altérer.
+          Votre sang a atteint le dernier niveau de cette progression. Votre héritage reste à écrire.
         </p>
       </div>
     );
@@ -207,133 +131,6 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
 };
 
 // Composant pour une action
-const ActionButton = ({ action, isDisabled, isPending, isCompleted, isCooldown, cooldownDate, isSubmitting, onSubmit }) => {
-  const getStatusIcon = () => {
-    if (isSubmitting) return <RefreshCw size={14} className="text-yellow-500 animate-spin" />;
-    if (isCompleted) return <Check size={14} className="text-green-500" />;
-    if (isPending) return <Clock size={14} className="text-yellow-500 animate-pulse" />;
-    if (isCooldown) return <Clock size={14} className="text-orange-500" />;
-    return null;
-  };
-
-  const getStatusText = () => {
-    if (isSubmitting) return "Envoi en cours...";
-    if (isCompleted) return "Accompli";
-    if (isPending) return "En attente de validation";
-    if (isCooldown) return `Disponible le ${new Date(cooldownDate).toLocaleDateString()}`;
-    return null;
-  };
-
-  return (
-    <button
-      onClick={() => onSubmit(action)}
-      disabled={isDisabled || isPending || isCompleted || isCooldown || isSubmitting}
-      className={`
-        vp-action w-full text-left p-4 rounded border transition-all relative overflow-hidden group
-        ${isSubmitting
-          ? 'action-submitting bg-yellow-950/30 border-yellow-700/50 cursor-wait'
-          : isCompleted
-            ? 'bg-green-950/20 border-green-900/30 opacity-50 cursor-not-allowed'
-            : isPending
-              ? 'bg-yellow-950/20 border-yellow-900/30 cursor-wait'
-              : isCooldown
-                ? 'bg-orange-950/20 border-orange-900/30 cursor-not-allowed opacity-60'
-                : isDisabled
-                  ? 'bg-transparent border-stone-900/30 opacity-30 cursor-not-allowed'
-                  : 'bg-stone-900/60 border-stone-800 hover:border-red-900 hover:bg-stone-900 cursor-pointer active:scale-[0.98]'
-        }
-      `}
-    >
-      <div className="flex justify-between items-start relative z-10">
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <span className={`font-serif text-base ${isCompleted ? 'line-through text-stone-600' : 'text-stone-200'}`}>
-              {action.name}
-            </span>
-            {getStatusIcon()}
-          </div>
-          <div className="text-xs text-stone-500 max-w-md mt-1">
-            {getStatusText() || action.description}
-          </div>
-        </div>
-        {!isCompleted && !isCooldown && (
-          <div className="flex flex-col items-center justify-center pl-4 border-l border-stone-800/50 ml-4">
-            <Flame size={14} className="text-red-700 mb-1" />
-            <span className="text-red-500 font-bold font-mono text-sm">+{action.points}</span>
-          </div>
-        )}
-      </div>
-    </button>
-  );
-};
-
-// Composant pour une catégorie d'actions
-const ActionCategory = ({ category, character, completedActions, pendingActions, cooldowns, submittingAction, onSubmitAction }) => {
-  const [isOpen, setIsOpen] = useState(false); // Toutes les catégories fermées par défaut
-  const CategoryIcon = category.icon;
-  const bloodPotency = character.bloodPotency || 1;
-
-  // Filtrer les actions visibles selon le BP et le statut
-  const visibleActions = category.actions.filter(action => {
-    // Vérifier la visibilité selon le BP
-    if (!isActionVisible(action, bloodPotency)) {
-      return false;
-    }
-    // Masquer les actions uniques déjà complétées
-    if (category.id === "unique" && completedActions.includes(action.id)) {
-      return false;
-    }
-    return true;
-  });
-
-  if (visibleActions.length === 0) return null;
-
-  return (
-    <div className="vp-action-category mb-6">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center gap-3 py-2 text-left group"
-      >
-        <div className="w-8 h-8 rounded bg-stone-900 border border-stone-800 flex items-center justify-center text-red-600 group-hover:border-red-900 transition-colors">
-          <CategoryIcon size={16} />
-        </div>
-        <div className="flex-1">
-          <h4 className="text-sm font-serif text-stone-300 uppercase tracking-wider">{category.name}</h4>
-          <p className="text-xs text-stone-600">{category.description}</p>
-        </div>
-        {isOpen ? <ChevronUp size={16} className="text-stone-600" /> : <ChevronDown size={16} className="text-stone-600" />}
-      </button>
-
-      {isOpen && (
-        <div className="mt-3 space-y-2 pl-11">
-          {visibleActions.map(action => {
-            const isCompleted = completedActions.includes(action.id);
-            const isPending = pendingActions.includes(action.id);
-            const cooldownDate = cooldowns[action.id];
-            const isCooldown = cooldownDate && new Date(cooldownDate) > new Date();
-            const scaledPoints = getActionPoints(action, bloodPotency);
-
-            return (
-              <ActionButton
-                key={action.id}
-                action={{ ...action, points: scaledPoints }}
-                isDisabled={character.bloodPotency >= 5}
-                isPending={isPending}
-                isCompleted={isCompleted}
-                isCooldown={isCooldown}
-                cooldownDate={cooldownDate}
-                isSubmitting={submittingAction === action.id}
-                onSubmit={onSubmitAction}
-              />
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Données par défaut
 const DEFAULT_CHARACTER = {
   name: "Nouveau Vampire",
   clan: "",
@@ -775,32 +572,6 @@ export default function VampireSheet() {
     }
   }, [character, npcCharacter, discordUser, loading, saveCharacter]);
 
-  // Vérification mutation
-  useEffect(() => {
-    if (!character?.isMutating) return;
-
-    const timer = setTimeout(() => {
-      if (character.mutationEndsAt && new Date() > new Date(character.mutationEndsAt)) {
-        const newLevel = Math.min(character.bloodPotency + 1, 5);
-        setCharacter(prev => ({
-          ...prev,
-          bloodPotency: newLevel,
-          saturationPoints: 0,
-          isMutating: false,
-          mutationEndsAt: null,
-          history: [...(prev.history || []), {
-            text: `MÉTAMORPHOSE : ${BLOOD_STAGES[newLevel].title}`,
-            impact: 0,
-            date: new Date().toISOString(),
-            type: 'levelup'
-          }]
-        }));
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [character?.isMutating, character?.mutationEndsAt]);
-
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
     // Ne pas démarrer le rafraîchissement si l'utilisateur n'est pas connecté
@@ -994,19 +765,7 @@ export default function VampireSheet() {
     ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
     : `https://cdn.discordapp.com/embed/avatars/${parseInt(discordUser.discriminator || '0') % 5}.png`);
 
-  // Récupérer l'action de clan
-  // Nous devons mapper le clan de l'utilisateur vers la clé correcte
-  // Le clan stocké en BD peut être n'importe quelle casse, normalisons-le
-  const userClanKey = activeChar.clan ? activeChar.clan.toLowerCase() : '';
-
-  // Gestion de la compatibilité des anciens noms si nécessaire (remapping)
-  // Si la BD contient "hecata", on l'affiche comme "giovanni"
-  let displayClanKey = userClanKey;
-  if (userClanKey === 'hecata') displayClanKey = 'giovanni';
-  if (userClanKey === 'ministry') displayClanKey = 'setites';
-  if (userClanKey === 'banu_haqim') displayClanKey = 'assamites';
-
-  const clanAction = CLAN_ACTIONS[displayClanKey];
+  const clanActions = getClanActions(activeChar.clan);
 
   // Handler pour la publication Discord
   const handlePublishNpc = async () => {
@@ -1331,7 +1090,7 @@ export default function VampireSheet() {
               <>
                 {/* JAUGE & NARRATION */}
                 <section>
-                  <BloodGauge current={activeChar.saturationPoints} max={maxPoints} isMutating={activeChar.isMutating} level={activeChar.bloodPotency} />
+                  <BloodGauge current={activeChar.saturationPoints} max={maxPoints} isMutating={false} level={activeChar.bloodPotency} />
 
                   <div className="vp-blood-story bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
@@ -1368,25 +1127,14 @@ export default function VampireSheet() {
                   </section>
                 )}
 
-                {/* ACTION DE CLAN */}
-                {clanAction && activeChar.bloodPotency < 5 && isActionVisible(clanAction, activeChar.bloodPotency) && (
-                  <section>
-                    <div className="flex items-center gap-3 mb-4">
-                      <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Action de Clan</h3>
-                      <div className="h-px bg-stone-900 flex-1"></div>
-                    </div>
-
-                    <ActionButton
-                      action={{ ...clanAction, points: getActionPoints(clanAction, activeChar.bloodPotency) }}
-                      isDisabled={activeChar.bloodPotency >= 5}
-                      isPending={(activeChar.pendingActions || []).includes(clanAction.id)}
-                      isCompleted={false}
-                      isCooldown={false}
-                      isSubmitting={submittingAction === clanAction.id}
-                      onSubmit={handleSubmitAction}
-                    />
-                  </section>
-                )}
+                <div className="text-sm text-stone-400 leading-relaxed border border-stone-800 rounded p-4">
+                  Chaque accomplissement possède sa récompense. Plusieurs réalisations distinctes peuvent compter dans une même scène, sans plafond ni délai de récupération. Un même résultat ne se réclame qu’une fois.
+                  <p className="mt-2 text-xs">Le MJ vérifie l’obstacle rencontré et le résultat obtenu. Une action répétée demande une nouvelle difficulté réelle. Les pistes proposées vous laissent choisir votre voie.</p>
+                </div>
+                <ActionCategory category={{ id: 'clan', name: 'L’héritage de votre sang', icon: Droplet,
+                  description: activeChar.bloodPotency >= 5 ? 'Votre puissance ne croît plus ; votre histoire continue.' : 'Des voies propres à votre lignée, enrichies à chaque niveau.', actions: activeChar.bloodPotency >= 5 ? clanActions.filter(action => action.minBp === 5) : clanActions }}
+                  character={activeChar} completedActions={activeChar.completedActions || []} pendingActions={activeChar.pendingActions || []}
+                  submittingAction={submittingAction} onSubmitAction={handleSubmitAction} />
 
                 {/* ACTIONS PAR CATÉGORIE */}
                 <section className="vp-vitae-actions">
@@ -1398,7 +1146,7 @@ export default function VampireSheet() {
 
                   {activeChar.bloodPotency >= 5 ? (
                     <div className="text-center text-xs text-stone-600 italic py-4">
-                      Votre sang a atteint la perfection statique. Il n'évolue plus.
+                      Votre parcours de puissance est accompli. Les voies d’héritage de votre clan restent ouvertes au récit.
                     </div>
                   ) : (
                     ACTION_CATEGORIES.map(category => (
@@ -1408,7 +1156,6 @@ export default function VampireSheet() {
                         character={activeChar}
                         completedActions={activeChar.completedActions || []}
                         pendingActions={activeChar.pendingActions || []}
-                        cooldowns={activeChar.cooldowns || {}}
                         submittingAction={submittingAction}
                         onSubmitAction={handleSubmitAction}
                       />

@@ -1,0 +1,2191 @@
+{
+  "version": 2,
+  "thresholds": {
+    "1": 30,
+    "2": 60,
+    "3": 120,
+    "4": 250
+  },
+  "aliases": {
+    "hecata": "giovanni",
+    "ministry": "setite",
+    "setites": "setite",
+    "assamites": "banu_haqim",
+    "assamite": "banu_haqim",
+    "malkavien": "malkavian",
+    "gargouilles": "gargoyles"
+  },
+  "actions": [
+    {
+      "id": "vitae_brujah_1",
+      "clan": "brujah",
+      "category": "clan",
+      "name": "Le prix du refus",
+      "description": "Faites reculer une contrainte imposée. Ou Obtenez réparation d'un abus établi.",
+      "hints": [
+        "Exigez la restitution d’un bien confisqué ou la levée d’une interdiction de chasse."
+      ],
+      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_brujah_2",
+      "clan": "brujah",
+      "category": "clan",
+      "name": "Les voix qui se lèvent",
+      "description": "Rassemblez des soutiens qui passent effectivement à l'action. Ou Faites aboutir une contestation locale.",
+      "hints": [
+        "Réunissez des alliés autour d’une action précise : obtenir un accès, protéger un témoin ou faire retirer une sanction."
+      ],
+      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_brujah_3",
+      "clan": "brujah",
+      "category": "clan",
+      "name": "Briser les chaînes",
+      "description": "Brisez un dispositif de coercition. Ou Préservez un objectif collectif menacé par une rupture d'alliance.",
+      "hints": [
+        "Coupez le levier d’un maître chanteur ou empêchez une querelle de faire échouer une opération commune."
+      ],
+      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_brujah_4",
+      "clan": "brujah",
+      "category": "clan",
+      "name": "Un ordre nouveau",
+      "description": "Transformez les règles d'un groupe malgré une opposition organisée. Ou Mettez fin à une domination locale établie.",
+      "hints": [
+        "Faites appliquer de nouvelles conditions de partage du sang malgré ceux qui profitent des anciennes."
+      ],
+      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_brujah_5",
+      "clan": "brujah",
+      "category": "clan",
+      "name": "La cause vous survivra",
+      "description": "Faites vivre une cause indépendante de soi. Ou Résolvez une contradiction centrale entre convictions et méthodes.",
+      "hints": [
+        "Confiez une cause à ceux qui la porteront autrement que vous."
+      ],
+      "requirement": "concession appliquée, dispositif neutralisé ou action collective effectivement réalisée. Un discours ou des sympathisants passifs ne suffisent pas. Une coterie peut constituer l'échelle du conflit.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gangrel_1",
+      "clan": "gangrel",
+      "category": "clan",
+      "name": "Un toit pour la Bête",
+      "description": "Sécurisez un abri difficile d'accès. Ou Établissez un passage malgré un obstacle territorial.",
+      "hints": [
+        "Obtenez l’accès à une friche surveillée ou rendez un abri compatible avec vos besoins nocturnes."
+      ],
+      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gangrel_2",
+      "clan": "gangrel",
+      "category": "clan",
+      "name": "La piste ouverte",
+      "description": "Conduisez un déplacement collectif sous menace. Ou Obtenez l'usage d'un terrain disputé.",
+      "hints": [
+        "Conduisez des compagnons à travers un secteur surveillé ou négociez l’usage d’un terrain revendiqué."
+      ],
+      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gangrel_3",
+      "clan": "gangrel",
+      "category": "clan",
+      "name": "La chasse renversée",
+      "description": "Récupérez un territoire de survie compromis. Ou Rompez une traque dirigée contre sa coterie.",
+      "hints": [
+        "Identifiez puis neutralisez ce qui rend un refuge dangereux, ou déjouez les moyens employés pour vous suivre."
+      ],
+      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gangrel_4",
+      "clan": "gangrel",
+      "category": "clan",
+      "name": "Les chemins de la nuit",
+      "description": "Préservez un réseau de refuges face à une offensive. Ou Ouvrez une voie de survie à un groupe isolé.",
+      "hints": [
+        "Reliez des abris menacés par un itinéraire réellement praticable, malgré une surveillance active."
+      ],
+      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gangrel_5",
+      "clan": "gangrel",
+      "category": "clan",
+      "name": "La terre en héritage",
+      "description": "Transmettez un territoire utilisable. Ou Établissez un équilibre viable entre autonomie et appartenance.",
+      "hints": [
+        "Donnez à un autre les moyens de vivre sur ce territoire sans dépendre de votre présence."
+      ],
+      "requirement": "accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_malkavian_1",
+      "clan": "malkavian",
+      "category": "clan",
+      "name": "La fissure du masque",
+      "description": "Mettez au jour une contradiction cachée. Ou Rendez exploitable un indice incompris.",
+      "hints": [
+        "Confrontez des témoignages incompatibles ou donnez un sens vérifiable à un détail déjà établi en scène."
+      ],
+      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_malkavian_2",
+      "clan": "malkavian",
+      "category": "clan",
+      "name": "Ce que nul ne voulait voir",
+      "description": "Dévoilez une tromperie par des indices négligés. Ou Faites adopter une précaution malgré la méfiance grâce à un avertissement étayé.",
+      "hints": [
+        "Réunissez les indices d’une tromperie et obtenez qu’un interlocuteur méfiant agisse sur cette base."
+      ],
+      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_malkavian_3",
+      "clan": "malkavian",
+      "category": "clan",
+      "name": "Le fil dans le labyrinthe",
+      "description": "Reconstituez un schéma dissimulé menaçant un groupe. Ou Déjouez une manipulation de ses perceptions.",
+      "hints": [
+        "Reliez plusieurs faits épars ou démontez le procédé utilisé pour fausser vos perceptions."
+      ],
+      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_malkavian_4",
+      "clan": "malkavian",
+      "category": "clan",
+      "name": "La vérité qui renverse",
+      "description": "Faites échouer un plan grâce à une vérité difficilement établie. Ou Faites reconnaître une révélation face à des intérêts organisés.",
+      "hints": [
+        "Établissez une vérité assez solide pour déjouer un plan ou contredire un groupe qui cherche à l’étouffer."
+      ],
+      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_malkavian_5",
+      "clan": "malkavian",
+      "category": "clan",
+      "name": "Les échos après vous",
+      "description": "Transmettez un savoir sans le rendre incontestable. Ou Résolvez une contradiction centrale de sa lecture du monde.",
+      "hints": [
+        "Transmettez vos découvertes à quelqu’un qui pourra aussi les remettre en question."
+      ],
+      "requirement": "conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_nosferatu_1",
+      "clan": "nosferatu",
+      "category": "clan",
+      "name": "Une oreille derrière le mur",
+      "description": "Établissez une source dans un milieu fermé. Ou Obtenez une information protégée et vérifiable.",
+      "hints": [
+        "Gagnez la confiance d’un gardien réticent ou vérifiez un renseignement que son détenteur protège."
+      ],
+      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_nosferatu_2",
+      "clan": "nosferatu",
+      "category": "clan",
+      "name": "Le poids du secret",
+      "description": "Découvrez un secret compromettant. Ou Obtenez une concession effective grâce à un renseignement.",
+      "hints": [
+        "Établissez une preuve compromettante, ou faites réellement exécuter une concession négociée grâce à elle."
+      ],
+      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_nosferatu_3",
+      "clan": "nosferatu",
+      "category": "clan",
+      "name": "Dans la toile ennemie",
+      "description": "Infiltrez un réseau hostile. Ou Soustrayez une source compromise à ceux qui l'exploitent.",
+      "hints": [
+        "Accédez à un canal fermé ou soustrayez un informateur à ceux qui le surveillent."
+      ],
+      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_nosferatu_4",
+      "clan": "nosferatu",
+      "category": "clan",
+      "name": "Aveugler les guetteurs",
+      "description": "Démantelez une surveillance organisée. Ou Retournez un réseau de renseignement dans un conflit local.",
+      "hints": [
+        "Identifiez les relais d’une surveillance puis privez-les de leur efficacité, ou retournez leur coopération."
+      ],
+      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_nosferatu_5",
+      "clan": "nosferatu",
+      "category": "clan",
+      "name": "Les murmures demeurent",
+      "description": "Transmettez un réseau viable. Ou Préservez un secret décisif malgré une rupture interne.",
+      "hints": [
+        "Confiez des sources et leurs moyens de protection sans conserver seul toutes les clés."
+      ],
+      "requirement": "accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_toreador_1",
+      "clan": "toreador",
+      "category": "clan",
+      "name": "Entrer dans la lumière",
+      "description": "Faites accepter une création dans un cercle réticent. Ou Gagnez un accès réservé par une intervention esthétique.",
+      "hints": [
+        "Obtenez une commande refusée jusque-là ou l’admission dans un cercle fermé grâce à votre intervention."
+      ],
+      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_toreador_2",
+      "clan": "toreador",
+      "category": "clan",
+      "name": "Le prix de la muse",
+      "description": "Faites d'une œuvre un levier d'influence. Ou Établissez un mécénat qui transforme réellement les moyens d'un artiste ou lieu.",
+      "hints": [
+        "Faites d’une création l’enjeu d’un accord, ou obtenez pour un artiste des moyens qu’on lui refusait."
+      ],
+      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_toreador_3",
+      "clan": "toreador",
+      "category": "clan",
+      "name": "Sauver la dernière beauté",
+      "description": "Sauvez un foyer culturel menacé. Ou Retournez une réputation par une intervention créative.",
+      "hints": [
+        "Neutralisez une menace sur un atelier ou faites adopter une autre lecture d’une réputation contestée."
+      ],
+      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_toreador_4",
+      "clan": "toreador",
+      "category": "clan",
+      "name": "Le salon des immortels",
+      "description": "Faites aboutir un projet culturel contre une opposition organisée. Ou Établissez un lieu d'influence convoité.",
+      "hints": [
+        "Rendez un lieu culturel opérationnel malgré ceux qui veulent l’empêcher, ou faites aboutir un projet disputé."
+      ],
+      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_toreador_5",
+      "clan": "toreador",
+      "category": "clan",
+      "name": "L’œuvre vous échappe",
+      "description": "Créez un héritage repris par d'autres. Ou Préservez une relation vivante malgré la tentation de la figer en idéal.",
+      "hints": [
+        "Laissez d’autres reprendre une création ou préserver un lieu selon leur propre sensibilité."
+      ],
+      "requirement": "accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ventrue_1",
+      "clan": "ventrue",
+      "category": "clan",
+      "name": "Le droit de réclamer",
+      "description": "Établissez un accès fiable à des proies compatibles. Ou Faites reconnaître une responsabilité disputée.",
+      "hints": [
+        "Négociez un accès fiable à des proies compatibles ou faites accepter une responsabilité que l’on vous conteste."
+      ],
+      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ventrue_2",
+      "clan": "ventrue",
+      "category": "clan",
+      "name": "La parole fait loi",
+      "description": "Concluez un accord entre intérêts divergents. Ou Placez une ressource sous contrôle effectif.",
+      "hints": [
+        "Obtenez l’exécution d’un accord entre rivaux ou le contrôle réel d’une ressource disputée."
+      ],
+      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ventrue_3",
+      "clan": "ventrue",
+      "category": "clan",
+      "name": "Une couronne éprouvée",
+      "description": "Résolvez une crise d'autorité. Ou Ralliez un intermédiaire jusque-là hostile.",
+      "hints": [
+        "Ralliez un intermédiaire hostile, ou rétablissez la capacité d’un groupe à suivre des décisions contestées."
+      ],
+      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ventrue_4",
+      "clan": "ventrue",
+      "category": "clan",
+      "name": "Tenir la cour",
+      "description": "Unifiez des intérêts rivaux dans un dispositif commun. Ou Préservez une structure d'influence face à une offensive.",
+      "hints": [
+        "Faites fonctionner une organisation commune malgré des intérêts rivaux et une opposition active."
+      ],
+      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ventrue_5",
+      "clan": "ventrue",
+      "category": "clan",
+      "name": "Le trône après vous",
+      "description": "Assurez une relève fonctionnelle. Ou Maintenez une légitimité sans exiger une obéissance absolue.",
+      "hints": [
+        "Préparez une relève qui puisse effectivement décider sans attendre chacun de vos ordres."
+      ],
+      "requirement": "coopération, contrôle ou obligations effectivement appliqués malgré résistance. Une petite organisation suffit ; l'utilisation routinière de Domination n'est pas une récompense en soi.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tremere_1",
+      "clan": "tremere",
+      "category": "clan",
+      "name": "Les veines du savoir",
+      "description": "Élucidez un phénomène sanguin. Ou Acquérez un savoir protégé et démontrer son usage.",
+      "hints": [
+        "Analysez une anomalie avec une méthode possédée ou obtenez un texte protégé puis démontrez son utilité."
+      ],
+      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tremere_2",
+      "clan": "tremere",
+      "category": "clan",
+      "name": "Le cercle sous tension",
+      "description": "Réussissez un rituel sous contraintes inhabituelles. Ou Récupérez un texte ou matériau occulte réellement protégé.",
+      "hints": [
+        "Récupérez un composant défendu ou surmontez une contrainte inhabituelle pendant un rituel connu."
+      ],
+      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tremere_3",
+      "clan": "tremere",
+      "category": "clan",
+      "name": "Délier le sort",
+      "description": "Neutralisez un effet occulte. Ou Reconstituez une méthode fragmentaire autorisée.",
+      "hints": [
+        "Levez un effet identifié ou reconstituez une méthode autorisée à partir d’éléments incomplets."
+      ],
+      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tremere_4",
+      "clan": "tremere",
+      "category": "clan",
+      "name": "Contre le sang adverse",
+      "description": "Déjouez une opération occulte adverse. Ou Établissez une protection majeure pour un lieu ou une coterie.",
+      "hints": [
+        "Déjouez une opération adverse ou rendez une protection efficace malgré ceux qui cherchent à l’empêcher."
+      ],
+      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tremere_5",
+      "clan": "tremere",
+      "category": "clan",
+      "name": "Le grimoire ouvert",
+      "description": "Transmettez un corpus éprouvé. Ou Obtenez son indépendance face à une tutelle occulte établie.",
+      "hints": [
+        "Transmettez une méthode éprouvée ou rendez votre pratique indépendante d’une tutelle établie."
+      ],
+      "requirement": "question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_lasombra_1",
+      "clan": "lasombra",
+      "category": "clan",
+      "name": "La main invisible",
+      "description": "Renversez une négociation défavorable. Ou Gagnez un intermédiaire indispensable malgré une dépendance compromettante.",
+      "hints": [
+        "Changez les conditions d’un accord défavorable ou gagnez le concours d’un intermédiaire qui connaît votre faiblesse."
+      ],
+      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_lasombra_2",
+      "clan": "lasombra",
+      "category": "clan",
+      "name": "Nul maître au-dessus",
+      "description": "Écartez un obstacle établi à son ambition. Ou Faites échouer une mise sous tutelle.",
+      "hints": [
+        "Supprimez le levier d’une mise sous tutelle ou neutralisez un obstacle concret à votre projet."
+      ],
+      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_lasombra_3",
+      "clan": "lasombra",
+      "category": "clan",
+      "name": "Retourner la nuit",
+      "description": "Retournez une alliance hostile. Ou Accomplissez un plan après la perte d'un moyen essentiel.",
+      "hints": [
+        "Faites changer de camp un partenaire adverse ou remplacez un moyen essentiel perdu en cours d’opération."
+      ],
+      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_lasombra_4",
+      "clan": "lasombra",
+      "category": "clan",
+      "name": "L’ombre tient le terrain",
+      "description": "Prenez l'ascendant sur une structure adverse. Ou Rendez une position conquise viable face à une contre-offensive.",
+      "hints": [
+        "Préservez une position conquise contre une riposte réelle, ou prenez l’ascendant sur un réseau rival."
+      ],
+      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_lasombra_5",
+      "clan": "lasombra",
+      "category": "clan",
+      "name": "Le pouvoir sans laisse",
+      "description": "Construisez un pouvoir supportant la contestation. Ou Surmontez l'émancipation de ses agents.",
+      "hints": [
+        "Établissez des relais qui restent efficaces même lorsqu’ils refusent de vous obéir aveuglément."
+      ],
+      "requirement": "avantage effectif, autonomie obtenue ou objectif préservé. La maîtrise des moyens distingue ce parcours de la légitimité Ventrue. Aucun rôle religieux obligatoire.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tzimisce_1",
+      "clan": "tzimisce",
+      "category": "clan",
+      "name": "Le seuil du Dragon",
+      "description": "Faites respecter une hospitalité contestée. Ou Adaptez un refuge à une contrainte réelle de sa condition.",
+      "hints": [
+        "Faites appliquer une hospitalité contestée ou adaptez un refuge à une contrainte concrète de votre condition."
+      ],
+      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tzimisce_2",
+      "clan": "tzimisce",
+      "category": "clan",
+      "name": "Façonner ce qui est sien",
+      "description": "Réalisez une transformation répondant à un besoin difficile. Ou Soustrayez une dépendance du domaine à une ingérence.",
+      "hints": [
+        "Écartez une ingérence dans votre domaine, ou réalisez une transformation utile permise par vos pouvoirs."
+      ],
+      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tzimisce_3",
+      "clan": "tzimisce",
+      "category": "clan",
+      "name": "Reprendre possession",
+      "description": "Reprenez un domaine compromis. Ou Achevez une transformation complexe sous contraintes.",
+      "hints": [
+        "Récupérez un domaine compromis ou surmontez les contraintes d’une transformation réellement complexe."
+      ],
+      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tzimisce_4",
+      "clan": "tzimisce",
+      "category": "clan",
+      "name": "Le domaine consacré",
+      "description": "Protégez un lieu disputé par un accord effectif. Ou Achevez une œuvre de transformation structurante pour le domaine.",
+      "hints": [
+        "Obtenez un accord protégeant un lieu disputé ou achevez une transformation qui change son fonctionnement."
+      ],
+      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_tzimisce_5",
+      "clan": "tzimisce",
+      "category": "clan",
+      "name": "Au-delà de la possession",
+      "description": "Faites exister un héritage au-delà de sa possession. Ou Accomplissez une métamorphose autorisée de longue portée narrative.",
+      "hints": [
+        "Transmettez un domaine ou poursuivez une métamorphose sans effacer l’autonomie des autres personnages."
+      ],
+      "requirement": "lieu utilisable, souveraineté reconnue ou transformation autorisée et utile. Modification cosmétique routinière exclue. Pas de château ni de pouvoir inventé ; les accords de jeu restent applicables aux PJ.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_giovanni_1",
+      "clan": "giovanni",
+      "category": "clan",
+      "name": "Ce que les morts réclament",
+      "description": "Récupérez un bien funéraire disputé. Ou Faites exécuter une obligation liée à un défunt.",
+      "hints": [
+        "Récupérez un objet funéraire disputé ou faites honorer une obligation laissée par un défunt."
+      ],
+      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_giovanni_2",
+      "clan": "giovanni",
+      "category": "clan",
+      "name": "La dette au-delà du souffle",
+      "description": "Obtenez un service d'un mort réticent. Ou Résolvez un conflit d'héritage utile au réseau.",
+      "hints": [
+        "Négociez un service réellement rendu par un esprit accessible, ou réglez un héritage qui ouvre une ressource."
+      ],
+      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_giovanni_3",
+      "clan": "giovanni",
+      "category": "clan",
+      "name": "Délier les ombres",
+      "description": "Neutralisez une emprise nécromantique. Ou Obtenez une vérité protégée par des intérêts familiaux concurrents.",
+      "hints": [
+        "Levez une emprise avec les moyens possédés, ou vérifiez une vérité que des intérêts familiaux dissimulent."
+      ],
+      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_giovanni_4",
+      "clan": "giovanni",
+      "category": "clan",
+      "name": "L’accord des deux rives",
+      "description": "Résolvez une crise entre intérêts vivants et morts. Ou Établissez un dispositif patrimonial ou nécromantique contesté.",
+      "hints": [
+        "Faites fonctionner un arrangement entre héritiers et morts, ou établissez un dispositif patrimonial contesté."
+      ],
+      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_giovanni_5",
+      "clan": "giovanni",
+      "category": "clan",
+      "name": "Un héritage sans repos",
+      "description": "Transmettez un réseau d'obligations viable. Ou Résolvez un héritage menaçant la continuité de la lignée locale.",
+      "hints": [
+        "Transmettez les moyens d’honorer des obligations qui ne s’arrêteront pas avec votre départ."
+      ],
+      "requirement": "obligation exécutée, service rendu, vérité démontrée ou dispositif opérationnel. Rituel funéraire routinier et conversation ordinaire avec un esprit exclus. Giovanni et Hecata ne sont pas de simples synonymes historiques.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_setite_1",
+      "clan": "setite",
+      "category": "clan",
+      "name": "La première entrave tombe",
+      "description": "Faites abandonner une interdiction défendue. Ou Entrez dans un cercle fermé par une offre ciblée.",
+      "hints": [
+        "Obtenez l’abandon effectif d’une règle défendue ou entrez dans un cercle fermé par une offre ciblée."
+      ],
+      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_setite_2",
+      "clan": "setite",
+      "category": "clan",
+      "name": "Une autre allégeance",
+      "description": "Détachez une personne d'une emprise structurante. Ou Établissez une adhésion qui modifie ses actes.",
+      "hints": [
+        "Détachez quelqu’un d’une emprise ou obtenez une adhésion qui change réellement ses décisions."
+      ],
+      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_setite_3",
+      "clan": "setite",
+      "category": "clan",
+      "name": "Le dogme fissuré",
+      "description": "Retournez un relais d'influence. Ou Dévoilez une contradiction qui compromet une autorité locale.",
+      "hints": [
+        "Retournez un relais d’influence ou démontrez une contradiction qui affaiblit une autorité établie."
+      ],
+      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_setite_4",
+      "clan": "setite",
+      "category": "clan",
+      "name": "Le cercle affranchi",
+      "description": "Brisez l'emprise d'un groupe. Ou Établissez un cercle autonome malgré une opposition organisée.",
+      "hints": [
+        "Faites fonctionner un cercle malgré l’opposition de ceux qui veulent conserver leur emprise."
+      ],
+      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_setite_5",
+      "clan": "setite",
+      "category": "clan",
+      "name": "Vos disciples sans vous",
+      "description": "Faites survivre un enseignement à son appropriation. Ou Résolvez les dépendances créées au nom de la liberté.",
+      "hints": [
+        "Laissez votre enseignement vivre chez ceux qui peuvent aussi retourner vos arguments contre vous."
+      ],
+      "requirement": "transgression, adhésion ou émancipation réellement jouées et ayant un effet. Aucun consentement de façade. Ni pratique sexuelle, addiction ou humiliation nécessaire : une fidélité politique peut suffire.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_banu_haqim_1",
+      "clan": "banu_haqim",
+      "category": "clan",
+      "name": "La balance du sang",
+      "description": "Établissez une responsabilité contestée. Ou Obtenez une réparation dans un différend.",
+      "hints": [
+        "Vérifiez une accusation contestée ou faites réellement restituer ce qui a été pris."
+      ],
+      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_banu_haqim_2",
+      "clan": "banu_haqim",
+      "category": "clan",
+      "name": "La sentence accomplie",
+      "description": "Menez une traque ciblée à son terme. Ou Faites appliquer un arbitrage initialement refusé.",
+      "hints": [
+        "Retrouvez une cible et accomplissez l’objectif de la mission, ou faites exécuter un arbitrage refusé."
+      ],
+      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_banu_haqim_3",
+      "clan": "banu_haqim",
+      "category": "clan",
+      "name": "Derrière les protections",
+      "description": "Confondez un coupable protégé. Ou Rendez possible une justice empêchée par un intérêt établi.",
+      "hints": [
+        "Contournez la protection d’un coupable ou retirez le levier qui empêchait une réparation."
+      ],
+      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_banu_haqim_4",
+      "clan": "banu_haqim",
+      "category": "clan",
+      "name": "Nul au-dessus du jugement",
+      "description": "Démantelez la protection organisée d'un abus. Ou Obtenez une réparation majeure contre les intérêts de son propre camp.",
+      "hints": [
+        "Obtenez une réparation malgré une protection organisée, y compris dans votre propre camp."
+      ],
+      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_banu_haqim_5",
+      "clan": "banu_haqim",
+      "category": "clan",
+      "name": "La justice après le juge",
+      "description": "Établissez un arbitrage indépendant de soi. Ou Appliquez son code à un conflit qui en révèle les limites.",
+      "hints": [
+        "Établissez un arbitrage qui ne repose plus sur votre seule présence."
+      ],
+      "requirement": "preuve établie, objectif accompli ou réparation exécutée. Tuer et détenir un titre ne sont pas requis. Une mission ne devient pas difficile simplement parce qu'on l'appelle contrat.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ravnos_1",
+      "clan": "ravnos",
+      "category": "clan",
+      "name": "Passer entre les regards",
+      "description": "Franchissez une barrière d'accès par la ruse. Ou Obtenez un abri dans un milieu méfiant.",
+      "hints": [
+        "Contournez un accès gardé par une ruse crédible ou gagnez un refuge auprès d’un hôte méfiant."
+      ],
+      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ravnos_2",
+      "clan": "ravnos",
+      "category": "clan",
+      "name": "La fausse piste",
+      "description": "Détournez une poursuite. Ou Réussissez une substitution contre un adversaire vigilant.",
+      "hints": [
+        "Faites perdre votre trace à un poursuivant ou remplacez un objet sous une surveillance effective."
+      ],
+      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ravnos_3",
+      "clan": "ravnos",
+      "category": "clan",
+      "name": "Le piège retourné",
+      "description": "Désorganisez une opération hostile. Ou Obtenez un bien protégé en contournant ses défenses.",
+      "hints": [
+        "Obtenez un bien défendu sans affronter directement ses gardiens, ou désorganisez une opération adverse."
+      ],
+      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ravnos_4",
+      "clan": "ravnos",
+      "category": "clan",
+      "name": "Les routes insaisissables",
+      "description": "Retournez une chasse organisée contre ses moyens. Ou Établissez une voie de passage sous surveillance active.",
+      "hints": [
+        "Rendez un passage utilisable sous surveillance ou faites échouer une chasse en retournant ses moyens."
+      ],
+      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_ravnos_5",
+      "clan": "ravnos",
+      "category": "clan",
+      "name": "Un nom laissé derrière",
+      "description": "Transmettez une liberté de mouvement. Ou Sortez d'une identité construite devenue contraignante.",
+      "hints": [
+        "Transmettez une route sûre ou quittez une identité devenue une entrave, sans quitter le serveur."
+      ],
+      "requirement": "obstacle contourné et objectif atteint selon la résolution de jeu. Une illusion seule ne suffit pas ; ses pouvoirs doivent être possédés. Pas de vol compulsif ni de départ du serveur imposé.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_salubri_1",
+      "clan": "salubri",
+      "category": "clan",
+      "name": "Un abri pour la douleur",
+      "description": "Mettez une personne vulnérable à l'abri malgré opposition. Ou Obtenez une assistance qui lui était refusée.",
+      "hints": [
+        "Mettez un bénéficiaire à l’abri malgré un obstacle ou obtenez pour lui une assistance refusée."
+      ],
+      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_salubri_2",
+      "clan": "salubri",
+      "category": "clan",
+      "name": "Délivrer sans posséder",
+      "description": "Restaurez une capacité compromise par des moyens autorisés. Ou Soustrayez un bénéficiaire à une dépendance dangereuse.",
+      "hints": [
+        "Restaurez une capacité par des moyens autorisés ou retirez un levier de dépendance dangereux."
+      ],
+      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_salubri_3",
+      "clan": "salubri",
+      "category": "clan",
+      "name": "La porte reste ouverte",
+      "description": "Sauvez un dispositif d'accueil menacé. Ou Protégez une personne activement recherchée.",
+      "hints": [
+        "Préservez un lieu d’accueil menacé ou déjouez les recherches visant une personne protégée."
+      ],
+      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_salubri_4",
+      "clan": "salubri",
+      "category": "clan",
+      "name": "Le sanctuaire tient",
+      "description": "Mettez fin à l'exploitation organisée de ses dons. Ou Préservez un sanctuaire visé par une offensive.",
+      "hints": [
+        "Brisez l’exploitation organisée de vos dons ou maintenez un sanctuaire face à une offensive."
+      ],
+      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_salubri_5",
+      "clan": "salubri",
+      "category": "clan",
+      "name": "Le soin vous survivra",
+      "description": "Transmettez une capacité d'aide indépendante. Ou Résolvez un conflit entre protection, autonomie et survie.",
+      "hints": [
+        "Donnez à d’autres les moyens d’aider sans dépendre indéfiniment de votre disponibilité."
+      ],
+      "requirement": "aide effectivement fournie, autonomie obtenue ou menace surmontée. Protection et négociation restent possibles sans guérison spécialisée. Aucun miracle gratuit, sacrifice obligatoire ou accès automatique à Golconde.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gargoyles_1",
+      "clan": "gargoyles",
+      "category": "clan",
+      "name": "Le gardien choisit",
+      "description": "Empêchez une intrusion réelle. Ou Obtenez une liberté jusque-là refusée.",
+      "hints": [
+        "Empêchez une intrusion établie ou obtenez l’exercice d’une liberté jusque-là refusée."
+      ],
+      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gargoyles_2",
+      "clan": "gargoyles",
+      "category": "clan",
+      "name": "La pierre ne cède pas",
+      "description": "Protégez une cible contre une attaque. Ou Neutralisez un levier de servitude.",
+      "hints": [
+        "Préservez une cible réellement attaquée ou neutralisez un moyen concret de servitude."
+      ],
+      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gargoyles_3",
+      "clan": "gargoyles",
+      "category": "clan",
+      "name": "Briser la main du maître",
+      "description": "Faites tenir une défense malgré une faiblesse exploitée. Ou Libérez une personne d'un dispositif de contrôle.",
+      "hints": [
+        "Faites tenir une défense dont l’ennemi connaît la faille, ou retirez quelqu’un d’un dispositif de contrôle."
+      ],
+      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gargoyles_4",
+      "clan": "gargoyles",
+      "category": "clan",
+      "name": "Un refuge pour les libres",
+      "description": "Faites reconnaître une autonomie contre une opposition organisée. Ou Préservez un refuge collectif attaqué.",
+      "hints": [
+        "Défendez un refuge collectif contre une offensive ou obtenez une autonomie face à des adversaires organisés."
+      ],
+      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_gargoyles_5",
+      "clan": "gargoyles",
+      "category": "clan",
+      "name": "Des ailes sans chaînes",
+      "description": "Formez une relève volontaire. Ou Établissez une protection qui ne reproduit pas la servitude.",
+      "hints": [
+        "Formez une relève capable de choisir ses engagements plutôt que de reproduire votre servitude."
+      ],
+      "requirement": "menace déjouée, cible préservée ou droit effectivement exercé. Garde sans incident exclue. Créateur disponible comme PNJ et révolte générale inutiles ; aucune faculté hors fiche.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_samedi_1",
+      "clan": "samedi",
+      "category": "clan",
+      "name": "Franchir le dégoût",
+      "description": "Gagnez un accès refusé à cause de sa condition. Ou Récupérez un corps ou bien funéraire protégé.",
+      "hints": [
+        "Gagnez un accès refusé à cause de votre condition ou récupérez un corps placé hors de portée."
+      ],
+      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_samedi_2",
+      "clan": "samedi",
+      "category": "clan",
+      "name": "La peur a un prix",
+      "description": "Réussissez une opération discrète malgré son apparence. Ou Obtenez un résultat défendu en employant l'effroi.",
+      "hints": [
+        "Conduisez une opération discrète malgré votre apparence, ou obtenez un résultat par un effroi réellement joué."
+      ],
+      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_samedi_3",
+      "clan": "samedi",
+      "category": "clan",
+      "name": "La place du revenant",
+      "description": "Neutralisez une exploitation des morts. Ou Établissez une ressource dans un milieu qui l'excluait.",
+      "hints": [
+        "Neutralisez une exploitation des morts ou établissez une ressource dans un milieu qui vous excluait."
+      ],
+      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_samedi_4",
+      "clan": "samedi",
+      "category": "clan",
+      "name": "Ceux que la tombe rassemble",
+      "description": "Sauvez un refuge de marginaux attaqué. Ou Obtenez une coopération structurante de ceux qui l'instrumentalisaient.",
+      "hints": [
+        "Préservez un refuge attaqué ou faites coopérer ceux qui ne vous traitaient que comme un instrument."
+      ],
+      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_samedi_5",
+      "clan": "samedi",
+      "category": "clan",
+      "name": "Un nom au-delà du corps",
+      "description": "Transmettez une place reconnue. Ou Maintenez des liens indépendants de son utilité macabre.",
+      "hints": [
+        "Transmettez une place reconnue qui ne dépende pas uniquement de votre utilité macabre."
+      ],
+      "requirement": "obstacle social ou matériel résolu, selon la réponse des participants. Décrire la décomposition ou imposer la peur ne suffit pas. Ni contagion ni nécromancie gratuites.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_daughters_cacophony_1",
+      "clan": "daughters_cacophony",
+      "category": "clan",
+      "name": "Une voix franchit la porte",
+      "description": "Gagnez une audience inaccessible. Ou Réussissez une intervention vocale décisive dans une situation perturbée.",
+      "hints": [
+        "Obtenez une audience refusée ou faites aboutir une intervention vocale malgré une perturbation réelle."
+      ],
+      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_daughters_cacophony_2",
+      "clan": "daughters_cacophony",
+      "category": "clan",
+      "name": "Le chant perce le silence",
+      "description": "Brisez une hostilité par une intervention autorisée. Ou Transmettez un message malgré une opposition à sa réception.",
+      "hints": [
+        "Faites parvenir un message que l’on cherche à empêcher, ou désamorcez une hostilité par vos moyens autorisés."
+      ],
+      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_daughters_cacophony_3",
+      "clan": "daughters_cacophony",
+      "category": "clan",
+      "name": "La dissonance révélatrice",
+      "description": "Déjouez une manipulation collective par sa voix. Ou Protégez une opération quand son expression est compromise.",
+      "hints": [
+        "Déjouez une manipulation par votre intervention ou sauvez une opération malgré une voix compromise."
+      ],
+      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_daughters_cacophony_4",
+      "clan": "daughters_cacophony",
+      "category": "clan",
+      "name": "La voix qui fait basculer",
+      "description": "Retournez une confrontation organisée par une intervention vocale. Ou Établissez un cercle d'influence contre des adversaires actifs.",
+      "hints": [
+        "Faites basculer une confrontation organisée ou établissez un cercle d’influence contre une opposition active."
+      ],
+      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_daughters_cacophony_5",
+      "clan": "daughters_cacophony",
+      "category": "clan",
+      "name": "D’autres voix après vous",
+      "description": "Transmettez une tradition vivante. Ou Réalisez une œuvre collective laissant leur autonomie aux autres voix.",
+      "hints": [
+        "Transmettez un répertoire ou construisez une œuvre où les autres voix gardent leur autonomie."
+      ],
+      "requirement": "accès, décision ou opération réellement modifiés. Une prestation applaudie ne suffit pas. Une poignée d'interlocuteurs peut convenir ; aucun chant hors RP ni pouvoir collectif gratuit.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_baali_1",
+      "clan": "baali",
+      "category": "clan",
+      "name": "Les cendres du secret",
+      "description": "Récupérez une preuve menaçante de ses pratiques. Ou Gagnez un intermédiaire dans un milieu occulte fermé.",
+      "hints": [
+        "Récupérez une preuve qui vous expose ou gagnez un intermédiaire dans un cercle occulte fermé."
+      ],
+      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
+      "minBp": 1,
+      "maxBp": 5,
+      "points": 3,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_baali_2",
+      "clan": "baali",
+      "category": "clan",
+      "name": "Le prix du pacte",
+      "description": "Accomplissez une opération clandestine liée à un engagement occulte. Ou Soustrayez un complice à une enquête.",
+      "hints": [
+        "Menez une opération liée à un engagement établi ou déjouez l’enquête menaçant un complice."
+      ],
+      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
+      "minBp": 2,
+      "maxBp": 5,
+      "points": 5,
+      "scaling": {
+        "1": 0,
+        "2": 5,
+        "3": 4,
+        "4": 2,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_baali_3",
+      "clan": "baali",
+      "category": "clan",
+      "name": "Dénouer l’emprise",
+      "description": "Déjouez un adversaire connaissant son secret. Ou Neutralisez un levier d'emprise lié à une dette occulte.",
+      "hints": [
+        "Neutralisez le levier d’une dette occulte ou déjouez un adversaire qui connaît vos pratiques."
+      ],
+      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
+      "minBp": 3,
+      "maxBp": 5,
+      "points": 8,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 8,
+        "4": 6,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_baali_4",
+      "clan": "baali",
+      "category": "clan",
+      "name": "Contre les maîtres cachés",
+      "description": "Démantelez un dispositif occulte adverse. Ou Obtenez son autonomie face à une tutelle établie.",
+      "hints": [
+        "Démantelez un dispositif adverse ou obtenez une autonomie réelle face à une tutelle établie."
+      ],
+      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
+      "minBp": 4,
+      "maxBp": 5,
+      "points": 12,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 12,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_baali_5",
+      "clan": "baali",
+      "category": "clan",
+      "name": "La dette ultime",
+      "description": "Résolvez le prix d'un engagement majeur. Ou Transmettez ou abolir une structure occulte sans effacer ses conséquences.",
+      "hints": [
+        "Résolvez le prix d’un engagement majeur sans inventer de pouvoir ou effacer ses conséquences."
+      ],
+      "requirement": "menace supprimée, accès gagné ou objectif accompli malgré obstacle. Invoquer ou mentionner un maître ne suffit pas. Un complice ou un objet peut porter l'intrigue ; aucun sacrifice croissant ou événement apocalyptique requis.",
+      "minBp": 5,
+      "maxBp": 5,
+      "points": 0,
+      "scaling": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    },
+    {
+      "id": "vitae_first_beast",
+      "category": "unique",
+      "name": "La Bête à votre porte",
+      "description": "Affrontez pour la première fois une crise où la Bête menace une vie, une couverture ou un engagement.",
+      "hints": [
+        "Une faim pressante ou une provocation peut mettre un allié en danger. Jouez la crise jusqu’à sa résolution, par la résistance ou la perte de contrôle."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 3,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1
+      },
+      "legacyCompletedIds": [
+        "first_frenzy"
+      ]
+    },
+    {
+      "id": "vitae_first_dependence",
+      "category": "unique",
+      "name": "Le sang fait des chaînes",
+      "description": "Établissez votre première dépendance de sang et donnez-lui une place réelle dans la nuit.",
+      "hints": [
+        "Créez une goule ou constituez un lien selon les règles du serveur, puis jouez une obligation issue de cette dépendance. Une gorgée isolée ne suffit pas."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 3,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1
+      },
+      "legacyCompletedIds": [
+        "first_ghoul",
+        "first_blood_bond"
+      ]
+    },
+    {
+      "id": "vitae_mortal_break",
+      "category": "unique",
+      "name": "Ce nom n’est plus le vôtre",
+      "description": "Abandonnez irréversiblement une part importante de votre vie mortelle pour préserver votre existence vampirique.",
+      "hints": [
+        "Renoncez à une identité devenue dangereuse, à un accès précieux ou à une relation impossible à préserver. Une visite ou une déclaration de détachement ne suffit pas."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 3,
+        "3": 2,
+        "4": 1
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_first_hunt",
+      "category": "unique",
+      "name": "La première traque",
+      "description": "Menez à terme votre première chasse autonome malgré un obstacle qui aurait pu vous démasquer.",
+      "hints": [
+        "Obtenez le sang recherché puis traitez un témoin, une surveillance ou une intrusion territoriale. Le repas sans incident n’est pas cette épreuve."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 2,
+      "minBp": 1,
+      "maxBp": 2,
+      "scaling": {
+        "1": 2,
+        "2": 1
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_hunting_source",
+      "category": "general",
+      "name": "Une veine dans la cité",
+      "description": "Ouvrez une source de chasse réellement exploitable là où vos proies ou les maîtres des lieux vous fermaient le passage.",
+      "hints": [
+        "Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies. Une victime de plus ne constitue pas une ressource."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 3,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_restore_source",
+      "category": "general",
+      "name": "Rouvrir les veines",
+      "description": "Rendez au sang un chemin que la menace avait fermé.",
+      "hints": [
+        "Identifiez ce qui a compromis votre ressource de chasse, traitez cette cause et rétablissez un accès utilisable. Remplacer simplement un repas manqué ne suffit pas."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 4,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_masquerade",
+      "category": "general",
+      "name": "Recoudre le voile",
+      "description": "Étouffez une menace crédible avant qu’elle ne déchire la Mascarade.",
+      "hints": [
+        "Récupérez une preuve compromettante, déjouez une enquête ou neutralisez le risque posé par un témoin. L’opposition doit être établie et le danger effectivement traité."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 5,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 5,
+        "2": 5,
+        "3": 4,
+        "4": 3
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_autonomy",
+      "category": "general",
+      "name": "Briser la laisse",
+      "description": "Arrachez une autonomie réelle à une emprise qui organisait votre existence ou celle d’un autre.",
+      "hints": [
+        "Supprimez un levier de chantage ou démantelez un dispositif de contrôle. Un lien surnaturel ne disparaît que par les moyens prévus par les règles."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 6,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 6,
+        "2": 6,
+        "3": 5,
+        "4": 4
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_extraction",
+      "category": "general",
+      "name": "Soustraire une vie à la nuit",
+      "description": "Ramenez un allié ou une ressource vivante hors d’un danger qui pouvait réellement l’emporter.",
+      "hints": [
+        "Préparez une sortie, déjouez des poursuivants ou franchissez une défense. L’extraction doit aboutir malgré une opposition ; accompagner quelqu’un à l’abri ne suffit pas."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 6,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 6,
+        "2": 6,
+        "3": 6,
+        "4": 5
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_crisis",
+      "category": "general",
+      "name": "Revenir du bord des cendres",
+      "description": "Surmontez une crise vampirique qui menace un objectif important.",
+      "hints": [
+        "Sauvez votre opération malgré la faim, la Bête, le feu ou une exposition. Un danger provoqué puis annulé pour obtenir des points ne compte pas."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 5,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 5,
+        "2": 5,
+        "3": 4,
+        "4": 3
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_learning",
+      "category": "general",
+      "name": "Le savoir sous les sceaux",
+      "description": "Obtenez un enseignement occulte que l’on ne livrait pas au premier venu.",
+      "hints": [
+        "Gagnez l’accès à un maître réticent ou à un savoir protégé et accomplissez l’apprentissage prévu par le serveur. Les points n’accordent aucun pouvoir supplémentaire."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 4,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_defense",
+      "category": "general",
+      "name": "Que le refuge demeure",
+      "description": "Brisez une offensive organisée contre un refuge ou un réseau de chasse.",
+      "hints": [
+        "Identifiez les moyens de l’adversaire puis faites échouer son opération, par défense, négociation ou détournement. Une ronde sans incident n’est pas une victoire."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 8,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 8,
+        "2": 8,
+        "3": 8,
+        "4": 6
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_resonance",
+      "category": "resonance",
+      "name": "Le goût d’une âme vive",
+      "description": "Atteignez une source au sang chargé d’une émotion établie, au terme d’une chasse qui ne vous était pas acquise.",
+      "hints": [
+        "Identifiez rage, passion, mélancolie ou calme dans la fiction puis surmontez l’obstacle d’accès. Ne comptez pas la même acquisition à la fois comme chasse et résonance."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 2,
+      "minBp": 1,
+      "maxBp": 2,
+      "scaling": {
+        "1": 2,
+        "2": 1
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_dyscrasia",
+      "category": "resonance",
+      "name": "L’empreinte dans le sang",
+      "description": "Exploitez une dyscrasie exceptionnelle reconnue par le MJ, après en avoir conquis l’accès.",
+      "hints": [
+        "Enquêtez sur une source déjà établie et remplissez les conditions de son exploitation. Déclarer une émotion extrême ne crée pas une dyscrasie."
+      ],
+      "requirement": "Un obstacle réel et un résultat obtenu doivent apparaître dans la scène. Un même accomplissement ne se rémunère pas sous plusieurs noms.",
+      "points": 5,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 5,
+        "2": 5,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    }
+  ]
+}
