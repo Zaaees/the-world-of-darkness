@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../core/api';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import WerewolfLayout from '../components/WerewolfLayout';
@@ -135,13 +136,13 @@ const CharacterSheet = ({ initialTab }) => {
             'X-Discord-Guild-ID': gId
         };
 
-        const fetchCharacter = fetch(`${API_URL}/api/modules/werewolf/character`, { headers })
+        const fetchCharacter = apiFetch(`${API_URL}/api/modules/werewolf/character`, { headers })
             .then(res => {
                 if (!res.ok) return res.json().then(d => { throw { ...d, httpStatus: res.status }; });
                 return res.json();
             });
 
-        const fetchGifts = fetch(`${API_URL}/api/modules/werewolf/gifts`, { headers })
+        const fetchGifts = apiFetch(`${API_URL}/api/modules/werewolf/gifts`, { headers })
             .then(res => {
                 if (!res.ok) throw new Error(`Erreur HTTP Gifts: ${res.status}`);
                 return res.json();
@@ -213,7 +214,7 @@ const CharacterSheet = ({ initialTab }) => {
 
         // Poll pour les mises à jour du personnage (rang)
         const interval = setInterval(() => {
-            fetch(`${API_URL}/api/modules/werewolf/character`, { headers })
+            apiFetch(`${API_URL}/api/modules/werewolf/character`, { headers })
                 .then(res => res.ok ? res.json() : null)
                 .then(data => {
                     if (data?.character) {
@@ -279,7 +280,7 @@ const CharacterSheet = ({ initialTab }) => {
         const formData = new FormData();
         formData.append('file', file);
         try {
-            const response = await fetch(`${API_URL}/api/upload`, {
+            const response = await apiFetch(`${API_URL}/api/upload`, {
                 method: 'POST',
                 headers: { 'X-Discord-User-ID': String(discordUser.id), 'X-Discord-Guild-ID': String(guildId) },
                 body: formData
@@ -299,7 +300,7 @@ const CharacterSheet = ({ initialTab }) => {
         setIsSaving(true);
         setFormError(null);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/character`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'X-Discord-User-ID': String(discordUser.id), 'X-Discord-Guild-ID': String(guildId) },
                 body: JSON.stringify({

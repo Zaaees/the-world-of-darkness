@@ -1,6 +1,5 @@
 import React from 'react';
 import { Book, Skull, Scroll, Diamond } from 'lucide-react';
-import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import { getDisciplineName } from '../../../../../utils/translations';
 
@@ -12,6 +11,8 @@ const RitualCard = ({ ritual }) => {
     return (
         <div className="h-full w-full">
             <div
+                role="button" tabIndex={0} aria-label={`Lire ${ritual.name}`}
+                onKeyDown={e => { if (['Enter',' '].includes(e.key)) { e.preventDefault(); useGrimoireStore.getState().setSelectedRitual(ritual); } }}
                 onClick={() => useGrimoireStore.getState().setSelectedRitual(ritual)}
                 className="h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden
                     transition-all duration-200 ease-out

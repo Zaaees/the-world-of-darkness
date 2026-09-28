@@ -1,3 +1,6 @@
+import { readDraft, writeDraft, clearDraft } from '../../../core/drafts';
+import { getOriginQuestions } from '../../../data/originQuestions';
+import { apiFetch } from '../../../core/api';
 import React, { useState } from 'react';
 import { Check, AlertTriangle, Crown, ChevronDown, ChevronUp } from 'lucide-react';
 import { getAllClans } from '../../../data/clanDescriptions';
@@ -19,6 +22,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
   const clans = getAllClans();
 
   const handleSelectClan = (clan) => {
+    setStarterPackAnswers(readDraft(`vampire:origin:${guildId}:${userId}:${clan.id}`) || {q1:'',q2:'',q3:'',questions:getOriginQuestions(clan.id)});
     setSelectedClan(clan);
     setExpandedClan(clan.id);
   };
@@ -30,7 +34,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/vampire/clan`, {
+      const response = await apiFetch(`${API_URL}/api/vampire/clan`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,6 +50,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
       const data = await response.json();
 
       if (data.success) {
+        clearDraft(`vampire:origin:${guildId}:${userId}:${selectedClan.id}`);
         // Succès! Appeler le callback
         if (onClanSelected) {
           onClanSelected(selectedClan.id);
@@ -62,7 +67,9 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
   };
 
   const handleAnswerChange = (key, val) => {
-    setStarterPackAnswers(prev => ({ ...prev, [key]: val }));
+    const next = {...starterPackAnswers, [key]:val};
+    setStarterPackAnswers(next);
+    writeDraft(`vampire:origin:${guildId}:${userId}:${selectedClan.id}`, next);
   };
 
   const getCanConfirm = () => {
@@ -84,6 +91,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
             </p>
           </div>
 
+<p className="mb-4 text-sm">Étape 2 sur 2 — trois réponses libres, au moins 10 caractères chacune. Brouillon conservé sur cet appareil.</p>
           <StarterPackStep
             selectedClan={selectedClan}
             answers={starterPackAnswers}
@@ -109,7 +117,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
             <div className="flex gap-3">
               <button
-                onClick={() => { setStep(1); setStarterPackAnswers({ q1: '', q2: '', q3: '' }); window.scrollTo(0, 0); }}
+                onClick={() => { setStep(1); window.scrollTo(0, 0); }}
                 className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-300 font-medium rounded-lg transition-colors"
               >
                 Retour
@@ -148,6 +156,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
           </div>
         </div>
 
+        <p className="text-sm mb-4">Étape 1 sur 2 — choisissez un clan. Vous pourrez revenir sur cet écran sans perdre votre brouillon.</p>
         {/* Grille des clans */}
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start mb-8 ${selectedClan ? 'pb-48' : ''}`}>
           {clans.map((clan) => {
@@ -165,6 +174,8 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                     : 'border-stone-800 hover:border-stone-700 hover:bg-stone-900/70'
                   }
                 `}
+                role="radio" aria-checked={isSelected} aria-label={`Choisir ${clan.name}`} tabIndex={0}
+                onKeyDown={e => { if (e.target === e.currentTarget && ['Enter', ' '].includes(e.key)) { e.preventDefault(); handleSelectClan(clan); } }}
                 onClick={() => handleSelectClan(clan)}
               >
                 {/* Badge de sélection */}

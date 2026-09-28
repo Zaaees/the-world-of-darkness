@@ -76,8 +76,16 @@ class PersistentActionValidationView(ui.View):
             )
             return
 
-        # Valider l'action
-        action_result = await validate_action(action_db_id, interaction.user.id)
+        action = await get_pending_action(action_db_id)
+        if not action or action['guild_id'] != interaction.guild_id:
+            await interaction.followup.send("Action introuvable sur ce serveur.", ephemeral=True)
+            return
+        try:
+            action_result = await validate_action(action_db_id, interaction.user.id)
+        except Exception:
+            logger.exception("Validation interrompue; demande conservée")
+            await interaction.followup.send("Service indisponible. La demande est conservée : réessayez la validation.", ephemeral=True)
+            return
 
         if not action_result or not action_result.get("success"):
             reason = action_result.get("reason", "Action déjà traitée") if action_result else "Action introuvable"
@@ -97,31 +105,7 @@ class PersistentActionValidationView(ui.View):
         # (add_saturation_points a déjà été appelé dans validate_action)
         result = action_result["mutation"]
 
-        # Synchroniser vers Google Sheets en arrière-plan (non-bloquant)
-        async def background_sync():
-            try:
-                player = await get_player(action_result["user_id"], action_result["guild_id"])
-                if player:
-                    vampire_data = await get_vampire_data(action_result["user_id"], action_result["guild_id"])
-                    # Récupérer les listes mises à jour
-                    pending = await get_user_pending_actions(action_result["user_id"], action_result["guild_id"])
-                    completed = await get_user_completed_unique_actions(action_result["user_id"], action_result["guild_id"])
-                    cooldowns = await get_user_action_cooldowns(action_result["user_id"], action_result["guild_id"])
-
-                    await sync_to_google_sheets(action_result["user_id"], {
-                        "race": "vampire",
-                        "clan": player.get("clan", ""),
-                        "bloodPotency": result["new_bp"],
-                        "saturationPoints": result["new_saturation"],
-                        "soifLevel": vampire_data.get("soif_level", 0),
-                        "pendingActions": pending,
-                        "completedActions": completed,
-                        "cooldowns": cooldowns,
-                    })
-            except Exception as e:
-                logger.error(f"Erreur sync Google Sheets en arrière-plan: {e}")
-
-        asyncio.create_task(background_sync())
+        # Progression and idempotency were saved together by award_action.
 
         # Mettre à jour l'embed
         embed.color = discord.Color.green()
@@ -194,8 +178,16 @@ class PersistentActionValidationView(ui.View):
             )
             return
 
-        # Refuser l'action
-        action = await refuse_action(action_db_id)
+        pending = await get_pending_action(action_db_id)
+        if not pending or pending['guild_id'] != interaction.guild_id:
+            await interaction.followup.send("Action introuvable sur ce serveur.", ephemeral=True)
+            return
+        try:
+            action = await refuse_action(action_db_id, interaction.user.id)
+        except Exception:
+            logger.exception("Refus interrompu; demande conservée")
+            await interaction.followup.send("Service indisponible. Réessayez le refus : la demande est conservée.", ephemeral=True)
+            return
 
         if not action:
             await interaction.followup.send(
@@ -247,6 +239,7 @@ async def send_validation_request(
     action_description: str,
     points: int,
     category: str,
+    scene_context=None,
 ):
     """
     Envoie une demande de validation dans le salon de validation.
@@ -332,6 +325,11 @@ async def send_validation_request(
             inline=False,
         )
 
+    if scene_context:
+        for key, label in (("sceneLink", "Scène"), ("obstacle", "Obstacle"), ("outcome", "Résultat"), ("participants", "Participants")):
+            value = str(scene_context.get(key, ""))[:1000]
+            if value:
+                embed.add_field(name=label, value=value, inline=False)
     embed.set_thumbnail(url=member.display_avatar.url)
     embed.set_footer(text=f"ID: {action_db_id}")
 
@@ -342,3 +340,4 @@ async def send_validation_request(
 
     # Sauvegarder l'ID du message
     await update_pending_action_message(action_db_id, message.id)
+    return True

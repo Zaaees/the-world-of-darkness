@@ -1,0 +1,127 @@
+{
+  "limits": {
+    "1": 2,
+    "2": 3,
+    "3": 5,
+    "4": 10,
+    "5": 20
+  },
+  "clans": {
+    "brujah": [
+      "Célérité",
+      "Puissance",
+      "Présence"
+    ],
+    "gangrel": [
+      "Animalisme",
+      "Force d'Âme",
+      "Protéisme"
+    ],
+    "malkavian": [
+      "Auspex",
+      "Aliénation",
+      "Occultation"
+    ],
+    "nosferatu": [
+      "Animalisme",
+      "Occultation",
+      "Puissance"
+    ],
+    "toreador": [
+      "Auspex",
+      "Célérité",
+      "Présence"
+    ],
+    "tremere": [
+      "Auspex",
+      "Domination",
+      "Thaumaturgie"
+    ],
+    "ventrue": [
+      "Domination",
+      "Force d'Âme",
+      "Présence"
+    ],
+    "lasombra": [
+      "Domination",
+      "Obténébration",
+      "Puissance"
+    ],
+    "tzimisce": [
+      "Animalisme",
+      "Auspex",
+      "Vicissitude"
+    ],
+    "giovanni": [
+      "Auspex",
+      "Force d'Âme",
+      "Nécromancie"
+    ],
+    "ravnos": [
+      "Animalisme",
+      "Chimérie",
+      "Force d'Âme"
+    ],
+    "gargoyles": [
+      "Vol",
+      "Force d'Âme",
+      "Puissance",
+      "Visceratika"
+    ],
+    "samedi": [
+      "Force d'Âme",
+      "Occultation",
+      "Thanatosis"
+    ],
+    "daughters_of_cacophony": [
+      "Force d'Âme",
+      "Melpominée",
+      "Présence"
+    ],
+    "baali": [
+      "Daimoinon",
+      "Occultation",
+      "Présence"
+    ],
+    "setite": [
+      "Occultation",
+      "Présence",
+      "Serpentis"
+    ],
+    "banu_haqim": [
+      "Célérité",
+      "Occultation",
+      "Quietus"
+    ],
+    "salubri": [
+      "Auspex",
+      "Force d'Âme",
+      "Obeah"
+    ]
+  },
+  "powers": {
+    "Animalisme": "Murmures Fauves",
+    "Auspex": "Sens Accrus",
+    "Célérité": "Grâce Féline",
+    "Domination": "Commandement",
+    "Force d'Âme": "Résilience",
+    "Occultation": "Cape d'Ombre",
+    "Puissance": "Vigueur",
+    "Présence": "Crainte Révérencielle",
+    "Protéisme": "Yeux de la Bête",
+    "Obténébration": "Jeu d'Ombres",
+    "Thaumaturgie": "Goût du Sang",
+    "Vicissitude": "Modelage Mineur",
+    "Nécromancie": "Insight",
+    "Quietus": "Silence de la Mort",
+    "Serpentis": "Regard Hypnotique",
+    "Aliénation": "Passion",
+    "Chimérie": "Ignis Fatuus",
+    "Vol": "Lévitation",
+    "Visceratika": "Peau de Marbre",
+    "Thanatosis": "Masque Cadavérique",
+    "Melpominée": "Voix Enchanteresse",
+    "Daimoinon": "Flammes de l'Enfer",
+    "Obeah": "Sens de la Vitalité"
+  }
+}

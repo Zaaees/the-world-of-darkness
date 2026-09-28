@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../core/api';
 import { useState } from 'react';
 import { API_URL } from '../../../config';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
@@ -11,7 +12,7 @@ export const useRenown = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/renown/submit`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/renown/submit`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ export const useRenown = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/renown`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/renown`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ export const useRenown = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/renown/rules`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/renown/rules`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../core/api';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WizardLayout from '../components/WizardLayout';
@@ -81,7 +82,7 @@ export default function CreateCharacter() {
                 starter_pack_answers: starterPackAnswers
             };
 
-            const response = await fetch(`${API_URL}/api/modules/werewolf/character`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/character`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify(payload)

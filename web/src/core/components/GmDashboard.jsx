@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../api';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Users, UserPlus, Shield, Search, RefreshCw, Trash2, Edit, Save, Share2, ArrowLeft } from 'lucide-react';
-import { getClanDescription, CLAN_DESCRIPTIONS as CLANS } from '../../data/clanDescriptions';
+import { CLAN_DESCRIPTIONS as CLANS } from '../../data/clanDescriptions';
 
 // API CONSTANTS
 import { API_URL } from '../../config';
@@ -18,16 +19,12 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
     const [newUn, setNewBp] = useState(1);
     const [creating, setCreating] = useState(false);
 
-    useEffect(() => {
-        fetchNpcs();
-    }, [discordUser, guildId]);
-
-    const fetchNpcs = async () => {
+    const fetchNpcs = useCallback(async () => {
         if (!discordUser || !guildId) return;
 
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/api/gm/npcs`, {
+            const response = await apiFetch(`${API_URL}/api/gm/npcs`, {
                 headers: {
                     'X-Discord-User-ID': discordUser.id,
                     'X-Discord-Guild-ID': guildId.toString()
@@ -45,7 +42,9 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [discordUser, guildId]);
+
+    useEffect(() => { fetchNpcs(); }, [fetchNpcs]);
 
     const handleCreateNpc = async (e) => {
         e.preventDefault();
@@ -53,7 +52,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
 
         setCreating(true);
         try {
-            const response = await fetch(`${API_URL}/api/gm/npcs`, {
+            const response = await apiFetch(`${API_URL}/api/gm/npcs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,7 +91,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
         }
 
         try {
-            const response = await fetch(`${API_URL}/api/gm/npcs/${npcId}`, {
+            const response = await apiFetch(`${API_URL}/api/gm/npcs/${npcId}`, {
                 method: 'DELETE',
                 headers: {
                     'X-Discord-User-ID': discordUser.id,

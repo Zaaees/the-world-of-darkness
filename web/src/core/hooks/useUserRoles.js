@@ -1,6 +1,7 @@
+import { apiFetch } from '../api';
 import { useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../../config';
-import { extractAuthData, validateToken, clearAuthParams, safeStorage } from '../auth/authUtils';
+import { extractAuthData, consumeOAuthState, validateToken, clearAuthParams, safeStorage } from '../auth/authUtils';
 
 // Constantes des rôles Discord
 export const WEREWOLF_ROLE_ID = '1453870972376584192';
@@ -46,7 +47,7 @@ export function useUserRoles() {
                 const authData = extractAuthData(window.location.hash);
 
                 if (authData) {
-                    if (validateToken(authData.token)) {
+                    if (consumeOAuthState(authData.state) && validateToken(authData.token)) {
                         // Token valide trouvé dans l'URL
                         safeStorage.setItem('discord_token', authData.token);
 
@@ -106,13 +107,14 @@ export function useUserRoles() {
                 setIsAuthenticated(true);
 
                 // 3. Détecter le serveur Discord
-                const guildResponse = await fetch(`${API_URL}/api/guild`, {
+                const guildResponse = await apiFetch(`${API_URL}/api/guild`, {
                     headers: { 'X-Discord-User-ID': user.id },
                     signal: controller.signal
                 });
 
                 const guildData = await guildResponse.json();
                 if (!guildData.success) {
+                    if (guildResponse.status !== 404) throw new Error('Vérification du serveur indisponible');
                     // Utilisateur pas sur le serveur, pas de rôles
                     setIsLoading(false);
                     return;
@@ -128,9 +130,13 @@ export function useUserRoles() {
                 };
 
                 const [vampireResponse, werewolfResponse] = await Promise.allSettled([
-                    fetch(`${API_URL}/api/vampire/profile`, { headers, signal: controller.signal }),
-                    fetch(`${API_URL}/api/modules/werewolf/profile`, { headers, signal: controller.signal })
+                    apiFetch(`${API_URL}/api/vampire/profile`, { headers, signal: controller.signal }),
+                    apiFetch(`${API_URL}/api/modules/werewolf/profile`, { headers, signal: controller.signal })
                 ]);
+
+                if ([vampireResponse, werewolfResponse].some(response => response.status === 'rejected' || response.value.status >= 500 || response.value.status === 401)) {
+                    throw new Error('Vérification des rôles indisponible');
+                }
 
                 // Traiter la réponse vampire
                 if (vampireResponse.status === 'fulfilled' && vampireResponse.value.ok) {

@@ -26,7 +26,7 @@ const Loading = () => <div className="p-10 text-center text-white">Chargement du
  */
 const RootRedirect = () => {
     const { hash } = useLocation();
-    const { isLoading, hasWerewolfRole, hasVampireRole, isAuthenticated } = useUserRoles();
+    const { isLoading, hasWerewolfRole, hasVampireRole, isAuthenticated, error } = useUserRoles();
 
     // Pendant le chargement, afficher un loader
     if (isLoading) {
@@ -35,6 +35,10 @@ const RootRedirect = () => {
                 <div className="text-stone-500 animate-pulse">Détection de votre monde...</div>
             </div>
         );
+    }
+
+    if (error && isAuthenticated) {
+        return <main className="min-h-screen bg-stone-950 text-stone-200 p-8 text-center"><h1>Vérification temporairement indisponible</h1><p>Votre session Discord est ouverte, mais les rôles n'ont pas pu être vérifiés.</p><button onClick={() => window.location.reload()} className="border rounded px-4 py-2 mt-4">Réessayer</button></main>;
     }
 
     // Non authentifié → page vampire pour le login Discord

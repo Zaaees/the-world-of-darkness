@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "test:vampire": "vitest run src/modules/vampire src/core src/data",
+    "lint:vampire": "eslint src/modules/vampire src/core src/data"
   },
   "dependencies": {
     "framer-motion": "^12.25.0",

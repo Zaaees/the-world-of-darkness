@@ -70,6 +70,8 @@ const BloodCost = ({ cost, isLocked }) => {
 const PowerCard = ({ power, isLocked, onClick }) => {
   return (
     <div
+      role="button" tabIndex={isLocked ? -1 : 0} aria-disabled={isLocked} aria-label={`Consulter ${power.name}`}
+      onKeyDown={e => { if (!isLocked && ['Enter',' '].includes(e.key)) { e.preventDefault(); onClick(); } }}
       onClick={!isLocked ? onClick : undefined}
       className={`
       p-4 rounded border transition-all duration-300 relative group overflow-hidden
@@ -253,7 +255,7 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-500">
               <div><strong className="text-stone-400 font-medium">Instantanée:</strong> Effet immédiat.</div>
-              <div><strong className="text-stone-400 font-medium">Scène:</strong> Dure le temps du combat.</div>
+              <div><strong className="text-stone-400 font-medium">Scène:</strong> Dure une situation narrative, sociale ou physique, jusqu’à sa clôture convenue.</div>
               <div><strong className="text-stone-400 font-medium">Prolongée:</strong> Une nuit ou plus.</div>
               <div><strong className="text-stone-400 font-medium">Permanente:</strong> Indéfini.</div>
             </div>

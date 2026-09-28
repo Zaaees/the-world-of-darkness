@@ -1,3 +1,7 @@
+import { beginOAuthState } from '../../../core/auth/authUtils';
+import FirstNight from '../components/FirstNight';
+import SceneSubmission from '../components/SceneSubmission';
+import { apiFetch } from '../../../core/api';
 import { BLOOD_ACTIONS, SATURATION_THRESHOLDS, getClanActions } from '../../../data/bloodActions';
 import { ActionCategory } from '../components/BloodActions';
 import React, { useState, useEffect, useCallback } from 'react';
@@ -12,7 +16,7 @@ import ClanSelection from './ClanSelectionPage';
 import GmDashboard from '../../../core/components/GmDashboard';
 import { getClanDescription } from '../../../data/clanDescriptions';
 
-import { API_URL, GOOGLE_SHEETS_API, DISCORD_CLIENT_ID, REDIRECT_URI } from '../../../config';
+import { API_URL, DISCORD_CLIENT_ID, REDIRECT_URI } from '../../../config';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 
 // --- CONFIGURATION ---
@@ -25,6 +29,7 @@ const getDiscordAuthUrl = () => {
     redirect_uri: REDIRECT_URI,
     response_type: 'token',
     scope: 'identify',
+    state: beginOAuthState(),
   });
   return `https://discord.com/api/oauth2/authorize?${params}`;
 };
@@ -37,35 +42,35 @@ const getDiscordAuthUrl = () => {
 const BLOOD_STAGES = {
   1: {
     title: "Sang Fluide (Niveau 1)",
-    rank: "Néonate",
+    rank: "Sang Fluide",
     icon: Droplet,
     description: "Votre sang est encore très proche de celui des mortels, fluide et rouge vif. Bien que vous soyez un cadavre ambulant, votre physiologie mime encore la vie. Vous pouvez vous nourrir de sang animal pour survivre, ce qui est une bénédiction rare. Vos pouvoirs sont limités, mais votre corps n'a pas encore les exigences monstrueuses des anciens.",
     color: "text-red-300"
   },
   2: {
     title: "Sang Vif (Niveau 2)",
-    rank: "Ancilla Mineur",
+    rank: "Sang Vif",
     icon: User,
     description: "Le sang commence à s'épaissir. Votre corps rejette désormais le sang animal comme de l'eau insipide ; seul le sang humain peut soutenir votre nature. En contrepartie, vous cicatrisez bien plus vite que les nouveau-nés et pouvez canaliser la Vitae pour des exploits physiques brefs mais surhumains.",
     color: "text-red-400"
   },
   3: {
     title: "Sang Fort (Niveau 3)",
-    rank: "Ancilla Majeur",
+    rank: "Sang Fort",
     icon: Activity,
     description: "Vous êtes un prédateur abouti. Votre sang est dense, chargé d'une énergie statique qui met mal à l'aise les mortels autour de vous. Vous résistez mieux aux pouvoirs mentaux des autres vampires. Votre organisme est une machine de survie efficace, capable de recoudre des plaies graves en quelques secondes, mais la Soif est plus présente, plus pressante.",
     color: "text-red-500"
   },
   4: {
     title: "Sang Puissant (Niveau 4)",
-    rank: "Ancien",
+    rank: "Sang Puissant",
     icon: Shield,
     description: "Votre sang est sombre, presque noir, et visqueux comme de l'huile moteur. Vous êtes une créature de légende. Le sang froid (poches médicales) ne vous nourrit plus du tout ; il vous faut la chaleur de la vie. Votre simple présence physique impose le respect ou la terreur. Vous êtes extrêmement difficile à détruire, votre chair se tricotant à une vitesse effrayante.",
     color: "text-red-600"
   },
   5: {
     title: "Zénith Sanguin (Niveau 5)",
-    rank: "Sommité",
+    rank: "Zénith",
     icon: Crown,
     description: "L'apogée de votre potentiel biologique. Votre sang est si puissant qu'il brûle presque dans vos veines. Pour être rassasié, vous devez tuer vos victimes ou boire le sang d'autres vampires. Vous êtes un titan parmi les damnés, capable de prouesses quasi-divines, mais votre lien avec l'humanité est ténu. Vous êtes, par essence, un monstre.",
     color: "text-red-700"
@@ -196,6 +201,7 @@ export default function VampireSheet() {
   const [error, setError] = useState(null);
   // const [authError, setAuthError] = useState(null); // Replaced by authErrorMsg
   const [submittingAction, setSubmittingAction] = useState(null);
+  const [actionToSubmit, setActionToSubmit] = useState(null);
   const [notVampire, setNotVampire] = useState(false);
   const [needsClanSelection, setNeedsClanSelection] = useState(false);
   const [vampireProfile, setVampireProfile] = useState(null);
@@ -205,9 +211,6 @@ export default function VampireSheet() {
   const [isCainMode, setIsCainMode] = useState(false);
 
   const [npcCharacter, setNpcCharacter] = useState(null); // PNJ sélectionné en mode GM
-
-  const [debugLogs, setDebugLogs] = useState([]);
-  const addDebug = (msg) => setDebugLogs(prev => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
 
   // Sync loading state with auth
   useEffect(() => {
@@ -236,7 +239,7 @@ export default function VampireSheet() {
         console.log("URL NPC ID detected:", npcId);
         // On doit charger ce PNJ
         try {
-          const response = await fetch(`${API_URL}/api/gm/npcs/${npcId}`, {
+          const response = await apiFetch(`${API_URL}/api/gm/npcs/${npcId}`, {
             headers: {
               'X-Discord-User-ID': discordUser.id,
               'X-Discord-Guild-ID': guildId?.toString() // On espère que guildId est chargé via loadMemberInfo
@@ -268,18 +271,18 @@ export default function VampireSheet() {
     };
 
     checkUrlForNpc();
-  }, [discordUser, loading, guildId]);
+  }, [discordUser, loading, guildId, npcCharacter]);
 
   // Charger les données depuis Google Sheets
-  const loadCharacter = useCallback(async () => {
+  const loadCharacter = useCallback(async (resolvedGuildId = guildId) => {
     if (!discordUser) return;
 
     try {
       setError(null);
       // Note: ne PAS reset notVampire/needsClanSelection ici, loadMemberInfo les gère
 
-      const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(discordUser.id)}`;
-      const response = await fetch(url);
+      const url = `${API_URL}/api/vampire/character`;
+      const response = await apiFetch(url, { headers: { 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': resolvedGuildId?.toString() } });
       const data = await response.json();
 
       if (data.success && data.character) {
@@ -319,7 +322,7 @@ export default function VampireSheet() {
     } finally {
       setLoading(false);
     }
-  }, [discordUser, memberInfo]);
+  }, [discordUser, memberInfo, guildId]);
 
   // Charger les infos du membre sur le serveur et vérifier le profil vampire
   // Retourne true si l'utilisateur a accès et qu'on doit charger le personnage
@@ -328,7 +331,7 @@ export default function VampireSheet() {
 
     try {
       // D'abord, détecter le serveur de l'utilisateur
-      const guildResponse = await fetch(`${API_URL}/api/guild`, {
+      const guildResponse = await apiFetch(`${API_URL}/api/guild`, {
         headers: {
           'X-Discord-User-ID': discordUser.id,
         },
@@ -336,6 +339,7 @@ export default function VampireSheet() {
 
       const guildData = await guildResponse.json();
 
+      if (!guildResponse.ok && guildResponse.status !== 404) throw new Error(guildData.error || "Service indisponible");
       if (!guildData.success) {
         console.error('Erreur détection serveur:', guildData.error);
         setNotVampire(true);
@@ -347,7 +351,7 @@ export default function VampireSheet() {
       setGuildId(detectedGuildId); // Sauvegarder dans le state pour ClanSelection
 
       // Ensuite, charger les infos du membre sur ce serveur
-      const memberResponse = await fetch(`${API_URL}/api/member`, {
+      const memberResponse = await apiFetch(`${API_URL}/api/member`, {
         headers: {
           'X-Discord-User-ID': discordUser.id,
           'X-Discord-Guild-ID': detectedGuildId.toString(),
@@ -364,7 +368,7 @@ export default function VampireSheet() {
 
       // Charger le profil vampire pour vérifier si l'utilisateur a le rôle mais pas de clan
       try {
-        const vampireProfileResponse = await fetch(`${API_URL}/api/vampire/profile`, {
+        const vampireProfileResponse = await apiFetch(`${API_URL}/api/vampire/profile`, {
           headers: {
             'X-Discord-User-ID': discordUser.id,
             'X-Discord-Guild-ID': detectedGuildId.toString(),
@@ -372,24 +376,14 @@ export default function VampireSheet() {
         });
 
         const vampireProfileData = await vampireProfileResponse.json();
-
-        // Debug: afficher les infos de vérification du rôle
-        console.log('=== DEBUG VAMPIRE PROFILE ===');
-        console.log('Réponse API:', vampireProfileData);
-        console.log('has_vampire_role:', vampireProfileData.has_vampire_role);
-        console.log('clan:', vampireProfileData.clan);
-        if (vampireProfileData._debug_expected_role) {
-          console.log('Rôle attendu:', vampireProfileData._debug_expected_role);
-          console.log('Rôles du membre:', vampireProfileData._debug_member_roles);
-        }
-        console.log('=============================');
+        if (!vampireProfileResponse.ok) throw new Error(vampireProfileData.error || "Profil indisponible");
 
         if (vampireProfileData.success) {
           setVampireProfile(vampireProfileData);
 
           // Check for rituals to unlock Grimoire tab
           try {
-            const ritualsRes = await fetch(`${API_URL}/api/rituals`, {
+            const ritualsRes = await apiFetch(`${API_URL}/api/rituals`, {
               headers: {
                 'X-Discord-User-ID': discordUser.id,
                 'X-Discord-Guild-ID': detectedGuildId.toString()
@@ -420,7 +414,7 @@ export default function VampireSheet() {
           }
 
           // Utilisateur a le rôle vampire ET un clan → continuer
-          return true;
+          return detectedGuildId;
         } else {
           // Si l'API vampire profile échoue, refuser l'accès par sécurité
           console.error('Échec API vampire profile:', vampireProfileData);
@@ -430,13 +424,13 @@ export default function VampireSheet() {
         }
       } catch (err) {
         console.error('Erreur chargement profil vampire:', err);
-        setNotVampire(true);
+        setError('Impossible de vérifier votre accès. Réessayez lorsque le service est disponible.');
         setLoading(false);
         return false;
       }
     } catch (err) {
       console.error('Erreur chargement member info:', err);
-      setNotVampire(true);
+      setError('Le service est indisponible. Votre rôle n’a pas été remis en cause.');
       setLoading(false);
       return false;
     }
@@ -464,7 +458,7 @@ export default function VampireSheet() {
         // Si loadMemberInfo a retourné false, l'accès est refusé ou sélection de clan requise
         // Dans ce cas, ne PAS appeler loadCharacter
         if (shouldLoadCharacter) {
-          await loadCharacter();
+          await loadCharacter(shouldLoadCharacter);
         }
 
       } catch (err) {
@@ -508,7 +502,7 @@ export default function VampireSheet() {
           image_url: charData.imageUrl || charData.image_url,
         };
 
-        const response = await fetch(`${API_URL}/api/gm/npcs/${npcCharacter.id}`, {
+        const response = await apiFetch(`${API_URL}/api/gm/npcs/${npcCharacter.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -527,66 +521,44 @@ export default function VampireSheet() {
             setCharacter(prev => ({ ...prev, forum_post_id: result.forum_post_id }));
           }
         } else {
-          setError(result.error || "Erreur sauvegarde PNJ");
+          throw new Error(result.error || "Erreur sauvegarde PNJ");
         }
         return;
       }
 
-      // CAS JOUEUR (Google Sheets)
-      // Exclure les champs gérés par le bot pour ne pas les écraser
-      const { completedActions, cooldowns, bloodPotency, saturationPoints, pendingActions, ...safeData } = charData;
-
-      const dataToSave = {
-        ...safeData,
-        visibleName: discordUser.username,
-        visibleAvatar: discordUser.avatar,
-      };
-
-      const url = `${GOOGLE_SHEETS_API}?action=save&userId=${encodeURIComponent(discordUser.id)}&data=${encodeURIComponent(JSON.stringify(dataToSave))}`;
-      const response = await fetch(url);
+      const response = await apiFetch(`${API_URL}/api/vampire/character`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': guildId.toString() },
+        body: JSON.stringify({ ghouls: charData.ghouls || [] })
+      });
       const result = await response.json();
-
-      if (result.success) {
-        setLastSaved(new Date());
-        setError(null);
-      }
+      if (!response.ok || !result.success) throw new Error(result.error || 'Erreur de sauvegarde');
+      setCharacter(prev => ({ ...prev, ghouls: result.ghouls }));
+      setLastSaved(new Date());
+      return result;
     } catch (err) {
       console.error('Erreur sauvegarde:', err);
-      setError('Erreur de sauvegarde');
+      setError(err.message || 'Erreur de sauvegarde');
+      throw err;
     } finally {
       setSaving(false);
     }
   }, [discordUser, npcCharacter, guildId]); // Ajouter npcCharacter et guildId aux dépendances
 
-  // Sauvegarde automatique
-  useEffect(() => {
-    // Désactiver la sauvegarde auto pour les PNJ pour éviter trop d'appels API ou le faire moins souvent
-    // Ici on laisse actif
-    if ((character || npcCharacter) && discordUser && !loading) {
-      const charToSave = npcCharacter ? character : character; // character contient les données modifiées dans les deux cas (voir handleUpdate below)
-
-      const timer = setTimeout(() => {
-        saveCharacter(charToSave);
-      }, 2000); // 2 secondes pour les PNJ pour être plus soft
-      return () => clearTimeout(timer);
-    }
-  }, [character, npcCharacter, discordUser, loading, saveCharacter]);
-
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
     // Ne pas démarrer le rafraîchissement si l'utilisateur n'est pas connecté
-    if (!discordUser) return;
-
+    if (!discordUser || !guildId || npcCharacter || isCainMode) return;
+    let cancelled = false;
     const refreshInterval = setInterval(async () => {
       // Ne pas rafraîchir en mode PNJ (pas de Google Sheets)
       if (npcCharacter) return;
 
       try {
-        const url = `${GOOGLE_SHEETS_API}?action=get&userId=${encodeURIComponent(discordUser.id)}`;
-        const response = await fetch(url);
+        const url = `${API_URL}/api/vampire/character`;
+        const response = await apiFetch(url, { headers: { 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': guildId?.toString() } });
         const data = await response.json();
 
-        if (data.success && data.character) {
+        if (!cancelled && data.success && data.character) {
           // Mettre à jour seulement si les données importantes ont changé
           setCharacter(prev => {
             if (!prev) return prev; // Ne pas mettre à jour si character est null
@@ -618,8 +590,8 @@ export default function VampireSheet() {
       }
     }, 10000); // 10 secondes - rafraîchissement rapide pour détecter les validations
 
-    return () => clearInterval(refreshInterval);
-  }, [discordUser, loading, character, needsClanSelection]);
+    return () => { cancelled = true; clearInterval(refreshInterval); };
+  }, [discordUser, guildId, npcCharacter, isCainMode]);
 
   const handleLogin = () => {
     window.location.href = getDiscordAuthUrl();
@@ -634,15 +606,17 @@ export default function VampireSheet() {
   };
 
   // Soumettre une action pour validation
-  const handleSubmitAction = async (action) => {
+  const handleSubmitAction = async (action, sceneContext) => {
     if (!character || !discordUser || submittingAction) return;
     if (character.bloodPotency >= 5) return;
 
     setSubmittingAction(action.id);
 
     try {
-      const url = `${GOOGLE_SHEETS_API}?action=submit_action&userId=${encodeURIComponent(discordUser.id)}&actionId=${encodeURIComponent(action.id)}&actionName=${encodeURIComponent(action.name)}&points=${action.points}`;
-      const response = await fetch(url);
+      const response = await apiFetch(`${API_URL}/api/vampire/actions`, {
+        method: 'POST', headers: {'Content-Type':'application/json', 'X-Discord-User-ID':discordUser.id, 'X-Discord-Guild-ID':guildId.toString()},
+        body: JSON.stringify({actionId:action.id, ...sceneContext})
+      });
       const result = await response.json();
 
       if (result.success) {
@@ -658,18 +632,15 @@ export default function VampireSheet() {
           }]
         }));
       } else {
-        setError(result.error || 'Erreur lors de la soumission');
+        throw new Error(result.error || 'Erreur lors de la soumission');
       }
     } catch (err) {
       console.error('Erreur soumission action:', err);
-      setError('Erreur de connexion');
+      setError(err.message || 'Erreur de connexion');
+      throw err;
     } finally {
       setSubmittingAction(null);
     }
-  };
-
-  const updateCharacterField = (field, value) => {
-    setCharacter(prev => ({ ...prev, [field]: value }));
   };
 
   // Page de login si pas connecté
@@ -687,7 +658,7 @@ export default function VampireSheet() {
         </div>
         <p className="text-stone-400 mb-6">{error}</p>
         <button
-          onClick={() => { setLoading(true); loadCharacter(); }}
+          onClick={() => window.location.reload()}
           className="bg-stone-800 hover:bg-stone-700 text-stone-300 px-6 py-2 rounded transition-colors"
         >
           Réessayer
@@ -741,15 +712,6 @@ export default function VampireSheet() {
   });
 
   // Utiliser une variable différente pour éviter de modifier la ref safeCharacter partout si on veut isoler
-  const safeCharacter = character || displayCharacter;
-
-  // En mode PNJ, character EST le PNJ (mis à jour par les inputs), mais displayCharacter est l'init
-  // On va dire que safeCharacter est ce qu'on affiche
-
-  // Correction: Pour que l'édition marche, il faut que 'character' state soit synchronisé avec le PNJ sélectionné
-  // On le fait dans le onClick du dashboard. 
-  // Ici safeCharacter doit pointer vers le state 'character' qui contient les données du PNJ
-
   const activeChar = character || displayCharacter; // Priorité au state local (modifié)
 
 
@@ -767,37 +729,6 @@ export default function VampireSheet() {
 
   const clanActions = getClanActions(activeChar.clan);
 
-  // Handler pour la publication Discord
-  const handlePublishNpc = async () => {
-    if (!npcCharacter || !discordUser) return;
-    if (!confirm("Publier la fiche de ce PNJ sur Discord ?")) return;
-
-    try {
-      // On sauvegarde d'abord pour être sûr
-      await saveCharacter(character);
-
-      const response = await fetch(`${API_URL}/api/gm/npcs/${npcCharacter.id}/publish`, {
-        method: 'POST',
-        headers: {
-          'X-Discord-User-ID': discordUser.id,
-          'X-Discord-Guild-ID': guildId.toString()
-        }
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        alert("Fiche publiée avec succès !");
-        // Mettre à jour le state local pour refléter le statut public
-        setNpcCharacter(prev => ({ ...prev, status: 'public', forum_post_id: result.forum_post_id }));
-      } else {
-        alert("Erreur: " + result.error);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Erreur lors de la publication");
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#0c0a09] text-stone-300 font-sans selection:bg-red-900/50 pb-12">
 
@@ -811,7 +742,7 @@ export default function VampireSheet() {
         ) : error ? (
           <>
             {error}
-            <button onClick={loadCharacter} className="underline ml-2">Réessayer</button>
+            <button onClick={() => window.location.reload()} className="underline ml-2">Réessayer</button>
           </>
         ) : lastSaved ? (
           <>
@@ -942,7 +873,7 @@ export default function VampireSheet() {
           <ClanSelection
             userId={discordUser.id}
             guildId={guildId}
-            onClanSelected={async (clanId) => {
+            onClanSelected={async () => {
               setNeedsClanSelection(false);
               setLoading(true);
               await loadCharacter();
@@ -1042,6 +973,8 @@ export default function VampireSheet() {
 
           <main data-active-tab={activeTab} className={`vp-content mx-auto p-6 space-y-10 ${activeTab === 'rules' || activeTab === 'rituals' ? 'max-w-[1600px]' : 'max-w-2xl'}`}>
 
+            {actionToSubmit && <SceneSubmission action={actionToSubmit} onClose={() => setActionToSubmit(null)} onSubmit={context => handleSubmitAction(actionToSubmit, context)} />}
+            {!npcCharacter && activeTab === 'character' && <FirstNight setActiveTab={setActiveTab} />}
             {/* ONGLET RÈGLEMENT */}
             {activeTab === 'rules' && (
               <RulesTab setActiveTab={setActiveTab} />
@@ -1050,6 +983,8 @@ export default function VampireSheet() {
             {/* ONGLET VITALITÉ (Bio) */}
             {activeTab === 'character' && (
               <CharacterSheet
+                key={npcCharacter?.id || discordUser.id}
+                draftId={npcCharacter?.id || `${guildId}:${discordUser.id}`}
                 userId={discordUser.id}
                 guildId={guildId}
                 // Passer les données du PNJ si on est en mode édition PNJ
@@ -1071,12 +1006,9 @@ export default function VampireSheet() {
                     sheet_data: sheetFields
                   };
 
-                  // Mettre à jour l'état local
+                  await saveCharacter(updatedChar);
                   setCharacter(updatedChar);
                   setNpcCharacter(prev => ({ ...prev, name, image_url, sheet_data: sheetFields }));
-
-                  // Sauvegarder en BDD (ce qui déclenchera la publication Discord)
-                  await saveCharacter(updatedChar);
                 } : null}
 
                 onUpdate={(updates) => {
@@ -1134,7 +1066,7 @@ export default function VampireSheet() {
                 <ActionCategory category={{ id: 'clan', name: 'L’héritage de votre sang', icon: Droplet,
                   description: activeChar.bloodPotency >= 5 ? 'Votre puissance ne croît plus ; votre histoire continue.' : 'Des voies propres à votre lignée, enrichies à chaque niveau.', actions: activeChar.bloodPotency >= 5 ? clanActions.filter(action => action.minBp === 5) : clanActions }}
                   character={activeChar} completedActions={activeChar.completedActions || []} pendingActions={activeChar.pendingActions || []}
-                  submittingAction={submittingAction} onSubmitAction={handleSubmitAction} />
+                  submittingAction={submittingAction} onSubmitAction={setActionToSubmit} />
 
                 {/* ACTIONS PAR CATÉGORIE */}
                 <section className="vp-vitae-actions">
@@ -1157,7 +1089,7 @@ export default function VampireSheet() {
                         completedActions={activeChar.completedActions || []}
                         pendingActions={activeChar.pendingActions || []}
                         submittingAction={submittingAction}
-                        onSubmitAction={handleSubmitAction}
+                        onSubmitAction={setActionToSubmit}
                       />
                     ))
                   )}
@@ -1225,7 +1157,7 @@ export default function VampireSheet() {
                 onUpdateGhouls={(updatedGhouls) => {
                   const updated = { ...activeChar, ghouls: updatedGhouls };
                   setCharacter(updated);
-                  saveCharacter(updated);
+                  return saveCharacter(updated);
                 }}
               />
             )}

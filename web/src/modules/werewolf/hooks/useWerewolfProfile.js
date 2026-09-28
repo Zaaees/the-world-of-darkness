@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../core/api';
 import { useState, useEffect, useCallback } from 'react';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
@@ -22,7 +23,7 @@ export function useWerewolfProfile() {
 
         try {
             setLoading(true);
-            const response = await fetch(`${API_URL}/api/modules/werewolf/profile`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/profile`, {
                 headers: {
                     'X-Discord-User-ID': discordUser?.id || 'unknown',
                     'X-Discord-Guild-ID': guildId || ''

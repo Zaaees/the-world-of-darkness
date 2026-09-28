@@ -23,7 +23,11 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^([A-Z_]|motion$)', argsIgnorePattern: '^_'  }],
     },
+  },
+  {
+    files: ['**/*.test.{js,jsx}', 'src/setupTests.js'],
+    languageOptions: { globals: {...globals.node, describe:'readonly', it:'readonly', test:'readonly', expect:'readonly', vi:'readonly', beforeEach:'readonly', afterEach:'readonly', beforeAll:'readonly', afterAll:'readonly'} },
   },
 ])

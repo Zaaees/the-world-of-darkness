@@ -6,10 +6,13 @@
  * 1. Ouvre ton Google Sheet
  * 2. Extensions → Apps Script
  * 3. Supprime le code existant et colle ce script
- * 4. Déployer → Nouveau déploiement → Application Web
- * 5. Exécuter en tant que: Moi
- * 6. Accès: Tout le monde
- * 7. Copie l'URL de déploiement
+ * 4. Définir SHEETS_API_SECRET dans les propriétés du script et dans le secret serveur du bot.
+ *    Ne jamais placer ce secret dans Vite ou dans le navigateur.
+ * 5. Déployer → Nouveau déploiement → Application Web
+ * 6. Exécuter en tant que: Moi
+ * 7. Accès: Tout le monde
+ * 8. Configurer GOOGLE_SHEETS_API_URL côté bot ; désactiver les anciens déploiements non protégés.
+ * 9. Déployer bot et site ensemble (voir docs/vampire-mise-en-service.md).
  *
  * FEUILLES NÉCESSAIRES:
  * - "Personnages" avec les colonnes: userId | name | clan | bloodPotency | saturationPoints | completedActions | pendingActions | cooldowns | history
@@ -21,56 +24,37 @@ const SHEET_PERSONNAGES = 'Personnages';
 const SHEET_PERSONNAGES_FALLBACK = 'Feuil1';  // Ancien nom
 const SHEET_ACTIONS = 'ActionsEnAttente';
 
-function doGet(e) {
-  return handleRequest(e);
+// Configure SHEETS_API_SECRET in Script Properties and on the bot. Never in Vite.
+function responseJson(data) {
+  return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
 }
-
+function doGet() { return responseJson({success: false, error: 'Authentication required'}); }
 function doPost(e) {
-  return handleRequest(e);
-}
-
-function handleRequest(e) {
-  const action = e.parameter.action;
-  let result = { success: false };
-
+  let lock;
   try {
-    switch(action) {
-      case 'get':
-        result = getCharacter(e.parameter.userId);
-        break;
-      case 'save':
-        const data = JSON.parse(e.parameter.data);
-        result = saveCharacter(e.parameter.userId, data);
-        break;
-      case 'submit_action':
-        result = submitAction(
-          e.parameter.userId,
-          e.parameter.actionId,
-          e.parameter.actionName,
-          parseInt(e.parameter.points) || 0
-        );
-        break;
-      case 'get_pending_actions':
-        result = getPendingActions();
-        break;
-      case 'mark_action_processed':
-        result = markActionProcessed(parseInt(e.parameter.rowId));
-        break;
-      case 'delete':
-        result = deleteCharacter(e.parameter.userId);
-        break;
-      default:
-        result.error = 'Action non reconnue';
+    const p = JSON.parse(e.postData.contents);
+    const secret = PropertiesService.getScriptProperties().getProperty('SHEETS_API_SECRET');
+    if (!secret || p.secret !== secret) return responseJson({success: false, error: 'Unauthorized'});
+    lock = LockService.getScriptLock();
+    if (!lock.tryLock(10000)) throw new Error('Busy; retry');
+    let result;
+    switch (p.action) {
+      case 'get': result = getCharacter(String(p.userId)); break;
+      case 'save': result = saveCharacter(String(p.userId), p.data); break;
+      case 'submit_action': result = submitAction(String(p.userId), p.actionId, p.actionName, p.points, p); break;
+      case 'get_pending_actions': result = getPendingActions(); break;
+      case 'mark_action_processed': result = markActionProcessed(p.rowId); break;
+      case 'delete': result = deleteCharacter(String(p.userId)); break;
+      case 'award_action': result = awardAction(p); break;
+      case 'refuse_action': result = refuseAction(String(p.userId), p.actionId, p.submissionId); break;
+      default: throw new Error('Unknown action');
     }
-    result.success = true;
-  } catch (error) {
-    result.error = error.toString();
-    result.success = false;
+    return responseJson({...result, success: !result.error});
+  } catch (_) {
+    return responseJson({success: false, error: 'Request failed; retry or contact the administrator'});
+  } finally {
+    if (lock && lock.hasLock()) lock.releaseLock();
   }
-
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 /**
@@ -109,7 +93,7 @@ function getCharacter(userId) {
       headers.forEach((header, idx) => {
         const value = data[i][idx];
         // Parser les champs JSON
-        if (['completedActions', 'pendingActions', 'history'].includes(header)) {
+        if (['completedActions', 'pendingActions', 'history', 'ghouls'].includes(header)) {
           try {
             character[header] = value ? JSON.parse(value) : [];
           } catch {
@@ -141,7 +125,7 @@ function getCharacter(userId) {
  */
 function saveCharacter(userId, charData) {
   const sheet = getPersonnagesSheet();
-
+  ensureColumns(sheet, ['ghouls']);
   const data = sheet.getDataRange().getValues();
   const headers = data[0];
 
@@ -186,8 +170,8 @@ function saveCharacter(userId, charData) {
 
     const value = charData[header];
     // Stringify les objets/arrays
-    if (header === 'history') {
-      return JSON.stringify(value || []);
+    if (['history', 'ghouls'].includes(header)) {
+      return value === undefined ? (existingData[header] || '[]') : JSON.stringify(value || []);
     }
     return value !== undefined ? value : (existingData[header] || '');
   });
@@ -204,37 +188,51 @@ function saveCharacter(userId, charData) {
 /**
  * Soumet une action pour validation
  */
-function submitAction(userId, actionId, actionName, points) {
-  const sheet = getOrCreateSheet(SHEET_ACTIONS, [
-    'rowId', 'userId', 'actionId', 'actionName', 'points', 'status', 'createdAt'
-  ]);
-
-  // Générer un ID unique pour cette ligne
-  const rowId = Date.now();
-
-  // Ajouter l'action en attente
-  sheet.appendRow([
-    rowId,
-    userId,
-    actionId,
-    actionName,
-    points,
-    'pending',
-    new Date().toISOString()
-  ]);
-
-  // Mettre à jour les pendingActions du personnage
-  const charResult = getCharacter(userId);
-  if (charResult.character) {
-    const pendingActions = charResult.character.pendingActions || [];
-    if (!pendingActions.includes(actionId)) {
-      pendingActions.push(actionId);
-      charResult.character.pendingActions = pendingActions;
-      saveCharacter(userId, charResult.character);
-    }
+function ensureColumns(sheet, columns) {
+  const headers = sheet.getDataRange().getValues()[0];
+  columns.forEach(name => { if (!headers.includes(name)) { headers.push(name); sheet.getRange(1, headers.length).setValue(name); } });
+  return headers;
+}
+function submitAction(userId, actionId, actionName, points, context) {
+  const columns = ['rowId', 'userId', 'actionId', 'actionName', 'points', 'status', 'createdAt', 'guildId', 'sceneLink', 'obstacle', 'outcome', 'participants'];
+  const sheet = getOrCreateSheet(SHEET_ACTIONS, columns);
+  const headers = ensureColumns(sheet, columns);
+  const char = getCharacter(userId).character;
+  if (!char) throw new Error('Character missing');
+  const pending = char.pendingActions || [];
+  if (pending.some(a => (typeof a === 'string' ? a : a.action_id) === actionId)) return {submitted: true, duplicate: true};
+  const queued = getPendingActions().pendingActions.find(a => String(a.userId) === userId && a.actionId === actionId);
+  if (queued) {
+    saveCharacter(userId, {pendingActions: [...pending, actionId]});
+    return {submitted: true, duplicate: true, rowId: queued.rowId};
   }
+  const rowId = Utilities.getUuid();
+  const row = {...context, rowId, userId, actionId, actionName, points, status: 'pending', createdAt: new Date().toISOString()};
+  sheet.appendRow(headers.map(h => row[h] === undefined ? '' : row[h]));
+  saveCharacter(userId, {pendingActions: [...pending, actionId]});
+  return {submitted: true, rowId};
+}
 
-  return { submitted: true, rowId: rowId };
+// The reward and its idempotency marker share one character row write.
+function awardAction(p) {
+  const char = getCharacter(String(p.userId)).character;
+  if (!char) throw new Error('Character missing');
+  const history = char.history || [];
+  const previous = history.find(item => item.submissionId === p.submissionId);
+  if (previous) { if (!previous.reward) throw new Error('Already refused'); return previous.reward; }
+  if (p.isUnique && (char.completedActions || []).includes(p.actionId)) throw new Error('Already completed');
+  if (!p.submissionId || !Number.isInteger(p.points) || p.points < 0) throw new Error('Invalid reward');
+  const thresholds = {1:30, 2:60, 3:120, 4:250};
+  const old_bp = Number(char.bloodPotency) || 1;
+  let new_bp = old_bp, new_saturation = (Number(char.saturationPoints) || 0) + p.points;
+  while (new_bp < 5 && new_saturation >= thresholds[new_bp]) { new_saturation -= thresholds[new_bp]; new_bp++; }
+  if (new_bp >= 5) new_saturation = 0;
+  const reward = {mutated: new_bp !== old_bp, old_bp, new_bp, new_saturation, points_added: p.points};
+  saveCharacter(String(p.userId), {bloodPotency: new_bp, saturationPoints: new_saturation,
+    pendingActions: (char.pendingActions || []).filter(a => (typeof a === 'string' ? a : a.action_id) !== p.actionId),
+    completedActions: p.isUnique ? [...new Set([...(char.completedActions || []), p.actionId])] : (char.completedActions || []),
+    history: [...history, {submissionId: p.submissionId, reward, text: p.actionName, date: new Date().toISOString()}]});
+  return reward;
 }
 
 /**
@@ -354,20 +352,17 @@ function validateAction(userId, actionId, points, isUnique, hasCooldown) {
 /**
  * Refuse une action
  */
-function refuseAction(userId, actionId) {
-  const charResult = getCharacter(userId);
-  if (!charResult.character) {
-    return { error: 'Personnage non trouvé' };
-  }
-
-  const char = charResult.character;
-
-  // Retirer de pendingActions
-  char.pendingActions = (char.pendingActions || []).filter(a => a !== actionId);
-
-  saveCharacter(userId, char);
-
-  return { refused: true };
+function refuseAction(userId, actionId, submissionId) {
+  const char = getCharacter(userId).character;
+  if (!char || !submissionId) throw new Error('Invalid refusal');
+  const history = char.history || [];
+  const previous = history.find(item => item.submissionId === submissionId);
+  if (previous) { if (previous.reward) throw new Error('Already awarded'); return {refused: true}; }
+  saveCharacter(userId, {
+    pendingActions: (char.pendingActions || []).filter(a => (typeof a === 'string' ? a : a.action_id) !== actionId),
+    history: [...history, {submissionId, refused: true, text: 'Action refusée', date: new Date().toISOString()}]
+  });
+  return {refused: true};
 }
 
 /**

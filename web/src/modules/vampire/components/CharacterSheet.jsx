@@ -1,3 +1,5 @@
+import { readDraft, writeDraft, clearDraft } from '../../../core/drafts';
+import { apiFetch } from '../../../core/api';
 
 import React, { useState, useEffect } from 'react';
 import { Save, Edit2, AlertCircle, FileText, Loader, Image as ImageIcon, Upload } from 'lucide-react';
@@ -6,11 +8,14 @@ import StarterPackDisplay from './StarterPackDisplay';
 
 import { API_URL } from '../../../config';
 
-export default function CharacterSheet({ userId, guildId, onUpdate, initialData, onSave }) {
+export default function CharacterSheet({ userId, guildId, onUpdate, initialData, onSave, draftId }) {
+  const draftKey = `vampire:sheet:${draftId || `${guildId}:${userId}`}`;
+  const [notice, setNotice] = useState('');
+  const [needsSync, setNeedsSync] = useState(false);
   const [loading, setLoading] = useState(!initialData);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [isEditing, setIsEditing] = useState(!initialData); // Mode lecture par défaut si on a des données (PNJ), sinon édition (chargement joueur)
+  const [isEditing, setIsEditing] = useState(Boolean(readDraft(draftKey)) || !initialData); // Mode lecture par défaut si on a des données (PNJ), sinon édition (chargement joueur)
 
   const [clanId, setClanId] = useState(initialData?.clan || null); // Le clan peut être passé
   const [sheetData, setSheetData] = useState({
@@ -22,7 +27,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
     mental_desc_post: initialData?.mental_desc_post || '',
     history: initialData?.history || '',
     image_url: initialData?.image_url || '',
-    starter_pack_answers: initialData?.starter_pack_answers || null
+    starter_pack_answers: initialData?.starter_pack_answers || null,
+    ...readDraft(draftKey)
   });
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -34,7 +40,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
       setLoading(true);
       try {
         // 1. Récupérer le profil pour avoir le clan
-        const profileResponse = await fetch(`${API_URL}/api/vampire/profile`, {
+        const profileResponse = await apiFetch(`${API_URL}/api/vampire/profile`, {
           headers: {
             'X-Discord-User-ID': userId,
             'X-Discord-Guild-ID': guildId,
@@ -51,7 +57,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         }
 
         // 2. Récupérer la fiche
-        const sheetResponse = await fetch(`${API_URL}/api/character-sheet`, {
+        const sheetResponse = await apiFetch(`${API_URL}/api/character-sheet`, {
           headers: {
             'X-Discord-User-ID': userId,
             'X-Discord-Guild-ID': guildId,
@@ -60,8 +66,9 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         const sheetRes = await sheetResponse.json();
 
         if (sheetRes.success && sheetRes.exists) {
-          setSheetData(sheetRes.data);
-          setIsEditing(false);
+          const draft = readDraft(draftKey);
+          setSheetData(Object.fromEntries(Object.entries({...sheetRes.data, ...draft}).map(([key,value]) => [key, value ?? (key === 'starter_pack_answers' ? null : '')])));
+          setIsEditing(Boolean(draft));
         } else {
           setIsEditing(true); // Pas de fiche -> Mode édition direct
         }
@@ -74,14 +81,17 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
     };
 
     loadData();
-  }, [userId, guildId, initialData]);
+  }, [userId, guildId, initialData, draftKey]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSheetData(prev => ({ ...prev, [name]: value }));
+    const next = { ...sheetData, [name]: value };
+    setSheetData(next);
+    writeDraft(draftKey, next);
   };
 
   const handleSave = async () => {
+    if (!(sheetData.name || '').trim()) { setError("Le nom du personnage est requis."); return; }
     setSaving(true);
     setError(null);
     try {
@@ -91,10 +101,11 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         if (onUpdate && sheetData.name) {
           onUpdate({ name: sheetData.name });
         }
+        clearDraft(draftKey);
         setIsEditing(false);
       } else {
         // Mode Joueur standard
-        const response = await fetch(`${API_URL}/api/character-sheet`, {
+        const response = await apiFetch(`${API_URL}/api/character-sheet`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -106,6 +117,10 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         const data = await response.json();
 
         if (data.success) {
+          clearDraft(draftKey);
+          setNeedsSync(!data.published || data.name_synced === false);
+          setNotice(data.published ? "Fiche enregistrée et publiée sur Discord." : "Fiche enregistrée. La publication Discord reste à réessayer.");
+          if (data.name_synced === false) setNotice("Fiche enregistrée. La synchronisation du nom reste à réessayer.");
           setIsEditing(false);
           if (onUpdate && sheetData.name) {
             onUpdate({ name: sheetData.name });
@@ -133,7 +148,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
     formData.append('file', file);
 
     try {
-      const response = await fetch(`${API_URL}/api/upload`, {
+      const response = await apiFetch(`${API_URL}/api/upload`, {
         method: 'POST',
         headers: {
           'X-Discord-User-ID': userId,
@@ -145,7 +160,9 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
       const data = await response.json();
 
       if (data.success && data.url) {
-        setSheetData(prev => ({ ...prev, image_url: data.url }));
+        const next = { ...sheetData, image_url: data.url };
+        setSheetData(next);
+        writeDraft(draftKey, next);
       } else {
         setError(data.error || "Erreur lors de l'upload de l'image.");
       }
@@ -166,7 +183,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
   }
 
   const clanInfo = getClanDescription(clanId);
-  const baneHint = clanInfo ? `Corruption liée au clan ${clanInfo.name} : ${clanInfo.baneDescription}` : "Description de la corruption mentale...";
+  const _baneHint = clanInfo ? `Corruption liée au clan ${clanInfo.name} : ${clanInfo.baneDescription}` : "Description de la corruption mentale...";
 
   // --- MODE VUE ---
   if (!isEditing) {
@@ -185,6 +202,13 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
           </button>
         </div>
 
+        {error && <p role="alert" className="text-red-300">{error}</p>}
+        {notice && <p role="status" className="border border-stone-600 p-3 mb-4">{notice} {needsSync && <button type="button" onClick={handleSave} disabled={saving} className="underline">Réessayer la synchronisation</button>}</p>}
+        {!sheetData.history && <p className="mb-4">Fiche à compléter : ajoutez une histoire et vos liens pour préparer votre première scène.</p>}
+        <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
+        <section className="space-y-3 my-4" aria-label="Liens pour le jeu">
+          {Object.entries(STORY_HOOKS).map(([key,title]) => <SectionView key={key} title={title} content={sheetData.starter_pack_answers?.hooks?.[key]} />)}
+        </section>
         {/* Image - Centrée Haut */}
         {sheetData.image_url && (
           <div className="mb-6 flex justify-center">
@@ -285,10 +309,10 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         {/* Identité */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-stone-400">Nom et Prénom</label>
+            <label htmlFor="sheet-name" className="block text-sm font-medium text-stone-400">Nom et Prénom</label>
             <input
               type="text"
-              name="name"
+              id="sheet-name" name="name"
               value={sheetData.name}
               onChange={handleChange}
               className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none"
@@ -297,10 +321,10 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-stone-400">Âge</label>
+              <label htmlFor="sheet-age" className="block text-sm font-medium text-stone-400">Âge</label>
               <input
                 type="text"
-                name="age"
+                id="sheet-age" name="age"
                 value={sheetData.age}
                 onChange={handleChange}
                 className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none"
@@ -308,10 +332,10 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-stone-400">Sexe</label>
+              <label htmlFor="sheet-sex" className="block text-sm font-medium text-stone-400">Sexe</label>
               <input
                 type="text"
-                name="sex"
+                id="sheet-sex" name="sex"
                 value={sheetData.sex}
                 onChange={handleChange}
                 className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 focus:outline-none"
@@ -323,9 +347,9 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
 
         {/* Descriptions */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-stone-400">Description Physique</label>
+          <label htmlFor="sheet-physical_desc" className="block text-sm font-medium text-stone-400">Description Physique</label>
           <textarea
-            name="physical_desc"
+            id="sheet-physical_desc" name="physical_desc"
             value={sheetData.physical_desc}
             onChange={handleChange}
             rows={12}
@@ -335,9 +359,9 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-stone-400">Mentalité (Avant l'Etreinte)</label>
+          <label htmlFor="sheet-mental_desc_pre" className="block text-sm font-medium text-stone-400">Mentalité (Avant l'Etreinte)</label>
           <textarea
-            name="mental_desc_pre"
+            id="sheet-mental_desc_pre" name="mental_desc_pre"
             value={sheetData.mental_desc_pre}
             onChange={handleChange}
             rows={12}
@@ -347,9 +371,9 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-red-400">Mentalité Corrompue (Après l'Etreinte)</label>
+          <label htmlFor="sheet-mental_desc_post" className="block text-sm font-medium text-red-400">Mentalité Corrompue (Après l'Etreinte)</label>
           <textarea
-            name="mental_desc_post"
+            id="sheet-mental_desc_post" name="mental_desc_post"
             value={sheetData.mental_desc_post}
             onChange={handleChange}
             rows={12}
@@ -379,43 +403,23 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
             <div className="bg-stone-900/40 border border-stone-800 rounded p-4 h-full overflow-y-auto max-h-[600px]">
               <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2">L'Éveil de votre Sang</h4>
 
-              {(() => {
-                let ans = sheetData.starter_pack_answers;
-                if (typeof ans === 'string') {
-                  try { ans = JSON.parse(ans); } catch (e) { ans = null; }
-                }
-
-                if (!ans || (!ans.q1 && !ans.q2 && !ans.q3)) {
-                  return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
-                }
-
-                return (
-                  <div className="space-y-5">
-                    {ans.q1 && (
-                      <div className="border-l-2 border-red-900/50 pl-3">
-                        <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">Première Nuit</span>
-                        <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.q1}</p>
-                      </div>
-                    )}
-                    {ans.q2 && (
-                      <div className="border-l-2 border-red-900/50 pl-3">
-                        <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">La Bête</span>
-                        <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.q2}</p>
-                      </div>
-                    )}
-                    {ans.q3 && (
-                      <div className="border-l-2 border-red-900/50 pl-3">
-                        <span className="text-[10px] uppercase tracking-wider text-red-600 block mb-1">Lien à l'Humanité</span>
-                        <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.q3}</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })()}
+              <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
             </div>
           </div>
         </div>
 
+        <section className="space-y-4" aria-labelledby="story-hooks-title">
+          <h2 id="story-hooks-title" className="text-xl font-serif">Ce qui vous met en jeu</h2>
+          <p>Ces informations font partie de votre fiche publiée. Gardez les secrets destinés au MJ dans un échange privé.</p>
+          {Object.entries(STORY_HOOKS).map(([key,label]) => <div key={key}>
+            <label htmlFor={`hook-${key}`} className="block">{label}</label>
+            <textarea id={`hook-${key}`} value={sheetData.starter_pack_answers?.hooks?.[key] || ''} maxLength={2000} onChange={e => {
+              const next = {...sheetData, starter_pack_answers: {...sheetData.starter_pack_answers, hooks: {...sheetData.starter_pack_answers?.hooks, [key]:e.target.value}}};
+              setSheetData(next); writeDraft(draftKey,next);
+            }} className="w-full bg-stone-900 border border-stone-700 rounded p-3"/>
+          </div>)}
+          <p className="text-sm">Votre brouillon est conservé sur cet appareil jusqu’à l’enregistrement de la fiche.</p>
+        </section>
         {/* Actions */}
         <div className="flex justify-end gap-4 pt-4 border-t border-stone-800">
           {/* Si on était en mode vue avant (donc pas première création), on peut annuler */}
@@ -442,6 +446,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
     </div>
   );
 }
+
+const STORY_HOOKS = {desire:'Ce que je veux maintenant', attachment:'Qui je refuse de perdre', limit:'Ce que je ne veux pas devenir', debt:'À qui je dois quelque chose'};
 
 function SectionView({ title, content, highlight = false, scene }) {
   return (

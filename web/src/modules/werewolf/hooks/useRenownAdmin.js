@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../core/api';
 import { useState, useCallback } from 'react';
 import { API_URL } from '../../../config';
 
@@ -26,7 +27,7 @@ export function useRenownAdmin() {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/admin/renown`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/renown`, {
                 headers: getHeaders()
             });
 
@@ -49,7 +50,7 @@ export function useRenownAdmin() {
     }, [getHeaders]);
 
     const validateRequest = useCallback(async (id) => {
-        const response = await fetch(`${API_URL}/api/modules/werewolf/admin/renown/${id}/validate`, {
+        const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/renown/${id}/validate`, {
             method: 'POST',
             headers: getHeaders()
         });
@@ -62,7 +63,7 @@ export function useRenownAdmin() {
     }, [getHeaders]);
 
     const rejectRequest = useCallback(async (id) => {
-        const response = await fetch(`${API_URL}/api/modules/werewolf/admin/renown/${id}/reject`, {
+        const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/renown/${id}/reject`, {
             method: 'POST',
             headers: getHeaders()
         });

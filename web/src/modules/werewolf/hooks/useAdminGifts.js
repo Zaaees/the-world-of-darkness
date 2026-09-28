@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../core/api';
 import { useState, useCallback } from 'react';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../config';
@@ -16,7 +17,7 @@ export function useAdminGifts() {
     const fetchPlayers = useCallback(async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/admin/players`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/players`, {
                 headers: getHeaders()
             });
             if (!response.ok) throw new Error("Failed to fetch players");
@@ -33,7 +34,7 @@ export function useAdminGifts() {
     const fetchPlayerGifts = useCallback(async (targetUserId) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/admin/players/${targetUserId}/gifts`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/players/${targetUserId}/gifts`, {
                 headers: getHeaders()
             });
             if (!response.ok) throw new Error("Failed to fetch player gifts");
@@ -50,7 +51,7 @@ export function useAdminGifts() {
     const toggleGift = useCallback(async (playerId, giftId, unlock = true) => {
         setLoading(true);
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/gifts/unlock`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/gifts/unlock`, {
                 method: 'POST',
                 headers: getHeaders(),
                 body: JSON.stringify({ playerId, giftId, unlock })

@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ScrollText, Droplet, Book, Users, Skull, Activity, Shield, Crown, FileText, Sparkles } from 'lucide-react';
 
 export default function RulesTab({ setActiveTab }) {
-    useEffect(() => {
-        console.log("RulesTab mounted");
-    }, []);
-
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
         if (element) {
@@ -25,6 +21,7 @@ export default function RulesTab({ setActiveTab }) {
             {/* NAVIGATION RAPIDE */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
+                    { id: 'playing', icon: Users, label: 'Commencer une scène' },
                     { id: 'tools', icon: ScrollText, label: 'I. Outils Narratifs' },
                     { id: 'territory', icon: Shield, label: 'II. Territoire' },
                     { id: 'thirst', icon: Droplet, label: 'III. Gestion de la Soif' },
@@ -46,6 +43,22 @@ export default function RulesTab({ setActiveTab }) {
             {/* CONTENU */}
             <div className="space-y-16 text-stone-300">
 
+                <section id="playing" className="space-y-4 rounded border border-stone-700 p-5">
+                    <h2 className="text-2xl font-serif text-red-400">Commencer et terminer une scène</h2>
+                    <p>Le RP se joue dans les salons Discord. Ce site prépare vos personnages et conserve leurs acquis. Une scène est une unité de lieu, de temps et d'enjeu ; les participants annoncent sa fin ensemble. Une pause ou un changement d'onglet ne la termine pas.</p>
+                    <ol className="list-decimal pl-5 space-y-2">
+                        <li>Convenez du lieu, des participants, de l'enjeu et des sujets à éviter ou à laisser hors champ. Une limite personnelle peut changer à tout moment.</li>
+                        <li>Décrivez votre intention, votre moyen et le risque. Laissez l'autre joueur répondre : ne décrivez pas à sa place ce qu'il ressent ou décide.</li>
+                        <li>Sans opposition, convenez d'une issue cohérente. En conflit, confrontez les pouvoirs et leurs limites. En cas de désaccord, suspendez la conséquence et demandez un arbitrage MJ.</li>
+                        <li>Concluez par ce qui a changé : information, relation, dette, blessure ou menace. Une défaite peut ouvrir une nouvelle piste ; elle ne doit pas bloquer tout jeu.</li>
+                    </ol>
+                    <p><strong>Conflit entre personnages :</strong> domination, blessure durable, perte majeure et mort d'un PJ nécessitent un accord hors personnage sur les enjeux, ou un arbitrage MJ convenu. Un pouvoir ne dispense jamais de respecter les limites des joueurs. Le consentement du joueur est distinct de celui du personnage.</p>
+                    <p><strong>Pause :</strong> chacun peut demander « pause » sans se justifier. Arrêtez la description, ajustez ou passez la scène hors champ, puis reprenez uniquement avec l'accord des participants.</p>
+                    <p><strong>Territoires et goules :</strong> posséder un titre ou une entrée de registre ne donne pas automatiquement le contrôle d'un lieu ou d'un PJ. Précisez en RP les personnes impliquées, les moyens, les obligations et les résistances ; les changements durables sont arbitrés avec le MJ.</p>
+                    <p><strong>Exemple :</strong> une chasse dans un domaine interdit met en jeu votre faim, un témoin et une dette envers le propriétaire. Obtenir du sang règle la faim ; négocier le silence crée une prochaine scène.</p>
+                    <p><strong>Repères :</strong> PJ = personnage joueur ; PNJ = personnage non joueur ; MJ = maître du jeu ; BP = puissance du sang ; Vitae = réserve dépensable ; saturation = progression validée. La Mascarade désigne le secret de l'existence vampirique.</p>
+                </section>
+
                 {/* I. OUTILS NARRATIFS */}
                 <section id="tools" className="space-y-6">
                     <div className="flex items-center gap-3 mb-6">
@@ -62,45 +75,45 @@ export default function RulesTab({ setActiveTab }) {
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                            <div
+                            <button type="button"
                                 onClick={() => setActiveTab('character')}
                                 className="bg-stone-900/30 border border-stone-800 p-4 rounded cursor-pointer hover:border-red-900/30 hover:bg-stone-900/50 transition-all"
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><FileText size={16} /> Fiche</h3>
                                 <p className="text-sm text-stone-400">Créez et modifiez votre fiche de personnage. Chaque modification est automatiquement notifiée au MJ Vampire et publiée dans le salon <em>Tabulae</em>.</p>
-                            </div>
+                            </button>
 
-                            <div
+                            <button type="button"
                                 onClick={() => setActiveTab('sheet')}
                                 className="bg-stone-900/30 border border-stone-800 p-4 rounded cursor-pointer hover:border-red-900/30 hover:bg-stone-900/50 transition-all"
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><Droplet size={16} /> Vitae</h3>
                                 <p className="text-sm text-stone-400">Consultez votre puissance de sang actuelle et votre progression. Découvrez la Malédiction de votre clan et les actions disponibles pour augmenter votre puissance. Soumettez vos demandes de validation au MJ Vampire après avoir accompli une action en RP.</p>
-                            </div>
+                            </button>
 
-                            <div
+                            <button type="button"
                                 onClick={() => setActiveTab('disciplines')}
                                 className="bg-stone-900/30 border border-stone-800 p-4 rounded cursor-pointer hover:border-red-900/30 hover:bg-stone-900/50 transition-all"
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><Sparkles size={16} /> Disciplines</h3>
                                 <p className="text-sm text-stone-400">Accédez à vos pouvoirs surnaturels et leur coût en Vitae. Vos facultés dépendent de votre clan et de votre puissance de sang — de nouvelles capacités se débloquent à chaque niveau atteint.</p>
-                            </div>
+                            </button>
 
-                            <div
+                            <button type="button"
                                 onClick={() => setActiveTab('rituals')}
                                 className="bg-stone-900/30 border border-stone-800 p-4 rounded cursor-pointer hover:border-red-900/30 hover:bg-stone-900/50 transition-all"
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><Book size={16} /> Grimoire</h3>
                                 <p className="text-sm text-stone-400"><strong>Tremere & Giovanni</strong> uniquement. Consultez votre bibliothèque de rituels et cérémonies. <strong className="text-stone-300">Vous commencez votre non-vie avec un grimoire vide.</strong> Ces arts occultes ne s'improvisent pas : pour acquérir de nouveaux rituels, vous devrez mener l'enquête en jeu, trouver des mentors ou déchiffrer des textes anciens.</p>
-                            </div>
+                            </button>
 
-                            <div
+                            <button type="button"
                                 onClick={() => setActiveTab('ghouls')}
                                 className="bg-stone-900/30 border border-stone-800 p-4 rounded cursor-pointer hover:border-red-900/30 hover:bg-stone-900/50 transition-all"
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><Users size={16} /> Goules</h3>
                                 <p className="text-sm text-stone-400">Gérez le registre de vos goules. Le nombre maximal dépend de votre puissance de sang. Chaque goule créée obtient aléatoirement le premier niveau de l'une de vos disciplines.</p>
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -205,7 +218,7 @@ export default function RulesTab({ setActiveTab }) {
                     </p>
 
                     <h3 className="font-serif text-lg text-stone-300 mb-2">Capacité en Vitae par Rang</h3>
-                    <p className="text-sm text-stone-500 mb-4">Votre rang détermine la taille de votre réservoir :</p>
+                    <p className="text-sm text-stone-500 mb-4">Votre rang détermine votre réserve, pas votre âge, votre titre politique ni l'autorité sur un autre personnage.</p>
 
                     <div className="overflow-hidden rounded-lg border border-stone-800 mb-8 bg-stone-900/50">
                         <table className="w-full text-left text-sm text-stone-400">
@@ -217,23 +230,23 @@ export default function RulesTab({ setActiveTab }) {
                             </thead>
                             <tbody className="divide-y divide-stone-800">
                                 <tr className="bg-stone-950/30">
-                                    <td className="px-4 py-2">Rang 1 (Néonate)</td>
+                                    <td className="px-4 py-2">Rang 1 (Sang Fluide)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">5</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-4 py-2">Rang 2 (Ancilla Mineur)</td>
+                                    <td className="px-4 py-2">Rang 2 (Sang Vif)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">8</td>
                                 </tr>
                                 <tr className="bg-stone-950/30">
-                                    <td className="px-4 py-2">Rang 3 (Ancilla Majeur)</td>
+                                    <td className="px-4 py-2">Rang 3 (Sang Fort)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">12</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-4 py-2">Rang 4 (Ancien)</td>
+                                    <td className="px-4 py-2">Rang 4 (Sang Puissant)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">18</td>
                                 </tr>
                                 <tr className="bg-stone-950/30">
-                                    <td className="px-4 py-2">Rang 5 (Mathusalem)</td>
+                                    <td className="px-4 py-2">Rang 5 (Zénith)</td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">25</td>
                                 </tr>
                             </tbody>
@@ -270,21 +283,21 @@ export default function RulesTab({ setActiveTab }) {
 
                             <div>
                                 <strong className="text-stone-300 block mb-1">3. Résistance par la Vitae</strong>
-                                <p className="mb-2">Tout vampire peut dépenser de la Vitae pour repousser une discipline mentale d'un adversaire de rang égal ou inférieur. Le coût augmente drastiquement selon l'écart de puissance.</p>
+                                <p className="mb-2">Tout vampire peut dépenser de la Vitae pour repousser une discipline mentale d'un adversaire de rang égal ou supérieur. Le coût augmente drastiquement selon l'écart de puissance.</p>
                                 <div className="bg-black/20 p-2 rounded border border-red-900/30 inline-block mb-2">
-                                    <strong className="text-red-400">Formule :</strong> Coût de résistance = Coût de la discipline × (Différence de rang + 1)
+                                    <strong className="text-red-400">Formule :</strong> Coût de résistance = Coût de la discipline × (BP de l'attaquant − BP du défenseur + 1)
                                 </div>
                                 <ul className="list-disc list-inside pl-2 space-y-1 text-xs italic opacity-80">
                                     <li>Exemple : Un attaquant utilise Domination (Coût 3).</li>
                                     <li>Si Défenseur = Attaquant (Écart 0) → 3 Vitae pour résister</li>
-                                    <li>Si Défenseur &gt; Attaquant (Écart 1) → 6 Vitae pour résister</li>
-                                    <li>Si Défenseur &gt;&gt; Attaquant (Écart 2) → 9 Vitae pour résister</li>
+                                    <li>Si Défenseur &lt; Attaquant (Écart 1) → 6 Vitae pour résister</li>
+                                    <li>Si Défenseur &lt;&lt; Attaquant (Écart 2) → 9 Vitae pour résister</li>
                                 </ul>
                             </div>
                         </div>
 
                         <p className="text-sm text-red-400/80 mt-2 font-serif bg-red-950/30 p-2 rounded">
-                            <strong className="font-bold">Note :</strong> Un jeune vampire (Rang 1-2) n'aura souvent pas assez de sang pour résister à un Ancien. Dans ce cas, il n'y a pas de frénésie ou d'échappatoire : il succombe simplement à la volonté de l'Ancien, incapable de se défendre.
+                            <strong className="font-bold">Note :</strong> Un défenseur de BP supérieure est immunisé, sans dépense. Sinon, il doit pouvoir payer le coût entier pour résister (minimum 1 Vitae si le pouvoir est gratuit). Une réserve insuffisante ne permet pas cette résistance ; appliquez alors l'effet dans ses limites et dans le cadre convenu entre joueurs, avec arbitrage MJ en cas de désaccord.
                         </p>
                     </div>
                 </section>
@@ -341,7 +354,7 @@ export default function RulesTab({ setActiveTab }) {
                                 <div className="w-24 text-center font-bold text-red-500 font-mono text-lg shrink-0">&lt; 40%</div>
                                 <div>
                                     <strong className="text-red-400 block mb-1">Danger Critique</strong>
-                                    <span className="text-sm text-stone-400">Alimentation en scène <strong className="uppercase text-red-500">OBLIGATOIRE</strong>. La Bête prend le contrôle : vous viderez intégralement votre victime de son sang, provoquant sa mort dans l'acte du Baiser. La subtilité n'est plus une option.</span>
+                                    <span className="text-sm text-stone-400">Alimentation en scène <strong className="uppercase text-red-500">OBLIGATOIRE</strong>. La Bête prend le contrôle : vous viderez intégralement votre victime de son sang, provoquant sa mort dans l'acte du Baiser. La subtilité n'est plus une option. Convenez des conséquences avant la scène ; une limite personnelle autorise toujours une ellipse. Cette règle ne permet pas de tuer un PJ sans accord.</span>
                                 </div>
                             </div>
                         </div>
@@ -351,7 +364,7 @@ export default function RulesTab({ setActiveTab }) {
                         <h3 className="font-serif text-stone-300 text-xl mb-4">Les Scènes de Chasse</h3>
                         <p className="text-sm text-stone-400 mb-2">Une scène de Chasse = rechercher un PNJ pour vous nourrir.</p>
                         <ul className="text-sm text-stone-400 space-y-2 list-disc list-inside">
-                            <li>Possible sans MJ — vous pouvez incarner les PNJ vous-même.</li>
+                            <li>Possible sans MJ pour un PNJ anonyme. Un PNJ nommé, un territoire disputé ou une conséquence majeure demande l'accord des personnes concernées ou du MJ.</li>
                             <li><strong className="text-stone-300">Obligatoire :</strong> annoncer votre chasse dans le salon <em>Venatio</em>.</li>
                         </ul>
                         <p className="text-sm text-stone-500 mt-2 italic">Cette annonce permet aux autres joueurs ou MJ de rejoindre la scène s'ils le souhaitent.</p>

@@ -6,10 +6,12 @@ on:
     paths:
       - 'web/**'
       - 'data/blood_actions.json'
+      - 'data/ghoul_disciplines.json'
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -36,11 +38,38 @@ jobs:
         run: npm ci
         working-directory: web
 
+      - name: Vampire regression tests
+        run: npm run test:vampire
+        working-directory: web
+
+      - name: Vampire lint
+        run: npm run lint:vampire
+        working-directory: web
+
       - name: Build
         run: npm run build
         working-directory: web
         env:
           VITE_API_URL: https://world-of-darkness-bot.fly.dev
+
+      - name: Wait for the matching bot deployment when backend files changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! git show --pretty=format: --name-only "$GITHUB_SHA" | grep -Eq '(^[^/]+\.py$|^(cogs|data|utils|views|modules)/|^(requirements.txt|Dockerfile|fly.toml)$)'; then
+            exit 0
+          fi
+          for attempt in $(seq 1 60); do
+            RESULT=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow deploy-bot.yml --commit "$GITHUB_SHA" --json status,conclusion --jq '.[0] | if .status == "completed" then .conclusion else "pending" end')
+            if [ "$RESULT" = success ]; then exit 0; fi
+            if [ "$RESULT" != pending ] && [ -n "$RESULT" ]; then
+              echo "Bot deployment failed; website publication stopped."
+              exit 1
+            fi
+            sleep 10
+          done
+          echo "Bot deployment not confirmed; website publication stopped."
+          exit 1
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

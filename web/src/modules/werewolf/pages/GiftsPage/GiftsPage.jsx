@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../../core/api';
 import React, { useState, useEffect, useMemo } from 'react';
 import useUserRoles from '../../../../core/hooks/useUserRoles';
 import { API_URL } from '../../../../config';
@@ -33,7 +34,7 @@ export const GiftsPage = ({ gifts: propGifts, unlockedIds: propUnlockedIds }) =>
 
             try {
                 setIsLoading(true);
-                const response = await fetch(`${API_URL}/api/modules/werewolf/gifts`, {
+                const response = await apiFetch(`${API_URL}/api/modules/werewolf/gifts`, {
                     headers: {
                         'X-Discord-User-ID': discordUser.id,
                         'X-Discord-Guild-ID': guildId

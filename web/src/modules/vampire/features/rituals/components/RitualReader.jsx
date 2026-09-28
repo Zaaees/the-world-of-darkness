@@ -22,6 +22,7 @@ const extractTextContent = (children) => {
 };
 
 const RitualReader = ({ ritual, onClose }) => {
+    const prefersReducedMotion = useReducedMotion();
     if (!ritual) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-8 text-center text-stone-500 bg-[#1c1917] border-l border-[#292524]">
@@ -34,13 +35,13 @@ const RitualReader = ({ ritual, onClose }) => {
     // Custom renderers for React Markdown
     const components = {
         // Headers - Playfair Display
-        h1: ({ node, ...props }) => <h1 className="font-serif text-3xl text-red-600 mt-6 mb-4 leading-tight" {...props} />,
-        h2: ({ node, ...props }) => <h2 className="font-serif text-2xl text-red-500 mt-5 mb-3 border-b border-red-900/30 pb-1" {...props} />,
-        h3: ({ node, ...props }) => <h3 className="font-serif text-xl text-red-400 mt-4 mb-2" {...props} />,
-        h4: ({ node, ...props }) => <h4 className="font-serif text-lg text-stone-300 mt-4 mb-2 font-bold" {...props} />,
+        h1: ({ node: _node, ...props }) => <h1 className="font-serif text-3xl text-red-600 mt-6 mb-4 leading-tight" {...props} />,
+        h2: ({ node: _node, ...props }) => <h2 className="font-serif text-2xl text-red-500 mt-5 mb-3 border-b border-red-900/30 pb-1" {...props} />,
+        h3: ({ node: _node, ...props }) => <h3 className="font-serif text-xl text-red-400 mt-4 mb-2" {...props} />,
+        h4: ({ node: _node, ...props }) => <h4 className="font-serif text-lg text-stone-300 mt-4 mb-2 font-bold" {...props} />,
 
         // Paragraphs - Inter & Drop Cap logic
-        p: ({ node, children, ...props }) => {
+        p: ({ node: _node, children, ...props }) => {
             // System text check using recursive text extraction
             const textContent = extractTextContent(children);
             const isSystem = textContent.startsWith('System:') ||
@@ -67,11 +68,11 @@ const RitualReader = ({ ritual, onClose }) => {
         },
 
         // Emphasis - Inked style
-        strong: ({ node, ...props }) => <strong className="font-bold text-stone-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.3)]" {...props} />,
-        b: ({ node, ...props }) => <strong className="font-bold text-stone-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.3)]" {...props} />,
+        strong: ({ node: _node, ...props }) => <strong className="font-bold text-stone-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.3)]" {...props} />,
+        b: ({ node: _node, ...props }) => <strong className="font-bold text-stone-100 drop-shadow-[0_0_1px_rgba(255,255,255,0.3)]" {...props} />,
 
         // Blockquotes - Handwriting style
-        blockquote: ({ node, ...props }) => (
+        blockquote: ({ node: _node, ...props }) => (
             <blockquote className="my-6 pl-6 border-l-2 border-red-900/50 italic text-stone-400 font-hand text-xl relative">
                 <Quote size={20} className="absolute -left-6 -top-4 text-red-900/40" />
                 {props.children}
@@ -79,12 +80,12 @@ const RitualReader = ({ ritual, onClose }) => {
         ),
 
         // Lists
-        ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-4 text-stone-300 marker:text-red-800" {...props} />,
-        ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-4 text-stone-300 marker:text-red-800" {...props} />,
+        ul: ({ node: _node, ...props }) => <ul className="list-disc list-inside mb-4 text-stone-300 marker:text-red-800" {...props} />,
+        ol: ({ node: _node, ...props }) => <ol className="list-decimal list-inside mb-4 text-stone-300 marker:text-red-800" {...props} />,
     };
 
     // Respect reduced motion preference for WCAG accessibility
-    const prefersReducedMotion = useReducedMotion();
+
 
     // Animation variants based on motion preference
     const animationProps = prefersReducedMotion

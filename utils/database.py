@@ -18,71 +18,16 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-# URL de l'API Google Sheets
-GOOGLE_SHEETS_API = "https://script.google.com/macros/s/AKfycbzx4Us0c5xdO6PnX6TNgDFBCx6Kf48EmuDjjh4e_ZIPB3D0F1SSdig4ZFHX8tekzML-/exec"
+from utils.sheets_client import sheets_request
 
 
 async def get_from_google_sheets(user_id: int) -> Optional[dict]:
-    """
-    Récupère les données d'un joueur depuis Google Sheets.
-    Retourne None si le joueur n'existe pas.
-    """
-    try:
-        url = f"{GOOGLE_SHEETS_API}?action=get&userId={user_id}"
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
-                response_text = await response.text()
-
-                if response.status == 200:
-                    try:
-                        result = json.loads(response_text)
-                        if result.get("success") and result.get("character"):
-                            logger.info(f"Lecture Google Sheets OK pour user {user_id}")
-                            return result["character"]
-                        else:
-                            logger.info(f"Pas de données Google Sheets pour user {user_id}")
-                            return None
-                    except json.JSONDecodeError:
-                        logger.warning(f"Google Sheets réponse invalide: {response_text[:200]}")
-                        return None
-                else:
-                    logger.warning(f"Google Sheets HTTP {response.status}: {response_text[:200]}")
-                    return None
-    except Exception as e:
-        logger.error(f"Erreur lecture Google Sheets: {e}")
-        return None
+    result = await sheets_request("get", userId=str(user_id))
+    return result.get("character")
 
 
 async def save_to_google_sheets(user_id: int, data: dict):
-    """Sauvegarde les données d'un joueur vers Google Sheets."""
-    try:
-        # Encoder les données JSON pour l'URL
-        data_json = json.dumps(data)
-        encoded_data = urllib.parse.quote(data_json, safe='')
-
-        url = f"{GOOGLE_SHEETS_API}?action=save&userId={user_id}&data={encoded_data}"
-
-        logger.info(f"Sauvegarde Google Sheets: user={user_id}, data={data}")
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
-                response_text = await response.text()
-                logger.info(f"Sauvegarde Google Sheets response: {response.status} - {response_text[:200]}")
-
-                if response.status == 200:
-                    try:
-                        result = json.loads(response_text)
-                        if result.get("success"):
-                            logger.info(f"Sauvegarde Google Sheets OK pour user {user_id}")
-                        else:
-                            logger.warning(f"Sauvegarde Google Sheets échoué: {result}")
-                    except json.JSONDecodeError:
-                        logger.warning(f"Sauvegarde Google Sheets réponse invalide: {response_text[:200]}")
-                else:
-                    logger.warning(f"Sauvegarde Google Sheets HTTP {response.status}: {response_text[:200]}")
-    except Exception as e:
-        logger.warning(f"Erreur sauvegarde Google Sheets: {e}")
+    await sheets_request("save", userId=str(user_id), data=data)
 
 
 async def sync_to_google_sheets(user_id: int, data: dict):
@@ -348,19 +293,10 @@ async def set_player(
         """, (user_id, guild_id, new_race, new_clan, new_auspice))
         await db.commit()
 
-    # 2. Synchronisation Google Sheets (Best effort)
-    character = await get_from_google_sheets(user_id) or {}
-
-    if race is not None:
-        character["race"] = race
-    if clan is not None:
-        character["clan"] = clan
-    if auspice is not None:
-        character["auspice"] = auspice
-    if name is not None:
-        character["name"] = name
-
-    await save_to_google_sheets(user_id, character)
+    # Send only changed fields; never overwrite progression from an earlier read.
+    changes = {key: value for key, value in {'race': race, 'clan': clan, 'auspice': auspice, 'name': name}.items() if value is not None}
+    if changes:
+        await save_to_google_sheets(user_id, changes)
 
 
 async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
@@ -875,11 +811,13 @@ async def submit_blood_action(
     category: str,
     points: int,
     description: Optional[str] = None,
+    submission_id: Optional[str] = None,
 ) -> str:
     """Soumet une action de sang pour validation."""
-    submission_id = str(uuid.uuid4())
+    submission_id = submission_id or str(uuid.uuid4())
 
     async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
         # Vérifier s'il existe déjà une action en attente pour cet action_id
         cursor = await db.execute(
             """
@@ -991,17 +929,21 @@ async def validate_blood_action(
         points = points_awarded if points_awarded is not None else action_dict["points"]
 
         # Ajouter les points de saturation
-        mutation_info = await add_saturation_points(user_id, guild_id, points)
+        mutation_info = await sheets_request("award_action", userId=str(user_id), submissionId=submission_id,
+            points=points, actionId=action_id, actionName=action_dict["action_name"], isUnique=category == "unique")
 
         # Marquer l'action comme validée
-        await db.execute(
+        changed = await db.execute(
             """
             UPDATE pending_blood_actions
             SET status = 'validated', validated_by = ?, validated_at = CURRENT_TIMESTAMP
-            WHERE submission_id = ?
+            WHERE submission_id = ? AND status = 'pending'
             """,
             (validator_id, submission_id),
         )
+
+        if changed.rowcount != 1:
+            return {"success": False, "reason": "Action déjà traitée"}
 
         # Pour les actions uniques, les ajouter à la liste des actions complétées
         if category == "unique":
@@ -1058,7 +1000,32 @@ async def refuse_blood_action(submission_id: str, validator_id: int, reason: Opt
             "SELECT * FROM pending_blood_actions WHERE submission_id = ?",
             (submission_id,),
         )
-        # ... implementation continues ...
+        action = await cursor.fetchone()
+
+        if not action or action["status"] != "pending":
+            return None
+
+        action_dict = dict(action)
+
+        await sheets_request("refuse_action", userId=str(action_dict["user_id"]), actionId=action_dict["action_id"], submissionId=submission_id)
+        changed = await db.execute(
+            """
+            UPDATE pending_blood_actions
+            SET status = 'refused', validated_by = ?, validated_at = CURRENT_TIMESTAMP
+            WHERE submission_id = ? AND status = 'pending'
+            """,
+            (validator_id, submission_id),
+        )
+        await db.commit()
+        if changed.rowcount != 1:
+            return None
+
+        return {
+            "user_id": action_dict["user_id"],
+            "guild_id": action_dict["guild_id"],
+            "action_name": action_dict["action_name"],
+        }
+
 
 # ============================================
 # Fonctions pour les rituels
@@ -1110,28 +1077,6 @@ async def get_player_rituals(user_id: int, guild_id: int) -> list[str]:
         rows = await cursor.fetchall()
         return [row[0] for row in rows]
 
-        action = await cursor.fetchone()
-
-        if not action or action["status"] != "pending":
-            return None
-
-        action_dict = dict(action)
-
-        await db.execute(
-            """
-            UPDATE pending_blood_actions
-            SET status = 'refused', validated_by = ?, validated_at = CURRENT_TIMESTAMP, description = ?
-            WHERE submission_id = ?
-            """,
-            (validator_id, reason, submission_id),
-        )
-        await db.commit()
-
-        return {
-            "user_id": action_dict["user_id"],
-            "guild_id": action_dict["guild_id"],
-            "action_name": action_dict["action_name"],
-        }
 
 
 async def is_action_completed(user_id: int, guild_id: int, action_id: str) -> bool:
@@ -1532,23 +1477,21 @@ async def set_soif(user_id: int, guild_id: int, soif_level: int):
 
 
 async def modify_vitae(user_id: int, guild_id: int, amount: int):
-    """
-    Modifie la quantité de Vitae d'un vampire.
-    amount: positif pour ajouter (se nourrir), négatif pour dépenser.
-    Retourne la nouvelle valeur.
-    Si la valeur tombe à 0 ou moins, retourne 0 (et potentiellement signale une frénésie via l'interface).
-    """
-    current_vitae = await get_vampire_soif(user_id, guild_id) # On garde le nom de fonction sous-jacent pour l'instant
-    blood_potency = await get_blood_potency(user_id, guild_id)
-    max_vitae = get_max_vitae(blood_potency)
-    
-    new_vitae = current_vitae + amount
-    
-    # Bornes : 0 à Max
-    new_vitae = max(0, min(new_vitae, max_vitae))
-    
-    await set_vampire_soif(user_id, guild_id, new_vitae)
-    return new_vitae
+    """Read and spend in one transaction; an unaffordable action spends nothing."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
+        cursor = await db.execute("SELECT soif_level, blood_potency FROM vampire_soif WHERE user_id=? AND guild_id=?", (user_id, guild_id))
+        row = await cursor.fetchone()
+        current, bp = (row[0], row[1]) if row else (0, 1)
+        if current + amount < 0:
+            raise ValueError("Réserve de Vitae insuffisante. Aucune dépense effectuée.")
+        value = min(current + amount, get_max_vitae(bp))
+        await db.execute("""INSERT INTO vampire_soif (user_id, guild_id, soif_level, blood_potency, saturation_points, last_updated)
+            VALUES (?, ?, ?, ?, 0, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, guild_id) DO UPDATE SET soif_level=excluded.soif_level, last_updated=CURRENT_TIMESTAMP""", (user_id, guild_id, value, bp))
+        await db.commit()
+        return value
+
 
 # Alias pour la compatibilité (mais déprécié logiquement)
 async def increment_soif(user_id: int, guild_id: int, amount: int = 1):
@@ -1783,10 +1726,11 @@ async def create_pending_action(
     category: str,
     points: int,
     description: Optional[str] = None,
+    submission_id: Optional[str] = None,
 ) -> str:
     """Alias de submit_blood_action pour compatibilité."""
     return await submit_blood_action(
-        user_id, guild_id, action_id, action_name, category, points, description
+        user_id, guild_id, action_id, action_name, category, points, description, submission_id
     )
 
 

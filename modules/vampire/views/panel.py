@@ -179,9 +179,11 @@ class VitaeSpendModal(ui.Modal, title="Dépenser de la Vitae"):
 
         # Dépenser la vitae (via un nombre négatif)
         # modify_vitae retourne la nouvelle valeur
-        new_vitae = await modify_vitae(
-            interaction.user.id, interaction.guild.id, -value
-        )
+        try:
+            new_vitae = await modify_vitae(interaction.user.id, interaction.guild.id, -value)
+        except ValueError as exc:
+            await interaction.response.send_message(str(exc), ephemeral=True)
+            return
         
         self.panel_view.soif_level = new_vitae
         

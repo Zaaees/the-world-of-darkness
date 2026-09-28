@@ -1,3 +1,4 @@
+import json
 
 import logging
 import discord
@@ -5,7 +6,6 @@ import aiohttp
 from typing import Optional, List, Union
 import io
 
-from data.config import GOOGLE_SHEETS_API_URL
 
 logger = logging.getLogger(__name__)
 
@@ -296,26 +296,21 @@ def format_sheet_content(data: dict, author_name: str) -> List[str]:
     lines.append("**__Histoire__**")
     lines.append(format_paragraph(data.get('history', '-')))
 
+    answers = data.get('starter_pack_answers') or {}
+    if isinstance(answers, str):
+        try:
+            answers = json.loads(answers)
+        except (ValueError, TypeError):
+            answers = {}
+    if isinstance(answers, dict):
+        for key, title in [('desire', 'Désir immédiat'), ('attachment', 'Attache'), ('debt', 'Dette'), ('limit', 'Limite du personnage')]:
+            value = (answers.get('hooks') or {}).get(key)
+            if value:
+                lines.extend(['', f'**__{title}__**', format_paragraph(value)])
     full_text = "\n".join(lines)
     
-    # Découpage intelligent
-    parts = []
-    current_part = ""
-    
-    for line in full_text.split('\n'):
-        if len(current_part) + len(line) + 1 > 1900: # Marge de sécurité
-            parts.append(current_part)
-            current_part = line
-        else:
-            if current_part:
-                current_part += "\n" + line
-            else:
-                current_part = line
-                
-    if current_part:
-        parts.append(current_part)
-        
-    return parts
+    # Discord limite chaque message; couper aussi les paragraphes sans retour ligne.
+    return [full_text[i:i + 1900] for i in range(0, len(full_text), 1900)]
 
 
 async def create_new_thread(channel: discord.ForumChannel, title: str, tags: List[discord.ForumTag], image_url: Optional[str], content_parts: List[str]):
@@ -621,21 +616,10 @@ async def delete_google_sheet_character(user_id: int) -> bool:
     Retourne True si succès.
     """
     try:
-        url = f"{GOOGLE_SHEETS_API_URL}?action=delete&userId={user_id}"
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    if data.get("success") and data.get("deleted"):
-                        logger.info(f"Personnage supprimé du Google Sheet pour {user_id}")
-                        return True
-                    elif data.get("error") == "Personnage non trouvé":
-                         logger.info(f"Aucun personnage trouvé dans Google Sheet pour {user_id} (déjà supprimé ?)")
-                         return True
-                    else:
-                        logger.warning(f"Échec suppression Google Sheet pour {user_id}: {data.get('error', 'Inconnu')}")
-                else:
-                    logger.error(f"Erreur HTTP {response.status} lors de la suppression Google Sheet pour {user_id}")
+        from utils.sheets_client import sheets_request
+        await sheets_request("delete", userId=str(user_id))
+        return True
+
     except Exception as e:
         logger.error(f"Erreur exception suppression Google Sheet pour {user_id}: {e}")
     

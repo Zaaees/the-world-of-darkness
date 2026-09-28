@@ -9,6 +9,7 @@ import os
 import traceback
 from typing import Optional
 
+from utils.api_auth import identity_middleware
 from aiohttp import web
 from aiohttp.web import middleware
 from dotenv import load_dotenv
@@ -70,6 +71,7 @@ logger = logging.getLogger(__name__)
 # Configuration CORS
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://127.0.0.1:5173",
     "https://zaaees.github.io",
 ]
 
@@ -122,19 +124,10 @@ async def verify_vampire_auth(request) -> Optional[tuple]:
     Vérifie l'authentification du vampire via l'ID Discord.
     Retourne (user_id, guild_id) ou None si non authentifié.
     """
-    # Récupérer l'ID utilisateur depuis les headers
-    user_id = request.headers.get("X-Discord-User-ID")
-    guild_id = request.headers.get("X-Discord-Guild-ID")
+    user_id = request.get("verified_user_id")
+    guild_id = request.get("verified_guild_id")
+    return (user_id, guild_id) if user_id and guild_id else None
 
-    if not user_id or not guild_id:
-        return None
-
-    try:
-        user_id = int(user_id)
-        guild_id = int(guild_id)
-        return (user_id, guild_id)
-    except ValueError:
-        return None
 
 
 async def verify_gm_auth(request) -> Optional[tuple]:
@@ -338,7 +331,7 @@ async def delete_ghoul_handler(request):
 
 async def get_user_guild_handler(request):
     """GET /api/guild - Détecter automatiquement le serveur de l'utilisateur."""
-    user_id = request.headers.get("X-Discord-User-ID")
+    user_id = request.get("verified_user_id")
 
     if not user_id:
         return web.json_response(
@@ -542,14 +535,20 @@ async def save_character_sheet_handler(request):
             )
             
         # Ajouter le clan aux données pour le gestionnaire Discord
+        if not isinstance(data, dict):
+            return web.json_response({"success": False, "error": "Fiche invalide."}, status=400)
         data["clan"] = player["clan"]
 
-        # Récupérer le forum_post_id existant si non fourni pour éviter les doublons
-        if not data.get("forum_post_id"):
-            existing_sheet = await get_character_sheet(user_id, guild_id)
-            if existing_sheet and existing_sheet.get("forum_post_id"):
-                data["forum_post_id"] = existing_sheet["forum_post_id"]
-        
+        if not isinstance(data, dict) or not isinstance(data.get("name"), str) or not 1 <= len(data["name"].strip()) <= 100:
+            return web.json_response({"success": False, "error": "Nom requis (100 caractères maximum)."}, status=400)
+        for key in ('age', 'sex', 'physical_desc', 'mental_desc_pre', 'mental_desc_post', 'history', 'image_url'):
+            if key in data and (not isinstance(data[key], str) or len(data[key]) > 12000):
+                return web.json_response({"success": False, "error": "Texte invalide ou trop long."}, status=400)
+        existing_sheet = await get_character_sheet(user_id, guild_id)
+        data.pop("forum_post_id", None)
+        if existing_sheet and existing_sheet.get("forum_post_id"):
+            data["forum_post_id"] = existing_sheet["forum_post_id"]
+
         # 1. Sauvegarder en DB
         # D'abord récupérer l'ancienne version pour le diff
         old_sheet = await get_character_sheet(user_id, guild_id)
@@ -558,9 +557,14 @@ async def save_character_sheet_handler(request):
         
         # 1.5 Sync le nom avec Google Sheets (Game Data)
         character_name = data.get("name", "").strip()
+        name_synced = True
+        published = False
         if character_name:
-            # Sync nom dans Google Sheets
-            await set_player(user_id, guild_id, name=character_name)
+            try:
+                await set_player(user_id, guild_id, name=character_name)
+            except Exception:
+                name_synced = False
+                logger.exception("Fiche enregistrée; synchronisation du nom à reprendre")
 
         # 2. Mettre à jour Discord (Forum + Nickname)
         bot = request.app.get("bot")
@@ -570,7 +574,12 @@ async def save_character_sheet_handler(request):
             diff_text = calculate_diff(old_sheet or {}, data)
             
             # Mise à jour du Post Forum
-            forum_post_id = await process_discord_sheet_update(bot, user_id, guild_id, data, diff_text=diff_text)
+            try:
+                forum_post_id = await process_discord_sheet_update(bot, user_id, guild_id, data, diff_text=diff_text)
+            except Exception:
+                logger.exception("Fiche enregistrée; publication à reprendre")
+                forum_post_id = None
+            published = bool(forum_post_id)
             
             # Si un post a été créé/récupéré, mettre à jour l'ID en DB
             if forum_post_id:
@@ -607,7 +616,7 @@ async def save_character_sheet_handler(request):
                 except Exception as e:
                     logger.error(f"Erreur tentative update nickname: {e}")
                 
-        return web.json_response({"success": True})
+        return web.json_response({"success": True, "saved": True, "published": published, "name_synced": name_synced})
 
     except json.JSONDecodeError:
         return web.json_response(
@@ -764,7 +773,7 @@ async def set_vampire_clan_handler(request):
 
         # Vérifier que le joueur n'a pas déjà un clan
         player = await get_player(user_id, guild_id)
-        if player and player.get("clan"):
+        if player and player.get("clan") and player["clan"] != clan:
             return web.json_response(
                 {"success": False, "error": "Vous avez déjà un clan défini"},
                 status=400
@@ -777,7 +786,9 @@ async def set_vampire_clan_handler(request):
         starter_pack_answers = data.get("starter_pack_answers")
         if starter_pack_answers:
             from utils.database import save_character_sheet
-            await save_character_sheet(user_id, guild_id, {"starter_pack_answers": starter_pack_answers})
+            existing = await get_character_sheet(user_id, guild_id) or {}
+            if not existing.get("starter_pack_answers"):
+                await save_character_sheet(user_id, guild_id, {**existing, "starter_pack_answers": starter_pack_answers})
 
         return web.json_response({
             "success": True,
@@ -885,7 +896,7 @@ async def get_npc_handler(request):
 
     try:
         npc = await get_npc(npc_id)
-        if not npc:
+        if not npc or int(npc["guild_id"]) != auth[1]:
              return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
         return web.json_response({"success": True, "npc": npc})
     except Exception as e:
@@ -905,7 +916,7 @@ async def delete_npc_handler(request):
     try:
         # 1. Récupérer les infos du PNJ avant suppression (pour le nom et le thread Discord)
         npc = await get_npc(npc_id)
-        if not npc:
+        if not npc or int(npc["guild_id"]) != auth[1]:
             return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
 
         npc_name = npc.get("name", "Inconnu")
@@ -975,6 +986,8 @@ async def update_npc_handler(request):
             
         # D'abord récupérer l'ancienne version pour le diff (si on a un update réussi)
         old_npc = await get_npc(npc_id)
+        if not old_npc or int(old_npc["guild_id"]) != guild_id:
+            return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
             
         result = await update_npc(npc_id, **data)
         
@@ -986,7 +999,7 @@ async def update_npc_handler(request):
         
         # On récupère le PNJ complet à jour pour la publication
         updated_npc = await get_npc(npc_id)
-        if updated_npc:
+        if updated_npc and updated_npc.get("status") == "public":
             bot = request.app.get("bot")
             if bot:
                 guild = bot.get_guild(guild_id)
@@ -1029,7 +1042,7 @@ async def publish_npc_handler(request):
             return web.json_response({"success": False, "error": "Serveur introuvable"}, status=404)
 
         npc = await get_npc(npc_id)
-        if not npc:
+        if not npc or int(npc["guild_id"]) != auth[1]:
              return web.json_response({"success": False, "error": "PNJ introuvable"}, status=404)
              
         forum_post_id = await publish_npc_to_discord(bot, guild, npc)
@@ -1059,7 +1072,7 @@ async def health_check(request):
 
 def create_app(bot=None):
     """Créer l'application aiohttp."""
-    app = web.Application(middlewares=[cors_middleware])
+    app = web.Application(middlewares=[cors_middleware, identity_middleware])
 
     # Stocker le bot pour y accéder dans les handlers
     if bot:
@@ -1084,6 +1097,9 @@ def create_app(bot=None):
     app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
     app.router.add_get("/api/rituals", get_player_rituals_handler)
     
+    from modules.vampire.api import register_routes
+    register_routes(app)
+
     # Routes GM / NPC
     app.router.add_get("/api/gm/npcs", get_npcs_handler)
     app.router.add_post("/api/gm/npcs", create_npc_handler)

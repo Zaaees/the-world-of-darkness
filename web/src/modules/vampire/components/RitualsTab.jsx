@@ -1,6 +1,7 @@
+import { apiFetch } from '../../../core/api';
 import React, { useState, useEffect } from 'react';
 import { Book, Scroll, Filter } from 'lucide-react';
-import { getRitualById, getAllRituals } from '../../../data/rituals';
+import { getAllRituals } from '../../../data/rituals';
 import { getAvailableDisciplines } from '../../../data/disciplines';
 import { useGrimoireStore } from '../features/rituals/stores/useGrimoireStore';
 import RitualCatalog from '../features/rituals/components/RitualCatalog';
@@ -13,7 +14,7 @@ import FilterContent from '../features/rituals/components/FilterContent'; // Use
 
 import { API_URL } from '../../../config';
 
-export default function RitualsTab({ userId, guildId, clan, isCainMode, character }) {
+export default function RitualsTab({ userId, guildId, isCainMode, character }) {
     // We use the store for rituals state
     const updateCharacterRituals = useGrimoireStore(state => state.updateCharacterRituals);
     const selectedRitual = useGrimoireStore(state => state.selectedRitual);
@@ -101,7 +102,7 @@ export default function RitualsTab({ userId, guildId, clan, isCainMode, characte
 
                 // 3. Player Logic (Fetch from API)
                 try {
-                    const response = await fetch(`${API_URL}/api/rituals`, {
+                    const response = await apiFetch(`${API_URL}/api/rituals`, {
                         headers: {
                             'X-Discord-User-ID': userId,
                             'X-Discord-Guild-ID': guildId,

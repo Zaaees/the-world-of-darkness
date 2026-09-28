@@ -8,7 +8,7 @@ Gère:
 """
 
 import logging
-import aiohttp
+from utils.sheets_client import sheets_request
 
 import discord
 from discord.ext import commands, tasks
@@ -18,7 +18,7 @@ from utils.database import (
     init_blood_actions_tables,
     create_pending_action,
     has_pending_action,
-    GOOGLE_SHEETS_API,
+    get_pending_action,
     get_from_google_sheets,
 )
 from views.blood_action_validation import (
@@ -50,15 +50,9 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
     async def check_pending_actions(self):
         """Vérifie les nouvelles actions en attente depuis Google Sheets (toutes les 15s)."""
         try:
-            url = f"{GOOGLE_SHEETS_API}?action=get_pending_actions"
-
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        if data.get("success") and data.get("pendingActions"):
-                            for action in data["pendingActions"]:
-                                await self._process_pending_action_from_sheets(action)
+            data = await sheets_request("get_pending_actions")
+            for action in data.get("pendingActions", []):
+                await self._process_pending_action_from_sheets(action)
         except Exception as e:
             logger.debug(f"Erreur check pending actions: {e}")
 
@@ -72,18 +66,19 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
         try:
             user_id = int(action_data.get("userId", 0))
             action_id = action_data.get("actionId", "")
-            row_id = action_data.get("rowId", 0)
+            row_id = str(action_data.get("rowId", ""))
 
             if not user_id or not action_id:
                 return
 
-            # Trouver le guild (on prend le premier guild où le bot est présent)
-            guild = None
-            for g in self.bot.guilds:
-                if g.get_member(user_id):
-                    guild = g
-                    break
-
+            # New requests explicitly bind the scene to one Discord server.
+            guild_id = action_data.get("guildId")
+            guild = self.bot.get_guild(int(guild_id)) if guild_id else next(
+                (g for g in self.bot.guilds if g.get_member(user_id)), None)
+            existing = await get_pending_action(f"sheets:{row_id}")
+            if existing and (existing.get("message_id") or existing["status"] != "pending"):
+                await sheets_request("mark_action_processed", rowId=row_id)
+                return
             if not guild:
                 logger.warning(f"Aucun guild trouvé pour l'utilisateur {user_id}")
                 return
@@ -110,10 +105,8 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
             # Freeze server-calculated points when the request is registered.
             points = get_action_points(action_info, potency)
 
-            # Vérifier si l'action est déjà en attente localement
-            if await has_pending_action(user_id, guild.id, action_id):
-                return
-
+            context = "\n".join(str(action_data.get(field, '')) for field in
+                ('sceneLink', 'obstacle', 'outcome', 'participants'))
             # Créer l'action en attente localement
             action_db_id = await create_pending_action(
                 user_id=user_id,
@@ -122,26 +115,31 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
                 action_name=action_info["name"],
                 points=points,
                 category=action_info.get("category", "unknown"),
+                description=context, submission_id=f"sheets:{row_id}",
             )
 
+            registered = await get_pending_action(action_db_id)
+            if registered and registered.get('message_id'):
+                await sheets_request("mark_action_processed", rowId=row_id)
+                return
             # Envoyer la demande de validation sur Discord
-            await send_validation_request(
+            delivered = await send_validation_request(
                 bot=self.bot,
                 guild_id=guild.id,
                 user_id=user_id,
                 action_db_id=action_db_id,
                 action_id=action_id,
                 action_name=action_info["name"],
-                action_description=(action_info.get("description", "") + "\n\n"
-                                    + "\n".join(action_info.get("hints", [])))[:900],
+                action_description=action_info.get("description", ""),
+                scene_context=action_data,
                 points=points,
                 category=action_info.get("category", "unknown"),
             )
 
             # Marquer l'action comme traitée dans Google Sheets
-            mark_url = f"{GOOGLE_SHEETS_API}?action=mark_action_processed&rowId={row_id}"
-            async with aiohttp.ClientSession() as session:
-                await session.get(mark_url, timeout=aiohttp.ClientTimeout(total=5))
+            if not delivered:
+                return  # Keep the queue item for the next poll.
+            await sheets_request("mark_action_processed", rowId=row_id)
 
             logger.info(f"Action {action_id} de {user_id} envoyée pour validation")
 

@@ -1,0 +1,31 @@
+name: Vampire readiness checks
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+permissions:
+  contents: read
+jobs:
+  regressions:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt pytest pytest-asyncio
+      - run: python -m pytest tests/test_blood_catalog.py tests/test_vampire_readiness.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: node --test tests/apps_script.test.cjs
+      - run: npm ci
+        working-directory: web
+      - run: npm run test:vampire
+        working-directory: web
+      - run: npm run lint:vampire
+        working-directory: web
+      - run: npm run build
+        working-directory: web

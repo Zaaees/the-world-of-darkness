@@ -1,61 +1,9 @@
 import React, { useState } from 'react';
 import { Users, Plus, Trash2, Edit2, Save, X, Droplet, Shield, AlertCircle } from 'lucide-react';
 
-// Limites de goules par Puissance du Sang
-const GHOUL_LIMITS = {
-  1: 2,
-  2: 3,
-  3: 5,
-  4: 10,
-  5: 20,
-};
-
-// Disciplines par clan
-const CLAN_DISCIPLINES = {
-  brujah: ['Célérité', 'Puissance', 'Présence'],
-  gangrel: ['Animalisme', 'Force d\'Âme', 'Protéisme'],
-  malkavian: ['Auspex', 'Aliénation', 'Occultation'],
-  nosferatu: ['Animalisme', 'Occultation', 'Puissance'],
-  toreador: ['Auspex', 'Célérité', 'Présence'],
-  tremere: ['Auspex', 'Domination', 'Thaumaturgie'],
-  ventrue: ['Domination', 'Force d\'Âme', 'Présence'],
-  lasombra: ['Domination', 'Obténébration', 'Puissance'],
-  tzimisce: ['Animalisme', 'Auspex', 'Vicissitude'],
-  giovanni: ['Auspex', 'Force d\'Âme', 'Nécromancie'],
-  setites: ['Occultation', 'Présence', 'Serpentis'],
-  assamites: ['Célérité', 'Occultation', 'Quietus'],
-  ravnos: ['Animalisme', 'Chimérie', 'Force d\'Âme'],
-  gargoyles: ['Vol', 'Force d\'Âme', 'Puissance', 'Visceratika'],
-  samedi: ['Force d\'Âme', 'Occultation', 'Thanatosis'],
-  daughters_of_cacophony: ['Force d\'Âme', 'Melpominée', 'Présence'],
-  baali: ['Daimoinon', 'Occultation', 'Présence']
-};
-
-// Pouvoirs de niveau 1 pour chaque discipline
-const DISCIPLINE_POWERS = {
-  'Animalisme': 'Murmures Fauves',
-  'Auspex': 'Sens Accrus',
-  'Célérité': 'Grâce Féline',
-  'Domination': 'Commandement',
-  'Force d\'Âme': 'Résilience',
-  'Occultation': 'Cape d\'Ombre',
-  'Puissance': 'Vigueur',
-  'Présence': 'Crainte Révérencielle',
-  'Protéisme': 'Yeux de la Bête',
-  'Obténébration': 'Jeu d\'Ombres',
-  'Thaumaturgie': 'Goût du Sang',
-  'Vicissitude': 'Modelage Mineur',
-  'Nécromancie': 'Insight',
-  'Quietus': 'Silence de la Mort',
-  'Serpentis': 'Regard Hypnotique',
-  'Aliénation': 'Passion',
-  'Chimérie': 'Ignis Fatuus',
-  'Vol': 'Lévitation',
-  'Visceratika': 'Peau de Marbre',
-  'Thanatosis': 'Masque Cadavérique',
-  'Melpominée': 'Voix Enchanteresse',
-  'Daimoinon': 'Flammes de l\'Enfer',
-};
+import ghoulCatalog from '../../../../../data/ghoul_disciplines.json';
+const GHOUL_LIMITS = ghoulCatalog.limits;
+const CLAN_DISCIPLINES = { ...ghoulCatalog.clans, setites: ghoulCatalog.clans.setite, assamites: ghoulCatalog.clans.banu_haqim };
 
 export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
   const [editingGhoul, setEditingGhoul] = useState(null);
@@ -80,7 +28,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
   // 2. OU peut créer des goules de l'esprit
   const canCreate = bloodGhoulsCount < maxGhouls || canCreateMindGhouls;
 
-  const createGhoul = () => {
+  const createGhoul = async () => {
     if (!newGhoul.name.trim()) {
       setError('Le nom de la goule est requis');
       return;
@@ -102,33 +50,28 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
       type: newGhoul.type || 'blood'
     };
 
-    // Seulement les goules de sang reçoivent une discipline
-    if (newGhoul.type === 'blood') {
-      const randomDiscipline = clanDisciplines[Math.floor(Math.random() * clanDisciplines.length)];
-      const disciplinePower = DISCIPLINE_POWERS[randomDiscipline] || 'Pouvoir Inconnu';
-      ghoulData.discipline_name = randomDiscipline;
-      ghoulData.discipline_power = disciplinePower;
-    }
-
-    onUpdateGhouls([...ghouls, ghoulData]);
+    try { await onUpdateGhouls([...ghouls, ghoulData]); }
+    catch (err) { setError(err.message || 'Sauvegarde impossible. Réessayez.'); return; }
     setCreatingGhoul(false);
     setNewGhoul({ name: '', description: '', role: '', type: 'blood' });
     setError(null);
   };
 
-  const updateGhoul = (updatedGhoul) => {
+  const updateGhoul = async (updatedGhoul) => {
     const updated = ghouls.map(g => g.id === updatedGhoul.id ? updatedGhoul : g);
-    onUpdateGhouls(updated);
+    try { await onUpdateGhouls(updated); }
+    catch (err) { setError(err.message || 'Sauvegarde impossible. Réessayez.'); return; }
     setEditingGhoul(null);
     setError(null);
   };
 
-  const deleteGhoul = (ghoulId) => {
+  const deleteGhoul = async (ghoulId) => {
     if (!confirm('Êtes-vous sûr de vouloir libérer cette goule ?')) {
       return;
     }
     const updated = ghouls.filter(g => g.id !== ghoulId);
-    onUpdateGhouls(updated);
+    try { await onUpdateGhouls(updated); }
+    catch (err) { setError(err.message || 'Sauvegarde impossible. Réessayez.'); return; }
     setError(null);
   };
 
@@ -220,7 +163,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
                 />
                 <div>
                   <span className="block text-stone-200 font-medium">Goule de l'Esprit</span>
-                  <span className="text-xs text-stone-500">Conditionnée mentalement, sans discipline. Illimitée.</span>
+                  <span className="text-xs text-stone-500">Conditionnée mentalement, sans discipline. Sans limite de sang.</span>
                 </div>
               </label>
             </div>
@@ -323,7 +266,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
           <li>Limite par Puissance du Sang ({bloodPotency}): {maxGhouls} goules de sang max</li>
           <li>Les Goules de Sang reçoivent une discipline de ton clan</li>
           {canCreateMindGhouls && (
-            <li className="text-purple-400">Tes pouvoirs de Domination te permettent de créer des Goules de l'Esprit illimitées (sans disciplines)</li>
+            <li className="text-purple-400">Tes pouvoirs de Domination te permettent de créer des Goules de l'Esprit sans discipline (registre limité à 100 entrées)</li>
           )}
         </ul>
       </div>

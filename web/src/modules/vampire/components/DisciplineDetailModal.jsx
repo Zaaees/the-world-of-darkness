@@ -115,7 +115,7 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         <div className="bg-stone-950/50 border-b border-stone-800 px-8 py-4 flex items-center gap-4 shrink-0 overflow-x-auto">
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/20 border border-red-900/20 text-red-200 text-xs font-medium tracking-wide whitespace-nowrap">
                                 <Droplet size={12} className="text-red-500 fill-red-500/20" />
-                                <span>Coût: {power.bloodCost > 0 ? `${power.bloodCost} PS` : 'Gratuit'}</span>
+                                <span>Coût: {power.bloodCost > 0 ? `${power.bloodCost} Vitae` : 'Gratuit'}</span>
                             </div>
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium tracking-wide whitespace-nowrap">
                                 <Clock size={12} className="text-stone-500" />
@@ -132,6 +132,7 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                             </div>
                         </div>
 
+                        <p className="px-6 pb-4 text-sm text-stone-400">Décrivez une intention et laissez la cible répondre. Les effets restent soumis à la résistance mentale, aux limites du pouvoir et aux accords de la scène. « Scène » dure jusqu'à la conclusion convenue de l'enjeu ; une pause ne réinitialise pas l'effet.</p>
                         {/* Footer (Optional) */}
                         <div className="p-4 border-t border-stone-800 bg-stone-950/30 shrink-0 flex justify-end">
                             <button

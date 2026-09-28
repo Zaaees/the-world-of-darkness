@@ -1,3 +1,4 @@
+import { apiFetch } from '../../../../core/api';
 import React, { useState, useEffect } from 'react';
 import { useUserRoles } from '../../../../core/hooks/useUserRoles';
 import { Shield, ChevronDown, User, Monitor, Gift, Loader, Save } from 'lucide-react';
@@ -20,7 +21,7 @@ export default function AdminGiftsPage() {
         const fetchPlayers = async () => {
             if (!isAuthenticated || !discordUser?.id || !guildId) return;
             try {
-                const response = await fetch(`${API_URL}/api/modules/werewolf/admin/players`, {
+                const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/players`, {
                     headers: {
                         'X-Discord-User-ID': discordUser.id,
                         'X-Discord-Guild-ID': guildId
@@ -57,7 +58,7 @@ export default function AdminGiftsPage() {
         const fetchGifts = async () => {
             setLoadingGifts(true);
             try {
-                const response = await fetch(`${API_URL}/api/modules/werewolf/admin/players/${selectedPlayer}/gifts`, {
+                const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/players/${selectedPlayer}/gifts`, {
                     headers: {
                         'X-Discord-User-ID': discordUser.id,
                         'X-Discord-Guild-ID': guildId
@@ -85,7 +86,7 @@ export default function AdminGiftsPage() {
         ));
 
         try {
-            const response = await fetch(`${API_URL}/api/modules/werewolf/gifts/unlock`, {
+            const response = await apiFetch(`${API_URL}/api/modules/werewolf/gifts/unlock`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -81,8 +81,9 @@ describe('useUserRoles', () => {
     describe('Hash Token Extraction', () => {
         it('Case 1: Extracts valid token from hash, sets expiry, and cleans URL', async () => {
             // Setup valid hash (Opaque Discord Token)
+            sessionStorage.setItem('discord_oauth_state', JSON.stringify({state:'test-state', createdAt:Date.now()}));
             const validOpaqueToken = 'vKPA354q54.sdg54.SafeOpaqueTokenString';
-            mockLocation.hash = `#access_token=${validOpaqueToken}&expires_in=3600&token_type=Bearer`;
+            mockLocation.hash = `#access_token=${validOpaqueToken}&state=test-state&expires_in=3600&token_type=Bearer`;
 
             mockSuccessFetch();
 
@@ -135,8 +136,9 @@ describe('useUserRoles', () => {
         });
 
         it('Case 4: Preserves deep links when cleaning hash', async () => {
+            sessionStorage.setItem('discord_oauth_state', JSON.stringify({state:'test-state', createdAt:Date.now()}));
             const validOpaqueToken = 'vKPA354q54.sdg54.SafeOpaqueTokenString';
-            mockLocation.hash = `#access_token=${validOpaqueToken}&expires_in=3600&foo=bar`;
+            mockLocation.hash = `#access_token=${validOpaqueToken}&state=test-state&expires_in=3600&foo=bar`;
 
             mockSuccessFetch();
 

@@ -20,8 +20,9 @@ export default function NoRolePage() {
                 <div className="no-role-symbol">⛧</div>
                 <h1 className="no-role-title">Les ténèbres te sont fermées</h1>
                 <p className="no-role-subtitle">
-                    Ce lieu n'est pas accessible aux mortels ordinaires.
+                    Votre compte Discord ne possède pas encore de rôle de jeu sur ce serveur. Demandez le rôle Vampire à l’équipe d’accueil ou à un MJ, puis réessayez.
                 </p>
+                <button onClick={() => window.location.reload()} className="no-role-logout">Vérifier mes rôles à nouveau</button>
                 <div className="no-role-divider">
                     <span>✦</span>
                 </div>

@@ -22,6 +22,7 @@ export const extractAuthData = (hashString) => {
 
   return {
     token,
+    state: params.get('state'),
     expiresIn: expiresIn ? parseInt(expiresIn, 10) : null
   };
 };
@@ -97,3 +98,18 @@ export const safeStorage = {
     }
   }
 };
+
+// A one-use nonce binds the redirect to a login started in this browser tab.
+export function beginOAuthState() {
+  const state = crypto.randomUUID();
+  sessionStorage.setItem('discord_oauth_state', JSON.stringify({state, createdAt: Date.now()}));
+  return state;
+}
+
+export function consumeOAuthState(state) {
+  try {
+    const pending = JSON.parse(sessionStorage.getItem('discord_oauth_state'));
+    sessionStorage.removeItem('discord_oauth_state');
+    return Boolean(state && pending?.state === state && Date.now() - pending.createdAt < 600000);
+  } catch { return false; }
+}
