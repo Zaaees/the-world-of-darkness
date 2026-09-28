@@ -21,7 +21,6 @@ export default function RulesTab({ setActiveTab }) {
             {/* NAVIGATION RAPIDE */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                    { id: 'playing', icon: Users, label: 'Commencer une scène' },
                     { id: 'tools', icon: ScrollText, label: 'I. Outils Narratifs' },
                     { id: 'territory', icon: Shield, label: 'II. Territoire' },
                     { id: 'thirst', icon: Droplet, label: 'III. Gestion de la Soif' },
@@ -42,22 +41,6 @@ export default function RulesTab({ setActiveTab }) {
 
             {/* CONTENU */}
             <div className="space-y-16 text-stone-300">
-
-                <section id="playing" className="space-y-4 rounded border border-stone-700 p-5">
-                    <h2 className="text-2xl font-serif text-red-400">Commencer et terminer une scène</h2>
-                    <p>Le RP se joue dans les salons Discord. Ce site prépare vos personnages et conserve leurs acquis. Une scène est une unité de lieu, de temps et d'enjeu ; les participants annoncent sa fin ensemble. Une pause ou un changement d'onglet ne la termine pas.</p>
-                    <ol className="list-decimal pl-5 space-y-2">
-                        <li>Convenez du lieu, des participants, de l'enjeu et des sujets à éviter ou à laisser hors champ. Une limite personnelle peut changer à tout moment.</li>
-                        <li>Décrivez votre intention, votre moyen et le risque. Laissez l'autre joueur répondre : ne décrivez pas à sa place ce qu'il ressent ou décide.</li>
-                        <li>Sans opposition, convenez d'une issue cohérente. En conflit, confrontez les pouvoirs et leurs limites. En cas de désaccord, suspendez la conséquence et demandez un arbitrage MJ.</li>
-                        <li>Concluez par ce qui a changé : information, relation, dette, blessure ou menace. Une défaite peut ouvrir une nouvelle piste ; elle ne doit pas bloquer tout jeu.</li>
-                    </ol>
-                    <p><strong>Conflit entre personnages :</strong> domination, blessure durable, perte majeure et mort d'un PJ nécessitent un accord hors personnage sur les enjeux, ou un arbitrage MJ convenu. Un pouvoir ne dispense jamais de respecter les limites des joueurs. Le consentement du joueur est distinct de celui du personnage.</p>
-                    <p><strong>Pause :</strong> chacun peut demander « pause » sans se justifier. Arrêtez la description, ajustez ou passez la scène hors champ, puis reprenez uniquement avec l'accord des participants.</p>
-                    <p><strong>Territoires et goules :</strong> posséder un titre ou une entrée de registre ne donne pas automatiquement le contrôle d'un lieu ou d'un PJ. Précisez en RP les personnes impliquées, les moyens, les obligations et les résistances ; les changements durables sont arbitrés avec le MJ.</p>
-                    <p><strong>Exemple :</strong> une chasse dans un domaine interdit met en jeu votre faim, un témoin et une dette envers le propriétaire. Obtenir du sang règle la faim ; négocier le silence crée une prochaine scène.</p>
-                    <p><strong>Repères :</strong> PJ = personnage joueur ; PNJ = personnage non joueur ; MJ = maître du jeu ; BP = puissance du sang ; Vitae = réserve dépensable ; saturation = progression validée. La Mascarade désigne le secret de l'existence vampirique.</p>
-                </section>
 
                 {/* I. OUTILS NARRATIFS */}
                 <section id="tools" className="space-y-6">

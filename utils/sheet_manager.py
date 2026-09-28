@@ -296,17 +296,6 @@ def format_sheet_content(data: dict, author_name: str) -> List[str]:
     lines.append("**__Histoire__**")
     lines.append(format_paragraph(data.get('history', '-')))
 
-    answers = data.get('starter_pack_answers') or {}
-    if isinstance(answers, str):
-        try:
-            answers = json.loads(answers)
-        except (ValueError, TypeError):
-            answers = {}
-    if isinstance(answers, dict):
-        for key, title in [('desire', 'Désir immédiat'), ('attachment', 'Attache'), ('debt', 'Dette'), ('limit', 'Limite du personnage')]:
-            value = (answers.get('hooks') or {}).get(key)
-            if value:
-                lines.extend(['', f'**__{title}__**', format_paragraph(value)])
     full_text = "\n".join(lines)
     
     # Discord limite chaque message; couper aussi les paragraphes sans retour ligne.

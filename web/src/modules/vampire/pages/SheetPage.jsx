@@ -1,5 +1,4 @@
 import { beginOAuthState } from '../../../core/auth/authUtils';
-import FirstNight from '../components/FirstNight';
 import SceneSubmission from '../components/SceneSubmission';
 import { apiFetch } from '../../../core/api';
 import { BLOOD_ACTIONS, SATURATION_THRESHOLDS, getClanActions } from '../../../data/bloodActions';
@@ -974,7 +973,6 @@ export default function VampireSheet() {
           <main data-active-tab={activeTab} className={`vp-content mx-auto p-6 space-y-10 ${activeTab === 'rules' || activeTab === 'rituals' ? 'max-w-[1600px]' : 'max-w-2xl'}`}>
 
             {actionToSubmit && <SceneSubmission action={actionToSubmit} onClose={() => setActionToSubmit(null)} onSubmit={context => handleSubmitAction(actionToSubmit, context)} />}
-            {!npcCharacter && activeTab === 'character' && <FirstNight setActiveTab={setActiveTab} />}
             {/* ONGLET RÈGLEMENT */}
             {activeTab === 'rules' && (
               <RulesTab setActiveTab={setActiveTab} />
@@ -1059,10 +1057,6 @@ export default function VampireSheet() {
                   </section>
                 )}
 
-                <div className="text-sm text-stone-400 leading-relaxed border border-stone-800 rounded p-4">
-                  Chaque accomplissement possède sa récompense. Plusieurs réalisations distinctes peuvent compter dans une même scène, sans plafond ni délai de récupération. Un même résultat ne se réclame qu’une fois.
-                  <p className="mt-2 text-xs">Le MJ vérifie l’obstacle rencontré et le résultat obtenu. Une action répétée demande une nouvelle difficulté réelle. Les pistes proposées vous laissent choisir votre voie.</p>
-                </div>
                 <ActionCategory category={{ id: 'clan', name: 'L’héritage de votre sang', icon: Droplet,
                   description: activeChar.bloodPotency >= 5 ? 'Votre puissance ne croît plus ; votre histoire continue.' : 'Des voies propres à votre lignée, enrichies à chaque niveau.', actions: activeChar.bloodPotency >= 5 ? clanActions.filter(action => action.minBp === 5) : clanActions }}
                   character={activeChar} completedActions={activeChar.completedActions || []} pendingActions={activeChar.pendingActions || []}

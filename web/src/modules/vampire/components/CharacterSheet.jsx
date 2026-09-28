@@ -204,11 +204,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
 
         {error && <p role="alert" className="text-red-300">{error}</p>}
         {notice && <p role="status" className="border border-stone-600 p-3 mb-4">{notice} {needsSync && <button type="button" onClick={handleSave} disabled={saving} className="underline">Réessayer la synchronisation</button>}</p>}
-        {!sheetData.history && <p className="mb-4">Fiche à compléter : ajoutez une histoire et vos liens pour préparer votre première scène.</p>}
+        {!sheetData.history && <p className="mb-4">Fiche à compléter : ajoutez une histoire.</p>}
         <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
-        <section className="space-y-3 my-4" aria-label="Liens pour le jeu">
-          {Object.entries(STORY_HOOKS).map(([key,title]) => <SectionView key={key} title={title} content={sheetData.starter_pack_answers?.hooks?.[key]} />)}
-        </section>
         {/* Image - Centrée Haut */}
         {sheetData.image_url && (
           <div className="mb-6 flex justify-center">
@@ -408,18 +405,6 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
           </div>
         </div>
 
-        <section className="space-y-4" aria-labelledby="story-hooks-title">
-          <h2 id="story-hooks-title" className="text-xl font-serif">Ce qui vous met en jeu</h2>
-          <p>Ces informations font partie de votre fiche publiée. Gardez les secrets destinés au MJ dans un échange privé.</p>
-          {Object.entries(STORY_HOOKS).map(([key,label]) => <div key={key}>
-            <label htmlFor={`hook-${key}`} className="block">{label}</label>
-            <textarea id={`hook-${key}`} value={sheetData.starter_pack_answers?.hooks?.[key] || ''} maxLength={2000} onChange={e => {
-              const next = {...sheetData, starter_pack_answers: {...sheetData.starter_pack_answers, hooks: {...sheetData.starter_pack_answers?.hooks, [key]:e.target.value}}};
-              setSheetData(next); writeDraft(draftKey,next);
-            }} className="w-full bg-stone-900 border border-stone-700 rounded p-3"/>
-          </div>)}
-          <p className="text-sm">Votre brouillon est conservé sur cet appareil jusqu’à l’enregistrement de la fiche.</p>
-        </section>
         {/* Actions */}
         <div className="flex justify-end gap-4 pt-4 border-t border-stone-800">
           {/* Si on était en mode vue avant (donc pas première création), on peut annuler */}
@@ -447,7 +432,6 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
   );
 }
 
-const STORY_HOOKS = {desire:'Ce que je veux maintenant', attachment:'Qui je refuse de perdre', limit:'Ce que je ne veux pas devenir', debt:'À qui je dois quelque chose'};
 
 function SectionView({ title, content, highlight = false, scene }) {
   return (

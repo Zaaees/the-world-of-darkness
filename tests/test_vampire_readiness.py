@@ -125,7 +125,8 @@ def test_discord_chunks_respect_limit():
     from utils.sheet_manager import format_sheet_content
     parts = format_sheet_content({'history': 'x' * 6000, 'starter_pack_answers': {'hooks': {'attachment': 'Mon frère'}}}, 'Joueur')
     assert all(0 < len(p) <= 1900 for p in parts)
-    assert 'Mon frère' in ''.join(parts)
+    assert 'Mon frère' not in ''.join(parts)
+    assert 'x' * 6000 in ''.join(parts)
 
 
 def test_backup_restores_an_isolated_copy(tmp_path):
