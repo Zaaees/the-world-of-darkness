@@ -2,11 +2,11 @@
 
 ## Utilisation
 
-Dans le tableau de bord CAIN, cliquer sur **Éditer les textes du site**. Le panneau permet de rechercher un texte par contenu ou rubrique et de le modifier. Les textes statiques surlignés dans les pages peuvent également être sélectionnés directement. Pour les libellés d’attributs (infobulles, aides de saisie) et les textes des catalogues, utiliser la recherche du panneau.
+Sur la page à modifier, cliquer sur **Éditer les textes**, en bas à droite. Ce bouton est disponible aux MJ sur toutes les pages, y compris le règlement, sans devoir ouvrir le tableau de bord CAIN. Le règlement est aussi accessible depuis le mode CAIN. Le panneau permet de rechercher un texte par contenu ou rubrique et de le modifier. Les textes statiques surlignés dans les pages peuvent également être sélectionnés directement. Pour les libellés d’attributs (infobulles, aides de saisie) et les textes des catalogues, utiliser la recherche du panneau.
 
 La saisie s’enregistre automatiquement après 600 ms de pause. L’indication **Enregistré** signifie que le serveur a confirmé l’écriture. Le changement est alors effectif ; les autres pages ouvertes se mettent à jour au plus tard à la prochaine vérification, toutes les cinq secondes lorsque la page est visible, hors latence réseau. Aucun brouillon privé, publication manuelle, historique ou restauration éditoriale.
 
-Le panneau peut être réduit pour naviguer. En cas de coupure réseau, la saisie reste dans le champ avec **Non enregistré** et un bouton de nouvelle tentative. Si un autre MJ a modifié le même texte, un message demande de recharger sa valeur ; aucune saisie concurrente n’est écrasée silencieusement. « Abandonner la saisie non enregistrée » concerne uniquement le champ en cours, pas les modifications déjà enregistrées.
+Fermer le panneau pour naviguer normalement, puis utiliser le bouton **Éditer les textes** sur la page souhaitée. Le panneau peut aussi être réduit pour dégager la vue. En cas de coupure réseau, la saisie reste dans le champ avec **Non enregistré** et un bouton de nouvelle tentative. Si un autre MJ a modifié le même texte, un message demande de recharger sa valeur ; aucune saisie concurrente n’est écrasée silencieusement. « Abandonner la saisie non enregistrée » concerne uniquement le champ en cours, pas les modifications déjà enregistrées.
 
 Les variables comme `{v0}` doivent rester dans les phrases concernées : elles représentent les nombres ou informations dynamiques affichés par le site. Les paragraphes ordinaires sont du texte simple, en conservant la structure de la page. Le lecteur de rituels conserve son rendu Markdown sécurisé. Aucun HTML exécutable n’est accepté.
 

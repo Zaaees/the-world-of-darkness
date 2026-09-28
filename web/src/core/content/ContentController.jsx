@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { API_URL } from '../../config';
 import { apiFetch } from '../api';
 import { safeStorage } from '../auth/authUtils';
-import { getContentState, updateContentState, useSiteContent, setContentIdentity } from './store';
+import { getContentState, updateContentState, useSiteContent, setContentIdentity, openContentEditor } from './store';
 
 const ContentEditor = lazy(() => import('./ContentEditor'));
 
@@ -68,7 +68,12 @@ export default function ContentController() {
     return () => document.removeEventListener('click', select, true);
   }, [editing]);
 
-  return editing && editableScopes.length > 0
+  if (!editableScopes.length) return null;
+
+  return editing
     ? <Suspense fallback={<div role="status" className="fixed bottom-4 right-4 z-[100] bg-stone-950 p-4 text-white">Ouverture de l’éditeur…</div>}><ContentEditor /></Suspense>
-    : null;
+    : <button type="button" onClick={() => openContentEditor()}
+        className="fixed bottom-4 right-4 z-[100] rounded-lg border border-amber-600 bg-stone-950 px-4 py-3 text-sm font-semibold text-amber-200 shadow-lg hover:bg-stone-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">
+        Éditer les textes
+      </button>;
 }

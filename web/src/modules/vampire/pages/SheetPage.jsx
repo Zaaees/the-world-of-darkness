@@ -798,6 +798,7 @@ export default function VampireSheet() {
 
                     const newMode = !isCainMode;
                     setIsCainMode(newMode);
+                    setActiveTab('character');
                     if (!newMode) {
                       setNpcCharacter(null);
                       loadCharacter(); // Recharger le perso joueur
@@ -825,7 +826,7 @@ export default function VampireSheet() {
       {/* CONTENU PRINCIPAL */}
 
       {/* 1. DASHBOARD MJ */}
-      {isCainMode && !npcCharacter ? (
+      {isCainMode && !npcCharacter && activeTab !== 'rules' ? (
         <GmDashboard
           discordUser={discordUser}
           guildId={guildId}

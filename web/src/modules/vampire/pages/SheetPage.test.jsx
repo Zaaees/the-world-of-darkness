@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import SheetPage from './SheetPage';
 
@@ -17,6 +17,26 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 describe('SheetPage', () => {
+    it('opens the rules from the MJ dashboard and returns to it', async () => {
+        Storage.prototype.getItem = vi.fn(key => key === 'discord_token' ? 'fake-token' : null);
+        mockFetch.mockImplementation(async url => {
+            let data = { success: true };
+            if (url.includes('discord.com/')) data = { id: '123', username: 'MJ' };
+            else if (url.endsWith('/api/guild')) data = { success: true, guild_id: '456' };
+            else if (url.endsWith('/api/vampire/profile')) data = { success: true, has_vampire_role: true, is_gm: true, clan: 'brujah' };
+            else if (url.endsWith('/api/vampire/character')) data = { success: true, character: { name: 'MJ', clan: 'brujah', race: 'vampire' } };
+            return { ok: true, json: async () => data };
+        });
+        render(<SheetPage />);
+        fireEvent.click(await screen.findByRole('button', { name: /^MJ$/ }));
+        expect(screen.getByTestId('gm-dashboard')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /Règlement/i }));
+        expect(screen.getByTestId('rules-tab')).toBeInTheDocument();
+        expect(screen.queryByTestId('gm-dashboard')).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /Règlement/i }));
+        expect(screen.getByTestId('gm-dashboard')).toBeInTheDocument();
+    });
+
     beforeEach(() => {
         vi.clearAllMocks();
         // Default fetch mocks

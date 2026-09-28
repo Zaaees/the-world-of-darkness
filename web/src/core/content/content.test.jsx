@@ -102,6 +102,27 @@ describe('content is display-only', () => {
 });
 
 describe('shared reader synchronization', () => {
+  it('opens the editor outside the MJ dashboard and restores the launcher after closing', async () => {
+    localStorage.setItem('discord_token', 'local-test-token');
+    updateContentState({ editing: false, selectedKey: null });
+    apiFetch.mockResolvedValue({ ok: true, json: async () => ({ values: {}, revision: 0, editableScopes: ['vampire'] }) });
+    render(<ContentController />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(0); });
+    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Éditer les textes' })); });
+    expect(screen.getByRole('button', { name: 'Fermer' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Fermer' }));
+    expect(screen.getByRole('button', { name: 'Éditer les textes' })).toBeInTheDocument();
+  });
+
+  it('does not offer editing to a player without editable scopes', async () => {
+    localStorage.setItem('discord_token', 'local-test-token');
+    updateContentState({ editing: false, editableScopes: [] });
+    apiFetch.mockResolvedValue({ ok: true, json: async () => ({ values: {}, revision: 0, editableScopes: [] }) });
+    render(<ContentController />);
+    await act(async () => { await vi.advanceTimersByTimeAsync(0); });
+    expect(screen.queryByRole('button', { name: 'Éditer les textes' })).not.toBeInTheDocument();
+  });
+
   it('polls by revision and keeps a saved edit when an older response arrives', async () => {
     localStorage.setItem('discord_token', 'local-test-token');
     updateContentState({ editing: false });
