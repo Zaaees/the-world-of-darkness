@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { displayText, useSiteContent } from '../../../core/content/store';
+import { useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import { getOriginQuestions } from '../../../data/originQuestions';
 
@@ -10,7 +11,7 @@ export default function StarterPackStep({ selectedClan, answers, onAnswerChange 
     <h3 className="text-xl font-serif"><SiteText contentKey="vampire.text.01478" /></h3>
     <p className="text-sm"><SiteText contentKey="vampire.text.01479" /></p>
     {questions.map((question,index) => <div key={index}>
-      <label htmlFor={`origin-q${index+1}`} className="block mb-2">{displayText("vampire", question)}</label>
+      <label htmlFor={`origin-q${index+1}`} className="block mb-2"><CatalogText scope={"vampire"} value={question} /></label>
       <textarea id={`origin-q${index+1}`} value={answers[`q${index+1}`] || ''} onChange={e=>onAnswerChange(`q${index+1}`,e.target.value)} minLength={10} maxLength={6000} rows={5} className="w-full bg-stone-950 border border-stone-700 rounded p-3"/>
       <p className="text-xs">{(answers[`q${index+1}`] || '').trim().length}<SiteText contentKey="vampire.text.01480" /></p>
     </div>)}

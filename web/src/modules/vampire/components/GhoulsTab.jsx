@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { Users, Plus, Trash2, Edit2, Save, X, Droplet, Shield, AlertCircle } from 'lucide-react';
@@ -113,7 +114,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
           <AlertCircle size={20} className="flex-shrink-0 mt-0.5" />
           <div>
             <p className="font-medium"><SiteText contentKey="vampire.text.01283" /></p>
-            <p className="text-sm">{displayText("vampire", error)}</p>
+            <p className="text-sm"><CatalogText scope={"vampire"} value={error} /></p>
           </div>
         </div>
       )}
@@ -382,7 +383,7 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
           <div className="flex items-center gap-2">
             <Droplet size={14} className="text-red-700" />
             <span className="text-xs text-stone-500">
-              <span className="text-red-600 font-medium">{displayText("vampire", ghoul.discipline_name)}</span> - {displayText("vampire", ghoul.discipline_power)}
+              <span className="text-red-600 font-medium"><CatalogText scope={"vampire"} value={ghoul.discipline_name} /></span> - <CatalogText scope={"vampire"} value={ghoul.discipline_power} />
             </span>
           </div>
         )}

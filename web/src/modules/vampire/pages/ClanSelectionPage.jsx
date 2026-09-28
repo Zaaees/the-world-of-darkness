@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import { readDraft, writeDraft, clearDraft } from '../../../core/drafts';
 import { getOriginQuestions } from '../../../data/originQuestions';
@@ -101,12 +102,12 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
           <div className="mt-8 bg-stone-900/80 border border-stone-700 rounded-lg p-5">
             <div className="bg-amber-950/30 border border-amber-900/50 rounded p-3 mb-4">
               <p className="text-amber-500 text-sm font-medium mb-1"><SiteText contentKey="vampire.text.01518" /></p>
-              <p className="text-stone-400 text-xs"><SiteText contentKey="vampire.text.01519" />{displayText("vampire", selectedClan.name)}<SiteText contentKey="vampire.text.01520" /></p>
+              <p className="text-stone-400 text-xs"><SiteText contentKey="vampire.text.01519" /><CatalogText scope={"vampire"} value={selectedClan.name} /><SiteText contentKey="vampire.text.01520" /></p>
             </div>
 
             {error && (
               <div className="mb-4 p-3 bg-red-900/30 border border-red-900 rounded text-red-400 text-sm">
-                {displayText("vampire", error)}
+                <CatalogText scope={"vampire"} value={error} />
               </div>
             )}
 
@@ -174,22 +175,22 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                 {/* Nom et titre */}
                 <div className="mb-3">
                   <h3 className="text-lg font-serif text-stone-200 mb-0.5 flex items-center gap-2">
-                    {displayText("vampire", clan.name)}
+                    <CatalogText scope={"vampire"} value={clan.name} />
                     {clan.id === 'salubri' && <Crown className="w-4 h-4 text-amber-600" />}
                     {clan.id === 'baali' && <span className="text-purple-600 text-sm">†</span>}
                   </h3>
-                  <p className="text-red-700 text-xs italic">{displayText("vampire", clan.title)}</p>
+                  <p className="text-red-700 text-xs italic"><CatalogText scope={"vampire"} value={clan.title} /></p>
                 </div>
 
                 {/* Description courte */}
                 <p className="text-stone-400 text-sm mb-3 leading-relaxed">
-                  {displayText("vampire", clan.shortDesc)}
+                  <CatalogText scope={"vampire"} value={clan.shortDesc} />
                 </p>
 
                 {/* Citation */}
                 <div className="border-l-2 border-stone-700 pl-3 mb-3">
                   <p className="text-stone-600 text-xs italic">
-                    {displayText("vampire", clan.quote)}
+                    <CatalogText scope={"vampire"} value={clan.quote} />
                   </p>
                 </div>
 
@@ -197,23 +198,23 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                 {isExpanded && (
                   <div className="mt-4 pt-4 border-t border-stone-800 space-y-3">
                     <p className="text-stone-400 text-sm leading-relaxed">
-                      {displayText("vampire", clan.description)}
+                      <CatalogText scope={"vampire"} value={clan.description} />
                     </p>
 
                     <div className="space-y-2">
                       <div className="bg-stone-800/30 p-3 rounded border border-stone-700">
                         <p className="text-stone-300 font-medium text-xs mb-1"><SiteText contentKey="vampire.text.01529" /></p>
-                        <p className="text-stone-400 text-xs whitespace-pre-line">{displayText("vampire", clan.specificities)}</p>
+                        <p className="text-stone-400 text-xs whitespace-pre-line"><CatalogText scope={"vampire"} value={clan.specificities} /></p>
                       </div>
 
                       <div className="bg-red-950/30 p-3 rounded border border-red-900/50">
-                        <p className="text-red-500 font-medium text-xs mb-1"><SiteText contentKey="vampire.text.01530" />{displayText("vampire", clan.bane)}</p>
-                        <p className="text-stone-400 text-xs">{displayText("vampire", clan.baneDescription)}</p>
+                        <p className="text-red-500 font-medium text-xs mb-1"><SiteText contentKey="vampire.text.01530" /><CatalogText scope={"vampire"} value={clan.bane} /></p>
+                        <p className="text-stone-400 text-xs"><CatalogText scope={"vampire"} value={clan.baneDescription} /></p>
                       </div>
 
                       <div className="bg-stone-800/50 p-3 rounded border border-stone-700">
                         <p className="text-amber-600 font-medium text-xs mb-0.5"><SiteText contentKey="vampire.text.01531" /></p>
-                        <p className="text-stone-500 text-xs italic">{displayText("vampire", clan.roleplay)}</p>
+                        <p className="text-stone-500 text-xs italic"><CatalogText scope={"vampire"} value={clan.roleplay} /></p>
                       </div>
                     </div>
                   </div>
@@ -249,17 +250,17 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                   </div>
                   <div>
                     <h3 className="text-lg font-serif text-stone-200">
-                      {displayText("vampire", selectedClan.name)}
+                      <CatalogText scope={"vampire"} value={selectedClan.name} />
                     </h3>
                     <p className="text-stone-500 text-xs">
-                      {displayText("vampire", selectedClan.title)}
+                      <CatalogText scope={"vampire"} value={selectedClan.title} />
                     </p>
                   </div>
                 </div>
 
                 {error && (
                   <div className="mb-4 p-3 bg-red-900/30 border border-red-900 rounded text-red-400 text-sm">
-                    {displayText("vampire", error)}
+                    <CatalogText scope={"vampire"} value={error} />
                   </div>
                 )}
 

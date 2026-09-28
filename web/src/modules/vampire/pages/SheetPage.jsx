@@ -1,3 +1,4 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
 import { siteText, displayText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
@@ -128,7 +129,7 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
           <HeartPulse size={14} /><SiteText contentKey="vampire.text.01564" /></div>
       ) : (
         <div className="mt-2 text-right">
-          <span className="text-[10px] text-stone-600 uppercase"><SiteText contentKey="vampire.text.01565" />{displayText("vampire", BLOOD_STAGES[level + 1]?.title || siteText("vampire.text.01566"))}</span>
+          <span className="text-[10px] text-stone-600 uppercase"><SiteText contentKey="vampire.text.01565" /><CatalogText scope={"vampire"} value={BLOOD_STAGES[level + 1]?.title || siteText("vampire.text.01566")} /></span>
         </div>
       )}
     </div>
@@ -165,7 +166,7 @@ const LoginPage = ({ onLogin, error }) => {
 
           {error && (
             <div className="bg-red-900/30 border border-red-800 text-red-300 text-sm p-3 rounded mb-4">
-              {displayText("vampire", error)}
+              <CatalogText scope={"vampire"} value={error} />
             </div>
           )}
 
@@ -652,7 +653,7 @@ export default function VampireSheet() {
           <Activity size={48} className="mx-auto mb-2" />
           <h2 className="text-xl font-serif"><SiteText contentKey="vampire.text.01572" /></h2>
         </div>
-        <p className="text-stone-400 mb-6">{displayText("vampire", error)}</p>
+        <p className="text-stone-400 mb-6"><CatalogText scope={"vampire"} value={error} /></p>
         <button
           onClick={() => window.location.reload()}
           className="bg-stone-800 hover:bg-stone-700 text-stone-300 px-6 py-2 rounded transition-colors"
@@ -753,7 +754,7 @@ export default function VampireSheet() {
                 {activeChar.name || siteText("vampire.text.01581")}
               </div>
               <div className="text-xs text-red-700 uppercase tracking-widest font-bold mt-1">
-                {activeChar.clan ? `${activeChar.clan} • ` : siteText("vampire.text.01582")}<SiteText contentKey="vampire.text.01583" />{activeChar.bloodPotency} • {displayText("vampire", currentStage.rank)}
+                {activeChar.clan ? `${activeChar.clan} • ` : siteText("vampire.text.01582")}<SiteText contentKey="vampire.text.01583" />{activeChar.bloodPotency} • <CatalogText scope={"vampire"} value={currentStage.rank} />
               </div>
               {memberInfo && (
                 <div className="text-xs text-stone-400 mt-0.5"><SiteText contentKey="vampire.text.01584" /><span className="font-medium text-stone-300">{memberInfo.display_name}</span>
@@ -1001,11 +1002,11 @@ export default function VampireSheet() {
                     </div>
 
                     <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
-                      {displayText("vampire", currentStage.title)}
+                      <CatalogText scope={"vampire"} value={currentStage.title} />
                     </h2>
 
                     <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
-                      "{displayText("vampire", currentStage.description)}"
+                      "<CatalogText scope={"vampire"} value={currentStage.description} />"
                     </p>
                   </div>
                 </section>
@@ -1021,10 +1022,10 @@ export default function VampireSheet() {
 
                     <div className="bg-red-950/20 border border-red-900/30 rounded-lg p-5">
                       <h4 className="text-red-500 font-serif text-lg mb-3">
-                        {displayText("vampire", getClanDescription(activeChar.clan).bane)}
+                        <CatalogText scope={"vampire"} value={getClanDescription(activeChar.clan).bane} />
                       </h4>
                       <p className="text-stone-400 text-sm leading-relaxed">
-                        {displayText("vampire", getClanDescription(activeChar.clan).baneDescription)}
+                        <CatalogText scope={"vampire"} value={getClanDescription(activeChar.clan).baneDescription} />
                       </p>
                     </div>
                   </section>

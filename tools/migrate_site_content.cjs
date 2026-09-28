@@ -26,7 +26,7 @@ function register(scope, source, text, catalog = false, variables = []) {
   if (catalog) byCatalog.set(`${scope}\0${text}`, key);
   return key;
 }
-const fields = new Set(['name', 'name_fr', 'title', 'label', 'description', 'description_md', 'long_description', 'quote', 'roleplay', 'specificities', 'bane', 'baneDescription', 'transformationDescription', 'ingredients', 'duration', 'rank', 'subtitle', 'hint', 'message', 'reason', 'text', 'effect', 'summary', 'consequence', 'directive']);
+const fields = new Set(['name', 'name_fr', 'title', 'label', 'shortDesc', 'description', 'description_md', 'long_description', 'quote', 'roleplay', 'specificities', 'bane', 'baneDescription', 'transformationDescription', 'ingredients', 'duration', 'rank', 'subtitle', 'hint', 'message', 'reason', 'text', 'effect', 'summary', 'consequence', 'directive']);
 const arrays = new Set(['steps', 'hints', 'questions', 'advantages', 'disadvantages', 'effects', 'benefits']);
 function files(directory) { return fs.readdirSync(directory, { withFileTypes: true }).flatMap(item => item.isDirectory() ? files(path.join(directory, item.name)) : [path.join(directory, item.name)]); }
 const sourceFiles = files(root).filter(file => /\.(js|jsx)$/.test(file) && !/\.test\.|setupTests|[\\/]test[\\/]|[\\/]content[\\/]/.test(file));

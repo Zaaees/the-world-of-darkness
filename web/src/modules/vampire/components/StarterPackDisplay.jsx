@@ -1,4 +1,5 @@
-import { displayText, useSiteContent } from '../../../core/content/store';
+import CatalogText from '../../../core/content/CatalogText';
+import { useSiteContent } from '../../../core/content/store';
 // site-content: migrated
 import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
@@ -38,7 +39,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
                 <div className="p-5 border-t border-stone-800/50 space-y-5 animate-in slide-in-from-top-2 duration-300">
                     {answers.q1 && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{displayText("vampire", q1)}</p>
+                            <p className="text-sm italic text-stone-500 mb-2"><CatalogText scope={"vampire"} value={q1} /></p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.q1}
                             </p>
@@ -47,7 +48,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
 
                     {answers.q2 && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{displayText("vampire", q2)}</p>
+                            <p className="text-sm italic text-stone-500 mb-2"><CatalogText scope={"vampire"} value={q2} /></p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.q2}
                             </p>
@@ -56,7 +57,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
 
                     {answers.q3 && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{displayText("vampire", q3)}</p>
+                            <p className="text-sm italic text-stone-500 mb-2"><CatalogText scope={"vampire"} value={q3} /></p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.q3}
                             </p>

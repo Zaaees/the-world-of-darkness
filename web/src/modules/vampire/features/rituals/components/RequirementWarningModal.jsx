@@ -1,4 +1,5 @@
-import { displayText, useSiteContent } from '../../../../../core/content/store';
+import CatalogText from '../../../../../core/content/CatalogText';
+import { useSiteContent } from '../../../../../core/content/store';
 // site-content: migrated
 import SiteText from '../../../../../core/content/SiteText';
 import React from 'react';
@@ -48,13 +49,13 @@ const RequirementWarningModal = ({ isOpen, onClose, onConfirm, reason, ritualNam
 
                     {/* Body */}
                     <div className="p-6 space-y-4">
-                        <p className="text-stone-300"><SiteText contentKey="vampire.text.01490" /><span className="font-bold text-stone-100">{displayText("vampire", ritualName)}</span>.
+                        <p className="text-stone-300"><SiteText contentKey="vampire.text.01490" /><span className="font-bold text-stone-100"><CatalogText scope={"vampire"} value={ritualName} /></span>.
                         </p>
 
                         <div className="p-3 bg-red-950/30 border border-red-900/30 rounded flex items-start space-x-3">
                             <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                             <span className="text-red-200 text-sm font-medium">
-                                {displayText("vampire", reason)}
+                                <CatalogText scope={"vampire"} value={reason} />
                             </span>
                         </div>
 

@@ -1,4 +1,5 @@
-import { displayText, useSiteContent } from '../../../../../core/content/store';
+import CatalogText from '../../../../../core/content/CatalogText';
+import { useSiteContent } from '../../../../../core/content/store';
 // site-content: migrated
 import SiteText from '../../../../../core/content/SiteText';
 import React, { useMemo } from 'react';
@@ -139,7 +140,7 @@ export default function FilterContent({ onFilterChange }) {
                                     onChange={() => toggleDiscipline(disc)}
                                 />
                                 {isActive && <Check size={12} className="text-red-500" />}
-                                <span>{displayText("vampire", disc)}</span>
+                                <span><CatalogText scope={"vampire"} value={disc} /></span>
                             </label>
                         );
                     })}

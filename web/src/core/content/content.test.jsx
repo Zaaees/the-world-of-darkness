@@ -3,6 +3,8 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import ContentEditor from './ContentEditor';
 import ContentController from './ContentController';
 import SiteText from './SiteText';
+import ClanSelection from '../../modules/vampire/pages/ClanSelectionPage';
+import { CLAN_DESCRIPTIONS } from '../../data/clanDescriptions';
 import { definitions, siteText, updateContentState, getContentState, catalogKey, displayText, setContentIdentity } from './store';
 import { apiFetch } from '../api';
 import { RITUALS } from '../../data/rituals';
@@ -21,6 +23,28 @@ afterEach(() => { cleanup(); localStorage.removeItem('discord_token'); vi.useRea
 const tick = async () => act(async () => { await vi.advanceTimersByTimeAsync(650); });
 
 describe('direct CAIN editor', () => {
+  it('registers every clan text, including the short descriptions', () => {
+    for (const clan of Object.values(CLAN_DESCRIPTIONS)) {
+      for (const value of Object.values(clan)) expect(catalogKey('vampire', value)).toBeTruthy();
+    }
+  });
+
+  it('selects each visible Gangrel text for editing without triggering clan selection', () => {
+    const clan = CLAN_DESCRIPTIONS.gangrel;
+    render(<ClanSelection userId="1" guildId="2" />);
+    fireEvent.click(screen.getByRole('radio', { name: /Gangrel/i }));
+    for (const field of ['name', 'title', 'shortDesc', 'quote', 'description', 'specificities', 'bane', 'baneDescription', 'roleplay']) {
+      const element = document.querySelector(`[data-site-content-key="${catalogKey('vampire', clan[field])}"]`);
+      expect(element, field).not.toBeNull();
+      fireEvent.click(element);
+      expect(getContentState().selectedKey).toBe(catalogKey('vampire', clan[field]));
+    }
+    expect(screen.getByRole('radio', { name: /Gangrel/i })).toHaveAttribute('aria-checked', 'true');
+    const brujahTitle = document.querySelector(`[data-site-content-key="${catalogKey('vampire', CLAN_DESCRIPTIONS.brujah.name)}"]`);
+    fireEvent.click(brujahTitle);
+    expect(screen.getByRole('radio', { name: /Gangrel/i })).toHaveAttribute('aria-checked', 'true');
+  });
+
   it('automatically saves to the API and updates a mounted reader without a publication step', async () => {
     apiFetch.mockResolvedValue({ ok: true, json: async () => ({ value: 'Le nouveau texte', revision: 1 }) });
     render(<><ContentEditor /><SiteText contentKey={key} /></>);

@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -51,7 +52,7 @@ const DurationBadge = ({ duration, isLocked }) => {
       : 'bg-stone-900 text-stone-400 border border-stone-800'
       }`} title={siteText("vampire.text.01254")}>
       <Clock size={9} className={isLocked ? 'text-stone-600' : 'text-stone-500'} />
-      <span>{displayText("vampire", label)}</span>
+      <span><CatalogText scope={"vampire"} value={label} /></span>
     </div>
   );
 };
@@ -100,14 +101,14 @@ const PowerCard = ({ power, isLocked, onClick }) => {
             : 'bg-stone-900 text-red-500 border border-red-900/30 group-hover:border-red-500/50 group-hover:text-red-400 group-hover:shadow-[0_0_10px_rgba(220,38,38,0.2)] transition-all'
           }
         `}>
-          {displayText("vampire", power.level)}
+          <CatalogText scope={"vampire"} value={power.level} />
         </div>
 
         <div className="flex-1 min-w-0">
           {/* Header: Nom + Metadata */}
           <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 mb-2">
             <h4 className={`font-serif text-base tracking-wide ${isLocked ? 'text-stone-600' : 'text-stone-200 group-hover:text-red-100 transition-colors'}`}>
-              {displayText("vampire", power.name)}
+              <CatalogText scope={"vampire"} value={power.name} />
             </h4>
 
             <div className="flex items-center gap-2 shrink-0 opacity-90">
@@ -119,7 +120,7 @@ const PowerCard = ({ power, isLocked, onClick }) => {
 
           {/* Description Tronquée avec fondu */}
           <p className={`text-xs leading-relaxed line-clamp-2 ${isLocked ? 'text-stone-700' : 'text-stone-500 group-hover:text-stone-400 transition-colors'}`}>
-            {displayText("vampire", power.description)}
+            <CatalogText scope={"vampire"} value={power.description} />
           </p>
         </div>
       </div>
@@ -146,10 +147,10 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
 
         <div className="flex-1">
           <h3 className="text-lg font-serif tracking-wide text-stone-200 group-hover:text-red-400 transition-colors flex items-center gap-3">
-            {displayText("vampire", discipline.name)}
+            <CatalogText scope={"vampire"} value={discipline.name} />
             <div className="h-px bg-stone-800 flex-1 ml-4 group-hover:bg-red-900/30 transition-colors" />
           </h3>
-          <p className="text-xs text-stone-500 mt-1 font-sans">{displayText("vampire", discipline.description)}</p>
+          <p className="text-xs text-stone-500 mt-1 font-sans"><CatalogText scope={"vampire"} value={discipline.description} /></p>
         </div>
 
         <motion.div

@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { displayText, useSiteContent, siteText } from '../../../core/content/store';
+import { useSiteContent, siteText } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import { apiFetch } from '../../../core/api';
 import React, { useState, useEffect } from 'react';
@@ -143,7 +144,7 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
     }
 
     if (error) {
-        return <div className="text-center py-10 text-red-500">{displayText("vampire", error)}</div>;
+        return <div className="text-center py-10 text-red-500"><CatalogText scope={"vampire"} value={error} /></div>;
     }
 
     return (

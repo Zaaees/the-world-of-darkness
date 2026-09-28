@@ -1,3 +1,4 @@
+import CatalogText from '../../../../../core/content/CatalogText';
 // site-content: migrated
 import { siteText, displayText, useSiteContent } from '../../../../../core/content/store';
 import SiteText from '../../../../../core/content/SiteText';
@@ -108,11 +109,11 @@ const RitualReader = ({ ritual, onClose }) => {
                 {/* Header */}
                 <div className="p-6 border-b border-[#292524] bg-stone-950/30 flex justify-between items-start sticky top-0 z-10 backdrop-blur-sm">
                     <div>
-                        <h2 className="font-serif text-3xl text-red-600 leading-none mb-2">{displayText("vampire", ritual.name)}</h2>
+                        <h2 className="font-serif text-3xl text-red-600 leading-none mb-2"><CatalogText scope={"vampire"} value={ritual.name} /></h2>
                         <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-stone-500 font-serif">
-                            <span><SiteText contentKey="vampire.text.01499" />{displayText("vampire", ritual.level)}</span>
+                            <span><SiteText contentKey="vampire.text.01499" /><CatalogText scope={"vampire"} value={ritual.level} /></span>
                             <span className="w-1 h-1 rounded-full bg-red-900"></span>
-                            <span>{displayText("vampire", getDisciplineName(ritual.discipline))}</span>
+                            <span><CatalogText scope={"vampire"} value={getDisciplineName(ritual.discipline)} /></span>
                         </div>
                     </div>
                     {onClose && (
@@ -145,7 +146,7 @@ const RitualReader = ({ ritual, onClose }) => {
                                         </div>
                                         <div>
                                             <span className="text-[10px] uppercase tracking-widest text-stone-500 block"><SiteText contentKey="vampire.text.01502" /></span>
-                                            <span className="text-stone-300 font-serif text-sm">{displayText("vampire", ritual.duration)}</span>
+                                            <span className="text-stone-300 font-serif text-sm"><CatalogText scope={"vampire"} value={ritual.duration} /></span>
                                         </div>
                                     </div>
                                 )}
@@ -169,7 +170,7 @@ const RitualReader = ({ ritual, onClose }) => {
                                         <span><SiteText contentKey="vampire.text.01505" /></span>
                                     </h3>
                                     <p className="text-stone-400 italic text-sm leading-relaxed">
-                                        {displayText("vampire", ritual.ingredients)}
+                                        <CatalogText scope={"vampire"} value={ritual.ingredients} />
                                     </p>
                                 </div>
                             )}

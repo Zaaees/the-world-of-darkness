@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -105,10 +106,10 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                                     <span className="text-5xl drop-shadow-lg">{icon}</span>
                                 </div>
                                 <h2 className="text-3xl font-serif text-white font-bold tracking-wide drop-shadow-md">
-                                    {displayText("vampire", power.name)}
+                                    <CatalogText scope={"vampire"} value={power.name} />
                                 </h2>
                                 <div className="flex items-center gap-2 mt-2">
-                                    <span className="px-2.5 py-0.5 rounded-full bg-stone-900/60 border border-stone-700/50 text-stone-300 text-xs font-semibold backdrop-blur-md shadow-sm"><SiteText contentKey="vampire.text.01249" />{displayText("vampire", power.level)}
+                                    <span className="px-2.5 py-0.5 rounded-full bg-stone-900/60 border border-stone-700/50 text-stone-300 text-xs font-semibold backdrop-blur-md shadow-sm"><SiteText contentKey="vampire.text.01249" /><CatalogText scope={"vampire"} value={power.level} />
                                     </span>
                                 </div>
                             </div>
@@ -122,7 +123,7 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                             </div>
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium tracking-wide whitespace-nowrap">
                                 <Clock size={12} className="text-stone-500" />
-                                <span><SiteText contentKey="vampire.text.01252" />{displayText("vampire", DURATION_LABELS[power.duration] || power.duration)}</span>
+                                <span><SiteText contentKey="vampire.text.01252" /><CatalogText scope={"vampire"} value={DURATION_LABELS[power.duration] || power.duration} /></span>
                             </div>
                         </div>
 
@@ -130,7 +131,7 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
                             <div className="prose prose-invert prose-stone max-w-none">
                                 <p className="font-serif text-lg leading-relaxed text-stone-300 whitespace-pre-wrap">
-                                    {displayText("vampire", power.description)}
+                                    <CatalogText scope={"vampire"} value={power.description} />
                                 </p>
                             </div>
                         </div>

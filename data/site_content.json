@@ -22867,5 +22867,167 @@
     "public": false,
     "catalog": false,
     "variables": []
+  },
+  "vampire.clan.brujah.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Révolutionnaires passionnés, enclins à la rage",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.gangrel.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Prédateurs sauvages, un avec la nature",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.malkavian.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Prophètes déments, maudits par la folie",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.nosferatu.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Monstrueux et difformes, maîtres des secrets",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.toreador.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Passionnés de beauté, paralysés par la perfection",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.tremere.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Mages devenus vampires, maîtres du sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.ventrue.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Nobles dominateurs, sang bleu des vampires",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.lasombra.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Maîtres des ténèbres, prédateurs sociaux",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.tzimisce.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Façonneurs de chair, nobles terrifiants",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.ravnos.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Nomades trompeurs, maîtres de l'illusion",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.setites.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Corrupteurs insidieux, gardiens de secrets anciens",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.giovanni.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Famille insulaire et incestueuse, banquiers des morts",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.assamites.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Guerriers silencieux et juges implacables",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.gargoyles.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Créations des Tremere, sentinelles ailées",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.samedi.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Morts-vivants pourrissants, terreur incarnée",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.daughters_cacophony.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Voix mortelles, chanteuses ensorcelantes",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.baali.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Serviteurs des démons, corrupteurs apocalyptiques",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.clan.salubri.shortDesc": {
+    "scope": "vampire",
+    "source": "data/clanDescriptions.js",
+    "default": "Guérisseurs maudits, chassés et rares",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
   }
 }

@@ -1,5 +1,6 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
-import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import React from 'react';
 import { ScrollText, Droplet, Book, Users, Skull, Activity, Shield, Crown, FileText, Sparkles } from 'lucide-react';
@@ -38,7 +39,7 @@ export default function RulesTab({ setActiveTab }) {
                         className="flex items-center gap-3 p-3 rounded bg-stone-900/40 border border-stone-800 hover:border-red-900/50 hover:bg-stone-900 transition-all text-left group"
                     >
                         <item.icon size={18} className="text-stone-600 group-hover:text-red-500 transition-colors" />
-                        <span className="text-sm font-serif text-stone-400 group-hover:text-stone-200 uppercase tracking-wider">{displayText("vampire", item.label)}</span>
+                        <span className="text-sm font-serif text-stone-400 group-hover:text-stone-200 uppercase tracking-wider"><CatalogText scope={"vampire"} value={item.label} /></span>
                     </button>
                 ))}
             </div>

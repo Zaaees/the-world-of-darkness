@@ -1,3 +1,4 @@
+import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
 import { siteText, displayText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
@@ -203,8 +204,8 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
             <Edit2 className="w-3 h-3" /><SiteText contentKey="vampire.text.01211" /></button>
         </div>
 
-        {error && <p role="alert" className="text-red-300">{displayText("vampire", error)}</p>}
-        {notice && <p role="status" className="border border-stone-600 p-3 mb-4">{displayText("vampire", notice)} {needsSync && <button type="button" onClick={handleSave} disabled={saving} className="underline"><SiteText contentKey="vampire.text.01212" /></button>}</p>}
+        {error && <p role="alert" className="text-red-300"><CatalogText scope={"vampire"} value={error} /></p>}
+        {notice && <p role="status" className="border border-stone-600 p-3 mb-4"><CatalogText scope={"vampire"} value={notice} /> {needsSync && <button type="button" onClick={handleSave} disabled={saving} className="underline"><SiteText contentKey="vampire.text.01212" /></button>}</p>}
         {!sheetData.history && <p className="mb-4"><SiteText contentKey="vampire.text.01213" /></p>}
         <StarterPackDisplay answers={sheetData.starter_pack_answers} clanId={clanId} />
         {/* Image - Centrée Haut */}
@@ -263,7 +264,7 @@ export default function CharacterSheet({ userId, guildId, onUpdate, initialData,
       {error && (
         <div className="mb-6 p-4 bg-red-900/30 border border-red-800 rounded flex items-center gap-3 text-red-200">
           <AlertCircle className="w-5 h-5 flex-shrink-0" />
-          {displayText("vampire", error)}
+          <CatalogText scope={"vampire"} value={error} />
         </div>
       )}
 
@@ -430,7 +431,7 @@ function SectionView({ title, content, highlight = false, scene }) {
   return (
     <div data-scene={scene} className={`vp-chapter p-3 rounded border ${highlight ? 'bg-red-950/10 border-red-900/20' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
       <h3 className={`font-serif text-sm uppercase tracking-widest mb-2 border-b pb-1 ${highlight ? 'text-red-400 border-red-900/30' : 'text-stone-500 border-stone-800'}`}>
-        {displayText("vampire", title)}
+        <CatalogText scope={"vampire"} value={title} />
       </h3>
       <div className="text-xs text-stone-300 whitespace-pre-line leading-relaxed text-justify">
         {content || <span className="text-stone-600 italic"><SiteText contentKey="vampire.text.01243" /></span>}
