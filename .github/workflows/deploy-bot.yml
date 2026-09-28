@@ -29,7 +29,7 @@ jobs:
       - name: Check Vampire backend before deployment
         run: |
           pip install -r requirements.txt pytest pytest-asyncio
-          python -m pytest tests/test_blood_catalog.py tests/test_vampire_readiness.py
+          python -m pytest tests/test_blood_catalog.py tests/test_vampire_readiness.py tests/test_site_content.py
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 

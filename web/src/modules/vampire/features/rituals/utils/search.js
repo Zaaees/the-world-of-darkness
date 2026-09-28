@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js';
+import { displayText } from '../../../../../core/content/store';
 
 // fuseInstance and configureFuse removed as they were unused/dead code
 
@@ -27,7 +28,8 @@ export const searchRituals = (list, query) => {
     // The previous architecture decision was "Runtime indexing on mount is fine".
 
     const options = {
-        keys: ['name', 'discipline', 'description_md'],
+        keys: ['name', 'discipline', 'description_md', 'description'],
+        getFn: (item, path) => displayText('vampire', item[Array.isArray(path) ? path[0] : path]) || '',
         threshold: 0.4, // Slightly stricter to avoid garbage matches
         ignoreLocation: true
     };

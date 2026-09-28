@@ -1,3 +1,6 @@
+// site-content: migrated
+import { displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Trophy, Medal, BookOpen, Clock } from 'lucide-react';
@@ -30,6 +33,7 @@ const TYPE_CONFIG = {
 };
 
 export default function RenownCard({ type, score, items }) {
+    useSiteContent();
     const [isOpen, setIsOpen] = useState(false);
     // Ensure we have a valid config, fallback to glory if type not found
     const normalizedType = type ? type.toLowerCase() : 'glory';
@@ -56,11 +60,9 @@ export default function RenownCard({ type, score, items }) {
                         </div>
                         <div>
                             <h3 className={`font-serif text-xl tracking-wide text-stone-200 group-hover:text-white transition-colors`}>
-                                {config.label}
+                                {displayText("werewolf", config.label)}
                             </h3>
-                            <p className="text-xs text-stone-500 mt-1 uppercase tracking-wider font-medium">
-                                Total Renommée
-                            </p>
+                            <p className="text-xs text-stone-500 mt-1 uppercase tracking-wider font-medium"><SiteText contentKey="werewolf.text.01622" /></p>
                         </div>
                     </div>
 
@@ -90,31 +92,28 @@ export default function RenownCard({ type, score, items }) {
                         >
                             <div className="p-4 space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar cursor-default">
                                 {items.length === 0 ? (
-                                    <p className="text-sm text-stone-600 italic text-center py-2">
-                                        Aucun haut fait validé pour le moment.
-                                    </p>
+                                    <p className="text-sm text-stone-600 italic text-center py-2"><SiteText contentKey="werewolf.text.01623" /></p>
                                 ) : (
                                     items.map((item) => (
                                         <div key={item.id || item.title} className="bg-stone-900/40 rounded border border-stone-800/40 p-3 hover:border-stone-700/50 transition-colors">
                                             <div className="flex justify-between items-start gap-3 mb-1">
                                                 <h4 className="text-stone-300 font-serif text-sm font-medium leading-tight">
-                                                    {item.title}
+                                                    {displayText("werewolf", item.title)}
                                                 </h4>
                                                 {item.validated_at && (
                                                     <span className="text-[10px] text-stone-600 flex items-center gap-1 shrink-0 bg-stone-950 px-1.5 py-0.5 rounded">
                                                         <Clock size={10} />
-                                                        {new Date(item.validated_at).toLocaleDateString('fr-FR')}
+                                                        {displayText("werewolf", new Date(item.validated_at).toLocaleDateString('fr-FR'))}
                                                     </span>
                                                 )}
                                             </div>
                                             <p className="text-xs text-stone-500 leading-relaxed">
-                                                {item.description}
+                                                {displayText("werewolf", item.description)}
                                             </p>
                                             {item.xp_awarded > 0 && (
                                                 <div className="mt-2 flex justify-end">
                                                     <span className="text-[10px] text-amber-500/80 font-medium px-2 py-0.5 bg-amber-950/20 rounded border border-amber-900/20">
-                                                        +{item.xp_awarded} XP
-                                                    </span>
+                                                        +{displayText("werewolf", item.xp_awarded)}<SiteText contentKey="werewolf.text.01624" /></span>
                                                 </div>
                                             )}
                                         </div>

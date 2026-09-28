@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt pytest pytest-asyncio
-      - run: python -m pytest tests/test_blood_catalog.py tests/test_vampire_readiness.py
+      - run: python -m pytest tests/test_blood_catalog.py tests/test_vampire_readiness.py tests/test_site_content.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

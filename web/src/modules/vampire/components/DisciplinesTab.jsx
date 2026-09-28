@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Sparkles, Lock, Clock, Droplet } from 'lucide-react';
@@ -38,6 +41,7 @@ const DURATION_LABELS = {
 };
 
 const DurationBadge = ({ duration, isLocked }) => {
+    useSiteContent();
   if (!duration) return null;
   const label = DURATION_LABELS[duration] || duration;
 
@@ -45,21 +49,22 @@ const DurationBadge = ({ duration, isLocked }) => {
     <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium tracking-wide ${isLocked
       ? 'bg-stone-900 text-stone-600 border border-stone-800'
       : 'bg-stone-900 text-stone-400 border border-stone-800'
-      }`} title="Durée">
+      }`} title={siteText("vampire.text.01254")}>
       <Clock size={9} className={isLocked ? 'text-stone-600' : 'text-stone-500'} />
-      <span>{label}</span>
+      <span>{displayText("vampire", label)}</span>
     </div>
   );
 };
 
 const BloodCost = ({ cost, isLocked }) => {
+    useSiteContent();
   if (cost === 0) return null;
 
   return (
     <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium tracking-wide ${isLocked
       ? 'bg-stone-900 text-stone-600 border border-stone-800'
       : 'bg-red-950/20 text-red-300 border border-red-900/20'
-      }`} title={`Coût: ${cost} point(s) de sang`}>
+      }`} title={siteText("vampire.text.01255", { v0: (cost) })}>
       <Droplet size={9} className={isLocked ? 'text-stone-600' : 'text-red-500 fill-red-500/20'} />
       <span>{cost}</span>
     </div>
@@ -68,9 +73,10 @@ const BloodCost = ({ cost, isLocked }) => {
 
 // Composant pour un pouvoir individuel
 const PowerCard = ({ power, isLocked, onClick }) => {
+    useSiteContent();
   return (
     <div
-      role="button" tabIndex={isLocked ? -1 : 0} aria-disabled={isLocked} aria-label={`Consulter ${power.name}`}
+      role="button" tabIndex={isLocked ? -1 : 0} aria-disabled={isLocked} aria-label={siteText("vampire.text.01256", { v0: (power.name) })}
       onKeyDown={e => { if (!isLocked && ['Enter',' '].includes(e.key)) { e.preventDefault(); onClick(); } }}
       onClick={!isLocked ? onClick : undefined}
       className={`
@@ -94,14 +100,14 @@ const PowerCard = ({ power, isLocked, onClick }) => {
             : 'bg-stone-900 text-red-500 border border-red-900/30 group-hover:border-red-500/50 group-hover:text-red-400 group-hover:shadow-[0_0_10px_rgba(220,38,38,0.2)] transition-all'
           }
         `}>
-          {power.level}
+          {displayText("vampire", power.level)}
         </div>
 
         <div className="flex-1 min-w-0">
           {/* Header: Nom + Metadata */}
           <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 mb-2">
             <h4 className={`font-serif text-base tracking-wide ${isLocked ? 'text-stone-600' : 'text-stone-200 group-hover:text-red-100 transition-colors'}`}>
-              {power.name}
+              {displayText("vampire", power.name)}
             </h4>
 
             <div className="flex items-center gap-2 shrink-0 opacity-90">
@@ -113,7 +119,7 @@ const PowerCard = ({ power, isLocked, onClick }) => {
 
           {/* Description Tronquée avec fondu */}
           <p className={`text-xs leading-relaxed line-clamp-2 ${isLocked ? 'text-stone-700' : 'text-stone-500 group-hover:text-stone-400 transition-colors'}`}>
-            {power.description}
+            {displayText("vampire", power.description)}
           </p>
         </div>
       </div>
@@ -123,6 +129,7 @@ const PowerCard = ({ power, isLocked, onClick }) => {
 
 // Composant pour une discipline
 const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
+    useSiteContent();
   const [isOpen, setIsOpen] = useState(true);
   const icon = DISCIPLINE_ICONS[discipline.id] || "✦";
   const allPowers = discipline.powers;
@@ -139,10 +146,10 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
 
         <div className="flex-1">
           <h3 className="text-lg font-serif tracking-wide text-stone-200 group-hover:text-red-400 transition-colors flex items-center gap-3">
-            {discipline.name}
+            {displayText("vampire", discipline.name)}
             <div className="h-px bg-stone-800 flex-1 ml-4 group-hover:bg-red-900/30 transition-colors" />
           </h3>
-          <p className="text-xs text-stone-500 mt-1 font-sans">{discipline.description}</p>
+          <p className="text-xs text-stone-500 mt-1 font-sans">{displayText("vampire", discipline.description)}</p>
         </div>
 
         <motion.div
@@ -202,10 +209,8 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
     return (
       <div className="text-center py-12">
         <div className="text-4xl mb-4">🧛</div>
-        <h3 className="text-lg font-serif text-stone-400 mb-2">Aucune discipline</h3>
-        <p className="text-sm text-stone-600 max-w-sm mx-auto">
-          Votre clan n'a pas été configuré ou n'a pas de disciplines associées.
-        </p>
+        <h3 className="text-lg font-serif text-stone-400 mb-2"><SiteText contentKey="vampire.text.01257" /></h3>
+        <p className="text-sm text-stone-600 max-w-sm mx-auto"><SiteText contentKey="vampire.text.01258" /></p>
       </div>
     );
   }
@@ -222,13 +227,12 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
             <Sparkles className="text-red-500" size={24} />
           </div>
           <div>
-            <h2 className="font-serif text-2xl text-stone-100 tracking-wide">Disciplines de Clan</h2>
+            <h2 className="font-serif text-2xl text-stone-100 tracking-wide"><SiteText contentKey="vampire.text.01259" /></h2>
             <div className="flex items-center gap-2 text-xs text-stone-500 mt-1">
-              <span className="px-2 py-0.5 rounded bg-stone-800/50 border border-stone-700/50 text-stone-400">
-                Puissance {bloodPotency}
+              <span className="px-2 py-0.5 rounded bg-stone-800/50 border border-stone-700/50 text-stone-400"><SiteText contentKey="vampire.text.01260" />{bloodPotency}
               </span>
               <span>→</span>
-              <span className="text-stone-400">Accès niveau {maxLevel}</span>
+              <span className="text-stone-400"><SiteText contentKey="vampire.text.01261" />{maxLevel}</span>
             </div>
           </div>
         </div>
@@ -238,26 +242,24 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
           {/* Colonne Coûts */}
           <div className="flex-1 p-4">
             <h4 className="font-serif text-stone-500 mb-3 flex items-center gap-2">
-              <Droplet size={12} className="text-red-900" fill="currentColor" /> Coût en Sang
-            </h4>
+              <Droplet size={12} className="text-red-900" fill="currentColor" /><SiteText contentKey="vampire.text.01262" /></h4>
             <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center gap-2 text-stone-600"><span className="w-1.5 h-1.5 rounded-full bg-stone-700"></span> 0 : Passif</div>
-              <div className="flex items-center gap-2 text-stone-500"><span className="w-1.5 h-1.5 rounded-full bg-red-900/40"></span> 1 : Mineur</div>
-              <div className="flex items-center gap-2 text-stone-500"><span className="w-1.5 h-1.5 rounded-full bg-red-800/60"></span> 3 : Moyen</div>
-              <div className="flex items-center gap-2 text-stone-500"><span className="w-1.5 h-1.5 rounded-full bg-red-600/80"></span> 9+ : Majeur</div>
+              <div className="flex items-center gap-2 text-stone-600"><span className="w-1.5 h-1.5 rounded-full bg-stone-700"></span><SiteText contentKey="vampire.text.01263" /></div>
+              <div className="flex items-center gap-2 text-stone-500"><span className="w-1.5 h-1.5 rounded-full bg-red-900/40"></span><SiteText contentKey="vampire.text.01264" /></div>
+              <div className="flex items-center gap-2 text-stone-500"><span className="w-1.5 h-1.5 rounded-full bg-red-800/60"></span><SiteText contentKey="vampire.text.01265" /></div>
+              <div className="flex items-center gap-2 text-stone-500"><span className="w-1.5 h-1.5 rounded-full bg-red-600/80"></span><SiteText contentKey="vampire.text.01266" /></div>
             </div>
           </div>
 
           {/* Colonne Durées */}
           <div className="flex-[1.5] p-4">
             <h4 className="font-serif text-stone-500 mb-3 flex items-center gap-2">
-              <Clock size={12} className="text-stone-700" /> Durées
-            </h4>
+              <Clock size={12} className="text-stone-700" /><SiteText contentKey="vampire.text.01267" /></h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-stone-500">
-              <div><strong className="text-stone-400 font-medium">Instantanée:</strong> Effet immédiat.</div>
-              <div><strong className="text-stone-400 font-medium">Scène:</strong> Dure une situation narrative, sociale ou physique, jusqu’à sa clôture convenue.</div>
-              <div><strong className="text-stone-400 font-medium">Prolongée:</strong> Une nuit ou plus.</div>
-              <div><strong className="text-stone-400 font-medium">Permanente:</strong> Indéfini.</div>
+              <div><strong className="text-stone-400 font-medium"><SiteText contentKey="vampire.text.01268" /></strong><SiteText contentKey="vampire.text.01269" /></div>
+              <div><strong className="text-stone-400 font-medium"><SiteText contentKey="vampire.text.01270" /></strong><SiteText contentKey="vampire.text.01271" /></div>
+              <div><strong className="text-stone-400 font-medium"><SiteText contentKey="vampire.text.01272" /></strong><SiteText contentKey="vampire.text.01273" /></div>
+              <div><strong className="text-stone-400 font-medium"><SiteText contentKey="vampire.text.01274" /></strong><SiteText contentKey="vampire.text.01275" /></div>
             </div>
           </div>
         </div>
@@ -277,9 +279,7 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
 
       {/* Note sur la progression */}
       {bloodPotency < 4 && (
-        <div className="text-center text-xs text-stone-600 italic py-4 border-t border-stone-900">
-          Augmentez votre Puissance du Sang pour débloquer de nouvelles disciplines
-        </div>
+        <div className="text-center text-xs text-stone-600 italic py-4 border-t border-stone-900"><SiteText contentKey="vampire.text.01276" /></div>
       )}
       <DisciplineDetailModal
         power={selectedPower}

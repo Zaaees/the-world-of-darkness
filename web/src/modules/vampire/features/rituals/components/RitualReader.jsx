@@ -1,5 +1,9 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../../../core/content/store';
+import SiteText from '../../../../../core/content/SiteText';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { X, BookOpen, Quote, FlaskConical, Scroll, Clock, Skull, Droplets } from 'lucide-react';
 import { getDisciplineName } from '../../../../../utils/translations';
@@ -22,12 +26,13 @@ const extractTextContent = (children) => {
 };
 
 const RitualReader = ({ ritual, onClose }) => {
+    useSiteContent();
     const prefersReducedMotion = useReducedMotion();
     if (!ritual) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-8 text-center text-stone-500 bg-[#1c1917] border-l border-[#292524]">
                 <BookOpen size={48} className="mb-4 opacity-50" />
-                <p className="font-serif italic text-lg opacity-60">Sélectionnez un rituel pour étudier ses secrets...</p>
+                <p className="font-serif italic text-lg opacity-60"><SiteText contentKey="vampire.text.01498" /></p>
             </div>
         );
     }
@@ -103,18 +108,18 @@ const RitualReader = ({ ritual, onClose }) => {
                 {/* Header */}
                 <div className="p-6 border-b border-[#292524] bg-stone-950/30 flex justify-between items-start sticky top-0 z-10 backdrop-blur-sm">
                     <div>
-                        <h2 className="font-serif text-3xl text-red-600 leading-none mb-2">{ritual.name}</h2>
+                        <h2 className="font-serif text-3xl text-red-600 leading-none mb-2">{displayText("vampire", ritual.name)}</h2>
                         <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-stone-500 font-serif">
-                            <span>Niveau {ritual.level}</span>
+                            <span><SiteText contentKey="vampire.text.01499" />{displayText("vampire", ritual.level)}</span>
                             <span className="w-1 h-1 rounded-full bg-red-900"></span>
-                            <span>{getDisciplineName(ritual.discipline)}</span>
+                            <span>{displayText("vampire", getDisciplineName(ritual.discipline))}</span>
                         </div>
                     </div>
                     {onClose && (
                         <button
                             onClick={onClose}
                             className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-red-900/20 rounded-full transition-colors text-stone-500 hover:text-red-400"
-                            aria-label="Fermer le rituel"
+                            aria-label={siteText("vampire.text.01500")}
                         >
                             <X size={24} aria-hidden="true" />
                         </button>
@@ -124,8 +129,8 @@ const RitualReader = ({ ritual, onClose }) => {
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto overflow-x-hidden p-8 custom-scrollbar">
                     <div className="max-w-5xl mx-auto break-words [overflow-wrap:anywhere]">
-                        <ReactMarkdown components={components}>
-                            {ritual.description_md || ritual.description || "*Description manquante...*"}
+                        <ReactMarkdown components={components} rehypePlugins={[rehypeSanitize]} skipHtml>
+                            {displayText("vampire", ritual.description_md || ritual.description || siteText("vampire.text.01501"))}
                         </ReactMarkdown>
 
                         {/* Extended Data Sections */}
@@ -139,8 +144,8 @@ const RitualReader = ({ ritual, onClose }) => {
                                             <Clock size={16} />
                                         </div>
                                         <div>
-                                            <span className="text-[10px] uppercase tracking-widest text-stone-500 block">Durée</span>
-                                            <span className="text-stone-300 font-serif text-sm">{ritual.duration}</span>
+                                            <span className="text-[10px] uppercase tracking-widest text-stone-500 block"><SiteText contentKey="vampire.text.01502" /></span>
+                                            <span className="text-stone-300 font-serif text-sm">{displayText("vampire", ritual.duration)}</span>
                                         </div>
                                     </div>
                                 )}
@@ -150,8 +155,8 @@ const RitualReader = ({ ritual, onClose }) => {
                                         <Droplets size={16} />
                                     </div>
                                     <div>
-                                        <span className="text-[10px] uppercase tracking-widest text-stone-500 block">Coût</span>
-                                        <span className="text-stone-300 font-serif text-sm">Variable (selon niveau)</span>
+                                        <span className="text-[10px] uppercase tracking-widest text-stone-500 block"><SiteText contentKey="vampire.text.01503" /></span>
+                                        <span className="text-stone-300 font-serif text-sm"><SiteText contentKey="vampire.text.01504" /></span>
                                     </div>
                                 </div>
                             </div>
@@ -161,10 +166,10 @@ const RitualReader = ({ ritual, onClose }) => {
                                 <div className="relative pl-6 border-l-2 border-amber-900/30">
                                     <h3 className="flex items-center gap-2 text-amber-600 font-serif text-lg mb-2">
                                         <FlaskConical size={18} />
-                                        <span>Ingrédients Requis</span>
+                                        <span><SiteText contentKey="vampire.text.01505" /></span>
                                     </h3>
                                     <p className="text-stone-400 italic text-sm leading-relaxed">
-                                        {ritual.ingredients}
+                                        {displayText("vampire", ritual.ingredients)}
                                     </p>
                                 </div>
                             )}
@@ -177,9 +182,7 @@ const RitualReader = ({ ritual, onClose }) => {
                                     </div>
 
                                     <h3 className="font-serif text-xl text-stone-200 mb-6 flex items-center gap-3 border-b border-stone-800 pb-2">
-                                        <Scroll size={20} className="text-stone-500" />
-                                        Rite d'Exécution
-                                    </h3>
+                                        <Scroll size={20} className="text-stone-500" /><SiteText contentKey="vampire.text.01506" /></h3>
 
                                     <ol className="space-y-4">
                                         {ritual.steps.map((step, idx) => (
@@ -188,7 +191,7 @@ const RitualReader = ({ ritual, onClose }) => {
                                                     {idx + 1}
                                                 </span>
                                                 <p className="text-stone-300/90 text-sm leading-relaxed pt-1.5 border-b border-stone-800/50 pb-4 w-full group-last:border-0">
-                                                    {step.replace(/^\d+\.\s*/, '') /* Remove numbering if present in text */}
+                                                    {displayText("vampire", step).replace(/^\d+\.\s*/, '') /* Remove numbering after resolving the editorial text */}
                                                 </p>
                                             </li>
                                         ))}

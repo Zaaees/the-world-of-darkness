@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState, useEffect, useRef } from 'react';
 import { Bold, Italic, List, Maximize2, Minimize2, X, Check, Save } from 'lucide-react';
 
@@ -6,6 +9,7 @@ import { Bold, Italic, List, Maximize2, Minimize2, X, Check, Save } from 'lucide
  * Un éditeur de texte enrichi (Markdown) avec sauvegarde automatique et mode Focus.
  */
 const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) => {
+    useSiteContent();
     const [content, setContent] = useState(initialValue || '');
     const [isFocusMode, setIsFocusMode] = useState(false);
     const [saveStatus, setSaveStatus] = useState('idle'); // idle, saving, saved, error
@@ -73,7 +77,7 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                         type="button"
                         onClick={() => insertText('**', '**')}
                         className="p-1.5 text-stone-400 hover:text-amber-400 hover:bg-stone-800 rounded transition-colors"
-                        title="Gras"
+                        title={siteText("werewolf.text.01680")}
                     >
                         <Bold size={18} />
                     </button>
@@ -81,7 +85,7 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                         type="button"
                         onClick={() => insertText('*', '*')}
                         className="p-1.5 text-stone-400 hover:text-amber-400 hover:bg-stone-800 rounded transition-colors"
-                        title="Italique"
+                        title={siteText("werewolf.text.01681")}
                     >
                         <Italic size={18} />
                     </button>
@@ -89,7 +93,7 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                         type="button"
                         onClick={() => insertText('- ')}
                         className="p-1.5 text-stone-400 hover:text-amber-400 hover:bg-stone-800 rounded transition-colors"
-                        title="Liste"
+                        title={siteText("werewolf.text.01682")}
                     >
                         <List size={18} />
                     </button>
@@ -100,26 +104,24 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                     <div className="text-xs font-serif italic text-stone-500 flex items-center">
                         {saveStatus === 'saving' && (
                             <>
-                                <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2" />
-                                En cours de sauvegarde...
-                            </>
+                                <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2" /><SiteText contentKey="werewolf.text.01683" /></>
                         )}
                         {saveStatus === 'saved' && (
                             <>
                                 <Check size={12} className="text-emerald-500 mr-1" />
-                                <span className="text-emerald-500/80">Sauvegardé</span>
+                                <span className="text-emerald-500/80"><SiteText contentKey="werewolf.text.01684" /></span>
                             </>
                         )}
                         {saveStatus === 'synced' && (
                             <>
                                 <Check size={12} className="text-indigo-400 mr-1" />
-                                <span className="text-indigo-400/80">Synchronisé avec Discord</span>
+                                <span className="text-indigo-400/80"><SiteText contentKey="werewolf.text.01685" /></span>
                             </>
                         )}
                         {saveStatus === 'error' && (
                             <>
                                 <X size={12} className="text-red-500 mr-1" />
-                                <span className="text-red-500/80">Échec de sauvegarde</span>
+                                <span className="text-red-500/80"><SiteText contentKey="werewolf.text.01686" /></span>
                             </>
                         )}
                     </div>
@@ -128,7 +130,7 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                         type="button"
                         onClick={() => setIsFocusMode(!isFocusMode)}
                         className="p-1.5 text-stone-400 hover:text-amber-400 hover:bg-stone-800 rounded transition-colors"
-                        title="Mode Focus"
+                        title={siteText("werewolf.text.01687")}
                     >
                         {isFocusMode ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
                     </button>
@@ -138,10 +140,8 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                             type="button"
                             onClick={onCancel}
                             className="px-3 py-1 text-stone-500 hover:text-red-400 transition-colors text-sm"
-                            title="Annuler"
-                        >
-                            Annuler
-                        </button>
+                            title={siteText("werewolf.text.01688")}
+                        ><SiteText contentKey="werewolf.text.01688" /></button>
                     )}
                 </div>
             </div>
@@ -152,7 +152,7 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className={`flex-1 w-full bg-transparent p-4 text-amber-100 font-serif leading-relaxed focus:outline-none resize-none placeholder-stone-700 ${isFocusMode ? 'text-lg md:text-xl md:max-w-4xl md:mx-auto' : 'text-base'}`}
-                placeholder="Racontez votre épopée..."
+                placeholder={siteText("werewolf.text.01689")}
                 autoFocus={isFocusMode}
             />
 
@@ -162,9 +162,7 @@ const StoryEditor = ({ initialValue, onSave, onCancel, autoSaveDelay = 5000 }) =
                     <button
                         onClick={() => setIsFocusMode(false)}
                         className="px-8 py-3 bg-stone-900 border border-amber-900/30 text-amber-200/80 rounded font-serif uppercase tracking-widest hover:bg-stone-800 hover:border-amber-600 transition-all"
-                    >
-                        Quitter le mode Focus
-                    </button>
+                    ><SiteText contentKey="werewolf.text.01690" /></button>
                 </div>
             )}
         </div>

@@ -1,3 +1,6 @@
+// site-content: migrated
+import { displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -11,6 +14,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
  * @param {string} selectedId - ID de l'option actuellement sélectionnée
  */
 export default function WizardStep({ options, onSelect, selectedId }) {
+    useSiteContent();
     const [expandedId, setExpandedId] = useState(null);
 
     return (
@@ -36,12 +40,12 @@ export default function WizardStep({ options, onSelect, selectedId }) {
                             {option.image ? (
                                 <img
                                     src={option.image}
-                                    alt={option.title}
+                                    alt={displayText("werewolf", option.title)}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-6xl select-none">
-                                    {option.icon || '🐺'}
+                                    {displayText("werewolf", option.icon || '🐺')}
                                 </div>
                             )}
                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-80"></div>
@@ -50,7 +54,7 @@ export default function WizardStep({ options, onSelect, selectedId }) {
                             <div className="absolute bottom-3 left-4 right-4">
                                 <h3 className={`text-2xl font-bold font-serif tracking-wider ${isSelected ? 'text-red-500' : 'text-gray-100 group-hover:text-red-400'
                                     } transition-colors`}>
-                                    {option.title}
+                                    {displayText("werewolf", option.title)}
                                 </h3>
                             </div>
                         </div>
@@ -59,13 +63,13 @@ export default function WizardStep({ options, onSelect, selectedId }) {
                             {/* Citation courte (toujours visible) */}
                             {option.quote && (
                                 <blockquote className="italic text-sm text-gray-400 mb-4 border-l-2 border-red-900/50 pl-3 leading-relaxed">
-                                    "{option.quote}"
+                                    "{displayText("werewolf", option.quote)}"
                                 </blockquote>
                             )}
 
                             {/* Description courte (toujours visible) */}
                             <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
-                                {option.description}
+                                {displayText("werewolf", option.description)}
                             </p>
 
                             {/* Zone étendue (conditionnelle) */}
@@ -74,23 +78,23 @@ export default function WizardStep({ options, onSelect, selectedId }) {
                                     {/* Description longue */}
                                     {option.long_description && (
                                         <p className="text-gray-400 text-sm leading-relaxed">
-                                            {option.long_description}
+                                            {displayText("werewolf", option.long_description)}
                                         </p>
                                     )}
 
                                     {/* Spécificités */}
                                     {option.specificities && (
                                         <div className="bg-gray-900/60 p-3 rounded border border-gray-700">
-                                            <p className="text-gray-300 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
-                                            <p className="text-gray-400 text-xs whitespace-pre-line">{option.specificities}</p>
+                                            <p className="text-gray-300 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01705" /></p>
+                                            <p className="text-gray-400 text-xs whitespace-pre-line">{displayText("werewolf", option.specificities)}</p>
                                         </div>
                                     )}
 
                                     {/* Roleplay */}
                                     {option.roleplay && (
                                         <div className="bg-red-950/20 p-3 rounded border border-red-900/30">
-                                            <p className="text-amber-600 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
-                                            <p className="text-gray-500 text-xs italic leading-relaxed">{option.roleplay}</p>
+                                            <p className="text-amber-600 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01706" /></p>
+                                            <p className="text-gray-500 text-xs italic leading-relaxed">{displayText("werewolf", option.roleplay)}</p>
                                         </div>
                                     )}
                                 </div>
@@ -107,9 +111,9 @@ export default function WizardStep({ options, onSelect, selectedId }) {
                                 }}
                             >
                                 {isExpanded ? (
-                                    <>Réduire <ChevronUp className="w-3 h-3" /></>
+                                    <><SiteText contentKey="werewolf.text.01707" /><ChevronUp className="w-3 h-3" /></>
                                 ) : (
-                                    <>Voir les détails <ChevronDown className="w-3 h-3" /></>
+                                    <><SiteText contentKey="werewolf.text.01708" /><ChevronDown className="w-3 h-3" /></>
                                 )}
                             </button>
                         )}

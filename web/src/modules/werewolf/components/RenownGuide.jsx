@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Info, Shield, Star, BookOpen, AlertCircle, CheckCircle, Lock } from 'lucide-react';
@@ -16,6 +19,7 @@ const STAT_CONFIG = {
 };
 
 export default function RenownGuide() {
+    useSiteContent();
     const { fetchRenownRules, authReady } = useRenown();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -37,7 +41,7 @@ export default function RenownGuide() {
                 }
             } catch (err) {
                 console.error("RenownGuide fetch error:", err);
-                if (mounted) setError(err.message || "Impossible de charger les règles.");
+                if (mounted) setError(err.message || siteText("werewolf.text.02572"));
             } finally {
                 if (mounted) setLoading(false);
             }
@@ -50,19 +54,16 @@ export default function RenownGuide() {
 
     const renderGeneralTab = () => (
         <div className="space-y-6">
-            <p className="text-stone-300 leading-relaxed italic">
-                La Renommée est la mesure de la valeur d'un Garou aux yeux de ses pairs et des esprits.
-                Elle détermine votre rang au sein de la société Garou et votre capacité à apprendre de nouveaux Dons.
-            </p>
+            <p className="text-stone-300 leading-relaxed italic"><SiteText contentKey="werewolf.text.01625" /></p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {Object.entries(STAT_CONFIG).map(([key, config]) => (
                     <div key={key} className={`p-4 rounded-lg border ${config.border} ${config.bg}`}>
-                        <h4 className={`font-serif font-bold ${config.color} mb-2 capitalize`}>{config.label}</h4>
+                        <h4 className={`font-serif font-bold ${config.color} mb-2 capitalize`}>{displayText("werewolf", config.label)}</h4>
                         <p className="text-xs text-stone-400">
-                            {key === 'glory' && "Bravoure au combat et exploits physiques légendaires."}
-                            {key === 'honor' && "Intégrité, respect des traditions et loyauté."}
-                            {key === 'wisdom' && "Compréhension spirituelle, calme et jugement."}
+                            {key === 'glory' && siteText("werewolf.text.01626")}
+                            {key === 'honor' && siteText("werewolf.text.01627")}
+                            {key === 'wisdom' && siteText("werewolf.text.01628")}
                         </p>
                     </div>
                 ))}
@@ -81,14 +82,11 @@ export default function RenownGuide() {
             <div className="space-y-4">
                 <div className="bg-stone-900/40 p-4 rounded-lg border border-stone-800">
                     <h3 className="text-stone-300 font-bold mb-2 flex items-center gap-2">
-                        <Info size={18} />
-                        Règles de votre Auspice: <span className="text-amber-500">{myAuspice}</span>
+                        <Info size={18} /><SiteText contentKey="werewolf.text.01629" /><span className="text-amber-500">{displayText("werewolf", myAuspice)}</span>
                     </h3>
-                    <p className="text-sm text-stone-400">
-                        Votre Auspice détermine les prérequis stricts pour chaque rang.
-                        {myAuspice.toUpperCase() === 'RAGABASH'
-                            ? " En tant que Ragabash, vous avez une flexibilité totale : seule la somme totale de Renommée compte."
-                            : " Vous devez atteindre des seuils précis dans chaque catégorie."}
+                    <p className="text-sm text-stone-400"><SiteText contentKey="werewolf.text.01630" />{myAuspice.toUpperCase() === 'RAGABASH'
+                            ? siteText("werewolf.text.01631")
+                            : siteText("werewolf.text.01632")}
                     </p>
                 </div>
 
@@ -96,10 +94,10 @@ export default function RenownGuide() {
                     <table className="w-full text-sm text-left text-stone-400">
                         <thead className="text-xs text-stone-300 uppercase bg-stone-900/60">
                             <tr>
-                                <th className="px-4 py-3 rounded-tl-lg">Rang</th>
-                                <th className="px-4 py-3">Gloire</th>
-                                <th className="px-4 py-3">Honneur</th>
-                                <th className="px-4 py-3 rounded-tr-lg">Sagesse</th>
+                                <th className="px-4 py-3 rounded-tl-lg"><SiteText contentKey="werewolf.text.01633" /></th>
+                                <th className="px-4 py-3"><SiteText contentKey="werewolf.text.01634" /></th>
+                                <th className="px-4 py-3"><SiteText contentKey="werewolf.text.01635" /></th>
+                                <th className="px-4 py-3 rounded-tr-lg"><SiteText contentKey="werewolf.text.01636" /></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,11 +107,9 @@ export default function RenownGuide() {
 
                                 return (
                                     <tr key={rank} className="border-b border-stone-800 last:border-0 hover:bg-stone-800/20">
-                                        <td className="px-4 py-3 font-bold text-stone-200">Rang {rank}</td>
+                                        <td className="px-4 py-3 font-bold text-stone-200"><SiteText contentKey="werewolf.text.01637" />{displayText("werewolf", rank)}</td>
                                         {myAuspice.toUpperCase() === 'RAGABASH' ? (
-                                            <td colSpan="3" className="px-4 py-3 text-center italic text-stone-500">
-                                                Total requis: {req.total} (Tout type)
-                                            </td>
+                                            <td colSpan="3" className="px-4 py-3 text-center italic text-stone-500"><SiteText contentKey="werewolf.text.01638" />{req.total}<SiteText contentKey="werewolf.text.01639" /></td>
                                         ) : (
                                             <>
                                                 <td className="px-4 py-3 text-amber-500/80">{req.glory}</td>
@@ -142,8 +138,8 @@ export default function RenownGuide() {
             return (
                 <div className="text-center p-8 bg-amber-500/10 rounded-xl border border-amber-500/30">
                     <Star size={40} className="text-amber-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-amber-500 mb-2">Légende Vivante</h3>
-                    <p className="text-stone-300">Vous avez atteint le sommet de la hiérarchie Garou.</p>
+                    <h3 className="text-xl font-bold text-amber-500 mb-2"><SiteText contentKey="werewolf.text.01640" /></h3>
+                    <p className="text-stone-300"><SiteText contentKey="werewolf.text.01641" /></p>
                 </div>
             );
         }
@@ -151,12 +147,13 @@ export default function RenownGuide() {
         const req = data.rules[data.my_auspice]?.[nextRank];
         const stats = data.my_stats;
 
-        if (!req) return <div className="text-red-400">Erreur de données de rang.</div>;
+        if (!req) return <div className="text-red-400"><SiteText contentKey="werewolf.text.01642" /></div>;
 
         const isRagabash = data.my_auspice.toUpperCase() === 'RAGABASH';
 
         // Helper for Progress Item
         const ProgressItem = ({ label, current, target, colorClass }) => {
+    useSiteContent();
             const progress = Math.min(100, (current / target) * 100);
             const isMet = current >= target;
 
@@ -164,7 +161,7 @@ export default function RenownGuide() {
                 <div className="mb-4">
                     <div className="flex justify-between mb-1">
                         <span className={`text-sm font-medium ${isMet ? 'text-stone-200' : 'text-stone-400'}`}>
-                            {label}
+                            {displayText("werewolf", label)}
                         </span>
                         <span className={`text-sm font-bold ${isMet ? 'text-green-400' : colorClass}`}>
                             {current} / {target}
@@ -176,7 +173,7 @@ export default function RenownGuide() {
                             style={{ width: `${progress}%` }}
                         ></div>
                     </div>
-                    {isMet && <div className="flex items-center gap-1 text-xs text-green-400 mt-1"><CheckCircle size={10} /> Validé</div>}
+                    {isMet && <div className="flex items-center gap-1 text-xs text-green-400 mt-1"><CheckCircle size={10} /><SiteText contentKey="werewolf.text.01643" /></div>}
                 </div>
             );
         };
@@ -185,36 +182,33 @@ export default function RenownGuide() {
             <div className="bg-stone-900/40 rounded-lg p-6 border border-stone-800">
                 <div className="flex items-center justify-between mb-6 border-b border-stone-800 pb-4">
                     <div>
-                        <span className="text-xs uppercase tracking-wider text-stone-500">Rang Actuel</span>
-                        <div className="text-2xl font-serif text-stone-200">Rang {myRank}</div>
+                        <span className="text-xs uppercase tracking-wider text-stone-500"><SiteText contentKey="werewolf.text.01644" /></span>
+                        <div className="text-2xl font-serif text-stone-200"><SiteText contentKey="werewolf.text.01637" />{myRank}</div>
                     </div>
                     <div className="text-right">
-                        <span className="text-xs uppercase tracking-wider text-amber-500">Objectif</span>
-                        <div className="text-2xl font-serif text-amber-500 font-bold flex items-center gap-2">
-                            Rang {nextRank} <Star size={18} />
+                        <span className="text-xs uppercase tracking-wider text-amber-500"><SiteText contentKey="werewolf.text.01645" /></span>
+                        <div className="text-2xl font-serif text-amber-500 font-bold flex items-center gap-2"><SiteText contentKey="werewolf.text.01637" />{nextRank} <Star size={18} />
                         </div>
                     </div>
                 </div>
 
                 {isRagabash ? (
                     <ProgressItem
-                        label="Renommée Totale (Tout type confondus)"
+                        label={siteText("werewolf.text.01646")}
                         current={stats.glory + stats.honor + stats.wisdom}
                         target={req.total}
                         colorClass="text-stone-300"
                     />
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <ProgressItem label="Gloire" current={stats.glory} target={req.glory} colorClass="text-amber-500" />
-                        <ProgressItem label="Honneur" current={stats.honor} target={req.honor} colorClass="text-stone-300" />
-                        <ProgressItem label="Sagesse" current={stats.wisdom} target={req.wisdom} colorClass="text-emerald-400" />
+                        <ProgressItem label={siteText("werewolf.text.01634")} current={stats.glory} target={req.glory} colorClass="text-amber-500" />
+                        <ProgressItem label={siteText("werewolf.text.01635")} current={stats.honor} target={req.honor} colorClass="text-stone-300" />
+                        <ProgressItem label={siteText("werewolf.text.01636")} current={stats.wisdom} target={req.wisdom} colorClass="text-emerald-400" />
                     </div>
                 )}
 
                 <div className="mt-6 pt-4 border-t border-stone-800 text-center">
-                    <p className="text-xs text-stone-500 italic">
-                        Les défis sont validés par les Maîtres de Jeu.
-                    </p>
+                    <p className="text-xs text-stone-500 italic"><SiteText contentKey="werewolf.text.01647" /></p>
                 </div>
             </div>
         );
@@ -227,8 +221,8 @@ export default function RenownGuide() {
                 <div className="flex items-center gap-3">
                     <BookOpen className="text-amber-600" size={24} />
                     <div>
-                        <h2 className="text-lg font-serif text-stone-200 font-bold">Guide de Renommée</h2>
-                        <p className="text-xs text-stone-500">Comprendre votre voie vers la puissance</p>
+                        <h2 className="text-lg font-serif text-stone-200 font-bold"><SiteText contentKey="werewolf.text.01648" /></h2>
+                        <p className="text-xs text-stone-500"><SiteText contentKey="werewolf.text.01649" /></p>
                     </div>
                 </div>
 
@@ -243,9 +237,9 @@ export default function RenownGuide() {
                                 : 'text-stone-500 hover:text-stone-300'
                                 }`}
                         >
-                            {tab === 'general' && 'Général'}
-                            {tab === 'rules' && 'Règles'}
-                            {tab === 'progress' && 'Ma Progression'}
+                            {tab === 'general' && siteText("werewolf.text.01650")}
+                            {tab === 'rules' && siteText("werewolf.text.01651")}
+                            {tab === 'progress' && siteText("werewolf.text.01652")}
                         </button>
                     ))}
                 </div>
@@ -257,20 +251,18 @@ export default function RenownGuide() {
                     <div className="flex items-center justify-center h-full text-stone-500 animate-pulse">
                         <div className="flex flex-col items-center gap-2">
                             <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
-                            <span>Consultation des esprits...</span>
+                            <span><SiteText contentKey="werewolf.text.01653" /></span>
                         </div>
                     </div>
                 ) : error ? (
                     <div className="flex flex-col items-center justify-center h-full text-red-400 gap-2 p-6">
                         <AlertCircle size={32} />
-                        <p className="font-bold">Erreur de chargement</p>
-                        <p className="text-sm text-center opacity-80">{error}</p>
+                        <p className="font-bold"><SiteText contentKey="werewolf.text.01654" /></p>
+                        <p className="text-sm text-center opacity-80">{displayText("werewolf", error)}</p>
                         <button
                             onClick={() => window.location.reload()}
                             className="mt-4 px-4 py-2 bg-stone-800 hover:bg-stone-700 rounded-lg text-sm transition-colors"
-                        >
-                            Réessayer
-                        </button>
+                        ><SiteText contentKey="werewolf.text.01655" /></button>
                     </div>
                 ) : (
                     <AnimatePresence mode="wait">

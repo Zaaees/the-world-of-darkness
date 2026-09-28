@@ -1,4 +1,5 @@
 import { apiFetch } from '../api';
+import { setContentIdentity, siteText } from '../content/store';
 import { useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../../config';
 import { extractAuthData, consumeOAuthState, validateToken, clearAuthParams, safeStorage } from '../auth/authUtils';
@@ -72,6 +73,7 @@ export function useUserRoles() {
 
                 // Vérification de l'expiration
                 if (expiresAt && Date.now() > parseInt(expiresAt, 10)) {
+                    setContentIdentity(null);
                     safeStorage.removeItem('discord_token');
                     safeStorage.removeItem('discord_token_expires_at');
                     setIsLoading(false);
@@ -80,6 +82,7 @@ export function useUserRoles() {
                 }
 
                 if (!token) {
+                    setContentIdentity(null);
                     setIsLoading(false);
                     setIsAuthenticated(false);
                     return;
@@ -93,10 +96,11 @@ export function useUserRoles() {
 
                 if (!userResponse.ok) {
                     if (userResponse.status === 401) {
+                        setContentIdentity(null);
                         safeStorage.removeItem('discord_token');
                         safeStorage.removeItem('discord_token_expires_at');
                     }
-                    setError('Session Discord expirée');
+                    setError(siteText("common.text.00039"));
                     setIsLoading(false);
                     setIsAuthenticated(false);
                     return;
@@ -114,13 +118,14 @@ export function useUserRoles() {
 
                 const guildData = await guildResponse.json();
                 if (!guildData.success) {
-                    if (guildResponse.status !== 404) throw new Error('Vérification du serveur indisponible');
+                    if (guildResponse.status !== 404) throw new Error(siteText("common.text.02554"));
                     // Utilisateur pas sur le serveur, pas de rôles
                     setIsLoading(false);
                     return;
                 }
 
                 const detectedGuildId = guildData.guild_id;
+                setContentIdentity({ userId: user.id, guildId: String(detectedGuildId) });
                 setGuildId(detectedGuildId);
 
                 // 4. Vérifier les profils pour les rôles (appels parallèles)
@@ -135,7 +140,7 @@ export function useUserRoles() {
                 ]);
 
                 if ([vampireResponse, werewolfResponse].some(response => response.status === 'rejected' || response.value.status >= 500 || response.value.status === 401)) {
-                    throw new Error('Vérification des rôles indisponible');
+                    throw new Error(siteText("common.text.02555"));
                 }
 
                 // Traiter la réponse vampire
@@ -157,7 +162,7 @@ export function useUserRoles() {
             } catch (err) {
                 if (err.name === 'AbortError') return;
                 console.error('Erreur chargement rôles:', err);
-                setError('Erreur de connexion');
+                setError(siteText("common.text.00040"));
             } finally {
                 setIsLoading(false);
             }

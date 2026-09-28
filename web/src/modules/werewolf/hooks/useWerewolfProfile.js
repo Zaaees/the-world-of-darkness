@@ -1,3 +1,4 @@
+import { siteText } from '../../../core/content/store';
 import { apiFetch } from '../../../core/api';
 import { useState, useEffect, useCallback } from 'react';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
@@ -36,7 +37,7 @@ export function useWerewolfProfile() {
                 setHasProfile(false);
                 setProfile(null);
             } else if (!response.ok) {
-                throw new Error('Failed to fetch profile');
+                throw new Error(siteText("werewolf.text.02583"));
             } else {
                 const data = await response.json();
                 if (data.success && data.display_name) {

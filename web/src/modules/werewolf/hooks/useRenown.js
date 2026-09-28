@@ -1,3 +1,4 @@
+import { siteText } from '../../../core/content/store';
 import { apiFetch } from '../../../core/api';
 import { useState } from 'react';
 import { API_URL } from '../../../config';
@@ -24,7 +25,7 @@ export const useRenown = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Erreur lors de la soumission du haut fait');
+                throw new Error(errorData.error || siteText("werewolf.text.02576"));
             }
 
             return await response.json();
@@ -51,7 +52,7 @@ export const useRenown = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Erreur lors de la récupération de la renommée');
+                throw new Error(errorData.error || siteText("werewolf.text.02577"));
             }
 
             const data = await response.json();
@@ -79,7 +80,7 @@ export const useRenown = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Erreur lors de la récupération des règles de renommée');
+                throw new Error(errorData.error || siteText("werewolf.text.02578"));
             }
 
             return await response.json();

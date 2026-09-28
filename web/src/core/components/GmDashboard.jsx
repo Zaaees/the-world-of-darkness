@@ -1,4 +1,8 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../content/store';
+import SiteText from '../content/SiteText';
 import { apiFetch } from '../api';
+import { openContentEditor } from '../content/store';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Users, UserPlus, Shield, Search, RefreshCw, Trash2, Edit, Save, Share2, ArrowLeft } from 'lucide-react';
 import { CLAN_DESCRIPTIONS as CLANS } from '../../data/clanDescriptions';
@@ -7,6 +11,7 @@ import { CLAN_DESCRIPTIONS as CLANS } from '../../data/clanDescriptions';
 import { API_URL } from '../../config';
 
 export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
+    useSiteContent();
     const [activeTab, setActiveTab] = useState('list'); // 'list', 'create'
     const [npcs, setNpcs] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -37,7 +42,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                 setError(data.error);
             }
         } catch (err) {
-            setError('Erreur chargement PNJ');
+            setError(siteText("vampire.text.00004"));
             console.error(err);
         } finally {
             setLoading(false);
@@ -77,7 +82,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                 setError(data.error);
             }
         } catch (err) {
-            setError('Erreur création PNJ');
+            setError(siteText("vampire.text.00005"));
             console.error(err);
         } finally {
             setCreating(false);
@@ -86,7 +91,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
 
     const handleDeleteNpc = async (e, npcId, npcName) => {
         e.stopPropagation();
-        if (!window.confirm(`Êtes-vous sûr de vouloir supprimer ${npcName} ? Cette action est irréversible (registres, site, discord).`)) {
+        if (!window.confirm(siteText("vampire.text.02553", { v0: (npcName) }))) {
             return;
         }
 
@@ -107,7 +112,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
             }
         } catch (err) {
             console.error(err);
-            alert("Erreur lors de la suppression");
+            alert(siteText("vampire.text.00006"));
         }
     };
 
@@ -122,10 +127,9 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
             <header className="max-w-4xl mx-auto mb-8 flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-serif text-red-600 mb-2 flex items-center gap-3">
-                        <Shield size={32} />
-                        Tableau de Bord MJ
-                    </h1>
-                    <p className="text-stone-500">Gérez les PNJ et le monde des ténèbres.</p>
+                        <Shield size={32} /><SiteText contentKey="vampire.text.00009" /></h1>
+                    <p className="text-stone-500"><SiteText contentKey="vampire.text.00010" /></p>
+                    <button type="button" onClick={() => openContentEditor()} className="mt-4 rounded border border-amber-700 px-4 py-2 text-amber-300 hover:bg-amber-950"><SiteText contentKey="vampire.text.00011" /></button>
                 </div>
             </header>
 
@@ -140,9 +144,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                             }`}
                     >
                         <div className="flex items-center gap-2">
-                            <Users size={16} />
-                            Liste PNJ
-                        </div>
+                            <Users size={16} /><SiteText contentKey="vampire.text.00012" /></div>
                     </button>
                     <button
                         onClick={() => setActiveTab('create')}
@@ -152,16 +154,14 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                             }`}
                     >
                         <div className="flex items-center gap-2">
-                            <UserPlus size={16} />
-                            Créer PNJ
-                        </div>
+                            <UserPlus size={16} /><SiteText contentKey="vampire.text.00013" /></div>
                     </button>
                 </div>
 
                 {error && (
                     <div className="bg-red-900/20 border border-red-800 text-red-300 p-4 rounded mb-6 flex justify-between items-center">
-                        <span>{error}</span>
-                        <button onClick={() => setError(null)} className="text-red-400 hover:text-red-200">×</button>
+                        <span>{displayText("vampire", error)}</span>
+                        <button onClick={() => setError(null)} className="text-red-400 hover:text-red-200"><SiteText contentKey="vampire.text.00014" /></button>
                     </div>
                 )}
 
@@ -173,7 +173,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-600" size={16} />
                                 <input
                                     type="text"
-                                    placeholder="Rechercher un PNJ..."
+                                    placeholder={siteText("vampire.text.00015")}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="w-full bg-stone-900/50 border border-stone-800 rounded pl-10 pr-4 py-2 text-stone-300 focus:border-red-900 focus:outline-none"
@@ -182,23 +182,21 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                             <button
                                 onClick={fetchNpcs}
                                 className="p-2 bg-stone-900 border border-stone-800 rounded hover:border-stone-600 transition-colors"
-                                title="Actualiser"
+                                title={siteText("vampire.text.00016")}
                             >
                                 <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
                             </button>
                         </div>
 
                         {loading && npcs.length === 0 ? (
-                            <div className="text-center py-12 text-stone-600 italic">Chargement des dossiers...</div>
+                            <div className="text-center py-12 text-stone-600 italic"><SiteText contentKey="vampire.text.00017" /></div>
                         ) : filteredNpcs.length === 0 ? (
                             <div className="text-center py-12 border border-stone-800 border-dashed rounded bg-stone-900/20">
-                                <p className="text-stone-500 mb-2">Aucun PNJ trouvé.</p>
+                                <p className="text-stone-500 mb-2"><SiteText contentKey="vampire.text.00018" /></p>
                                 <button
                                     onClick={() => setActiveTab('create')}
                                     className="text-red-500 hover:underline text-sm"
-                                >
-                                    Créer votre premier PNJ
-                                </button>
+                                ><SiteText contentKey="vampire.text.00019" /></button>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -218,9 +216,9 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                     <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20">
                                         <Shield size={64} />
                                     </div>
-                                    <h3 className="text-xl font-serif text-red-500 mb-1">Caïn</h3>
-                                    <h3 className="text-xl font-serif text-red-500 mb-1">Caïn</h3>
-                                    <p className="text-xs text-stone-500 uppercase tracking-widest">Le Premier Vampire</p>
+                                    <h3 className="text-xl font-serif text-red-500 mb-1"><SiteText contentKey="vampire.text.00007" /></h3>
+                                    <h3 className="text-xl font-serif text-red-500 mb-1"><SiteText contentKey="vampire.text.00007" /></h3>
+                                    <p className="text-xs text-stone-500 uppercase tracking-widest"><SiteText contentKey="vampire.text.00020" /></p>
                                 </div>
 
                                 {filteredNpcs.map(npc => (
@@ -245,22 +243,22 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                                 </h3>
                                                 <div className="flex items-center gap-2">
                                                     {npc.status === 'public' && (
-                                                        <Share2 size={14} className="text-green-600" title="Publié" />
+                                                        <Share2 size={14} className="text-green-600" title={siteText("vampire.text.00021")} />
                                                     )}
                                                     <button
                                                         onClick={(e) => handleDeleteNpc(e, npc.id, npc.name)}
                                                         className="text-stone-600 hover:text-red-500 p-1 hover:bg-red-950/30 rounded transition-colors"
-                                                        title="Supprimer définitivement"
+                                                        title={siteText("vampire.text.00022")}
                                                     >
                                                         <Trash2 size={16} />
                                                     </button>
                                                 </div>
                                             </div>
                                             <div className="text-xs text-stone-500 uppercase tracking-widest font-bold mb-2">
-                                                {npc.clan || 'Sans Clan'} • BP {npc.blood_potency}
+                                                {npc.clan || siteText("vampire.text.00023")}<SiteText contentKey="vampire.text.00024" />{npc.blood_potency}
                                             </div>
                                             <p className="text-stone-400 text-sm line-clamp-2">
-                                                {npc.description || "Aucune description."}
+                                                {npc.description || siteText("vampire.text.00025")}
                                             </p>
                                         </div>
                                     </div>
@@ -273,44 +271,38 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                 {/* CONTENU CRÉATION */}
                 {activeTab === 'create' && (
                     <form onSubmit={handleCreateNpc} className="bg-stone-900/30 border border-stone-800 rounded p-6 max-w-lg mx-auto">
-                        <h3 className="text-xl font-serif text-stone-200 mb-6 border-b border-stone-800 pb-2">Nouveau PNJ</h3>
+                        <h3 className="text-xl font-serif text-stone-200 mb-6 border-b border-stone-800 pb-2"><SiteText contentKey="vampire.text.00026" /></h3>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-xs font-serif uppercase tracking-widest text-stone-500 mb-1">
-                                    Nom du PNJ
-                                </label>
+                                <label className="block text-xs font-serif uppercase tracking-widest text-stone-500 mb-1"><SiteText contentKey="vampire.text.00027" /></label>
                                 <input
                                     type="text"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value)}
                                     className="w-full bg-stone-950 border border-stone-700 rounded p-2 text-stone-200 focus:border-red-800 focus:outline-none"
-                                    placeholder="Ex: Marcus Vitel"
+                                    placeholder={siteText("vampire.text.00028")}
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-xs font-serif uppercase tracking-widest text-stone-500 mb-1">
-                                    Clan
-                                </label>
+                                <label className="block text-xs font-serif uppercase tracking-widest text-stone-500 mb-1"><SiteText contentKey="vampire.text.00029" /></label>
                                 <select
                                     value={newClan}
                                     onChange={(e) => setNewClan(e.target.value)}
                                     className="w-full bg-stone-950 border border-stone-700 rounded p-2 text-stone-200 focus:border-red-800 focus:outline-none"
                                     required
                                 >
-                                    <option value="">Sélectionner un clan...</option>
+                                    <option value="">{siteText("vampire.text.00030")}</option>
                                     {Object.entries(CLANS || {}).map(([key, clan]) => (
-                                        <option key={key} value={key}>{clan.name}</option>
+                                        <option key={key} value={key}>{displayText("vampire", clan.name)}</option>
                                     ))}
                                 </select>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-serif uppercase tracking-widest text-stone-500 mb-1">
-                                    Puissance du Sang (Maximum 5)
-                                </label>
+                                <label className="block text-xs font-serif uppercase tracking-widest text-stone-500 mb-1"><SiteText contentKey="vampire.text.00031" /></label>
                                 <input
                                     type="number"
                                     min="1"
@@ -326,17 +318,13 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                                     type="button"
                                     onClick={() => setActiveTab('list')}
                                     className="px-4 py-2 rounded border border-stone-700 text-stone-400 hover:text-stone-200 hover:bg-stone-800 transition-colors"
-                                >
-                                    Annuler
-                                </button>
+                                ><SiteText contentKey="vampire.text.00032" /></button>
                                 <button
                                     type="submit"
                                     disabled={creating}
                                     className="px-6 py-2 rounded bg-red-900 hover:bg-red-800 text-white font-serif tracking-wider transition-colors disabled:opacity-50 flex items-center gap-2"
                                 >
-                                    {creating && <RefreshCw size={14} className="animate-spin" />}
-                                    Créer
-                                </button>
+                                    {creating && <RefreshCw size={14} className="animate-spin" />}<SiteText contentKey="vampire.text.00033" /></button>
                             </div>
                         </div>
                     </form>

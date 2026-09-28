@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../../core/content/store';
+import SiteText from '../../../../core/content/SiteText';
 import React, { useState, useMemo } from 'react';
 import { GiftCard } from '../../components/GiftCard/GiftCard';
 import { translate } from '../../utils/translations';
@@ -10,6 +13,7 @@ import './GiftsPage.css';
  * Accepte les données en props au lieu de les fetcher.
  */
 const GiftsTab = ({ gifts = [], unlockedIds = [], playerTribe = null, isLoading = false }) => {
+    useSiteContent();
     // Filtres
     const [levelFilter, setLevelFilter] = useState('all');
     const [showUnlockedOnly, setShowUnlockedOnly] = useState(false);
@@ -49,24 +53,22 @@ const GiftsTab = ({ gifts = [], unlockedIds = [], playerTribe = null, isLoading 
 
     if (isLoading) {
         return (
-            <div className="gifts-page__loading" data-testid="loading-spinner">
-                Invocation des connaissances ancestrales...
-            </div>
+            <div className="gifts-page__loading" data-testid="loading-spinner"><SiteText contentKey="werewolf.text.01795" /></div>
         );
     }
 
     return (
         <div className="gifts-page__container">
             <header className="gifts-page__header">
-                <h1 className="gifts-page__title">Mes Dons</h1>
+                <h1 className="gifts-page__title"><SiteText contentKey="werewolf.text.01796" /></h1>
                 <p className="gifts-page__subtitle">
-                    {playerTribe ? `Catalogue: ${translate('tribe', playerTribe)}` : "Consultation des esprits..."}
+                    {playerTribe ? `Catalogue: ${translate('tribe', playerTribe)}` : siteText("werewolf.text.01797")}
                 </p>
             </header>
 
             <div className="gifts-page__filters">
                 <div className="gifts-page__filter-group">
-                    <label htmlFor="level-select">Niveau:</label>
+                    <label htmlFor="level-select"><SiteText contentKey="werewolf.text.01798" /></label>
                     <select
                         id="level-select"
                         className="gifts-page__select"
@@ -74,12 +76,12 @@ const GiftsTab = ({ gifts = [], unlockedIds = [], playerTribe = null, isLoading 
                         onChange={(e) => setLevelFilter(e.target.value)}
                         data-testid="level-filter"
                     >
-                        <option value="all">Tous</option>
-                        <option value="1">Niveau 1</option>
-                        <option value="2">Niveau 2</option>
-                        <option value="3">Niveau 3</option>
-                        <option value="4">Niveau 4</option>
-                        <option value="5">Niveau 5</option>
+                        <option value="all">{siteText("werewolf.text.01799")}</option>
+                        <option value="1">{siteText("werewolf.text.01800")}</option>
+                        <option value="2">{siteText("werewolf.text.01801")}</option>
+                        <option value="3">{siteText("werewolf.text.01802")}</option>
+                        <option value="4">{siteText("werewolf.text.01803")}</option>
+                        <option value="5">{siteText("werewolf.text.01804")}</option>
                     </select>
                 </div>
 
@@ -91,14 +93,12 @@ const GiftsTab = ({ gifts = [], unlockedIds = [], playerTribe = null, isLoading 
                         checked={showUnlockedOnly}
                         onChange={(e) => setShowUnlockedOnly(e.target.checked)}
                     />
-                    <label htmlFor="unlocked-only" className="cursor-pointer">
-                        Débloqués uniquement
-                    </label>
+                    <label htmlFor="unlocked-only" className="cursor-pointer"><SiteText contentKey="werewolf.text.01805" /></label>
                 </div>
             </div>
 
             {processedGifts.length === 0 ? (
-                <div className="gifts-page__empty">Aucun Don ne correspond à votre recherche.</div>
+                <div className="gifts-page__empty"><SiteText contentKey="werewolf.text.01806" /></div>
             ) : (
                 <div className="gifts-page__grid">
                     {processedGifts.map(gift => (
@@ -116,32 +116,31 @@ const GiftsTab = ({ gifts = [], unlockedIds = [], playerTribe = null, isLoading 
             {selectedGift && (
                 <div className="gift-modal-overlay" onClick={() => setSelectedGift(null)}>
                     <div className="gift-modal" onClick={e => e.stopPropagation()}>
-                        <button className="gift-modal-close" onClick={() => setSelectedGift(null)}>×</button>
-                        <h2 className="gift-modal-title">{selectedGift.name_fr}</h2>
+                        <button className="gift-modal-close" onClick={() => setSelectedGift(null)}><SiteText contentKey="werewolf.text.01807" /></button>
+                        <h2 className="gift-modal-title">{displayText("werewolf", selectedGift.name_fr)}</h2>
                         <div className="gift-modal-meta">
-                            <span className="gift-tag level">Niveau {selectedGift.level}</span>
-                            {selectedGift.tribe && <span className="gift-tag tribe">{selectedGift.tribe}</span>}
-                            {selectedGift.breed && <span className="gift-tag breed">{selectedGift.breed}</span>}
-                            {selectedGift.auspice && <span className="gift-tag auspice">{selectedGift.auspice}</span>}
-                            {selectedGift.gnosis_cost > 0 && <span className="gift-tag cost">{selectedGift.gnosis_cost} Gnose</span>}
+                            <span className="gift-tag level"><SiteText contentKey="werewolf.text.01808" />{selectedGift.level}</span>
+                            {selectedGift.tribe && <span className="gift-tag tribe">{displayText("werewolf", selectedGift.tribe)}</span>}
+                            {selectedGift.breed && <span className="gift-tag breed">{displayText("werewolf", selectedGift.breed)}</span>}
+                            {selectedGift.auspice && <span className="gift-tag auspice">{displayText("werewolf", selectedGift.auspice)}</span>}
+                            {selectedGift.gnosis_cost > 0 && <span className="gift-tag cost">{selectedGift.gnosis_cost}<SiteText contentKey="werewolf.text.01809" /></span>}
                         </div>
 
                         <div className="gift-modal-description">
-                            <h3>Description</h3>
-                            <p>{selectedGift.description || "Aucune description disponible."}</p>
+                            <h3><SiteText contentKey="werewolf.text.01810" /></h3>
+                            <p>{displayText('werewolf', selectedGift.description) || siteText("werewolf.text.01811")}</p>
                         </div>
 
                         {selectedGift.system && (
                             <div className="gift-modal-system">
-                                <h3>Système</h3>
-                                <p>{selectedGift.system}</p>
+                                <h3><SiteText contentKey="werewolf.text.01812" /></h3>
+                                <p>{displayText("werewolf", selectedGift.system)}</p>
                             </div>
                         )}
 
                         {!unlockedIds.includes(selectedGift.id) && (
                             <div className="gift-modal-locked-notice">
-                                <span role="img" aria-label="locked">🔒</span> Ce Don n'est pas encore débloqué.
-                            </div>
+                                <span role="img" aria-label={siteText("werewolf.text.01813")}>🔒</span><SiteText contentKey="werewolf.text.01814" /></div>
                         )}
                     </div>
                 </div>

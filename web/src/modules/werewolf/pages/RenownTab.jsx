@@ -1,3 +1,6 @@
+// site-content: migrated
+import { displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
@@ -22,6 +25,7 @@ export default function RenownTab({
     loading = false,
     error = null
 }) {
+    useSiteContent();
     const [isRenownModalOpen, setIsRenownModalOpen] = useState(false);
 
     const handleRenownSubmit = async (data) => {
@@ -44,19 +48,14 @@ export default function RenownTab({
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-serif font-bold text-stone-100 flex items-center gap-3">
-                        <span className="text-amber-600">✦</span>
-                        Hauts Faits & Renommée
-                    </h1>
-                    <p className="text-stone-500 mt-2 max-w-2xl">
-                        Consultez vos actes de gloire, d'honneur et de sagesse reconnus par les esprits et la nation Garou.
-                    </p>
+                        <span className="text-amber-600">✦</span><SiteText contentKey="werewolf.text.01815" /></h1>
+                    <p className="text-stone-500 mt-2 max-w-2xl"><SiteText contentKey="werewolf.text.01816" /></p>
                 </div>
                 <button
                     onClick={() => setIsRenownModalOpen(true)}
                     className="px-4 py-2 bg-gradient-to-r from-amber-900 to-amber-800 border border-amber-700 hover:border-amber-500 text-amber-100 rounded-md shadow-lg shadow-black/40 transition-all flex items-center gap-2 font-serif tracking-wide"
                 >
-                    <span>+</span> Déclarer un Haut Fait
-                </button>
+                    <span>+</span><SiteText contentKey="werewolf.text.01817" /></button>
             </header>
 
             <RenownSubmissionModal
@@ -68,7 +67,7 @@ export default function RenownTab({
             {error && (
                 <div className="bg-red-950/30 border border-red-900/50 p-4 rounded-lg flex items-center gap-3 text-red-400">
                     <AlertCircle size={20} />
-                    <span>{error}</span>
+                    <span>{displayText("werewolf", error)}</span>
                 </div>
             )}
 
@@ -80,10 +79,8 @@ export default function RenownTab({
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-gradient-to-r from-stone-900/80 to-stone-950 border border-stone-800 p-8 rounded-xl text-center mb-8"
                 >
-                    <h3 className="font-serif text-xl text-stone-300 mb-2">Votre légende commence ici</h3>
-                    <p className="text-stone-500 max-w-lg mx-auto">
-                        Vous n'avez pas encore de hauts faits validés. Accomplissez des actes dignes de Gaia et faites-les reconnaître pour gagner en Renommée.
-                    </p>
+                    <h3 className="font-serif text-xl text-stone-300 mb-2"><SiteText contentKey="werewolf.text.01818" /></h3>
+                    <p className="text-stone-500 max-w-lg mx-auto"><SiteText contentKey="werewolf.text.01819" /></p>
                 </motion.div>
             )}
 

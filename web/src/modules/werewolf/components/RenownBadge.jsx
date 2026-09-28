@@ -1,3 +1,4 @@
+import { displayText, useSiteContent } from '../../../core/content/store';
 import React from 'react';
 
 /**
@@ -8,6 +9,7 @@ import React from 'react';
  * @param {number} props.rank - Niveau du rang (1-5)
  */
 const RenownBadge = ({ rank = 1 }) => {
+    useSiteContent();
     // Noms des rangs Garou
     const rankNames = {
         1: 'Cliath',
@@ -25,7 +27,7 @@ const RenownBadge = ({ rank = 1 }) => {
             data-testid="renown-badge"
         >
             <span className="mr-2">🐾</span>
-            {rankName}
+            {displayText("werewolf", rankName)}
         </div>
     );
 };

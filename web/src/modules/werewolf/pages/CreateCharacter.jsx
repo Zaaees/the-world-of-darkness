@@ -1,3 +1,6 @@
+// site-content: migrated
+import { displayText, useSiteContent, siteText } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import { apiFetch } from '../../../core/api';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +15,7 @@ const NAME_MIN_LENGTH = 2;
 const NAME_MAX_LENGTH = 50;
 
 export default function CreateCharacter() {
+    useSiteContent();
     const navigate = useNavigate();
     const { discordUser, guildId } = useUserRoles();
 
@@ -66,7 +70,7 @@ export default function CreateCharacter() {
         setIsSubmitting(true);
 
         try {
-            if (!discordUser || !guildId) throw new Error("Impossible de vous identifier.");
+            if (!discordUser || !guildId) throw new Error(siteText("werewolf.text.02590"));
 
             const headers = {
                 'Content-Type': 'application/json',
@@ -90,9 +94,9 @@ export default function CreateCharacter() {
 
             const data = await response.json();
 
-            if (!response.ok) throw new Error(data.error || "Erreur lors de la création.");
+            if (!response.ok) throw new Error(data.error || siteText("werewolf.text.02591"));
 
-            setSuccessMsg("Votre légende commence...");
+            setSuccessMsg(siteText("werewolf.text.02490"));
 
             // Immediate redirection after a short minimal UI feedback delay (optional but better than fixed 2s)
             // Or ideally wait for next render tick. 
@@ -201,7 +205,7 @@ export default function CreateCharacter() {
             <div className="min-h-[400px]">
                 {error && (
                     <div className="bg-red-900/50 border border-red-500 text-red-200 p-4 rounded mb-6 text-center animate-shake">
-                        {error}
+                        {displayText("werewolf", error)}
                     </div>
                 )}
 
@@ -214,9 +218,7 @@ export default function CreateCharacter() {
                     onClick={prevStep}
                     disabled={step === 1 || isSubmitting}
                     className={`px-6 py-2 rounded border border-gray-600 text-gray-300 hover:bg-gray-800 transition ${step === 1 ? 'opacity-0 cursor-default' : ''}`}
-                >
-                    Précédent
-                </button>
+                ><SiteText contentKey="werewolf.text.01771" /></button>
 
                 {step < 4 ? (
                     <button
@@ -228,9 +230,7 @@ export default function CreateCharacter() {
                                 : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                             }
                         `}
-                    >
-                        Suivant
-                    </button>
+                    ><SiteText contentKey="werewolf.text.01772" /></button>
                 ) : (
                     <button
                         onClick={handleSubmit}
@@ -244,12 +244,10 @@ export default function CreateCharacter() {
                     >
                         {isSubmitting ? (
                             <>
-                                <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
-                                Création...
-                            </>
+                                <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span><SiteText contentKey="werewolf.text.01773" /></>
                         ) : (
                             <>
-                                <span>Confirmer l'Incarnation</span>
+                                <span><SiteText contentKey="werewolf.text.01774" /></span>
                                 <span className="text-xl">🌕</span>
                             </>
                         )}

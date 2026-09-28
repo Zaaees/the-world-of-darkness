@@ -1,8 +1,11 @@
+// site-content: migrated
+import { siteText, useSiteContent } from '../../../../../core/content/store';
 import React, { useState, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 
 export default function SearchInput() {
+    useSiteContent();
     const setSearchQuery = useGrimoireStore(state => state.setSearchQuery);
     const initialQuery = useGrimoireStore(state => state.searchQuery);
 
@@ -38,7 +41,7 @@ export default function SearchInput() {
                 type="text"
                 value={localQuery}
                 onChange={(e) => setLocalQuery(e.target.value)}
-                placeholder="Rechercher un rituel..."
+                placeholder={siteText("vampire.text.01507")}
                 className="
                     w-full pl-9 pr-8 py-2 
                     bg-stone-950 border border-stone-800 
@@ -51,7 +54,7 @@ export default function SearchInput() {
             {localQuery && (
                 <button
                     onClick={handleClear}
-                    aria-label="Effacer la recherche"
+                    aria-label={siteText("vampire.text.01508")}
                     className="absolute inset-y-0 right-0 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-500 hover:text-stone-300 transition-all duration-200"
                 >
                     <X className="h-4 w-4" />

@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Clock, Droplet } from 'lucide-react';
@@ -10,6 +13,7 @@ const DURATION_LABELS = {
 };
 
 const DisciplineDetailModal = ({ power, icon, onClose }) => {
+    useSiteContent();
     const modalRef = useRef(null);
 
     // Close on Escape key
@@ -90,7 +94,7 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
 
                             <button
                                 onClick={onClose}
-                                aria-label="Fermer"
+                                aria-label={siteText("vampire.text.01248")}
                                 className="absolute top-4 right-4 p-2 bg-stone-950/50 hover:bg-stone-800 text-stone-400 hover:text-white rounded-full transition-colors z-10 border border-stone-800/50 backdrop-blur-sm"
                             >
                                 <X size={20} />
@@ -101,11 +105,10 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                                     <span className="text-5xl drop-shadow-lg">{icon}</span>
                                 </div>
                                 <h2 className="text-3xl font-serif text-white font-bold tracking-wide drop-shadow-md">
-                                    {power.name}
+                                    {displayText("vampire", power.name)}
                                 </h2>
                                 <div className="flex items-center gap-2 mt-2">
-                                    <span className="px-2.5 py-0.5 rounded-full bg-stone-900/60 border border-stone-700/50 text-stone-300 text-xs font-semibold backdrop-blur-md shadow-sm">
-                                        Niveau {power.level}
+                                    <span className="px-2.5 py-0.5 rounded-full bg-stone-900/60 border border-stone-700/50 text-stone-300 text-xs font-semibold backdrop-blur-md shadow-sm"><SiteText contentKey="vampire.text.01249" />{displayText("vampire", power.level)}
                                     </span>
                                 </div>
                             </div>
@@ -115,11 +118,11 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         <div className="bg-stone-950/50 border-b border-stone-800 px-8 py-4 flex items-center gap-4 shrink-0 overflow-x-auto">
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/20 border border-red-900/20 text-red-200 text-xs font-medium tracking-wide whitespace-nowrap">
                                 <Droplet size={12} className="text-red-500 fill-red-500/20" />
-                                <span>Coût: {power.bloodCost > 0 ? `${power.bloodCost} Vitae` : 'Gratuit'}</span>
+                                <span><SiteText contentKey="vampire.text.01250" />{power.bloodCost > 0 ? `${power.bloodCost} Vitae` : siteText("vampire.text.01251")}</span>
                             </div>
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-stone-300 text-xs font-medium tracking-wide whitespace-nowrap">
                                 <Clock size={12} className="text-stone-500" />
-                                <span>Durée: {DURATION_LABELS[power.duration] || power.duration}</span>
+                                <span><SiteText contentKey="vampire.text.01252" />{displayText("vampire", DURATION_LABELS[power.duration] || power.duration)}</span>
                             </div>
                         </div>
 
@@ -127,20 +130,18 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
                             <div className="prose prose-invert prose-stone max-w-none">
                                 <p className="font-serif text-lg leading-relaxed text-stone-300 whitespace-pre-wrap">
-                                    {power.description}
+                                    {displayText("vampire", power.description)}
                                 </p>
                             </div>
                         </div>
 
-                        <p className="px-6 pb-4 text-sm text-stone-400">Décrivez une intention et laissez la cible répondre. Les effets restent soumis à la résistance mentale, aux limites du pouvoir et aux accords de la scène. « Scène » dure jusqu'à la conclusion convenue de l'enjeu ; une pause ne réinitialise pas l'effet.</p>
+                        <p className="px-6 pb-4 text-sm text-stone-400"><SiteText contentKey="vampire.text.01253" /></p>
                         {/* Footer (Optional) */}
                         <div className="p-4 border-t border-stone-800 bg-stone-950/30 shrink-0 flex justify-end">
                             <button
                                 onClick={onClose}
                                 className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded transition-colors text-sm"
-                            >
-                                Fermer
-                            </button>
+                            ><SiteText contentKey="vampire.text.01248" /></button>
                         </div>
                     </motion.div>
                 </motion.div>

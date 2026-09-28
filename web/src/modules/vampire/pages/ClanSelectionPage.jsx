@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import { readDraft, writeDraft, clearDraft } from '../../../core/drafts';
 import { getOriginQuestions } from '../../../data/originQuestions';
 import { apiFetch } from '../../../core/api';
@@ -12,6 +15,7 @@ import StarterPackStep from '../components/StarterPackStep';
  * Affiché uniquement si l'utilisateur a le rôle Vampire mais pas encore de clan
  */
 export default function ClanSelection({ userId, guildId, onClanSelected }) {
+    useSiteContent();
   const [selectedClan, setSelectedClan] = useState(null);
   const [expandedClan, setExpandedClan] = useState(null);
   const [step, setStep] = useState(1);
@@ -56,11 +60,11 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
           onClanSelected(selectedClan.id);
         }
       } else {
-        setError(data.error || 'Erreur lors de l\'enregistrement du clan');
+        setError(data.error || siteText("vampire.text.02564"));
       }
     } catch (err) {
       console.error('Erreur lors de l\'enregistrement du clan:', err);
-      setError('Impossible de se connecter au serveur');
+      setError(siteText("vampire.text.01514"));
     } finally {
       setLoading(false);
     }
@@ -83,15 +87,11 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
       <div className="vp-lineage w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div>
           <div className="text-center mb-10">
-            <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3">
-              L'Étreinte
-            </h1>
-            <p className="text-stone-400 max-w-xl mx-auto text-sm md:text-base">
-              Le Sang du fondateur coule désormais dans tes veines. Raconte-nous comment la malédiction s'est éveillée.
-            </p>
+            <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3"><SiteText contentKey="vampire.text.01515" /></h1>
+            <p className="text-stone-400 max-w-xl mx-auto text-sm md:text-base"><SiteText contentKey="vampire.text.01516" /></p>
           </div>
 
-<p className="mb-4 text-sm">Étape 2 sur 2 — trois réponses libres, au moins 10 caractères chacune. Brouillon conservé sur cet appareil.</p>
+<p className="mb-4 text-sm"><SiteText contentKey="vampire.text.01517" /></p>
           <StarterPackStep
             selectedClan={selectedClan}
             answers={starterPackAnswers}
@@ -100,18 +100,13 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
           <div className="mt-8 bg-stone-900/80 border border-stone-700 rounded-lg p-5">
             <div className="bg-amber-950/30 border border-amber-900/50 rounded p-3 mb-4">
-              <p className="text-amber-500 text-sm font-medium mb-1">
-                Dernière confirmation
-              </p>
-              <p className="text-stone-400 text-xs">
-                Es-tu certain de vouloir rejoindre le clan {selectedClan.name} ?
-                Ce choix est définitif.
-              </p>
+              <p className="text-amber-500 text-sm font-medium mb-1"><SiteText contentKey="vampire.text.01518" /></p>
+              <p className="text-stone-400 text-xs"><SiteText contentKey="vampire.text.01519" />{displayText("vampire", selectedClan.name)}<SiteText contentKey="vampire.text.01520" /></p>
             </div>
 
             {error && (
               <div className="mb-4 p-3 bg-red-900/30 border border-red-900 rounded text-red-400 text-sm">
-                {error}
+                {displayText("vampire", error)}
               </div>
             )}
 
@@ -119,15 +114,13 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
               <button
                 onClick={() => { setStep(1); window.scrollTo(0, 0); }}
                 className="flex-1 py-3 bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-300 font-medium rounded-lg transition-colors"
-              >
-                Retour
-              </button>
+              ><SiteText contentKey="vampire.text.01521" /></button>
               <button
                 onClick={handleConfirm}
                 disabled={loading || !getCanConfirm()}
                 className="flex-1 py-3 bg-red-800 hover:bg-red-700 border border-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Enregistrement...' : 'Confirmer l\'Incarnation'}
+                {loading ? siteText("vampire.text.01522") : siteText("vampire.text.01523")}
               </button>
             </div>
           </div>
@@ -141,22 +134,15 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
       <div>
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3">
-            Choisis Ton Lignage
-          </h1>
-          <p className="text-stone-400 max-w-2xl mx-auto text-sm md:text-base">
-            Tu viens de rejoindre les rangs des Damnés. Chaque clan porte un héritage millénaire,
-            une malédiction unique, et des disciplines qui te définiront pour l'éternité.
-          </p>
+          <h1 className="text-3xl md:text-4xl font-serif text-red-600 mb-3"><SiteText contentKey="vampire.text.01524" /></h1>
+          <p className="text-stone-400 max-w-2xl mx-auto text-sm md:text-base"><SiteText contentKey="vampire.text.01525" /></p>
           <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-stone-900/50 border border-stone-800 rounded-lg">
             <AlertTriangle className="w-4 h-4 text-red-700" />
-            <span className="text-stone-500 text-xs">
-              Une fois choisi, ton clan ne pourra plus être changé
-            </span>
+            <span className="text-stone-500 text-xs"><SiteText contentKey="vampire.text.01526" /></span>
           </div>
         </div>
 
-        <p className="text-sm mb-4">Étape 1 sur 2 — choisissez un clan. Vous pourrez revenir sur cet écran sans perdre votre brouillon.</p>
+        <p className="text-sm mb-4"><SiteText contentKey="vampire.text.01527" /></p>
         {/* Grille des clans */}
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start mb-8 ${selectedClan ? 'pb-48' : ''}`}>
           {clans.map((clan) => {
@@ -174,7 +160,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                     : 'border-stone-800 hover:border-stone-700 hover:bg-stone-900/70'
                   }
                 `}
-                role="radio" aria-checked={isSelected} aria-label={`Choisir ${clan.name}`} tabIndex={0}
+                role="radio" aria-checked={isSelected} aria-label={siteText("vampire.text.01528", { v0: (clan.name) })} tabIndex={0}
                 onKeyDown={e => { if (e.target === e.currentTarget && ['Enter', ' '].includes(e.key)) { e.preventDefault(); handleSelectClan(clan); } }}
                 onClick={() => handleSelectClan(clan)}
               >
@@ -188,22 +174,22 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                 {/* Nom et titre */}
                 <div className="mb-3">
                   <h3 className="text-lg font-serif text-stone-200 mb-0.5 flex items-center gap-2">
-                    {clan.name}
+                    {displayText("vampire", clan.name)}
                     {clan.id === 'salubri' && <Crown className="w-4 h-4 text-amber-600" />}
                     {clan.id === 'baali' && <span className="text-purple-600 text-sm">†</span>}
                   </h3>
-                  <p className="text-red-700 text-xs italic">{clan.title}</p>
+                  <p className="text-red-700 text-xs italic">{displayText("vampire", clan.title)}</p>
                 </div>
 
                 {/* Description courte */}
                 <p className="text-stone-400 text-sm mb-3 leading-relaxed">
-                  {clan.shortDesc}
+                  {displayText("vampire", clan.shortDesc)}
                 </p>
 
                 {/* Citation */}
                 <div className="border-l-2 border-stone-700 pl-3 mb-3">
                   <p className="text-stone-600 text-xs italic">
-                    {clan.quote}
+                    {displayText("vampire", clan.quote)}
                   </p>
                 </div>
 
@@ -211,23 +197,23 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                 {isExpanded && (
                   <div className="mt-4 pt-4 border-t border-stone-800 space-y-3">
                     <p className="text-stone-400 text-sm leading-relaxed">
-                      {clan.description}
+                      {displayText("vampire", clan.description)}
                     </p>
 
                     <div className="space-y-2">
                       <div className="bg-stone-800/30 p-3 rounded border border-stone-700">
-                        <p className="text-stone-300 font-medium text-xs mb-1">Spécificités</p>
-                        <p className="text-stone-400 text-xs whitespace-pre-line">{clan.specificities}</p>
+                        <p className="text-stone-300 font-medium text-xs mb-1"><SiteText contentKey="vampire.text.01529" /></p>
+                        <p className="text-stone-400 text-xs whitespace-pre-line">{displayText("vampire", clan.specificities)}</p>
                       </div>
 
                       <div className="bg-red-950/30 p-3 rounded border border-red-900/50">
-                        <p className="text-red-500 font-medium text-xs mb-1">Malédiction : {clan.bane}</p>
-                        <p className="text-stone-400 text-xs">{clan.baneDescription}</p>
+                        <p className="text-red-500 font-medium text-xs mb-1"><SiteText contentKey="vampire.text.01530" />{displayText("vampire", clan.bane)}</p>
+                        <p className="text-stone-400 text-xs">{displayText("vampire", clan.baneDescription)}</p>
                       </div>
 
                       <div className="bg-stone-800/50 p-3 rounded border border-stone-700">
-                        <p className="text-amber-600 font-medium text-xs mb-0.5">Roleplay</p>
-                        <p className="text-stone-500 text-xs italic">{clan.roleplay}</p>
+                        <p className="text-amber-600 font-medium text-xs mb-0.5"><SiteText contentKey="vampire.text.01531" /></p>
+                        <p className="text-stone-500 text-xs italic">{displayText("vampire", clan.roleplay)}</p>
                       </div>
                     </div>
                   </div>
@@ -242,9 +228,9 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                   }}
                 >
                   {isExpanded ? (
-                    <>Réduire <ChevronUp className="w-3 h-3" /></>
+                    <><SiteText contentKey="vampire.text.01532" /><ChevronUp className="w-3 h-3" /></>
                   ) : (
-                    <>Voir les détails <ChevronDown className="w-3 h-3" /></>
+                    <><SiteText contentKey="vampire.text.01533" /><ChevronDown className="w-3 h-3" /></>
                   )}
                 </button>
               </div>
@@ -263,26 +249,24 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
                   </div>
                   <div>
                     <h3 className="text-lg font-serif text-stone-200">
-                      {selectedClan.name}
+                      {displayText("vampire", selectedClan.name)}
                     </h3>
                     <p className="text-stone-500 text-xs">
-                      {selectedClan.title}
+                      {displayText("vampire", selectedClan.title)}
                     </p>
                   </div>
                 </div>
 
                 {error && (
                   <div className="mb-4 p-3 bg-red-900/30 border border-red-900 rounded text-red-400 text-sm">
-                    {error}
+                    {displayText("vampire", error)}
                   </div>
                 )}
 
                 <button
                   onClick={() => { setStep(2); window.scrollTo(0, 0); }}
                   className="w-full py-3 bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-stone-200 font-medium rounded-lg transition-colors"
-                >
-                  Continuer vers l'Étreinte
-                </button>
+                ><SiteText contentKey="vampire.text.01534" /></button>
               </div>
             </div>
           </div>

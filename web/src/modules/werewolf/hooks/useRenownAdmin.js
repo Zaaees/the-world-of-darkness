@@ -1,3 +1,4 @@
+import { siteText } from '../../../core/content/store';
 import { apiFetch } from '../../../core/api';
 import { useState, useCallback } from 'react';
 import { API_URL } from '../../../config';
@@ -32,11 +33,11 @@ export function useRenownAdmin() {
             });
 
             if (response.status === 403) {
-                throw new Error("Accès réservé aux Conteurs (MJ).");
+                throw new Error(siteText("werewolf.text.02579"));
             }
 
             if (!response.ok) {
-                throw new Error("Erreur lors du chargement des demandes.");
+                throw new Error(siteText("werewolf.text.02580"));
             }
 
             const data = await response.json();
@@ -56,7 +57,7 @@ export function useRenownAdmin() {
         });
 
         if (!response.ok) {
-            throw new Error("Erreur validation");
+            throw new Error(siteText("werewolf.text.02581"));
         }
         const data = await response.json();
         return data; // { success, status, new_rank }
@@ -69,7 +70,7 @@ export function useRenownAdmin() {
         });
 
         if (!response.ok) {
-            throw new Error("Erreur rejet");
+            throw new Error(siteText("werewolf.text.02582"));
         }
         return true;
     }, [getHeaders]);

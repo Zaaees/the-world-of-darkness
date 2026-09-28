@@ -1,3 +1,5 @@
+// site-content: migrated
+import SiteText from '../content/SiteText';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Suspense } from 'react';
 
@@ -12,7 +14,7 @@ import { useUserRoles } from '../hooks/useUserRoles';
 import NoRolePage from '../components/NoRolePage';
 
 // Loading Component
-const Loading = () => <div className="p-10 text-center text-white">Chargement du module...</div>;
+const Loading = () => <div className="p-10 text-center text-white"><SiteText contentKey="common.text.00041" /></div>;
 
 /**
  * Composant de redirection intelligente basée sur les rôles Discord.
@@ -32,13 +34,13 @@ const RootRedirect = () => {
     if (isLoading) {
         return (
             <div className="min-h-screen bg-[#0c0a09] flex items-center justify-center">
-                <div className="text-stone-500 animate-pulse">Détection de votre monde...</div>
+                <div className="text-stone-500 animate-pulse"><SiteText contentKey="common.text.00042" /></div>
             </div>
         );
     }
 
     if (error && isAuthenticated) {
-        return <main className="min-h-screen bg-stone-950 text-stone-200 p-8 text-center"><h1>Vérification temporairement indisponible</h1><p>Votre session Discord est ouverte, mais les rôles n'ont pas pu être vérifiés.</p><button onClick={() => window.location.reload()} className="border rounded px-4 py-2 mt-4">Réessayer</button></main>;
+        return <main className="min-h-screen bg-stone-950 text-stone-200 p-8 text-center"><h1><SiteText contentKey="common.text.00043" /></h1><p><SiteText contentKey="common.text.00044" /></p><button onClick={() => window.location.reload()} className="border rounded px-4 py-2 mt-4"><SiteText contentKey="common.text.00045" /></button></main>;
     }
 
     // Non authentifié → page vampire pour le login Discord

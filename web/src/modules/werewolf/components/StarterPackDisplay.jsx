@@ -1,8 +1,12 @@
+// site-content: migrated
+import { displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { ChevronDown, BookOpen } from 'lucide-react';
 import starterPackData from '../../../assets/starter_pack_data.json';
 
 export default function StarterPackDisplay({ character }) {
+    useSiteContent();
     const [isOpen, setIsOpen] = useState(false);
 
     if (!character || !character.starter_pack_answers) {
@@ -41,7 +45,7 @@ export default function StarterPackDisplay({ character }) {
             >
                 <div className="flex items-center gap-3">
                     <BookOpen className="w-5 h-5 text-red-700" />
-                    <h3 className="text-lg font-serif text-stone-200">Aux Origines de la Légende</h3>
+                    <h3 className="text-lg font-serif text-stone-200"><SiteText contentKey="werewolf.text.01673" /></h3>
                 </div>
                 <ChevronDown className={`w-5 h-5 text-stone-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -51,7 +55,7 @@ export default function StarterPackDisplay({ character }) {
                     {/* Race */}
                     {answers.breed && (
                         <div className="pl-4 border-l-2 border-emerald-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{qs.breed}</p>
+                            <p className="text-sm italic text-stone-500 mb-2">{displayText("werewolf", qs.breed)}</p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.breed}
                             </p>
@@ -61,7 +65,7 @@ export default function StarterPackDisplay({ character }) {
                     {/* Auspice */}
                     {answers.auspice && (
                         <div className="pl-4 border-l-2 border-amber-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{qs.auspice}</p>
+                            <p className="text-sm italic text-stone-500 mb-2">{displayText("werewolf", qs.auspice)}</p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.auspice}
                             </p>
@@ -71,7 +75,7 @@ export default function StarterPackDisplay({ character }) {
                     {/* Tribu */}
                     {answers.tribu && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{qs.tribu}</p>
+                            <p className="text-sm italic text-stone-500 mb-2">{displayText("werewolf", qs.tribu)}</p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.tribu}
                             </p>

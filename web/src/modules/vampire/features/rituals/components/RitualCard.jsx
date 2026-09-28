@@ -1,9 +1,13 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../../../core/content/store';
+import SiteText from '../../../../../core/content/SiteText';
 import React from 'react';
 import { Book, Skull, Scroll, Diamond } from 'lucide-react';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import { getDisciplineName } from '../../../../../utils/translations';
 
 const RitualCard = ({ ritual }) => {
+    useSiteContent();
 
     // Simplified card for Grimoire viewing
     // Data-only, no actions
@@ -11,7 +15,7 @@ const RitualCard = ({ ritual }) => {
     return (
         <div className="h-full w-full">
             <div
-                role="button" tabIndex={0} aria-label={`Lire ${ritual.name}`}
+                role="button" tabIndex={0} aria-label={siteText("vampire.text.01494", { v0: (ritual.name) })}
                 onKeyDown={e => { if (['Enter',' '].includes(e.key)) { e.preventDefault(); useGrimoireStore.getState().setSelectedRitual(ritual); } }}
                 onClick={() => useGrimoireStore.getState().setSelectedRitual(ritual)}
                 className="h-full border border-stone-800 bg-[#1c1917] hover:bg-[#201d1b] rounded-sm p-5 cursor-pointer flex flex-col justify-between group relative overflow-hidden
@@ -27,8 +31,8 @@ const RitualCard = ({ ritual }) => {
 
                 <div>
                     <div className="flex justify-between items-start mb-3 relative z-10">
-                        <h3 className="font-serif text-lg text-stone-200 group-hover:text-red-500 transition-colors line-clamp-2 leading-tight" title={ritual.name}>
-                            {ritual.name}
+                        <h3 className="font-serif text-lg text-stone-200 group-hover:text-red-500 transition-colors line-clamp-2 leading-tight" title={displayText("vampire", ritual.name)}>
+                            {displayText("vampire", ritual.name)}
                         </h3>
                         {['Necromancy', 'Nécromancie', 'necromancy'].includes(ritual.discipline)
                             ? <Skull size={16} className="text-stone-600 group-hover:text-stone-400 flex-shrink-0 mt-1" />
@@ -37,14 +41,13 @@ const RitualCard = ({ ritual }) => {
                     </div>
 
                     <div className="flex items-center gap-2 mb-4">
-                        <span className="text-[10px] uppercase tracking-widest text-stone-500 border border-stone-800/50 px-1.5 py-0.5 rounded bg-stone-950/30">
-                            Niveau {ritual.level}
+                        <span className="text-[10px] uppercase tracking-widest text-stone-500 border border-stone-800/50 px-1.5 py-0.5 rounded bg-stone-950/30"><SiteText contentKey="vampire.text.01495" />{displayText("vampire", ritual.level)}
                         </span>
                     </div>
 
                     <div className="text-xs text-stone-500 flex items-center gap-2 border-t border-stone-800/50 pt-3 relative z-10">
                         <div className={`w-1.5 h-1.5 rotate-45 ${['Necromancy', 'Nécromancie', 'necromancy'].includes(ritual.discipline) ? 'bg-emerald-900' : 'bg-red-900'}`}></div>
-                        <span className="font-serif italic tracking-wide">{getDisciplineName(ritual.discipline)}</span>
+                        <span className="font-serif italic tracking-wide">{displayText("vampire", getDisciplineName(ritual.discipline))}</span>
                     </div>
                 </div>
 

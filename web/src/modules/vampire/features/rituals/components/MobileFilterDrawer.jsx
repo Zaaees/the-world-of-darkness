@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, useSiteContent } from '../../../../../core/content/store';
+import SiteText from '../../../../../core/content/SiteText';
 import React from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { X, Filter } from 'lucide-react';
@@ -13,6 +16,7 @@ import FilterContent from './FilterContent';
  * @param {Function} props.onClose - Callback to close the drawer
  */
 export default function MobileFilterDrawer({ isOpen, onClose }) {
+    useSiteContent();
     const prefersReducedMotion = useReducedMotion();
 
     // Animation configuration
@@ -85,13 +89,11 @@ export default function MobileFilterDrawer({ isOpen, onClose }) {
                                 id="filter-drawer-title"
                                 className="text-lg font-serif font-bold text-stone-300 flex items-center gap-2"
                             >
-                                <Filter size={20} className="text-red-600" />
-                                Filtres
-                            </h2>
+                                <Filter size={20} className="text-red-600" /><SiteText contentKey="vampire.text.01487" /></h2>
                             <button
                                 onClick={onClose}
                                 className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-stone-800 text-stone-400 hover:text-stone-200 transition-colors"
-                                aria-label="Fermer les filtres"
+                                aria-label={siteText("vampire.text.01488")}
                             >
                                 <X size={24} />
                             </button>

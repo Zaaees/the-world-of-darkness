@@ -1,8 +1,12 @@
+import { displayText, useSiteContent } from '../../../core/content/store';
+// site-content: migrated
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { ChevronDown, BookOpen } from 'lucide-react';
 import starterPackData from '../../../assets/starter_pack_data.json';
 
 export default function StarterPackDisplay({ answers, clanId }) {
+    useSiteContent();
     const [isOpen, setIsOpen] = useState(false);
 
     if (!answers || (!answers.q1 && !answers.q2 && !answers.q3)) {
@@ -25,7 +29,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
             >
                 <div className="flex items-center gap-3">
                     <BookOpen className="w-5 h-5 text-red-700" />
-                    <h3 className="text-lg font-serif text-stone-200">L'Éveil de votre Sang</h3>
+                    <h3 className="text-lg font-serif text-stone-200"><SiteText contentKey="vampire.text.01477" /></h3>
                 </div>
                 <ChevronDown className={`w-5 h-5 text-stone-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -34,7 +38,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
                 <div className="p-5 border-t border-stone-800/50 space-y-5 animate-in slide-in-from-top-2 duration-300">
                     {answers.q1 && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{q1}</p>
+                            <p className="text-sm italic text-stone-500 mb-2">{displayText("vampire", q1)}</p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.q1}
                             </p>
@@ -43,7 +47,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
 
                     {answers.q2 && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{q2}</p>
+                            <p className="text-sm italic text-stone-500 mb-2">{displayText("vampire", q2)}</p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.q2}
                             </p>
@@ -52,7 +56,7 @@ export default function StarterPackDisplay({ answers, clanId }) {
 
                     {answers.q3 && (
                         <div className="pl-4 border-l-2 border-red-900/50">
-                            <p className="text-sm italic text-stone-500 mb-2">{q3}</p>
+                            <p className="text-sm italic text-stone-500 mb-2">{displayText("vampire", q3)}</p>
                             <p className="text-stone-300 whitespace-pre-line text-sm leading-relaxed">
                                 {answers.q3}
                             </p>

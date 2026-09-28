@@ -1,3 +1,6 @@
+// site-content: migrated
+import { useSiteContent } from '../content/store';
+import SiteText from '../content/SiteText';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -5,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
  * (ni Vampire ni Loup-Garou). Style World of Darkness, atmosphérique.
  */
 export default function NoRolePage() {
+    useSiteContent();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -18,17 +22,13 @@ export default function NoRolePage() {
             <div className="no-role-fog" />
             <div className="no-role-content">
                 <div className="no-role-symbol">⛧</div>
-                <h1 className="no-role-title">Les ténèbres te sont fermées</h1>
-                <p className="no-role-subtitle">
-                    Votre compte Discord ne possède pas encore de rôle de jeu sur ce serveur. Demandez le rôle Vampire à l’équipe d’accueil ou à un MJ, puis réessayez.
-                </p>
-                <button onClick={() => window.location.reload()} className="no-role-logout">Vérifier mes rôles à nouveau</button>
+                <h1 className="no-role-title"><SiteText contentKey="common.text.00034" /></h1>
+                <p className="no-role-subtitle"><SiteText contentKey="common.text.00035" /></p>
+                <button onClick={() => window.location.reload()} className="no-role-logout"><SiteText contentKey="common.text.00036" /></button>
                 <div className="no-role-divider">
                     <span>✦</span>
                 </div>
-                <button onClick={handleLogout} className="no-role-logout">
-                    Quitter
-                </button>
+                <button onClick={handleLogout} className="no-role-logout"><SiteText contentKey="common.text.00037" /></button>
             </div>
 
             <style>{`

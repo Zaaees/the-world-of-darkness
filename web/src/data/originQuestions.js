@@ -1,3 +1,4 @@
+import { siteText, displayText } from '../core/content/store';
 const tensions = {
   brujah: 'une injustice et votre colère', gangrel: 'votre liberté et votre besoin de refuge',
   malkavian: 'vos perceptions singulières et la confiance des autres', nosferatu: 'le secret et le besoin de liens',
@@ -12,7 +13,7 @@ const tensions = {
 export function getOriginQuestions(clan) {
   return [
     'Qui étiez-vous avant l’Étreinte, et quel lien avec cette vie souhaitez-vous garder ? Vous pouvez être récemment étreint.',
-    `Comment vivez-vous la tension entre ${tensions[clan] || 'votre héritage et vos choix personnels'} ? Décrivez une situation vécue, une crainte ou un choix à venir.`,
+    siteText("vampire.text.02556", { v0: displayText('vampire', tensions[clan] || 'votre héritage et vos choix personnels') }),
     'Que cherchez-vous lors de votre première nuit dans la ville, et auprès de qui pourriez-vous trouver de l’aide ? Vous pouvez laisser le nom ouvert pour le définir avec un autre joueur ou le MJ.',
   ];
 }

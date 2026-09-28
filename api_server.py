@@ -1100,6 +1100,9 @@ def create_app(bot=None):
     from modules.vampire.api import register_routes
     register_routes(app)
 
+    from modules.content.api import register_routes as register_content_routes
+    register_content_routes(app)
+
     # Routes GM / NPC
     app.router.add_get("/api/gm/npcs", get_npcs_handler)
     app.router.add_post("/api/gm/npcs", create_npc_handler)

@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { Users, Plus, Trash2, Edit2, Save, X, Droplet, Shield, AlertCircle } from 'lucide-react';
 
@@ -6,6 +9,7 @@ const GHOUL_LIMITS = ghoulCatalog.limits;
 const CLAN_DISCIPLINES = { ...ghoulCatalog.clans, setites: ghoulCatalog.clans.setite, assamites: ghoulCatalog.clans.banu_haqim };
 
 export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
+    useSiteContent();
   const [editingGhoul, setEditingGhoul] = useState(null);
   const [creatingGhoul, setCreatingGhoul] = useState(false);
   const [newGhoul, setNewGhoul] = useState({ name: '', description: '', role: '', type: 'blood' }); // type: 'blood' | 'mind'
@@ -30,12 +34,12 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
 
   const createGhoul = async () => {
     if (!newGhoul.name.trim()) {
-      setError('Le nom de la goule est requis');
+      setError(siteText("vampire.text.01277"));
       return;
     }
 
     if (newGhoul.type === 'blood' && bloodGhoulsCount >= maxGhouls) {
-      setError('Limite de goules de sang atteinte');
+      setError(siteText("vampire.text.01278"));
       return;
     }
 
@@ -51,7 +55,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
     };
 
     try { await onUpdateGhouls([...ghouls, ghoulData]); }
-    catch (err) { setError(err.message || 'Sauvegarde impossible. Réessayez.'); return; }
+    catch (err) { setError(err.message || siteText("vampire.text.02561")); return; }
     setCreatingGhoul(false);
     setNewGhoul({ name: '', description: '', role: '', type: 'blood' });
     setError(null);
@@ -60,18 +64,18 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
   const updateGhoul = async (updatedGhoul) => {
     const updated = ghouls.map(g => g.id === updatedGhoul.id ? updatedGhoul : g);
     try { await onUpdateGhouls(updated); }
-    catch (err) { setError(err.message || 'Sauvegarde impossible. Réessayez.'); return; }
+    catch (err) { setError(err.message || siteText("vampire.text.02561")); return; }
     setEditingGhoul(null);
     setError(null);
   };
 
   const deleteGhoul = async (ghoulId) => {
-    if (!confirm('Êtes-vous sûr de vouloir libérer cette goule ?')) {
+    if (!confirm(siteText("vampire.text.02562"))) {
       return;
     }
     const updated = ghouls.filter(g => g.id !== ghoulId);
     try { await onUpdateGhouls(updated); }
-    catch (err) { setError(err.message || 'Sauvegarde impossible. Réessayez.'); return; }
+    catch (err) { setError(err.message || siteText("vampire.text.02561")); return; }
     setError(null);
   };
 
@@ -84,11 +88,11 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
             <Users size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-serif text-stone-200">Registre de Goules</h2>
+            <h2 className="text-xl font-serif text-stone-200"><SiteText contentKey="vampire.text.01279" /></h2>
             <div className="flex gap-3 text-xs text-stone-500">
-              <p>Goules de Sang: {bloodGhoulsCount} / {maxGhouls}</p>
+              <p><SiteText contentKey="vampire.text.01280" />{bloodGhoulsCount} / {maxGhouls}</p>
               {mindGhoulsCount > 0 && (
-                <p className="text-purple-400">Goules de l'Esprit: {mindGhoulsCount}</p>
+                <p className="text-purple-400"><SiteText contentKey="vampire.text.01281" />{mindGhoulsCount}</p>
               )}
             </div>
           </div>
@@ -99,9 +103,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
             onClick={() => setCreatingGhoul(true)}
             className="flex items-center gap-2 bg-red-900/30 hover:bg-red-900/50 border border-red-800 text-red-300 px-4 py-2 rounded transition-colors"
           >
-            <Plus size={16} />
-            Nouvelle Goule
-          </button>
+            <Plus size={16} /><SiteText contentKey="vampire.text.01282" /></button>
         )}
       </div>
 
@@ -110,8 +112,8 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
         <div className="bg-red-900/30 border border-red-800 text-red-300 p-4 rounded flex items-start gap-3">
           <AlertCircle size={20} className="flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium">Erreur</p>
-            <p className="text-sm">{error}</p>
+            <p className="font-medium"><SiteText contentKey="vampire.text.01283" /></p>
+            <p className="text-sm">{displayText("vampire", error)}</p>
           </div>
         </div>
       )}
@@ -120,7 +122,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
       {creatingGhoul && (
         <div className="bg-stone-900/60 border border-stone-800 rounded-lg p-6 space-y-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-serif text-lg text-stone-200">Créer une Goule</h3>
+            <h3 className="font-serif text-lg text-stone-200"><SiteText contentKey="vampire.text.01284" /></h3>
             <button
               onClick={() => {
                 setCreatingGhoul(false);
@@ -147,8 +149,8 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
                   className="text-red-600 focus:ring-red-900"
                 />
                 <div>
-                  <span className="block text-stone-200 font-medium">Goule de Sang</span>
-                  <span className="text-xs text-stone-500">Liée par le sang, gagne une discipline. Limitée par le BP.</span>
+                  <span className="block text-stone-200 font-medium"><SiteText contentKey="vampire.text.01285" /></span>
+                  <span className="text-xs text-stone-500"><SiteText contentKey="vampire.text.01286" /></span>
                 </div>
               </label>
 
@@ -162,41 +164,41 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
                   className="text-purple-600 focus:ring-purple-900"
                 />
                 <div>
-                  <span className="block text-stone-200 font-medium">Goule de l'Esprit</span>
-                  <span className="text-xs text-stone-500">Conditionnée mentalement, sans discipline. Sans limite de sang.</span>
+                  <span className="block text-stone-200 font-medium"><SiteText contentKey="vampire.text.01287" /></span>
+                  <span className="text-xs text-stone-500"><SiteText contentKey="vampire.text.01288" /></span>
                 </div>
               </label>
             </div>
           )}
 
           <div>
-            <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Nom *</label>
+            <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01289" /></label>
             <input
               type="text"
               value={newGhoul.name}
               onChange={(e) => setNewGhoul({ ...newGhoul, name: e.target.value })}
-              placeholder={newGhoul.type === 'mind' ? "Sujet #894" : "Marcus"}
+              placeholder={newGhoul.type === 'mind' ? siteText("vampire.text.01290") : siteText("vampire.text.01291")}
               className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 placeholder-stone-700 focus:border-red-900 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Rôle</label>
+            <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01292" /></label>
             <input
               type="text"
               value={newGhoul.role}
               onChange={(e) => setNewGhoul({ ...newGhoul, role: e.target.value })}
-              placeholder="Garde du corps, informateur, serviteur..."
+              placeholder={siteText("vampire.text.01293")}
               className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 placeholder-stone-700 focus:border-red-900 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Description</label>
+            <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01294" /></label>
             <textarea
               value={newGhoul.description}
               onChange={(e) => setNewGhoul({ ...newGhoul, description: e.target.value })}
-              placeholder="Apparence, personnalité, histoire..."
+              placeholder={siteText("vampire.text.01295")}
               rows={3}
               className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 placeholder-stone-700 focus:border-red-900 focus:outline-none resize-none"
             />
@@ -211,8 +213,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
                   : 'bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-red-200'
                 }`}
             >
-              <Save size={16} />
-              Créer {newGhoul.type === 'mind' ? 'Goule de l\'Esprit' : 'Goule'}
+              <Save size={16} /><SiteText contentKey="vampire.text.01296" />{newGhoul.type === 'mind' ? siteText("vampire.text.01287") : siteText("vampire.text.01297")}
             </button>
             <button
               onClick={() => {
@@ -221,15 +222,13 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
                 setError(null);
               }}
               className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded transition-colors"
-            >
-              Annuler
-            </button>
+            ><SiteText contentKey="vampire.text.01298" /></button>
           </div>
 
           <p className="text-xs text-stone-600 italic">
             {newGhoul.type === 'blood'
-              ? "Une discipline de ton clan sera assignée aléatoirement à cette goule."
-              : "Les Goules de l'Esprit n'obtiennent pas de disciplines et ne comptent pas dans ta limite."}
+              ? siteText("vampire.text.01299")
+              : siteText("vampire.text.01300")}
           </p>
         </div>
       )}
@@ -238,10 +237,8 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
       {ghouls.length === 0 && !creatingGhoul ? (
         <div className="text-center py-12 text-stone-600">
           <Users size={48} className="mx-auto mb-4 opacity-20" />
-          <p className="font-serif">Aucune goule pour le moment</p>
-          <p className="text-sm mt-2">
-            Les goules sont des mortels liés à toi par le sang ou l'esprit.
-          </p>
+          <p className="font-serif"><SiteText contentKey="vampire.text.01301" /></p>
+          <p className="text-sm mt-2"><SiteText contentKey="vampire.text.01302" /></p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -261,12 +258,12 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
 
       {/* Info BP */}
       <div className="bg-stone-950/50 border border-stone-900 rounded p-4 text-xs text-stone-600">
-        <p className="font-serif mb-2 text-stone-500">À propos des goules</p>
+        <p className="font-serif mb-2 text-stone-500"><SiteText contentKey="vampire.text.01303" /></p>
         <ul className="space-y-1 list-disc list-inside">
-          <li>Limite par Puissance du Sang ({bloodPotency}): {maxGhouls} goules de sang max</li>
-          <li>Les Goules de Sang reçoivent une discipline de ton clan</li>
+          <li><SiteText contentKey="vampire.text.01304" />{bloodPotency}): {maxGhouls}<SiteText contentKey="vampire.text.01305" /></li>
+          <li><SiteText contentKey="vampire.text.01306" /></li>
           {canCreateMindGhouls && (
-            <li className="text-purple-400">Tes pouvoirs de Domination te permettent de créer des Goules de l'Esprit sans discipline (registre limité à 100 entrées)</li>
+            <li className="text-purple-400"><SiteText contentKey="vampire.text.01307" /></li>
           )}
         </ul>
       </div>
@@ -276,6 +273,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
 
 // Composant pour une carte de goule
 function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
+    useSiteContent();
   const [editedGhoul, setEditedGhoul] = useState(ghoul);
   const isMindGhoul = ghoul.type === 'mind';
 
@@ -286,10 +284,10 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
   if (isEditing) {
     return (
       <div className={`bg-stone-900/60 border ${isMindGhoul ? 'border-purple-900/40' : 'border-stone-700'} rounded-lg p-6 space-y-4`}>
-        {isMindGhoul && <div className="text-xs text-purple-400 uppercase tracking-widest font-bold">Goule de l'Esprit</div>}
+        {isMindGhoul && <div className="text-xs text-purple-400 uppercase tracking-widest font-bold"><SiteText contentKey="vampire.text.01287" /></div>}
 
         <div>
-          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Nom</label>
+          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01308" /></label>
           <input
             type="text"
             value={editedGhoul.name}
@@ -299,7 +297,7 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
         </div>
 
         <div>
-          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Rôle</label>
+          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01292" /></label>
           <input
             type="text"
             value={editedGhoul.role || ''}
@@ -309,7 +307,7 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
         </div>
 
         <div>
-          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Description</label>
+          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01294" /></label>
           <textarea
             value={editedGhoul.description || ''}
             onChange={(e) => setEditedGhoul({ ...editedGhoul, description: e.target.value })}
@@ -319,7 +317,7 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
         </div>
 
         <div>
-          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider">Notes</label>
+          <label className="block text-xs text-stone-500 mb-1 uppercase tracking-wider"><SiteText contentKey="vampire.text.01309" /></label>
           <textarea
             value={editedGhoul.notes || ''}
             onChange={(e) => setEditedGhoul({ ...editedGhoul, notes: e.target.value })}
@@ -333,15 +331,11 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
             onClick={() => onSave(editedGhoul)}
             className="flex-1 flex items-center justify-center gap-2 bg-red-900/50 hover:bg-red-900/70 border border-red-800 text-red-200 px-4 py-2 rounded transition-colors"
           >
-            <Save size={16} />
-            Sauvegarder
-          </button>
+            <Save size={16} /><SiteText contentKey="vampire.text.01310" /></button>
           <button
             onClick={onCancel}
             className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded transition-colors"
-          >
-            Annuler
-          </button>
+          ><SiteText contentKey="vampire.text.01298" /></button>
         </div>
       </div>
     );
@@ -351,9 +345,7 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
     <div className={`bg-stone-900/40 border ${isMindGhoul ? 'border-purple-900/30 hover:border-purple-700' : 'border-stone-800 hover:border-stone-700'} rounded-lg p-5 transition-colors relative overflowing-hidden`}>
       {/* Badge Goule de l'Esprit */}
       {isMindGhoul && (
-        <div className="absolute top-0 right-0 bg-purple-900/20 text-purple-400 text-[10px] px-2 py-0.5 rounded-bl uppercase tracking-wider border-l border-b border-purple-900/30">
-          Goule de l'Esprit
-        </div>
+        <div className="absolute top-0 right-0 bg-purple-900/20 text-purple-400 text-[10px] px-2 py-0.5 rounded-bl uppercase tracking-wider border-l border-b border-purple-900/30"><SiteText contentKey="vampire.text.01287" /></div>
       )}
 
       <div className="flex justify-between items-start mb-3">
@@ -367,14 +359,14 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
           <button
             onClick={() => onEdit(ghoul)}
             className="p-2 text-stone-500 hover:text-stone-300 transition-colors"
-            title="Modifier"
+            title={siteText("vampire.text.01311")}
           >
             <Edit2 size={16} />
           </button>
           <button
             onClick={() => onDelete(ghoul.id)}
             className="p-2 text-stone-500 hover:text-red-500 transition-colors"
-            title="Libérer"
+            title={siteText("vampire.text.01312")}
           >
             <Trash2 size={16} />
           </button>
@@ -390,19 +382,19 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
           <div className="flex items-center gap-2">
             <Droplet size={14} className="text-red-700" />
             <span className="text-xs text-stone-500">
-              <span className="text-red-600 font-medium">{ghoul.discipline_name}</span> - {ghoul.discipline_power}
+              <span className="text-red-600 font-medium">{displayText("vampire", ghoul.discipline_name)}</span> - {displayText("vampire", ghoul.discipline_power)}
             </span>
           </div>
         )}
         {isMindGhoul && (
           <div className="flex items-center gap-2">
             <div className="text-purple-700">✦</div>
-            <span className="text-xs text-purple-400/70 italic">Sans discipline</span>
+            <span className="text-xs text-purple-400/70 italic"><SiteText contentKey="vampire.text.01313" /></span>
           </div>
         )}
         <div className="flex items-center gap-2">
           <Shield size={14} className="text-stone-700" />
-          <span className="text-xs text-stone-600 capitalize">{ghoul.status || 'actif'}</span>
+          <span className="text-xs text-stone-600 capitalize">{ghoul.status || siteText("vampire.text.01314")}</span>
         </div>
       </div>
 

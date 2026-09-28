@@ -1,3 +1,5 @@
+// site-content: migrated
+import { displayText, useSiteContent } from '../core/content/store';
 
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
  * @param {function} onClose - function to call when closing
  */
 export default function Toast({ message, subtext, type = 'success', onClose }) {
+    useSiteContent();
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
@@ -33,12 +36,12 @@ export default function Toast({ message, subtext, type = 'success', onClose }) {
                     className={`p-4 rounded-lg border shadow-xl backdrop-blur-md flex flex-col gap-1 min-w-[300px] ${bgColors[type] || bgColors.info}`}
                 >
                     <div className="font-bold flex items-center justify-between">
-                        <span>{message}</span>
+                        <span>{displayText("common", message)}</span>
                         <button onClick={onClose} className="opacity-50 hover:opacity-100 ml-4">✕</button>
                     </div>
                     {subtext && (
                         <div className="text-sm opacity-80 font-light">
-                            {subtext}
+                            {displayText("common", subtext)}
                         </div>
                     )}
                 </motion.div>

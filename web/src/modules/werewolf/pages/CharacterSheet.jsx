@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import { apiFetch } from '../../../core/api';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -67,6 +70,7 @@ const findLoreData = (type, value) => {
 };
 
 const CharacterSheet = ({ initialTab }) => {
+    useSiteContent();
     const location = useLocation();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(
@@ -126,7 +130,7 @@ const CharacterSheet = ({ initialTab }) => {
         const gId = String(guildId);
 
         if (!userId || !gId || userId === 'undefined' || gId === 'undefined') {
-            setError('Informations d\'authentification manquantes');
+            setError(siteText("werewolf.text.01726"));
             setLoading(false);
             return;
         }
@@ -144,7 +148,7 @@ const CharacterSheet = ({ initialTab }) => {
 
         const fetchGifts = apiFetch(`${API_URL}/api/modules/werewolf/gifts`, { headers })
             .then(res => {
-                if (!res.ok) throw new Error(`Erreur HTTP Gifts: ${res.status}`);
+                if (!res.ok) throw new Error(siteText("werewolf.text.02586", { v0: (res.status) }));
                 return res.json();
             })
             .catch(err => {
@@ -205,7 +209,7 @@ const CharacterSheet = ({ initialTab }) => {
                 if (err?.code === 'NO_CHARACTER') {
                     setError('NOT_FOUND');
                 } else {
-                    setError(err.message || 'Erreur lors du chargement');
+                    setError(err.message || siteText("werewolf.text.02587"));
                 }
             })
             .finally(() => {
@@ -287,9 +291,9 @@ const CharacterSheet = ({ initialTab }) => {
             });
             const data = await response.json();
             if (data.success && data.url) setSheetData(prev => ({ ...prev, image_url: data.url }));
-            else setFormError(data.error || "Erreur upload image");
+            else setFormError(data.error || siteText("werewolf.text.02588"));
         } catch (err) {
-            setFormError("Impossible d'uploader l'image.");
+            setFormError(siteText("werewolf.text.01728"));
         } finally {
             setUploadingImage(false);
         }
@@ -311,7 +315,7 @@ const CharacterSheet = ({ initialTab }) => {
                 })
             });
             const data = await response.json();
-            if (!response.ok) throw new Error(data.error || 'Erreur sauvegarde');
+            if (!response.ok) throw new Error(data.error || siteText("werewolf.text.02589"));
 
             setCharacter(prev => ({ ...prev, ...data.character }));
 
@@ -321,7 +325,7 @@ const CharacterSheet = ({ initialTab }) => {
                 if (!data.character[f] || data.character[f] === "Jeune Garou inconnu") { complete = false; break; }
             }
             if (complete) setIsEditing(false);
-            else setFormError("Veuillez remplir tous les champs obligatoires (Image optionnelle).");
+            else setFormError(siteText("werewolf.text.01729"));
 
         } catch (err) {
             setFormError(err.message);
@@ -337,11 +341,9 @@ const CharacterSheet = ({ initialTab }) => {
         return (
             <WerewolfLayout>
                 <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-                    <h2 className="text-2xl text-amber-200 mb-4">Aucune fiche trouvée</h2>
-                    <p className="text-stone-400 mb-8">Vous n'avez pas encore créé de personnage Loup-Garou.</p>
-                    <Link to="/werewolf/create" className="px-6 py-2 bg-emerald-900 border border-emerald-600 text-emerald-100 rounded hover:bg-emerald-800 transition-colors">
-                        Créer un personnage
-                    </Link>
+                    <h2 className="text-2xl text-amber-200 mb-4"><SiteText contentKey="werewolf.text.01733" /></h2>
+                    <p className="text-stone-400 mb-8"><SiteText contentKey="werewolf.text.01734" /></p>
+                    <Link to="/werewolf/create" className="px-6 py-2 bg-emerald-900 border border-emerald-600 text-emerald-100 rounded hover:bg-emerald-800 transition-colors"><SiteText contentKey="werewolf.text.01735" /></Link>
                 </div>
             </WerewolfLayout>
         );
@@ -351,8 +353,8 @@ const CharacterSheet = ({ initialTab }) => {
         return (
             <WerewolfLayout>
                 <div className="p-6 text-center">
-                    <h2 className="text-2xl text-red-400 mb-4">Erreur</h2>
-                    <p className="text-red-300">{error}</p>
+                    <h2 className="text-2xl text-red-400 mb-4"><SiteText contentKey="werewolf.text.01736" /></h2>
+                    <p className="text-red-300">{displayText("werewolf", error)}</p>
                 </div>
             </WerewolfLayout>
         );
@@ -377,7 +379,7 @@ const CharacterSheet = ({ initialTab }) => {
                                 : 'border-transparent text-stone-500 hover:text-stone-300 hover:border-stone-600'
                                 }`}
                         >
-                            {tab.label}
+                            {displayText("werewolf", tab.label)}
                         </button>
                     ))}
                 </div>
@@ -399,10 +401,10 @@ const CharacterSheet = ({ initialTab }) => {
                             )}
                             <div>
                                 <h1 className="text-4xl md:text-5xl font-header text-amber-200 tracking-tight">
-                                    {character.name || "Jeune Garou inconnu"}
+                                    {character.name || siteText("werewolf.text.01737")}
                                 </h1>
                                 <p className="text-emerald-400 font-serif italic text-lg mt-1">
-                                    {translate('tribe', character.tribe)}
+                                    {displayText("werewolf", translate('tribe', character.tribe))}
                                 </p>
                             </div>
                         </div>
@@ -415,23 +417,23 @@ const CharacterSheet = ({ initialTab }) => {
                             {/* Identity Header */}
                             {character.image_url && (
                                 <div className="mb-6 flex justify-center animate-in fade-in zoom-in-95 duration-500">
-                                    <img src={character.image_url} alt="Personnage" className="max-h-[500px] w-auto rounded border border-stone-800 shadow-lg object-contain bg-black/20" />
+                                    <img src={character.image_url} alt={siteText("werewolf.text.01738")} className="max-h-[500px] w-auto rounded border border-stone-800 shadow-lg object-contain bg-black/20" />
                                 </div>
                             )}
 
                             <div className="bg-stone-900/50 p-4 rounded border border-stone-800 flex flex-wrap gap-8 items-center justify-center mb-10 shadow-lg">
                                 <div className="text-center">
-                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Nom</span>
+                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1"><SiteText contentKey="werewolf.text.01739" /></span>
                                     <span className="text-xl font-serif text-stone-200">{character.name !== "Jeune Garou inconnu" ? character.name : "-"}</span>
                                 </div>
                                 <div className="h-10 w-px bg-stone-700 hidden sm:block"></div>
                                 <div className="text-center">
-                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Âge</span>
+                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1"><SiteText contentKey="werewolf.text.01740" /></span>
                                     <span className="text-lg text-stone-300">{character.age || "-"}</span>
                                 </div>
                                 <div className="h-10 w-px bg-stone-700 hidden sm:block"></div>
                                 <div className="text-center">
-                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1">Sexe</span>
+                                    <span className="text-stone-500 text-xs uppercase tracking-wider block mb-1"><SiteText contentKey="werewolf.text.01741" /></span>
                                     <span className="text-lg text-stone-300">{character.sex || "-"}</span>
                                 </div>
                             </div>
@@ -445,84 +447,84 @@ const CharacterSheet = ({ initialTab }) => {
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                                         {/* Carte Race */}
                                         <div className="bg-stone-900/60 p-5 rounded-lg border border-emerald-900/30 hover:border-emerald-700/50 transition-colors">
-                                            <span className="block text-xs uppercase tracking-widest text-emerald-600 mb-2">Race</span>
+                                            <span className="block text-xs uppercase tracking-widest text-emerald-600 mb-2"><SiteText contentKey="werewolf.text.01742" /></span>
                                             <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
-                                                {breedData?.name_fr || translate('breed', character.breed)}
+                                                {displayText("werewolf", breedData?.name_fr || translate('breed', character.breed))}
                                             </h3>
                                             {breedData?.quote && (
                                                 <blockquote className="italic text-xs text-stone-500 border-l-2 border-emerald-900/50 pl-2 mb-3 leading-relaxed">
-                                                    "{breedData.quote}"
+                                                    "{displayText("werewolf", breedData.quote)}"
                                                 </blockquote>
                                             )}
                                             <p className="text-stone-400 text-xs leading-relaxed mb-3">
-                                                {breedData?.long_description || breedData?.description || ''}
+                                                {displayText("werewolf", breedData?.long_description || breedData?.description || '')}
                                             </p>
                                             {breedData?.roleplay && (
                                                 <div className="mt-3 pt-3 border-t border-emerald-900/20">
-                                                    <p className="text-emerald-600/80 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
-                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{breedData.roleplay}</p>
+                                                    <p className="text-emerald-600/80 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01743" /></p>
+                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{displayText("werewolf", breedData.roleplay)}</p>
                                                 </div>
                                             )}
                                             {breedData?.specificities && (
                                                 <div className="mt-3 bg-stone-950/50 p-2.5 rounded border border-stone-800">
-                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
-                                                    <p className="text-stone-400 text-xs leading-relaxed">{breedData.specificities}</p>
+                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01744" /></p>
+                                                    <p className="text-stone-400 text-xs leading-relaxed">{displayText("werewolf", breedData.specificities)}</p>
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Carte Auspice */}
                                         <div className="bg-stone-900/60 p-5 rounded-lg border border-amber-900/30 hover:border-amber-700/50 transition-colors">
-                                            <span className="block text-xs uppercase tracking-widest text-amber-600 mb-2">Auspice</span>
+                                            <span className="block text-xs uppercase tracking-widest text-amber-600 mb-2"><SiteText contentKey="werewolf.text.01745" /></span>
                                             <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
-                                                {auspiceData?.name_fr || translate('auspice', character.auspice)}
+                                                {displayText("werewolf", auspiceData?.name_fr || translate('auspice', character.auspice))}
                                             </h3>
                                             {auspiceData?.quote && (
                                                 <blockquote className="italic text-xs text-stone-500 border-l-2 border-amber-900/50 pl-2 mb-3 leading-relaxed">
-                                                    "{auspiceData.quote}"
+                                                    "{displayText("werewolf", auspiceData.quote)}"
                                                 </blockquote>
                                             )}
                                             <p className="text-stone-400 text-xs leading-relaxed mb-3">
-                                                {auspiceData?.long_description || auspiceData?.description || ''}
+                                                {displayText("werewolf", auspiceData?.long_description || auspiceData?.description || '')}
                                             </p>
                                             {auspiceData?.roleplay && (
                                                 <div className="mt-3 pt-3 border-t border-amber-900/20">
-                                                    <p className="text-amber-600/80 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
-                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{auspiceData.roleplay}</p>
+                                                    <p className="text-amber-600/80 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01743" /></p>
+                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{displayText("werewolf", auspiceData.roleplay)}</p>
                                                 </div>
                                             )}
                                             {auspiceData?.specificities && (
                                                 <div className="mt-3 bg-stone-950/50 p-2.5 rounded border border-stone-800">
-                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
-                                                    <p className="text-stone-400 text-xs leading-relaxed">{auspiceData.specificities}</p>
+                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01744" /></p>
+                                                    <p className="text-stone-400 text-xs leading-relaxed">{displayText("werewolf", auspiceData.specificities)}</p>
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Carte Tribu */}
                                         <div className="bg-stone-900/60 p-5 rounded-lg border border-red-900/30 hover:border-red-700/50 transition-colors">
-                                            <span className="block text-xs uppercase tracking-widest text-red-600 mb-2">Tribu</span>
+                                            <span className="block text-xs uppercase tracking-widest text-red-600 mb-2"><SiteText contentKey="werewolf.text.01746" /></span>
                                             <h3 className="text-amber-100 font-serif text-lg font-medium mb-2">
-                                                {tribeData?.name_fr || translate('tribe', character.tribe)}
+                                                {displayText("werewolf", tribeData?.name_fr || translate('tribe', character.tribe))}
                                             </h3>
                                             {tribeData?.quote && (
                                                 <blockquote className="italic text-xs text-stone-500 border-l-2 border-red-900/50 pl-2 mb-3 leading-relaxed">
-                                                    "{tribeData.quote}"
+                                                    "{displayText("werewolf", tribeData.quote)}"
                                                 </blockquote>
                                             )}
                                             <p className="text-stone-400 text-xs leading-relaxed mb-3">
-                                                {tribeData?.long_description || tribeData?.description || ''}
+                                                {displayText("werewolf", tribeData?.long_description || tribeData?.description || '')}
                                             </p>
                                             {tribeData?.roleplay && (
                                                 <div className="mt-3 pt-3 border-t border-red-900/20">
-                                                    <p className="text-red-600/80 font-medium text-xs mb-1 uppercase tracking-wider">Roleplay</p>
-                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{tribeData.roleplay}</p>
+                                                    <p className="text-red-600/80 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01743" /></p>
+                                                    <p className="text-stone-500 text-xs leading-relaxed italic">{displayText("werewolf", tribeData.roleplay)}</p>
                                                 </div>
                                             )}
                                             {tribeData?.specificities && (
                                                 <div className="mt-3 bg-stone-950/50 p-2.5 rounded border border-stone-800">
-                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider">Spécificités</p>
-                                                    <p className="text-stone-400 text-xs leading-relaxed">{tribeData.specificities}</p>
+                                                    <p className="text-stone-500 font-medium text-xs mb-1 uppercase tracking-wider"><SiteText contentKey="werewolf.text.01744" /></p>
+                                                    <p className="text-stone-400 text-xs leading-relaxed">{displayText("werewolf", tribeData.specificities)}</p>
                                                 </div>
                                             )}
                                         </div>
@@ -530,21 +532,21 @@ const CharacterSheet = ({ initialTab }) => {
                                 );
                             })()}
 
-                            <SectionView title="Apparence Physique" content={character.physical_desc} />
+                            <SectionView title={siteText("werewolf.text.01747")} content={character.physical_desc} />
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <SectionView title="Mentalité avant le changement" content={character.mental_desc_pre} />
-                                <SectionView title="Le Premier Changement" content={character.first_change} highlight />
+                                <SectionView title={siteText("werewolf.text.01748")} content={character.mental_desc_pre} />
+                                <SectionView title={siteText("werewolf.text.01749")} content={character.first_change} highlight />
                             </div>
 
-                            <SectionView title="Histoire" content={character.story} />
+                            <SectionView title={siteText("werewolf.text.01750")} content={character.story} />
                         </div>
                     ) : (
                         <div className="space-y-6">
                             {formError && (
                                 <div className="mb-6 p-4 bg-red-900/30 border border-red-800 rounded flex items-center gap-3 text-red-200 animate-in fade-in">
                                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                                    {formError}
+                                    {displayText("werewolf", formError)}
                                 </div>
                             )}
 
@@ -552,22 +554,19 @@ const CharacterSheet = ({ initialTab }) => {
                             <div className="bg-stone-900/50 border border-stone-800 rounded p-6 text-center">
                                 {sheetData.image_url ? (
                                     <div className="space-y-4">
-                                        <img src={sheetData.image_url} alt="Aperçu" className="mx-auto max-h-64 rounded shadow border border-stone-700" />
+                                        <img src={sheetData.image_url} alt={siteText("werewolf.text.01751")} className="mx-auto max-h-64 rounded shadow border border-stone-700" />
                                         <div className="flex justify-center gap-2">
                                             <label className="cursor-pointer px-4 py-2 bg-stone-800 hover:bg-stone-700 rounded border border-stone-700 text-stone-300 text-sm flex items-center gap-2 transition-colors">
-                                                <Upload size={14} /> Changer l'image
-                                                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
+                                                <Upload size={14} /><SiteText contentKey="werewolf.text.01752" /><input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
                                             </label>
-                                            <button onClick={() => setSheetData(prev => ({ ...prev, image_url: '' }))} className="px-4 py-2 bg-red-900/30 hover:bg-red-900/50 rounded border border-red-900/50 text-red-300 text-sm">
-                                                Supprimer
-                                            </button>
+                                            <button onClick={() => setSheetData(prev => ({ ...prev, image_url: '' }))} className="px-4 py-2 bg-red-900/30 hover:bg-red-900/50 rounded border border-red-900/50 text-red-300 text-sm"><SiteText contentKey="werewolf.text.01753" /></button>
                                         </div>
                                     </div>
                                 ) : (
                                     <label className={`cursor-pointer block border-2 border-dashed border-stone-700 rounded-lg p-8 hover:border-stone-500 hover:bg-stone-900/30 transition-all ${uploadingImage ? 'opacity-50 pointer-events-none' : ''}`}>
                                         <ImageIcon className="w-12 h-12 text-stone-600 mx-auto mb-3" />
                                         <p className="text-stone-400 font-medium mb-1">
-                                            {uploadingImage ? 'Téléchargement...' : 'Ajouter une image (Optionnel)'}
+                                            {uploadingImage ? siteText("werewolf.text.01754") : siteText("werewolf.text.01755")}
                                         </p>
                                         <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" disabled={uploadingImage} />
                                     </label>
@@ -576,46 +575,46 @@ const CharacterSheet = ({ initialTab }) => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label className="block text-sm font-medium text-stone-400">Nom complet</label>
-                                    <input type="text" name="name" value={sheetData.name} onChange={handleChange} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 outline-none" placeholder="Nom du Garou" />
+                                    <label className="block text-sm font-medium text-stone-400"><SiteText contentKey="werewolf.text.01756" /></label>
+                                    <input type="text" name="name" value={sheetData.name} onChange={handleChange} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 outline-none" placeholder={siteText("werewolf.text.01757")} />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <label className="block text-sm font-medium text-stone-400">Âge</label>
-                                        <input type="number" min="0" name="age" value={sheetData.age} onChange={handleChange} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 outline-none" placeholder="Ex: 25" />
+                                        <label className="block text-sm font-medium text-stone-400"><SiteText contentKey="werewolf.text.01740" /></label>
+                                        <input type="number" min="0" name="age" value={sheetData.age} onChange={handleChange} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 outline-none" placeholder={siteText("werewolf.text.01758")} />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="block text-sm font-medium text-stone-400">Sexe</label>
-                                        <input type="text" name="sex" value={sheetData.sex} onChange={handleChange} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 outline-none" placeholder="H/F/Autre" />
+                                        <label className="block text-sm font-medium text-stone-400"><SiteText contentKey="werewolf.text.01741" /></label>
+                                        <input type="text" name="sex" value={sheetData.sex} onChange={handleChange} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-stone-200 focus:border-red-700 outline-none" placeholder={siteText("werewolf.text.01759")} />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium text-stone-400">Apparence Physique (Homidée, Lupus ou Crinos...)</label>
+                                <label className="block text-sm font-medium text-stone-400"><SiteText contentKey="werewolf.text.01760" /></label>
                                 <textarea name="physical_desc" value={sheetData.physical_desc} onChange={handleChange} rows={6} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none" />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium text-stone-400">Mentalité (Avant le Premier Changement)</label>
+                                <label className="block text-sm font-medium text-stone-400"><SiteText contentKey="werewolf.text.01761" /></label>
                                 <textarea name="mental_desc_pre" value={sheetData.mental_desc_pre} onChange={handleChange} rows={6} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none" />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium text-red-500">Le Premier Changement</label>
-                                <textarea name="first_change" value={sheetData.first_change} onChange={handleChange} rows={6} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none placeholder-stone-600" placeholder="Comment avez-vous vécu votre première transformation ? La Rage primordiale s'est-elle emparée de vous ?" />
+                                <label className="block text-sm font-medium text-red-500"><SiteText contentKey="werewolf.text.01749" /></label>
+                                <textarea name="first_change" value={sheetData.first_change} onChange={handleChange} rows={6} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none placeholder-stone-600" placeholder={siteText("werewolf.text.01762")} />
                             </div>
 
                             <div className="space-y-4">
-                                <label className="block text-sm font-medium text-stone-400">Histoire complète</label>
+                                <label className="block text-sm font-medium text-stone-400"><SiteText contentKey="werewolf.text.01763" /></label>
 
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                     <div className="lg:col-span-2">
-                                        <textarea name="story" value={sheetData.story} onChange={handleChange} rows={15} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none h-full" placeholder="Rédigez votre histoire ici en vous inspirant de vos réponses aux origines de votre légende..." />
+                                        <textarea name="story" value={sheetData.story} onChange={handleChange} rows={15} className="w-full bg-stone-900 border border-stone-700 rounded p-3 text-sm text-stone-200 focus:border-red-700 outline-none h-full" placeholder={siteText("werewolf.text.01764")} />
                                     </div>
 
                                     <div className="bg-stone-900/40 border border-stone-800 rounded p-4 h-full overflow-y-auto max-h-[400px]">
-                                        <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2">Rappels de votre Légende</h4>
+                                        <h4 className="text-sm font-serif text-red-500 mb-3 border-b border-stone-800 pb-2"><SiteText contentKey="werewolf.text.01765" /></h4>
 
                                         {(() => {
                                             let ans = sheetData.starter_pack_answers || character?.starter_pack_answers;
@@ -624,7 +623,7 @@ const CharacterSheet = ({ initialTab }) => {
                                             }
 
                                             if (!ans || (!ans.breed && !ans.auspice && !ans.tribu)) {
-                                                return <p className="text-xs text-stone-500 italic">Aucune information d'origine disponible.</p>;
+                                                return <p className="text-xs text-stone-500 italic"><SiteText contentKey="werewolf.text.01766" /></p>;
                                             }
 
                                             const normalizeKey = (key) => (key ? key.toLowerCase().replace(/\s+/g, '_') : '');
@@ -640,19 +639,19 @@ const CharacterSheet = ({ initialTab }) => {
                                                 <div className="space-y-4">
                                                     {ans.breed && (
                                                         <div className="border-l-2 border-emerald-900/50 pl-3">
-                                                            <p className="text-[11px] italic text-emerald-600/80 mb-1 leading-snug">{breedQ}</p>
-                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.breed}</p>
+                                                            <p className="text-[11px] italic text-emerald-600/80 mb-1 leading-snug">{displayText("werewolf", breedQ)}</p>
+                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{displayText("werewolf", ans.breed)}</p>
                                                         </div>
                                                     )}
                                                     {ans.auspice && (
                                                         <div className="border-l-2 border-amber-900/50 pl-3">
-                                                            <p className="text-[11px] italic text-amber-600/80 mb-1 leading-snug">{auspiceQ}</p>
-                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.auspice}</p>
+                                                            <p className="text-[11px] italic text-amber-600/80 mb-1 leading-snug">{displayText("werewolf", auspiceQ)}</p>
+                                                            <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{displayText("werewolf", ans.auspice)}</p>
                                                         </div>
                                                     )}
                                                     {ans.tribu && (
                                                         <div className="border-l-2 border-red-900/50 pl-3">
-                                                            <p className="text-[11px] italic text-red-600/80 mb-1 leading-snug">{tribeQ}</p>
+                                                            <p className="text-[11px] italic text-red-600/80 mb-1 leading-snug">{displayText("werewolf", tribeQ)}</p>
                                                             <p className="text-[13px] text-stone-300 leading-relaxed whitespace-pre-wrap">{ans.tribu}</p>
                                                         </div>
                                                     )}
@@ -665,7 +664,7 @@ const CharacterSheet = ({ initialTab }) => {
 
                             <div className="flex justify-end pt-4 border-t border-stone-800">
                                 <button onClick={handleSave} disabled={isSaving} className="flex items-center gap-2 px-6 py-3 bg-red-800 hover:bg-red-700 text-white rounded font-medium transition-colors disabled:opacity-50">
-                                    <Save className="w-4 h-4" /> {isSaving ? 'Sauvegarde...' : 'Sauvegarder et Publier la Fiche'}
+                                    <Save className="w-4 h-4" /> {isSaving ? siteText("werewolf.text.01767") : siteText("werewolf.text.01768")}
                                 </button>
                             </div>
                         </div>
@@ -698,16 +697,17 @@ const CharacterSheet = ({ initialTab }) => {
 export default CharacterSheet;
 
 function SectionView({ title, content, highlight = false }) {
+    useSiteContent();
     return (
         <div className={`p-4 rounded border ${highlight ? 'bg-red-950/10 border-red-900/30' : 'bg-stone-900/30 border-stone-800/50'} h-full`}>
             <h3 className={`font-serif text-sm uppercase tracking-widest mb-3 border-b pb-2 ${highlight ? 'text-red-400 border-red-900/40' : 'text-stone-500 border-stone-800'}`}>
-                {title}
+                {displayText("werewolf", title)}
             </h3>
             <div className="text-sm text-stone-300 whitespace-pre-line leading-relaxed text-justify">
                 {content ? (
                     <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{content}</ReactMarkdown>
                 ) : (
-                    <span className="text-stone-600 italic">Non renseigné</span>
+                    <span className="text-stone-600 italic"><SiteText contentKey="werewolf.text.01769" /></span>
                 )}
             </div>
         </div>

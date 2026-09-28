@@ -1,3 +1,4 @@
+import { siteText } from '../../../core/content/store';
 import { apiFetch } from '../../../core/api';
 import { useState, useCallback } from 'react';
 import { useUserRoles } from '../../../core/hooks/useUserRoles';
@@ -20,7 +21,7 @@ export function useAdminGifts() {
             const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/players`, {
                 headers: getHeaders()
             });
-            if (!response.ok) throw new Error("Failed to fetch players");
+            if (!response.ok) throw new Error(siteText("werewolf.text.02573"));
             const data = await response.json();
             return data.players;
         } catch (err) {
@@ -37,7 +38,7 @@ export function useAdminGifts() {
             const response = await apiFetch(`${API_URL}/api/modules/werewolf/admin/players/${targetUserId}/gifts`, {
                 headers: getHeaders()
             });
-            if (!response.ok) throw new Error("Failed to fetch player gifts");
+            if (!response.ok) throw new Error(siteText("werewolf.text.02574"));
             const data = await response.json();
             return data; // { gifts, character }
         } catch (err) {
@@ -56,7 +57,7 @@ export function useAdminGifts() {
                 headers: getHeaders(),
                 body: JSON.stringify({ playerId, giftId, unlock })
             });
-            if (!response.ok) throw new Error("Failed to update gift");
+            if (!response.ok) throw new Error(siteText("werewolf.text.02575"));
             return await response.json();
         } catch (err) {
             setError(err.message);

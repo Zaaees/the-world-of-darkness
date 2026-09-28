@@ -7,6 +7,7 @@ on:
       - 'web/**'
       - 'data/blood_actions.json'
       - 'data/ghoul_disciplines.json'
+      - 'data/site_content.json'
   workflow_dispatch:
 
 permissions:

@@ -1,3 +1,6 @@
+import { displayText, useSiteContent } from '../../../../../core/content/store';
+// site-content: migrated
+import SiteText from '../../../../../core/content/SiteText';
 import React, { useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
@@ -13,6 +16,7 @@ const LEVELS = [1, 2, 3, 4, 5];
  * @param {() => void} [props.onFilterChange] - Optional callback invoked when any filter changes (for auto-close on mobile)
  */
 export default function FilterContent({ onFilterChange }) {
+    useSiteContent();
     // Consolidated store access with useShallow to prevent unnecessary re-renders
     const { rituals, filters, addFilter, removeFilter, clearFilters, viewMode, toggleViewMode } = useGrimoireStore(
         useShallow(state => ({
@@ -70,7 +74,7 @@ export default function FilterContent({ onFilterChange }) {
                             }`}
                     >
                         <Users size={14} />
-                        <span>Grimoire (Joueur)</span>
+                        <span><SiteText contentKey="vampire.text.01481" /></span>
                     </button>
                     <button
                         onClick={toggleViewMode}
@@ -80,14 +84,14 @@ export default function FilterContent({ onFilterChange }) {
                             }`}
                     >
                         <Book size={14} />
-                        <span>Bibliothèque (MJ)</span>
+                        <span><SiteText contentKey="vampire.text.01482" /></span>
                     </button>
                 </div>
             </div>
 
             {/* Search Section */}
             <div className="space-y-3">
-                <h4 className="text-stone-500 text-xs uppercase tracking-widest font-semibold">Recherche</h4>
+                <h4 className="text-stone-500 text-xs uppercase tracking-widest font-semibold"><SiteText contentKey="vampire.text.01483" /></h4>
                 <SearchInput />
             </div>
 
@@ -98,7 +102,7 @@ export default function FilterContent({ onFilterChange }) {
                         onClick={handleClearFilters}
                         className="text-xs text-red-500 hover:text-red-400 transition-colors uppercase tracking-wider flex items-center gap-2 border border-red-900/30 px-3 py-1 rounded bg-red-950/20"
                     >
-                        <span>Effacer</span>
+                        <span><SiteText contentKey="vampire.text.01484" /></span>
                         <span className="text-[10px] opacity-70">✕</span>
                     </button>
                 </div>
@@ -107,7 +111,7 @@ export default function FilterContent({ onFilterChange }) {
             {/* Disciplines Section */}
             <div className="space-y-3">
                 <h4 className="text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1 flex justify-between items-center">
-                    <span>Discipline</span>
+                    <span><SiteText contentKey="vampire.text.01485" /></span>
                     {filters.disciplines.length > 0 && (
                         <span className="text-[10px] bg-red-900/30 text-red-500 px-1.5 py-0.5 rounded-full">
                             {filters.disciplines.length}
@@ -135,7 +139,7 @@ export default function FilterContent({ onFilterChange }) {
                                     onChange={() => toggleDiscipline(disc)}
                                 />
                                 {isActive && <Check size={12} className="text-red-500" />}
-                                <span>{disc}</span>
+                                <span>{displayText("vampire", disc)}</span>
                             </label>
                         );
                     })}
@@ -145,7 +149,7 @@ export default function FilterContent({ onFilterChange }) {
             {/* Levels Section - Only visible for GMs */}
             {viewMode === 'GM' && (
                 <div className="space-y-3">
-                    <h4 className="text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1">Niveau</h4>
+                    <h4 className="text-stone-500 text-sm font-semibold border-b border-stone-800 pb-1"><SiteText contentKey="vampire.text.01486" /></h4>
                     <div className="flex flex-wrap gap-2">
                         {LEVELS.map(lvl => {
                             const isActive = filters.levels.includes(lvl);

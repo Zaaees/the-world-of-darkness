@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
@@ -9,6 +12,7 @@ const RENOWN_TYPES = [
 ];
 
 const RenownSubmissionModal = ({ isOpen, onClose, onSubmit }) => {
+    useSiteContent();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('glory');
@@ -56,25 +60,25 @@ const RenownSubmissionModal = ({ isOpen, onClose, onSubmit }) => {
                             <X size={20} />
                         </button>
 
-                        <h2 className="text-2xl font-serif font-bold text-white mb-6">Proposer un Haut Fait</h2>
+                        <h2 className="text-2xl font-serif font-bold text-white mb-6"><SiteText contentKey="werewolf.text.01665" /></h2>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-stone-400 text-sm font-medium mb-1">Titre</label>
+                                <label className="block text-stone-400 text-sm font-medium mb-1"><SiteText contentKey="werewolf.text.01666" /></label>
                                 <input
                                     type="text"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     // Using standard HTML input for now as no shared component found
                                     className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 focus:outline-none focus:border-red-900 transition-colors"
-                                    placeholder="Ex: Purifier le Caern"
+                                    placeholder={siteText("werewolf.text.01667")}
                                     data-testid="renown-title-input"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-stone-400 text-sm font-medium mb-1">Type de Renommée</label>
+                                <label className="block text-stone-400 text-sm font-medium mb-1"><SiteText contentKey="werewolf.text.01668" /></label>
                                 <select
                                     value={type}
                                     onChange={(e) => setType(e.target.value)}
@@ -82,18 +86,18 @@ const RenownSubmissionModal = ({ isOpen, onClose, onSubmit }) => {
                                     data-testid="renown-type-select"
                                 >
                                     {RENOWN_TYPES.map((t) => (
-                                        <option key={t.value} value={t.value}>{t.label}</option>
+                                        <option key={t.value} value={t.value}>{displayText("werewolf", t.label)}</option>
                                     ))}
                                 </select>
                             </div>
 
                             <div>
-                                <label className="block text-stone-400 text-sm font-medium mb-1">Description</label>
+                                <label className="block text-stone-400 text-sm font-medium mb-1"><SiteText contentKey="werewolf.text.01669" /></label>
                                 <textarea
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     className="w-full bg-stone-950 border border-stone-800 rounded px-3 py-2 text-stone-200 focus:outline-none focus:border-red-900 transition-colors min-h-[100px]"
-                                    placeholder="Détails de l'accomplissement..."
+                                    placeholder={siteText("werewolf.text.01670")}
                                     data-testid="renown-description-input"
                                     required
                                 />
@@ -104,16 +108,12 @@ const RenownSubmissionModal = ({ isOpen, onClose, onSubmit }) => {
                                     type="button"
                                     onClick={onClose}
                                     className="px-4 py-2 text-stone-400 hover:text-white mr-2"
-                                >
-                                    Annuler
-                                </button>
+                                ><SiteText contentKey="werewolf.text.01671" /></button>
                                 <button
                                     type="submit"
                                     className="px-4 py-2 bg-amber-700 hover:bg-amber-600 text-white rounded font-medium transition-colors shadow-lg shadow-amber-900/20"
                                     data-testid="renown-submit-confirm"
-                                >
-                                    Envoyer aux Esprits
-                                </button>
+                                ><SiteText contentKey="werewolf.text.01672" /></button>
                             </div>
                         </form>
                     </motion.div>

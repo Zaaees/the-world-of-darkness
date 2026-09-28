@@ -1,6 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+// site-content: migrated
+import SiteText from '../../../../../core/content/SiteText';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { useSiteContent } from '../../../../../core/content/store';
 import { Grid } from 'react-window';
-import { useShallow } from 'zustand/react/shallow';
 import { useGrimoireStore } from '../stores/useGrimoireStore';
 import RitualCard from './RitualCard';
 
@@ -48,7 +50,9 @@ const RitualCell = ({ columnIndex, rowIndex, style, rituals, columnCount }) => {
 const RitualCatalog = () => {
     // Select filtered rituals using useShallow to avoid infinite re-renders
     // (selectFilteredRituals returns a new array reference each call)
-    const rituals = useGrimoireStore(useShallow(state => state.selectFilteredRituals(state)));
+    const state = useGrimoireStore();
+    const { values } = useSiteContent();
+    const rituals = useMemo(() => state.selectFilteredRituals(state), [state, values]);
     const containerRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
@@ -87,8 +91,8 @@ const RitualCatalog = () => {
     if (rituals.length === 0) {
         return (
             <div className="h-full w-full flex flex-col items-center justify-center text-stone-500 font-serif" data-testid="empty-state">
-                <p className="text-xl italic mb-2">"Le vide..."</p>
-                <p className="text-sm">Aucun rituel ne correspond à votre recherche.</p>
+                <p className="text-xl italic mb-2"><SiteText contentKey="vampire.text.01496" /></p>
+                <p className="text-sm"><SiteText contentKey="vampire.text.01497" /></p>
             </div>
         );
     }

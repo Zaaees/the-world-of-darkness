@@ -1,3 +1,6 @@
+// site-content: migrated
+import { siteText, displayText, useSiteContent } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import { beginOAuthState } from '../../../core/auth/authUtils';
 import SceneSubmission from '../components/SceneSubmission';
 import { apiFetch } from '../../../core/api';
@@ -87,14 +90,13 @@ const ACTION_CATEGORIES = [
 // --- COMPOSANTS UI ---
 
 const BloodGauge = ({ current, max, isMutating, level }) => {
+    useSiteContent();
   if (level >= 5) {
     return (
       <div className="mb-6 p-6 bg-red-950/20 border border-red-900 rounded-lg flex flex-col items-center justify-center text-center shadow-[0_0_30px_rgba(120,0,0,0.1)]">
         <Crown className="text-red-600 mb-3 animate-pulse" size={32} />
-        <h3 className="text-red-500 font-serif text-lg tracking-widest uppercase">Zénith Atteint</h3>
-        <p className="text-stone-500 text-xs mt-2 max-w-xs">
-          Votre sang a atteint le dernier niveau de cette progression. Votre héritage reste à écrire.
-        </p>
+        <h3 className="text-red-500 font-serif text-lg tracking-widest uppercase"><SiteText contentKey="vampire.text.01561" /></h3>
+        <p className="text-stone-500 text-xs mt-2 max-w-xs"><SiteText contentKey="vampire.text.01562" /></p>
       </div>
     );
   }
@@ -104,7 +106,7 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
   return (
     <div className="mb-8 select-none">
       <div className="flex justify-between items-end mb-2">
-        <span className="text-xs font-serif text-stone-500 uppercase tracking-widest">Épaississement du Sang</span>
+        <span className="text-xs font-serif text-stone-500 uppercase tracking-widest"><SiteText contentKey="vampire.text.01563" /></span>
         <span className="text-lg font-serif text-red-500 font-bold">{current} <span className="text-stone-600 text-sm">/ {max}</span></span>
       </div>
 
@@ -123,11 +125,10 @@ const BloodGauge = ({ current, max, isMutating, level }) => {
 
       {isMutating ? (
         <div className="mt-3 flex items-center justify-center gap-2 text-red-400 text-xs font-bold uppercase tracking-widest animate-pulse">
-          <HeartPulse size={14} /> Mutation Physiologique en cours...
-        </div>
+          <HeartPulse size={14} /><SiteText contentKey="vampire.text.01564" /></div>
       ) : (
         <div className="mt-2 text-right">
-          <span className="text-[10px] text-stone-600 uppercase">Prochain Stade : {BLOOD_STAGES[level + 1]?.title || "Max"}</span>
+          <span className="text-[10px] text-stone-600 uppercase"><SiteText contentKey="vampire.text.01565" />{displayText("vampire", BLOOD_STAGES[level + 1]?.title || siteText("vampire.text.01566"))}</span>
         </div>
       )}
     </div>
@@ -151,21 +152,20 @@ const DEFAULT_CHARACTER = {
 
 // --- PAGE DE LOGIN ---
 const LoginPage = ({ onLogin, error }) => {
+    useSiteContent();
   return (
     <div className="vp-login min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full text-center">
-        <h1 className="text-4xl font-serif text-red-600 mb-2">World of Darkness</h1>
-        <p className="text-stone-500 mb-8">Fiche de Personnage Vampire</p>
+        <h1 className="text-4xl font-serif text-red-600 mb-2"><SiteText contentKey="vampire.text.01567" /></h1>
+        <p className="text-stone-500 mb-8"><SiteText contentKey="vampire.text.01568" /></p>
 
         <div className="bg-stone-900/50 border border-stone-800 rounded-lg p-8 mb-6">
           <Droplet className="text-red-700 mx-auto mb-4" size={48} />
-          <p className="text-stone-400 text-sm mb-6">
-            Connecte-toi avec Discord pour accéder à ta fiche de personnage et synchroniser tes données avec le bot.
-          </p>
+          <p className="text-stone-400 text-sm mb-6"><SiteText contentKey="vampire.text.01569" /></p>
 
           {error && (
             <div className="bg-red-900/30 border border-red-800 text-red-300 text-sm p-3 rounded mb-4">
-              {error}
+              {displayText("vampire", error)}
             </div>
           )}
 
@@ -175,20 +175,17 @@ const LoginPage = ({ onLogin, error }) => {
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
-            </svg>
-            Se connecter avec Discord
-          </button>
+            </svg><SiteText contentKey="vampire.text.01570" /></button>
         </div>
 
-        <p className="text-stone-600 text-xs">
-          Tes données sont synchronisées avec le serveur Discord
-        </p>
+        <p className="text-stone-600 text-xs"><SiteText contentKey="vampire.text.01571" /></p>
       </div>
     </div>
   );
 };
 
 export default function VampireSheet() {
+    useSiteContent();
   const { discordUser, isAuthenticated, isLoading: authLoading, error: authErrorMsg } = useUserRoles();
   const [memberInfo, setMemberInfo] = useState(null);
   const [guildId, setGuildId] = useState(null); // Stocké séparément pour éviter crash si memberInfo null
@@ -317,7 +314,7 @@ export default function VampireSheet() {
       // Si pas de character du tout, on laisse aussi vampireProfile gérer
     } catch (err) {
       console.error('Erreur chargement:', err);
-      setError('Erreur de connexion.');
+      setError(siteText("vampire.text.02565"));
     } finally {
       setLoading(false);
     }
@@ -338,7 +335,7 @@ export default function VampireSheet() {
 
       const guildData = await guildResponse.json();
 
-      if (!guildResponse.ok && guildResponse.status !== 404) throw new Error(guildData.error || "Service indisponible");
+      if (!guildResponse.ok && guildResponse.status !== 404) throw new Error(guildData.error || siteText("vampire.text.02566"));
       if (!guildData.success) {
         console.error('Erreur détection serveur:', guildData.error);
         setNotVampire(true);
@@ -375,7 +372,7 @@ export default function VampireSheet() {
         });
 
         const vampireProfileData = await vampireProfileResponse.json();
-        if (!vampireProfileResponse.ok) throw new Error(vampireProfileData.error || "Profil indisponible");
+        if (!vampireProfileResponse.ok) throw new Error(vampireProfileData.error || siteText("vampire.text.02567"));
 
         if (vampireProfileData.success) {
           setVampireProfile(vampireProfileData);
@@ -423,13 +420,13 @@ export default function VampireSheet() {
         }
       } catch (err) {
         console.error('Erreur chargement profil vampire:', err);
-        setError('Impossible de vérifier votre accès. Réessayez lorsque le service est disponible.');
+        setError(siteText("vampire.text.01557"));
         setLoading(false);
         return false;
       }
     } catch (err) {
       console.error('Erreur chargement member info:', err);
-      setError('Le service est indisponible. Votre rôle n’a pas été remis en cause.');
+      setError(siteText("vampire.text.01558"));
       setLoading(false);
       return false;
     }
@@ -463,7 +460,7 @@ export default function VampireSheet() {
       } catch (err) {
         console.error('Erreur chargement données:', err);
         if (isActive) {
-          setError('Erreur de chargement des données');
+          setError(siteText("vampire.text.01559"));
           setNotVampire(true);
           setLoading(false);
         }
@@ -520,7 +517,7 @@ export default function VampireSheet() {
             setCharacter(prev => ({ ...prev, forum_post_id: result.forum_post_id }));
           }
         } else {
-          throw new Error(result.error || "Erreur sauvegarde PNJ");
+          throw new Error(result.error || siteText("vampire.text.02568"));
         }
         return;
       }
@@ -530,13 +527,13 @@ export default function VampireSheet() {
         body: JSON.stringify({ ghouls: charData.ghouls || [] })
       });
       const result = await response.json();
-      if (!response.ok || !result.success) throw new Error(result.error || 'Erreur de sauvegarde');
+      if (!response.ok || !result.success) throw new Error(result.error || siteText("vampire.text.02569"));
       setCharacter(prev => ({ ...prev, ghouls: result.ghouls }));
       setLastSaved(new Date());
       return result;
     } catch (err) {
       console.error('Erreur sauvegarde:', err);
-      setError(err.message || 'Erreur de sauvegarde');
+      setError(err.message || siteText("vampire.text.02569"));
       throw err;
     } finally {
       setSaving(false);
@@ -631,11 +628,11 @@ export default function VampireSheet() {
           }]
         }));
       } else {
-        throw new Error(result.error || 'Erreur lors de la soumission');
+        throw new Error(result.error || siteText("vampire.text.02570"));
       }
     } catch (err) {
       console.error('Erreur soumission action:', err);
-      setError(err.message || 'Erreur de connexion');
+      setError(err.message || siteText("vampire.text.02571"));
       throw err;
     } finally {
       setSubmittingAction(null);
@@ -653,15 +650,13 @@ export default function VampireSheet() {
       <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6 text-center">
         <div className="text-red-600 mb-4">
           <Activity size={48} className="mx-auto mb-2" />
-          <h2 className="text-xl font-serif">Erreur de chargement</h2>
+          <h2 className="text-xl font-serif"><SiteText contentKey="vampire.text.01572" /></h2>
         </div>
-        <p className="text-stone-400 mb-6">{error}</p>
+        <p className="text-stone-400 mb-6">{displayText("vampire", error)}</p>
         <button
           onClick={() => window.location.reload()}
           className="bg-stone-800 hover:bg-stone-700 text-stone-300 px-6 py-2 rounded transition-colors"
-        >
-          Réessayer
-        </button>
+        ><SiteText contentKey="vampire.text.01573" /></button>
       </div>
     );
   }
@@ -672,16 +667,12 @@ export default function VampireSheet() {
       <div className="min-h-screen bg-[#0c0a09] flex flex-col items-center justify-center p-6">
         <div className="max-w-md w-full text-center">
           <div className="text-6xl mb-6">🚫</div>
-          <h1 className="text-2xl font-serif text-red-600 mb-4">Accès Refusé</h1>
-          <p className="text-stone-400 mb-8">
-            Tu n'es pas un vampire. Cette fiche est réservée aux Enfants de la Nuit.
-          </p>
+          <h1 className="text-2xl font-serif text-red-600 mb-4"><SiteText contentKey="vampire.text.01574" /></h1>
+          <p className="text-stone-400 mb-8"><SiteText contentKey="vampire.text.01575" /></p>
           <button
             onClick={handleLogout}
             className="bg-stone-800 hover:bg-stone-700 text-stone-300 px-6 py-2 rounded transition-colors"
-          >
-            Se déconnecter
-          </button>
+          ><SiteText contentKey="vampire.text.01576" /></button>
         </div>
       </div>
     );
@@ -689,9 +680,7 @@ export default function VampireSheet() {
 
   if (loading || (!character && !needsClanSelection && !isCainMode)) {
     return (
-      <div className="bg-[#0c0a09] min-h-screen flex items-center justify-center text-red-900 font-serif animate-pulse">
-        Chargement de la Vitae...
-      </div>
+      <div className="bg-[#0c0a09] min-h-screen flex items-center justify-center text-red-900 font-serif animate-pulse"><SiteText contentKey="vampire.text.01577" /></div>
     );
   }
 
@@ -735,21 +724,18 @@ export default function VampireSheet() {
       <div className={`border-b text-xs text-center py-2 flex items-center justify-center gap-2 ${error ? 'bg-red-900/30 border-red-700/50 text-red-200' : 'bg-stone-900/50 border-stone-800 text-stone-500'}`}>
         {saving ? (
           <>
-            <RefreshCw size={12} className="animate-spin" />
-            Sauvegarde en cours...
-          </>
+            <RefreshCw size={12} className="animate-spin" /><SiteText contentKey="vampire.text.01578" /></>
         ) : error ? (
           <>
-            {error}
-            <button onClick={() => window.location.reload()} className="underline ml-2">Réessayer</button>
+            {displayText("vampire", error)}
+            <button onClick={() => window.location.reload()} className="underline ml-2"><SiteText contentKey="vampire.text.01573" /></button>
           </>
         ) : lastSaved ? (
           <>
-            <Save size={12} />
-            Sauvegardé à {lastSaved.toLocaleTimeString()}
+            <Save size={12} /><SiteText contentKey="vampire.text.01579" />{lastSaved.toLocaleTimeString()}
           </>
         ) : (
-          'Connecté à Google Sheets'
+          siteText("vampire.text.01580")
         )}
       </div>
 
@@ -764,14 +750,13 @@ export default function VampireSheet() {
             />
             <div>
               <div className="text-xl font-serif text-stone-200 truncate w-48" title={activeChar.name}>
-                {activeChar.name || "Nom du Vampire"}
+                {activeChar.name || siteText("vampire.text.01581")}
               </div>
               <div className="text-xs text-red-700 uppercase tracking-widest font-bold mt-1">
-                {activeChar.clan ? `${activeChar.clan} • ` : 'Sans Clan • '}Puissance {activeChar.bloodPotency} • {currentStage.rank}
+                {activeChar.clan ? `${activeChar.clan} • ` : siteText("vampire.text.01582")}<SiteText contentKey="vampire.text.01583" />{activeChar.bloodPotency} • {displayText("vampire", currentStage.rank)}
               </div>
               {memberInfo && (
-                <div className="text-xs text-stone-400 mt-0.5">
-                  Joué par <span className="font-medium text-stone-300">{memberInfo.display_name}</span>
+                <div className="text-xs text-stone-400 mt-0.5"><SiteText contentKey="vampire.text.01584" /><span className="font-medium text-stone-300">{memberInfo.display_name}</span>
                 </div>
               )}
             </div>
@@ -783,7 +768,7 @@ export default function VampireSheet() {
             <button
               onClick={handleLogout}
               className="text-stone-600 hover:text-stone-400 transition-colors"
-              title="Déconnexion"
+              title={siteText("vampire.text.01585")}
             >
               <LogOut size={18} />
             </button>
@@ -795,11 +780,9 @@ export default function VampireSheet() {
                 ? 'bg-stone-800 border-stone-600 text-stone-200'
                 : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-stone-700 hover:text-stone-300'
                 }`}
-              title="Règlement"
+              title={siteText("vampire.text.01586")}
             >
-              <ScrollText size={12} />
-              Règlement
-            </button>
+              <ScrollText size={12} /><SiteText contentKey="vampire.text.01586" /></button>
 
             {vampireProfile?.is_gm && (
               <>
@@ -828,10 +811,10 @@ export default function VampireSheet() {
                     ? 'bg-red-900/20 border-red-800 text-red-500 shadow-[0_0_10px_rgba(220,38,38,0.2)]'
                     : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-red-900/50 hover:text-red-400'
                     }`}
-                  title="Mode Caïn (MJ)"
+                  title={siteText("vampire.text.01587")}
                 >
                   {isCainMode ? <Flame size={12} className="animate-pulse" /> : <Shield size={12} />}
-                  {npcCharacter ? "Quitter PNJ" : "MJ"}
+                  {npcCharacter ? siteText("vampire.text.01588") : siteText("vampire.text.01589")}
                 </button>
               </>
             )}
@@ -898,11 +881,10 @@ export default function VampireSheet() {
                 }}
                 className="flex items-center gap-2 text-stone-400 hover:text-stone-200 text-sm"
               >
-                <ArrowLeft size={16} /> Retour à la liste
-              </button>
+                <ArrowLeft size={16} /><SiteText contentKey="vampire.text.01590" /></button>
 
               <div className="flex items-center gap-4">
-                <span className="text-stone-500 text-sm uppercase tracking-wider font-bold">MODE ÉDITION PNJ</span>
+                <span className="text-stone-500 text-sm uppercase tracking-wider font-bold"><SiteText contentKey="vampire.text.01591" /></span>
 
               </div>
             </div>
@@ -919,9 +901,7 @@ export default function VampireSheet() {
                     : 'text-stone-500 border-transparent hover:text-stone-300 hover:text-stone-300 hover:bg-stone-900/20'
                     }`}
                 >
-                  <FileText size={16} />
-                  Fiche
-                </button>
+                  <FileText size={16} /><SiteText contentKey="vampire.text.01592" /></button>
                 <button
                   onClick={() => setActiveTab('sheet')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'sheet'
@@ -929,9 +909,7 @@ export default function VampireSheet() {
                     : 'text-stone-500 border-transparent hover:text-stone-300 hover:text-stone-300 hover:bg-stone-900/20'
                     }`}
                 >
-                  <Droplet size={16} />
-                  Vitae
-                </button>
+                  <Droplet size={16} /><SiteText contentKey="vampire.text.01593" /></button>
                 <button
                   onClick={() => setActiveTab('disciplines')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'disciplines'
@@ -939,9 +917,7 @@ export default function VampireSheet() {
                     : 'text-stone-500 border-transparent hover:text-stone-300 hover:text-stone-300 hover:bg-stone-900/20'
                     }`}
                 >
-                  <Sparkles size={16} />
-                  Disciplines
-                </button>
+                  <Sparkles size={16} /><SiteText contentKey="vampire.text.01594" /></button>
 
                 {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(activeChar.clan?.toLowerCase()) || activeChar.disciplines?.thaumaturgy || activeChar.disciplines?.necromancy || hasRituals || isCainMode) && (
                   <button
@@ -951,9 +927,7 @@ export default function VampireSheet() {
                       : 'text-stone-500 border-transparent hover:text-stone-300 hover:text-stone-300 hover:bg-stone-900/20'
                       }`}
                   >
-                    <Book size={16} />
-                    Grimoire
-                  </button>
+                    <Book size={16} /><SiteText contentKey="vampire.text.01595" /></button>
                 )}
 
                 <button
@@ -963,9 +937,7 @@ export default function VampireSheet() {
                     : 'text-stone-500 border-transparent hover:text-stone-300 hover:bg-stone-900/20'
                     }`}
                 >
-                  <Users size={16} />
-                  Goules
-                </button>
+                  <Users size={16} /><SiteText contentKey="vampire.text.01596" /></button>
               </div>
             </div>
           )}
@@ -1028,11 +1000,11 @@ export default function VampireSheet() {
                     </div>
 
                     <h2 className={`font-serif text-xl mb-4 ${currentStage.color} flex items-center gap-2`}>
-                      {currentStage.title}
+                      {displayText("vampire", currentStage.title)}
                     </h2>
 
                     <p className="text-sm text-stone-300 leading-relaxed font-serif italic border-l-2 border-red-900/30 pl-4">
-                      "{currentStage.description}"
+                      "{displayText("vampire", currentStage.description)}"
                     </p>
                   </div>
                 </section>
@@ -1042,16 +1014,16 @@ export default function VampireSheet() {
                   <section>
                     <div className="flex items-center gap-3 mb-4">
                       <Skull size={16} className="text-red-700" />
-                      <h3 className="text-sm font-serif text-red-700 uppercase tracking-widest">Malédiction du Clan</h3>
+                      <h3 className="text-sm font-serif text-red-700 uppercase tracking-widest"><SiteText contentKey="vampire.text.01597" /></h3>
                       <div className="h-px bg-red-900/30 flex-1"></div>
                     </div>
 
                     <div className="bg-red-950/20 border border-red-900/30 rounded-lg p-5">
                       <h4 className="text-red-500 font-serif text-lg mb-3">
-                        {getClanDescription(activeChar.clan).bane}
+                        {displayText("vampire", getClanDescription(activeChar.clan).bane)}
                       </h4>
                       <p className="text-stone-400 text-sm leading-relaxed">
-                        {getClanDescription(activeChar.clan).baneDescription}
+                        {displayText("vampire", getClanDescription(activeChar.clan).baneDescription)}
                       </p>
                     </div>
                   </section>
@@ -1066,14 +1038,12 @@ export default function VampireSheet() {
                 <section className="vp-vitae-actions">
                   <div className="vp-vitae-photograph" aria-hidden="true" />
                   <div className="flex items-center gap-3 mb-6">
-                    <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest">Actions</h3>
+                    <h3 className="text-sm font-serif text-stone-500 uppercase tracking-widest"><SiteText contentKey="vampire.text.01598" /></h3>
                     <div className="h-px bg-stone-900 flex-1"></div>
                   </div>
 
                   {activeChar.bloodPotency >= 5 ? (
-                    <div className="text-center text-xs text-stone-600 italic py-4">
-                      Votre parcours de puissance est accompli. Les voies d’héritage de votre clan restent ouvertes au récit.
-                    </div>
+                    <div className="text-center text-xs text-stone-600 italic py-4"><SiteText contentKey="vampire.text.01599" /></div>
                   ) : (
                     ACTION_CATEGORIES.map(category => (
                       <ActionCategory
@@ -1095,9 +1065,7 @@ export default function VampireSheet() {
                     onClick={() => setHistoryOpen(!historyOpen)}
                     className="w-full text-center py-2 text-xs uppercase tracking-widest text-stone-600 hover:text-stone-400 transition-colors flex items-center justify-center gap-2"
                   >
-                    {historyOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                    Mémoire du Sang
-                  </button>
+                    {historyOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}<SiteText contentKey="vampire.text.01600" /></button>
 
                   {historyOpen && (
                     <div className="mt-4 space-y-3 bg-stone-950/50 p-4 rounded border border-stone-900 max-h-60 overflow-y-auto">
@@ -1114,7 +1082,7 @@ export default function VampireSheet() {
                         </div>
                       ))}
                       {(!activeChar.history || activeChar.history.length === 0) && (
-                        <div className="text-center text-stone-600 text-xs italic">Aucun événement enregistré</div>
+                        <div className="text-center text-stone-600 text-xs italic"><SiteText contentKey="vampire.text.01601" /></div>
                       )}
                     </div>
                   )}

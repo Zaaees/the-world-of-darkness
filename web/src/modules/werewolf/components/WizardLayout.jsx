@@ -1,3 +1,5 @@
+// site-content: migrated
+import { displayText, useSiteContent } from '../../../core/content/store';
 import React from 'react';
 import '../assets/werewolf-theme.css';
 
@@ -11,12 +13,13 @@ import '../assets/werewolf-theme.css';
  * @param {string} subtitle - Sous-titre ou instruction
  */
 export default function WizardLayout({ children, title, subtitle }) {
+    useSiteContent();
     return (
         <div className="theme-werewolf ww-wizard min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center justify-center p-4">
             <div className="w-full max-w-7xl">
                 <div className="mb-8 text-center">
-                    {title && <h1 className="text-4xl md:text-5xl font-serif text-red-600 mb-3 tracking-wide drop-shadow-lg">{title}</h1>}
-                    {subtitle && <p className="text-xl text-gray-400 font-sans max-w-2xl mx-auto">{subtitle}</p>}
+                    {title && <h1 className="text-4xl md:text-5xl font-serif text-red-600 mb-3 tracking-wide drop-shadow-lg">{displayText("werewolf", title)}</h1>}
+                    {subtitle && <p className="text-xl text-gray-400 font-sans max-w-2xl mx-auto">{displayText("werewolf", subtitle)}</p>}
                 </div>
                 <div className="bg-gray-800 bg-opacity-80 border border-gray-700 rounded-xl p-6 md:p-8 shadow-2xl backdrop-blur-md">
                     {children}

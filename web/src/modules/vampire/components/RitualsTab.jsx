@@ -1,3 +1,6 @@
+// site-content: migrated
+import { displayText, useSiteContent, siteText } from '../../../core/content/store';
+import SiteText from '../../../core/content/SiteText';
 import { apiFetch } from '../../../core/api';
 import React, { useState, useEffect } from 'react';
 import { Book, Scroll, Filter } from 'lucide-react';
@@ -15,6 +18,7 @@ import FilterContent from '../features/rituals/components/FilterContent'; // Use
 import { API_URL } from '../../../config';
 
 export default function RitualsTab({ userId, guildId, isCainMode, character }) {
+    useSiteContent();
     // We use the store for rituals state
     const updateCharacterRituals = useGrimoireStore(state => state.updateCharacterRituals);
     const selectedRitual = useGrimoireStore(state => state.selectedRitual);
@@ -117,15 +121,15 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
                         updateCharacterRituals(ritualIds);
                     } else {
                         console.error('Failed to fetch rituals');
-                        setError('Impossible de récupérer le grimoire.');
+                        setError(siteText("vampire.text.01315"));
                     }
                 } catch (err) {
                     console.error('Error fetching rituals:', err);
-                    setError('Erreur de connexion.');
+                    setError(siteText("vampire.text.02563"));
                 }
             } catch (fatalErr) {
                 console.error('RitualsTab: Fatal error in fetchRituals', fatalErr);
-                setError('Erreur critique du Grimoire.');
+                setError(siteText("vampire.text.01316"));
             } finally {
                 setLoading(false);
             }
@@ -135,11 +139,11 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
     }, [userId, guildId, isCainMode, character, setRituals, updateCharacterRituals, setViewMode]);
 
     if (loading) {
-        return <div className="text-center py-10 text-stone-500 animate-pulse">Ouverture du Grimoire...</div>;
+        return <div className="text-center py-10 text-stone-500 animate-pulse"><SiteText contentKey="vampire.text.01317" /></div>;
     }
 
     if (error) {
-        return <div className="text-center py-10 text-red-500">{error}</div>;
+        return <div className="text-center py-10 text-red-500">{displayText("vampire", error)}</div>;
     }
 
     return (
@@ -148,12 +152,8 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
             <div className="flex-shrink-0 flex flex-col items-center justify-center gap-4">
                 <div className="text-center">
                     <h2 className="text-2xl font-serif text-red-500 mb-2 flex items-center justify-center gap-3">
-                        <Book className="text-red-700" />
-                        Grimoire Occulte
-                    </h2>
-                    <p className="text-stone-500 text-sm italic max-w-md mx-auto">
-                        "Le savoir qui ne se partage pas est un savoir mort."
-                    </p>
+                        <Book className="text-red-700" /><SiteText contentKey="vampire.text.01318" /></h2>
+                    <p className="text-stone-500 text-sm italic max-w-md mx-auto"><SiteText contentKey="vampire.text.01319" /></p>
                 </div>
 
                 {/* Search Bar - Centered and prominent */}
