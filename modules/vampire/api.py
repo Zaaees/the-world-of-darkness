@@ -87,14 +87,8 @@ async def submit_action_handler(request):
         scene = data.get('sceneLink', '').strip()
         if not re.fullmatch(r'https://(?:canary\.|ptb\.)?discord\.com/channels/' + re.escape(guild_id) + r'/\d+(?:/\d+)?', scene):
             raise ValueError('Indiquez un lien de scène Discord de ce serveur.')
-        context = {}
-        for name in ('obstacle', 'outcome', 'participants'):
-            text = data.get(name, '')
-            if not isinstance(text, str) or not 3 <= len(text.strip()) <= 800:
-                raise ValueError('Précisez obstacle, résultat et participants (3 à 800 caractères chacun).')
-            context[name] = text.strip()
         result = await sheets_request('submit_action', userId=user_id, guildId=guild_id,
-            actionId=action['id'], actionName=action['name'], points=get_action_points(action, bp), sceneLink=scene, **context)
+            actionId=action['id'], actionName=action['name'], points=get_action_points(action, bp), sceneLink=scene)
         return web.json_response(result, status=202)
     except (ValueError, TypeError, AttributeError) as exc:
         return web.json_response({'success': False, 'error': str(exc)}, status=400)

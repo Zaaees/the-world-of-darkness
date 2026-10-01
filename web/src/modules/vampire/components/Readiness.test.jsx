@@ -54,4 +54,17 @@ describe('Préparation du RP', () => {
     fireEvent.keyDown(screen.getByRole('dialog'), {key:'Escape'});
     expect(close).toHaveBeenCalledOnce();
   });
+
+  it('soumet une action avec le seul lien de la scène Discord', async () => {
+    const close = vi.fn();
+    const submit = vi.fn().mockResolvedValue({success: true});
+    render(<SceneSubmission action={{name:'Une épreuve'}} onClose={close} onSubmit={submit}/>);
+    expect(screen.getAllByRole('textbox')).toHaveLength(1);
+    const link = screen.getByLabelText('Lien de la scène Discord');
+    expect(link).toBeRequired();
+    fireEvent.change(link, {target:{value:'https://discord.com/channels/2/3/4'}});
+    fireEvent.click(screen.getByRole('button', {name:/Envoyer au MJ/i}));
+    await waitFor(() => expect(submit).toHaveBeenCalledWith({sceneLink:'https://discord.com/channels/2/3/4'}));
+    expect(close).toHaveBeenCalledOnce();
+  });
 });

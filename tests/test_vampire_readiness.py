@@ -12,7 +12,7 @@ from aiohttp.test_utils import make_mocked_request
 from utils.api_auth import identity_middleware
 from utils import database
 from utils.sheets_client import SheetsUnavailable
-from modules.vampire.api import character_handler, validate_ghouls, GHOULS
+from modules.vampire.api import character_handler, submit_action_handler, validate_ghouls, GHOULS
 from data.config import ROLE_VAMPIRE
 
 
@@ -77,6 +77,30 @@ def test_all_clans_have_server_assigned_ghoul_powers():
                                  {'clan': clan, 'bloodPotency': 1})
         assert result[0]['discipline_name'] in disciplines
         assert result[0]['discipline_power']
+
+
+@pytest.mark.parametrize('scene,status', [
+    ('https://discord.com/channels/2/3/4', 202),
+    ('https://discord.com/channels/9/3/4', 400),
+    ('', 400),
+])
+def test_action_submission_only_requires_scene_link(scene, status):
+    class Request(dict):
+        async def json(self):
+            return {'actionId': 'vitae_brujah_1', 'sceneLink': scene}
+
+    remote = AsyncMock(side_effect=[
+        {'character': {'clan': 'brujah', 'bloodPotency': 1}},
+        {'success': True},
+    ])
+    with patch('modules.vampire.api.sheets_request', remote):
+        response = asyncio.run(submit_action_handler(Request(verified_user_id=1, verified_guild_id=2)))
+    assert response.status == status
+    if status == 202:
+        remote.assert_awaited_with('submit_action', userId='1', guildId='2',
+            actionId='vitae_brujah_1', actionName='Le prix du refus', points=3, sceneLink=scene)
+    else:
+        assert remote.await_count == 1
 
 
 @pytest.mark.parametrize('ghouls', [[None], [{'id':'x', 'name':''}],
