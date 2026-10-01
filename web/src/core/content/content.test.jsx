@@ -25,23 +25,24 @@ afterEach(() => { cleanup(); localStorage.removeItem('discord_token'); vi.useRea
 const tick = async () => act(async () => { await vi.advanceTimersByTimeAsync(650); });
 
 describe('direct CAIN editor', () => {
-  it('edits the composed origin question and refreshes it despite a saved draft snapshot', () => {
+  it('edits a clan origin question independently and refreshes it despite a saved draft snapshot', () => {
+    const gangrelQuestion = getOriginQuestions('gangrel')[1];
     const answers = { q1: '', q2: 'Ma réponse conservée', q3: '', questions: getOriginQuestions('brujah') };
     render(<StarterPackStep selectedClan={{ id: 'brujah' }} answers={answers} onAnswerChange={vi.fn()} />);
-    const questionKey = 'vampire.text.02556';
+    const questionKey = 'vampire.origin.brujah.question2';
     const element = document.querySelector(`[data-site-content-key="${questionKey}"]`);
     expect(element).not.toBeNull();
     fireEvent.click(element);
     expect(getContentState().selectedKey).toBe(questionKey);
     act(() => updateContentState({ values: {
-      [questionKey]: { value: 'Comment affrontez-vous {v0} ?', revision: 1 },
-      'vampire.text.00568': { value: 'la colère et ses conséquences', revision: 1 },
+      [questionKey]: { value: 'Comment affrontez-vous la colère et ses conséquences ?', revision: 1 },
       'vampire.text.00586': { value: 'Racontez votre vie mortelle.', revision: 1 },
     } }));
     expect(screen.getByLabelText('Comment affrontez-vous la colère et ses conséquences ?')).toHaveValue('Ma réponse conservée');
     expect(screen.getByLabelText('Racontez votre vie mortelle.')).toBeInTheDocument();
     expect(getOriginQuestions('brujah')[1]).toBe('Comment affrontez-vous la colère et ses conséquences ?');
-    expect(answers.questions[1]).toContain('une injustice et votre colère');
+    expect(answers.questions[1]).toContain('quelle conviction brûle plus fort');
+    expect(getOriginQuestions('gangrel')[1]).toBe(gangrelQuestion);
     act(() => updateContentState({ editing: false }));
     expect(document.querySelector('[data-site-content-key]')).toBeNull();
   });
@@ -121,6 +122,20 @@ describe('direct CAIN editor', () => {
 });
 
 describe('content is display-only', () => {
+  it.each(Object.keys(CLAN_DESCRIPTIONS))('renders the current questions for %s while preserving saved answers', clan => {
+    updateContentState({ editing: false });
+    const answers = { q1: 'Ma vie mortelle', q2: 'Ma réponse de clan', q3: 'Mon mensonge', questions: ['Ancienne question 1', 'Ancienne question 2', 'Ancienne question 3'] };
+    render(<StarterPackStep selectedClan={{ id: clan }} answers={answers} onAnswerChange={vi.fn()} />);
+    const questions = getOriginQuestions(clan);
+    expect(questions[0]).toBe('Qui étiez-vous avant l’Étreinte, et quel lien avec cette vie souhaitez-vous garder ? Vous pouvez être récemment étreint.');
+    expect(questions[1]).not.toContain('Comment vivez-vous la tension');
+    expect(questions[1]).not.toContain('vampire.origin.');
+    expect(questions[2]).toBe('Quel mensonge devrez-vous désormais entretenir pour que le monde des mortels continue à vous accepter parmi lui ?');
+    questions.forEach((question, index) => {
+      expect(screen.getByLabelText(question)).toHaveValue(answers[`q${index + 1}`]);
+    });
+  });
+
   it('renames a ritual in search and display while preserving the original game object', () => {
     const ritual = RITUALS.blood_walk;
     const original = JSON.stringify(ritual);

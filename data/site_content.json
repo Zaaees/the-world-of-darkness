@@ -5276,7 +5276,7 @@
   "vampire.text.00588": {
     "scope": "vampire",
     "source": "data/originQuestions.js",
-    "default": "Que cherchez-vous lors de votre première nuit dans la ville, et auprès de qui pourriez-vous trouver de l’aide ? Vous pouvez laisser le nom ouvert pour le définir avec un autre joueur ou le MJ.",
+    "default": "Quel mensonge devrez-vous désormais entretenir pour que le monde des mortels continue à vous accepter parmi lui ?",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -23028,6 +23028,168 @@
     "maxLength": 12000,
     "public": false,
     "catalog": true,
+    "variables": []
+  },
+  "vampire.origin.brujah.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Depuis votre Étreinte, quelle conviction brûle plus fort qu'autrefois en vous — et que craignez-vous de devenir lorsque votre colère prend le pas sur cette conviction ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.gangrel.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Quelle part de votre nouvelle nature vous semble désormais plus sincère que votre ancienne humanité — et quelle part de cette Bête craignez-vous de voir prendre le dessus ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.malkavian.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Quelle vérité percevez-vous désormais que les autres semblent incapables de voir — et qu'est-ce qui vous fait craindre qu'elle n'existe que pour vous ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.nosferatu.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Votre transformation vous a placé en marge du monde que vous connaissiez : qu'avez-vous commencé à voir chez les autres maintenant qu'ils ne vous regardent plus de la même manière ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.toreador.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Qu'est-ce qui parvient encore à vous émerveiller au point de vous faire oublier que vous êtes mort — et pourquoi cette fascination vous inquiète-t-elle ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.tremere.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Quel savoir vous attire désormais précisément parce qu'il vous était autrefois inaccessible — et qu'êtes-vous prêt à céder pour qu'on accepte de vous l'enseigner ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.ventrue.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Depuis votre Étreinte, le pouvoir vous paraît-il être un droit, un devoir ou une nécessité — et qu'est-ce qui pourrait vous faire douter de votre légitimité à l'exercer ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.lasombra.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Qu'avez-vous déjà accepté de perdre pour devenir plus fort — et existe-t-il encore quelque chose que vous refuseriez de sacrifier pour vous élever ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.tzimisce.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Votre chair n'est désormais plus une limite immuable : qu'aimeriez-vous changer en vous — et à partir de quand cette transformation cesserait-elle encore d'être vous ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.ravnos.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Depuis votre Étreinte, la frontière entre vérité et illusion vous paraît beaucoup moins solide : quelle vérité refusez-vous pourtant encore de falsifier ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.setites.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Quelle conviction, loyauté ou interdiction considérez-vous désormais comme une chaîne — et jusqu'où iriez-vous pour prouver qu'elle peut être brisée ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.giovanni.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Votre Étreinte vous a rapproché plus encore de votre famille et du monde des morts : lequel de ces deux héritages vous paraît aujourd'hui le plus difficile à porter — et pourquoi ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.assamites.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Selon quels principes vous permettez-vous désormais de juger les autres — et quelle faute chez vous craindriez-vous de devoir condamner avec la même sévérité ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.gargoyles.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Votre lignée est née pour servir : qu'est-ce que la liberté signifie pour vous, et comment saurez-vous que vos choix vous appartiennent réellement ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.samedi.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Votre corps vous rappelle à chaque instant que vous êtes mort : qu'est-ce que cette évidence a changé dans votre rapport à la beauté, à la dignité et à votre propre disparition ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.daughters_cacophony.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Une musique que les autres n'entendent pas vous accompagne désormais : quand avez-vous commencé à vous demander si elle exprimait ce que vous êtes… ou si elle était en train de décider de ce que vous devenez ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.baali.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Vous savez désormais que certaines horreurs sont bien réelles : qu'espérez-vous obtenir en vous en approchant — et qu'avez-vous peur de leur abandonner en retour ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.origin.salubri.question2": {
+    "scope": "vampire",
+    "source": "data/originQuestions.js",
+    "default": "Qu'espérez-vous encore pouvoir sauver — en vous-même ou chez les autres — et qu'avez-vous peur de devoir sacrifier pour y parvenir ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
     "variables": []
   }
 }
