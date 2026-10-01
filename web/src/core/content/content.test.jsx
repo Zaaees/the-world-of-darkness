@@ -4,6 +4,8 @@ import ContentEditor from './ContentEditor';
 import ContentController from './ContentController';
 import SiteText from './SiteText';
 import ClanSelection from '../../modules/vampire/pages/ClanSelectionPage';
+import StarterPackStep from '../../modules/vampire/components/StarterPackStep';
+import { getOriginQuestions } from '../../data/originQuestions';
 import { CLAN_DESCRIPTIONS } from '../../data/clanDescriptions';
 import { definitions, siteText, updateContentState, getContentState, catalogKey, displayText, setContentIdentity } from './store';
 import { apiFetch } from '../api';
@@ -23,6 +25,27 @@ afterEach(() => { cleanup(); localStorage.removeItem('discord_token'); vi.useRea
 const tick = async () => act(async () => { await vi.advanceTimersByTimeAsync(650); });
 
 describe('direct CAIN editor', () => {
+  it('edits the composed origin question and refreshes it despite a saved draft snapshot', () => {
+    const answers = { q1: '', q2: 'Ma réponse conservée', q3: '', questions: getOriginQuestions('brujah') };
+    render(<StarterPackStep selectedClan={{ id: 'brujah' }} answers={answers} onAnswerChange={vi.fn()} />);
+    const questionKey = 'vampire.text.02556';
+    const element = document.querySelector(`[data-site-content-key="${questionKey}"]`);
+    expect(element).not.toBeNull();
+    fireEvent.click(element);
+    expect(getContentState().selectedKey).toBe(questionKey);
+    act(() => updateContentState({ values: {
+      [questionKey]: { value: 'Comment affrontez-vous {v0} ?', revision: 1 },
+      'vampire.text.00568': { value: 'la colère et ses conséquences', revision: 1 },
+      'vampire.text.00586': { value: 'Racontez votre vie mortelle.', revision: 1 },
+    } }));
+    expect(screen.getByLabelText('Comment affrontez-vous la colère et ses conséquences ?')).toHaveValue('Ma réponse conservée');
+    expect(screen.getByLabelText('Racontez votre vie mortelle.')).toBeInTheDocument();
+    expect(getOriginQuestions('brujah')[1]).toBe('Comment affrontez-vous la colère et ses conséquences ?');
+    expect(answers.questions[1]).toContain('une injustice et votre colère');
+    act(() => updateContentState({ editing: false }));
+    expect(document.querySelector('[data-site-content-key]')).toBeNull();
+  });
+
   it('registers every clan text, including the short descriptions', () => {
     for (const clan of Object.values(CLAN_DESCRIPTIONS)) {
       for (const value of Object.values(clan)) expect(catalogKey('vampire', value)).toBeTruthy();

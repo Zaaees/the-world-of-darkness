@@ -10,10 +10,14 @@ const tensions = {
   samedi: 'votre apparence et votre désir de rester en relation', daughters_of_cacophony: 'votre voix et le besoin d’être entendu',
   baali: 'la tentation et une limite que vous souhaitez préserver', salubri: 'votre compassion et votre propre survie',
 };
-export function getOriginQuestions(clan) {
+export function getOriginQuestionEntries(clan) {
   return [
-    'Qui étiez-vous avant l’Étreinte, et quel lien avec cette vie souhaitez-vous garder ? Vous pouvez être récemment étreint.',
-    siteText("vampire.text.02556", { v0: displayText('vampire', tensions[clan] || 'votre héritage et vos choix personnels') }),
-    'Que cherchez-vous lors de votre première nuit dans la ville, et auprès de qui pourriez-vous trouver de l’aide ? Vous pouvez laisser le nom ouvert pour le définir avec un autre joueur ou le MJ.',
+    { contentKey: 'vampire.text.00586' },
+    { contentKey: 'vampire.text.02556', variables: { v0: displayText('vampire', tensions[clan] || 'votre héritage et vos choix personnels') } },
+    { contentKey: 'vampire.text.00588' },
   ];
+}
+
+export function getOriginQuestions(clan) {
+  return getOriginQuestionEntries(clan).map(({ contentKey, variables }) => siteText(contentKey, variables));
 }

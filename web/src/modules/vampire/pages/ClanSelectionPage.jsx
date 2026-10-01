@@ -48,7 +48,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
         },
         body: JSON.stringify({
           clan: selectedClan.id,
-          starter_pack_answers: starterPackAnswers
+          starter_pack_answers: { ...starterPackAnswers, questions: getOriginQuestions(selectedClan.id) }
         })
       });
 
@@ -72,7 +72,7 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
   };
 
   const handleAnswerChange = (key, val) => {
-    const next = {...starterPackAnswers, [key]:val};
+    const next = {...starterPackAnswers, [key]:val, questions: getOriginQuestions(selectedClan.id)};
     setStarterPackAnswers(next);
     writeDraft(`vampire:origin:${guildId}:${userId}:${selectedClan.id}`, next);
   };
