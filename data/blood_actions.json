@@ -21,9 +21,9 @@
       "clan": "brujah",
       "category": "clan",
       "name": "Le prix du refus",
-      "description": "Faites reculer une contrainte imposée. Ou Obtenez réparation d'un abus établi.",
+      "description": "Refusez une autorité qui prétend décider à votre place et acceptez le prix réel de votre insoumission — ou forcez-la à reconnaître qu’elle est allée trop loin.",
       "hints": [
-        "Exigez la restitution d’un bien confisqué ou la levée d’une interdiction de chasse."
+        "Refusez un ordre injuste, récupérez ce qui vous a été arraché ou défiez une interdiction malgré les représailles qu’elle pourrait entraîner."
       ],
       "minBp": 1,
       "maxBp": 5,
@@ -41,9 +41,9 @@
       "clan": "brujah",
       "category": "clan",
       "name": "Les voix qui se lèvent",
-      "description": "Rassemblez des soutiens qui passent effectivement à l'action. Ou Faites aboutir une contestation locale.",
+      "description": "Faites de votre colère ou de votre conviction une étincelle que d’autres choisissent de suivre.",
       "hints": [
-        "Réunissez des alliés autour d’une action précise : obtenir un accès, protéger un témoin ou faire retirer une sanction."
+        "Ralliez plusieurs personnes autour d’une action concrète : défendre l’un des leurs, contester une décision ou arracher quelque chose que personne n’aurait obtenu seul."
       ],
       "minBp": 2,
       "maxBp": 5,
@@ -60,10 +60,10 @@
       "id": "vitae_brujah_3",
       "clan": "brujah",
       "category": "clan",
-      "name": "Briser les chaînes",
-      "description": "Brisez un dispositif de coercition. Ou Préservez un objectif collectif menacé par une rupture d'alliance.",
+      "name": "Le feu des idées",
+      "description": "Mettez une conviction à l’épreuve face à quelqu’un qui pouvait réellement la briser — et faites de vos paroles, de vos actes ou de votre colère une réponse impossible à ignorer.",
       "hints": [
-        "Coupez le levier d’un maître chanteur ou empêchez une querelle de faire échouer une opération commune."
+        "Affrontez un adversaire sur ses propres principes, révélez la contradiction d’une autorité ou faites changer de camp quelqu’un qui avait de bonnes raisons de vous résister."
       ],
       "minBp": 3,
       "maxBp": 5,
@@ -81,9 +81,9 @@
       "clan": "brujah",
       "category": "clan",
       "name": "Un ordre nouveau",
-      "description": "Transformez les règles d'un groupe malgré une opposition organisée. Ou Mettez fin à une domination locale établie.",
+      "description": "Faites tomber une règle ou une domination établie, puis imposez une alternative capable de survivre à ceux qui préféraient l’ancien ordre.",
       "hints": [
-        "Faites appliquer de nouvelles conditions de partage du sang malgré ceux qui profitent des anciennes."
+        "Renversez un privilège, redistribuez une ressource ou imposez de nouvelles règles à un groupe malgré ceux qui avaient intérêt à ce que rien ne change."
       ],
       "minBp": 4,
       "maxBp": 5,
@@ -101,9 +101,9 @@
       "clan": "brujah",
       "category": "clan",
       "name": "La cause vous survivra",
-      "description": "Faites vivre une cause indépendante de soi. Ou Résolvez une contradiction centrale entre convictions et méthodes.",
+      "description": "Faites d’une conviction quelque chose qui n’a plus besoin de vous pour exister.",
       "hints": [
-        "Confiez une cause à ceux qui la porteront autrement que vous."
+        "Transmettez votre combat à ceux qui le poursuivront sans vous, fondez un mouvement capable de vous survivre ou acceptez que votre cause évolue entre les mains de ceux qui l’ont faite leur."
       ],
       "minBp": 5,
       "maxBp": 5,
@@ -2263,7 +2263,7 @@
     },
     "clan": {
       "name": "L’héritage de votre sang",
-      "description": "Les voies de votre lignée",
+      "description": "Le Sang en vous connaît la voie, mais il ne livre pas tous ses secrets aux plus jeunes.",
       "icon": "🧛"
     },
     "general": {

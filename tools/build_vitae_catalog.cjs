@@ -87,6 +87,38 @@ for (const action of actions.filter(a => a.clan)) {
     return verbs[key] ? verbs[key] + part.slice(word.length) : part;
   }).join('. Ou ');
 }
+// Textes Brujah révisés ; conserver les identifiants et les règles de progression.
+const brujahTexts = [
+  [
+    "Le prix du refus",
+    "Refusez une autorité qui prétend décider à votre place et acceptez le prix réel de votre insoumission — ou forcez-la à reconnaître qu’elle est allée trop loin.",
+    "Refusez un ordre injuste, récupérez ce qui vous a été arraché ou défiez une interdiction malgré les représailles qu’elle pourrait entraîner."
+  ],
+  [
+    "Les voix qui se lèvent",
+    "Faites de votre colère ou de votre conviction une étincelle que d’autres choisissent de suivre.",
+    "Ralliez plusieurs personnes autour d’une action concrète : défendre l’un des leurs, contester une décision ou arracher quelque chose que personne n’aurait obtenu seul."
+  ],
+  [
+    "Le feu des idées",
+    "Mettez une conviction à l’épreuve face à quelqu’un qui pouvait réellement la briser — et faites de vos paroles, de vos actes ou de votre colère une réponse impossible à ignorer.",
+    "Affrontez un adversaire sur ses propres principes, révélez la contradiction d’une autorité ou faites changer de camp quelqu’un qui avait de bonnes raisons de vous résister."
+  ],
+  [
+    "Un ordre nouveau",
+    "Faites tomber une règle ou une domination établie, puis imposez une alternative capable de survivre à ceux qui préféraient l’ancien ordre.",
+    "Renversez un privilège, redistribuez une ressource ou imposez de nouvelles règles à un groupe malgré ceux qui avaient intérêt à ce que rien ne change."
+  ],
+  [
+    "La cause vous survivra",
+    "Faites d’une conviction quelque chose qui n’a plus besoin de vous pour exister.",
+    "Transmettez votre combat à ceux qui le poursuivront sans vous, fondez un mouvement capable de vous survivre ou acceptez que votre cause évolue entre les mains de ceux qui l’ont faite leur."
+  ]
+];
+brujahTexts.forEach(([name, description, hint], index) => {
+  const action = actions.find(row => row.id === `vitae_brujah_${index + 1}`);
+  Object.assign(action, { name, description, hints: [hint] });
+});
 const firstBeast = actions.find(a => a.id === 'first_frenzy');
 firstBeast.id = 'vitae_first_beast';
 firstBeast.legacyCompletedIds = ['first_frenzy'];
@@ -98,7 +130,7 @@ const categories = {
   },
   "clan": {
     "name": "L’héritage de votre sang",
-    "description": "Les voies de votre lignée",
+    "description": "Le Sang en vous connaît la voie, mais il ne livre pas tous ses secrets aux plus jeunes.",
     "icon": "🧛"
   },
   "general": {
