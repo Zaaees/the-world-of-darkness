@@ -272,7 +272,7 @@ export default function VampireSheet() {
   }, [discordUser, loading, guildId, npcCharacter]);
 
   // Charger les données depuis Google Sheets
-  const loadCharacter = useCallback(async (resolvedGuildId = guildId, resolvedProfile = vampireProfile) => {
+  const loadCharacter = useCallback(async (resolvedGuildId = guildId, resolvedProfile = vampireProfile, openGmOnMissing = true) => {
     if (!discordUser) return;
 
     try {
@@ -287,7 +287,7 @@ export default function VampireSheet() {
       if (response.ok && data.success && !data.character && resolvedProfile?.is_gm) {
         setCharacter(null);
         setNeedsClanSelection(false);
-        setIsCainMode(true);
+        setIsCainMode(openGmOnMissing);
         return;
       }
 
@@ -394,6 +394,7 @@ export default function VampireSheet() {
           setVampireProfile(vampireProfileData);
 
           if (vampireProfileData.is_gm && (!vampireProfileData.has_vampire_role || !vampireProfileData.clan)) {
+            setNeedsClanSelection(Boolean(vampireProfileData.has_vampire_role && !vampireProfileData.clan));
             setIsCainMode(true);
             setLoading(false);
             return false;
@@ -700,7 +701,7 @@ export default function VampireSheet() {
     );
   }
 
-  if (loading || (!character && !needsClanSelection && !isCainMode)) {
+  if (loading || (!character && !needsClanSelection && !isCainMode && !vampireProfile?.is_gm)) {
     return (
       <div className="bg-[#0c0a09] min-h-screen flex items-center justify-center text-red-900 font-serif animate-pulse"><SiteText contentKey="vampire.text.01577" /></div>
     );
@@ -818,12 +819,19 @@ export default function VampireSheet() {
                       window.history.pushState({}, '', url);
                     }
 
-                    const newMode = !isCainMode;
+                    const newMode = npcCharacter ? true : !isCainMode;
                     setIsCainMode(newMode);
                     setActiveTab('character');
                     if (!newMode) {
                       setNpcCharacter(null);
-                      loadCharacter(); // Recharger le perso joueur
+                      setCharacter(null);
+                      setError(null);
+                      const selectClan = Boolean(vampireProfile?.has_vampire_role && !vampireProfile?.clan);
+                      setNeedsClanSelection(selectClan);
+                      if (!selectClan && vampireProfile?.has_vampire_role) {
+                        setLoading(true);
+                        loadCharacter(guildId, vampireProfile, false);
+                      }
                     } else {
                       // On passe en mode Caïn, on vide le character pour afficher le dashboard
                       setCharacter(null);
@@ -878,14 +886,26 @@ export default function VampireSheet() {
           <ClanSelection
             userId={discordUser.id}
             guildId={guildId}
-            onClanSelected={async () => {
+            onClanSelected={async (clan) => {
+              const updatedProfile = { ...vampireProfile, clan };
+              setVampireProfile(updatedProfile);
               setNeedsClanSelection(false);
               setLoading(true);
-              await loadCharacter();
+              await loadCharacter(guildId, updatedProfile, false);
               setActiveTab('character');
             }}
           />
         </div>
+      ) : !character && !isCainMode && activeTab !== 'rules' ? (
+        <main className="max-w-2xl mx-auto px-6 py-12 text-center">
+          <h1 className="text-xl font-serif text-stone-200">Aucun personnage personnel disponible</h1>
+          <p className="mt-4 text-stone-400">
+            {vampireProfile?.has_vampire_role
+              ? 'Votre clan est défini, mais votre fiche est introuvable. Vous pouvez accéder à vos personnages dans le mode MJ.'
+              : 'Le rôle Vampire est nécessaire pour créer un personnage personnel et choisir un clan. Vos personnages restent accessibles dans le mode MJ.'}
+          </p>
+          <button type="button" onClick={() => setIsCainMode(true)} className="mt-6 px-4 py-2 border border-red-900 rounded">Ouvrir le mode MJ</button>
+        </main>
       ) : (
         <>
           {/* BARRE D'OUTILS PNJ */}

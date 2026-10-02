@@ -10,7 +10,7 @@ vi.mock('../components/RitualsTab', () => ({ default: () => <div data-testid="ri
 vi.mock('../components/RulesTab', () => ({ default: () => <div data-testid="rules-tab">Rules</div> }));
 vi.mock('../components/CharacterSheet', () => ({ default: () => <div data-testid="character-sheet">Character Sheet</div> }));
 vi.mock('./ClanSelectionPage', () => ({ default: () => <div data-testid="clan-selection">Clan Selection</div> }));
-vi.mock('../../../core/components/GmDashboard', () => ({ default: () => <div data-testid="gm-dashboard">GM Dashboard</div> }));
+vi.mock('../../../core/components/GmDashboard', () => ({ default: ({ onSelectNpc }) => <div data-testid="gm-dashboard">GM Dashboard<button onClick={() => onSelectNpc({ id: 'npc-1', name: 'PNJ Test', clan: 'brujah' })}>Choisir un PNJ</button></div> }));
 
 // Mock global fetch
 const mockFetch = vi.fn();
@@ -40,6 +40,22 @@ describe('SheetPage', () => {
         expect(screen.getByTestId('rules-tab')).toBeInTheDocument();
         fireEvent.click(screen.getByRole('button', { name: /Règlement/i }));
         expect(screen.getByTestId('gm-dashboard')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /^MJ$/ }));
+        if (profile.has_vampire_role && !profile.clan) {
+            expect(await screen.findByTestId('clan-selection')).toBeInTheDocument();
+        } else {
+            expect(await screen.findByText('Aucun personnage personnel disponible')).toBeInTheDocument();
+            expect(screen.queryByTestId('clan-selection')).not.toBeInTheDocument();
+        }
+        expect(screen.queryByTestId('gm-dashboard')).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /^MJ$/ }));
+        expect(screen.getByTestId('gm-dashboard')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: 'Choisir un PNJ' }));
+        expect(screen.getByTestId('character-sheet')).toBeInTheDocument();
+        expect(new URL(window.location.href).searchParams.get('npc_id')).toBe('npc-1');
+        fireEvent.click(screen.getByRole('button', { name: /Quitter PNJ/i }));
+        expect(screen.getByTestId('gm-dashboard')).toBeInTheDocument();
+        expect(new URL(window.location.href).searchParams.has('npc_id')).toBe(false);
     });
 
     it.each([
@@ -86,6 +102,7 @@ describe('SheetPage', () => {
     });
 
     beforeEach(() => {
+        window.history.replaceState({}, '', '/');
         vi.clearAllMocks();
         // Default fetch mocks
         mockFetch.mockResolvedValue({
