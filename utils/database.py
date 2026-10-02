@@ -916,6 +916,8 @@ async def validate_blood_action(
         catalog_action = get_action_by_id(action_id)
         if not catalog_action:
             return {"success": False, "reason": "Ancienne action retirée du catalogue : refusez cette demande et soumettez un accomplissement actuel."}
+        from utils.site_content import action_display
+        action_dict['action_name'] = (await action_display(catalog_action, guild_id))['name']
         if category == "unique":
             completed_cursor = await db.execute(
                 "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
@@ -1006,6 +1008,12 @@ async def refuse_blood_action(submission_id: str, validator_id: int, reason: Opt
             return None
 
         action_dict = dict(action)
+
+        from data.blood_actions import get_action_by_id
+        from utils.site_content import action_display
+        catalog_action = get_action_by_id(action_dict['action_id'])
+        if catalog_action:
+            action_dict['action_name'] = (await action_display(catalog_action, action_dict['guild_id']))['name']
 
         await sheets_request("refuse_action", userId=str(action_dict["user_id"]), actionId=action_dict["action_id"], submissionId=submission_id)
         changed = await db.execute(

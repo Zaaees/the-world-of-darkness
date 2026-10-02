@@ -1,16 +1,13 @@
 """Allowlisted editorial fields, independent of character data and game rules."""
-import json
 import os
 import re
-from pathlib import Path
 
 import aiosqlite
 from aiohttp import web
 
 from data.config import ROLE_FONDATEUR, ROLE_MJ_VAMPIRE, ROLE_MJ_WEREWOLF
 from utils import database
-
-REGISTRY = json.loads((Path(__file__).parents[2] / 'data/site_content.json').read_text(encoding='utf-8'))
+from utils.site_content import REGISTRY
 
 
 async def initialize(app):

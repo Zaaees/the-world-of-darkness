@@ -8,7 +8,10 @@ Gère:
 """
 
 import logging
+from copy import deepcopy
 from utils.sheets_client import sheets_request
+from utils.site_content import action_display, catalog_values
+from data.config import VALIDATION_CHANNEL_ID
 
 import discord
 from discord.ext import commands, tasks
@@ -19,11 +22,13 @@ from utils.database import (
     create_pending_action,
     has_pending_action,
     get_pending_action,
+    get_all_pending_actions,
     get_from_google_sheets,
 )
 from views.blood_action_validation import (
     PersistentActionValidationView,
     send_validation_request,
+    refresh_action_fields,
 )
 
 logger = logging.getLogger(__name__)
@@ -34,6 +39,7 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self._content_values = {}
         self.check_pending_actions.start()
 
     def cog_unload(self):
@@ -49,12 +55,47 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
     @tasks.loop(seconds=15)
     async def check_pending_actions(self):
         """Vérifie les nouvelles actions en attente depuis Google Sheets (toutes les 15s)."""
+        await self._refresh_pending_action_texts()
         try:
             data = await sheets_request("get_pending_actions")
             for action in data.get("pendingActions", []):
                 await self._process_pending_action_from_sheets(action)
         except Exception as e:
             logger.debug(f"Erreur check pending actions: {e}")
+
+    async def _refresh_pending_action_texts(self):
+        """Refresh existing pending messages after editorial changes, without mentions."""
+        for guild in self.bot.guilds:
+            try:
+                values = await catalog_values(guild.id)
+                if self._content_values.get(guild.id) == values:
+                    continue
+                channel = guild.get_channel(VALIDATION_CHANNEL_ID)
+                if not channel:
+                    continue
+                pending = await get_all_pending_actions(guild.id)
+                for action in pending:
+                    if not action.get('message_id'):
+                        continue
+                    try:
+                        message = await channel.fetch_message(action['message_id'])
+                    except discord.NotFound:
+                        continue
+                    if not message.embeds:
+                        continue
+                    embed = deepcopy(message.embeds[0])
+                    if embed.footer.text != f"ID: {action['submission_id']}":
+                        continue
+                    before = deepcopy(embed.to_dict())
+                    await refresh_action_fields(embed, action['action_id'], guild.id)
+                    if embed.to_dict() != before:
+                        current = await get_pending_action(action['submission_id'])
+                        if current and current['status'] == 'pending':
+                            await message.edit(embed=embed)
+                self._content_values[guild.id] = values
+            except Exception:
+                # Leave the cache unchanged so a transient failure is retried.
+                logger.exception("Actualisation des textes des demandes MJ interrompue (serveur %s)", guild.id)
 
     @check_pending_actions.before_loop
     async def before_check_pending_actions(self):
@@ -88,6 +129,8 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
             if not action_info:
                 logger.warning(f"Action {action_id} non trouvée")
                 return
+
+            action_info = await action_display(action_info, guild.id)
 
             character = await get_from_google_sheets(user_id)
             if not character:

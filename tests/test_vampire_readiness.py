@@ -84,8 +84,10 @@ def test_all_clans_have_server_assigned_ghoul_powers():
     ('https://discord.com/channels/9/3/4', 400),
     ('', 400),
 ])
-def test_action_submission_only_requires_scene_link(scene, status):
+def test_action_submission_only_requires_scene_link(scene, status, tmp_path):
     class Request(dict):
+        app = {'content_db_path': str(tmp_path / 'unused.db')}
+
         async def json(self):
             return {'actionId': 'vitae_brujah_1', 'sceneLink': scene}
 

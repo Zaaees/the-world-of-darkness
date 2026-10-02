@@ -9,6 +9,8 @@ import asyncio
 import discord
 from discord import ui
 import logging
+from data.blood_actions import get_action_by_id
+from utils.site_content import action_display
 
 from data.config import (
     VALIDATION_CHANNEL_ID,
@@ -30,6 +32,29 @@ from utils.database import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+async def refresh_action_fields(embed, action_id, guild_id):
+    """Use the latest editorial text, including requests registered before an edit."""
+    action = get_action_by_id(action_id)
+    if not action:
+        return
+    action = await action_display(action, guild_id)
+    has_hints = False
+    for index, field in enumerate(embed.fields):
+        limit = min(1024, max(1, 5600 - len(embed) + len(field.value)))
+        if field.name == 'Action':
+            embed.set_field_at(index, name='Action',
+                value=f"**{action['name']}**\n*{action['description']}*"[:limit], inline=False)
+        elif field.name == 'Pistes de scène':
+            has_hints = True
+            embed.set_field_at(index, name=field.name,
+                value='\n'.join(f'• {hint}' for hint in action['hints'])[:limit] or '—', inline=False)
+    if not has_hints and action['hints'] and len(embed.fields) < 25:
+        limit = min(1024, max(0, 5600 - len(embed) - len('Pistes de scène')))
+        if limit:
+            embed.add_field(name='Pistes de scène',
+                value='\n'.join(f'• {hint}' for hint in action['hints'])[:limit], inline=False)
 
 
 def has_validation_permission(member: discord.Member) -> bool:
@@ -108,6 +133,7 @@ class PersistentActionValidationView(ui.View):
         # Progression and idempotency were saved together by award_action.
 
         # Mettre à jour l'embed
+        await refresh_action_fields(embed, action['action_id'], interaction.guild_id)
         embed.color = discord.Color.green()
         embed.set_footer(text=f"✅ Validé par {interaction.user.display_name}")
 
@@ -201,6 +227,7 @@ class PersistentActionValidationView(ui.View):
             return
 
         # Mettre à jour l'embed
+        await refresh_action_fields(embed, pending['action_id'], interaction.guild_id)
         embed.color = discord.Color.red()
         embed.set_footer(text=f"❌ Refusé par {interaction.user.display_name}")
 
@@ -264,6 +291,14 @@ async def send_validation_request(
     player = await get_player(user_id, guild_id)
     vampire_data = await get_vampire_data(user_id, guild_id)
 
+    catalog_action = get_action_by_id(action_id)
+    action_hints = []
+    if catalog_action:
+        current_action = await action_display(catalog_action, guild_id)
+        action_name = current_action['name']
+        action_description = current_action['description']
+        action_hints = current_action['hints']
+
     # Créer l'embed
     embed = discord.Embed(
         title="🩸 Demande de validation d'action",
@@ -291,9 +326,13 @@ async def send_validation_request(
 
     embed.add_field(
         name="Action",
-        value=f"**{action_name}**\n*{action_description}*",
+        value=f"**{action_name}**\n*{action_description}*"[:1024],
         inline=False,
     )
+
+    if action_hints:
+        embed.add_field(name='Pistes de scène',
+            value='\n'.join(f'• {hint}' for hint in action_hints)[:1024], inline=False)
 
     embed.add_field(
         name="Épaississement",
@@ -327,7 +366,8 @@ async def send_validation_request(
 
     if scene_context:
         for key, label in (("sceneLink", "Scène"), ("obstacle", "Obstacle"), ("outcome", "Résultat"), ("participants", "Participants")):
-            value = str(scene_context.get(key, ""))[:1000]
+            remaining = max(0, 5600 - len(embed) - len(label))
+            value = str(scene_context.get(key, ""))[:min(1000, remaining)]
             if value:
                 embed.add_field(name=label, value=value, inline=False)
     embed.set_thumbnail(url=member.display_avatar.url)

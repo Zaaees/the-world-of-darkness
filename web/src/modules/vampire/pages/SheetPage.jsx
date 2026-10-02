@@ -622,7 +622,7 @@ export default function VampireSheet() {
           ...prev,
           pendingActions: [...(prev.pendingActions || []), action.id],
           history: [...(prev.history || []), {
-            text: `Action soumise: ${action.name}`,
+            text: `Action soumise: ${displayText('vampire', action.name)}`,
             impact: action.points,
             date: new Date().toISOString(),
             type: 'pending'

@@ -7,6 +7,7 @@ from pathlib import Path
 from aiohttp import web
 from data.blood_actions import get_action_by_id, get_action_points, is_action_available, normalize_clan
 from utils.sheets_client import sheets_request, SheetsUnavailable
+from utils.site_content import action_display
 
 GHOULS = json.loads((Path(__file__).parents[2] / 'data/ghoul_disciplines.json').read_text(encoding='utf-8'))
 
@@ -87,6 +88,7 @@ async def submit_action_handler(request):
         scene = data.get('sceneLink', '').strip()
         if not re.fullmatch(r'https://(?:canary\.|ptb\.)?discord\.com/channels/' + re.escape(guild_id) + r'/\d+(?:/\d+)?', scene):
             raise ValueError('Indiquez un lien de scène Discord de ce serveur.')
+        action = await action_display(action, int(guild_id), request.app.get('content_db_path'))
         result = await sheets_request('submit_action', userId=user_id, guildId=guild_id,
             actionId=action['id'], actionName=action['name'], points=get_action_points(action, bp), sceneLink=scene)
         return web.json_response(result, status=202)
