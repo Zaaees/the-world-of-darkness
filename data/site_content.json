@@ -17308,7 +17308,7 @@
   "vampire.text.01925": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez une source dans un milieu fermé. Ou Obtenez une information protégée et vérifiable.",
+    "default": "Faites d’une personne bien placée une source régulière d’informations dans un milieu fermé, puis obtenez d’elle un renseignement que vous aurez pu vérifier sans révéler qui vous êtes réellement.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17317,7 +17317,7 @@
   "vampire.text.01926": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Gagnez la confiance d’un gardien réticent ou vérifiez un renseignement que son détenteur protège.",
+    "default": "Gagnez la confiance d’un gardien, d’un technicien, d’un employé de nuit ou d’un habitué invisible aux yeux des puissants ; aménagez un moyen discret de communiquer avec lui et recoupez l’une de ses informations avant d’agir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17326,7 +17326,7 @@
   "vampire.text.01927": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le poids du secret",
+    "default": "Les voix sous la ville",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17335,7 +17335,7 @@
   "vampire.text.01928": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Découvrez un secret compromettant. Ou Obtenez une concession effective grâce à un renseignement.",
+    "default": "Transformez plusieurs sources isolées en un circuit de renseignement où informations, rumeurs et avertissements peuvent parvenir jusqu’à vous sans exposer directement ceux qui les transmettent.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17344,7 +17344,7 @@
   "vampire.text.01929": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez une preuve compromettante, ou faites réellement exécuter une concession négociée grâce à elle.",
+    "default": "Reliez des informateurs qui ignorent travailler pour la même main, mettez en place des intermédiaires ou des dépôts anonymes, ou organisez des échanges permettant de confirmer une information sans qu’aucune source ne connaisse l’ensemble du réseau.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17353,7 +17353,7 @@
   "vampire.text.01930": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Dans la toile ennemie",
+    "default": "Une écharde dans la toile",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17362,7 +17362,7 @@
   "vampire.text.01931": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Infiltrez un réseau hostile. Ou Soustrayez une source compromise à ceux qui l'exploitent.",
+    "default": "Introduisez-vous dans un réseau de renseignement hostile et détournez durablement l’un de ses canaux à votre profit sans que ceux qui le contrôlent comprennent immédiatement où se trouve la fuite.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17371,7 +17371,7 @@
   "vampire.text.01932": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Accédez à un canal fermé ou soustrayez un informateur à ceux qui le surveillent.",
+    "default": "Retournez un informateur adverse, récupérez une source compromise avant qu’elle ne parle, détournez un canal de communication ou faites parvenir à l’ennemi des informations assez crédibles pour dissimuler celles que vous lui dérobez réellement.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17389,7 +17389,7 @@
   "vampire.text.01934": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Démantelez une surveillance organisée. Ou Retournez un réseau de renseignement dans un conflit local.",
+    "default": "Identifiez les relais d’une surveillance organisée puis brisez, détournez ou corrompez son fonctionnement jusqu’à rendre les renseignements de vos adversaires incomplets, trompeurs ou dangereux à utiliser.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17398,7 +17398,7 @@
   "vampire.text.01935": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Identifiez les relais d’une surveillance puis privez-les de leur efficacité, ou retournez leur coopération.",
+    "default": "Remontez d’un observateur jusqu’à ceux qui centralisent ses rapports, retournez un intermédiaire, faites disparaître une source essentielle ou introduisez de fausses certitudes assez solides pour que tout un réseau commence à surveiller la mauvaise cible.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17416,7 +17416,7 @@
   "vampire.text.01937": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un réseau viable. Ou Préservez un secret décisif malgré une rupture interne.",
+    "default": "Établissez ou préservez un réseau de renseignement nosferatu capable de survivre à votre absence, à une trahison ou à la destruction de l’un de ses maillons, afin que ses sources, ses voies cachées et ses secrets continuent de servir après vous.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17425,7 +17425,7 @@
   "vampire.text.01938": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Confiez des sources et leurs moyens de protection sans conserver seul toutes les clés.",
+    "default": "Répartissez les informations sensibles entre plusieurs gardiens, transmettez vos accès sans livrer toutes les clés à une seule personne, sauvez un réseau menacé par une purge interne ou reconstruisez ses relais de manière à ce qu’aucune perte future ne puisse faire taire entièrement ce que la ville murmure.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

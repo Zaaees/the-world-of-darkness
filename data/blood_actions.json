@@ -321,9 +321,9 @@
       "clan": "nosferatu",
       "category": "clan",
       "name": "Une oreille derrière le mur",
-      "description": "Établissez une source dans un milieu fermé. Ou Obtenez une information protégée et vérifiable.",
+      "description": "Faites d’une personne bien placée une source régulière d’informations dans un milieu fermé, puis obtenez d’elle un renseignement que vous aurez pu vérifier sans révéler qui vous êtes réellement.",
       "hints": [
-        "Gagnez la confiance d’un gardien réticent ou vérifiez un renseignement que son détenteur protège."
+        "Gagnez la confiance d’un gardien, d’un technicien, d’un employé de nuit ou d’un habitué invisible aux yeux des puissants ; aménagez un moyen discret de communiquer avec lui et recoupez l’une de ses informations avant d’agir."
       ],
       "minBp": 1,
       "maxBp": 5,
@@ -340,10 +340,10 @@
       "id": "vitae_nosferatu_2",
       "clan": "nosferatu",
       "category": "clan",
-      "name": "Le poids du secret",
-      "description": "Découvrez un secret compromettant. Ou Obtenez une concession effective grâce à un renseignement.",
+      "name": "Les voix sous la ville",
+      "description": "Transformez plusieurs sources isolées en un circuit de renseignement où informations, rumeurs et avertissements peuvent parvenir jusqu’à vous sans exposer directement ceux qui les transmettent.",
       "hints": [
-        "Établissez une preuve compromettante, ou faites réellement exécuter une concession négociée grâce à elle."
+        "Reliez des informateurs qui ignorent travailler pour la même main, mettez en place des intermédiaires ou des dépôts anonymes, ou organisez des échanges permettant de confirmer une information sans qu’aucune source ne connaisse l’ensemble du réseau."
       ],
       "minBp": 2,
       "maxBp": 5,
@@ -360,10 +360,10 @@
       "id": "vitae_nosferatu_3",
       "clan": "nosferatu",
       "category": "clan",
-      "name": "Dans la toile ennemie",
-      "description": "Infiltrez un réseau hostile. Ou Soustrayez une source compromise à ceux qui l'exploitent.",
+      "name": "Une écharde dans la toile",
+      "description": "Introduisez-vous dans un réseau de renseignement hostile et détournez durablement l’un de ses canaux à votre profit sans que ceux qui le contrôlent comprennent immédiatement où se trouve la fuite.",
       "hints": [
-        "Accédez à un canal fermé ou soustrayez un informateur à ceux qui le surveillent."
+        "Retournez un informateur adverse, récupérez une source compromise avant qu’elle ne parle, détournez un canal de communication ou faites parvenir à l’ennemi des informations assez crédibles pour dissimuler celles que vous lui dérobez réellement."
       ],
       "minBp": 3,
       "maxBp": 5,
@@ -381,9 +381,9 @@
       "clan": "nosferatu",
       "category": "clan",
       "name": "Aveugler les guetteurs",
-      "description": "Démantelez une surveillance organisée. Ou Retournez un réseau de renseignement dans un conflit local.",
+      "description": "Identifiez les relais d’une surveillance organisée puis brisez, détournez ou corrompez son fonctionnement jusqu’à rendre les renseignements de vos adversaires incomplets, trompeurs ou dangereux à utiliser.",
       "hints": [
-        "Identifiez les relais d’une surveillance puis privez-les de leur efficacité, ou retournez leur coopération."
+        "Remontez d’un observateur jusqu’à ceux qui centralisent ses rapports, retournez un intermédiaire, faites disparaître une source essentielle ou introduisez de fausses certitudes assez solides pour que tout un réseau commence à surveiller la mauvaise cible."
       ],
       "minBp": 4,
       "maxBp": 5,
@@ -401,9 +401,9 @@
       "clan": "nosferatu",
       "category": "clan",
       "name": "Les murmures demeurent",
-      "description": "Transmettez un réseau viable. Ou Préservez un secret décisif malgré une rupture interne.",
+      "description": "Établissez ou préservez un réseau de renseignement nosferatu capable de survivre à votre absence, à une trahison ou à la destruction de l’un de ses maillons, afin que ses sources, ses voies cachées et ses secrets continuent de servir après vous.",
       "hints": [
-        "Confiez des sources et leurs moyens de protection sans conserver seul toutes les clés."
+        "Répartissez les informations sensibles entre plusieurs gardiens, transmettez vos accès sans livrer toutes les clés à une seule personne, sauvez un réseau menacé par une purge interne ou reconstruisez ses relais de manière à ce qu’aucune perte future ne puisse faire taire entièrement ce que la ville murmure."
       ],
       "minBp": 5,
       "maxBp": 5,

@@ -170,11 +170,11 @@ Validation : conclusion fondée et utile ou effet concret obtenu. Exprimer une i
 
 | Niveau | Réalisations possibles |
 |---|---|
-| 1 — 3 pts | Établir une source dans un milieu fermé ; obtenir une information protégée et vérifiable. |
-| 2 — 5 pts | Découvrir un secret compromettant ; obtenir une concession effective grâce à un renseignement. |
-| 3 — 8 pts | Infiltrer un réseau hostile ; soustraire une source compromise à ceux qui l'exploitent. |
-| 4 — 12 pts | Démanteler une surveillance organisée ; retourner un réseau de renseignement dans un conflit local. |
-| 5 — 0 pt | Transmettre un réseau viable ; préserver un secret décisif malgré une rupture interne. |
+| 1 — 3 pts | Faites d’une personne bien placée une source régulière d’informations dans un milieu fermé, puis obtenez d’elle un renseignement que vous aurez pu vérifier sans révéler qui vous êtes réellement. |
+| 2 — 5 pts | Transformez plusieurs sources isolées en un circuit de renseignement où informations, rumeurs et avertissements peuvent parvenir jusqu’à vous sans exposer directement ceux qui les transmettent. |
+| 3 — 8 pts | Introduisez-vous dans un réseau de renseignement hostile et détournez durablement l’un de ses canaux à votre profit sans que ceux qui le contrôlent comprennent immédiatement où se trouve la fuite. |
+| 4 — 12 pts | Identifiez les relais d’une surveillance organisée puis brisez, détournez ou corrompez son fonctionnement jusqu’à rendre les renseignements de vos adversaires incomplets, trompeurs ou dangereux à utiliser. |
+| 5 — 0 pt | Établissez ou préservez un réseau de renseignement nosferatu capable de survivre à votre absence, à une trahison ou à la destruction de l’un de ses maillons, afin que ses sources, ses voies cachées et ses secrets continuent de servir après vous. |
 
 Validation : accès gagné, information confirmée et exploitable ou concession exécutée. Consulter une source déjà acquise ne rapporte pas automatiquement. Aucun secret du Prince nécessaire.
 
