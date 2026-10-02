@@ -18,6 +18,31 @@ global.fetch = mockFetch;
 
 describe('SheetPage', () => {
     it.each([
+        { is_gm: true, has_vampire_role: true, clan: 'brujah' },
+        { is_gm: true, has_vampire_role: true, clan: null },
+        { is_gm: true, has_vampire_role: false, clan: null },
+    ])('opens the MJ dashboard without a personal character (%j)', async profile => {
+        Storage.prototype.getItem = vi.fn(key => key === 'discord_token' ? 'fake-token' : null);
+        mockFetch.mockImplementation(async url => {
+            let data = { success: true };
+            if (url.includes('discord.com/')) data = { id: '123', username: 'MJ' };
+            else if (url.endsWith('/api/guild')) data = { success: true, guild_id: '456' };
+            else if (url.endsWith('/api/vampire/profile')) data = { success: true, ...profile };
+            else if (url.endsWith('/api/vampire/character')) data = { success: true, character: null };
+            return { ok: true, status: 200, json: async () => data };
+        });
+        render(<SheetPage />);
+        expect(await screen.findByTestId('gm-dashboard')).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: /Réessayer/i })).not.toBeInTheDocument();
+        expect(screen.queryByTestId('clan-selection')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('character-sheet')).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /Règlement/i }));
+        expect(screen.getByTestId('rules-tab')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', { name: /Règlement/i }));
+        expect(screen.getByTestId('gm-dashboard')).toBeInTheDocument();
+    });
+
+    it.each([
         [503, { success: false, error: 'Synchronisation indisponible. Réessayez.' }],
         [200, { success: true, character: null }],
         [200, { success: true, character: { name: 'Test' } }],

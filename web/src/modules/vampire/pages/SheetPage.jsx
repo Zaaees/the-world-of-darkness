@@ -208,6 +208,7 @@ export default function VampireSheet() {
   const [isCainMode, setIsCainMode] = useState(false);
 
   const [npcCharacter, setNpcCharacter] = useState(null); // PNJ sélectionné en mode GM
+  const hasCharacter = Boolean(character);
 
   // Sync loading state with auth
   useEffect(() => {
@@ -271,7 +272,7 @@ export default function VampireSheet() {
   }, [discordUser, loading, guildId, npcCharacter]);
 
   // Charger les données depuis Google Sheets
-  const loadCharacter = useCallback(async (resolvedGuildId = guildId) => {
+  const loadCharacter = useCallback(async (resolvedGuildId = guildId, resolvedProfile = vampireProfile) => {
     if (!discordUser) return;
 
     try {
@@ -281,6 +282,14 @@ export default function VampireSheet() {
       const url = `${API_URL}/api/vampire/character`;
       const response = await apiFetch(url, { headers: { 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': resolvedGuildId?.toString() } });
       const data = await response.json();
+
+      // A game master can manage NPCs without having a personal Sheets character.
+      if (response.ok && data.success && !data.character && resolvedProfile?.is_gm) {
+        setCharacter(null);
+        setNeedsClanSelection(false);
+        setIsCainMode(true);
+        return;
+      }
 
       if (!response.ok || !data.success || !data.character) {
         throw new Error(data.error || siteText("vampire.text.02565"));
@@ -325,7 +334,7 @@ export default function VampireSheet() {
     } finally {
       setLoading(false);
     }
-  }, [discordUser, memberInfo, guildId]);
+  }, [discordUser, memberInfo, guildId, vampireProfile]);
 
   // Charger les infos du membre sur le serveur et vérifier le profil vampire
   // Retourne true si l'utilisateur a accès et qu'on doit charger le personnage
@@ -384,6 +393,12 @@ export default function VampireSheet() {
         if (vampireProfileData.success) {
           setVampireProfile(vampireProfileData);
 
+          if (vampireProfileData.is_gm && (!vampireProfileData.has_vampire_role || !vampireProfileData.clan)) {
+            setIsCainMode(true);
+            setLoading(false);
+            return false;
+          }
+
           // Check for rituals to unlock Grimoire tab
           try {
             const ritualsRes = await apiFetch(`${API_URL}/api/rituals`, {
@@ -417,7 +432,7 @@ export default function VampireSheet() {
           }
 
           // Utilisateur a le rôle vampire ET un clan → continuer
-          return detectedGuildId;
+          return { guildId: detectedGuildId, profile: vampireProfileData };
         } else {
           // Si l'API vampire profile échoue, refuser l'accès par sécurité
           console.error('Échec API vampire profile:', vampireProfileData);
@@ -461,7 +476,7 @@ export default function VampireSheet() {
         // Si loadMemberInfo a retourné false, l'accès est refusé ou sélection de clan requise
         // Dans ce cas, ne PAS appeler loadCharacter
         if (shouldLoadCharacter) {
-          await loadCharacter(shouldLoadCharacter);
+          await loadCharacter(shouldLoadCharacter.guildId, shouldLoadCharacter.profile);
         }
 
       } catch (err) {
@@ -550,7 +565,7 @@ export default function VampireSheet() {
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
     // Ne pas démarrer le rafraîchissement si l'utilisateur n'est pas connecté
-    if (!discordUser || !guildId || npcCharacter || isCainMode) return;
+    if (!discordUser || !guildId || !hasCharacter || npcCharacter || isCainMode) return;
     let cancelled = false;
     const refreshInterval = setInterval(async () => {
       // Ne pas rafraîchir en mode PNJ (pas de Google Sheets)
@@ -594,7 +609,7 @@ export default function VampireSheet() {
     }, 10000); // 10 secondes - rafraîchissement rapide pour détecter les validations
 
     return () => { cancelled = true; clearInterval(refreshInterval); };
-  }, [discordUser, guildId, npcCharacter, isCainMode]);
+  }, [discordUser, guildId, hasCharacter, npcCharacter, isCainMode]);
 
   const handleLogin = () => {
     window.location.href = getDiscordAuthUrl();
