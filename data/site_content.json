@@ -17029,7 +17029,7 @@
   "vampire.text.01894": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Un toit pour la Bête",
+    "default": "La nuit sans murs",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17038,7 +17038,7 @@
   "vampire.text.01895": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Sécurisez un abri difficile d'accès. Ou Établissez un passage malgré un obstacle territorial.",
+    "default": "Survivez dans un territoire inconnu ou hostile sans refuge préparé, contact établi ni protection politique, puis tirez de cette nuit une solution de survie que vous pourrez réellement réutiliser. Apprenez le terrain plutôt que d’attendre qu’il vous épargne.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17047,7 +17047,7 @@
   "vampire.text.01896": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez l’accès à une friche surveillée ou rendez un abri compatible avec vos besoins nocturnes.",
+    "default": "Traversez une friche, un bois, un réseau ferroviaire, des souterrains ou une zone industrielle jusqu’à découvrir où disparaître avant l’aube ; observez les rondes, les passages oubliés, les dangers locaux et les habitudes des lieux jusqu’à disposer d’un repli ou d’un itinéraire fiable.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17056,7 +17056,7 @@
   "vampire.text.01897": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La piste ouverte",
+    "default": "Ce que la pluie n’efface pas",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17065,7 +17065,7 @@
   "vampire.text.01898": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Conduisez un déplacement collectif sous menace. Ou Obtenez l'usage d'un terrain disputé.",
+    "default": "Retrouvez une personne, une créature ou une ressource disparue en reconstruisant sa piste à travers les traces qu’elle a laissées dans son environnement. Là où d’autres interrogent leurs contacts, apprenez à lire ce que le territoire raconte encore.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17074,7 +17074,7 @@
   "vampire.text.01899": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Conduisez des compagnons à travers un secteur surveillé ou négociez l’usage d’un terrain revendiqué.",
+    "default": "Suivez des habitudes de déplacement, des traces physiques, des témoins marginaux ou le comportement des animaux ; reconstituez le passage d’un fugitif, retrouvez un vampire qui ne veut pas l’être ou découvrez où une proie, un messager ou un intrus a réellement disparu.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17083,7 +17083,7 @@
   "vampire.text.01900": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La chasse renversée",
+    "default": "Les pactes de la lisière",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17092,7 +17092,7 @@
   "vampire.text.01901": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez un territoire de survie compromis. Ou Rompez une traque dirigée contre sa coterie.",
+    "default": "Nouez entre plusieurs prédateurs indépendants un accord de survie fondé sur l’entraide concrète plutôt que sur l’autorité d’un Prince ou d’une institution. Faites de cet accord une réalité en le mettant à l’épreuve lorsque l’un de ses membres en a besoin.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17101,7 +17101,7 @@
   "vampire.text.01902": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Identifiez puis neutralisez ce qui rend un refuge dangereux, ou déjouez les moyens employés pour vous suivre.",
+    "default": "Échangez des avertissements, des passages sûrs, des lieux de repli ou une assistance en cas de traque ; rapprochez des Gangrel rivaux, des vampires sans domaine ou d’autres habitants des marges, puis faites tenir leur parole lorsqu’une intrusion, une chasse ou une dette menace de briser l’accord.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17110,7 +17110,7 @@
   "vampire.text.01903": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Les chemins de la nuit",
+    "default": "Les routes n’ont pas de prince",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17119,7 +17119,7 @@
   "vampire.text.01904": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préservez un réseau de refuges face à une offensive. Ou Ouvrez une voie de survie à un groupe isolé.",
+    "default": "Établissez un réseau clandestin permettant à plusieurs vampires de circuler durablement entre des territoires hostiles ou surveillés sans dépendre des voies contrôlées par les puissances locales. Faites de la géographie une liberté que la politique ne peut facilement confisquer.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17128,7 +17128,7 @@
   "vampire.text.01905": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reliez des abris menacés par un itinéraire réellement praticable, malgré une surveillance active.",
+    "default": "Reliez voies ferrées, tunnels techniques, berges, toits, terrains vagues ou relais discrets ; obtenez la coopération de ceux qui contrôlent certains passages, prévoyez des détours lorsqu’une route tombe et permettez à une coterie, des messagers ou des fugitifs de traverser réellement la ville grâce à ce réseau.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17137,7 +17137,7 @@
   "vampire.text.01906": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La terre en héritage",
+    "default": "Là où la ville redevient sauvage",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17146,7 +17146,7 @@
   "vampire.text.01907": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un territoire utilisable. Ou Établissez un équilibre viable entre autonomie et appartenance.",
+    "default": "Transformez une zone marginale disputée en territoire durablement autonome, capable d’abriter, d’orienter et de protéger ceux qui savent y vivre sans dépendre de votre présence constante. Faites en sorte que ses passages, ses usages et ses alliances survivent à votre départ.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17155,7 +17155,7 @@
   "vampire.text.01908": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Donnez à un autre les moyens de vivre sur ce territoire sans dépendre de votre présence.",
+    "default": "Rassemblez des lieux de repli, des voies clandestines, des habitants utiles et des accords avec les voisins ; repoussez ou absorbez les prétentions concurrentes, établissez qui peut traverser ou demander refuge, puis confiez suffisamment de responsabilités à d’autres pour que cette lisière continue d’exister même lorsque vous n’y êtes plus.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

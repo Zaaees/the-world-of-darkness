@@ -142,11 +142,11 @@ Validation : concession appliquée, dispositif neutralisé ou action collective 
 
 | Niveau | Réalisations possibles |
 |---|---|
-| 1 — 3 pts | Sécuriser un abri difficile d'accès ; établir un passage malgré un obstacle territorial. |
-| 2 — 5 pts | Conduire un déplacement collectif sous menace ; obtenir l'usage d'un terrain disputé. |
-| 3 — 8 pts | Récupérer un territoire de survie compromis ; rompre une traque dirigée contre sa coterie. |
-| 4 — 12 pts | Préserver un réseau de refuges face à une offensive ; ouvrir une voie de survie à un groupe isolé. |
-| 5 — 0 pt | Transmettre un territoire utilisable ; établir un équilibre viable entre autonomie et appartenance. |
+| 1 — 3 pts | Survivez dans un territoire inconnu ou hostile sans refuge préparé, contact établi ni protection politique, puis tirez de cette nuit une solution de survie que vous pourrez réellement réutiliser. Apprenez le terrain plutôt que d’attendre qu’il vous épargne. |
+| 2 — 5 pts | Retrouvez une personne, une créature ou une ressource disparue en reconstruisant sa piste à travers les traces qu’elle a laissées dans son environnement. Là où d’autres interrogent leurs contacts, apprenez à lire ce que le territoire raconte encore. |
+| 3 — 8 pts | Nouez entre plusieurs prédateurs indépendants un accord de survie fondé sur l’entraide concrète plutôt que sur l’autorité d’un Prince ou d’une institution. Faites de cet accord une réalité en le mettant à l’épreuve lorsque l’un de ses membres en a besoin. |
+| 4 — 12 pts | Établissez un réseau clandestin permettant à plusieurs vampires de circuler durablement entre des territoires hostiles ou surveillés sans dépendre des voies contrôlées par les puissances locales. Faites de la géographie une liberté que la politique ne peut facilement confisquer. |
+| 5 — 0 pt | Transformez une zone marginale disputée en territoire durablement autonome, capable d’abriter, d’orienter et de protéger ceux qui savent y vivre sans dépendre de votre présence constante. Faites en sorte que ses passages, ses usages et ses alliances survivent à votre départ. |
 
 Validation : accès opérationnel, objectif atteint ou menace réellement traitée. Une cache temporaire ne brise pas à elle seule une traque. Friches et toits conviennent ; aucun Garou ou exil requis.
 
