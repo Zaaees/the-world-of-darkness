@@ -5,7 +5,7 @@ import SiteText from '../../../core/content/SiteText';
 import { beginOAuthState } from '../../../core/auth/authUtils';
 import SceneSubmission from '../components/SceneSubmission';
 import { apiFetch } from '../../../core/api';
-import { BLOOD_ACTIONS, SATURATION_THRESHOLDS, getClanActions } from '../../../data/bloodActions';
+import { BLOOD_ACTIONS, BLOOD_ACTION_CATEGORIES, SATURATION_THRESHOLDS, getClanActions } from '../../../data/bloodActions';
 import { ActionCategory } from '../components/BloodActions';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText, Book, ArrowLeft, Share2, Eye } from 'lucide-react';
@@ -82,11 +82,11 @@ const BLOOD_STAGES = {
 
 // --- DÉFINITION DES ACTIONS ---
 
-const ACTION_CATEGORIES = [
-  { id: 'unique', name: 'Les premières cicatrices', icon: Star, description: 'Des expériences fondatrices, une fois dans votre existence.' },
-  { id: 'general', name: 'Les épreuves de la nuit', icon: Flame, description: 'Conquérir, protéger, apprendre : des accomplissements qui laissent une trace.' },
-  { id: 'resonance', name: 'Les saveurs du sang', icon: Heart, description: 'Atteindre une source singulière au-delà d’une chasse ordinaire.' },
-].map(category => ({ ...category, actions: BLOOD_ACTIONS.filter(action => action.category === category.id) }));
+const CATEGORY_ICONS = { unique: Star, general: Flame, resonance: Heart, irreversible: Skull, social: Users };
+const ACTION_CATEGORIES = Object.entries(BLOOD_ACTION_CATEGORIES)
+  .filter(([id]) => id !== 'clan')
+  .map(([id, category]) => ({ ...category, id, icon: CATEGORY_ICONS[id],
+    actions: BLOOD_ACTIONS.filter(action => action.category === id) }));
 
 // --- COMPOSANTS UI ---
 

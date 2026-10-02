@@ -54,20 +54,29 @@ for (const [heading, clan, titleText, hintText] of entries) {
   });
 }
 const general = [
-['first_frenzy','unique','La Bête à votre porte','Affrontez pour la première fois une crise où la Bête menace une vie, une couverture ou un engagement.',[3,2,1,1],'Une faim pressante ou une provocation peut mettre un allié en danger. Contenez la Bête ou affrontez ce que sa libération laisse derrière elle.'],
-['vitae_first_dependence','unique','Le sang fait des chaînes','Établissez votre première dépendance de sang et donnez-lui une place réelle dans la nuit.',[3,2,1,1],'Créez une goule ou nouez un lien de sang, puis répondez aux exigences de cette nouvelle dépendance.'],
-['vitae_mortal_break','unique','Ce nom n’est plus le vôtre','Abandonnez irréversiblement une part importante de votre vie mortelle pour préserver votre existence vampirique.',[4,3,2,1],'Renoncez à une identité devenue dangereuse, à un accès précieux ou à une relation impossible à préserver.'],
-['vitae_first_hunt','unique','La première traque','Menez à terme votre première chasse autonome malgré un obstacle qui aurait pu vous démasquer.',[2,1],'Obtenez le sang recherché puis traitez un témoin, une surveillance ou une intrusion territoriale.'],
-['vitae_hunting_source','general','Une veine dans la cité','Ouvrez une source de chasse réellement exploitable là où vos proies ou les maîtres des lieux vous fermaient le passage.',[3,2,1,1],'Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies.'],
-['vitae_restore_source','general','Rouvrir les veines','Rendez au sang un chemin que la menace avait fermé.',[4,4,3,2],'Identifiez ce qui a compromis votre ressource de chasse, traitez cette cause et rétablissez un accès utilisable.'],
-['vitae_masquerade','general','Recoudre le voile','Étouffez une menace crédible avant qu’elle ne déchire la Mascarade.',[5,5,4,3],'Récupérez une preuve compromettante, déjouez une enquête ou neutralisez le risque posé par un témoin.'],
-['vitae_autonomy','general','Briser la laisse','Arrachez une autonomie réelle à une emprise qui organisait votre existence ou celle d’un autre.',[6,6,5,4],'Supprimez un levier de chantage ou démantelez un dispositif de contrôle.'],
-['vitae_extraction','general','Soustraire une vie à la nuit','Ramenez un allié ou une ressource vivante hors d’un danger qui pouvait réellement l’emporter.',[6,6,6,5],'Préparez une sortie, déjouez des poursuivants ou franchissez une défense.'],
-['vitae_crisis','general','Revenir du bord des cendres','Surmontez une crise vampirique qui menace un objectif important.',[5,5,4,3],'Sauvez votre opération malgré la faim, la Bête, le feu ou une exposition.'],
-['vitae_learning','general','Le savoir sous les sceaux','Obtenez un enseignement occulte que l’on ne livrait pas au premier venu.',[4,4,3,2],'Gagnez l’accès à un maître réticent ou à un savoir protégé et mettez son enseignement en pratique.'],
-['vitae_defense','general','Que le refuge demeure','Brisez une offensive organisée contre un refuge ou un réseau de chasse.',[8,8,8,6],'Identifiez les moyens de l’adversaire puis faites échouer son opération, par défense, négociation ou détournement.'],
-['vitae_resonance','resonance','Le goût d’une âme vive','Atteignez une source au sang chargé d’une émotion établie, au terme d’une chasse qui ne vous était pas acquise.',[2,1],'Identifiez rage, passion, mélancolie ou calme chez une proie et trouvez le moyen de l’approcher.'],
-['vitae_dyscrasia','resonance','L’empreinte dans le sang','Découvrez une dyscrasie et goûtez ce que cette empreinte singulière a laissé dans le sang.',[5,5,3,2],'Suivez la trace d’une émotion qui hante une proie, gagnez sa proximité et percez le secret de son sang.'],
+["first_frenzy","unique","La Bête à votre porte","Affrontez pour la première fois une crise où la Bête menace une vie, une couverture ou un engagement.",[3,2,1,1],"Une faim pressante ou une provocation peut mettre un allié en danger. Contenez la Bête ou affrontez ce que sa libération laisse derrière elle."],
+["vitae_first_dependence","unique","Le sang fait des chaînes","Établissez votre première dépendance de sang et donnez-lui une place réelle dans la nuit.",[3,2,1,1],"Créez une goule ou nouez un lien de sang, puis répondez aux exigences de cette nouvelle dépendance."],
+["vitae_mortal_break","unique","Ce nom n’est plus le vôtre","Abandonnez irréversiblement une part importante de votre vie mortelle pour préserver votre existence vampirique.",[4,3,2,1],"Renoncez à une identité devenue dangereuse, à un accès précieux ou à une relation impossible à préserver."],
+["vitae_first_hunt","unique","La première traque","Menez à terme votre première chasse autonome malgré un obstacle qui aurait pu vous démasquer.",[2,1],"Obtenez le sang recherché puis traitez un témoin, une surveillance ou une intrusion territoriale."],
+["vitae_hunting_source","general","Une veine dans la cité","Ouvrez ou rétablissez une source de chasse réellement exploitable là où une menace, vos proies ou les maîtres des lieux vous fermaient le passage.",[3,2,1,1],"Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies. Si une source a été compromise, traitez la cause de sa perte et rétablissez un accès utilisable."],
+["vitae_masquerade","general","Recoudre le voile","Étouffez une menace crédible avant qu’elle ne déchire la Mascarade.",[5,5,4,3],"Récupérez une preuve compromettante, déjouez une enquête ou neutralisez le risque posé par un témoin."],
+["vitae_autonomy","general","Briser la laisse","Arrachez une autonomie réelle à une emprise qui organisait votre existence ou celle d’un autre.",[6,6,5,4],"Supprimez un levier de chantage ou démantelez un dispositif de contrôle."],
+["vitae_extraction","general","Soustraire une vie à la nuit","Sauvez une personne dont la perte définitive était réellement possible et aurait durablement affecté votre existence.",[6,6,6,5],"Préparez une sortie, déjouez des poursuivants ou franchissez une défense pour empêcher une mort, une Mort ultime ou une disparition définitive. Le récit doit établir la menace et les conséquences durables qu’aurait entraînées cette perte."],
+["vitae_crisis","general","Revenir du bord des cendres","Échappez à une situation qui aurait dû vous conduire à la torpeur ou à la Mort ultime, sans abandonner ce qui vous y avait conduit.",[5,5,4,3],"Échappez à une menace concrète de torpeur ou de Mort ultime tout en préservant l’objectif, la personne ou l’engagement qui vous avait poussé à l’affronter."],
+["vitae_defense","general","Que le refuge demeure","Brisez une offensive organisée contre un refuge ou un réseau de chasse.",[8,8,8,6],"Identifiez les moyens de l’adversaire puis faites échouer son opération, par défense, négociation ou détournement."],
+["vitae_resonance","resonance","Le goût d’une âme vive","Atteignez une source au sang chargé d’une émotion établie, au terme d’une chasse qui ne vous était pas acquise.",[2,1],"Identifiez rage, passion, mélancolie ou calme chez une proie et trouvez le moyen de l’approcher."],
+["vitae_dyscrasia","resonance","L’empreinte dans le sang","Découvrez une dyscrasie et goûtez ce que cette empreinte singulière a laissé dans le sang.",[5,5,3,2],"Suivez la trace d’une émotion qui hante une proie, gagnez sa proximité et percez le secret de son sang."],
+["vitae_embrace","irreversible","Donner la nuit","Accordez l’Étreinte à un mortel et faites naître un nouveau Damné dont le sang, les actes et les fautes seront désormais liés aux vôtres.",[8,8,8,6],"Choisissez celui ou celle que vous refusez de laisser mourir, obtenez — ou défiez — le droit de l’Étreindre, puis assumez les premières nuits de votre Infant."],
+["vitae_diablerie","irreversible","Boire l’âme","Commencez là où la prédation devrait s’arrêter : buvez un autre vampire jusqu’à la Mort ultime et arrachez ce que son sang gardait encore de lui.",[8,8,8,6],"Terrassez un Caïnite, franchissez volontairement l’ultime interdit et survivez aux conséquences laissées dans votre sang, votre conscience et le regard des autres Damnés."],
+["vitae_mortal_link","general","Une lumière reste allumée","Préservez un lien avec votre ancienne vie alors que votre nature vampirique rendait sa perte plus simple — ou plus sûre.",[4,4,3,2],"Protégez une Pierre de touche, préservez une relation mortelle ou respectez une Conviction alors que la faim, la Mascarade ou la politique de la nuit vous poussaient à l’abandonner."],
+["vitae_mortal_influence","general","Des mains dans le jour","Étendez votre influence sur le monde des mortels sans révéler la main morte qui tire les fils.",[4,4,3,2],"Gagnez un contact, infiltrez une institution ou prenez le contrôle d’un accès dont votre existence nocturne pourra durablement profiter."],
+["vitae_haven","general","Une tombe à soi","Faites d’un lieu plus qu’une cache : un refuge capable de protéger votre sommeil et vos secrets lorsque vient le jour.",[3,2,1,1],"Sécurisez les accès, établissez une couverture crédible ou obtenez les protections nécessaires pour pouvoir réellement y abandonner votre corps au sommeil diurne."],
+["vitae_mortal_hunter","general","Les yeux du jour","Découvrez qu’un mortel vous chasse et brisez sa piste avant qu’elle ne remonte jusqu’à votre véritable nature.",[6,6,6,5],"Identifiez une surveillance, remontez jusqu’à ceux qui l’organisent et détournez leur attention sans provoquer la brèche qu’ils espéraient."],
+["vitae_favor","social","Le poids d’une faveur","Contractez, honorez ou faites payer une dette vampirique dont l’issue modifie réellement une relation.",[4,4,3,2],"Engagez votre parole, acquittez une dette coûteuse ou réclamez une faveur dont le règlement transforme durablement votre relation avec un autre Damné."],
+["vitae_secret","social","Un secret vaut du sang","Découvrez un secret dangereux et servez-vous-en pour obtenir quelque chose que la force n’aurait pas permis.",[4,4,3,2],"Vérifiez un secret compromettant, identifiez ceux qu’il menace et échangez votre silence ou sa révélation contre un accès, une protection ou une concession réelle."],
+["vitae_negotiation","social","Sans montrer les crocs","Résolvez un conflit sérieux entre vampires par négociation, statut, dette ou manipulation sans recourir à la violence ouverte.",[5,5,4,3],"Dénouez une rivalité, négociez un accord ou mobilisez une dette pour résoudre un conflit dont l’issue engage réellement les vampires concernés."],
+["vitae_recognition","social","Une place dans la nuit","Faites reconnaître un droit, un territoire ou une position par ceux qui auraient pu le contester.",[5,5,4,3],"Obtenez une reconnaissance explicite, surmontez une contestation ou réunissez les soutiens qui rendent votre droit, votre territoire ou votre position effectifs."],
+["vitae_coterie","social","Le sang de la coterie","Acceptez une perte ou un danger réel pour préserver un membre de la coterie ou ce qu’elle possède collectivement.",[5,5,4,3],"Sacrifiez un avantage précieux, assumez une dette ou exposez-vous à une menace concrète pour sauver un compagnon ou protéger un refuge, un secret ou une ressource commune."],
 ];
 for (const [id,category,name,description,values,hint] of general) actions.push({id,category,name,description,hints:[hint],points:values[0],minBp:1,maxBp:values.length,scaling:Object.fromEntries(values.map((n,i)=>[i+1,n])),legacyCompletedIds:id==='vitae_first_dependence'?['first_ghoul','first_blood_bond']:[]});
 const verbs = {Faire:'Faites',Obtenir:'Obtenez',Rassembler:'Rassemblez',Briser:'Brisez',Préserver:'Préservez',Transformer:'Transformez',Mettre:'Mettez',Résoudre:'Résolvez',Sécuriser:'Sécurisez',Établir:'Établissez',Conduire:'Conduisez',Récupérer:'Récupérez',Rompre:'Rompez',Ouvrir:'Ouvrez',Transmettre:'Transmettez',Rendre:'Rendez',Dévoiler:'Dévoilez',Reconstituer:'Reconstituez',Déjouer:'Déjouez',Découvrir:'Découvrez',Infiltrer:'Infiltrez',Soustraire:'Soustrayez',Démanteler:'Démantelez',Retourner:'Retournez',Gagner:'Gagnez',Sauver:'Sauvez',Créer:'Créez',Conclure:'Concluez',Placer:'Placez',Rallier:'Ralliez',Unifier:'Unifiez',Assurer:'Assurez',Maintenir:'Maintenez',Élucider:'Élucidez',Acquérir:'Acquérez',Réussir:'Réussissez',Neutraliser:'Neutralisez',Renverser:'Renversez',Écarter:'Écartez',Accomplir:'Accomplissez',Prendre:'Prenez',Construire:'Construisez',Surmonter:'Surmontez',Adapter:'Adaptez',Réaliser:'Réalisez',Reprendre:'Reprenez',Achever:'Achevez',Protéger:'Protégez',Entrer:'Entrez',Détacher:'Détachez',Mener:'Menez',Confondre:'Confondez',Appliquer:'Appliquez',Franchir:'Franchissez',Détourner:'Détournez',Désorganiser:'Désorganisez',Sortir:'Sortez',Restaurer:'Restaurez',Empêcher:'Empêchez',Libérer:'Libérez',Former:'Formez'};
@@ -81,6 +90,39 @@ for (const action of actions.filter(a => a.clan)) {
 const firstBeast = actions.find(a => a.id === 'first_frenzy');
 firstBeast.id = 'vitae_first_beast';
 firstBeast.legacyCompletedIds = ['first_frenzy'];
-const catalog = {version:2,thresholds:{1:30,2:60,3:120,4:250},aliases:{hecata:'giovanni',ministry:'setite',setites:'setite',assamites:'banu_haqim',assamite:'banu_haqim',malkavien:'malkavian',gargouilles:'gargoyles'},actions};
+const categories = {
+  "unique": {
+    "name": "Les premières cicatrices",
+    "description": "Des expériences fondatrices, une fois dans votre existence.",
+    "icon": "⭐"
+  },
+  "clan": {
+    "name": "L’héritage de votre sang",
+    "description": "Les voies de votre lignée",
+    "icon": "🧛"
+  },
+  "general": {
+    "name": "Les épreuves de la nuit",
+    "description": "Conquérir, protéger, apprendre : des accomplissements qui laissent une trace.",
+    "icon": "⚔️"
+  },
+  "social": {
+    "name": "Les chaînes invisibles",
+    "description": "Dettes, secrets et serments : dans la nuit, les crocs ne sont pas les seules armes.",
+    "icon": "⛓️"
+  },
+  "irreversible": {
+    "name": "Les actes sans retour",
+    "description": "Certains choix marquent le sang, la lignée et l’âme elle-même. Ils ne se réclament pas : ils doivent naître de l’histoire.",
+    "icon": "💀",
+    "warning": "⚠ Ces actes ne peuvent être soumis que lorsqu’ils émergent naturellement du récit et entraînent des conséquences durables. Sous validation stricte du MJ"
+  },
+  "resonance": {
+    "name": "Les saveurs du sang",
+    "description": "Atteindre une source singulière au-delà d’une chasse ordinaire.",
+    "icon": "🩸"
+  }
+};
+const catalog = {categories,version:2,thresholds:{1:30,2:60,3:120,4:250},aliases:{hecata:'giovanni',ministry:'setite',setites:'setite',assamites:'banu_haqim',assamite:'banu_haqim',malkavien:'malkavian',gargouilles:'gargoyles'},actions};
 fs.writeFileSync('data/blood_actions.json',JSON.stringify(catalog,null,2)+'\n');
 console.log(`${actions.length} actions written`);

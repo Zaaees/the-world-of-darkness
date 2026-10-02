@@ -3,10 +3,24 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { afterEach } from 'vitest';
 import { Droplet } from 'lucide-react';
 import { ActionButton, ActionCategory } from './BloodActions';
-import { getClanActions, getActionPoints, isActionCompleted } from '../../../data/bloodActions';
+import { BLOOD_ACTIONS, BLOOD_ACTION_CATEGORIES, getClanActions, getActionPoints, isActionCompleted } from '../../../data/bloodActions';
 
 afterEach(cleanup);
 describe('Vitae actions', () => {
+  it('shows the irreversible warning and submits an eight point act for MJ review', () => {
+    const onSubmit = vi.fn();
+    render(<ActionCategory category={{ ...BLOOD_ACTION_CATEGORIES.irreversible, icon: Droplet,
+      actions: BLOOD_ACTIONS.filter(action => action.category === 'irreversible') }}
+      character={{ bloodPotency: 1 }} onSubmitAction={onSubmit} />);
+    expect(screen.queryByText(BLOOD_ACTION_CATEGORIES.irreversible.warning)).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /Les actes sans retour/ }));
+    expect(screen.getByText(BLOOD_ACTION_CATEGORIES.irreversible.warning)).toBeTruthy();
+    expect(screen.getByText('Donner la nuit')).toBeTruthy();
+    expect(screen.getByText('Boire l’âme')).toBeTruthy();
+    expect(screen.getAllByText('+8')).toHaveLength(2);
+    fireEvent.click(screen.getAllByRole('button', { name: 'Soumettre au MJ' })[0]);
+    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ id: 'vitae_embrace', points: 8 }));
+  });
   it('keeps guidance independent from submitting and sends the displayed value', () => {
     const action = getClanActions('nosferatu')[1];
     const onSubmit = vi.fn();

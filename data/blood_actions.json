@@ -1899,9 +1899,9 @@
       "id": "vitae_hunting_source",
       "category": "general",
       "name": "Une veine dans la cité",
-      "description": "Ouvrez une source de chasse réellement exploitable là où vos proies ou les maîtres des lieux vous fermaient le passage.",
+      "description": "Ouvrez ou rétablissez une source de chasse réellement exploitable là où une menace, vos proies ou les maîtres des lieux vous fermaient le passage.",
       "hints": [
-        "Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies."
+        "Négociez un droit de chasse contesté, gagnez un accès surveillé ou établissez une couverture adaptée à vos proies. Si une source a été compromise, traitez la cause de sa perte et rétablissez un accès utilisable."
       ],
       "points": 3,
       "minBp": 1,
@@ -1911,25 +1911,6 @@
         "2": 2,
         "3": 1,
         "4": 1
-      },
-      "legacyCompletedIds": []
-    },
-    {
-      "id": "vitae_restore_source",
-      "category": "general",
-      "name": "Rouvrir les veines",
-      "description": "Rendez au sang un chemin que la menace avait fermé.",
-      "hints": [
-        "Identifiez ce qui a compromis votre ressource de chasse, traitez cette cause et rétablissez un accès utilisable."
-      ],
-      "points": 4,
-      "minBp": 1,
-      "maxBp": 4,
-      "scaling": {
-        "1": 4,
-        "2": 4,
-        "3": 3,
-        "4": 2
       },
       "legacyCompletedIds": []
     },
@@ -1975,9 +1956,9 @@
       "id": "vitae_extraction",
       "category": "general",
       "name": "Soustraire une vie à la nuit",
-      "description": "Ramenez un allié ou une ressource vivante hors d’un danger qui pouvait réellement l’emporter.",
+      "description": "Sauvez une personne dont la perte définitive était réellement possible et aurait durablement affecté votre existence.",
       "hints": [
-        "Préparez une sortie, déjouez des poursuivants ou franchissez une défense."
+        "Préparez une sortie, déjouez des poursuivants ou franchissez une défense pour empêcher une mort, une Mort ultime ou une disparition définitive. Le récit doit établir la menace et les conséquences durables qu’aurait entraînées cette perte."
       ],
       "points": 6,
       "minBp": 1,
@@ -1994,9 +1975,9 @@
       "id": "vitae_crisis",
       "category": "general",
       "name": "Revenir du bord des cendres",
-      "description": "Surmontez une crise vampirique qui menace un objectif important.",
+      "description": "Échappez à une situation qui aurait dû vous conduire à la torpeur ou à la Mort ultime, sans abandonner ce qui vous y avait conduit.",
       "hints": [
-        "Sauvez votre opération malgré la faim, la Bête, le feu ou une exposition."
+        "Échappez à une menace concrète de torpeur ou de Mort ultime tout en préservant l’objectif, la personne ou l’engagement qui vous avait poussé à l’affronter."
       ],
       "points": 5,
       "minBp": 1,
@@ -2006,25 +1987,6 @@
         "2": 5,
         "3": 4,
         "4": 3
-      },
-      "legacyCompletedIds": []
-    },
-    {
-      "id": "vitae_learning",
-      "category": "general",
-      "name": "Le savoir sous les sceaux",
-      "description": "Obtenez un enseignement occulte que l’on ne livrait pas au premier venu.",
-      "hints": [
-        "Gagnez l’accès à un maître réticent ou à un savoir protégé et mettez son enseignement en pratique."
-      ],
-      "points": 4,
-      "minBp": 1,
-      "maxBp": 4,
-      "scaling": {
-        "1": 4,
-        "2": 4,
-        "3": 3,
-        "4": 2
       },
       "legacyCompletedIds": []
     },
@@ -2082,6 +2044,248 @@
         "4": 2
       },
       "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_embrace",
+      "category": "irreversible",
+      "name": "Donner la nuit",
+      "description": "Accordez l’Étreinte à un mortel et faites naître un nouveau Damné dont le sang, les actes et les fautes seront désormais liés aux vôtres.",
+      "hints": [
+        "Choisissez celui ou celle que vous refusez de laisser mourir, obtenez — ou défiez — le droit de l’Étreindre, puis assumez les premières nuits de votre Infant."
+      ],
+      "points": 8,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 8,
+        "2": 8,
+        "3": 8,
+        "4": 6
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_diablerie",
+      "category": "irreversible",
+      "name": "Boire l’âme",
+      "description": "Commencez là où la prédation devrait s’arrêter : buvez un autre vampire jusqu’à la Mort ultime et arrachez ce que son sang gardait encore de lui.",
+      "hints": [
+        "Terrassez un Caïnite, franchissez volontairement l’ultime interdit et survivez aux conséquences laissées dans votre sang, votre conscience et le regard des autres Damnés."
+      ],
+      "points": 8,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 8,
+        "2": 8,
+        "3": 8,
+        "4": 6
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_mortal_link",
+      "category": "general",
+      "name": "Une lumière reste allumée",
+      "description": "Préservez un lien avec votre ancienne vie alors que votre nature vampirique rendait sa perte plus simple — ou plus sûre.",
+      "hints": [
+        "Protégez une Pierre de touche, préservez une relation mortelle ou respectez une Conviction alors que la faim, la Mascarade ou la politique de la nuit vous poussaient à l’abandonner."
+      ],
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 4,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_mortal_influence",
+      "category": "general",
+      "name": "Des mains dans le jour",
+      "description": "Étendez votre influence sur le monde des mortels sans révéler la main morte qui tire les fils.",
+      "hints": [
+        "Gagnez un contact, infiltrez une institution ou prenez le contrôle d’un accès dont votre existence nocturne pourra durablement profiter."
+      ],
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 4,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_haven",
+      "category": "general",
+      "name": "Une tombe à soi",
+      "description": "Faites d’un lieu plus qu’une cache : un refuge capable de protéger votre sommeil et vos secrets lorsque vient le jour.",
+      "hints": [
+        "Sécurisez les accès, établissez une couverture crédible ou obtenez les protections nécessaires pour pouvoir réellement y abandonner votre corps au sommeil diurne."
+      ],
+      "points": 3,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 3,
+        "2": 2,
+        "3": 1,
+        "4": 1
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_mortal_hunter",
+      "category": "general",
+      "name": "Les yeux du jour",
+      "description": "Découvrez qu’un mortel vous chasse et brisez sa piste avant qu’elle ne remonte jusqu’à votre véritable nature.",
+      "hints": [
+        "Identifiez une surveillance, remontez jusqu’à ceux qui l’organisent et détournez leur attention sans provoquer la brèche qu’ils espéraient."
+      ],
+      "points": 6,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 6,
+        "2": 6,
+        "3": 6,
+        "4": 5
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_favor",
+      "category": "social",
+      "name": "Le poids d’une faveur",
+      "description": "Contractez, honorez ou faites payer une dette vampirique dont l’issue modifie réellement une relation.",
+      "hints": [
+        "Engagez votre parole, acquittez une dette coûteuse ou réclamez une faveur dont le règlement transforme durablement votre relation avec un autre Damné."
+      ],
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 4,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_secret",
+      "category": "social",
+      "name": "Un secret vaut du sang",
+      "description": "Découvrez un secret dangereux et servez-vous-en pour obtenir quelque chose que la force n’aurait pas permis.",
+      "hints": [
+        "Vérifiez un secret compromettant, identifiez ceux qu’il menace et échangez votre silence ou sa révélation contre un accès, une protection ou une concession réelle."
+      ],
+      "points": 4,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 4,
+        "2": 4,
+        "3": 3,
+        "4": 2
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_negotiation",
+      "category": "social",
+      "name": "Sans montrer les crocs",
+      "description": "Résolvez un conflit sérieux entre vampires par négociation, statut, dette ou manipulation sans recourir à la violence ouverte.",
+      "hints": [
+        "Dénouez une rivalité, négociez un accord ou mobilisez une dette pour résoudre un conflit dont l’issue engage réellement les vampires concernés."
+      ],
+      "points": 5,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 5,
+        "2": 5,
+        "3": 4,
+        "4": 3
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_recognition",
+      "category": "social",
+      "name": "Une place dans la nuit",
+      "description": "Faites reconnaître un droit, un territoire ou une position par ceux qui auraient pu le contester.",
+      "hints": [
+        "Obtenez une reconnaissance explicite, surmontez une contestation ou réunissez les soutiens qui rendent votre droit, votre territoire ou votre position effectifs."
+      ],
+      "points": 5,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 5,
+        "2": 5,
+        "3": 4,
+        "4": 3
+      },
+      "legacyCompletedIds": []
+    },
+    {
+      "id": "vitae_coterie",
+      "category": "social",
+      "name": "Le sang de la coterie",
+      "description": "Acceptez une perte ou un danger réel pour préserver un membre de la coterie ou ce qu’elle possède collectivement.",
+      "hints": [
+        "Sacrifiez un avantage précieux, assumez une dette ou exposez-vous à une menace concrète pour sauver un compagnon ou protéger un refuge, un secret ou une ressource commune."
+      ],
+      "points": 5,
+      "minBp": 1,
+      "maxBp": 4,
+      "scaling": {
+        "1": 5,
+        "2": 5,
+        "3": 4,
+        "4": 3
+      },
+      "legacyCompletedIds": []
     }
-  ]
+  ],
+  "categories": {
+    "unique": {
+      "name": "Les premières cicatrices",
+      "description": "Des expériences fondatrices, une fois dans votre existence.",
+      "icon": "⭐"
+    },
+    "clan": {
+      "name": "L’héritage de votre sang",
+      "description": "Les voies de votre lignée",
+      "icon": "🧛"
+    },
+    "general": {
+      "name": "Les épreuves de la nuit",
+      "description": "Conquérir, protéger, apprendre : des accomplissements qui laissent une trace.",
+      "icon": "⚔️"
+    },
+    "social": {
+      "name": "Les chaînes invisibles",
+      "description": "Dettes, secrets et serments : dans la nuit, les crocs ne sont pas les seules armes.",
+      "icon": "⛓️"
+    },
+    "irreversible": {
+      "name": "Les actes sans retour",
+      "description": "Certains choix marquent le sang, la lignée et l’âme elle-même. Ils ne se réclament pas : ils doivent naître de l’histoire.",
+      "icon": "💀",
+      "warning": "⚠ Ces actes ne peuvent être soumis que lorsqu’ils émergent naturellement du récit et entraînent des conséquences durables. Sous validation stricte du MJ"
+    },
+    "resonance": {
+      "name": "Les saveurs du sang",
+      "description": "Atteindre une source singulière au-delà d’une chasse ordinaire.",
+      "icon": "🩸"
+    }
+  }
 }

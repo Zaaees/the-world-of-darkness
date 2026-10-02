@@ -2,6 +2,7 @@ import catalog from '../../../data/blood_actions.json';
 
 export const SATURATION_THRESHOLDS = { ...catalog.thresholds, 5: null };
 export const BLOOD_ACTIONS = catalog.actions;
+export const BLOOD_ACTION_CATEGORIES = catalog.categories;
 export const normalizeClan = (clan = '') => {
   const key = clan.toLowerCase().trim().replace(/[ -]/g, '_');
   return catalog.aliases[key] || key;

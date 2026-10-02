@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 _CATALOG = json.loads(Path(__file__).with_suffix('.json').read_text(encoding='utf-8'))
+CATEGORIES = _CATALOG['categories']
 SATURATION_THRESHOLDS = {int(k): v for k, v in _CATALOG['thresholds'].items()}
 SATURATION_THRESHOLDS[5] = float('inf')
 ACTIONS = {
@@ -32,17 +33,11 @@ def get_clan_action(clan: str) -> dict | None:
 
 def get_all_actions() -> dict:
     return {key: {a['id']: a for a in ACTIONS.values() if a['category'] == key}
-            for key in ('unique', 'clan', 'general', 'resonance')}
+            for key in CATEGORIES}
 
 UNIQUE_ACTIONS = get_all_actions()['unique']
 CLAN_ACTIONS = get_all_actions()['clan']
 RESONANCE_ACTIONS = get_all_actions()['resonance']
-CATEGORIES = {
-    'unique': {'name': 'Les premières cicatrices', 'description': 'Une fois dans votre existence', 'icon': '⭐'},
-    'clan': {'name': 'L’héritage de votre sang', 'description': 'Les voies de votre lignée', 'icon': '🧛'},
-    'general': {'name': 'Les épreuves de la nuit', 'description': 'Des accomplissements qui laissent une trace', 'icon': '⚔️'},
-    'resonance': {'name': 'Les saveurs du sang', 'description': 'Des sources singulières', 'icon': '🩸'},
-}
 
 def advance_saturation(level: int, current: int, points: int) -> tuple[int, int]:
     if not 1 <= level <= 5 or current < 0 or points < 0:

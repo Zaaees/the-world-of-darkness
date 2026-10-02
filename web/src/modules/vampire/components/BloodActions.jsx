@@ -43,7 +43,9 @@ export function ActionCategory({ category, character, completedActions = [], pen
       <span className="flex-1"><span className="block font-serif text-stone-200"><CatalogText scope={"vampire"} value={category.name} /></span><span className="text-xs text-stone-400"><CatalogText scope={"vampire"} value={category.description} /></span></span>
       {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
     </button>
-    {isOpen && <div className="mt-3 space-y-3">{actions.map(action => <ActionButton key={action.id}
+    {isOpen && <div className="mt-3 space-y-3">
+      {category.warning && <aside className="rounded border border-amber-800 bg-amber-950/30 p-3 text-sm leading-relaxed text-amber-200"><CatalogText scope="vampire" value={category.warning} /></aside>}
+      {actions.map(action => <ActionButton key={action.id}
       action={{ ...action, points: getActionPoints(action, level) }} isDisabled={level >= 5}
       isPending={pendingActions.some(pending => (typeof pending === 'string' ? pending : pending.action_id) === action.id)}
       isCompleted={false} isSubmitting={submittingAction === action.id} onSubmit={onSubmitAction} />)}</div>}
