@@ -111,16 +111,16 @@ const categories = {
     "description": "Dettes, secrets et serments : dans la nuit, les crocs ne sont pas les seules armes.",
     "icon": "⛓️"
   },
+  "resonance": {
+    "name": "Les saveurs du sang",
+    "description": "Atteindre une source singulière au-delà d’une chasse ordinaire.",
+    "icon": "🩸"
+  },
   "irreversible": {
     "name": "Les actes sans retour",
     "description": "Certains choix marquent le sang, la lignée et l’âme elle-même. Ils ne se réclament pas : ils doivent naître de l’histoire.",
     "icon": "💀",
     "warning": "⚠ Ces actes ne peuvent être soumis que lorsqu’ils émergent naturellement du récit et entraînent des conséquences durables. Sous validation stricte du MJ"
-  },
-  "resonance": {
-    "name": "Les saveurs du sang",
-    "description": "Atteindre une source singulière au-delà d’une chasse ordinaire.",
-    "icon": "🩸"
   }
 };
 const catalog = {categories,version:2,thresholds:{1:30,2:60,3:120,4:250},aliases:{hecata:'giovanni',ministry:'setite',setites:'setite',assamites:'banu_haqim',assamite:'banu_haqim',malkavien:'malkavian',gargouilles:'gargoyles'},actions};
