@@ -282,10 +282,18 @@ export default function VampireSheet() {
       const response = await apiFetch(url, { headers: { 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': resolvedGuildId?.toString() } });
       const data = await response.json();
 
+      if (!response.ok || !data.success || !data.character) {
+        throw new Error(data.error || siteText("vampire.text.02565"));
+      }
+
       if (data.success && data.character) {
         // Vérifier si l'utilisateur a un personnage vampire complet
         // Note: On ne bloque PAS l'accès ici, le rôle Discord sera vérifié via vampireProfile
         const hasCharacterData = data.character.race === 'vampire' || data.character.clan;
+
+        if (!hasCharacterData) {
+          throw new Error(siteText("vampire.text.02565"));
+        }
 
         if (hasCharacterData) {
           // Utiliser le global_name Discord (avec accents) comme fallback au lieu du username brut
@@ -310,12 +318,10 @@ export default function VampireSheet() {
             ghouls: data.character.ghouls || [],
           });
         }
-        // Si pas de données de personnage, on laisse vampireProfile gérer (clan selection ou accès refusé)
       }
-      // Si pas de character du tout, on laisse aussi vampireProfile gérer
     } catch (err) {
       console.error('Erreur chargement:', err);
-      setError(siteText("vampire.text.02565"));
+      setError(err.message || siteText("vampire.text.02565"));
     } finally {
       setLoading(false);
     }

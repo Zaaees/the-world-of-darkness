@@ -1,4 +1,4 @@
-import { apiFetch } from '../api';
+import { apiFetch, fetchWithTimeout } from '../api';
 import { setContentIdentity, siteText } from '../content/store';
 import { useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../../config';
@@ -89,7 +89,7 @@ export function useUserRoles() {
                 }
 
                 // 2. Récupérer les infos utilisateur Discord
-                const userResponse = await fetch('https://discord.com/api/users/@me', {
+                const userResponse = await fetchWithTimeout('https://discord.com/api/users/@me', {
                     headers: { Authorization: `Bearer ${token}` },
                     signal: controller.signal
                 });

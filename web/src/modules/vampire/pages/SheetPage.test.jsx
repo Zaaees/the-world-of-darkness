@@ -17,6 +17,29 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 describe('SheetPage', () => {
+    it.each([
+        [503, { success: false, error: 'Synchronisation indisponible. Réessayez.' }],
+        [200, { success: true, character: null }],
+        [200, { success: true, character: { name: 'Test' } }],
+    ])('shows a retry instead of an endless loader for an unusable character response (%s)', async (status, characterData) => {
+        Storage.prototype.getItem = vi.fn(key => key === 'discord_token' ? 'fake-token' : null);
+        mockFetch.mockImplementation(async url => {
+            let data = { success: true };
+            if (url.includes('discord.com/')) data = { id: '123', username: 'Test' };
+            else if (url.endsWith('/api/guild')) data = { success: true, guild_id: '456' };
+            else if (url.endsWith('/api/vampire/profile')) data = { success: true, has_vampire_role: true, clan: 'brujah' };
+            else if (url.endsWith('/api/vampire/character')) {
+                return { ok: status === 200, status, json: async () => characterData };
+            }
+            return { ok: true, status: 200, json: async () => data };
+        });
+        render(<SheetPage />);
+        expect(await screen.findByRole('button', { name: /Réessayer/i })).toBeInTheDocument();
+        expect(screen.queryByText(/Chargement de la Vitae/i)).not.toBeInTheDocument();
+        expect(screen.queryByTestId('character-sheet')).not.toBeInTheDocument();
+        if (characterData.error) expect(screen.getByText(characterData.error)).toBeInTheDocument();
+    });
+
     it('opens the rules from the MJ dashboard and returns to it', async () => {
         Storage.prototype.getItem = vi.fn(key => key === 'discord_token' ? 'fake-token' : null);
         mockFetch.mockImplementation(async url => {
