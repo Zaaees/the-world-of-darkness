@@ -17443,7 +17443,7 @@
   "vampire.text.01940": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites accepter une création dans un cercle réticent. Ou Gagnez un accès réservé par une intervention esthétique.",
+    "default": "Gagnez une place reconnue dans un cercle artistique ou culturel jusque-là fermé en prouvant la valeur de votre regard, de votre talent ou de votre intervention. Votre présence doit désormais y être acceptée, recherchée ou difficile à écarter.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17452,7 +17452,7 @@
   "vampire.text.01941": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez une commande refusée jusque-là ou l’admission dans un cercle fermé grâce à votre intervention.",
+    "default": "Sauvez une exposition compromise, obtenez qu’un artiste vous introduise dans son cercle, imposez votre contribution à un événement sélectif ou transformez un premier refus en invitation durable.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17470,7 +17470,7 @@
   "vampire.text.01943": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites d'une œuvre un levier d'influence. Ou Établissez un mécénat qui transforme réellement les moyens d'un artiste ou lieu.",
+    "default": "Faites basculer la carrière ou l’œuvre d’un artiste grâce à votre mécénat, votre jugement ou vos relations, jusqu’à devenir une cause identifiable de son ascension — ou de sa chute.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17479,7 +17479,7 @@
   "vampire.text.01944": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites d’une création l’enjeu d’un accord, ou obtenez pour un artiste des moyens qu’on lui refusait.",
+    "default": "Financez l’œuvre que personne ne voulait soutenir, obtenez une galerie, une scène ou un éditeur pour un talent ignoré, ouvrez les bonnes portes à un protégé ou fermez-les à celui dont vous condamnez le travail.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17497,7 +17497,7 @@
   "vampire.text.01946": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Sauvez un foyer culturel menacé. Ou Retournez une réputation par une intervention créative.",
+    "default": "Préservez une œuvre, un artiste, un lieu ou un héritage culturel menacé de disparition en mobilisant suffisamment d’alliés, de réputation et d’influence pour que votre intervention laisse des conséquences durables.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17506,7 +17506,7 @@
   "vampire.text.01947": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Neutralisez une menace sur un atelier ou faites adopter une autre lecture d’une réputation contestée.",
+    "default": "Empêchez la fermeture d’un théâtre, sauvez une collection destinée à être dispersée, restaurez la réputation d’un créateur détruit par un scandale ou faites échouer ceux qui veulent effacer un lieu devenu précieux à vos yeux.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17524,7 +17524,7 @@
   "vampire.text.01949": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites aboutir un projet culturel contre une opposition organisée. Ou Établissez un lieu d'influence convoité.",
+    "default": "Faites d’un lieu, d’un événement ou d’un cercle culturel une scène incontournable où artistes, mécènes, mondains et Damnés viennent chercher reconnaissance, alliances ou prestige, puis rendez cette position d’arbitre réellement influente.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17533,7 +17533,7 @@
   "vampire.text.01950": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Rendez un lieu culturel opérationnel malgré ceux qui veulent l’empêcher, ou faites aboutir un projet disputé.",
+    "default": "Fondez un salon dont l’invitation devient une faveur convoitée, faites d’une galerie ou d’un festival le terrain neutre de rivalités vampiriques, consacrez des artistes qui deviennent des références ou faites de l’exclusion de votre cercle une sanction redoutée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17551,7 +17551,7 @@
   "vampire.text.01952": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Créez un héritage repris par d'autres. Ou Préservez une relation vivante malgré la tentation de la figer en idéal.",
+    "default": "Créez ou façonnez un héritage culturel assez puissant pour être repris, défendu et transformé par d’autres sans dépendre encore de votre présence. Votre goût doit avoir laissé dans la ville une trace que vous ne contrôlez plus entièrement.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17560,7 +17560,7 @@
   "vampire.text.01953": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Laissez d’autres reprendre une création ou préserver un lieu selon leur propre sensibilité.",
+    "default": "Faites naître un courant artistique repris par une nouvelle génération, laissez derrière vous une institution que d’autres continuent de faire vivre, transformez un protégé en référence capable de transmettre votre influence ou voyez une œuvre née sous votre égide devenir un symbole que la ville s’approprie.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

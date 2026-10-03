@@ -184,11 +184,11 @@ Validation : accès gagné, information confirmée et exploitable ou concession 
 
 | Niveau | Réalisations possibles |
 |---|---|
-| 1 — 3 pts | Faire accepter une création dans un cercle réticent ; gagner un accès réservé par une intervention esthétique. |
-| 2 — 5 pts | Faire d'une œuvre un levier d'influence ; établir un mécénat qui transforme réellement les moyens d'un artiste ou lieu. |
-| 3 — 8 pts | Sauver un foyer culturel menacé ; retourner une réputation par une intervention créative. |
-| 4 — 12 pts | Faire aboutir un projet culturel contre une opposition organisée ; établir un lieu d'influence convoité. |
-| 5 — 0 pt | Créer un héritage repris par d'autres ; préserver une relation vivante malgré la tentation de la figer en idéal. |
+| 1 — 3 pts | Gagnez une place reconnue dans un cercle artistique ou culturel jusque-là fermé en prouvant la valeur de votre regard, de votre talent ou de votre intervention. Votre présence doit désormais y être acceptée, recherchée ou difficile à écarter. |
+| 2 — 5 pts | Faites basculer la carrière ou l’œuvre d’un artiste grâce à votre mécénat, votre jugement ou vos relations, jusqu’à devenir une cause identifiable de son ascension — ou de sa chute. |
+| 3 — 8 pts | Préservez une œuvre, un artiste, un lieu ou un héritage culturel menacé de disparition en mobilisant suffisamment d’alliés, de réputation et d’influence pour que votre intervention laisse des conséquences durables. |
+| 4 — 12 pts | Faites d’un lieu, d’un événement ou d’un cercle culturel une scène incontournable où artistes, mécènes, mondains et Damnés viennent chercher reconnaissance, alliances ou prestige, puis rendez cette position d’arbitre réellement influente. |
+| 5 — 0 pt | Créez ou façonnez un héritage culturel assez puissant pour être repris, défendu et transformé par d’autres sans dépendre encore de votre présence. Votre goût doit avoir laissé dans la ville une trace que vous ne contrôlez plus entièrement. |
 
 Validation : accès, décision, soutien ou position effectivement modifiés. Un compliment ne suffit pas. Mécènes et collectionneurs sont viables ; aucune œuvre hors RP ou émotion imposée aux PJ.
 
