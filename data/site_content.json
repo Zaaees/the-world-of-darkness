@@ -17164,7 +17164,7 @@
   "vampire.text.01909": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La fissure du masque",
+    "default": "La fissure du réel",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17173,7 +17173,7 @@
   "vampire.text.01910": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Mettez au jour une contradiction cachée. Ou Rendez exploitable un indice incompris.",
+    "default": "Suivez une obsession, une perception discordante ou une association que les autres jugent absurde, puis transformez-la en une vérité vérifiable sur une personne, un lieu ou une menace proche.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17182,7 +17182,7 @@
   "vampire.text.01911": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Confrontez des témoignages incompatibles ou donnez un sens vérifiable à un détail passé inaperçu.",
+    "default": "Attachez-vous à un détail que tous écartent, rapprochez des paroles qui semblent sans rapport ou poursuivez un motif récurrent, puis obtenez la preuve qu’il révélait un mensonge, un danger ou une relation dissimulée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17191,7 +17191,7 @@
   "vampire.text.01912": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Ce que nul ne voulait voir",
+    "default": "Le miroir se fend",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17200,7 +17200,7 @@
   "vampire.text.01913": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Dévoilez une tromperie par des indices négligés. Ou Faites adopter une précaution malgré la méfiance grâce à un avertissement étayé.",
+    "default": "Ébranlez volontairement les certitudes d’un interlocuteur en jouant sur ses peurs, ses obsessions ou les contradictions de ce qu’il croit percevoir, jusqu’à lui faire révéler quelque chose ou modifier réellement sa conduite.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17209,7 +17209,7 @@
   "vampire.text.01914": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Réunissez les indices d’une tromperie et obtenez qu’un interlocuteur méfiant agisse sur cette base.",
+    "default": "Nourrissez la paranoïa d’un menteur jusqu’à ce qu’il se trahisse, enfermez un rival dans ses propres contradictions ou faites naître assez de doute chez une cible pour qu’elle rompe une alliance, abandonne une surveillance ou commette une erreur révélatrice.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17218,7 +17218,7 @@
   "vampire.text.01915": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le fil dans le labyrinthe",
+    "default": "La toile murmure",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17227,7 +17227,7 @@
   "vampire.text.01916": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reconstituez un schéma dissimulé menaçant un groupe. Ou Déjouez une manipulation de ses perceptions.",
+    "default": "Recueillez les fragments dispersés parmi les esprits malkaviens — intuitions, symboles, récits, obsessions ou messages obscurs — et reliez-les jusqu’à révéler un danger ou un dessein que personne ne pouvait comprendre seul.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17236,7 +17236,7 @@
   "vampire.text.01917": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reliez plusieurs faits épars ou démontez le procédé utilisé pour fausser vos perceptions.",
+    "default": "Comparez les visions ou manies de plusieurs Malkaviens, déchiffrez des messages qui n’ont de sens qu’ensemble ou suivez une série de coïncidences dans le Réseau de Folie, puis utilisez le motif découvert pour anticiper une opération, retrouver quelqu’un ou identifier ce qui manipule les événements.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17245,7 +17245,7 @@
   "vampire.text.01918": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La vérité qui renverse",
+    "default": "Le fou devant le trône",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17254,7 +17254,7 @@
   "vampire.text.01919": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites échouer un plan grâce à une vérité difficilement établie. Ou Faites reconnaître une révélation face à des intérêts organisés.",
+    "default": "Forcez un groupe puissant à reconnaître une vérité qu’il avait d’abord rejetée comme délire, puis faites en sorte que cette révélation bouleverse concrètement ses décisions, ses alliances ou son rapport de force.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17263,7 +17263,7 @@
   "vampire.text.01920": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez une vérité assez solide pour déjouer un plan ou contredire un groupe qui cherche à l’étouffer.",
+    "default": "Annoncez un événement que vous pouvez ensuite démontrer, révélez progressivement les pièces d’un complot ou mettez en scène une contradiction impossible à ignorer afin qu’une coterie, une cour vampirique ou une organisation abandonne un plan, rompe avec un allié ou se retourne contre celui qui la trompait.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17272,7 +17272,7 @@
   "vampire.text.01921": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Les échos après vous",
+    "default": "Ce que la toile n’oublie pas",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17281,7 +17281,7 @@
   "vampire.text.01922": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un savoir sans le rendre incontestable. Ou Résolvez une contradiction centrale de sa lecture du monde.",
+    "default": "Inscrivez durablement une révélation, un avertissement ou un motif dans la mémoire collective des Malkaviens d’un domaine, jusqu’à ce qu’il continue d’orienter leurs actes et leur lecture de la nuit sans dépendre de votre présence.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17290,7 +17290,7 @@
   "vampire.text.01923": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez vos découvertes à quelqu’un qui pourra aussi les remettre en question.",
+    "default": "Faites d’un symbole le signe reconnu d’une menace, transformez une découverte en récit que les vôtres se transmettent, établissez un rituel destiné à déceler un danger récurrent ou laissez dans le Réseau de Folie un code que d’autres Malkaviens reprendront, interpréteront et transmettront à leur tour.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

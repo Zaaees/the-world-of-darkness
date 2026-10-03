@@ -220,10 +220,10 @@
       "id": "vitae_malkavian_1",
       "clan": "malkavian",
       "category": "clan",
-      "name": "La fissure du masque",
-      "description": "Mettez au jour une contradiction cachée. Ou Rendez exploitable un indice incompris.",
+      "name": "La fissure du réel",
+      "description": "Suivez une obsession, une perception discordante ou une association que les autres jugent absurde, puis transformez-la en une vérité vérifiable sur une personne, un lieu ou une menace proche.",
       "hints": [
-        "Confrontez des témoignages incompatibles ou donnez un sens vérifiable à un détail passé inaperçu."
+        "Attachez-vous à un détail que tous écartent, rapprochez des paroles qui semblent sans rapport ou poursuivez un motif récurrent, puis obtenez la preuve qu’il révélait un mensonge, un danger ou une relation dissimulée."
       ],
       "minBp": 1,
       "maxBp": 5,
@@ -240,10 +240,10 @@
       "id": "vitae_malkavian_2",
       "clan": "malkavian",
       "category": "clan",
-      "name": "Ce que nul ne voulait voir",
-      "description": "Dévoilez une tromperie par des indices négligés. Ou Faites adopter une précaution malgré la méfiance grâce à un avertissement étayé.",
+      "name": "Le miroir se fend",
+      "description": "Ébranlez volontairement les certitudes d’un interlocuteur en jouant sur ses peurs, ses obsessions ou les contradictions de ce qu’il croit percevoir, jusqu’à lui faire révéler quelque chose ou modifier réellement sa conduite.",
       "hints": [
-        "Réunissez les indices d’une tromperie et obtenez qu’un interlocuteur méfiant agisse sur cette base."
+        "Nourrissez la paranoïa d’un menteur jusqu’à ce qu’il se trahisse, enfermez un rival dans ses propres contradictions ou faites naître assez de doute chez une cible pour qu’elle rompe une alliance, abandonne une surveillance ou commette une erreur révélatrice."
       ],
       "minBp": 2,
       "maxBp": 5,
@@ -260,10 +260,10 @@
       "id": "vitae_malkavian_3",
       "clan": "malkavian",
       "category": "clan",
-      "name": "Le fil dans le labyrinthe",
-      "description": "Reconstituez un schéma dissimulé menaçant un groupe. Ou Déjouez une manipulation de ses perceptions.",
+      "name": "La toile murmure",
+      "description": "Recueillez les fragments dispersés parmi les esprits malkaviens — intuitions, symboles, récits, obsessions ou messages obscurs — et reliez-les jusqu’à révéler un danger ou un dessein que personne ne pouvait comprendre seul.",
       "hints": [
-        "Reliez plusieurs faits épars ou démontez le procédé utilisé pour fausser vos perceptions."
+        "Comparez les visions ou manies de plusieurs Malkaviens, déchiffrez des messages qui n’ont de sens qu’ensemble ou suivez une série de coïncidences dans le Réseau de Folie, puis utilisez le motif découvert pour anticiper une opération, retrouver quelqu’un ou identifier ce qui manipule les événements."
       ],
       "minBp": 3,
       "maxBp": 5,
@@ -280,10 +280,10 @@
       "id": "vitae_malkavian_4",
       "clan": "malkavian",
       "category": "clan",
-      "name": "La vérité qui renverse",
-      "description": "Faites échouer un plan grâce à une vérité difficilement établie. Ou Faites reconnaître une révélation face à des intérêts organisés.",
+      "name": "Le fou devant le trône",
+      "description": "Forcez un groupe puissant à reconnaître une vérité qu’il avait d’abord rejetée comme délire, puis faites en sorte que cette révélation bouleverse concrètement ses décisions, ses alliances ou son rapport de force.",
       "hints": [
-        "Établissez une vérité assez solide pour déjouer un plan ou contredire un groupe qui cherche à l’étouffer."
+        "Annoncez un événement que vous pouvez ensuite démontrer, révélez progressivement les pièces d’un complot ou mettez en scène une contradiction impossible à ignorer afin qu’une coterie, une cour vampirique ou une organisation abandonne un plan, rompe avec un allié ou se retourne contre celui qui la trompait."
       ],
       "minBp": 4,
       "maxBp": 5,
@@ -300,10 +300,10 @@
       "id": "vitae_malkavian_5",
       "clan": "malkavian",
       "category": "clan",
-      "name": "Les échos après vous",
-      "description": "Transmettez un savoir sans le rendre incontestable. Ou Résolvez une contradiction centrale de sa lecture du monde.",
+      "name": "Ce que la toile n’oublie pas",
+      "description": "Inscrivez durablement une révélation, un avertissement ou un motif dans la mémoire collective des Malkaviens d’un domaine, jusqu’à ce qu’il continue d’orienter leurs actes et leur lecture de la nuit sans dépendre de votre présence.",
       "hints": [
-        "Transmettez vos découvertes à quelqu’un qui pourra aussi les remettre en question."
+        "Faites d’un symbole le signe reconnu d’une menace, transformez une découverte en récit que les vôtres se transmettent, établissez un rituel destiné à déceler un danger récurrent ou laissez dans le Réseau de Folie un code que d’autres Malkaviens reprendront, interpréteront et transmettront à leur tour."
       ],
       "minBp": 5,
       "maxBp": 5,

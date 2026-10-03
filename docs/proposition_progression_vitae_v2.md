@@ -156,11 +156,11 @@ Validation : accès opérationnel, objectif atteint ou menace réellement trait�
 
 | Niveau | Réalisations possibles |
 |---|---|
-| 1 — 3 pts | Mettre au jour une contradiction cachée ; rendre exploitable un indice incompris. |
-| 2 — 5 pts | Dévoiler une tromperie par des indices négligés ; faire adopter une précaution malgré la méfiance grâce à un avertissement étayé. |
-| 3 — 8 pts | Reconstituer un schéma dissimulé menaçant un groupe ; déjouer une manipulation de ses perceptions. |
-| 4 — 12 pts | Faire échouer un plan grâce à une vérité difficilement établie ; faire reconnaître une révélation face à des intérêts organisés. |
-| 5 — 0 pt | Transmettre un savoir sans le rendre incontestable ; résoudre une contradiction centrale de sa lecture du monde. |
+| 1 — 3 pts | Suivez une obsession, une perception discordante ou une association que les autres jugent absurde, puis transformez-la en une vérité vérifiable sur une personne, un lieu ou une menace proche. |
+| 2 — 5 pts | Ébranlez volontairement les certitudes d’un interlocuteur en jouant sur ses peurs, ses obsessions ou les contradictions de ce qu’il croit percevoir, jusqu’à lui faire révéler quelque chose ou modifier réellement sa conduite. |
+| 3 — 8 pts | Recueillez les fragments dispersés parmi les esprits malkaviens — intuitions, symboles, récits, obsessions ou messages obscurs — et reliez-les jusqu’à révéler un danger ou un dessein que personne ne pouvait comprendre seul. |
+| 4 — 12 pts | Forcez un groupe puissant à reconnaître une vérité qu’il avait d’abord rejetée comme délire, puis faites en sorte que cette révélation bouleverse concrètement ses décisions, ses alliances ou son rapport de force. |
+| 5 — 0 pt | Inscrivez durablement une révélation, un avertissement ou un motif dans la mémoire collective des Malkaviens d’un domaine, jusqu’à ce qu’il continue d’orienter leurs actes et leur lecture de la nuit sans dépendre de votre présence. |
 
 Validation : conclusion fondée et utile ou effet concret obtenu. Exprimer une intuition ne suffit pas. Aucun secret inventé, omniscience ou comportement caricatural requis.
 
