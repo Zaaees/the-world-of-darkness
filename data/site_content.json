@@ -17704,7 +17704,7 @@
   "vampire.text.01969": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Les veines du savoir",
+    "default": "Ce que le sang avoue",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17713,7 +17713,7 @@
   "vampire.text.01970": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Élucidez un phénomène sanguin. Ou Acquérez un savoir protégé et démontrer son usage.",
+    "default": "Examinez une manifestation anormale de la Vitae ou de la Thaumaturgie, puis établissez par l’enquête, les archives et l’expérimentation ce qui l’a produite et comment en tirer un savoir utilisable.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17722,7 +17722,7 @@
   "vampire.text.01971": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Analysez une anomalie par l’étude de son sang ou obtenez un texte protégé puis démontrez son utilité.",
+    "default": "Étudiez le sang d’une victime marquée par un rituel, comparez des prélèvements à des notes de chantrie, interrogez un témoin ou un apprenti, puis confirmez votre hypothèse par une expérience contrôlée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17740,7 +17740,7 @@
   "vampire.text.01973": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Réussissez un rituel sous contraintes inhabituelles. Ou Récupérez un texte ou matériau occulte réellement protégé.",
+    "default": "Menez à terme un rituel thaumaturgique alors qu’une condition essentielle à sa réussite est compromise, et obtenez malgré cette contrainte le résultat recherché sans exposer vos pratiques.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17749,7 +17749,7 @@
   "vampire.text.01974": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez un composant défendu ou surmontez une contrainte inhabituelle pendant un rituel connu.",
+    "default": "Procurez-vous un composant détenu par un rival, remplacez un élément devenu inaccessible, improvisez un lieu rituel sûr ou poursuivez l’opération malgré une intrusion, une surveillance ou une échéance qui interdit tout retard.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17758,7 +17758,7 @@
   "vampire.text.01975": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Délier le sort",
+    "default": "Le nœud et la lame",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17767,7 +17767,7 @@
   "vampire.text.01976": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Neutralisez un effet occulte. Ou Reconstituez une méthode fragmentaire.",
+    "default": "Identifiez puis défaites un effet occulte actif conçu par un autre praticien, en comprenant suffisamment sa méthode pour neutraliser durablement son emprise plutôt que d’en traiter seulement les symptômes.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17776,7 +17776,7 @@
   "vampire.text.01977": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Levez un effet identifié ou reconstituez une méthode à partir d’éléments incomplets.",
+    "default": "Remontez l’origine d’une malédiction frappant un allié, percez les protections d’un objet rituel, reconstituez une procédure à partir de fragments contradictoires ou découvrez le point faible d’un enchantement avant de le briser.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17785,7 +17785,7 @@
   "vampire.text.01978": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Contre le sang adverse",
+    "default": "La guerre des sceaux",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17794,7 +17794,7 @@
   "vampire.text.01979": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Déjouez une opération occulte adverse. Ou Établissez une protection majeure pour un lieu ou une coterie.",
+    "default": "Faites échouer une opération occulte organisée contre une coterie, une chantrie ou un domaine, puis établissez une protection durable qui oblige vos adversaires à abandonner leur méthode ou à changer de terrain.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17803,7 +17803,7 @@
   "vampire.text.01980": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Déjouez une opération adverse ou rendez une protection efficace malgré ceux qui cherchent à l’empêcher.",
+    "default": "Identifiez les praticiens, intermédiaires et relais d’un rituel hostile, détournez un composant décisif, retournez un complice ou détruisez le dispositif qui soutient l’opération, puis protégez les lieux, personnes ou ressources qu’elle visait.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17812,7 +17812,7 @@
   "vampire.text.01981": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le grimoire ouvert",
+    "default": "Le grimoire qui demeure",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17821,7 +17821,7 @@
   "vampire.text.01982": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un corpus éprouvé. Ou Obtenez son indépendance face à une tutelle occulte établie.",
+    "default": "Transformez une pratique thaumaturgique que vous avez éprouvée en un héritage durable : un corpus, une méthode ou une tradition que d’autres Tremere peuvent apprendre et employer sans dépendre de votre présence.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17830,7 +17830,7 @@
   "vampire.text.01983": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une méthode éprouvée ou rendez votre pratique indépendante d’une tutelle établie.",
+    "default": "Codifiez plusieurs découvertes en une méthode transmissible, formez des praticiens capables de la reproduire, obtenez qu’une chantrie la reconnaisse ou défendez votre œuvre contre ceux qui veulent la saisir, l’interdire ou la placer sous leur seule autorité.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

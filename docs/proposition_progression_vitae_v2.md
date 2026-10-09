@@ -212,11 +212,11 @@ Validation : coopération, contrôle ou obligations effectivement appliqués mal
 
 | Niveau | Réalisations possibles |
 |---|---|
-| 1 — 3 pts | Élucider un phénomène sanguin ; acquérir un savoir protégé et démontrer son usage. |
-| 2 — 5 pts | Réussir un rituel sous contraintes inhabituelles ; récupérer un texte ou matériau occulte réellement protégé. |
-| 3 — 8 pts | Neutraliser un effet occulte ; reconstituer une méthode fragmentaire autorisée. |
-| 4 — 12 pts | Déjouer une opération occulte adverse ; établir une protection majeure pour un lieu ou une coterie. |
-| 5 — 0 pt | Transmettre un corpus éprouvé ; obtenir son indépendance face à une tutelle occulte établie. |
+| 1 — 3 pts | Examinez une manifestation anormale de la Vitae ou de la Thaumaturgie, puis établissez par l’enquête, les archives et l’expérimentation ce qui l’a produite et comment en tirer un savoir utilisable. |
+| 2 — 5 pts | Menez à terme un rituel thaumaturgique alors qu’une condition essentielle à sa réussite est compromise, et obtenez malgré cette contrainte le résultat recherché sans exposer vos pratiques. |
+| 3 — 8 pts | Identifiez puis défaites un effet occulte actif conçu par un autre praticien, en comprenant suffisamment sa méthode pour neutraliser durablement son emprise plutôt que d’en traiter seulement les symptômes. |
+| 4 — 12 pts | Faites échouer une opération occulte organisée contre une coterie, une chantrie ou un domaine, puis établissez une protection durable qui oblige vos adversaires à abandonner leur méthode ou à changer de terrain. |
+| 5 — 0 pt | Transformez une pratique thaumaturgique que vous avez éprouvée en un héritage durable : un corpus, une méthode ou une tradition que d’autres Tremere peuvent apprendre et employer sans dépendre de votre présence. |
 
 Validation : question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.
 

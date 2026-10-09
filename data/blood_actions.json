@@ -620,10 +620,10 @@
       "id": "vitae_tremere_1",
       "clan": "tremere",
       "category": "clan",
-      "name": "Les veines du savoir",
-      "description": "Élucidez un phénomène sanguin. Ou Acquérez un savoir protégé et démontrer son usage.",
+      "name": "Ce que le sang avoue",
+      "description": "Examinez une manifestation anormale de la Vitae ou de la Thaumaturgie, puis établissez par l’enquête, les archives et l’expérimentation ce qui l’a produite et comment en tirer un savoir utilisable.",
       "hints": [
-        "Analysez une anomalie par l’étude de son sang ou obtenez un texte protégé puis démontrez son utilité."
+        "Étudiez le sang d’une victime marquée par un rituel, comparez des prélèvements à des notes de chantrie, interrogez un témoin ou un apprenti, puis confirmez votre hypothèse par une expérience contrôlée."
       ],
       "minBp": 1,
       "maxBp": 5,
@@ -641,9 +641,9 @@
       "clan": "tremere",
       "category": "clan",
       "name": "Le cercle sous tension",
-      "description": "Réussissez un rituel sous contraintes inhabituelles. Ou Récupérez un texte ou matériau occulte réellement protégé.",
+      "description": "Menez à terme un rituel thaumaturgique alors qu’une condition essentielle à sa réussite est compromise, et obtenez malgré cette contrainte le résultat recherché sans exposer vos pratiques.",
       "hints": [
-        "Récupérez un composant défendu ou surmontez une contrainte inhabituelle pendant un rituel connu."
+        "Procurez-vous un composant détenu par un rival, remplacez un élément devenu inaccessible, improvisez un lieu rituel sûr ou poursuivez l’opération malgré une intrusion, une surveillance ou une échéance qui interdit tout retard."
       ],
       "minBp": 2,
       "maxBp": 5,
@@ -660,10 +660,10 @@
       "id": "vitae_tremere_3",
       "clan": "tremere",
       "category": "clan",
-      "name": "Délier le sort",
-      "description": "Neutralisez un effet occulte. Ou Reconstituez une méthode fragmentaire.",
+      "name": "Le nœud et la lame",
+      "description": "Identifiez puis défaites un effet occulte actif conçu par un autre praticien, en comprenant suffisamment sa méthode pour neutraliser durablement son emprise plutôt que d’en traiter seulement les symptômes.",
       "hints": [
-        "Levez un effet identifié ou reconstituez une méthode à partir d’éléments incomplets."
+        "Remontez l’origine d’une malédiction frappant un allié, percez les protections d’un objet rituel, reconstituez une procédure à partir de fragments contradictoires ou découvrez le point faible d’un enchantement avant de le briser."
       ],
       "minBp": 3,
       "maxBp": 5,
@@ -680,10 +680,10 @@
       "id": "vitae_tremere_4",
       "clan": "tremere",
       "category": "clan",
-      "name": "Contre le sang adverse",
-      "description": "Déjouez une opération occulte adverse. Ou Établissez une protection majeure pour un lieu ou une coterie.",
+      "name": "La guerre des sceaux",
+      "description": "Faites échouer une opération occulte organisée contre une coterie, une chantrie ou un domaine, puis établissez une protection durable qui oblige vos adversaires à abandonner leur méthode ou à changer de terrain.",
       "hints": [
-        "Déjouez une opération adverse ou rendez une protection efficace malgré ceux qui cherchent à l’empêcher."
+        "Identifiez les praticiens, intermédiaires et relais d’un rituel hostile, détournez un composant décisif, retournez un complice ou détruisez le dispositif qui soutient l’opération, puis protégez les lieux, personnes ou ressources qu’elle visait."
       ],
       "minBp": 4,
       "maxBp": 5,
@@ -700,10 +700,10 @@
       "id": "vitae_tremere_5",
       "clan": "tremere",
       "category": "clan",
-      "name": "Le grimoire ouvert",
-      "description": "Transmettez un corpus éprouvé. Ou Obtenez son indépendance face à une tutelle occulte établie.",
+      "name": "Le grimoire qui demeure",
+      "description": "Transformez une pratique thaumaturgique que vous avez éprouvée en un héritage durable : un corpus, une méthode ou une tradition que d’autres Tremere peuvent apprendre et employer sans dépendre de votre présence.",
       "hints": [
-        "Transmettez une méthode éprouvée ou rendez votre pratique indépendante d’une tutelle établie."
+        "Codifiez plusieurs découvertes en une méthode transmissible, formez des praticiens capables de la reproduire, obtenez qu’une chantrie la reconnaisse ou défendez votre œuvre contre ceux qui veulent la saisir, l’interdire ou la placer sous leur seule autorité."
       ],
       "minBp": 5,
       "maxBp": 5,
