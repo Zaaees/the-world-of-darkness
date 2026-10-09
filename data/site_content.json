@@ -17704,7 +17704,7 @@
   "vampire.text.01969": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Ce que le sang avoue",
+    "default": "Le premier sceau",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17713,7 +17713,7 @@
   "vampire.text.01970": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Examinez une manifestation anormale de la Vitae ou de la Thaumaturgie, puis établissez par l’enquête, les archives et l’expérimentation ce qui l’a produite et comment en tirer un savoir utilisable.",
+    "default": "Trouvez un rituel que vous ne connaissez pas, obtenez les moyens de l’apprendre et accomplissez-le pour la première fois. Faites du secret convoité une œuvre véritable, au prix de l’étude, des préparatifs et du sang.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17722,7 +17722,7 @@
   "vampire.text.01971": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Étudiez le sang d’une victime marquée par un rituel, comparez des prélèvements à des notes de chantrie, interrogez un témoin ou un apprenti, puis confirmez votre hypothèse par une expérience contrôlée.",
+    "default": "Négociez un enseignement ou l’accès à un texte, rassemblez les composants nécessaires et préparez un lieu discret. Menez l’apprentissage selon les règles en vigueur, puis racontez l’exécution du rituel et son résultat.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17731,7 +17731,7 @@
   "vampire.text.01972": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le cercle sous tension",
+    "default": "Les secrets se rassemblent",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17740,7 +17740,7 @@
   "vampire.text.01973": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Menez à terme un rituel thaumaturgique alors qu’une condition essentielle à sa réussite est compromise, et obtenez malgré cette contrainte le résultat recherché sans exposer vos pratiques.",
+    "default": "Enrichissez votre répertoire en recherchant, en apprenant et en accomplissant plusieurs nouveaux rituels. De maître en manuscrit, nouez les relations et consentez aux échanges qui ouvriront les portes du savoir. Faites grandir votre science au-delà du premier secret, jusqu’à pouvoir choisir entre plusieurs œuvres du sang.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17749,7 +17749,7 @@
   "vampire.text.01974": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Procurez-vous un composant détenu par un rival, remplacez un élément devenu inaccessible, improvisez un lieu rituel sûr ou poursuivez l’opération malgré une intrusion, une surveillance ou une échéance qui interdit tout retard.",
+    "default": "Recherchez deux nouveaux rituels auprès de praticiens ou dans des ouvrages accessibles en jeu. Négociez des leçons, échangez un savoir ou rendez les services convenus pour obtenir cet enseignement. Réunissez les composants nécessaires, menez chaque apprentissage et accomplissez chacun des deux rituels avec succès.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17758,7 +17758,7 @@
   "vampire.text.01975": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le nœud et la lame",
+    "default": "Le sang tient parole",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17767,7 +17767,7 @@
   "vampire.text.01976": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Identifiez puis défaites un effet occulte actif conçu par un autre praticien, en comprenant suffisamment sa méthode pour neutraliser durablement son emprise plutôt que d’en traiter seulement les symptômes.",
+    "default": "Engagez votre savoir au service d’un autre personnage et accomplissez le travail occulte convenu avec lui. Que votre maîtrise vous gagne une dette, une rémunération ou une confiance que les paroles seules n’auraient pas obtenue.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17776,7 +17776,7 @@
   "vampire.text.01977": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Remontez l’origine d’une malédiction frappant un allié, percez les protections d’un objet rituel, reconstituez une procédure à partir de fragments contradictoires ou découvrez le point faible d’un enchantement avant de le briser.",
+    "default": "Proposez un service permis par un rituel que vous maîtrisez, convenez des conditions et prenez en charge les préparatifs. Accomplissez votre œuvre et faites entrer son résultat dans les projets de votre commanditaire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17785,7 +17785,7 @@
   "vampire.text.01978": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La guerre des sceaux",
+    "default": "Un sceau de votre main",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17794,7 +17794,7 @@
   "vampire.text.01979": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites échouer une opération occulte organisée contre une coterie, une chantrie ou un domaine, puis établissez une protection durable qui oblige vos adversaires à abandonner leur méthode ou à changer de terrain.",
+    "default": "Créez ou découvrez un rituel par vos propres recherches et expérimentations. Partez d’un effet que vous cherchez à produire, d’une intuition ou de fragments de savoir, puis poursuivez vos essais jusqu’à établir une procédure que vous savez reproduire. Ajoutez aux secrets du sang une page née de votre propre œuvre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17803,7 +17803,7 @@
   "vampire.text.01980": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Identifiez les praticiens, intermédiaires et relais d’un rituel hostile, détournez un composant décisif, retournez un complice ou détruisez le dispositif qui soutient l’opération, puis protégez les lieux, personnes ou ressources qu’elle visait.",
+    "default": "Rapprochez des sources, formulez une hypothèse et recherchez les composants susceptibles de lui donner corps. Éprouvez vos gestes, consignez les échecs et reprenez votre travail à la lumière de chaque résultat. Définissez l’effet obtenu, les exigences et les limites du rituel, puis confirmez votre découverte en l’accomplissant de nouveau avec succès.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17812,7 +17812,7 @@
   "vampire.text.01981": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le grimoire qui demeure",
+    "default": "Le grimoire change de mains",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17821,7 +17821,7 @@
   "vampire.text.01982": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transformez une pratique thaumaturgique que vous avez éprouvée en un héritage durable : un corpus, une méthode ou une tradition que d’autres Tremere peuvent apprendre et employer sans dépendre de votre présence.",
+    "default": "Rassemblez votre expérience en un enseignement transmissible et formez un autre Tremere à plusieurs rituels que vous maîtrisez. Laissez derrière vous des pages dont il saura comprendre les exigences et poursuivre l’usage sans attendre votre voix.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17830,7 +17830,7 @@
   "vampire.text.01983": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Codifiez plusieurs découvertes en une méthode transmissible, formez des praticiens capables de la reproduire, obtenez qu’une chantrie la reconnaisse ou défendez votre œuvre contre ceux qui veulent la saisir, l’interdire ou la placer sous leur seule autorité.",
+    "default": "Organisez vos notes, consignez les leçons de votre pratique et accompagnez un élève dans ses apprentissages. Achevez la transmission lorsqu’il sait préparer et accomplir les rituels enseignés sans votre assistance.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

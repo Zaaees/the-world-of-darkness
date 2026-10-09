@@ -208,17 +208,17 @@ Validation : coopération, contrôle ou obligations effectivement appliqués mal
 
 ### Tremere
 
-**Axe : obtenir une maîtrise occulte applicable.** Répéter un rituel dans ses conditions habituelles est une routine.
+**Axe : acquérir, pratiquer, développer et transmettre la science du sang.** Répéter un rituel dans ses conditions habituelles est une routine.
 
 | Niveau | Réalisations possibles |
 |---|---|
-| 1 — 3 pts | Examinez une manifestation anormale de la Vitae ou de la Thaumaturgie, puis établissez par l’enquête, les archives et l’expérimentation ce qui l’a produite et comment en tirer un savoir utilisable. |
-| 2 — 5 pts | Menez à terme un rituel thaumaturgique alors qu’une condition essentielle à sa réussite est compromise, et obtenez malgré cette contrainte le résultat recherché sans exposer vos pratiques. |
-| 3 — 8 pts | Identifiez puis défaites un effet occulte actif conçu par un autre praticien, en comprenant suffisamment sa méthode pour neutraliser durablement son emprise plutôt que d’en traiter seulement les symptômes. |
-| 4 — 12 pts | Faites échouer une opération occulte organisée contre une coterie, une chantrie ou un domaine, puis établissez une protection durable qui oblige vos adversaires à abandonner leur méthode ou à changer de terrain. |
-| 5 — 0 pt | Transformez une pratique thaumaturgique que vous avez éprouvée en un héritage durable : un corpus, une méthode ou une tradition que d’autres Tremere peuvent apprendre et employer sans dépendre de votre présence. |
+| 1 — 3 pts | Trouvez un rituel que vous ne connaissez pas, obtenez les moyens de l’apprendre et accomplissez-le pour la première fois. Faites du secret convoité une œuvre véritable, au prix de l’étude, des préparatifs et du sang. |
+| 2 — 5 pts | Enrichissez votre répertoire en recherchant, en apprenant et en accomplissant plusieurs nouveaux rituels. De maître en manuscrit, nouez les relations et consentez aux échanges qui ouvriront les portes du savoir. Faites grandir votre science au-delà du premier secret, jusqu’à pouvoir choisir entre plusieurs œuvres du sang. |
+| 3 — 8 pts | Engagez votre savoir au service d’un autre personnage et accomplissez le travail occulte convenu avec lui. Que votre maîtrise vous gagne une dette, une rémunération ou une confiance que les paroles seules n’auraient pas obtenue. |
+| 4 — 12 pts | Créez ou découvrez un rituel par vos propres recherches et expérimentations. Partez d’un effet que vous cherchez à produire, d’une intuition ou de fragments de savoir, puis poursuivez vos essais jusqu’à établir une procédure que vous savez reproduire. Ajoutez aux secrets du sang une page née de votre propre œuvre. |
+| 5 — 0 pt | Rassemblez votre expérience en un enseignement transmissible et formez un autre Tremere à plusieurs rituels que vous maîtrisez. Laissez derrière vous des pages dont il saura comprendre les exigences et poursuivre l’usage sans attendre votre voix. |
 
-Validation : question ouverte résolue, accès défendu gagné ou effet réalisé. Les règles de pouvoirs et d'apprentissage restent applicables ; aucun rituel nouveau offert par le barème.
+Validation : apprentissage et première exécution, enrichissement du répertoire, service accompli, recherche aboutie ou transmission effective. Les règles de pouvoirs, d’apprentissage et de création de rituels restent applicables ; aucun rituel nouveau offert par le barème.
 
 ### Lasombra
 

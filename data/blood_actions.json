@@ -620,10 +620,10 @@
       "id": "vitae_tremere_1",
       "clan": "tremere",
       "category": "clan",
-      "name": "Ce que le sang avoue",
-      "description": "Examinez une manifestation anormale de la Vitae ou de la Thaumaturgie, puis établissez par l’enquête, les archives et l’expérimentation ce qui l’a produite et comment en tirer un savoir utilisable.",
+      "name": "Le premier sceau",
+      "description": "Trouvez un rituel que vous ne connaissez pas, obtenez les moyens de l’apprendre et accomplissez-le pour la première fois. Faites du secret convoité une œuvre véritable, au prix de l’étude, des préparatifs et du sang.",
       "hints": [
-        "Étudiez le sang d’une victime marquée par un rituel, comparez des prélèvements à des notes de chantrie, interrogez un témoin ou un apprenti, puis confirmez votre hypothèse par une expérience contrôlée."
+        "Négociez un enseignement ou l’accès à un texte, rassemblez les composants nécessaires et préparez un lieu discret. Menez l’apprentissage selon les règles en vigueur, puis racontez l’exécution du rituel et son résultat."
       ],
       "minBp": 1,
       "maxBp": 5,
@@ -640,10 +640,10 @@
       "id": "vitae_tremere_2",
       "clan": "tremere",
       "category": "clan",
-      "name": "Le cercle sous tension",
-      "description": "Menez à terme un rituel thaumaturgique alors qu’une condition essentielle à sa réussite est compromise, et obtenez malgré cette contrainte le résultat recherché sans exposer vos pratiques.",
+      "name": "Les secrets se rassemblent",
+      "description": "Enrichissez votre répertoire en recherchant, en apprenant et en accomplissant plusieurs nouveaux rituels. De maître en manuscrit, nouez les relations et consentez aux échanges qui ouvriront les portes du savoir. Faites grandir votre science au-delà du premier secret, jusqu’à pouvoir choisir entre plusieurs œuvres du sang.",
       "hints": [
-        "Procurez-vous un composant détenu par un rival, remplacez un élément devenu inaccessible, improvisez un lieu rituel sûr ou poursuivez l’opération malgré une intrusion, une surveillance ou une échéance qui interdit tout retard."
+        "Recherchez deux nouveaux rituels auprès de praticiens ou dans des ouvrages accessibles en jeu. Négociez des leçons, échangez un savoir ou rendez les services convenus pour obtenir cet enseignement. Réunissez les composants nécessaires, menez chaque apprentissage et accomplissez chacun des deux rituels avec succès."
       ],
       "minBp": 2,
       "maxBp": 5,
@@ -660,10 +660,10 @@
       "id": "vitae_tremere_3",
       "clan": "tremere",
       "category": "clan",
-      "name": "Le nœud et la lame",
-      "description": "Identifiez puis défaites un effet occulte actif conçu par un autre praticien, en comprenant suffisamment sa méthode pour neutraliser durablement son emprise plutôt que d’en traiter seulement les symptômes.",
+      "name": "Le sang tient parole",
+      "description": "Engagez votre savoir au service d’un autre personnage et accomplissez le travail occulte convenu avec lui. Que votre maîtrise vous gagne une dette, une rémunération ou une confiance que les paroles seules n’auraient pas obtenue.",
       "hints": [
-        "Remontez l’origine d’une malédiction frappant un allié, percez les protections d’un objet rituel, reconstituez une procédure à partir de fragments contradictoires ou découvrez le point faible d’un enchantement avant de le briser."
+        "Proposez un service permis par un rituel que vous maîtrisez, convenez des conditions et prenez en charge les préparatifs. Accomplissez votre œuvre et faites entrer son résultat dans les projets de votre commanditaire."
       ],
       "minBp": 3,
       "maxBp": 5,
@@ -680,10 +680,10 @@
       "id": "vitae_tremere_4",
       "clan": "tremere",
       "category": "clan",
-      "name": "La guerre des sceaux",
-      "description": "Faites échouer une opération occulte organisée contre une coterie, une chantrie ou un domaine, puis établissez une protection durable qui oblige vos adversaires à abandonner leur méthode ou à changer de terrain.",
+      "name": "Un sceau de votre main",
+      "description": "Créez ou découvrez un rituel par vos propres recherches et expérimentations. Partez d’un effet que vous cherchez à produire, d’une intuition ou de fragments de savoir, puis poursuivez vos essais jusqu’à établir une procédure que vous savez reproduire. Ajoutez aux secrets du sang une page née de votre propre œuvre.",
       "hints": [
-        "Identifiez les praticiens, intermédiaires et relais d’un rituel hostile, détournez un composant décisif, retournez un complice ou détruisez le dispositif qui soutient l’opération, puis protégez les lieux, personnes ou ressources qu’elle visait."
+        "Rapprochez des sources, formulez une hypothèse et recherchez les composants susceptibles de lui donner corps. Éprouvez vos gestes, consignez les échecs et reprenez votre travail à la lumière de chaque résultat. Définissez l’effet obtenu, les exigences et les limites du rituel, puis confirmez votre découverte en l’accomplissant de nouveau avec succès."
       ],
       "minBp": 4,
       "maxBp": 5,
@@ -700,10 +700,10 @@
       "id": "vitae_tremere_5",
       "clan": "tremere",
       "category": "clan",
-      "name": "Le grimoire qui demeure",
-      "description": "Transformez une pratique thaumaturgique que vous avez éprouvée en un héritage durable : un corpus, une méthode ou une tradition que d’autres Tremere peuvent apprendre et employer sans dépendre de votre présence.",
+      "name": "Le grimoire change de mains",
+      "description": "Rassemblez votre expérience en un enseignement transmissible et formez un autre Tremere à plusieurs rituels que vous maîtrisez. Laissez derrière vous des pages dont il saura comprendre les exigences et poursuivre l’usage sans attendre votre voix.",
       "hints": [
-        "Codifiez plusieurs découvertes en une méthode transmissible, formez des praticiens capables de la reproduire, obtenez qu’une chantrie la reconnaisse ou défendez votre œuvre contre ceux qui veulent la saisir, l’interdire ou la placer sous leur seule autorité."
+        "Organisez vos notes, consignez les leçons de votre pratique et accompagnez un élève dans ses apprentissages. Achevez la transmission lorsqu’il sait préparer et accomplir les rituels enseignés sans votre assistance."
       ],
       "minBp": 5,
       "maxBp": 5,
