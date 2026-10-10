@@ -16903,7 +16903,7 @@
   "vampire.text.01880": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Refusez une autorité qui prétend décider à votre place et acceptez le prix réel de votre insoumission — ou forcez-la à reconnaître qu’elle est allée trop loin.",
+    "default": "Refusez une autorité qui prétend décider à votre place et arrachez-lui une liberté qu’elle vous déniait. Que votre colère trouve une prise sur le monde : une interdiction bravée, un abus interrompu, quelque chose qui ne plie plus.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -16912,7 +16912,7 @@
   "vampire.text.01881": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Refusez un ordre injuste, récupérez ce qui vous a été arraché ou défiez une interdiction malgré les représailles qu’elle pourrait entraîner.",
+    "default": "Défiez une interdiction pour venir en aide à quelqu’un, faites rendre un bien confisqué ou mettez fin à une intimidation. Le refus doit produire son effet malgré une résistance, et ses conséquences doivent être jouées.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -16939,7 +16939,7 @@
   "vampire.text.01884": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Ralliez plusieurs personnes autour d’une action concrète : défendre l’un des leurs, contester une décision ou arracher quelque chose que personne n’aurait obtenu seul.",
+    "default": "Entraînez un ou plusieurs compagnons dans une contestation qui aboutit : défendre une personne menacée, faire lever une sanction ou ouvrir un accès réservé. Leur engagement doit peser sur le résultat. Une foule et un discours ne sont pas nécessaires.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -16957,7 +16957,7 @@
   "vampire.text.01886": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Mettez une conviction à l’épreuve face à quelqu’un qui pouvait réellement la briser — et faites de vos paroles, de vos actes ou de votre colère une réponse impossible à ignorer.",
+    "default": "Portez votre conviction là où elle risque de se briser, puis faites de l’épreuve un changement que vos adversaires ne peuvent réduire à des paroles. La Bête réclame un ennemi. Donnez à votre colère une cause qui survive à l’affrontement.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -16966,7 +16966,7 @@
   "vampire.text.01887": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Affrontez un adversaire sur ses propres principes, révélez la contradiction d’une autorité ou faites changer de camp quelqu’un qui avait de bonnes raisons de vous résister.",
+    "default": "Mettez au jour la contradiction d’un adversaire, ralliez un soutien qui vous résistait ou défendez vos principes au prix d’un avantage réel. Obtenez ainsi une réparation, la fin d’une contrainte ou la réussite d’une action jusque-là empêchée. Le débat seul ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -16984,7 +16984,7 @@
   "vampire.text.01889": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites tomber une règle ou une domination établie, puis imposez une alternative capable de survivre à ceux qui préféraient l’ancien ordre.",
+    "default": "Faites tomber une règle ou une domination établie, puis donnez corps à ce que vous vouliez mettre à sa place. L’épreuve commence lorsque les chaînes se rompent et que ceux qui les tenaient cherchent déjà à les reforger.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -16993,7 +16993,7 @@
   "vampire.text.01890": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Renversez un privilège, redistribuez une ressource ou imposez de nouvelles règles à un groupe malgré ceux qui avaient intérêt à ce que rien ne change.",
+    "default": "Changez le partage d’une ressource, les obligations d’une coterie ou les conditions d’accès à un lieu. Faites appliquer cette alternative malgré une tentative réelle de rétablir l’ancien usage. Un conflit local suffit, sans renverser le pouvoir de la ville.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17020,7 +17020,7 @@
   "vampire.text.01893": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez votre combat à ceux qui le poursuivront sans vous, fondez un mouvement capable de vous survivre ou acceptez que votre cause évolue entre les mains de ceux qui l’ont faite leur.",
+    "default": "Confiez un combat à un compagnon, transmettez les moyens de le poursuivre et laissez-le conduire une action concrète à sa manière. La cause doit vivre dans ses choix, même lorsqu’ils s’écartent des vôtres. Votre départ et la fondation d’un mouvement ne sont pas requis.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17038,7 +17038,7 @@
   "vampire.text.01895": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Survivez dans un territoire inconnu ou hostile sans refuge préparé, contact établi ni protection politique, puis tirez de cette nuit une solution de survie que vous pourrez réellement réutiliser. Apprenez le terrain plutôt que d’attendre qu’il vous épargne.",
+    "default": "Là où vos habitudes ne vous protègent plus, apprenez à vivre en prédateur. Lisez les abris, les passages et les dangers d’un terrain mal connu jusqu’à y trouver de quoi traverser la nuit et cacher votre sommeil.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17047,7 +17047,7 @@
   "vampire.text.01896": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Traversez une friche, un bois, un réseau ferroviaire, des souterrains ou une zone industrielle jusqu’à découvrir où disparaître avant l’aube ; observez les rondes, les passages oubliés, les dangers locaux et les habitudes des lieux jusqu’à disposer d’un repli ou d’un itinéraire fiable.",
+    "default": "Dans une friche, sur les toits ou le long des berges, surmontez un obstacle de terrain ou une présence hostile et éprouvez un repli utilisable avant l’aube. Des compagnons peuvent vous aider. Une promenade et la désignation d’une cache ne suffisent pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17092,7 +17092,7 @@
   "vampire.text.01901": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Nouez entre plusieurs prédateurs indépendants un accord de survie fondé sur l’entraide concrète plutôt que sur l’autorité d’un Prince ou d’une institution. Faites de cet accord une réalité en le mettant à l’épreuve lorsque l’un de ses membres en a besoin.",
+    "default": "Partagez une portion de nuit avec un autre prédateur sans lui abandonner votre liberté. Nouez un accord de passage, de chasse ou de refuge, puis faites tenir cette parole lorsque le territoire oppose ses propres lois.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17101,7 +17101,7 @@
   "vampire.text.01902": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Échangez des avertissements, des passages sûrs, des lieux de repli ou une assistance en cas de traque ; rapprochez des Gangrel rivaux, des vampires sans domaine ou d’autres habitants des marges, puis faites tenir leur parole lorsqu’une intrusion, une chasse ou une dette menace de briser l’accord.",
+    "default": "Entendez-vous avec un voisin ou un compagnon sur une limite, un abri ou un avertissement, puis résolvez l’intrusion, la pénurie ou la traque qui met l’accord à l’épreuve. Le lien se prouve dans l’entraide et la connaissance du terrain, sans exiger une assemblée de Gangrel.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17119,7 +17119,7 @@
   "vampire.text.01904": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez un réseau clandestin permettant à plusieurs vampires de circuler durablement entre des territoires hostiles ou surveillés sans dépendre des voies contrôlées par les puissances locales. Faites de la géographie une liberté que la politique ne peut facilement confisquer.",
+    "default": "Ouvrez à d’autres une voie de survie à travers un territoire qui les enfermait. Quand la route se referme, faites de votre connaissance des lieux, de leurs bêtes et de leurs dangers ce qui permet encore de passer.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17128,7 +17128,7 @@
   "vampire.text.01905": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reliez voies ferrées, tunnels techniques, berges, toits, terrains vagues ou relais discrets ; obtenez la coopération de ceux qui contrôlent certains passages, prévoyez des détours lorsqu’une route tombe et permettez à une coterie, des messagers ou des fugitifs de traverser réellement la ville grâce à ce réseau.",
+    "default": "Préparez un itinéraire et un repli, puis conduisez au moins un compagnon à travers une surveillance ou une traque organisée. Surmontez la perte d’un passage ou une autre complication établie. Une traversée décisive suffit, sans posséder un réseau à l’échelle de la ville.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17137,7 +17137,7 @@
   "vampire.text.01906": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Là où la ville redevient sauvage",
+    "default": "Ce que la piste enseigne",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17146,7 +17146,7 @@
   "vampire.text.01907": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transformez une zone marginale disputée en territoire durablement autonome, capable d’abriter, d’orienter et de protéger ceux qui savent y vivre sans dépendre de votre présence constante. Faites en sorte que ses passages, ses usages et ses alliances survivent à votre départ.",
+    "default": "Confiez à un autre les chemins que votre sang a appris. Laissez-le reconnaître le danger, choisir son passage et trouver son abri, jusqu’à ce que la nuit cesse d’être pour lui un pays dont vous seul possédez la carte.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17155,7 +17155,7 @@
   "vampire.text.01908": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Rassemblez des lieux de repli, des voies clandestines, des habitants utiles et des accords avec les voisins ; repoussez ou absorbez les prétentions concurrentes, établissez qui peut traverser ou demander refuge, puis confiez suffisamment de responsabilités à d’autres pour que cette lisière continue d’exister même lorsque vous n’y êtes plus.",
+    "default": "Transmettez vos repères, les usages des prédateurs locaux et les solutions de repli, puis laissez votre compagnon mener une traversée ou une recherche de refuge avec un imprévu réel. Il doit adapter ce savoir sans attendre vos instructions.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17173,7 +17173,7 @@
   "vampire.text.01910": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Suivez une obsession, une perception discordante ou une association que les autres jugent absurde, puis transformez-la en une vérité vérifiable sur une personne, un lieu ou une menace proche.",
+    "default": "Suivez une obsession, une perception discordante ou une association que les autres jugent absurde, puis tirez de cette démarche un avantage concret face à un problème immédiat. Votre interprétation peut être juste, trompeuse ou demeurer inexpliquée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17182,7 +17182,7 @@
   "vampire.text.01911": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Attachez-vous à un détail que tous écartent, rapprochez des paroles qui semblent sans rapport ou poursuivez un motif récurrent, puis obtenez la preuve qu’il révélait un mensonge, un danger ou une relation dissimulée.",
+    "default": "Attachez-vous à un détail que tous écartent, rapprochez des paroles apparemment sans rapport ou poursuivez un motif récurrent. Laissez cette piste vous conduire à un moyen d’échapper à une menace, d’atteindre quelqu’un ou de contourner une difficulté de la nuit.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17200,7 +17200,7 @@
   "vampire.text.01913": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Ébranlez volontairement les certitudes d’un interlocuteur en jouant sur ses peurs, ses obsessions ou les contradictions de ce qu’il croit percevoir, jusqu’à lui faire révéler quelque chose ou modifier réellement sa conduite.",
+    "default": "Amenez quelqu’un à accepter une idée ou une vérité qu’il avait de fortes raisons de rejeter. Par des rapprochements troublants, des paroles à double sens ou des détails que personne n’avait su lire, fissurez ses certitudes jusqu’à obtenir un changement concret et significatif dans ses actes.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17209,7 +17209,7 @@
   "vampire.text.01914": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Nourrissez la paranoïa d’un menteur jusqu’à ce qu’il se trahisse, enfermez un rival dans ses propres contradictions ou faites naître assez de doute chez une cible pour qu’elle rompe une alliance, abandonne une surveillance ou commette une erreur révélatrice.",
+    "default": "Trouvez ce qui nourrit son refus, puis faites apparaître ce que sa lecture de la situation laisse dans l’ombre. Votre interlocuteur doit avoir une raison réelle de résister, et son acceptation doit l’engager au-delà des mots : un simple acquiescement ou un doute passager ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17227,7 +17227,7 @@
   "vampire.text.01916": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Recueillez les fragments dispersés parmi les esprits malkaviens — intuitions, symboles, récits, obsessions ou messages obscurs — et reliez-les jusqu’à révéler un danger ou un dessein que personne ne pouvait comprendre seul.",
+    "default": "À partir de présages, d’obsessions ou de coïncidences, élaborez une piste que les autres avaient écartée, puis utilisez-la pour débloquer une affaire importante jusque-là dans l’impasse. Surmontez un obstacle réel et obtenez une avancée décisive, même si votre interprétation initiale se révèle fausse.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17236,7 +17236,7 @@
   "vampire.text.01917": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Comparez les visions ou manies de plusieurs Malkaviens, déchiffrez des messages qui n’ont de sens qu’ensemble ou suivez une série de coïncidences dans le Réseau de Folie, puis utilisez le motif découvert pour anticiper une opération, retrouver quelqu’un ou identifier ce qui manipule les événements.",
+    "default": "Retrouvez une personne dont la piste s’était perdue, découvrez un passage vers un lieu que l’on croyait inaccessible ou dénouez une situation où chaque issue semblait condamnée. Faites de votre lecture singulière des signes le moyen de franchir l’obstacle qui tenait l’affaire en échec.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17245,7 +17245,7 @@
   "vampire.text.01918": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le fou devant le trône",
+    "default": "Le présage à contre-voix",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17254,7 +17254,7 @@
   "vampire.text.01919": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Forcez un groupe puissant à reconnaître une vérité qu’il avait d’abord rejetée comme délire, puis faites en sorte que cette révélation bouleverse concrètement ses décisions, ses alliances ou son rapport de force.",
+    "default": "Portez une lecture de la nuit que vos compagnons refusent de considérer, puis donnez-lui assez de prise pour changer le cours d’une affaire menacée. Parmi les voix qui vous traversent, faites entendre celle qui ouvre encore une issue.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17263,7 +17263,7 @@
   "vampire.text.01920": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Annoncez un événement que vous pouvez ensuite démontrer, révélez progressivement les pièces d’un complot ou mettez en scène une contradiction impossible à ignorer afin qu’une coterie, une cour vampirique ou une organisation abandonne un plan, rompe avec un allié ou se retourne contre celui qui la trompait.",
+    "default": "Face à une opposition établie, obtenez qu’une coterie ou quelques interlocuteurs modifient un plan important et le mettent à exécution malgré le risque. Vos présages peuvent rester incertains. Leur interprétation doit permettre de surmonter un obstacle concret, sans exiger l’oreille d’un Prince.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17281,7 +17281,7 @@
   "vampire.text.01922": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Inscrivez durablement une révélation, un avertissement ou un motif dans la mémoire collective des Malkaviens d’un domaine, jusqu’à ce qu’il continue d’orienter leurs actes et leur lecture de la nuit sans dépendre de votre présence.",
+    "default": "Donnez à une découverte la forme d’un récit, d’un signe ou d’un motif qu’un autre pourra reconnaître dans le vacarme de la nuit. Laissez votre vision rencontrer la sienne, jusqu’à produire une lecture qui ne vous appartient plus tout à fait.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17290,7 +17290,7 @@
   "vampire.text.01923": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites d’un symbole le signe reconnu d’une menace, transformez une découverte en récit que les vôtres se transmettent, établissez un rituel destiné à déceler un danger récurrent ou laissez dans le Réseau de Folie un code que d’autres Malkaviens reprendront, interpréteront et transmettront à leur tour.",
+    "default": "Transmettez votre motif à un autre Malkavien, ou à un compagnon qui apprend à vous comprendre, puis jouez sa réinterprétation et son usage face à une difficulté réelle. Une transmission personnelle suffit. Le Réseau de Folie ne donne ici ni message universel ni savoir automatique.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17335,7 +17335,7 @@
   "vampire.text.01928": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transformez plusieurs sources isolées en un circuit de renseignement où informations, rumeurs et avertissements peuvent parvenir jusqu’à vous sans exposer directement ceux qui les transmettent.",
+    "default": "Donnez à un secret un chemin que les regards ne savent pas suivre. Établissez un relais discret, puis faites parvenir un renseignement vérifié à celui qui en a besoin sans livrer votre source à ceux qui la cherchent.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17344,7 +17344,7 @@
   "vampire.text.01929": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reliez des informateurs qui ignorent travailler pour la même main, mettez en place des intermédiaires ou des dépôts anonymes, ou organisez des échanges permettant de confirmer une information sans qu’aucune source ne connaisse l’ensemble du réseau.",
+    "default": "Une boîte morte, un intermédiaire ou un passage oublié peut suffire. Contournez une surveillance, une méfiance ou un accès fermé, puis jouez la transmission et la protection de son origine. Il n’est pas nécessaire de disposer de plusieurs informateurs.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17362,7 +17362,7 @@
   "vampire.text.01931": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Introduisez-vous dans un réseau de renseignement hostile et détournez durablement l’un de ses canaux à votre profit sans que ceux qui le contrôlent comprennent immédiatement où se trouve la fuite.",
+    "default": "Allez chercher une vérité là où quelqu’un travaille à la garder ensevelie. Glissez-vous dans ses habitudes, ses échanges ou ses angles morts, puis rapportez de quoi agir sans abandonner derrière vous ceux qui vous ont ouvert le passage.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17371,7 +17371,7 @@
   "vampire.text.01932": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retournez un informateur adverse, récupérez une source compromise avant qu’elle ne parle, détournez un canal de communication ou faites parvenir à l’ennemi des informations assez crédibles pour dissimuler celles que vous lui dérobez réellement.",
+    "default": "Interceptez une transmission protégée, infiltrez un lieu où se négocie un secret ou exfiltrez un informateur avec ses preuves. Vérifiez ce que vous avez recueilli et traitez le risque de découverte. Un adversaire et une source suffisent, sans infiltrer une organisation entière.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17398,7 +17398,7 @@
   "vampire.text.01935": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Remontez d’un observateur jusqu’à ceux qui centralisent ses rapports, retournez un intermédiaire, faites disparaître une source essentielle ou introduisez de fausses certitudes assez solides pour que tout un réseau commence à surveiller la mauvaise cible.",
+    "default": "Repérez comment une surveillance remonte jusqu’à une source ou un refuge, puis coupez ou trompez ses relais malgré les précautions adverses. Vérifiez que la personne ou le lieu visé échappe effectivement à cette recherche. Quelques guetteurs peuvent porter toute l’intrigue.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17416,7 +17416,7 @@
   "vampire.text.01937": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez ou préservez un réseau de renseignement nosferatu capable de survivre à votre absence, à une trahison ou à la destruction de l’un de ses maillons, afin que ses sources, ses voies cachées et ses secrets continuent de servir après vous.",
+    "default": "Placez entre d’autres mains une part des secrets que la ville vous a confiés. Préservez les voix qui les portent et les chemins qui les relient, afin qu’un silence de votre part ne condamne pas tous ceux qui dépendent de vos murmures.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17425,7 +17425,7 @@
   "vampire.text.01938": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Répartissez les informations sensibles entre plusieurs gardiens, transmettez vos accès sans livrer toutes les clés à une seule personne, sauvez un réseau menacé par une purge interne ou reconstruisez ses relais de manière à ce qu’aucune perte future ne puisse faire taire entièrement ce que la ville murmure.",
+    "default": "Confiez à un relais les accès et les précautions nécessaires, puis laissez-le obtenir et transmettre un renseignement sans votre intervention. Éprouvez une solution de rechange lorsque le canal habituel devient dangereux. Une source, un successeur et un destinataire suffisent.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17470,7 +17470,7 @@
   "vampire.text.01943": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites basculer la carrière ou l’œuvre d’un artiste grâce à votre mécénat, votre jugement ou vos relations, jusqu’à devenir une cause identifiable de son ascension — ou de sa chute.",
+    "default": "Donnez une forme ou une audience à ce qui a réveillé votre cœur mort. Par votre art, votre mécénat ou votre regard, arrachez une œuvre à l’obstacle qui la condamnait à rester inachevée, cachée ou défigurée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17479,7 +17479,7 @@
   "vampire.text.01944": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Financez l’œuvre que personne ne voulait soutenir, obtenez une galerie, une scène ou un éditeur pour un talent ignoré, ouvrez les bonnes portes à un protégé ou fermez-les à celui dont vous condamnez le travail.",
+    "default": "Achevez votre propre création malgré une contrainte réelle, obtenez pour un artiste un moyen qui lui manquait ou faites présenter une œuvre que quelqu’un cherchait à écarter. Jouez ce que cette réalisation change pour son créateur ou son public, sans exiger une carrière consacrée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17497,7 +17497,7 @@
   "vampire.text.01946": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préservez une œuvre, un artiste, un lieu ou un héritage culturel menacé de disparition en mobilisant suffisamment d’alliés, de réputation et d’influence pour que votre intervention laisse des conséquences durables.",
+    "default": "Préservez une œuvre, un artiste ou un lieu auquel vous vous êtes attaché lorsque sa perte devient le choix le plus commode. Que votre fascination vous coûte quelque chose et laisse à cette beauté une chance réelle de durer.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17506,7 +17506,7 @@
   "vampire.text.01947": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Empêchez la fermeture d’un théâtre, sauvez une collection destinée à être dispersée, restaurez la réputation d’un créateur détruit par un scandale ou faites échouer ceux qui veulent effacer un lieu devenu précieux à vos yeux.",
+    "default": "Soustrayez une œuvre à sa destruction, dénouez le chantage qui étouffe un créateur ou maintenez un lieu de création menacé. Surmontez les intérêts qui poussaient à sa disparition et obtenez une protection effective. Une pièce, un atelier ou un seul artiste suffit.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17524,7 +17524,7 @@
   "vampire.text.01949": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites d’un lieu, d’un événement ou d’un cercle culturel une scène incontournable où artistes, mécènes, mondains et Damnés viennent chercher reconnaissance, alliances ou prestige, puis rendez cette position d’arbitre réellement influente.",
+    "default": "Faites d’une rencontre autour de l’art le lieu où une rivalité change de visage. Par ce que vous montrez, ce que vous taisez et ceux que vous rapprochez, faites peser votre goût sur une décision que les seuls rapports de force tenaient figée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17533,7 +17533,7 @@
   "vampire.text.01950": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Fondez un salon dont l’invitation devient une faveur convoitée, faites d’une galerie ou d’un festival le terrain neutre de rivalités vampiriques, consacrez des artistes qui deviennent des références ou faites de l’exclusion de votre cercle une sanction redoutée.",
+    "default": "Préparez une exposition intime, une représentation ou une réception malgré une opposition réelle. Servez-vous de l’œuvre et de sa présentation pour obtenir un soutien disputé, une réconciliation effective ou la fin d’une exclusion. Quelques invités suffisent, sans devenir l’arbitre culturel de la ville.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17551,7 +17551,7 @@
   "vampire.text.01952": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Créez ou façonnez un héritage culturel assez puissant pour être repris, défendu et transformé par d’autres sans dépendre encore de votre présence. Votre goût doit avoir laissé dans la ville une trace que vous ne contrôlez plus entièrement.",
+    "default": "Créez ou accompagnez une œuvre qu’un autre choisira de reprendre, de défendre ou de transformer. Acceptez que ce qui vous avait rendu un instant à la vie continue de toucher les vivants sans obéir tout à fait à votre désir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17560,7 +17560,7 @@
   "vampire.text.01953": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites naître un courant artistique repris par une nouvelle génération, laissez derrière vous une institution que d’autres continuent de faire vivre, transformez un protégé en référence capable de transmettre votre influence ou voyez une œuvre née sous votre égide devenir un symbole que la ville s’approprie.",
+    "default": "Laissez un interprète donner sa lecture de votre création, un protégé porter seul un projet ou un amateur sauver une œuvre à laquelle vous l’avez attaché. Jouez cette appropriation et ses conséquences. Une seule relation peut porter cet héritage.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17578,7 +17578,7 @@
   "vampire.text.01955": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez un accès fiable à des proies compatibles. Ou Faites reconnaître une responsabilité disputée.",
+    "default": "Réclamez une responsabilité que l’on vous refuse, puis prouvez que votre parole protège autre chose que votre orgueil. Faites reconnaître votre place en réglant ce que les autres vous croyaient incapable de prendre en charge.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17587,7 +17587,7 @@
   "vampire.text.01956": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Négociez un accès fiable à des proies compatibles ou faites accepter une responsabilité que l’on vous conteste.",
+    "default": "Obtenez la charge d’un accès, d’une réserve ou d’un accord contesté et résolvez le problème qui menaçait ses bénéficiaires. Votre autorité doit être reconnue et exercée. Une responsabilité dans une coterie suffit, sans titre officiel ni fortune.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17605,7 +17605,7 @@
   "vampire.text.01958": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Concluez un accord entre intérêts divergents. Ou Placez une ressource sous contrôle effectif.",
+    "default": "Engagez votre nom pour que des intérêts contraires puissent traiter. Lorsque vient le moment de payer, faites honorer les obligations que vous avez garanties et montrez ce que vaut une promesse placée sous votre sceau.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17614,7 +17614,7 @@
   "vampire.text.01959": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez l’exécution d’un accord entre rivaux ou le contrôle réel d’une ressource disputée.",
+    "default": "Négociez les termes d’un accord, garantissez une livraison, un droit de passage ou une protection, puis surmontez une résistance à son exécution. Jouez votre propre part du risque. Un contrat signé mais jamais appliqué ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17632,7 +17632,7 @@
   "vampire.text.01961": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Résolvez une crise d'autorité. Ou Ralliez un intermédiaire jusque-là hostile.",
+    "default": "Gardez la charge des vôtres lorsqu’un revers rend votre autorité coûteuse. Tranchez entre des besoins incompatibles, assumez ce que votre décision exige et rétablissez ce qui permet encore à ceux qui vous suivent de tenir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17641,7 +17641,7 @@
   "vampire.text.01962": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Ralliez un intermédiaire hostile, ou rétablissez la capacité d’un groupe à suivre des décisions contestées.",
+    "default": "Lors d’une perte de refuge, d’un conflit de chasse ou d’une rupture d’accord, obtenez une coopération contestée et remettez en service la ressource menacée. Vos restrictions de proies peuvent compliquer la décision sans imposer de jeûne artificiel. Donner des ordres ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17659,7 +17659,7 @@
   "vampire.text.01964": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Unifiez des intérêts rivaux dans un dispositif commun. Ou Préservez une structure d'influence face à une offensive.",
+    "default": "Réunissez sous votre garantie des volontés qui préféreraient se déchirer. Donnez à chacune une place, un dû et une obligation, puis faites tenir cet ordre lorsque l’un de ses adversaires tente d’en acheter la ruine.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17668,7 +17668,7 @@
   "vampire.text.01965": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites fonctionner une organisation commune malgré des intérêts rivaux et une opposition active.",
+    "default": "Établissez un partage de chasse, une défense ou une intendance commune entre quelques partenaires rivaux. Déjouez une contestation organisée et faites appliquer une décision difficile tout en remplissant vos engagements. Une coterie élargie peut constituer toute votre cour.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17686,7 +17686,7 @@
   "vampire.text.01967": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Assurez une relève fonctionnelle. Ou Maintenez une légitimité sans exiger une obéissance absolue.",
+    "default": "Préparez quelqu’un à porter une responsabilité dont votre nom était devenu la clef. Transmettez les moyens, les obligations et la reconnaissance nécessaires, puis laissez sa décision engager l’ordre que vous avez bâti.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17695,7 +17695,7 @@
   "vampire.text.01968": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préparez une relève qui puisse effectivement décider sans attendre chacun de vos ordres.",
+    "default": "Confiez une charge précise à un successeur et obtenez que les partenaires concernés reconnaissent son mandat. Laissez-le résoudre un différend ou un imprévu sans décider à sa place, puis honorez les conséquences de cette délégation. Vous n’avez pas à quitter votre personnage.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17776,7 +17776,7 @@
   "vampire.text.01977": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Proposez un service permis par un rituel que vous maîtrisez, convenez des conditions et prenez en charge les préparatifs. Accomplissez votre œuvre et faites entrer son résultat dans les projets de votre commanditaire.",
+    "default": "Employez un rituel maîtrisé pour résoudre le problème d’un commanditaire. Surmontez un obstacle établi dans l’accès aux composants, la préparation, la protection du lieu ou l’usage du résultat. Une exécution routinière et un simple échange de paiement ne suffisent pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17794,7 +17794,7 @@
   "vampire.text.01979": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Créez ou découvrez un rituel par vos propres recherches et expérimentations. Partez d’un effet que vous cherchez à produire, d’une intuition ou de fragments de savoir, puis poursuivez vos essais jusqu’à établir une procédure que vous savez reproduire. Ajoutez aux secrets du sang une page née de votre propre œuvre.",
+    "default": "Menez une recherche rituelle là où vos notes ne suffisent plus. Reconstituez un rite lacunaire, résolvez l’échec d’un rituel connu ou développez une œuvre nouvelle, jusqu’à pouvoir reproduire ce que vos premières tentatives ne faisaient qu’entrevoir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17803,7 +17803,7 @@
   "vampire.text.01980": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Rapprochez des sources, formulez une hypothèse et recherchez les composants susceptibles de lui donner corps. Éprouvez vos gestes, consignez les échecs et reprenez votre travail à la lumière de chaque résultat. Définissez l’effet obtenu, les exigences et les limites du rituel, puis confirmez votre découverte en l’accomplissant de nouveau avec succès.",
+    "default": "Rassemblez les sources et les composants, éprouvez une hypothèse face à une difficulté occulte établie, puis consignez et reproduisez le résultat. Un rituel existant convient. Tout effet inédit reste soumis aux règles de création et à la validation du serveur.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17848,7 +17848,7 @@
   "vampire.text.01985": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Renversez une négociation défavorable. Ou Gagnez un intermédiaire indispensable malgré une dépendance compromettante.",
+    "default": "Trouvez la main qui peut ouvrir une porte que votre présence refermerait. Gagnez son concours malgré ses réticences, puis obtenez par elle l’accès ou la concession dont vous avez besoin, à l’abri des regards qui vous attendaient ailleurs.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17857,7 +17857,7 @@
   "vampire.text.01986": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Changez les conditions d’un accord défavorable ou gagnez le concours d’un intermédiaire qui connaît votre faiblesse.",
+    "default": "Convainquez un intermédiaire réticent d’obtenir une entrevue, un document ou un passage pour vous. Donnez-lui une raison d’agir et jouez la réalisation de la mission. Votre avantage doit venir de ce relais, sans exiger une influence déjà installée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17866,7 +17866,7 @@
   "vampire.text.01987": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Nul maître au-dessus",
+    "default": "L’épreuve du vide",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17875,7 +17875,7 @@
   "vampire.text.01988": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Écartez un obstacle établi à son ambition. Ou Faites échouer une mise sous tutelle.",
+    "default": "Poursuivez votre ambition lorsque l’appui sur lequel vous comptiez se dérobe. Trouvez ce que vous pouvez encore sacrifier, retourner ou saisir et obtenez le résultat que vos adversaires croyaient avoir rendu impossible.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17884,7 +17884,7 @@
   "vampire.text.01989": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Supprimez le levier d’une mise sous tutelle ou neutralisez un obstacle concret à votre projet.",
+    "default": "Après la perte établie d’un soutien, d’une couverture ou d’un accès, remplacez ce moyen et menez le projet à terme. Mettez en jeu le coût humain ou politique de votre méthode. Ne créez pas une perte de façade pour aussitôt l’annuler.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17893,7 +17893,7 @@
   "vampire.text.01990": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retourner la nuit",
+    "default": "L’ombre derrière le siège",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17902,7 +17902,7 @@
   "vampire.text.01991": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retournez une alliance hostile. Ou Accomplissez un plan après la perte d'un moyen essentiel.",
+    "default": "Découvrez de quoi dépend celui qui vous barre la route et faites de cette dépendance votre levier. Laissez-lui le visage du pouvoir, si cela vous sert, mais obtenez qu’une décision importante porte désormais votre volonté.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17911,7 +17911,7 @@
   "vampire.text.01992": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites changer de camp un partenaire adverse ou remplacez un moyen essentiel perdu en cours d’opération.",
+    "default": "Prenez une place décisive dans son ravitaillement, ses soutiens ou l’exécution de ses projets, puis arrachez une concession malgré sa résistance. Quelques relations suffisent. Le levier doit fonctionner en jeu, sans supposer l’obéissance d’un partenaire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17929,7 +17929,7 @@
   "vampire.text.01994": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Prenez l'ascendant sur une structure adverse. Ou Rendez une position conquise viable face à une contre-offensive.",
+    "default": "Gardez votre prise lorsqu’un adversaire a compris d’où venait votre pouvoir. Déplacez vos relais, abandonnez ce qui doit l’être et retournez sa riposte jusqu’à préserver l’essentiel de votre entreprise.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17938,7 +17938,7 @@
   "vampire.text.01995": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préservez une position conquise contre une riposte réelle, ou prenez l’ascendant sur un réseau rival.",
+    "default": "Face à une attaque organisée contre vos intermédiaires ou votre couverture, reconstruisez une voie d’action et faites aboutir l’objectif contesté. La victoire doit venir de vos choix et de votre emprise indirecte. Les ténèbres surnaturelles restent un moyen éventuel, selon votre fiche.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17947,7 +17947,7 @@
   "vampire.text.01996": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le pouvoir sans laisse",
+    "default": "Celui qui peut vous défier",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17956,7 +17956,7 @@
   "vampire.text.01997": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Construisez un pouvoir supportant la contestation. Ou Surmontez l'émancipation de ses agents.",
+    "default": "Élevez un relais au point qu’il puisse vous contredire sans devenir inutile. Éprouvez ce qui vous lie lorsque son ambition rencontre la vôtre, puis faites naître de cette rivalité un arrangement que ni l’un ni l’autre ne tient pour une faveur.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17965,7 +17965,7 @@
   "vampire.text.01998": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez des relais qui restent efficaces même lorsqu’ils refusent de vous obéir aveuglément.",
+    "default": "Confiez une initiative réelle à un protégé ou un associé, jouez son désaccord sur les moyens ou les bénéfices et concluez un partage d’influence effectivement utilisé. Il n’est pas nécessaire de créer un Infant, de briser un lien surnaturel ou d’organiser une trahison.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17983,7 +17983,7 @@
   "vampire.text.02000": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites respecter une hospitalité contestée. Ou Adaptez un refuge à une contrainte réelle de sa condition.",
+    "default": "Faites d’un lieu votre seuil : un endroit où l’invité sait ce qui lui est offert et ce qu’il ne peut prendre. Lorsque quelqu’un éprouve cette hospitalité, faites respecter vos conditions sans trahir la parole qui l’a laissé entrer.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -17992,7 +17992,7 @@
   "vampire.text.02001": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites appliquer une hospitalité contestée ou adaptez un refuge à une contrainte concrète de votre condition.",
+    "default": "Accueillez dans une chambre, un atelier ou un refuge dont vous disposez, puis réglez une demande ou une intrusion contraire aux termes annoncés. Obtenez le respect concret d’une limite ou d’une protection. Un château et un domaine politique ne sont pas nécessaires.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18010,7 +18010,7 @@
   "vampire.text.02003": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Réalisez une transformation répondant à un besoin difficile. Ou Soustrayez une dépendance du domaine à une ingérence.",
+    "default": "Donnez à votre refuge, à votre corps ou à une possession la forme qu’une nécessité exige. Que l’œuvre cesse d’être un caprice du Dragon et devienne une réponse éprouvée à ce qui menaçait son repos, son secret ou son emprise.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18019,7 +18019,7 @@
   "vampire.text.02004": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Écartez une ingérence dans votre domaine, ou réalisez une transformation qui répond aux besoins de votre domaine.",
+    "default": "Remaniez un lieu pour une contrainte d’accueil ou de protection, ou réalisez une transformation permise par vos pouvoirs et les accords de jeu. Surmontez un obstacle matériel ou occulte, puis mettez le résultat à l’épreuve. La Vicissitude n’est pas un prérequis.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18028,7 +18028,7 @@
   "vampire.text.02005": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reprendre possession",
+    "default": "Ce que le Dragon réclame",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18037,7 +18037,7 @@
   "vampire.text.02006": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Reprenez un domaine compromis. Ou Achevez une transformation complexe sous contraintes.",
+    "default": "Reprenez ce qu’une main étrangère a soustrait à votre garde. Retrouvez sa trace, affrontez la prétention de celui qui le retient et rétablissez une emprise que vos seuls mots ne suffisent plus à défendre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18046,7 +18046,7 @@
   "vampire.text.02007": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez un domaine compromis ou surmontez les contraintes d’une transformation réellement complexe.",
+    "default": "Récupérez une possession liée à votre repos, un lieu occupé ou les moyens de poursuivre une transformation compromise. Résolvez aussi la prise qui rendait cette dépossession possible. Une personne protégée conserve ses propres choix et ne devient pas un bien par déclaration.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18064,7 +18064,7 @@
   "vampire.text.02009": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Protégez un lieu disputé par un accord effectif. Ou Achevez une œuvre de transformation structurante pour le domaine.",
+    "default": "Achevez une œuvre dans laquelle votre volonté a pris demeure. Faites de votre domaine ou d’une transformation autorisée un tout capable de remplir sa fonction malgré ceux qui veulent vous en déposséder ou le ramener à leur mesure.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18073,7 +18073,7 @@
   "vampire.text.02010": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez un accord protégeant un lieu disputé ou achevez une transformation qui change son fonctionnement.",
+    "default": "Réunissez les ressources, les aménagements et les accords nécessaires à un refuge singulier, ou menez une métamorphose complexe selon les règles du serveur. Surmontez une opposition établie et éprouvez l’ensemble en situation. Un seul lieu ou un seul corps peut porter l’œuvre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18082,7 +18082,7 @@
   "vampire.text.02011": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Au-delà de la possession",
+    "default": "La forme que vous avez choisie",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18091,7 +18091,7 @@
   "vampire.text.02012": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites exister un héritage au-delà de sa possession. Ou Accomplissez une métamorphose de longue portée narrative.",
+    "default": "Achevez de faire de votre corps ou de votre demeure une expression de ce que vous avez choisi de devenir. Quittez une ancienne manière d’exister et donnez à cette forme nouvelle une place réelle dans vos nuits.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18100,7 +18100,7 @@
   "vampire.text.02013": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un domaine ou poursuivez une métamorphose dont votre domaine portera la marque.",
+    "default": "Jouez les conséquences d’une métamorphose autorisée ou d’un domaine profondément remanié : un nouvel usage, une hospitalité différente, un attachement abandonné. Mettez ce choix à l’épreuve d’une relation ou d’une contrainte. Aucun pouvoir supplémentaire ni abandon forcé de vos possessions n’en découle.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18118,7 +18118,7 @@
   "vampire.text.02015": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez un bien funéraire disputé. Ou Faites exécuter une obligation liée à un défunt.",
+    "default": "Retrouvez ce qu’un défunt a laissé d’inachevé et mettez la main sur l’attache qui permet encore d’agir en son nom. Dans une lettre, un objet ou une promesse, faites apparaître la dette que les vivants espéraient enterrer avec lui.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18127,7 +18127,7 @@
   "vampire.text.02016": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez un objet funéraire disputé ou faites honorer une obligation laissée par un défunt.",
+    "default": "Obtenez un bien funéraire disputé, retrouvez un testament retenu ou vérifiez une obligation contestée, puis utilisez cette découverte pour obtenir un accès ou une restitution. Les archives et les proches suffisent, sans contact obligatoire avec un esprit.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18145,7 +18145,7 @@
   "vampire.text.02018": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez un service d'un mort réticent. Ou Résolvez un conflit d'héritage utile au réseau.",
+    "default": "Négociez avec ceux que la mort lie encore : un esprit, un héritier ou le gardien d’un souvenir. Acquittez ce qu’ils exigent pour qu’un secret, un service ou un bien franchisse enfin la rive qui le retenait.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18154,7 +18154,7 @@
   "vampire.text.02019": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Négociez un service réellement rendu par un esprit accessible, ou réglez un héritage qui ouvre une ressource.",
+    "default": "Faites honorer une dernière volonté contre une information vérifiée, réglez un héritage en échange d’un accès ou obtenez le service d’un mort accessible selon vos pouvoirs. L’échange doit rencontrer une résistance et être accompli des deux côtés.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18172,7 +18172,7 @@
   "vampire.text.02021": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Neutralisez une emprise nécromantique. Ou Obtenez une vérité protégée par des intérêts familiaux concurrents.",
+    "default": "Remontez la chaîne par laquelle un mort continue de peser sur les vivants. Découvrez qui tient son souvenir, ses biens ou son esprit captif, puis dénouez ou détournez cette emprise pour changer réellement le sort de ceux qu’elle lie.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18181,7 +18181,7 @@
   "vampire.text.02022": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Déliez une emprise nécromantique, ou vérifiez une vérité que des intérêts familiaux dissimulent.",
+    "default": "Retrouvez la preuve d’un héritage falsifié, soustrayez une attache à un maître chanteur ou traitez une contrainte nécromantique avec les moyens autorisés. Vérifiez la responsabilité et mettez fin au levier choisi. Résoudre un conflit d’héritiers constitue une voie sans pouvoir de nécromancie.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18199,7 +18199,7 @@
   "vampire.text.02024": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Résolvez une crise entre intérêts vivants et morts. Ou Établissez un dispositif patrimonial ou nécromantique contesté.",
+    "default": "Faites tenir ensemble les exigences d’un disparu et les intérêts de ceux qui lui survivent. Lorsque chacun voudrait recueillir l’héritage sans en payer le prix, imposez un règlement qui donne aux dettes des morts une issue effective.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18208,7 +18208,7 @@
   "vampire.text.02025": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites fonctionner un arrangement entre héritiers et morts, ou établissez un dispositif patrimonial contesté.",
+    "default": "Dans une succession disputée, une obligation familiale ou une affaire de hantise, surmontez une opposition organisée et faites exécuter les concessions des parties. Un défunt, ses traces et quelques héritiers suffisent. Aucun esprit ne peut être invoqué sans les moyens de jeu nécessaires.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18226,7 +18226,7 @@
   "vampire.text.02027": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un réseau d'obligations viable. Ou Résolvez un héritage menaçant la continuité de la lignée locale.",
+    "default": "Choisissez ce que vous conserverez des dettes des morts et ce que vous consentirez enfin à clore. Réglez un héritage qui vous liait, puis remettez ce qui demeure à quelqu’un qui en connaît désormais le prix.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18235,7 +18235,7 @@
   "vampire.text.02028": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez les moyens d’honorer des obligations qui ne s’arrêteront pas avec votre départ.",
+    "default": "Restituez une attache, accomplissez une obligation ancienne ou transmettez une charge funéraire avec ses accès et ses conditions. Jouez son règlement ou sa prise en charge par un autre. La disparition d’un fantôme n’est pas obligatoire et ne s’obtient pas par simple déclaration.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18253,7 +18253,7 @@
   "vampire.text.02030": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites abandonner une interdiction défendue. Ou Entrez dans un cercle fermé par une offre ciblée.",
+    "default": "Écoutez le désir caché sous une interdiction que quelqu’un défend encore. Offrez-lui une occasion de franchir cette limite, puis accompagnez le premier choix par lequel sa règle cesse de gouverner tous ses actes.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18262,7 +18262,7 @@
   "vampire.text.02031": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez l’abandon effectif d’une règle défendue ou entrez dans un cercle fermé par une offre ciblée.",
+    "default": "Proposez une rencontre interdite, un savoir proscrit ou une faveur contraire à une loyauté établie. La personne doit choisir et accomplir une transgression qui change sa situation. Un interdit politique ou personnel suffit, sans vice imposé ni adhésion automatique.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18271,7 +18271,7 @@
   "vampire.text.02032": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Une autre allégeance",
+    "default": "Le goût de la délivrance",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18280,7 +18280,7 @@
   "vampire.text.02033": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Détachez une personne d'une emprise structurante. Ou Établissez une adhésion qui modifie ses actes.",
+    "default": "Faites éprouver à quelqu’un la liberté que vous lui promettez. Aidez-le à quitter une dépendance précise, mais laissez apparaître ce que votre porte ouverte lui demande en retour : confiance, dette ou nouvel attachement.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18289,7 +18289,7 @@
   "vampire.text.02034": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Détachez quelqu’un d’une emprise ou obtenez une adhésion qui change réellement ses décisions.",
+    "default": "Rendez possible une décision jusque-là empêchée par un protecteur, un dogme ou une dette, puis jouez ses conséquences et votre place dans cette émancipation. Obtenez un changement concret au-delà d’une confession. Un lien de sang conserve ses règles propres.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18307,7 +18307,7 @@
   "vampire.text.02036": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retournez un relais d'influence. Ou Dévoilez une contradiction qui compromet une autorité locale.",
+    "default": "Portez votre tentation au cœur d’une certitude qui tient encore quelqu’un captif. Mettez à nu ce que son autorité exige, cache ou renie, puis faites de cette contradiction le passage par lequel une allégeance peut se défaire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18316,7 +18316,7 @@
   "vampire.text.02037": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retournez un relais d’influence ou démontrez une contradiction qui affaiblit une autorité établie.",
+    "default": "Établissez une contradiction réelle entre une règle et les actes de son gardien, puis amenez un fidèle à retirer un soutien ou à choisir une voie jusque-là interdite malgré les représailles. Les faits doivent être établis en jeu et la décision appartient au personnage concerné.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18325,7 +18325,7 @@
   "vampire.text.02038": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le cercle affranchi",
+    "default": "Le sanctuaire des désirs",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18334,7 +18334,7 @@
   "vampire.text.02039": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Brisez l'emprise d'un groupe. Ou Établissez un cercle autonome malgré une opposition organisée.",
+    "default": "Ouvrez un lieu ou un cercle où ceux que vous avez ébranlés peuvent vivre autrement. Lorsque leurs anciennes attaches viennent réclamer leur dû, faites tenir votre promesse de délivrance et affrontez le prix de l’asile offert.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18343,7 +18343,7 @@
   "vampire.text.02040": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites fonctionner un cercle malgré l’opposition de ceux qui veulent conserver leur emprise.",
+    "default": "Une arrière-salle et quelques initiés suffisent. Organisez l’accueil et les ressources, puis résolvez une pression organisée qui menace leur accès ou leur autonomie. Le cercle doit effectivement permettre un choix auparavant empêché, sans exiger un temple ni une conversion de masse.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18352,7 +18352,7 @@
   "vampire.text.02041": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Vos disciples sans vous",
+    "default": "Le serpent se retourne",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18361,7 +18361,7 @@
   "vampire.text.02042": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites survivre un enseignement à son appropriation. Ou Résolvez les dépendances créées au nom de la liberté.",
+    "default": "Laissez votre enseignement rencontrer sa plus inconfortable épreuve : quelqu’un qui s’en sert pour contester l’ascendant que vous avez pris sur lui. Faites de cette rupture une initiation achevée, ou refondez ouvertement le lien dont vous dissimuliez le prix.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18370,7 +18370,7 @@
   "vampire.text.02043": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Laissez votre enseignement vivre chez ceux qui peuvent aussi retourner vos arguments contre vous.",
+    "default": "Jouez la contestation d’une dette, d’une règle ou d’une dépendance née de votre accompagnement. Accordez une autonomie effective ou négociez une nouvelle relation dont les conditions sont appliquées. Une conversation sans changement du lien ne clôt pas ce parcours.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18388,7 +18388,7 @@
   "vampire.text.02045": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez une responsabilité contestée. Ou Obtenez une réparation dans un différend.",
+    "default": "Recevez une accusation sans laisser la colère peser à la place des faits. Établissez ce qui a été transgressé, confrontez les versions et rendez un jugement dont vous pouvez défendre les raisons devant ceux qu’il engage.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18397,7 +18397,7 @@
   "vampire.text.02046": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Vérifiez une accusation contestée ou faites réellement restituer ce qui a été pris.",
+    "default": "Vérifiez une preuve disputée, cherchez ce qui peut contredire l’accusation et établissez une responsabilité ou une innocence jusque-là incertaine. Le code invoqué doit être explicite. Le titre de juge et une condamnation ne sont pas nécessaires.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18415,7 +18415,7 @@
   "vampire.text.02048": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Menez une traque ciblée à son terme. Ou Faites appliquer un arbitrage initialement refusé.",
+    "default": "Donnez à votre jugement une conséquence que la nuit ne puisse réduire à une menace. Retrouvez celui qui s’y soustrait, obtenez ce qui a été décidé et arrêtez votre main lorsque la mesure de la sentence est atteinte.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18424,7 +18424,7 @@
   "vampire.text.02049": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retrouvez une cible et accomplissez l’objectif de la mission, ou faites exécuter un arbitrage refusé.",
+    "default": "Faites restituer un bien, respecter une protection ou exécuter une réparation malgré un refus réel. Une traque peut conduire à cette issue sans imposer la mort de la cible. La peine doit répondre à des faits établis, et non servir de prétexte à une chasse ordinaire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18442,7 +18442,7 @@
   "vampire.text.02051": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Confondez un coupable protégé. Ou Rendez possible une justice empêchée par un intérêt établi.",
+    "default": "Poursuivez l’affaire lorsque le rang, la dette ou l’amitié voudraient soustraire quelqu’un à la balance. Ôtez ce qui empêche les faits d’être entendus, puis faites appliquer une réparation malgré ceux qui avaient intérêt au silence.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18451,7 +18451,7 @@
   "vampire.text.02052": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Contournez la protection d’un coupable ou retirez le levier qui empêchait une réparation.",
+    "default": "Protégez un témoignage menacé, déjouez une preuve falsifiée ou retirez le levier qui interdit à une victime de réclamer son dû. Obtenez ensuite la réparation ou la levée d’une accusation injuste. Un responsable local protégé par un seul allié influent peut suffire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18469,7 +18469,7 @@
   "vampire.text.02054": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Démantelez la protection organisée d'un abus. Ou Obtenez une réparation majeure contre les intérêts de son propre camp.",
+    "default": "Appliquez votre code là où votre propre camp en souhaiterait l’oubli. Faites prévaloir les faits sur une loyauté commode et portez jusqu’à son exécution une décision dont vos alliés voudraient vous faire payer l’audace.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18478,7 +18478,7 @@
   "vampire.text.02055": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez une réparation malgré une protection organisée, y compris dans votre propre camp.",
+    "default": "Traitez un abus couvert par vos partenaires ou une accusation dirigée contre votre protégé. Surmontez leur opposition organisée et faites appliquer les obligations du jugement, y compris les vôtres. La difficulté vient du conflit de loyautés, sans exiger un ancien ou un dignitaire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18487,7 +18487,7 @@
   "vampire.text.02056": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La justice après le juge",
+    "default": "La balance vous attend",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18496,7 +18496,7 @@
   "vampire.text.02057": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez un arbitrage indépendant de soi. Ou Appliquez son code à un conflit qui en révèle les limites.",
+    "default": "Soumettez votre propre conduite à la mesure dont vous avez pesé celle des autres. Là où votre code rencontre ses limites, acceptez d’en répondre et donnez à ceux qui le reprendront autre chose que la certitude d’avoir toujours raison.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18505,7 +18505,7 @@
   "vampire.text.02058": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Établissez un arbitrage qui ne repose plus sur votre seule présence.",
+    "default": "Faites examiner une de vos décisions contestées, établissez ce qu’elle a protégé et ce qu’elle a lésé, puis appliquez une réparation ou une obligation issue de cet examen. Transmettez ce précédent à un pair ou un élève qui pourra s’en servir, sans imposer une confession de faute inexistante.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18523,7 +18523,7 @@
   "vampire.text.02060": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Franchissez une barrière d'accès par la ruse. Ou Obtenez un abri dans un milieu méfiant.",
+    "default": "Offrez aux regards le récit qu’ils s’attendent à reconnaître, puis passez par la porte qu’ils vous fermaient. Faites de votre rôle, de votre détour ou de votre mise en scène le moyen d’atteindre quelque chose de réellement gardé.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18532,7 +18532,7 @@
   "vampire.text.02061": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Contournez un accès gardé par une ruse crédible ou gagnez un refuge auprès d’un hôte méfiant.",
+    "default": "Endossez une couverture crédible, détournez l’attention ou utilisez une illusion que vous possédez pour obtenir un passage, un objet ou une entrevue. Jouez la vigilance adverse et le résultat de la ruse. Un mensonge sans obstacle franchi ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18550,7 +18550,7 @@
   "vampire.text.02063": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Détournez une poursuite. Ou Réussissez une substitution contre un adversaire vigilant.",
+    "default": "Laissez derrière vous une histoire plus facile à suivre que vos pas. Donnez à un poursuivant de quoi croire qu’il tient votre trace, puis mettez cette erreur à profit pour soustraire quelqu’un ou quelque chose à sa portée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18559,7 +18559,7 @@
   "vampire.text.02064": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites perdre votre trace à un poursuivant ou remplacez un objet sous une surveillance effective.",
+    "default": "Composez des indices, une diversion ou une substitution face à une recherche réelle. Obtenez une sortie ou un repli utilisable et vérifiez que la poursuite immédiate est déjouée. Les illusions sont facultatives, et leur effet dépend des règles et des réactions jouées.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18568,7 +18568,7 @@
   "vampire.text.02065": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le piège retourné",
+    "default": "Le décor se referme",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18577,7 +18577,7 @@
   "vampire.text.02066": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Désorganisez une opération hostile. Ou Obtenez un bien protégé en contournant ses défenses.",
+    "default": "Construisez une tromperie dont les pièces se répondent, jusqu’à ce que celui qui vous résiste agisse dans le monde que vous lui avez préparé. Obtenez par ce détour ce que la confrontation directe vous aurait fait perdre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18586,7 +18586,7 @@
   "vampire.text.02067": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez un bien défendu sans affronter directement ses gardiens, ou désorganisez une opération adverse.",
+    "default": "Associez une couverture, un indice et une intervention complice, ou des moyens équivalents, pour détourner une garde ou provoquer un échange disputé. Adaptez la mise en scène à une vérification adverse et atteignez l’objectif. Une seule illusion lancée sans difficulté ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18595,7 +18595,7 @@
   "vampire.text.02068": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Les routes insaisissables",
+    "default": "Le piège retourné",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18604,7 +18604,7 @@
   "vampire.text.02069": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retournez une chasse organisée contre ses moyens. Ou Établissez une voie de passage sous surveillance active.",
+    "default": "Affrontez un adversaire qui sait déjà que les apparences mentent. Faites de ses précautions une partie de votre mise en scène, jusqu’à retourner une chasse ou un piège organisé contre ceux qui croyaient vous y enfermer.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18613,7 +18613,7 @@
   "vampire.text.02070": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Rendez un passage utilisable sous surveillance ou faites échouer une chasse en retournant ses moyens.",
+    "default": "Découvrez comment l’adversaire vérifie vos histoires, préparez une ruse qui tient compte de ces contrôles, puis sauvez la cible ou obtenez l’accès qu’il défendait. Les réactions adverses doivent être jouées. Ni une armée de complices ni la fuite hors de la ville ne sont requises.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18631,7 +18631,7 @@
   "vampire.text.02072": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une liberté de mouvement. Ou Sortez d'une identité construite devenue contraignante.",
+    "default": "Quittez un visage dont les mensonges ont fini par vous retenir. Dénouez ce que cette identité engageait, sauvez ce que vous choisissez d’en garder et reprenez la route sans laisser vos compagnons payer seuls le prix de votre disparition.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18640,7 +18640,7 @@
   "vampire.text.02073": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une route sûre ou quittez une identité devenue une entrave.",
+    "default": "Abandonnez une couverture compromise, réglez ou transformez une obligation qu’elle portait et établissez une manière viable de poursuivre vos activités. Jouez les conséquences avec les personnes concernées. Changer de nom sur le papier ou quitter le serveur n’est pas l’objectif.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18658,7 +18658,7 @@
   "vampire.text.02075": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Mettez une personne vulnérable à l'abri malgré opposition. Ou Obtenez une assistance qui lui était refusée.",
+    "default": "Approchez une souffrance dont les autres se détournent et obtenez de quoi la soulager. Faites place à celui qui la porte, même lorsque l’aider risque d’attirer les regards sur ce que vous êtes.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18667,7 +18667,7 @@
   "vampire.text.02076": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Mettez un bénéficiaire à l’abri malgré un obstacle ou obtenez pour lui une assistance refusée.",
+    "default": "Obtenez un abri, des soins ou une assistance jusque-là refusés à une personne blessée ou traquée. Surmontez une méfiance ou un danger établi et jouez le secours reçu. L’aide matérielle convient sans don de guérison, et le bénéficiaire reste libre de ses choix.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18685,7 +18685,7 @@
   "vampire.text.02078": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Restaurez une capacité compromise par des moyens. Ou Soustrayez un bénéficiaire à une dépendance dangereuse.",
+    "default": "Accompagnez quelqu’un jusqu’à ce que la douleur ou la peur cesse de décider de chacun de ses gestes. Rendez-lui un moyen d’agir dont il était privé, sans faire de sa gratitude une nouvelle chaîne.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18694,7 +18694,7 @@
   "vampire.text.02079": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Aidez un blessé à retrouver une faculté perdue ou retirez un levier de dépendance dangereux.",
+    "default": "Rétablissez une capacité par des soins autorisés ou rendez possible une démarche concrète empêchée par une détresse établie, avec une aide adaptée. Faites jouer l’usage retrouvé de cette autonomie. Une écoute seule et une guérison psychique déclarée à la place de l’autre ne suffisent pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18703,7 +18703,7 @@
   "vampire.text.02080": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La porte reste ouverte",
+    "default": "Le troisième œil veille",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18712,7 +18712,7 @@
   "vampire.text.02081": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Sauvez un dispositif d'accueil menacé. Ou Protégez une personne activement recherchée.",
+    "default": "Poursuivez le secours lorsque votre compassion devient une piste que l’on peut remonter jusqu’à vous. Protégez celui que vous accompagnez et empêchez qu’en cherchant un guérisseur on ne trouve seulement une proie.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18721,7 +18721,7 @@
   "vampire.text.02082": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préservez un lieu d’accueil menacé ou déjouez les recherches visant une personne protégée.",
+    "default": "Face à une recherche établie visant votre sang, vos dons ou leur bénéficiaire, obtenez les moyens de mener le soin ou l’extraction à terme et déjouez la piste immédiate. Le risque peut rester celui d’un seul adversaire, sans imposer une chasse générale contre les Salubri.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18730,7 +18730,7 @@
   "vampire.text.02083": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le sanctuaire tient",
+    "default": "La miséricorde a un seuil",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18739,7 +18739,7 @@
   "vampire.text.02084": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Mettez fin à l'exploitation organisée de ses dons. Ou Préservez un sanctuaire visé par une offensive.",
+    "default": "Refusez qu’une promesse de guérison devienne un instrument de captivité. Défaites l’emprise de ceux qui veulent disposer de vos dons ou de leurs bénéficiaires, tout en préservant le secours qu’ils menaçaient d’interrompre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18748,7 +18748,7 @@
   "vampire.text.02085": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Brisez l’exploitation organisée de vos dons ou maintenez un sanctuaire face à une offensive.",
+    "default": "Déjouez un chantage organisé sur l’accès aux soins, soustrayez un bénéficiaire à ceux qui exploitent sa détresse ou protégez un lieu de secours. Obtenez une continuité d’aide et la fin du levier choisi. Un guérisseur, un bénéficiaire et leurs partenaires peuvent porter cette épreuve.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18757,7 +18757,7 @@
   "vampire.text.02086": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Le soin vous survivra",
+    "default": "La main peut se retirer",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18766,7 +18766,7 @@
   "vampire.text.02087": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une capacité d'aide indépendante. Ou Résolvez un conflit entre protection, autonomie et survie.",
+    "default": "Accompagnez un être jusqu’au moment où il peut poursuivre son chemin sans attendre votre main. Transmettez ce qui lui permet de tenir et acceptez que sa guérison, sa paix ou sa liberté ne prennent pas la forme que vous espériez.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18775,7 +18775,7 @@
   "vampire.text.02088": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Donnez à d’autres les moyens d’aider sans dépendre indéfiniment de votre disponibilité.",
+    "default": "Préparez avec lui des appuis utilisables, puis jouez une difficulté qu’il traverse sans votre intervention décisive. Un relais peut poursuivre les soins nécessaires. Il ne s’agit ni d’imposer une guérison définitive ni d’atteindre automatiquement Golconde.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18793,7 +18793,7 @@
   "vampire.text.02090": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Empêchez une intrusion réelle. Ou Obtenez une liberté jusque-là refusée.",
+    "default": "Choisissez ce que vous garderez et pour qui vous tiendrez le seuil. Lorsque vient une menace, faites de votre vigilance la preuve d’un engagement dont les termes vous appartiennent, même si votre corps fut façonné pour obéir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18802,7 +18802,7 @@
   "vampire.text.02091": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Empêchez une intrusion établie ou obtenez l’exercice d’une liberté jusque-là refusée.",
+    "default": "Convenez d’une protection précise, puis empêchez une intrusion, une saisie ou une mise en danger réelle. Faites jouer les limites de votre engagement avec la personne protégée. Une garde sans incident et une simple proclamation de liberté ne suffisent pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18820,7 +18820,7 @@
   "vampire.text.02093": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Protégez une cible contre une attaque. Ou Neutralisez un levier de servitude.",
+    "default": "Lisez dans les murs ce qu’ils peuvent encore protéger. Préparez une défense à la mesure de votre corps et de vos sens, puis faites de ce lieu un obstacle que la menace ne parvient pas à franchir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18829,7 +18829,7 @@
   "vampire.text.02094": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préservez une cible réellement attaquée ou neutralisez un moyen concret de servitude.",
+    "default": "Repérez une faille, aménagez un poste ou un passage et mettez cette préparation à l’épreuve d’une intrusion ou d’une extraction difficile. Un escalier, une cour ou un toit suffit. Le vol et la Visceratika ne sont employés que si votre fiche les permet.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18847,7 +18847,7 @@
   "vampire.text.02096": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites tenir une défense malgré une faiblesse exploitée. Ou Libérez une personne d'un dispositif de contrôle.",
+    "default": "Défaites une prise par laquelle on prétend encore disposer de vous comme d’un outil. Faites respecter votre choix sans abandonner à la menace ceux que votre parole engage à protéger.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18856,7 +18856,7 @@
   "vampire.text.02097": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites tenir une défense dont l’ennemi connaît la faille, ou retirez quelqu’un d’un dispositif de contrôle.",
+    "default": "Neutralisez un chantage sur votre refuge, contestez une obligation imposée ou obtenez la fin d’un ordre qui déborde votre engagement, puis exercez la liberté gagnée. Une autorité actuelle suffit, sans retrouver votre créateur. Toute contrainte surnaturelle suit ses propres règles.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18865,7 +18865,7 @@
   "vampire.text.02098": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Un refuge pour les libres",
+    "default": "Le serment tient encore",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18874,7 +18874,7 @@
   "vampire.text.02099": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites reconnaître une autonomie contre une opposition organisée. Ou Préservez un refuge collectif attaqué.",
+    "default": "Gardez votre serment lorsqu’un adversaire a appris à se servir de votre devoir contre vous. Reprenez l’initiative, changez la manière de protéger et sauvez ce que vous aviez choisi de défendre sans redevenir l’arme de celui qui commande.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18883,7 +18883,7 @@
   "vampire.text.02100": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Défendez un refuge collectif contre une offensive ou obtenez une autonomie face à des adversaires organisés.",
+    "default": "Déjouez une diversion, un siège ou un ultimatum organisé contre votre protégé ou votre refuge. Coordonnez une défense ou une évacuation et menez-la à terme malgré une faille exploitée. La protection peut concerner une seule personne, sans forteresse ni bataille générale.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18901,7 +18901,7 @@
   "vampire.text.02102": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Formez une relève volontaire. Ou Établissez une protection qui ne reproduit pas la servitude.",
+    "default": "Donnez à votre veille une suite que personne n’aura à subir comme une servitude. Apprenez à un autre à garder, à décider et à refuser, puis laissez son engagement prendre le relais du vôtre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18910,7 +18910,7 @@
   "vampire.text.02103": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Formez une relève capable de choisir ses engagements plutôt que de reproduire votre servitude.",
+    "default": "Transmettez les moyens d’une protection et convenez d’une relève volontaire, puis laissez ce gardien répondre à un incident sans vos ordres. Il peut appartenir à un autre clan. La liberté réside dans les termes effectivement respectés du serment, sans obligation de rompre toute loyauté.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18928,7 +18928,7 @@
   "vampire.text.02105": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Gagnez un accès refusé à cause de sa condition. Ou Récupérez un corps ou bien funéraire protégé.",
+    "default": "Obtenez une place là où votre corps vous condamnait à rester dehors. Trouvez un passage, un arrangement ou un interlocuteur qui rende possible votre présence sans livrer votre nature aux regards des vivants.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18937,7 +18937,7 @@
   "vampire.text.02106": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Gagnez un accès refusé à cause de votre condition ou récupérez un corps placé hors de portée.",
+    "default": "Gagnez un accès utilisable à une morgue, un refuge ou un lieu de rencontre malgré les contraintes de votre apparence cadavérique. Jouez la couverture et l’obstacle rencontré. Cacher simplement votre visage ou décrire le dégoût des autres ne suffit pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18946,7 +18946,7 @@
   "vampire.text.02107": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La peur a un prix",
+    "default": "Ce que l’on prend pour un mort",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18955,7 +18955,7 @@
   "vampire.text.02108": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Réussissez une opération discrète malgré son apparence. Ou Obtenez un résultat défendu en employant l'effroi.",
+    "default": "Faites de votre proximité avec le cadavre une erreur dans le regard de ceux qui vous surveillent. Traversez ce qu’ils réservent aux morts, puis relevez-vous là où votre présence peut encore changer l’issue de la nuit.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18964,7 +18964,7 @@
   "vampire.text.02109": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Conduisez une opération discrète malgré votre apparence, ou obtenez un résultat en faisant de votre apparence une arme de terreur.",
+    "default": "Exploitez une méprise sur votre état, un transport funéraire ou une mise en scène macabre pour franchir une garde, échapper à une recherche ou atteindre un objet protégé. Adaptez la ruse aux vérifications réellement jouées. Votre apparence n’accorde aucune immunité nouvelle.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18973,7 +18973,7 @@
   "vampire.text.02110": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La place du revenant",
+    "default": "La peur a un prix",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18982,7 +18982,7 @@
   "vampire.text.02111": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Neutralisez une exploitation des morts. Ou Établissez une ressource dans un milieu qui l'excluait.",
+    "default": "Portez l’image de la mort là où quelqu’un se croyait à l’abri de ses conséquences. Faites de cette confrontation un levier pour obtenir ce que l’on vous refusait, puis traitez les traces que votre apparition menace de laisser.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -18991,7 +18991,7 @@
   "vampire.text.02112": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Neutralisez une exploitation des morts ou établissez une ressource dans un milieu qui vous excluait.",
+    "default": "Préparez une confrontation macabre avec une cible qui vous résiste et obtenez un retrait, un accès ou une restitution. L’effroi dépend de sa réaction ou des pouvoirs autorisés. Résolvez le risque d’exposition créé par la scène, sans imposer la terreur ni une contagion imaginaire.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19000,7 +19000,7 @@
   "vampire.text.02113": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Ceux que la tombe rassemble",
+    "default": "La part des revenants",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19009,7 +19009,7 @@
   "vampire.text.02114": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Sauvez un refuge de marginaux attaqué. Ou Obtenez une coopération structurante de ceux qui l'instrumentalisaient.",
+    "default": "Faites reconnaître votre place à ceux qui ne voulaient de vous que pour les besognes dont ils détournent les yeux. Quand votre condition leur sert de prétexte pour vous priver de votre dû, rendez cette exclusion impossible à maintenir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19018,7 +19018,7 @@
   "vampire.text.02115": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Préservez un refuge attaqué ou faites coopérer ceux qui ne vous traitaient que comme un instrument.",
+    "default": "Dans une affaire funéraire ou une opération où votre condition a compté, déjouez une manœuvre organisée pour vous sacrifier ou vous écarter. Obtenez votre part, une protection ou un accès durable, puis exercez ce droit malgré la résistance. Un groupe local suffit.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19036,7 +19036,7 @@
   "vampire.text.02117": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une place reconnue. Ou Maintenez des liens indépendants de son utilité macabre.",
+    "default": "Faites vivre auprès de quelqu’un ce que la tombe n’a pas emporté de vous. Donnez à cette relation une place qui ne dépende ni du dégoût, ni de la peur, ni des services que votre corps permet de rendre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19045,7 +19045,7 @@
   "vampire.text.02118": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une place reconnue qui ne dépende pas uniquement de votre utilité macabre.",
+    "default": "Partagez un savoir, un attachement ou une œuvre, puis faites traverser à ce lien une difficulté liée à votre condition. Jouez l’engagement réciproque qui en résulte au-delà d’une commande macabre. Votre apparence demeure, mais elle ne résume plus votre place auprès de cette personne.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19063,7 +19063,7 @@
   "vampire.text.02120": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Gagnez une audience inaccessible. Ou Réussissez une intervention vocale décisive dans une situation perturbée.",
+    "default": "Tirez du tumulte intérieur une voix capable d’atteindre quelqu’un qui se fermait à vous. Que le chant ouvre une écoute, une rencontre ou un passage que vos paroles ordinaires n’obtenaient pas.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19072,7 +19072,7 @@
   "vampire.text.02121": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Obtenez une audience refusée ou faites aboutir une intervention vocale malgré une perturbation réelle.",
+    "default": "Préparez une adresse chantée, un air ou une intervention vocale pour obtenir une audience réellement refusée ou rétablir un échange interrompu. Jouez la réaction de l’interlocuteur et l’accès obtenu. Aucun enregistrement ni talent musical hors RP n’est demandé.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19090,7 +19090,7 @@
   "vampire.text.02123": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Brisez une hostilité par une intervention. Ou Transmettez un message malgré une opposition à sa réception.",
+    "default": "Donnez à votre mélodie quelque chose qu’il faut faire entendre malgré ceux qui voudraient l’étouffer. Portez un avertissement, une invitation ou une vérité jusqu’à son destinataire et faites du chant le chemin de sa réception.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19099,7 +19099,7 @@
   "vampire.text.02124": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites parvenir un message que l’on cherche à empêcher, ou désamorcez une hostilité par votre voix.",
+    "default": "Cachez un message dans un refrain convenu, détournez l’attention par une prestation ou employez un pouvoir vocal maîtrisé. Contournez un obstacle à la transmission et jouez la compréhension du message. La voix ne traverse pas automatiquement les murs ni les distances.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19108,7 +19108,7 @@
   "vampire.text.02125": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La dissonance révélatrice",
+    "default": "La juste dissonance",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19117,7 +19117,7 @@
   "vampire.text.02126": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Déjouez une manipulation collective par sa voix. Ou Protégez une opération quand son expression est compromise.",
+    "default": "Faites de votre voix l’instrument d’un changement précis au milieu d’émotions qui menacent de tout emporter. Trouvez à qui adresser le chant, ce qu’il doit atteindre et la limite au-delà de laquelle votre œuvre vous échapperait.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19126,7 +19126,7 @@
   "vampire.text.02127": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Déjouez une manipulation par votre intervention ou sauvez une opération malgré une voix compromise.",
+    "default": "Dans une confrontation tendue, obtenez par une intervention chantée une trêve appliquée, une diversion décisive ou la reprise d’une coopération rompue. Surmontez une perturbation réelle. L’émotion et les effets surnaturels suivent les réactions jouées et les pouvoirs possédés, sans emprise automatique.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19135,7 +19135,7 @@
   "vampire.text.02128": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "La voix qui fait basculer",
+    "default": "La voix qu’on voulait éteindre",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19144,7 +19144,7 @@
   "vampire.text.02129": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Retournez une confrontation organisée par une intervention vocale. Ou Établissez un cercle d'influence contre des adversaires actifs.",
+    "default": "Faites parvenir votre œuvre à son terme alors qu’un adversaire connaît sa portée et cherche à vous réduire au silence. Changez le lieu, les relais ou la manière de chanter jusqu’à faire aboutir ce que votre voix devait permettre.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19153,7 +19153,7 @@
   "vampire.text.02130": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Faites basculer une confrontation organisée ou établissez un cercle d’influence contre une opposition active.",
+    "default": "Face à un sabotage ou une interdiction organisée, préparez et menez une intervention vocale qui rend possible une extraction, une rencontre décisive ou la fin d’un affrontement. Quelques auditeurs suffisent. La réussite tient à l’effet obtenu, sans concert public ni manipulation d’une foule.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19171,7 +19171,7 @@
   "vampire.text.02132": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez une tradition vivante. Ou Réalisez une œuvre collective laissant leur autonomie aux autres voix.",
+    "default": "Confiez à une autre voix un fragment de la musique qui vous habite. Laissez-la en trouver le souffle, les silences et les blessures, jusqu’à ce qu’elle puisse porter votre chant sans devenir votre écho.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19180,7 +19180,7 @@
   "vampire.text.02133": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Transmettez un répertoire ou construisez une œuvre où les autres voix gardent leur autonomie.",
+    "default": "Transmettez un répertoire, une technique ou une œuvre et accompagnez sa réinterprétation. Jouez une situation où cette personne l’emploie seule pour atteindre quelqu’un ou surmonter une difficulté. L’enseignement artistique ne transmet pas automatiquement Melpominée ni une autre Discipline.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19198,7 +19198,7 @@
   "vampire.text.02135": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez une preuve menaçante de ses pratiques. Ou Gagnez un intermédiaire dans un milieu occulte fermé.",
+    "default": "Suivez la trace d’un savoir infernal que quelqu’un a voulu cacher, puis obtenez de quoi en comprendre un usage ou un danger. Gardez assez d’ombre autour de votre recherche pour que le secret gagné ne devienne pas aussitôt votre condamnation.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19207,7 +19207,7 @@
   "vampire.text.02136": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Récupérez une preuve qui vous expose ou gagnez un intermédiaire dans un cercle occulte fermé.",
+    "default": "Récupérez un fragment disputé, déchiffrez un témoignage avec les moyens disponibles ou négociez l’accès à un objet déjà établi en jeu. Vérifiez ce qu’il apprend et traitez une trace compromettante. Découvrir un nom n’invoque rien et ne confère aucun pouvoir.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19225,7 +19225,7 @@
   "vampire.text.02138": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Accomplissez une opération clandestine liée à un engagement occulte. Ou Soustrayez un complice à une enquête.",
+    "default": "Acquittez une exigence précise d’un engagement infernal, ou obtenez d’en déplacer le prix. Faites apparaître ce que votre promesse prend dans vos nuits, au-delà des mots que l’on prononce devant une flamme.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19234,7 +19234,7 @@
   "vampire.text.02139": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Menez une opération liée à un engagement établi ou déjouez l’enquête menaçant un complice.",
+    "default": "Pour un engagement établi en jeu, récupérez un objet, gardez un secret menacé ou rendez le service exigé malgré un obstacle. Un intermédiaire, une clause écrite ou un signe convenu peut porter l’intrigue. Ni invocation nouvelle ni sacrifice ne sont obligatoires.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19243,7 +19243,7 @@
   "vampire.text.02140": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Dénouer l’emprise",
+    "default": "L’offrande sous le voile",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19252,7 +19252,7 @@
   "vampire.text.02141": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Déjouez un adversaire connaissant son secret. Ou Neutralisez un levier d'emprise lié à une dette occulte.",
+    "default": "Amenez quelqu’un à rendre un service qui nourrit votre entreprise occulte malgré ses réticences. Faites du bénéfice promis le voile sous lequel avance une dette dont vous connaissez mieux que lui la portée.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19261,7 +19261,7 @@
   "vampire.text.02142": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Neutralisez le levier d’une dette occulte ou déjouez un adversaire qui connaît vos pratiques.",
+    "default": "Obtenez la garde d’un objet, l’ouverture d’un lieu ou le silence d’un intermédiaire en surmontant sa méfiance. Le service doit avoir une fonction infernale établie dans l’intrigue et être réellement rendu. La tromperie du personnage ne dispense pas des accords entre joueurs sur la scène.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19270,7 +19270,7 @@
   "vampire.text.02143": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Contre les maîtres cachés",
+    "default": "Ce qui réclame son dû",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19279,7 +19279,7 @@
   "vampire.text.02144": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Démantelez un dispositif occulte adverse. Ou Obtenez son autonomie face à une tutelle établie.",
+    "default": "Affrontez le moment où votre entreprise infernale menace de dévorer ce qui la rendait possible. Contenez, détournez ou accomplissez l’exigence qui revient vers vous, et sauvez de cette crise ce que vous refusez encore de livrer.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19288,7 +19288,7 @@
   "vampire.text.02145": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Démantelez un dispositif adverse ou obtenez une autonomie réelle face à une tutelle établie.",
+    "default": "Traitez un objet compromis, une clause devenue dangereuse ou un dépositaire qui retourne vos engagements contre vous. Surmontez une opposition organisée et obtenez une issue vérifiable avec les moyens autorisés. Une affaire locale suffit, sans démon incarné ni menace apocalyptique.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19306,7 +19306,7 @@
   "vampire.text.02147": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Résolvez le prix d'un engagement majeur. Ou Transmettez ou abolir une structure occulte sans effacer ses conséquences.",
+    "default": "Donnez une issue à un engagement dont le prix a façonné votre existence. Honorez-le, renégociez-le ou brisez sa prise si vous en avez les moyens, puis vivez ce que cette décision laisse dans vos liens et dans votre sang.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -19315,7 +19315,7 @@
   "vampire.text.02148": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Résolvez le prix d’un engagement majeur en affrontant celui qui vient réclamer son dû.",
+    "default": "Résolvez les obligations d’un pacte établi et jouez au moins une conséquence durable de cette issue. Un objet ou un intermédiaire peut représenter le créancier. Aucun abandon de pacte ne supprime de lui-même une malédiction, une dette ou un pouvoir selon votre seule volonté.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
