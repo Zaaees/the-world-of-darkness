@@ -1,5 +1,7 @@
 # Project Overview - World of Darkness
 
+> ⏸️ **Werewolf module on hold** (since 2026-11-07). Development focuses on the Vampire module. The Werewolf code stays loaded and working, but gets no new features or refactoring until work resumes.
+
 ## Introduction
 The **World of Darkness** project is a hybrid roleplay platform combining a **Discord Bot** for real-time interaction and a **Web Frontend** for rich content management (character sheets, rules).
 

@@ -34,7 +34,7 @@ src/
 │   │   ├── routes.jsx     # Définition des sous-routes (/vampire/sheet, etc.)
 │   │   └── index.js       # Point d'entrée (Manifeste)
 │   │
-│   └── werewolf/          # Module ID: "werewolf" (Futur)
+│   └── werewolf/          # Module ID: "werewolf" (⏸️ en pause)
 │
 ├── App.jsx                # Point d'entrée React, Shell
 └── main.jsx               # Bootstrapper

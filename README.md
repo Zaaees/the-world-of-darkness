@@ -6,6 +6,15 @@ Assistant narratif pour jeu de rôle écrit basé sur l'univers du Monde des Té
 
 Ce bot agit comme un **arbitre invisible** qui impose des contraintes narratives aux joueurs pour simuler leur perte d'humanité ou de contrôle. Il ne simule pas de combats ou de jets de dés — il guide le roleplay.
 
+## État du projet
+
+| Module | État |
+|--------|------|
+| 🩸 Vampire | ✅ Actif — priorité actuelle (bot, site, Vitae, clans, disciplines, goules) |
+| 🐺 Loup-Garou | ⏸️ En pause — toujours en service, mais plus développé pour l'instant |
+
+> ⏸️ **Module Loup-Garou en pause** (depuis le 2026-11-07). Le développement se concentre sur le module Vampire. Le code Loup-Garou reste chargé et fonctionnel, mais ne reçoit ni nouvelles fonctionnalités ni refonte tant que la reprise n'est pas décidée.
+
 ## Interface
 
 Le bot utilise des **slash commands** avec des **panneaux interactifs** :
@@ -37,7 +46,9 @@ Simule l'addiction au sang et l'influence du Clan ancestral.
 
 Les compulsions sont affichées directement dans le panneau, avec une intensité progressive selon le niveau de Soif.
 
-## Système Loup-Garou : La Rage et le Maintien
+## Système Loup-Garou : La Rage et le Maintien (⏸️ en pause)
+
+> ⏸️ **Module Loup-Garou en pause** (depuis le 2026-11-07). Le développement se concentre sur le module Vampire. Le code Loup-Garou reste chargé et fonctionnel, mais ne reçoit ni nouvelles fonctionnalités ni refonte tant que la reprise n'est pas décidée.
 
 Simule la colère sacrée des Garous.
 

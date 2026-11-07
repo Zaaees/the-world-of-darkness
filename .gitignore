@@ -32,6 +32,3 @@ Thumbs.db
 # Images
 image clans/
 image zone/
-
-.gemini/
-gha-creds-*.json

@@ -1,5 +1,7 @@
 # Prérequis de Renommée par Auspice (Werewolf: The Apocalypse W20)
 
+> ⏸️ **Module Loup-Garou en pause** (depuis le 2026-11-07). Le développement se concentre sur le module Vampire. Le code Loup-Garou reste chargé et fonctionnel, mais ne reçoit ni nouvelles fonctionnalités ni refonte tant que la reprise n'est pas décidée.
+
 Voici les requis de Renommée pour chaque rang, selon l'Auspice.
 
 ## Règles Générales
