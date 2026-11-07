@@ -36,7 +36,7 @@ export const DISCIPLINES = {
         id: "animalism-3-quell-the-beast",
         level: 3,
         name: "Apaiser la Bête",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "D'un regard ou d'un contact, tu éteins la Bête d'un mortel. Par la peur ou par une douceur hypnotique, selon ton choix, ses émotions fortes s'effacent : il cesse de lutter, de fuir, de crier, et sombre dans une apathie docile. Il n'a plus la force de résister à quoi que ce soit, ni à toi ni aux autres. Ce pouvoir n'a pas de prise sur les vampires, à une exception près : une voix apaisante peut aider un Caïnite à sortir de la frénésie."
       },
@@ -44,7 +44,7 @@ export const DISCIPLINES = {
         id: "animalism-4-subsume-the-spirit",
         level: 4,
         name: "Communion Spirituelle",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "prolonged",
         description: "Tu plonges ton regard dans celui d'un animal et tu projettes ton esprit dans son corps. Pendant que ta propre chair tombe dans un sommeil inerte, tu vois par les yeux du faucon, tu cours avec le loup, tu te faufiles dans les conduits avec le rat. Plus ta maîtrise est grande, plus tu emportes de tes pouvoirs avec toi. Mais les blessures de l'animal deviennent les tiennes, et s'il meurt avant que tu n'aies regagné ton corps, tu sombres en torpeur."
       },
@@ -52,7 +52,7 @@ export const DISCIPLINES = {
         id: "animalism-5-drawing-out-the-beast",
         level: 5,
         name: "Libérer la Bête",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Quand ta Bête gronde, tu peux la jeter hors de toi sur une victime à portée de vue. Elle bondit de ta poitrine vers la sienne, et c'est elle qui sombre dans une frénésie furieuse pendant que tu restes étrangement calme et vide. Le pouvoir est dangereux : s'il échoue, ta Bête te revient décuplée et tu entres dans une frénésie pire encore. Et si tu t'éloignes avant qu'elle ne te revienne, tu risques de la perdre pour de bon, et avec elle une part de toi-même."
       },
@@ -260,7 +260,7 @@ export const DISCIPLINES = {
         id: "celerity-4-flurry",
         level: 4,
         name: "Rafale",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Ton sang brûle et tes gestes s'enchaînent plus vite que la pensée d'un mortel. Là où un homme frappe une fois, tu frappes, tu esquives, tu désarmes et tu frappes encore. Tu vides un chargeur avant que la première douille ne touche le sol, tu fouilles un bureau entier pendant qu'un garde tourne la tête. Pour les témoins, tu n'es qu'un flou, une rafale de mouvements sans transition. Mais cette vitesse ne vaut que pour le corps : tu ne réfléchis pas plus vite, et tes pouvoirs de l'esprit ne se démultiplient pas. Chaque élan te coûte un peu de vitae."
       },
@@ -268,7 +268,7 @@ export const DISCIPLINES = {
         id: "celerity-5-slowed-world",
         level: 5,
         name: "Le Monde au Ralenti",
-        bloodCost: 1,
+        bloodCost: 9,
         duration: "scene",
         description: "Le monde semble s'engluer autour de toi. Les balles deviennent des traits lents que tu vois venir, les éclats de verre d'une vitre brisée flottent assez longtemps pour que tu passes entre eux. Tu esquives une volée de coups sans en recevoir un seul, tu traverses une fusillade pour arracher l'arme des mains du tireur. Tu restes pourtant soumis à la pesanteur : tu cours vite, mais toujours sur le sol. Et ton corps paie le prix de cette violence : un mur heurté à cette vitesse te brise comme n'importe quel projectile."
       },
@@ -468,9 +468,9 @@ export const DISCIPLINES = {
         id: "fortitude-5-invulnerability",
         level: 5,
         name: "Invulnérabilité",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Tu es ce dont les chasseurs de vampires font des cauchemars. Les balles entrent à peine dans ta chair, les lames y laissent des entailles qui se referment avant la fin du combat. Tu traverses un immeuble en flammes en serrant les dents, tu te relèves après avoir été percuté par une voiture. Le soleil lui-même te consume lentement là où il réduirait un autre vampire en cendres en quelques instants, ce qui t'accorde peut-être le temps de fuir. Tu n'es pas immortel : le feu, le soleil et les crocs finissent toujours par passer. Mais tu tiens bien plus longtemps que les autres."
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu brûles presque tout ton sang pour devenir, le temps d'une scène, ce dont les chasseurs de vampires font des cauchemars. Les balles entrent à peine dans ta chair, les lames y laissent des entailles qui se referment avant la fin du combat. Tu traverses un immeuble en flammes en serrant les dents, tu te relèves après avoir été percuté par une voiture. Le soleil lui-même te consume lentement là où il réduirait un autre vampire en cendres en quelques instants, ce qui t'accorde peut-être le temps de fuir. Tu n'es pas immortel : le feu, le soleil et les crocs finissent toujours par passer, et quand la scène se dénoue, ta chair redevient celle d'un simple mort-vivant, affamé par l'effort."
       },
       {
         id: "fortitude-6-personal-armor",
@@ -532,7 +532,7 @@ export const DISCIPLINES = {
         id: "obfuscate-2-unseen-presence",
         level: 2,
         name: "Présence Invisible",
-        bloodCost: 0,
+        bloodCost: 1,
         duration: "scene",
         description: "Maintenant tu peux marcher parmi eux. Traverse une foule, longe un couloir, suis ta cible dans la rue. Les gens te voient subconsciemment et s'écartent sans savoir pourquoi, comme on évite un poteau. Les caméras de surveillance enregistrent ton passage mais l'opérateur qui regarde l'écran ne remarque rien. Tu peux fouiller un bureau pendant que le propriétaire travaille à son bureau, voler des clés dans la poche de quelqu'un, passer devant un garde. Ne fais rien pour attirer l'attention et tu restes invisible."
       },
@@ -540,7 +540,7 @@ export const DISCIPLINES = {
         id: "obfuscate-3-mask-of-a-thousand-faces",
         level: 3,
         name: "Masque aux Mille Visages",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Au lieu de disparaître, tu montres un autre visage : des traits inventés, une autre corpulence, d'autres vêtements. Tu ne changes pas physiquement, mais tous ceux qui te regardent voient ce que tu veux qu'ils voient. Pour copier quelqu'un de précis, il te faut l'avoir bien observé, et ses proches remarqueront peut-être un détail qui cloche. Paraître plus beau que tu ne l'es demande un effort supplémentaire. Change de visage en un instant pour semer tes poursuivants, ou deviens le garde dont tu as volé l'uniforme."
       },
@@ -548,7 +548,7 @@ export const DISCIPLINES = {
         id: "obfuscate-4-vanish",
         level: 4,
         name: "Disparition",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "En pleine conversation, en pleine course, sous les yeux de ceux qui te fixent : tu disparais. Un instant tu es là, l'instant suivant il n'y a plus que le vide. Les témoins clignent des yeux, désorientés. Les esprits les plus faibles vont plus loin encore : ils oublient jusqu'à ta présence, et ne se rappellent même plus avoir parlé à quelqu'un. Les esprits forts, eux, savent qu'il y avait quelqu'un, même s'ils ne te voient plus. Disparaître ainsi devant une foule reste une provocation dangereuse pour la Mascarade."
       },
@@ -556,7 +556,7 @@ export const DISCIPLINES = {
         id: "obfuscate-5-cloak-the-gathering",
         level: 5,
         name: "Voile Collectif",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu étends ton pouvoir comme un manteau sur ceux qui t'entourent. Tes compagnons proches profitent de ton voile : ils disparaissent avec toi, traversent un hall surveillé ou portent un nouveau visage, selon le pouvoir que tu partages. Plus le groupe est nombreux, plus l'effort est grand. Chacun doit rester discret : si l'un d'eux attaque ou attire l'attention, il se révèle. Et si c'est toi qui te trahis, le voile se déchire pour tout le monde à la fois."
       },
@@ -668,9 +668,9 @@ export const DISCIPLINES = {
         id: "potence-5-titanic-strength",
         level: 5,
         name: "Force Titanesque",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu."
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu verses presque tout ton sang dans tes muscles, et le temps d'une scène, les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu. Puis la scène se referme, la force reflue, et la Soif que tu as nourrie pour l'obtenir réclame son dû."
       },
       {
         id: "potence-6-imprint",
@@ -732,7 +732,7 @@ export const DISCIPLINES = {
         id: "presence-2-dread-gaze",
         level: 2,
         name: "Regard Terrifiant",
-        bloodCost: 0,
+        bloodCost: 1,
         duration: "instant",
         description: "Fixe quelqu'un et libère ta Bête juste assez pour qu'il la voie. Tes yeux deviennent ceux d'un prédateur antédiluvien, ton visage un masque de terreur primordiale. La victime voit sa propre mort dans ton regard et la peur absolue la submerge. Elle fuit en hurlant, se recroqueville en position fœtale, ou se fige complètement, paralysée. Même les vampires peuvent être affectés, leur propre Bête reconnaissant un prédateur supérieur. L'effet est instantané et dévastateur."
       },
@@ -756,7 +756,7 @@ export const DISCIPLINES = {
         id: "presence-5-majesty",
         level: 5,
         name: "Majesté",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu revêts une couronne invisible, et ta présence devient écrasante, magnifique et terrible à la fois. Personne n'ose lever la main contre toi, ni même te contredire : les agresseurs baissent leurs armes, les insulteurs ravalent leurs mots, les anciens eux-mêmes hésitent. Il faut un courage hors du commun pour seulement t'affronter du regard. Mais la Majesté se paie plus tard : un Caïnite humilié en public a des siècles pour préparer sa vengeance."
       },
@@ -852,7 +852,7 @@ export const DISCIPLINES = {
         id: "protean-4-shape-of-the-beast",
         level: 4,
         name: "Forme de la Bête",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Ton corps se tord, les os craquent et la chair coule. En quelques instants de transformation douloureuse, tu deviens un loup massif aux yeux rouges, ou une chauve-souris qui file dans la nuit. Tu gardes ton esprit, mais tu gagnes les sens et les armes de l'animal : la vitesse et les crocs du loup, le vol et l'écholocation de la chauve-souris. Tes vêtements et tes petits objets se fondent dans la transformation. Tu peux rester ainsi jusqu'à l'aube. Sous cette forme, la sorcellerie du sang t'est fermée : ni Thaumaturgie, ni Nécromancie, ni Serpentis, ni Vicissitude."
       },
@@ -860,7 +860,7 @@ export const DISCIPLINES = {
         id: "protean-5-mist-form",
         level: 5,
         name: "Forme de Brume",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton corps se dissout en une brume pâle, à peine visible. Les balles te traversent, les lames ne font que disperser ton essence un instant. Tu glisses sous les portes, à travers les grilles et les fissures, tu flottes au-dessus des obstacles. Le feu, le soleil et les pouvoirs surnaturels peuvent encore t'atteindre, et un vent violent te pousse où il veut. Sous cette forme, tu ne peux ni frapper ni utiliser un pouvoir qui exige ton regard. Tu n'es plus qu'une présence froide qui passe."
       },
@@ -956,7 +956,7 @@ export const DISCIPLINES = {
         id: "obtenebration-3-arms-of-the-abyss",
         level: 3,
         name: "Bras des Abysses",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Ton ombre se soulève et des tentacules d'obscurité solide en jaillissent comme des serpents. Ces membres d'ombre sont froids au toucher, solides comme de la chair mais faits de ténèbres vivantes. Ils agrippent, frappent, étranglent selon ta volonté. Emprisonne un adversaire dans une étreinte glaciale, gifle une arme hors d'une main, soulève quelqu'un et projette-le contre un mur. Les tentacules peuvent aussi servir à manipuler des objets à distance. Les victimes paniquent souvent, horrifiées de se faire toucher par l'Abysse elle-même."
       },
@@ -972,7 +972,7 @@ export const DISCIPLINES = {
         id: "obtenebration-5-tenebrous-form",
         level: 5,
         name: "Forme Ténébreuse",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton corps se dissout en une flaque d'ombre vivante, sans masse ni épaisseur. Tu glisses le long des murs, coules sous les portes, rampes au plafond, te faufiles par la moindre fissure. Les armes physiques te traversent sans effet. Tu peux envelopper une victime de ton obscurité pour l'aveugler et l'oppresser, mais tu ne peux pas la frapper. Le feu et le soleil te blessent toujours, et une lumière vive te force à fuir vers les ténèbres."
       },
@@ -1156,7 +1156,7 @@ export const DISCIPLINES = {
         id: "vicissitude-5-bloodform",
         level: 5,
         name: "Forme de Sang",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu changes tout ou partie de ton corps en vitae consciente. Une main devient une flaque de sang qui s'étire sous une porte ; ton corps entier devient une mare qui pense et qui rampe. Sous cette forme, on ne peut ni te frapper, ni te couper, ni t'empaler. Tu peux t'infiltrer partout où le sang peut couler. Mais le feu et le soleil restent mortels, et ton sang reste du sang : si quelqu'un le boit tout entier ou le détruit, c'est la Mort Ultime."
       },
@@ -1236,7 +1236,7 @@ export const DISCIPLINES = {
         id: "necromancy-3-shambling-hordes",
         level: 3,
         name: "Hordes Chancelantes",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "permanent",
         description: "Tu deviens un véritable seigneur des morts. Tu peux lever des cadavres pour le combat. Ils sont lents et stupides, mais ils gardent la force qu'ils avaient de leur vivant. Lève un soldat d'élite, et tu auras un tueur ; lève un enfant, et tu auras une distraction. Ils n'ont ni peur ni douleur et avanceront sous les balles pour déchirer tes ennemis. Une armée jetable qui ne pose jamais de questions."
       },
@@ -1252,7 +1252,7 @@ export const DISCIPLINES = {
         id: "necromancy-5-daemonic-possession",
         level: 5,
         name: "Possession Démoniaque",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Tu prends une âme sans corps et tu la fais entrer dans un cadavre encore frais, mort depuis moins d'une demi-heure. Le corps se relève, non comme un zombie stupide, mais avec toute l'intelligence et la vivacité de l'esprit qui l'habite. L'âme doit accepter ce nouveau logis : tu ne peux pas y enfermer un esprit qui refuse. Et la chair morte ne tient pas longtemps : au bout d'une semaine, le corps se décompose et l'âme est de nouveau libre. Tu crées ainsi un messager, un espion, ou une seconde chance pour un allié mort."
       },
@@ -1332,7 +1332,7 @@ export const DISCIPLINES = {
         id: "quietus-4-baals-caress",
         level: 4,
         name: "Caresse de Baal",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Tu passes ta lame dans ta paume ouverte, et ton sang la change en arme sacrée des assassins. Chaque coup porté avec elle laisse des blessures qui brûlent comme le feu et ne guérissent qu'avec peine, même chez un vampire. Il te faut renouveler l'enduit à chaque touche, au prix de ta propre vitae. Le pouvoir ne fonctionne qu'avec une arme tranchante ou perçante que tu tiens toi-même."
       },
@@ -1340,7 +1340,7 @@ export const DISCIPLINES = {
         id: "quietus-5-taste-of-death",
         level: 5,
         name: "Goût de la Mort",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "instant",
         description: "Tu craches ton sang comme un serpent crache son venin. Un jet d'acide écarlate jaillit de ta bouche et frappe ta cible à quelques pas : chair, os et vêtements se consument en fumée. Plus tu y verses de vitae, plus les brûlures sont profondes, et elles ne guérissent qu'avec peine, même chez un vampire. La portée dépend de ta force. Le spectacle est brutal, définitif, et impossible à confondre avec autre chose."
       },
@@ -1428,7 +1428,7 @@ export const DISCIPLINES = {
         id: "serpentis-1-eyes-of-the-serpent",
         level: 1,
         name: "Regard Hypnotique",
-        bloodCost: 0,
+        bloodCost: 1,
         duration: "scene",
         description: "Tes yeux deviennent dorés, aux pupilles verticales, et celui qui croise ton regard ne peut plus s'en détacher. Un mortel reste figé sur place, conscient mais sans défense, tant que tu le fixes. Tu peux t'approcher, lui parler, le toucher : il ne bougera pas. Les êtres surnaturels résistent bien mieux, et peuvent s'arracher au charme si on les attaque. Dès que le contact visuel est rompu, la victime cligne des yeux, désorientée, sans comprendre ce qui vient de se passer."
       },
@@ -1436,7 +1436,7 @@ export const DISCIPLINES = {
         id: "serpentis-2-tongue-of-the-asp",
         level: 2,
         name: "Langue de l'Aspic",
-        bloodCost: 0,
+        bloodCost: 1,
         duration: "scene",
         description: "Ta langue s'allonge hors de ta bouche, fine, fourchue, longue comme un avant-bras. C'est une arme : elle frappe vite et laisse des blessures qui ne guérissent qu'avec peine, même chez un vampire. Une fois plantée dans la chair, elle peut boire le sang comme le feraient tes crocs. Elle goûte aussi l'air et sent les vibrations dans le noir, ce qui t'aide à chasser sans lumière. Le spectacle est profondément inhumain, et aucun mortel ne l'oublie."
       },
@@ -1452,7 +1452,7 @@ export const DISCIPLINES = {
         id: "serpentis-4-form-of-the-cobra",
         level: 4,
         name: "Forme du Cobra",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Ton corps se tord et se reforme en un cobra noir gigantesque, aussi lourd qu'un homme et long de plusieurs mètres. Tu gardes ton esprit, et tu gagnes les sens du serpent : tu sens la chaleur des corps, les vibrations du sol, l'odeur de la peur. Ta morsure porte un venin qui tue les mortels. Tu peux te glisser dans des espaces impossibles et conserver cette forme jusqu'à l'aube. La plupart de tes pouvoirs restent à ta portée, sauf ceux qui exigent des mains."
       },
@@ -1516,7 +1516,7 @@ export const DISCIPLINES = {
         id: "dementation-1-passion",
         level: 1,
         name: "Passion",
-        bloodCost: 0,
+        bloodCost: 1,
         duration: "prolonged",
         description: "Tu parles à quelqu'un et tu tournes le cadran de ses émotions. Tu ne choisis pas ce qu'il ressent : tu amplifies ou tu éteins ce qui est déjà là. Une pointe d'agacement devient une rage froide, une tristesse discrète un désespoir écrasant, une peur vague une panique. Ou au contraire, la colère du garde retombe et il oublie pourquoi il s'emportait. Tu choisis combien de temps l'émotion tient : un éclat de quelques instants, ou une humeur qui s'installe pour des mois. Et la victime ne comprend jamais d'où lui vient ce changement."
       },
@@ -1532,7 +1532,7 @@ export const DISCIPLINES = {
         id: "dementation-3-eyes-of-chaos",
         level: 3,
         name: "Yeux du Chaos",
-        bloodCost: 0,
+        bloodCost: 1,
         duration: "scene",
         description: "Ta folie devient une lentille qui révèle les motifs cachés du monde. Tu lis la vraie Nature d'une personne derrière le masque qu'elle porte, tu déchiffres un message codé, tu devines la main invisible derrière une suite de coïncidences. Plus tu connais ta cible, plus elle se dévoile. Mais la vérité ne te parvient jamais en clair : elle prend la forme d'images, de symboles, d'allégories qu'il te faut interpréter. Les Malkaviens appellent ça la sagesse du fou."
       },
@@ -1540,7 +1540,7 @@ export const DISCIPLINES = {
         id: "dementation-4-voice-of-madness",
         level: 4,
         name: "Voix de la Folie",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "scene",
         description: "Tu élèves la voix, et ta démence se glisse dans tes mots. Ceux qui t'écoutent basculent : certains entrent en frénésie et frappent tout ce qui bouge, d'autres sont saisis d'une terreur aveugle et fuient comme devant le feu. Les mortels n'ont aucune défense. Les vampires peuvent lutter, mais beaucoup cèdent. Le pouvoir n'épargne pas sa source : ta propre Bête entend aussi ces paroles, et tu risques de sombrer avec ton auditoire."
       },
@@ -1548,7 +1548,7 @@ export const DISCIPLINES = {
         id: "dementation-5-total-insanity",
         level: 5,
         name: "Démence Totale",
-        bloodCost: 1,
+        bloodCost: 9,
         duration: "prolonged",
         description: "Tu captes toute l'attention de ta victime, et tu fais remonter d'un coup tout ce que son esprit enfouissait. Elle sombre dans une folie multiple : délires, obsessions, paranoïa, crises de terreur, voix qui lui parlent. Tu décides combien de temps elle reste perdue : quelques instants, quelques nuits, ou une année entière. Une victime à la volonté solide peut s'en libérer plus tôt en luttant de toutes ses forces. Ceux qui en reviennent ne sont plus tout à fait les mêmes."
       },
@@ -1636,7 +1636,7 @@ export const DISCIPLINES = {
         id: "chimerstry-4-permanency",
         level: 4,
         name: "Permanence",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "prolonged",
         description: "Tes illusions persistent maintenant sans que tu aies besoin de te concentrer. Crée une scène complète - un bureau luxueux, un mur de briques cachant un passage secret, un cadavre sanglant - et elle reste en place pendant des heures ou des jours, même quand tu es parti. Tu peux créer des repaires illusoires, des preuves de crimes qui n'ont jamais eu lieu, des personnes qui continuent leur vie apparente. Les illusions ne disparaissent que si tu le décides, si quelqu'un les détruit (révélant le vide dessous), ou après plusieurs jours. Tu peux maintenir plusieurs illusions permanentes simultanément."
       },
@@ -1644,7 +1644,7 @@ export const DISCIPLINES = {
         id: "chimerstry-5-horrid-reality",
         level: 5,
         name: "Réalité Horrible",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Tu plonges une seule victime dans une hallucination qui n'existe que pour elle, mais à laquelle elle croit de toute son âme. Le feu qu'elle voit la brûle vraiment, la lame imaginaire l'entaille, le mur la retient. Ses blessures sont réelles pour son corps. Le pouvoir ne tue pas : au pire, la victime s'effondre, inconsciente, ou sombre en torpeur. Et si quelqu'un parvient à la convaincre que tout était faux avant la nuit suivante, ses blessures disparaissent."
       },
@@ -1756,9 +1756,9 @@ export const DISCIPLINES = {
         id: "flight-5-master-of-the-sky",
         level: 5,
         name: "Maître du Ciel",
-        bloodCost: 0,
-        duration: "permanent",
-        description: "Les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole par tempête majeure, porte des charges lourdes (comme un autre vampire en armure) sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris."
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu brûles presque tout ton sang, et le temps d'une scène, les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole au cœur d'une tempête, porte des charges lourdes, comme un autre vampire en armure, sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris. Quand la scène se dénoue, tes ailes retrouvent leurs limites et ton corps vidé réclame la chasse."
       },
       {
         id: "flight-6-raptors-dive",
@@ -1844,7 +1844,7 @@ export const DISCIPLINES = {
         id: "visceratika-5-flow-within-the-mountain",
         level: 5,
         name: "Couler dans la Montagne",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "La pierre n'est plus un obstacle. Tu traverses les murs, les plafonds et les sols de pierre ou de béton comme s'ils étaient faits de brume. Tu marches à travers les défenses d'un bunker, tu passes d'une pièce à l'autre sans ouvrir une seule porte. Tu peux emmener un compagnon que tu tiens fermement. Mais la traversée demande du temps et de la concentration, et si la pierre cède ou explose pendant que tu y es, tu en subis les conséquences dans ta chair."
       },
@@ -1924,7 +1924,7 @@ export const DISCIPLINES = {
         id: "thanatosis-4-withering",
         level: 4,
         name: "Flétrissement",
-        bloodCost: 1,
+        bloodCost: 3,
         duration: "prolonged",
         description: "Tu touches un membre et tu lui voles sa vitalité. Saisis un bras, et il se dessèche instantanément comme celui d'une momie millénaire, la peau collée à l'os, inutile. Touche une jambe, et elle se recroqueville, rendant la victime infirme. C'est une mutilation mystique terrifiante qui transforme les guerriers en vieillards impotents en quelques secondes."
       },
@@ -1932,7 +1932,7 @@ export const DISCIPLINES = {
         id: "thanatosis-5-necrosis",
         level: 5,
         name: "Nécrose",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "instant",
         description: "Tu ordonnes à la mort de prendre ce qui lui appartient. En touchant une victime, tu provoques une décomposition massive et brutale de la zone. La chair noircit et tombe en lambeaux, l'os se désagrège. Ce n'est pas une mort instantanée propre, c'est une gangrène foudroyante qui dévore un torse ou arrache un visage, laissant la victime hurler dans une agonie absolue."
       },
@@ -2020,7 +2020,7 @@ export const DISCIPLINES = {
         id: "melpominee-5-virtuosa",
         level: 5,
         name: "Virtuose",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "scene",
         description: "Ton art atteint une maîtrise telle que tes chants touchent tous ceux qui t'écoutent à la fois. Le Madrigal qui remuait un cœur bouleverse une salle de concert entière, le Chant de la Sirène emporte un public au lieu d'une seule victime. Tu ne chantes plus pour quelqu'un, tu chantes pour une foule, et elle t'appartient le temps de la scène. Seuls ceux qui ne peuvent pas t'entendre, ou dont l'âme est assez forte pour lutter, échappent à ta voix."
       },
@@ -2108,7 +2108,7 @@ export const DISCIPLINES = {
         id: "daimoinon-5-condemnation",
         level: 5,
         name: "Condamnation",
-        bloodCost: 3,
+        bloodCost: 9,
         duration: "permanent",
         description: "Tu prononces une malédiction, et l'abîme l'exauce. Tu choisis la forme du mal : une main qui tremble à jamais, une malchance qui s'acharne, un sommeil sans repos, une voix qui se brise dès qu'on veut dire la vérité. La victime le porte jusqu'à ce que tu le lèves, ou qu'un pouvoir sacré l'en délivre. Plus la condamnation est cruelle, plus elle te coûte. Et chaque malédiction que tu jettes est une dette que les Ténèbres Extérieures noteront."
       },
@@ -2174,6 +2174,7 @@ export const CLAN_DISCIPLINES = {
   samedi: ["fortitude", "obfuscate", "thanatosis"],
   daughters_of_cacophony: ["fortitude", "melpominee", "presence"],
   baali: ["daimoinon", "obfuscate", "presence"],
+  salubri: ["auspex", "fortitude", "presence"],
   // Caïn - Le Père des Vampires (MJ only) - Accès à TOUTES les disciplines
   cain: [
     "animalism", "auspex", "celerity", "chimerstry", "daimoinon",
@@ -2186,7 +2187,7 @@ export const CLAN_DISCIPLINES = {
 
 // Identifiants de clan stockés sur les fiches (data/clans.py) ou anciens noms V5,
 // ramenés aux clés de CLAN_DISCIPLINES.
-const CLAN_ALIASES = {
+export const CLAN_ALIASES = {
   setite: "setites",
   ministry: "setites",
   banu_haqim: "assamites",

@@ -11,10 +11,17 @@ import urllib.parse
 from pathlib import Path
 from typing import Optional
 import logging
+import math
 import uuid
 import random
 from data.blood_actions import SATURATION_THRESHOLDS, advance_saturation
-from datetime import datetime
+from data.config import (
+    VITAE_QUICK_FEED_RATIO,
+    VITAE_QUICK_FEED_COOLDOWN_HOURS,
+    VITAE_UPKEEP_INTERVAL_DAYS,
+    VITAE_UPKEEP_MAX_PER_CHECK,
+)
+from datetime import datetime, timedelta, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +92,11 @@ async def init_database():
             await db.execute("ALTER TABLE vampire_soif ADD COLUMN saturation_points INTEGER DEFAULT 0")
         except Exception:
             pass  # Colonne existe déjà
+        for column in ("last_fed TIMESTAMP", "last_upkeep TIMESTAMP"):
+            try:
+                await db.execute(f"ALTER TABLE vampire_soif ADD COLUMN {column}")
+            except Exception:
+                pass  # Colonne existe déjà
 
         # Table de la Rage (Loups-Garous) - liée à une scène (salon)
         await db.execute("""
@@ -514,17 +526,17 @@ async def set_blood_potency(user_id: int, guild_id: int, blood_potency: int):
         )
         await db.commit()
 
-        # Après changement de BP, ajuster le niveau de soif si nécessaire
+        # Un changement de rang agrandit (ou réduit) la réserve, il ne la remplit jamais :
+        # la Vitae en réserve est conservée et seulement plafonnée au nouveau maximum.
         cursor = await db.execute(
             "SELECT soif_level FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
             (user_id, guild_id),
         )
         row = await cursor.fetchone()
-        if row:
-            current_soif = row[0]
-            # Initialiser au MAX de Vitae (puisque le système est inversé, on commence plein)
+        if row and row[0] is not None:
             max_vitae = get_max_vitae(blood_potency)
-            await set_vampire_soif(user_id, guild_id, max_vitae)
+            if row[0] > max_vitae:
+                await set_vampire_soif(user_id, guild_id, max_vitae)
 
 
 async def get_blood_potency(user_id: int, guild_id: int) -> int:
@@ -812,8 +824,9 @@ async def submit_blood_action(
     points: int,
     description: Optional[str] = None,
     submission_id: Optional[str] = None,
+    base_points: Optional[int] = None,
 ) -> str:
-    """Soumet une action de sang pour validation."""
+    """Soumet une action de sang pour validation (points figés, base du catalogue conservée)."""
     submission_id = submission_id or str(uuid.uuid4())
 
     async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -837,9 +850,9 @@ async def submit_blood_action(
             """
             INSERT INTO pending_blood_actions (
                 submission_id, user_id, guild_id, action_id, action_name,
-                category, points, description, status, submitted_at
+                category, points, description, status, submitted_at, base_points
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_TIMESTAMP)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_TIMESTAMP, ?)
             """,
             (
                 submission_id,
@@ -850,6 +863,7 @@ async def submit_blood_action(
                 category,
                 points,
                 description,
+                base_points,
             ),
         )
         await db.commit()
@@ -912,13 +926,14 @@ async def validate_blood_action(
         action_id = action_dict["action_id"]
         category = action_dict["category"]
 
-        from data.blood_actions import get_action_by_id
+        from data.blood_actions import get_action_by_id, is_once
         catalog_action = get_action_by_id(action_id)
         if not catalog_action:
             return {"success": False, "reason": "Ancienne action retirée du catalogue : refusez cette demande et soumettez un accomplissement actuel."}
         from utils.site_content import action_display
         action_dict['action_name'] = (await action_display(catalog_action, guild_id))['name']
-        if category == "unique":
+        once = is_once(catalog_action)
+        if once:
             completed_cursor = await db.execute(
                 "SELECT action_id FROM completed_unique_actions WHERE user_id = ? AND guild_id = ?",
                 (user_id, guild_id),
@@ -927,12 +942,16 @@ async def validate_blood_action(
             if any(key in completed for key in [action_id, *catalog_action.get("legacyCompletedIds", [])]):
                 return {"success": False, "reason": "Cette expérience unique a déjà été accomplie."}
 
-        # Points à attribuer (utiliser points_awarded s'il est fourni, sinon les points de l'action)
+        # Points à attribuer : montant ajusté par le MJ, sinon le montant figé ; dans ce dernier cas le
+        # script recalcule le rendement décroissant à partir de la base du catalogue et de son historique.
         points = points_awarded if points_awarded is not None else action_dict["points"]
+        base_points = None if points_awarded is not None else action_dict.get("base_points")
 
         # Ajouter les points de saturation
         mutation_info = await sheets_request("award_action", userId=str(user_id), submissionId=submission_id,
-            points=points, actionId=action_id, actionName=action_dict["action_name"], isUnique=category == "unique")
+            points=points, basePoints=base_points, actionId=action_id, actionName=action_dict["action_name"],
+            isUnique=once)
+        points = int(mutation_info.get("points_added", points))
 
         # Marquer l'action comme validée
         changed = await db.execute(
@@ -948,7 +967,7 @@ async def validate_blood_action(
             return {"success": False, "reason": "Action déjà traitée"}
 
         # Pour les actions uniques, les ajouter à la liste des actions complétées
-        if category == "unique":
+        if once:
             await db.execute(
                 """
                 INSERT OR IGNORE INTO completed_unique_actions (user_id, guild_id, action_id, completed_at)
@@ -1143,14 +1162,9 @@ async def get_blood_action_history(user_id: int, guild_id: int, limit: int = 20)
 # Fonctions pour les goules
 # ============================================
 
-# Limites de goules par Blood Potency
-GHOUL_LIMITS = {
-    1: 2,
-    2: 3,
-    3: 5,
-    4: 10,
-    5: 20,
-}
+# Limites de goules par Blood Potency (source : data/ghoul_disciplines.json)
+GHOUL_LIMITS = {int(k): v for k, v in json.loads(
+    (Path(__file__).parents[1] / "data" / "ghoul_disciplines.json").read_text(encoding="utf-8"))["limits"].items()}
 
 # Mapping des disciplines par clan (doit correspondre à CLAN_DISCIPLINES dans disciplines.js)
 CLAN_DISCIPLINES = {
@@ -1503,6 +1517,107 @@ async def modify_vitae(user_id: int, guild_id: int, amount: int):
         return value
 
 
+def _parse_timestamp(value) -> Optional[datetime]:
+    """SQLite stores naive UTC text; our own writes use ISO format."""
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value))
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def quick_feed_amount(blood_potency: int) -> int:
+    """Vitae gained by an off-screen hunt: a fixed share of the reserve (2/4/5/8/10)."""
+    return math.ceil(get_max_vitae(blood_potency) * VITAE_QUICK_FEED_RATIO)
+
+
+def quick_feed_floor(blood_potency: int) -> int:
+    """Below this reserve, feeding must be played in a scene."""
+    return math.ceil(get_max_vitae(blood_potency) * VITAE_QUICK_FEED_RATIO)
+
+
+async def feed_vampire(user_id: int, guild_id: int, mode: str, now: Optional[datetime] = None) -> dict:
+    """Feed in one transaction.
+
+    - 'quick': off-screen hunt, only while the reserve is still at least the floor, once per window;
+    - 'scene': a played hunting scene (link checked by the caller), fills the reserve.
+    An impossible feed changes nothing and raises ValueError with the reason.
+    """
+    now = now or datetime.now(timezone.utc)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
+        cursor = await db.execute(
+            "SELECT soif_level, blood_potency, last_fed FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id))
+        row = await cursor.fetchone()
+        if not row:
+            raise ValueError("Aucune réserve de Vitae : ouvre d'abord /vampire.")
+        current, bp, last_fed = row[0] or 0, row[1] or 1, _parse_timestamp(row[2])
+        max_vitae = get_max_vitae(bp)
+        if mode == "quick":
+            floor = quick_feed_floor(bp)
+            if current < floor:
+                raise ValueError(
+                    f"Ta réserve est sous {floor}/{max_vitae} : la Bête exige une scène de chasse.")
+            if last_fed and now - last_fed < timedelta(hours=VITAE_QUICK_FEED_COOLDOWN_HOURS):
+                raise ValueError("Tu as déjà chassé en off cette nuit. Joue une scène de chasse pour boire davantage.")
+            value = min(current + quick_feed_amount(bp), max_vitae)
+        elif mode == "scene":
+            value = max_vitae
+        else:
+            raise ValueError("Mode d'alimentation inconnu.")
+        await db.execute(
+            """UPDATE vampire_soif SET soif_level = ?, last_fed = ?, last_upkeep = ?, last_updated = CURRENT_TIMESTAMP
+               WHERE user_id = ? AND guild_id = ?""",
+            (value, now.isoformat(), now.isoformat(), user_id, guild_id))
+        await db.commit()
+        return {"vitae": value, "max_vitae": max_vitae, "gained": value - current, "mode": mode}
+
+
+async def apply_vitae_upkeep(user_id: int, guild_id: int, now: Optional[datetime] = None) -> dict:
+    """Lazy upkeep: the dead body burns blood as real nights pass, checked when the panel opens.
+
+    Loses 1 Vitae per VITAE_UPKEEP_INTERVAL_DAYS since the last check, at most
+    VITAE_UPKEEP_MAX_PER_CHECK per check, never below 0. The first check only starts the clock.
+    """
+    now = now or datetime.now(timezone.utc)
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
+        cursor = await db.execute(
+            "SELECT soif_level, last_upkeep FROM vampire_soif WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id))
+        row = await cursor.fetchone()
+        if not row:
+            await db.commit()
+            return {"lost": 0, "vitae": 0}
+        current, last_upkeep = row[0] or 0, _parse_timestamp(row[1])
+        lost = 0
+        next_check = now
+        if last_upkeep is not None:
+            intervals = max(0, (now - last_upkeep).days) // VITAE_UPKEEP_INTERVAL_DAYS
+            lost = min(intervals, VITAE_UPKEEP_MAX_PER_CHECK, current)
+            # Keep the remainder of the current interval so short visits do not reset the clock.
+            if intervals <= VITAE_UPKEEP_MAX_PER_CHECK:
+                next_check = last_upkeep + timedelta(days=intervals * VITAE_UPKEEP_INTERVAL_DAYS)
+        value = current - lost
+        await db.execute(
+            "UPDATE vampire_soif SET soif_level = ?, last_upkeep = ? WHERE user_id = ? AND guild_id = ?",
+            (value, next_check.isoformat(), user_id, guild_id))
+        await db.commit()
+        return {"lost": lost, "vitae": value}
+
+
+async def spend_vitae_for_power(user_id: int, guild_id: int, clan: str, blood_potency: int, power_id: str) -> dict:
+    """Pay a discipline power's blood cost from the reserve; a free power spends nothing."""
+    from data.disciplines import check_power_usable
+    power = check_power_usable(clan, blood_potency, power_id)
+    cost = int(power["bloodCost"])
+    vitae = await modify_vitae(user_id, guild_id, -cost) if cost else await get_vampire_soif(user_id, guild_id)
+    return {"vitae": vitae, "max_vitae": get_max_vitae(blood_potency), "cost": cost, "power": power}
+
+
 # Alias pour la compatibilité (mais déprécié logiquement)
 async def increment_soif(user_id: int, guild_id: int, amount: int = 1):
     """Désactivé ou redirigé vers modify_vitae(-amount) car "soif" augmentait quand on dépensait."""
@@ -1540,12 +1655,12 @@ async def set_vampire_data(
 def get_max_vitae(blood_potency: int) -> int:
     """Calcule la capacité maximale de Vitae selon la Blood Potency.
 
-    Progression linéaire (équilibrée):
-    - BP 1: 5 points (Nouveau-né)
-    - BP 2: 8 points (Néonate)
-    - BP 3: 12 points (Ancilla)
-    - BP 4: 18 points (Ancien)
-    - BP 5: 25 points (Mathusalem)
+    Réserve par rang (noms : data/blood_potency.py) :
+    - BP 1 : 5 (Sang Fluide, Néonate)
+    - BP 2 : 8 (Sang Vif, Ancilla Mineur)
+    - BP 3 : 12 (Sang Fort, Ancilla Majeur)
+    - BP 4 : 18 (Sang Puissant, Ancien)
+    - BP 5 : 25 (Zénith Sanguin, Sommité)
     """
     max_vitae_by_bp = {1: 5, 2: 8, 3: 12, 4: 18, 5: 25}
     return max_vitae_by_bp.get(blood_potency, 5)
@@ -1556,10 +1671,10 @@ def get_max_vitae(blood_potency: int) -> int:
 
 
 
-def get_saturation_threshold(blood_potency: int) -> int:
-    """Calcule le seuil de saturation pour passer au niveau suivant."""
-    # Seuils ajustés à la nouvelle progression linéaire
-    return SATURATION_THRESHOLDS.get(blood_potency, 30)
+def get_saturation_threshold(blood_potency: int) -> Optional[int]:
+    """Seuil de saturation pour passer au niveau suivant ; None au rang 5 (plafond)."""
+    threshold = SATURATION_THRESHOLDS.get(blood_potency, SATURATION_THRESHOLDS[1])
+    return None if threshold == float("inf") else threshold
 
 
 async def reset_vampire_data(user_id: int, guild_id: int):
@@ -1716,6 +1831,11 @@ async def init_blood_actions_tables():
             )
         """)
 
+        try:
+            await db.execute("ALTER TABLE pending_blood_actions ADD COLUMN base_points INTEGER")
+        except Exception:
+            pass  # Colonne existe déjà
+
         # Index
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_pending_actions_user ON pending_blood_actions(user_id, guild_id)"
@@ -1737,10 +1857,11 @@ async def create_pending_action(
     points: int,
     description: Optional[str] = None,
     submission_id: Optional[str] = None,
+    base_points: Optional[int] = None,
 ) -> str:
     """Alias de submit_blood_action pour compatibilité."""
     return await submit_blood_action(
-        user_id, guild_id, action_id, action_name, category, points, description, submission_id
+        user_id, guild_id, action_id, action_name, category, points, description, submission_id, base_points
     )
 
 

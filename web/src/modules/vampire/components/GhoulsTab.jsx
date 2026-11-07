@@ -7,6 +7,8 @@ import { Users, Plus, Trash2, Edit2, Save, X, Droplet, Shield, AlertCircle } fro
 
 import ghoulCatalog from '../../../../../data/ghoul_disciplines.json';
 const GHOUL_LIMITS = ghoulCatalog.limits;
+const MIND_LIMITS = ghoulCatalog.mindLimits || {};
+const GHOUL_COST = ghoulCatalog.bloodCost || 0;
 const CLAN_DISCIPLINES = { ...ghoulCatalog.clans, setites: ghoulCatalog.clans.setite, assamites: ghoulCatalog.clans.banu_haqim };
 
 export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
@@ -16,7 +18,8 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
   const [newGhoul, setNewGhoul] = useState({ name: '', description: '', role: '', type: 'blood' }); // type: 'blood' | 'mind'
   const [error, setError] = useState(null);
 
-  const maxGhouls = GHOUL_LIMITS[bloodPotency] || 2;
+  const maxGhouls = GHOUL_LIMITS[bloodPotency] || 1;
+  const maxMindGhouls = MIND_LIMITS[bloodPotency] || 0;
 
   // Compter uniquement les goules de sang pour la limite
   const bloodGhoulsCount = ghouls.filter(g => !g.type || g.type === 'blood').length;
@@ -26,7 +29,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
   // Condition: BP >= 4 ET possède Domination dans son clan
   const clanDisciplines = CLAN_DISCIPLINES[clan?.toLowerCase()] || [];
   const hasDominate = clanDisciplines.includes('Domination');
-  const canCreateMindGhouls = bloodPotency >= 4 && hasDominate;
+  const canCreateMindGhouls = bloodPotency >= 4 && hasDominate && mindGhoulsCount < maxMindGhouls;
 
   // Peut créer une goule si:
   // 1. N'a pas atteint la limite de goules de sang
@@ -92,10 +95,13 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
             <h2 className="text-xl font-serif text-stone-200"><SiteText contentKey="vampire.text.01279" /></h2>
             <div className="flex gap-3 text-xs text-stone-500">
               <p><SiteText contentKey="vampire.text.01280" />{bloodGhoulsCount} / {maxGhouls}</p>
-              {mindGhoulsCount > 0 && (
-                <p className="text-purple-400"><SiteText contentKey="vampire.text.01281" />{mindGhoulsCount}</p>
+              {(mindGhoulsCount > 0 || maxMindGhouls > 0) && (
+                <p className="text-purple-400">{siteText("vampire.text.02988", { v0: mindGhoulsCount, v1: maxMindGhouls })}</p>
               )}
             </div>
+            {GHOUL_COST > 0 && (
+              <p className="text-xs text-red-300/80 mt-1 flex items-center gap-1"><Droplet size={10} className="text-red-500" />{siteText("vampire.text.02987", { v0: GHOUL_COST })}</p>
+            )}
           </div>
         </div>
 

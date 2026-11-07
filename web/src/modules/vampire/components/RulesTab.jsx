@@ -315,11 +315,19 @@ export default function RulesTab({ setActiveTab }) {
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-4 p-4 bg-red-950/20 border border-red-900/30 rounded">
-                                <div className="w-24 text-center font-bold text-red-500 font-mono text-lg shrink-0">&lt; 40%</div>
+                            <div className="flex items-center gap-4 p-4 bg-orange-950/20 border border-orange-900/30 rounded">
+                                <div className="w-24 text-center font-bold text-orange-500 font-mono text-lg shrink-0">40-20%</div>
                                 <div>
-                                    <strong className="text-red-400 block mb-1"><SiteText contentKey="vampire.text.01461" /></strong>
+                                    <strong className="text-orange-400 block mb-1"><SiteText contentKey="vampire.text.01461" /></strong>
                                     <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.01462" /><strong className="uppercase text-red-500"><SiteText contentKey="vampire.text.01463" /></strong><SiteText contentKey="vampire.text.01464" /></span>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-4 p-4 bg-red-950/20 border border-red-900/30 rounded">
+                                <div className="w-24 text-center font-bold text-red-500 font-mono text-lg shrink-0">20-0%</div>
+                                <div>
+                                    <strong className="text-red-400 block mb-1"><SiteText contentKey="vampire.text.02991" /></strong>
+                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.02992" /></span>
                                 </div>
                             </div>
                         </div>

@@ -2501,15 +2501,6 @@
     "catalog": true,
     "variables": []
   },
-  "vampire.text.00339": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
   "vampire.text.00342": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -3333,15 +3324,6 @@
     "scope": "vampire",
     "source": "data/disciplines.js",
     "default": "Maître du Ciel",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
-  "vampire.text.00509": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole par tempête majeure, porte des charges lourdes (comme un autre vampire en armure) sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -9987,7 +9969,7 @@
   "vampire.text.01264": {
     "scope": "vampire",
     "source": "modules/vampire/components/DisciplinesTab.jsx",
-    "default": " 1 : Mineur",
+    "default": " 1 : Mineur (niveaux 1 à 3)",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -9996,7 +9978,7 @@
   "vampire.text.01265": {
     "scope": "vampire",
     "source": "modules/vampire/components/DisciplinesTab.jsx",
-    "default": " 3 : Moyen",
+    "default": " 3 : Moyen (niveaux 3 et 4)",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10005,7 +9987,7 @@
   "vampire.text.01266": {
     "scope": "vampire",
     "source": "modules/vampire/components/DisciplinesTab.jsx",
-    "default": " 9+ : Majeur",
+    "default": " 9 : Majeur (niveau 5, l’apogée)",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10185,7 +10167,7 @@
   "vampire.text.01286": {
     "scope": "vampire",
     "source": "modules/vampire/components/GhoulsTab.jsx",
-    "default": "Liée par le sang, gagne une discipline. Limitée par le BP.",
+    "default": "Liée par le sang, gagne une discipline. Limitée par le BP, coûte de la Vitae.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10203,7 +10185,7 @@
   "vampire.text.01288": {
     "scope": "vampire",
     "source": "modules/vampire/components/GhoulsTab.jsx",
-    "default": "Conditionnée mentalement, sans discipline. Sans limite de sang.",
+    "default": "Conditionnée mentalement, sans discipline. Limitée par le BP (Domination requise).",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10959,7 +10941,7 @@
   "vampire.text.01372": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Bouton « Soif »",
+    "default": "Menu « Utiliser un pouvoir » et bouton « Soif »",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10968,7 +10950,7 @@
   "vampire.text.01373": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Ce bouton ouvre une interface vous permettant de dépenser une quantité précise de Vitae. À chaque usage de vos pouvoirs, vous devez manuellement payer le coût en sang. Plus votre réserve baisse, plus la Bête se rapproche, imposant des contraintes croissantes sur votre RP.",
+    "default": "Le menu déroulant du panneau liste vos pouvoirs accessibles et les dépenses du règlement (exploit, régénération) : choisir un pouvoir prélève automatiquement son coût. Le bouton « Soif » reste pour les dépenses libres (résistance mentale, coût convenu avec le MJ). Plus votre réserve baisse, plus la Bête se rapproche, imposant des contraintes croissantes sur votre RP.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10977,7 +10959,7 @@
   "vampire.text.01374": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Bouton « Se nourrir »",
+    "default": "Boutons « Chasse en off » et « Scène de chasse »",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10986,7 +10968,7 @@
   "vampire.text.01375": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Restaure intégralement votre réserve de Vitae à son maximum. Note : pour un vampire ancien, cette plénitude n'est que physique, la faim de l'âme ne s'apaise jamais totalement.",
+    "default": "La chasse en off rend une part fixe de votre réserve (40 %, soit 2 / 4 / 5 / 8 / 10 Vitae selon le rang), une fois par nuit réelle, et seulement tant que la réserve est encore à 40 % ou plus. En dessous, seule une scène de chasse jouée (son lien Discord est demandé) remplit la réserve. Les nuits qui passent sans ouvrir le panneau coûtent aussi un peu de sang (1 Vitae tous les deux jours, au plus 3 d’un coup). Une mutation agrandit la réserve sans la remplir.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11040,7 +11022,7 @@
   "vampire.text.01381": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Activez vos pouvoirs surnaturels. Le coût (généralement ",
+    "default": "Activez vos pouvoirs surnaturels depuis le panneau Discord ou l’onglet Disciplines : le coût (",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11049,7 +11031,7 @@
   "vampire.text.01382": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "1, 3 ou 9 Vitae",
+    "default": "0, 1, 3 ou 9 Vitae selon le niveau",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11058,7 +11040,7 @@
   "vampire.text.01383": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": ") est détaillé dans l'onglet Disciplines.",
+    "default": ") est prélevé automatiquement. Le niveau 5, apogée du jeu, coûte toujours 9 : un seul usage fait tomber un vampire au Zénith de « rassasié » à la faim, deux l’amènent au bord du danger.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11391,7 +11373,7 @@
   "vampire.text.01420": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Les récompenses varient selon l'action et votre niveau. Plusieurs accomplissements indépendants peuvent se cumuler dans une scène, sans plafond ni délai de récupération. Un même résultat ne se rémunère pas deux fois. Répéter une action demande une nouvelle difficulté réelle.",
+    "default": " Les récompenses varient selon l’action et votre niveau. Plusieurs accomplissements indépendants peuvent se cumuler dans une scène, sans plafond ni délai de récupération. Un même résultat ne se rémunère pas deux fois. Répéter la même action au même rang rapporte 100 %, puis 75 %, puis 50 % de sa valeur : la variété paie, la routine non. Le MJ peut ajuster le montant à la validation.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11409,7 +11391,7 @@
   "vampire.text.01422": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Les passages coûtent respectivement 30, 60, 120 et 250 points. L'excédent est conservé au niveau suivant, sans incubation imposée. Au niveau 5, les objectifs d'héritage poursuivent votre récit sans nouveaux points.",
+    "default": " Les passages coûtent respectivement 30, 60, 120 et 200 points. L’excédent est conservé au niveau suivant, sans incubation imposée. Chaque seuil demande une clé : la voie de votre clan du rang courant doit avoir été validée, sinon vos points attendent et la mutation survient à sa validation. Au niveau 5, les objectifs d’héritage poursuivent votre récit sans nouveaux points.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11634,7 +11616,7 @@
   "vampire.text.01447": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Le lien de sang se renforce à chaque étape. Ce n'est qu'à la troisième ingestion que la transformation physiologique et psychologique est complète.",
+    "default": "Le lien de sang se renforce à chaque étape. Ce n’est qu’à la troisième ingestion que la transformation physiologique et psychologique est complète. Lier une goule coûte 3 Vitae, prélevés à la création dans le registre ; le nombre de goules de sang est limité par le rang (1 / 2 / 3 / 5 / 8), les goules de l’esprit aussi (1 au rang 4, 2 au rang 5).",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11715,7 +11697,7 @@
   "vampire.text.01456": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Nourrissez-vous en off, entre deux scènes, sans mise en scène particulière. Vous êtes calme.",
+    "default": "Nourrissez-vous en off, entre deux scènes, sans mise en scène particulière (bouton « Chasse en off »). Vous êtes calme.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11733,7 +11715,7 @@
   "vampire.text.01458": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Alimentation en off possible, mais une scène est ",
+    "default": "Alimentation en off encore possible tant que la réserve reste à 40 % ou plus, mais une scène est ",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11760,7 +11742,7 @@
   "vampire.text.01461": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Danger Critique",
+    "default": "Le sang appelle",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11769,7 +11751,7 @@
   "vampire.text.01462": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Alimentation en scène ",
+    "default": "La chasse en off est fermée : alimentation en scène ",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11787,7 +11769,7 @@
   "vampire.text.01464": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": ". La Bête prend le contrôle : vous viderez intégralement votre victime de son sang, provoquant sa mort dans l'acte du Baiser. La subtilité n'est plus une option. Convenez des conséquences avant la scène ; une limite personnelle autorise toujours une ellipse. Cette règle ne permet pas de tuer un PJ sans accord.",
+    "default": ". Donnez le lien de la scène au panneau pour remplir votre réserve. La Bête gratte à la porte ; votre compulsion de clan dicte votre conduite.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -22826,15 +22808,6 @@
     "catalog": true,
     "variables": []
   },
-  "vampire.text.02709": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Tu es ce dont les chasseurs de vampires font des cauchemars. Les balles entrent à peine dans ta chair, les lames y laissent des entailles qui se referment avant la fin du combat. Tu traverses un immeuble en flammes en serrant les dents, tu te relèves après avoir été percuté par une voiture. Le soleil lui-même te consume lentement là où il réduirait un autre vampire en cendres en quelques instants, ce qui t'accorde peut-être le temps de fuir. Tu n'es pas immortel : le feu, le soleil et les crocs finissent toujours par passer. Mais tu tiens bien plus longtemps que les autres.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
   "vampire.text.02710": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -25224,6 +25197,164 @@
     "scope": "vampire",
     "source": "data/disciplines.js",
     "default": "Tu deviens une bombe psychique. Ta folie déferle autour de toi, aussi loin que tu la laisses aller : un pâté de maisons, un quartier, ou la métropole entière. Jusqu'à l'aube, les mortels s'émeutent, pillent, se battent dans les rues ; les vampires tombent en frénésie de faim. Les esprits les plus maîtres d'eux-mêmes résistent, mais la ville se souviendra de cette nuit comme d'une épidémie de démence.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02981": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "Utiliser ({v0} Vitae)",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0"
+    ]
+  },
+  "vampire.text.02982": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "Réserve insuffisante ({v0} / {v1}) : chassez avant d’activer ce pouvoir.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0",
+      "v1"
+    ]
+  },
+  "vampire.text.02983": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "Réserve : {v0} / {v1}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0",
+      "v1"
+    ]
+  },
+  "vampire.text.02984": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "Pouvoir passif : rien à verser.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02985": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplinesTab.jsx",
+    "default": "Réserve de Vitae : {v0} / {v1}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0",
+      "v1"
+    ]
+  },
+  "vampire.text.02986": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "{v0} : {v1} Vitae versés. Votre panneau Discord reflète la dépense.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0",
+      "v1"
+    ]
+  },
+  "vampire.text.02987": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/GhoulsTab.jsx",
+    "default": "Lier une goule de sang coûte {v0} Vitae, pris sur votre réserve au moment de la création.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0"
+    ]
+  },
+  "vampire.text.02988": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/GhoulsTab.jsx",
+    "default": "Goules de l’Esprit : {v0} / {v1}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0",
+      "v1"
+    ]
+  },
+  "vampire.text.02989": {
+    "scope": "vampire",
+    "source": "modules/vampire/pages/SheetPage.jsx",
+    "default": "Clé de rang {v0} accomplie : le prochain seuil s’ouvrira dès qu’il sera atteint.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0"
+    ]
+  },
+  "vampire.text.02990": {
+    "scope": "vampire",
+    "source": "modules/vampire/pages/SheetPage.jsx",
+    "default": "Clé de rang {v0} manquante : accomplissez la voie de votre clan de ce rang, sinon vos points attendent au seuil.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0"
+    ]
+  },
+  "vampire.text.02991": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Affamé",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02992": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Alimentation en scène obligatoire. La Bête prend le contrôle : vous viderez intégralement votre victime de son sang, provoquant sa mort dans l’acte du Baiser. À zéro, la frénésie est annoncée publiquement. Convenez des conséquences avant la scène ; une limite personnelle autorise toujours une ellipse. Cette règle ne permet pas de tuer un PJ sans accord.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02993": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu brûles presque tout ton sang pour devenir, le temps d'une scène, ce dont les chasseurs de vampires font des cauchemars. Les balles entrent à peine dans ta chair, les lames y laissent des entailles qui se referment avant la fin du combat. Tu traverses un immeuble en flammes en serrant les dents, tu te relèves après avoir été percuté par une voiture. Le soleil lui-même te consume lentement là où il réduirait un autre vampire en cendres en quelques instants, ce qui t'accorde peut-être le temps de fuir. Tu n'es pas immortel : le feu, le soleil et les crocs finissent toujours par passer, et quand la scène se dénoue, ta chair redevient celle d'un simple mort-vivant, affamé par l'effort.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02994": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu verses presque tout ton sang dans tes muscles, et le temps d'une scène, les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu. Puis la scène se referme, la force reflue, et la Soif que tu as nourrie pour l'obtenir réclame son dû.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02995": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu brûles presque tout ton sang, et le temps d'une scène, les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole au cœur d'une tempête, porte des charges lourdes, comme un autre vampire en armure, sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris. Quand la scène se dénoue, tes ailes retrouvent leurs limites et ton corps vidé réclame la chasse.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

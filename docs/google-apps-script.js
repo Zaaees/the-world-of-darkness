@@ -19,6 +19,23 @@
  * - "ActionsEnAttente" avec les colonnes: rowId | userId | actionId | actionName | points | status | createdAt
  */
 
+// Règles de progression : copie de data/blood_actions.json (thresholds, aliases, repeat).
+// Les tests (tests/apps_script.test.cjs) vérifient que ces constantes restent identiques au catalogue.
+const THRESHOLDS = {1: 30, 2: 60, 3: 120, 4: 200};
+const CLAN_ALIASES = {hecata: 'giovanni', ministry: 'setite', setites: 'setite', assamites: 'banu_haqim',
+  assamite: 'banu_haqim', malkavien: 'malkavian', gargouilles: 'gargoyles'};
+const REPEAT_FACTORS = [1, 0.75, 0.5];
+function normalizeClan(clan) {
+  const key = String(clan || '').trim().toLowerCase().replace(/[ -]/g, '_');
+  return CLAN_ALIASES[key] || key;
+}
+// Même action, même rang : 100 %, 75 %, puis 50 % (arrondi au supérieur).
+function diminishedPoints(points, previousAwards) {
+  const factor = REPEAT_FACTORS[Math.min(Math.max(previousAwards, 0), REPEAT_FACTORS.length - 1)];
+  return points > 0 ? Math.ceil(points * factor) : 0;
+}
+function isAward(item) { return item && item.reward && !item.refused; }
+
 // Noms des feuilles (avec fallback pour rétrocompatibilité)
 const SHEET_PERSONNAGES = 'Personnages';
 const SHEET_PERSONNAGES_FALLBACK = 'Feuil1';  // Ancien nom
@@ -222,16 +239,27 @@ function awardAction(p) {
   if (previous) { if (!previous.reward) throw new Error('Already refused'); return previous.reward; }
   if (p.isUnique && (char.completedActions || []).includes(p.actionId)) throw new Error('Already completed');
   if (!p.submissionId || !Number.isInteger(p.points) || p.points < 0) throw new Error('Invalid reward');
-  const thresholds = {1:30, 2:60, 3:120, 4:250};
   const old_bp = Number(char.bloodPotency) || 1;
-  let new_bp = old_bp, new_saturation = (Number(char.saturationPoints) || 0) + p.points;
-  while (new_bp < 5 && new_saturation >= thresholds[new_bp]) { new_saturation -= thresholds[new_bp]; new_bp++; }
+  // Montant final : rendement décroissant depuis la base du catalogue, sauf montant ajusté par le MJ (pas de basePoints).
+  let points = p.points;
+  if (Number.isInteger(p.basePoints) && p.basePoints >= 0) {
+    const previous = history.filter(h => isAward(h) && h.actionId === p.actionId && h.bp === old_bp).length;
+    points = diminishedPoints(p.basePoints, previous);
+  }
+  // Clé de rang : chaque seuil ne s'ouvre qu'avec la voie de clan du rang courant déjà validée (ou validée maintenant).
+  const clan = normalizeClan(char.clan);
+  const keys = new Set(history.filter(isAward).map(h => h.actionId));
+  keys.add(p.actionId);
+  let new_bp = old_bp, new_saturation = (Number(char.saturationPoints) || 0) + points;
+  while (new_bp < 5 && new_saturation >= THRESHOLDS[new_bp] && keys.has(`vitae_${clan}_${new_bp}`)) { new_saturation -= THRESHOLDS[new_bp]; new_bp++; }
   if (new_bp >= 5) new_saturation = 0;
-  const reward = {mutated: new_bp !== old_bp, old_bp, new_bp, new_saturation, points_added: p.points};
+  const blocked_by_key = new_bp < 5 && new_saturation >= THRESHOLDS[new_bp] ? `vitae_${clan}_${new_bp}` : null;
+  const reward = {mutated: new_bp !== old_bp, old_bp, new_bp, new_saturation, points_added: points, blocked_by_key};
   saveCharacter(String(p.userId), {bloodPotency: new_bp, saturationPoints: new_saturation,
     pendingActions: (char.pendingActions || []).filter(a => (typeof a === 'string' ? a : a.action_id) !== p.actionId),
     completedActions: p.isUnique ? [...new Set([...(char.completedActions || []), p.actionId])] : (char.completedActions || []),
-    history: [...history, {submissionId: p.submissionId, reward, text: p.actionName, date: new Date().toISOString()}]});
+    history: [...history, {submissionId: p.submissionId, reward, text: p.actionName, date: new Date().toISOString(),
+      actionId: p.actionId, bp: old_bp, type: new_bp !== old_bp ? 'levelup' : 'action'}]});
   return reward;
 }
 
@@ -320,12 +348,11 @@ function validateAction(userId, actionId, points, isUnique, hasCooldown) {
   // Ajouter les points de saturation
   char.saturationPoints = (parseInt(char.saturationPoints) || 0) + points;
 
-  // Vérifier si mutation
-  const thresholds = { 1: 30, 2: 60, 3: 120, 4: 250 };
+  // Vérifier si mutation (ancien chemin, sans clé de rang ni rendement décroissant)
   const currentBP = parseInt(char.bloodPotency) || 1;
   char.bloodPotency = currentBP;
-  while (char.bloodPotency < 5 && char.saturationPoints >= thresholds[char.bloodPotency]) {
-    char.saturationPoints -= thresholds[char.bloodPotency];
+  while (char.bloodPotency < 5 && char.saturationPoints >= THRESHOLDS[char.bloodPotency]) {
+    char.saturationPoints -= THRESHOLDS[char.bloodPotency];
     char.bloodPotency += 1;
   }
   if (char.bloodPotency >= 5) char.saturationPoints = 0;
