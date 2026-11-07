@@ -25908,5 +25908,59 @@
     "public": false,
     "catalog": true,
     "variables": []
+  },
+  "vampire.rules.blush.title": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le Souffle de Vie",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.blush.body": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Forcez votre sang à imiter la vie : un teint rosé, une peau tiède, un cœur qui bat. Vous pouvez manger, boire ou partager un lit sans trahir votre nature ; la nourriture devra être rendue avant l'aube. ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.blush.cost": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Coût : 1 point de Vitae",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.blush.end": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " pour toute la scène.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.diablerie.label": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Diablerie :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.diablerie.body": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Boire l'âme d'un Caïnite laisse une marque. Des stries noires veinent votre aura, visibles de qui sait lire les âmes, et certains pouvoirs seuls savent les masquer. Elles ne s'effacent pas d'elles-mêmes : seul le MJ décide, au fil du récit, qu'elles ont pâli.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
   }
 }
