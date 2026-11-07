@@ -6,10 +6,12 @@ import React, { useState } from 'react';
 import { Users, Plus, Trash2, Edit2, Save, X, Droplet, Shield, AlertCircle } from 'lucide-react';
 
 import ghoulCatalog from '../../../../../data/ghoul_disciplines.json';
+import { normalizeClan } from '../../../data/bloodActions';
 const GHOUL_LIMITS = ghoulCatalog.limits;
 const MIND_LIMITS = ghoulCatalog.mindLimits || {};
 const GHOUL_COST = ghoulCatalog.bloodCost || 0;
-const CLAN_DISCIPLINES = { ...ghoulCatalog.clans, setites: ghoulCatalog.clans.setite, assamites: ghoulCatalog.clans.banu_haqim };
+// Clés canoniques du bot (setite, banu_haqim…) ; normalizeClan ramène les alias du site (setites, hecata…).
+const CLAN_DISCIPLINES = ghoulCatalog.clans;
 
 export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGhouls }) {
     useSiteContent();
@@ -27,7 +29,7 @@ export default function GhoulsTab({ ghouls = [], clan, bloodPotency, onUpdateGho
 
   // Vérifier si le personnage peut créer des goules de l'esprit
   // Condition: BP >= 4 ET possède Domination dans son clan
-  const clanDisciplines = CLAN_DISCIPLINES[clan?.toLowerCase()] || [];
+  const clanDisciplines = CLAN_DISCIPLINES[normalizeClan(clan || '')] || [];
   const hasDominate = clanDisciplines.includes('Domination');
   const canCreateMindGhouls = bloodPotency >= 4 && hasDominate && mindGhoulsCount < maxMindGhouls;
 

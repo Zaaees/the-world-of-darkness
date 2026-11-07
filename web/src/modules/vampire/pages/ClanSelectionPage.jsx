@@ -56,9 +56,10 @@ export default function ClanSelection({ userId, guildId, onClanSelected }) {
 
       if (data.success) {
         clearDraft(`vampire:origin:${guildId}:${userId}:${selectedClan.id}`);
-        // Succès! Appeler le callback
+        // Succès! Appeler le callback avec la clé canonique stockée par le serveur
+        // (ex. « setites » est enregistré sous « setite »).
         if (onClanSelected) {
-          onClanSelected(selectedClan.id);
+          onClanSelected(data.clan || selectedClan.id);
         }
       } else {
         setError(data.error || siteText("vampire.text.02564"));

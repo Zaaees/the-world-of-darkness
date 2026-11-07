@@ -1,6 +1,7 @@
 """
 API Server pour l'interface web
-Expose les endpoints pour la gestion des goules (web-only, pas de commandes Discord)
+Expose les endpoints REST du site (profil, clan, fiches, rituels, PNJ).
+Les goules passent par POST /api/vampire/character (modules/vampire/api.py).
 """
 
 import json
@@ -16,15 +17,9 @@ from dotenv import load_dotenv
 import discord
 
 from utils.database import (
-    create_ghoul,
-    delete_ghoul,
-    get_ghouls,
-    get_max_ghouls,
-    get_ghoul_count,
     get_vampire_data,
     get_player,
     set_player,
-    update_ghoul,
     get_character_sheet,
     save_character_sheet,
     get_player_rituals,
@@ -157,173 +152,6 @@ async def verify_gm_auth(request) -> Optional[tuple]:
     if ROLE_MJ_VAMPIRE in member_roles or ROLE_FONDATEUR in member_roles:
         return (user_id, guild_id, member)
     return None
-
-
-# --- ENDPOINTS GOULES ---
-
-
-async def get_ghouls_handler(request):
-    """GET /api/ghouls - Récupérer les goules du vampire."""
-    auth = await verify_vampire_auth(request)
-    if not auth:
-        return web.json_response(
-            {"success": False, "error": "Non authentifié"}, status=401
-        )
-
-    user_id, guild_id = auth
-
-    try:
-        # Vérifier que l'utilisateur est un vampire
-        vampire_data = await get_vampire_data(user_id, guild_id)
-        if not vampire_data or not vampire_data.get("clan"):
-            return web.json_response(
-                {"success": False, "error": "Vous devez être un vampire"},
-                status=403,
-            )
-
-        # Récupérer les goules
-        ghouls = await get_ghouls(user_id, guild_id)
-        max_ghouls = await get_max_ghouls(user_id, guild_id)
-        current_count = await get_ghoul_count(user_id, guild_id)
-
-        return web.json_response(
-            {
-                "success": True,
-                "ghouls": ghouls,
-                "blood_potency": vampire_data.get("blood_potency", 1),
-                "max_ghouls": max_ghouls,
-                "current_count": current_count,
-            }
-        )
-
-    except Exception as e:
-        logger.error(f"Erreur get_ghouls: {e}", exc_info=True)
-        return web.json_response(
-            {"success": False, "error": str(e)}, status=500
-        )
-
-
-async def create_ghoul_handler(request):
-    """POST /api/ghouls - Créer une nouvelle goule."""
-    auth = await verify_vampire_auth(request)
-    if not auth:
-        return web.json_response(
-            {"success": False, "error": "Non authentifié"}, status=401
-        )
-
-    user_id, guild_id = auth
-
-    try:
-        # Parser le corps de la requête
-        data = await request.json()
-        name = data.get("name", "").strip()
-        description = data.get("description", "").strip()
-        role = data.get("role", "").strip()
-
-        if not name:
-            return web.json_response(
-                {"success": False, "error": "Le nom est requis"}, status=400
-            )
-
-        # Vérifier que l'utilisateur est un vampire
-        vampire_data = await get_vampire_data(user_id, guild_id)
-        if not vampire_data or not vampire_data.get("clan"):
-            return web.json_response(
-                {"success": False, "error": "Vous devez être un vampire"},
-                status=403,
-            )
-
-        clan = vampire_data.get("clan")
-
-        # Créer la goule
-        result = await create_ghoul(
-            user_id, guild_id, name, description or None, role or None
-        )
-
-        if result["success"]:
-            return web.json_response(result, status=201)
-        else:
-            return web.json_response(result, status=400)
-
-    except json.JSONDecodeError:
-        return web.json_response(
-            {"success": False, "error": "JSON invalide"}, status=400
-        )
-    except Exception as e:
-        logger.error(f"Erreur create_ghoul: {e}", exc_info=True)
-        return web.json_response(
-            {"success": False, "error": str(e)}, status=500
-        )
-
-
-async def update_ghoul_handler(request):
-    """PUT /api/ghouls/{ghoul_id} - Mettre à jour une goule."""
-    auth = await verify_vampire_auth(request)
-    if not auth:
-        return web.json_response(
-            {"success": False, "error": "Non authentifié"}, status=401
-        )
-
-    user_id, guild_id = auth
-    ghoul_id = request.match_info.get("ghoul_id")
-
-    try:
-        # Parser le corps de la requête
-        data = await request.json()
-
-        # Mettre à jour la goule
-        result = await update_ghoul(
-            ghoul_id,
-            user_id,
-            guild_id,
-            name=data.get("name"),
-            description=data.get("description"),
-            role=data.get("role"),
-            notes=data.get("notes"),
-            status=data.get("status"),
-        )
-
-        if result["success"]:
-            return web.json_response(result)
-        else:
-            return web.json_response(result, status=404)
-
-    except json.JSONDecodeError:
-        return web.json_response(
-            {"success": False, "error": "JSON invalide"}, status=400
-        )
-    except Exception as e:
-        logger.error(f"Erreur update_ghoul: {e}", exc_info=True)
-        return web.json_response(
-            {"success": False, "error": str(e)}, status=500
-        )
-
-
-async def delete_ghoul_handler(request):
-    """DELETE /api/ghouls/{ghoul_id} - Supprimer/libérer une goule."""
-    auth = await verify_vampire_auth(request)
-    if not auth:
-        return web.json_response(
-            {"success": False, "error": "Non authentifié"}, status=401
-        )
-
-    user_id, guild_id = auth
-    ghoul_id = request.match_info.get("ghoul_id")
-
-    try:
-        # Supprimer la goule
-        result = await delete_ghoul(ghoul_id, user_id, guild_id)
-
-        if result["success"]:
-            return web.json_response(result)
-        else:
-            return web.json_response(result, status=404)
-
-    except Exception as e:
-        logger.error(f"Erreur delete_ghoul: {e}", exc_info=True)
-        return web.json_response(
-            {"success": False, "error": str(e)}, status=500
-        )
 
 
 # --- GUILD DETECTION ---
@@ -724,20 +552,22 @@ async def set_vampire_clan_handler(request):
     try:
         # Parser le corps de la requête
         data = await request.json()
-        clan = data.get("clan", "").strip().lower()
+        raw_clan = str(data.get("clan") or "").strip()
 
-        if not clan:
+        if not raw_clan:
             return web.json_response(
                 {"success": False, "error": "Le clan est requis"}, status=400
             )
 
-        # Vérifier que le clan existe
-        from data.clans import get_clan
-        clan_data = get_clan(clan)
-        if not clan_data:
+        # Vérifier que le clan existe ; les alias du site (setites, assamites…)
+        # sont ramenés à la clé canonique stockée (setite, banu_haqim…).
+        from data.clans import CLANS, canonical_clan_key
+        clan = canonical_clan_key(raw_clan)
+        if not clan:
             return web.json_response(
                 {"success": False, "error": "Clan non reconnu"}, status=400
             )
+        clan_data = CLANS[clan]
 
         # Récupérer le bot et vérifier le rôle
         bot = request.app.get("bot")
@@ -762,18 +592,25 @@ async def set_vampire_clan_handler(request):
                 )
 
         # Vérifier le rôle Vampire
-        from data.config import ROLE_VAMPIRE
-        has_vampire_role = any(role.id == ROLE_VAMPIRE for role in member.roles)
+        from data.config import ROLE_VAMPIRE, ROLE_MJ_VAMPIRE, ROLE_FONDATEUR
+        member_role_ids = {role.id for role in member.roles}
 
-        if not has_vampire_role:
+        if ROLE_VAMPIRE not in member_role_ids:
             return web.json_response(
                 {"success": False, "error": "Vous devez avoir le rôle Vampire"},
                 status=403
             )
 
+        # Les clans réservés (Caïn) ne peuvent être pris que par un MJ.
+        if clan_data.get("gm_only") and not member_role_ids & {ROLE_MJ_VAMPIRE, ROLE_FONDATEUR}:
+            return web.json_response(
+                {"success": False, "error": "Ce clan est réservé au MJ"},
+                status=403
+            )
+
         # Vérifier que le joueur n'a pas déjà un clan
         player = await get_player(user_id, guild_id)
-        if player and player.get("clan") and player["clan"] != clan:
+        if player and player.get("clan") and canonical_clan_key(player["clan"]) != clan:
             return web.json_response(
                 {"success": False, "error": "Vous avez déjà un clan défini"},
                 status=400
@@ -1091,10 +928,6 @@ def create_app(bot=None):
     app.router.add_get("/api/character-sheet", get_character_sheet_handler)
     app.router.add_post("/api/character-sheet", save_character_sheet_handler)
     app.router.add_post("/api/upload", upload_image_handler)
-    app.router.add_get("/api/ghouls", get_ghouls_handler)
-    app.router.add_post("/api/ghouls", create_ghoul_handler)
-    app.router.add_put("/api/ghouls/{ghoul_id}", update_ghoul_handler)
-    app.router.add_delete("/api/ghouls/{ghoul_id}", delete_ghoul_handler)
     app.router.add_get("/api/rituals", get_player_rituals_handler)
     
     from modules.vampire.api import register_routes

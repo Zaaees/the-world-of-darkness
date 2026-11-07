@@ -6,6 +6,8 @@ Chaque clan a des compulsions progressives selon le niveau de Soif (1-5).
 Les compulsions deviennent de plus en plus impératives à mesure que la Soif augmente.
 """
 
+from data.blood_actions import normalize_clan
+
 CLANS = {
     "brujah": {
         "nom": "Brujah",
@@ -600,9 +602,16 @@ CLANS = {
 }
 
 
+def canonical_clan_key(clan_name: str | None) -> str | None:
+    """Clé de CLANS pour un nom ou un alias (setites, assamites, hecata…), sinon None."""
+    key = normalize_clan(clan_name or "")
+    return key if key in CLANS else None
+
+
 def get_clan(clan_name: str) -> dict | None:
-    """Récupère les informations d'un clan par son nom (insensible à la casse)."""
-    return CLANS.get(clan_name.lower().replace(" ", "_").replace("-", "_"))
+    """Récupère les informations d'un clan par son nom ou un alias (insensible à la casse)."""
+    key = canonical_clan_key(clan_name)
+    return CLANS[key] if key else None
 
 
 def get_compulsion(clan_name: str, soif_level: int) -> dict | None:

@@ -5,6 +5,7 @@ import SiteText from '../../../core/content/SiteText';
 import React, { useState } from 'react';
 import { ChevronDown, BookOpen } from 'lucide-react';
 import starterPackData from '../../../assets/starter_pack_data.json';
+import { resolveClanId } from '../../../data/clanDescriptions';
 
 export default function StarterPackDisplay({ answers, clanId }) {
     useSiteContent();
@@ -14,8 +15,8 @@ export default function StarterPackDisplay({ answers, clanId }) {
         return null;
     }
 
-    // Normalize clanId to snake_case (e.g. "Silent Striders" -> "silent_striders" just in case, or "Brujah" -> "brujah")
-    const normalizedClanId = clanId ? clanId.toLowerCase().replace(/\s+/g, '_') : '';
+    // Stored canonical keys (setite, banu_haqim…) map back to the site's clan ids (setites, assamites…).
+    const normalizedClanId = resolveClanId(clanId);
 
     const clanQuestions = answers.questions || starterPackData.vampire.clans[normalizedClanId] || [];
     const q1 = clanQuestions[0] || "Décrivez votre première nuit en tant que Damné.";

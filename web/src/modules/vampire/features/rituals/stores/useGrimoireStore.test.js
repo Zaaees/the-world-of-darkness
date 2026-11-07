@@ -9,16 +9,38 @@ describe('useGrimoireStore', () => {
             useGrimoireStore.setState({
                 rituals: [], // Reset to empty for controlled testing
                 filters: { disciplines: [], levels: [] },
-                searchQuery: ''
+                searchQuery: '',
+                // Most tests below exercise the GM library
+                canViewLibrary: true,
+                viewMode: 'GM'
             });
         });
     });
 
     it('should initialize with correct default state', () => {
+        const initial = useGrimoireStore.getInitialState();
+        expect(initial.filters).toEqual({ disciplines: [], levels: [] });
+        expect(initial.searchQuery).toBe('');
+        // Players start in their own grimoire; the GM library is opt-in by role
+        expect(initial.viewMode).toBe('PLAYER');
+        expect(initial.canViewLibrary).toBe(false);
+    });
+
+    it('keeps players out of the GM library', () => {
         const { result } = renderHook(() => useGrimoireStore());
-        expect(result.current.filters).toEqual({ disciplines: [], levels: [] });
-        expect(result.current.searchQuery).toBe('');
-        // New default for Story 3.2
+        act(() => result.current.setCanViewLibrary(false));
+        expect(result.current.viewMode).toBe('PLAYER');
+
+        act(() => result.current.toggleViewMode());
+        expect(result.current.viewMode).toBe('PLAYER');
+
+        act(() => result.current.setViewMode('GM'));
+        expect(result.current.viewMode).toBe('PLAYER');
+
+        act(() => {
+            result.current.setCanViewLibrary(true);
+            result.current.setViewMode('GM');
+        });
         expect(result.current.viewMode).toBe('GM');
     });
 

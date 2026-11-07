@@ -31,7 +31,8 @@ export const useGrimoireStore = create((set, get) => ({
     rituals: [],
     searchQuery: '',
     selectedRitual: null, // Story 3.3: Selected ritual for Reader
-    viewMode: 'GM', // Default to GM for tests and administration
+    viewMode: 'PLAYER', // Player view by default; the GM library needs canViewLibrary
+    canViewLibrary: false, // Only GMs (is_gm) and Caïn mode may open the full library
     filters: {
         disciplines: [],
         levels: []
@@ -43,8 +44,14 @@ export const useGrimoireStore = create((set, get) => ({
     setSearchQuery: (query) => set({ searchQuery: query }),
     setSelectedRitual: (ritual) => set({ selectedRitual: ritual }),
     setRituals: (rituals) => set({ rituals: rituals }),
-    toggleViewMode: () => set((state) => ({ viewMode: state.viewMode === 'GM' ? 'PLAYER' : 'GM' })),
-    setViewMode: (mode) => set({ viewMode: mode }),
+    toggleViewMode: () => set((state) => (state.canViewLibrary
+        ? { viewMode: state.viewMode === 'GM' ? 'PLAYER' : 'GM' }
+        : { viewMode: 'PLAYER' })),
+    setViewMode: (mode) => set((state) => ({ viewMode: mode === 'GM' && !state.canViewLibrary ? 'PLAYER' : mode })),
+    setCanViewLibrary: (allowed) => set((state) => ({
+        canViewLibrary: Boolean(allowed),
+        viewMode: allowed ? state.viewMode : 'PLAYER'
+    })),
 
     addFilter: (type, value) => set((state) => {
         const currentFilters = state.filters[type] || [];

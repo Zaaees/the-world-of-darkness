@@ -31,6 +31,7 @@ describe('MobileFilterDrawer', () => {
                 filters: { disciplines: [], levels: [] },
                 searchQuery: '',
                 viewMode: 'GM',
+                canViewLibrary: true,
             });
         });
         mockOnClose.mockClear();

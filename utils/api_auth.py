@@ -80,7 +80,7 @@ async def identity_middleware(request, handler):
             return failure("Vous n'êtes pas membre de ce serveur.", 403)
     request["verified_member"] = member
     request["verified_guild_id"] = guild_id
-    vampire_path = (request.path.startswith("/api/vampire/") and request.path != "/api/vampire/profile") or request.path.startswith(("/api/character-sheet", "/api/ghouls", "/api/rituals"))
+    vampire_path = (request.path.startswith("/api/vampire/") and request.path != "/api/vampire/profile") or request.path.startswith(("/api/character-sheet", "/api/rituals"))
     roles = {role.id for role in member.roles}
     if vampire_path and not roles.intersection({ROLE_VAMPIRE, ROLE_MJ_VAMPIRE, ROLE_FONDATEUR}):
         return failure("Le rôle Vampire est requis.", 403)

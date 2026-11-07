@@ -596,7 +596,7 @@
   "vampire.text.00068": {
     "scope": "vampire",
     "source": "data/clanDescriptions.js",
-    "default": "• Disciplines : Auspex, Domination, Occultation\n• Aliénation mentale transmise par l'Étreinte\n• Connectés via le Réseau de la Folie (Cobweb)",
+    "default": "• Disciplines : Auspex, Aliénation, Occultation\n• Aliénation mentale transmise par l'Étreinte\n• Connectés via le Réseau de la Folie (Cobweb)",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -1082,7 +1082,7 @@
   "vampire.text.00122": {
     "scope": "vampire",
     "source": "data/clanDescriptions.js",
-    "default": "• Disciplines : Animalisme, Domination, Vicissitude\n• Liés mystiquement à leur terre natale\n• Traditions d'hospitalité sacrées et impitoyables",
+    "default": "• Disciplines : Animalisme, Auspex, Vicissitude\n• Liés mystiquement à leur terre natale\n• Traditions d'hospitalité sacrées et impitoyables",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -1163,7 +1163,7 @@
   "vampire.text.00131": {
     "scope": "vampire",
     "source": "data/clanDescriptions.js",
-    "default": "• Disciplines : Animalisme, Chimerstry, Présence\n• Incapables de rester longtemps au même endroit\n• Clan décimé par la Semaine des Cauchemars",
+    "default": "• Disciplines : Animalisme, Chimerstry, Force d'âme\n• Incapables de rester longtemps au même endroit\n• Clan décimé par la Semaine des Cauchemars",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -1487,7 +1487,7 @@
   "vampire.text.00167": {
     "scope": "vampire",
     "source": "data/clanDescriptions.js",
-    "default": "• Disciplines : Force d'âme, Puissance, Visceratika\n• Capacité de vol et peau quasi-minérale\n• Créés artificiellement par les Tremere",
+    "default": "• Disciplines : Force d'âme, Puissance, Visceratika, Vol\n• Capacité de vol et peau quasi-minérale\n• Créés artificiellement par les Tremere",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -1811,7 +1811,7 @@
   "vampire.text.00203": {
     "scope": "vampire",
     "source": "data/clanDescriptions.js",
-    "default": "• Disciplines : Auspex, Force d'âme, Valeren/Obeah\n• Troisième œil s'ouvrant lors des pouvoirs\n• Clan presque exterminé par les Tremere",
+    "default": "• Disciplines : Auspex, Force d'âme, Présence\n• Troisième œil s'ouvrant lors des pouvoirs\n• Clan presque exterminé par les Tremere",
     "maxLength": 12000,
     "public": false,
     "catalog": true,

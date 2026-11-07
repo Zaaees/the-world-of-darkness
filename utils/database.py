@@ -13,7 +13,6 @@ from typing import Optional
 import logging
 import math
 import uuid
-import random
 from data.blood_actions import SATURATION_THRESHOLDS, advance_saturation
 from data.config import (
     VITAE_QUICK_FEED_RATIO,
@@ -115,25 +114,6 @@ async def init_database():
             )
         """)
 
-        # Table des goules (Vampires)
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS vampire_ghouls (
-                id TEXT PRIMARY KEY,
-                vampire_user_id INTEGER NOT NULL,
-                vampire_guild_id INTEGER NOT NULL,
-                name TEXT NOT NULL,
-                description TEXT,
-                role TEXT,
-                discipline_id TEXT,
-                discipline_name TEXT,
-                discipline_power TEXT,
-                status TEXT DEFAULT 'actif',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                notes TEXT,
-                FOREIGN KEY (vampire_user_id, vampire_guild_id) REFERENCES players(user_id, guild_id)
-            )
-        """)
-
         # Index pour les performances
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_players_guild ON players(guild_id)"
@@ -146,9 +126,6 @@ async def init_database():
         )
         await db.execute(
             "CREATE INDEX IF NOT EXISTS idx_werewolf_guild ON werewolf_rage(guild_id)"
-        )
-        await db.execute(
-            "CREATE INDEX IF NOT EXISTS idx_ghouls_vampire ON vampire_ghouls(vampire_user_id, vampire_guild_id)"
         )
 
         # Table des fiches de personnage
@@ -380,11 +357,6 @@ async def delete_player(user_id: int, guild_id: int, keep_race: bool = False):
         # Supprimer la fiche de personnage locale
         await db.execute(
             "DELETE FROM character_sheets WHERE user_id = ? AND guild_id = ?",
-            (user_id, guild_id),
-        )
-        # Supprimer les goules
-        await db.execute(
-            "DELETE FROM vampire_ghouls WHERE vampire_user_id = ? AND vampire_guild_id = ?",
             (user_id, guild_id),
         )
         # Supprimer l'historique des actions de sang
@@ -888,6 +860,27 @@ async def get_pending_actions(user_id: int, guild_id: int) -> list[dict]:
         return [dict(row) for row in rows]
 
 
+async def delete_pending_actions(user_id: int, guild_id: int) -> list[dict]:
+    """Supprime les demandes d'action de Vitae encore en attente d'un joueur (reset).
+
+    Retourne les demandes supprimées, pour que l'appelant puisse retirer
+    leurs messages de validation sur Discord.
+    """
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT * FROM pending_blood_actions WHERE user_id = ? AND guild_id = ? AND status = 'pending'",
+            (user_id, guild_id),
+        )
+        removed = [dict(row) for row in await cursor.fetchall()]
+        await db.execute(
+            "DELETE FROM pending_blood_actions WHERE user_id = ? AND guild_id = ? AND status = 'pending'",
+            (user_id, guild_id),
+        )
+        await db.commit()
+        return removed
+
+
 async def get_all_pending_actions(guild_id: int) -> list[dict]:
     """Récupère toutes les actions en attente pour une guilde."""
     async with aiosqlite.connect(DATABASE_PATH) as db:
@@ -1157,247 +1150,6 @@ async def get_blood_action_history(user_id: int, guild_id: int, limit: int = 20)
         )
         rows = await cursor.fetchall()
         return [dict(row) for row in rows]
-
-
-# ============================================
-# Fonctions pour les goules
-# ============================================
-
-# Limites de goules par Blood Potency (source : data/ghoul_disciplines.json)
-GHOUL_LIMITS = {int(k): v for k, v in json.loads(
-    (Path(__file__).parents[1] / "data" / "ghoul_disciplines.json").read_text(encoding="utf-8"))["limits"].items()}
-
-# Mapping des disciplines par clan (doit correspondre à CLAN_DISCIPLINES dans disciplines.js)
-CLAN_DISCIPLINES = {
-    "brujah": ["celerity", "potence", "presence"],
-    "gangrel": ["animalism", "fortitude", "protean"],
-    "malkavian": ["auspex", "dementation", "obfuscate"],
-    "nosferatu": ["animalism", "obfuscate", "potence"],
-    "toreador": ["auspex", "celerity", "presence"],
-    "tremere": ["auspex", "dominate", "thaumaturgy"],
-    "ventrue": ["dominate", "fortitude", "presence"],
-    "lasombra": ["dominate", "obtenebration", "potence"],
-    "tzimisce": ["animalism", "auspex", "vicissitude"],
-    "giovanni": ["dominate", "necromancy", "potence"],
-    "hecata": ["dominate", "necromancy", "potence"],
-    "setite": ["obfuscate", "presence", "serpentis"],
-    "ministry": ["obfuscate", "presence", "serpentis"],
-    "banu_haqim": ["celerity", "obfuscate", "quietus"],
-    "ravnos": ["animalism", "chimerstry", "fortitude"]
-}
-
-# Noms des disciplines (doit correspondre à disciplines.js)
-DISCIPLINE_NAMES = {
-    "animalism": "Animalisme",
-    "auspex": "Auspex",
-    "celerity": "Célérité",
-    "dominate": "Domination",
-    "fortitude": "Force d'Âme",
-    "obfuscate": "Occultation",
-    "potence": "Puissance",
-    "presence": "Présence",
-    "protean": "Protéisme",
-    "obtenebration": "Obténébration",
-    "thaumaturgy": "Thaumaturgie",
-    "vicissitude": "Vicissitude",
-    "necromancy": "Nécromancie",
-    "quietus": "Quietus",
-    "serpentis": "Serpentis",
-    "dementation": "Aliénation",
-    "chimerstry": "Chimérie"
-}
-
-# Pouvoirs niveau 1 des disciplines (doit correspondre à disciplines.js)
-DISCIPLINE_POWERS = {
-    "animalism": "Murmures Fauves",
-    "auspex": "Sens Accrus",
-    "celerity": "Grâce Féline",
-    "dominate": "Commandement",
-    "fortitude": "Résilience",
-    "obfuscate": "Cape d'Ombre",
-    "potence": "Vigueur",
-    "presence": "Fascination",
-    "protean": "Yeux de la Bête",
-    "obtenebration": "Jeu d'Ombres",
-    "thaumaturgy": "Goût du Sang",
-    "vicissitude": "Modelage Mineur",
-    "necromancy": "Tremens",
-    "quietus": "Silence de la Mort",
-    "serpentis": "Regard Hypnotique",
-    "dementation": "Passion",
-    "chimerstry": "Ignis Fatuus"
-}
-
-
-def get_random_discipline_for_clan(clan: str) -> tuple[str, str, str]:
-    """
-    Retourne une discipline aléatoire parmi les 3 du clan.
-    Returns: (discipline_id, discipline_name, discipline_power)
-    """
-    clan_lower = clan.lower()
-    disciplines = CLAN_DISCIPLINES.get(clan_lower, [])
-
-    if not disciplines:
-        return ("", "", "")
-
-    discipline_id = random.choice(disciplines)
-    discipline_name = DISCIPLINE_NAMES.get(discipline_id, "")
-    discipline_power = DISCIPLINE_POWERS.get(discipline_id, "")
-
-    return (discipline_id, discipline_name, discipline_power)
-
-
-async def create_ghoul(
-    vampire_user_id: int,
-    vampire_guild_id: int,
-    name: str,
-    description: str = "",
-    role: str = "",
-    notes: str = ""
-) -> dict:
-    """Crée une nouvelle goule pour un vampire."""
-    # Récupérer le clan du vampire et sa BP
-    vampire_data = await get_vampire_data(vampire_user_id, vampire_guild_id)
-    clan = vampire_data.get("clan", "").lower()
-    blood_potency = vampire_data.get("blood_potency", 1)
-
-    # Vérifier la limite de goules
-    ghoul_count = await get_ghoul_count(vampire_user_id, vampire_guild_id)
-    max_ghouls = GHOUL_LIMITS.get(blood_potency, 2)
-
-    if ghoul_count >= max_ghouls:
-        return {
-            "success": False,
-            "reason": f"Limite de goules atteinte ({ghoul_count}/{max_ghouls} pour BP {blood_potency})"
-        }
-
-    # Assigner une discipline aléatoire parmi celles du clan
-    discipline_id, discipline_name, discipline_power = get_random_discipline_for_clan(clan)
-
-    ghoul_id = str(uuid.uuid4())
-
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        await db.execute(
-            """
-            INSERT INTO vampire_ghouls (
-                id, vampire_user_id, vampire_guild_id, name, description,
-                role, discipline_id, discipline_name, discipline_power,
-                status, created_at, notes
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'actif', CURRENT_TIMESTAMP, ?)
-            """,
-            (
-                ghoul_id,
-                vampire_user_id,
-                vampire_guild_id,
-                name,
-                description,
-                role,
-                discipline_id,
-                discipline_name,
-                discipline_power,
-                notes
-            ),
-        )
-        await db.commit()
-
-    return {
-        "success": True,
-        "ghoul_id": ghoul_id,
-        "discipline_id": discipline_id,
-        "discipline_name": discipline_name,
-        "discipline_power": discipline_power
-    }
-
-
-async def get_ghouls(vampire_user_id: int, vampire_guild_id: int) -> list[dict]:
-    """Récupère toutes les goules d'un vampire."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        db.row_factory = aiosqlite.Row
-        cursor = await db.execute(
-            """
-            SELECT * FROM vampire_ghouls
-            WHERE vampire_user_id = ? AND vampire_guild_id = ?
-            ORDER BY created_at DESC
-            """,
-            (vampire_user_id, vampire_guild_id),
-        )
-        rows = await cursor.fetchall()
-        return [dict(row) for row in rows]
-
-
-async def get_ghoul_count(vampire_user_id: int, vampire_guild_id: int) -> int:
-    """Récupère le nombre de goules actives d'un vampire."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            """
-            SELECT COUNT(*) FROM vampire_ghouls
-            WHERE vampire_user_id = ? AND vampire_guild_id = ? AND status = 'actif'
-            """,
-            (vampire_user_id, vampire_guild_id),
-        )
-        row = await cursor.fetchone()
-        return row[0] if row else 0
-
-
-async def update_ghoul(
-    ghoul_id: str,
-    name: Optional[str] = None,
-    description: Optional[str] = None,
-    role: Optional[str] = None,
-    notes: Optional[str] = None,
-    status: Optional[str] = None
-) -> bool:
-    """Met à jour les informations d'une goule."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        updates = []
-        params = []
-
-        if name is not None:
-            updates.append("name = ?")
-            params.append(name)
-        if description is not None:
-            updates.append("description = ?")
-            params.append(description)
-        if role is not None:
-            updates.append("role = ?")
-            params.append(role)
-        if notes is not None:
-            updates.append("notes = ?")
-            params.append(notes)
-        if status is not None:
-            updates.append("status = ?")
-            params.append(status)
-
-        if not updates:
-            return False
-
-        params.append(ghoul_id)
-
-        await db.execute(
-            f"UPDATE vampire_ghouls SET {', '.join(updates)} WHERE id = ?",
-            params,
-        )
-        await db.commit()
-
-        return True
-
-
-async def delete_ghoul(ghoul_id: str) -> bool:
-    """Supprime une goule."""
-    async with aiosqlite.connect(DATABASE_PATH) as db:
-        cursor = await db.execute(
-            "DELETE FROM vampire_ghouls WHERE id = ?",
-            (ghoul_id,),
-        )
-        await db.commit()
-        return cursor.rowcount > 0
-
-
-async def get_max_ghouls(vampire_user_id: int, vampire_guild_id: int) -> int:
-    """Récupère le nombre maximum de goules autorisées selon la BP."""
-    blood_potency = await get_blood_potency(vampire_user_id, vampire_guild_id)
-    return GHOUL_LIMITS.get(blood_potency, 2)
 
 
 # ============================================
