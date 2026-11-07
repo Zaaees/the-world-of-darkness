@@ -92,23 +92,26 @@ export const DISCIPLINES = {
   auspex: {
     id: "auspex",
     name: "Auspex",
-    description: "Le voile entre les mondes s'efface. Tes sens transcendent la chair pour percevoir ce que les mortels ne verront jamais.",
+    description: "Le voile entre les mondes s'efface. Tes sens transcendent la chair pour percevoir ce que les mortels ne verront jamais. À force égale ou supérieure, ton regard perce les voiles de l'Occultation et les mirages de la Chimérie, à condition de les chercher.",
     powers: [
       {
+        id: "auspex-1-heightened-senses",
         level: 1,
         name: "Sens Accrus",
         bloodCost: 0,
         duration: "scene",
-        description: "Concentre-toi et l'un de tes sens devient surhumain. Choisis de voir dans l'obscurité totale des égouts comme en plein jour, d'entendre une conversation chuchotée à trois étages de distance, de suivre une trace à l'odeur comme un limier, de goûter le moindre poison dans le vin, ou de sentir les vibrations de pas à travers un mur. Les détails invisibles aux mortels t'apparaissent clairement. La contrepartie ? Pendant ce temps, tu es hypersensible : un flash de lumière t'aveugle, un bruit fort te paralyse."
+        description: "Tes sens s'aiguisent bien au-delà de ceux d'un mortel. Tu entends une conversation chuchotée à travers une porte, tu suis une odeur de sang dans la foule, tu lis un visage au fond d'une salle mal éclairée. Parfois, une intuition fulgurante te prévient d'un danger juste avant qu'il ne frappe. Ces sens ne te donnent pas la vision dans le noir absolu, et ils ont leur revers : un flash, une détonation ou une odeur violente peuvent t'aveugler ou t'assourdir pour une heure ou plus. Une beauté saisissante peut aussi te captiver au point de te faire oublier le reste."
       },
       {
+        id: "auspex-2-aura-perception",
         level: 2,
         name: "Perception de l'Aura",
         bloodCost: 0,
         duration: "instant",
-        description: "Regarde quelqu'un et tu vois son âme nue. Des volutes de couleurs tournent autour de lui : rouge pour la colère, bleu pour le calme, noir strié d'écarlate pour un vampire, or pâle pour un mortel pieux, vert maladif pour l'envie. Tu discernes ses émotions dominantes, détectes s'il ment, vois s'il est ensorcelé par la Domination, ou reconnais sa vraie nature surnaturelle. Les auras ne mentent jamais, mais les interpréter demande de l'expérience."
+        description: "Tu fixes quelqu'un quelques instants, et son âme se dévoile en un halo de couleurs. Rouge pour la colère, bleu pour le calme, vert maladif pour l'envie, une pâleur reconnaissable pour un vampire, des éclats étranges pour une goule, un mage ou une créature de la nuit. Tu discernes les émotions dominantes et la nature profonde de celui que tu regardes. Mais une aura n'est pas un détecteur de mensonge : le trouble d'un menteur ressemble beaucoup à celui d'un innocent nerveux. Et tu n'obtiens qu'une lecture nette par personne au cours d'une même scène."
       },
       {
+        id: "auspex-3-spirits-touch",
         level: 3,
         name: "Toucher de l'Esprit",
         bloodCost: 3,
@@ -116,6 +119,7 @@ export const DISCIPLINES = {
         description: "Prends un objet entre tes mains et ferme les yeux. Les émotions et souvenirs qui y sont imprégnés déferlent dans ton esprit en visions fragmentées. Ce couteau ? Tu vois son propriétaire le plonger dans le dos de sa victime. Cette lettre ? Tu ressens le désespoir de celle qui l'a écrite. Plus l'objet est chargé émotionnellement ou ancien, plus les visions sont intenses. Touche un mur et vois le meurtre qui s'y est déroulé il y a dix ans."
       },
       {
+        id: "auspex-4-telepathy",
         level: 4,
         name: "Télépathie",
         bloodCost: 3,
@@ -123,46 +127,76 @@ export const DISCIPLINES = {
         description: "Fixe quelqu'un et plonge dans son esprit. Ses pensées de surface te parviennent comme des murmures : 'Je dois cacher cette lettre', 'Il ment, je le sais', 'Comment sortir d'ici ?'. Tu peux aussi projeter tes propres pensées directement dans sa tête, créant une conversation silencieuse. Avec de l'effort, tu peux fouiller plus profondément, cherchant un souvenir précis, mais l'esprit résiste comme un château fortifié. Les pensées des vampires anciens sont encore plus difficiles à pénétrer."
       },
       {
+        id: "auspex-5-psychic-projection",
         level: 5,
         name: "Projection Psychique",
         bloodCost: 9,
         duration: "prolonged",
-        description: "Ton esprit se détache de ton corps de chair qui s'effondre, inanimé. Tu flottes au-dessus, forme fantomatique d'énergie psychique argentée, invisible aux mortels. Traverse les murs, vole au-dessus de la ville à la vitesse de la pensée, explore le repaire de ton ennemi sans risque. Tu peux voyager jusqu'au plan astral, un monde de symboles et d'archétypes où rôdent des entités étranges. Mais ton corps est vulnérable : s'il meurt pendant ton absence, ton esprit erre pour l'éternité."
+        description: "Ton esprit quitte ton corps, qui s'effondre comme en torpeur. Sous forme astrale, invisible et intangible, tu traverses les murs, survoles la ville à la vitesse de la pensée et observes le repaire de ton ennemi sans danger pour ta chair. Un cordon d'argent te relie toujours à ton corps. Tu ne peux rien toucher ni déplacer dans le monde physique, et ton corps ne sait pas ce qu'il subit pendant ton absence. Si le cordon est tranché, ton esprit s'échoue sur le plan astral, et le chemin du retour est long, terrifiant, et jamais garanti."
       },
       {
+        id: "auspex-6-clairvoyance",
         level: 6,
         name: "Clairvoyance",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "prolonged",
-        description: " Tes sens ne sont plus limités par la matière ou la distance. Ferme les yeux et vois ce qui se passe à l'autre bout de la ville, écoute les conspirations derrière des murs insonorisés. Tu deviens l'observateur omniscient, le fantôme qui hante chaque recoin de la cité sans jamais quitter son refuge."
+        description: "Tu fermes à demi les yeux et tu vois ailleurs. Un lieu que tu connais, un objet familier, une personne dont tu as gardé le souvenir : tu observes ce qui s'y passe comme si tu y étais, tu écoutes la conversation qui s'y tient. Tu restes pourtant conscient de ce qui t'entoure, assis dans ton fauteuil. Le pouvoir ne t'ouvre que ce qui t'est familier : un lieu jamais vu ou un inconnu restent hors de portée. Et pendant que ton esprit regarde au loin, tes gestes ici deviennent maladroits."
       },
       {
+        id: "auspex-6-prediction",
+        level: 6,
+        name: "Prémonition",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu effleures en permanence les pensées de surface de ceux qui t'entourent, sans même y penser. En conversation, tu entends la réplique avant qu'elle ne soit prononcée, tu sens l'objection naître dans l'esprit de ton interlocuteur et tu y réponds avant qu'il ne l'ait formulée. Les négociations, les joutes verbales et les interrogatoires tournent naturellement à ton avantage. Un esprit rompu au mensonge et à la dissimulation te laisse pourtant moins de prise."
+      },
+      {
+        id: "auspex-6-telepathic-communication",
+        level: 6,
+        name: "Communication Télépathique",
+        bloodCost: 0,
+        duration: "prolonged",
+        description: "Tu tisses un réseau silencieux entre plusieurs esprits. Mots, images et sensations circulent entre toi et ceux que tu as liés, même séparés par des centaines de kilomètres. Un allié consentant rejoint le lien sans difficulté ; un esprit réticent doit être forcé, et une volonté forte y parvient mal. Plus ta maîtrise grandit, plus le réseau s'étend en distance et en nombre. Tu deviens le cœur d'une coterie qui pense d'une seule voix."
+      },
+      {
+        id: "auspex-7-karmic-sight",
         level: 7,
         name: "Vision Karmique",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "instant",
-        description: "Tu ne regardes plus la personne, mais la tapisserie de son destin. Tu vois le poids de ses péchés, les nœuds de son avenir et les chaînes de son passé. Tu sais ce qu'elle a fait, ce qu'elle est destinée à faire, et combien son âme est proche de la rupture totale."
+        description: "Ton regard plonge sous l'aura, jusqu'à l'âme. Tu lis la Nature profonde de la personne, ce qui la pousse à agir quand personne ne regarde. Tu mesures ce qu'il lui reste d'Humanité, la force de sa volonté et de ses vertus. Tu vois les mains étrangères posées sur son esprit : une Domination, un lien de sang, un pacte. Les esprits les plus forts résistent mieux à cet examen. Tu vois ce qu'elle est et ce qui la tient, pas ce qu'elle fera demain."
       },
       {
+        id: "auspex-7-mirror-reflex",
+        level: 7,
+        name: "Réflexe du Miroir",
+        bloodCost: 1,
+        duration: "scene",
+        description: "En combat, tu lis l'intention de ton adversaire une fraction de seconde avant qu'il ne bouge. Tu sais où ira la lame, vers où il va esquiver, quand il va feinter. Tu deviens son reflet, toujours en avance d'un geste. Le pouvoir ne vaut que contre un adversaire proche, que tu observes et qui combat comme il pense. Contre un être sans esprit, ou qui frappe à l'instinct pur, tes lectures deviennent confuses."
+      },
+      {
+        id: "auspex-8-psychic-assault",
         level: 8,
         name: "Assaut Psychique",
         bloodCost: 9,
         duration: "instant",
-        description: "La connaissance est une arme. Tu peux projeter une attaque mentale brute si violente qu'elle se manifeste physiquement. Tes victimes saignent des yeux, leurs synapses grillent, leurs souvenirs s'effacent. Tu tues par la simple pensée, transformant leur propre esprit en chambre de torture."
+        description: "D'un regard ou d'un contact, tu jettes ton esprit contre celui d'un autre comme un bélier contre une porte. Selon la violence de l'assaut et la résistance de ta victime, elle perd sa détermination, s'effondre en saignant des yeux, ou meurt sur le coup, le cerveau consumé. Un vampire tué ainsi tombe en poussière. Une volonté de fer peut tenir le choc, et frapper un être surnaturel t'épuise davantage. Ce pouvoir laisse peu de traces visibles, mais quiconque survit à ta tentative sait exactement qui l'a frappé."
       },
       {
+        id: "auspex-9-false-slumber",
         level: 9,
-        name: "Maître du Domus",
+        name: "Faux Sommeil",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tu deviens l'esprit du lieu. Tu sais tout ce qui se passe dans ton domaine : chaque pas sur le sol, chaque mot chuchoté, chaque poussière déplacée. Personne ne peut se cacher chez toi. Tu n'as pas besoin de caméras ; les murs eux-mêmes sont tes yeux et tes oreilles."
+        description: "Même plongé dans la torpeur, tu ne dors plus vraiment. Ton esprit s'échappe de ton corps immobile et parcourt le monde comme en projection psychique : il observe, écoute, suit les intrigues de ta descendance pendant des décennies. Tu ne peux pas pour autant te réveiller à volonté. Et ce voyage a un prix : si ton esprit est vaincu sur le plan astral, il lui faut une année entière pour retrouver le chemin de ton corps, et tu en reviens affaibli."
       },
       {
+        id: "auspex-10-chorus-of-minds",
         level: 10,
-        name: "Pouls de la Canaille",
+        name: "Le Chœur des Esprits",
         bloodCost: 10,
         duration: "scene",
-        description: "Tu connectes ton esprit à la psyché collective de toute une ville. Tu entends les pensées de millions d'âmes comme un bruit de fond, tu ressens les émotions de masse. Tu sais tout, tout le temps. L'individualité s'efface devant l'omniscience. Tu es la Ville."
+        description: "Tu ouvres ton esprit à toute une ville. Les pensées de millions d'âmes t'arrivent comme le grondement de la mer, et tu peux à volonté en isoler une seule voix, aussi lointaine soit-elle. Tu sais où se cache celui qui te fuit, qui complote contre toi et à quelle heure, ce que pense le Prince dans son refuge. Aucun mur, aucune distance, aucun voile d'Occultation ne te sépare de ce que tu cherches. Pendant cette scène, tu n'es plus un observateur : tu es la mémoire vivante de la cité."
       }
     ]
   },
@@ -258,9 +292,10 @@ export const DISCIPLINES = {
   dominate: {
     id: "dominate",
     name: "Domination",
-    description: "Ton regard est une chaîne, ta voix un fouet. Les esprits faibles se brisent devant ta volonté comme du verre.",
+    description: "Ton regard est une chaîne, ta voix un fouet. Les esprits faibles se brisent devant ta volonté comme du verre. Il te faut croiser le regard de ta cible et être compris d'elle. Un sang plus ancien que le tien, d'une génération plus basse, ne plie pas, et nul ordre ne peut forcer quelqu'un à se détruire.",
     powers: [
       {
+        id: "dominate-1-command",
         level: 1,
         name: "Commandement",
         bloodCost: 1,
@@ -268,60 +303,100 @@ export const DISCIPLINES = {
         description: "Regarde quelqu'un dans les yeux et donne-lui un ordre d'un seul mot : 'Fuis !', 'Tombe !', 'Oublie !', 'Parle !'. Ta volonté s'écrase contre la sienne comme un marteau. Il doit obéir immédiatement, incapable de résister à cet impératif qui résonne dans son crâne. L'ordre doit être simple et direct, mais les possibilités sont infinies : faire tomber une arme, avouer un secret, quitter la pièce. Le commandement ne dure qu'un instant, mais cet instant peut tout changer."
       },
       {
+        id: "dominate-2-mesmerize",
         level: 2,
-        name: "Mésmerisme",
+        name: "Mesmérisme",
         bloodCost: 1,
         duration: "prolonged",
-        description: "Plonge ton regard dans le sien et parle doucement. Implante une suggestion complexe dans son subconscient comme on programme une machine : 'Quand tu verras le Prince, tu oublieras ce que tu as vu ce soir', 'Si quelqu'un pose des questions, tu diras que j'étais avec toi toute la soirée'. La suggestion reste dormante jusqu'à ce que la condition se déclenche. La victime ne se souviendra pas de tes instructions, elle agira simplement comme si c'était son idée. Tu peux créer des alibis, des taupes, des saboteurs qui ne savent pas qu'ils le sont."
+        description: "Plonge ton regard dans le sien et parle doucement. Tu implantes dans son esprit une suggestion complexe, à accomplir tout de suite ou plus tard, quand une condition se présentera : « Quand tu verras le Prince, tu oublieras ce que tu as vu ce soir. » La victime agit comme si l'idée venait d'elle. Tu ne peux implanter qu'une seule suggestion à la fois chez une même personne, et un ordre trop contraire à sa nature profonde risque d'échouer. Tu crées ainsi des alibis, des taupes, des saboteurs qui ignorent ce qu'ils sont."
       },
       {
+        id: "dominate-3-forgetful-mind",
         level: 3,
-        name: "Oubli",
+        name: "L'Esprit Oublieux",
         bloodCost: 3,
         duration: "permanent",
-        description: "Regarde-le dans les yeux et vole ses souvenirs. Efface les dernières minutes de sa mémoire comme on gomme du crayon, fais disparaître toute la soirée, ou plonge plus profond pour arracher des années entières. Tu peux aussi réécrire ses souvenirs : il se souviendra t'avoir vu ailleurs, ou que c'est son ami qui l'a trahi, pas toi. Les vampires utilisent ce pouvoir pour préserver la Mascarade, pour créer des témoins fiables de crimes qu'ils n'ont pas commis, ou simplement pour que leurs proies oublient le baiser."
+        description: "Les yeux dans les yeux, tu fouilles sa mémoire comme un tiroir. Tu effaces les dernières minutes, la soirée entière, ou des pans de sa vie si tu prends le temps nécessaire. Tu peux aussi réécrire ce qu'elle se rappelle : elle t'a vu ailleurs, c'est son ami qui l'a trahie. Tu peux même rendre un souvenir que quelqu'un d'autre a volé. Un travail bâclé laisse des failles : des fragments du vrai souvenir remontent parfois, dans un rêve, une odeur, un malaise inexplicable."
       },
       {
+        id: "dominate-4-conditioning",
         level: 4,
         name: "Conditionnement",
         bloodCost: 3,
         duration: "permanent",
-        description: "Séance après séance, nuit après nuit, tu brises sa volonté comme on dresse un animal. Ce n'est pas une œuvre d'un instant : l'esprit doit être plié lors de trois nuits distinctes pour être définitivement conquis. Chaque session de Domination enfonce les chaînes plus profondément : obéissance absolue, dévotion totale, soumission sans limite. Au terme de la troisième nuit, sa personnalité est remodelée. Il t'aime, te craint, te vénère. Il trahira sa famille pour toi, tuera pour toi, mourra pour toi en souriant. Les esclaves ainsi conditionnés sont appelés des goules de l'esprit, et leur loyauté dépasse celle du sang."
+        description: "Séance après séance, nuit après nuit, tu plies une volonté jusqu'à ce qu'elle cède. Ce n'est pas l'œuvre d'un soir : il faut des semaines, parfois des mois. Au terme du travail, le sujet t'obéit sans que tu aies besoin de le regarder, et les autres dominateurs ont beaucoup de mal à le reprendre. Mais cette docilité a un prix : il perd l'initiative, la créativité, et devient un instrument plus qu'un serviteur. Ce n'est pas de l'amour, c'est une habitude. Séparé de toi pendant de longs mois, il retrouve peu à peu sa propre volonté."
       },
       {
+        id: "dominate-5-possession",
         level: 5,
         name: "Possession",
         bloodCost: 9,
         duration: "prolonged",
-        description: "Fixe un mortel dans les yeux et projette ton esprit dans le sien, l'écrasant, le noyant, le poussant dans un coin obscur de son propre crâne. Tu prends le contrôle total de son corps. Pendant que ton enveloppe de vampire tombe en torpeur, tu vis sa vie : tu sens la chaleur du soleil, tu goûtes la nourriture, tu respires. Tu peux marcher en plein jour, passer inaperçu, accéder à des lieux interdits aux vampires. Mais son esprit hurle dans sa prison mentale, et s'il meurt pendant que tu l'habites, ton esprit meurt avec lui."
+        description: "Tu écrases l'esprit d'un mortel jusqu'à le repousser dans un coin obscur de son propre crâne, puis tu prends sa place. Ton corps de vampire s'effondre, inerte, pendant que tu vis sa vie : tu marches en plein jour, tu goûtes la nourriture, tu entres là où un vampire ne peut pas aller. Le pouvoir n'a pas de prise sur les vampires ni sur les autres créatures, sauf sur une goule qui a bu ton sang. Si le corps que tu habites meurt, ton esprit est rejeté dans ta chair et tu sombres en torpeur."
       },
       {
+        id: "dominate-6-chain-the-psyche",
         level: 6,
-        name: "Rationalisation",
-        bloodCost: 9,
-        duration: "permanent",
-        description: "Tes victimes ne se contentent plus d'obéir aveuglément ; elles croient que c'est leur idée. Ordonne à un garde de tuer son roi, et il trouvera lui-même une raison politique pour le faire. Elles justifient tes ordres les plus absurdes avec une sincérité terrifiante, protégeant ton influence contre toute détection."
+        name: "Enchaîner la Psyché",
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Tu poses un verrou sur les esprits que tu as soumis. Si ta victime tente de désobéir à tes ordres, ou de retrouver les souvenirs que tu lui as pris, une douleur fulgurante la terrasse et la laisse tremblante, incapable d'agir pendant de longs instants. Le verrou résiste à plusieurs tentatives avant de céder. Une volonté obstinée, prête à souffrir encore et encore, finit pourtant par en venir à bout."
       },
       {
+        id: "dominate-6-loyalty",
+        level: 6,
+        name: "Loyauté",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Les ordres que tu donnes s'enracinent si profondément qu'aucun autre dominateur ne peut les arracher facilement. Celui qui tente de soumettre l'un de tes sujets se heurte à ta volonté comme à un mur, et l'effort lui coûte cher. Tes serviteurs restent les tiens, même face à un rival puissant. Ce pouvoir protège ton œuvre, mais il ne rend pas tes sujets plus fidèles qu'avant : il empêche seulement les autres de te les voler."
+      },
+      {
+        id: "dominate-6-obedience",
+        level: 6,
+        name: "Obéissance",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Tu n'as plus besoin du regard. Un contact de peau à peau suffit désormais à porter tous tes pouvoirs de Domination : une main posée sur une épaule, des doigts qui effleurent un poignet, une poignée de main. Les aveugles, ceux qui baissent les yeux et ceux qui portent des lunettes noires ne t'échappent plus. Il te faut pourtant toucher la peau nue, et ta cible doit toujours comprendre tes ordres."
+      },
+      {
+        id: "dominate-7-mass-manipulation",
         level: 7,
         name: "Manipulation de Masse",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Ton regard n'a plus besoin de croiser un seul regard. Tu peux dominer une foule entière, une armée, ou une salle de bal d'un seul mot. Ils s'arrêtent, écoutent, et obéissent à l'unisson. Tu transformes une émeute hurlante en une chorale disciplinée en une seconde."
+        description: "Tu étends un pouvoir de Domination à tout un petit groupe qui croise ton regard. Les gardes d'une porte oublient ensemble ton passage, les témoins d'une scène reçoivent tous le même souvenir. Il te faut croiser leurs regards et t'adresser à eux tous à la fois. Le groupe ne cède que si le plus résistant d'entre eux cède : une seule volonté forte peut briser l'effet pour tous. Tu ne domines pas une armée, mais une salle."
       },
       {
+        id: "dominate-7-still-mortal-flesh",
+        level: 7,
+        name: "Figer la Chair Mortelle",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu ne commandes plus seulement l'esprit, mais le corps qui lui obéit sans y penser. D'un regard, tu coupes une fonction involontaire chez ta cible : sa respiration s'arrête, sa vue s'éteint, son ouïe disparaît, son cœur se fige. L'effet ne dure qu'un moment, mais un cœur arrêté assez longtemps tue un mortel. Le pouvoir agit aussi sur les vampires, dont il peut éteindre les sens. Les volontés les plus fortes résistent mieux."
+      },
+      {
+        id: "dominate-8-far-mastery",
         level: 8,
         name: "Maîtrise Lointaine",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "instant",
-        description: "La distance ne te protège plus. Si tu connais ta cible, tu peux la Dominer à l'autre bout du monde. Un coup de téléphone, une lettre, ou même une simple pensée dirigée suffit à briser sa volonté. Tu es la voix dans leur tête qui ne se tait jamais, où qu'ils aillent."
+        description: "La distance ne protège plus ceux que tu connais. Tu concentres ta pensée sur une personne que tu as déjà rencontrée, et tu peux exercer sur elle tous tes pouvoirs de Domination comme si elle se tenait devant toi, où qu'elle soit dans le monde. Elle sent soudain ta présence dans sa tête et ta volonté qui s'impose. Ce pouvoir ne fonctionne que sur quelqu'un que tu connais. Un être surnaturel exige davantage d'effort, et celui qui sait se cacher te laisse plus de mal à le trouver."
       },
       {
+        id: "dominate-9-speak-through-the-blood",
         level: 9,
         name: "Parole du Sang",
+        bloodCost: 9,
+        duration: "prolonged",
+        description: "Tu parles, et ta lignée entière t'entend, jusqu'au dernier infant de tes infants, même ceux que tu n'as jamais rencontrés, même ceux qui dorment en torpeur. Tu ne donnes pas d'ordres précis, mais une direction : « Servez la Camarilla », « Détruisez les héritiers de tel clan ». L'ordre n'agit pas en une nuit : il dérive lentement dans leurs esprits pendant des années, comme une vocation, et il peut durer des décennies. Ceux qui ont atteint la Golconde échappent à ta voix."
+      },
+      {
+        id: "dominate-10-sovereign-will",
+        level: 10,
+        name: "Volonté Souveraine",
         bloodCost: 10,
-        duration: "instant",
-        description: "Tu parles, et ta lignée obéit. Tu peux donner un ordre à tous les vampires qui descendent de toi, même des générations plus bas. 'Venez à moi', et cinquante vampires convergent vers ta position. C'est le pouvoir des Antédiluviens, le contrôle absolu sur sa descendance."
+        duration: "scene",
+        description: "Ta volonté devient une loi du monde. Pour une scène, tu peux dominer quiconque entend ta voix, même sans croiser son regard, même un sang plus ancien que le tien, même un ancien qui se croyait hors de portée. Les mortels obéissent avant que tes paroles ne soient finies, les vampires plient le genou en se demandant pourquoi. Une foule entière exécute ton ordre comme un seul corps. Seuls les plus anciens du sang de Caïn conservent une chance de te résister, et ils ne te le pardonneront jamais."
       }
     ]
   },
@@ -569,56 +644,103 @@ export const DISCIPLINES = {
   presence: {
     id: "presence",
     name: "Présence",
-    description: "Ton aura plie les émotions comme un ouragan plie les arbres. Amour, terreur, dévotion : tu es la tempête dans leurs cœurs.",
+    description: "Ton aura plie les émotions comme un ouragan plie les arbres. Amour, terreur, dévotion : tu es la tempête dans leurs cœurs. Tu dictes ce qu'ils ressentent, pas ce qu'ils font. Une volonté forte peut te résister le temps d'une scène, à condition de renouveler l'effort tant que tu restes là.",
     powers: [
       {
+        id: "presence-1-awe",
         level: 1,
-        name: "Crainte Révérencielle",
-        bloodCost: 0,
+        name: "Fascination",
+        bloodCost: 1,
         duration: "scene",
-        description: "Entre dans une pièce et tous les regards se tournent vers toi. Projette une aura de fascination magnétique ou de menace primordiale. Les conversations s'arrêtent, les gens s'écartent inconsciemment. Tu peux choisir l'émotion : admiration qui fait que les inconnus veulent te plaire, ou crainte qui les fait baisser les yeux. Pas besoin de contact visuel ou de mots, ta simple présence suffit. Les mortels trouvent des excuses pour rester près de toi ou pour fuir, selon ce que tu veux."
+        description: "Entre dans une pièce et tous les regards se tournent vers toi. Les conversations s'arrêtent, les gens se rapprochent, les inconnus veulent te plaire et écoutent tes arguments avec une bienveillance qu'ils ne s'expliquent pas. Plus tu y mets d'intensité, plus le cercle de tes admirateurs s'élargit, d'une personne à toute une salle. La fascination ne commande rien : elle rend seulement réceptif. Et elle se brise dès que le danger devient réel, car l'instinct de survie reprend toujours ses droits."
       },
       {
+        id: "presence-2-dread-gaze",
         level: 2,
         name: "Regard Terrifiant",
-        bloodCost: 1,
+        bloodCost: 0,
         duration: "instant",
         description: "Fixe quelqu'un et libère ta Bête juste assez pour qu'il la voie. Tes yeux deviennent ceux d'un prédateur antédiluvien, ton visage un masque de terreur primordiale. La victime voit sa propre mort dans ton regard et la peur absolue la submerge. Elle fuit en hurlant, se recroqueville en position fœtale, ou se fige complètement, paralysée. Même les vampires peuvent être affectés, leur propre Bête reconnaissant un prédateur supérieur. L'effet est instantané et dévastateur."
       },
       {
+        id: "presence-3-entrancement",
         level: 3,
         name: "Envoûtement",
         bloodCost: 3,
         duration: "prolonged",
-        description: "Parle à quelqu'un pendant quelques minutes et tisse autour de lui un réseau d'affection surnaturelle. Il devient fasciné par toi, pensant constamment à toi, cherchant des excuses pour te revoir. Ce n'est pas de l'amour véritable mais une obsession induite, aussi puissante qu'irrationnelle. Il te fera des faveurs, te couvrira, rationalisera tes actions horribles. Le lien émotionnel peut durer des semaines ou des mois. Cumule les victimes et tu peux bâtir un culte de mortels dévoués qui feraient n'importe quoi pour toi."
+        description: "Tu parles à quelqu'un quelques minutes, et tu tisses autour de lui un réseau d'affection surnaturelle. Il devient ton serviteur dévoué, cherche à te plaire, te rend des services, te couvre. Il garde pourtant sa personnalité et son imagination : il te sert avec intelligence, pas comme un pantin. L'envoûtement est temporaire, d'une heure à une année selon ta force, et le relancer pendant qu'il agit ne sert à rien. Quand il prend fin, ton serviteur se souvient de tout, et certains ne le pardonnent jamais."
       },
       {
+        id: "presence-4-summon",
         level: 4,
         name: "Convocation",
         bloodCost: 3,
-        duration: "instant",
-        description: "Concentre-toi sur quelqu'un que tu as déjà rencontré, prononce son nom, et envoie l'appel. Où qu'il soit dans la ville, il ressent une impulsion irrésistible de venir te retrouver. Il ne sait pas pourquoi, mais il doit te voir, maintenant. Il quittera son travail, sa famille, son lit au milieu de la nuit pour te rejoindre. Le trajet peut prendre des heures, mais il viendra. Il ne peut pas résister à la convocation, sauf s'il est retenu physiquement. Quand il arrive, il sera désorienté, ne comprenant pas pourquoi il est venu."
+        duration: "prolonged",
+        description: "Tu penses à quelqu'un que tu as déjà rencontré, et tu l'appelles. Où qu'il soit, il ressent le besoin irrésistible de venir à toi. Il quitte son travail, son lit, sa ville, et prend le chemin le plus rapide que ses moyens lui permettent. Il sait où te trouver sans savoir pourquoi il vient. L'appel n'éteint pas son instinct de survie : il ne traversera pas un incendie pour toi. Et il s'évanouit à l'aube : s'il n'est pas arrivé, il faut recommencer la nuit suivante."
       },
       {
+        id: "presence-5-majesty",
         level: 5,
         name: "Majesté",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Active cette couronne invisible et tu deviens intouchable. Ton aura devient si écrasante, si magnifique et terrible à la fois, que personne ne peut lever la main contre toi. Les agresseurs baissent leurs armes, incapables de te frapper. Les insulteurs ravalent leurs mots. Même les vampires anciens hésitent. Tu deviens comme un roi-dieu : vénéré, craint, mais absolument inattaquable. Marche à travers une foule hostile sans être touché, donne des ordres que personne n'ose contester. Pour briser ta Majesté, il faut une volonté de fer ou ne plus te regarder du tout."
+        description: "Tu revêts une couronne invisible, et ta présence devient écrasante, magnifique et terrible à la fois. Personne n'ose lever la main contre toi, ni même te contredire : les agresseurs baissent leurs armes, les insulteurs ravalent leurs mots, les anciens eux-mêmes hésitent. Il faut un courage hors du commun pour seulement t'affronter du regard. Mais la Majesté se paie plus tard : un Caïnite humilié en public a des siècles pour préparer sa vengeance."
       },
       {
+        id: "presence-6-love",
+        level: 6,
+        name: "Amour",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu enflammes le cœur de ta cible d'un amour aussi puissant qu'un lien de sang. Pour la scène, elle t'adore, te protège, accepte tes demandes et se range à tes arguments. Contre toi, elle n'a plus d'arme : elle ne peut pas te mentir, te négocier, te refuser grand-chose. Mais ce n'est qu'une flamme d'un soir. Quand la scène s'achève, l'amour retombe, et la victime garde le souvenir précis de ce qu'elle a ressenti."
+      },
+      {
+        id: "presence-6-paralyzing-glance",
         level: 6,
         name: "Regard Paralysant",
-        bloodCost: 9,
-        duration: "scene",
-        description: "Ton regard ne fait pas que faire peur, il éteint le système nerveux. La victime est physiquement incapable de bouger, de parler, ou même de cligner des yeux. Elle reste figée comme une statue, consciente mais prisonnière de son propre corps, tant que tu le décides."
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Ton regard ne fait pas que terrifier : il fige. Ta victime tombe dans une terreur catatonique, incapable de bouger, de parler ou même de cligner des yeux. Elle reste ainsi de quelques instants à plusieurs nuits, consciente mais prisonnière de sa propre peur. Seule une menace directe contre sa vie peut lui donner la force de s'arracher à cette paralysie."
       },
       {
+        id: "presence-6-spark-of-rage",
+        level: 6,
+        name: "Étincelle de Rage",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu attises la colère qui dort en chacun. Autour de toi, les rancunes se réveillent, les mots dépassent la pensée, les vieux amis en viennent aux mains. Une réception élégante tourne en règlement de comptes, un conseil en pugilat. Chez les vampires, la Bête gronde, et certains basculent en frénésie. Le pouvoir est aveugle et contagieux : s'il t'échappe, c'est toi que la rage emporte."
+      },
+      {
+        id: "presence-7-cooperation",
         level: 7,
         name: "Coopération",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Tu imposes l'harmonie. Sous ton influence, des ennemis jurés travailleront ensemble avec une efficacité parfaite. Tu peux synchroniser une foule hétéroclite pour en faire une unité d'élite, ou forcer tes ennemis à t'aider à accomplir ton but. La discorde meurt en ta présence."
+        description: "Tu imposes l'entente. Pour la scène, un groupe qui se déteste accepte de travailler ensemble, de négocier, d'écouter. Les insultes glissent, les vieilles haines s'apaisent assez pour qu'on s'assoie à la même table. C'est l'arme des conclaves et des conseils impossibles. Mais cette paix est fragile : elle ne survit pas à la scène, et une trahison flagrante la brise sur-le-champ."
+      },
+      {
+        id: "presence-8-ironclad-command",
+        level: 8,
+        name: "Commandement de Fer",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Ta présence est devenue une force de la nature. Les mortels ne peuvent plus du tout résister à tes pouvoirs de Présence : leur volonté s'efface devant toi comme une bougie devant le soleil. Les créatures surnaturelles peuvent encore lutter, mais au prix d'un effort épuisant, et rarement pour longtemps. Ce pouvoir ne demande aucun effort : il fait partie de ce que tu es."
+      },
+      {
+        id: "presence-9-pulse-of-the-city",
+        level: 9,
+        name: "Pouls de la Cité",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu poses ta main sur le cœur d'une ville et tu lui imposes une émotion. Pendant quelques minutes ou une semaine entière, toute la cité ressent ce que tu as choisi : la peur, l'euphorie, la méfiance, le deuil. Les bagarres se multiplient, les fêtes durent jusqu'à l'aube, les gens restent cloîtrés chez eux. Tu dois connaître personnellement cette ville pour la toucher, et les visiteurs comme les créatures surnaturelles en sont moins affectés. Ce pouvoir fonctionne même depuis la torpeur : une cité entière peut sombrer parce qu'un ancien rêve."
+      },
+      {
+        id: "presence-10-divinity",
+        level: 10,
+        name: "Divinité",
+        bloodCost: 10,
+        duration: "prolonged",
+        description: "Tu deviens un dieu aux yeux de ceux qui te voient. Quiconque perçoit ta présence, en personne, sur un écran ou dans une photographie, ressent une vénération absolue. Des foules entières tombent à genoux, des cultes naissent spontanément autour de ton nom, des nations envisagent de te remettre leur destin. Même les anciens ressentent le besoin de te servir et doivent lutter contre leur propre cœur. L'effet dure tant que tu restes dans la mémoire des fidèles, et il ne s'efface pas en une nuit."
       }
     ]
   },
@@ -1045,56 +1167,95 @@ export const DISCIPLINES = {
   dementation: {
     id: "dementation",
     name: "Aliénation",
-    description: "La folie est contagieuse, et tu es le vecteur. Dans ton sillage, les esprits se brisent comme du verre.",
+    description: "La folie est contagieuse, et tu es le vecteur. Dans ton sillage, les esprits se brisent comme du verre. Tu n'implantes pas la démence : tu ouvres une brèche vers ce que ta victime enfouit, et tu laisses tout remonter.",
     powers: [
       {
+        id: "dementation-1-passion",
         level: 1,
         name: "Passion",
-        bloodCost: 1,
+        bloodCost: 0,
         duration: "prolonged",
-        description: "Touche quelqu'un ou parle-lui brièvement, et tords le cadran de ses émotions. Amplifie sa colère jusqu'à la rage, sa tristesse jusqu'au désespoir, sa joie jusqu'à l'euphorie maniaque, ou sa peur jusqu'à la terreur paralysante. L'émotion choisie submerge toute raison : le garde en colère abandonne son poste pour régler ses comptes, le rival déprimé rentre chez lui en pleurant, l'informateur nerveux panique et fuit. L'effet dure plusieurs heures, le laissant confus quant à la raison de ses actions. C'est subtil, mais dévastateur pour l'équilibre mental."
+        description: "Tu parles à quelqu'un et tu tournes le cadran de ses émotions. Tu ne choisis pas ce qu'il ressent : tu amplifies ou tu éteins ce qui est déjà là. Une pointe d'agacement devient une rage froide, une tristesse discrète un désespoir écrasant, une peur vague une panique. Ou au contraire, la colère du garde retombe et il oublie pourquoi il s'emportait. L'effet dure de quelques instants à plusieurs mois selon ta force, et la victime ne comprend jamais d'où lui vient ce changement."
       },
       {
+        id: "dementation-2-the-haunting",
         level: 2,
-        name: "Hantise",
+        name: "La Hantise",
         bloodCost: 1,
         duration: "prolonged",
-        description: "Plonge ton regard dans le sien et implante une phobie ou une obsession dans les profondeurs de son esprit. Crée une peur irrationnelle : phobie des espaces clos, terreur des oiseaux, conviction que les miroirs cachent quelque chose de terrible. Ou implante une obsession : compter compulsivement, vérifier les serrures sans fin, paranoïa que tout le monde complote contre lui. La victime sait que c'est irrationnel, mais ne peut pas s'en empêcher. La hantise dure des semaines ou des mois, rongeant lentement la santé mentale. Un outil parfait pour détruire quelqu'un sans le toucher."
+        description: "Tu ouvres une fissure dans les sens de ta victime. Elle aperçoit des silhouettes au coin de l'œil, entend son nom murmuré dans une pièce vide, sent une odeur de pourriture que personne d'autre ne perçoit. Tu choisis le sens touché, et les visions frappent surtout quand elle est seule, la nuit. Elles sont fugaces, jamais assez nettes pour être prouvées, et durent d'une nuit à une année entière. Assez pour lui faire douter de sa propre raison."
       },
       {
+        id: "dementation-3-eyes-of-chaos",
         level: 3,
         name: "Yeux du Chaos",
         bloodCost: 0,
         duration: "scene",
-        description: "Ta folie devient une lentille qui révèle les patterns cachés de l'univers. Regarde une scène et tu vois les connections invisibles : cette personne va trahir dans dix minutes, ce fil tenu fera tomber tout l'édifice, cette parole déclenchera la violence. Tu perçois l'ordre dans le chaos, les failles dans les plans, les faiblesses cachées. Anticipe les comportements, trouve l'incohérence dans un mensonge, vois la solution que la logique ne peut pas trouver. Mais attention : voir trop de patterns mène à la vraie folie. Les Malkaviens appellent ça 'la sagesse du fou'."
+        description: "Ta folie devient une lentille qui révèle les motifs cachés du monde. Tu lis la vraie Nature d'une personne derrière le masque qu'elle porte, tu déchiffres un message codé, tu devines la main invisible derrière une suite de coïncidences. Plus tu connais ta cible, plus elle se dévoile. Mais la vérité ne te parvient jamais en clair : elle prend la forme d'images, de symboles, d'allégories qu'il te faut interpréter. Les Malkaviens appellent ça la sagesse du fou."
       },
       {
+        id: "dementation-4-voice-of-madness",
         level: 4,
         name: "Voix de la Folie",
-        bloodCost: 3,
-        duration: "prolonged",
-        description: "Parle à quelqu'un et laisse ta démence s'infiltrer dans tes mots comme un virus. Quelques phrases suffisent, prononcées dans un murmure ou un cri : 'Les murs ont des yeux', 'Ils viennent tous pour toi', 'Tu n'es pas réel'. L'esprit de la victime s'effondre instantanément. Elle sombre dans une folie complète : hallucinations, paranoïa délirante, catatonie, ou violence irrationnelle. Mortels et vampires sont affectés. L'effet dure quelques heures, la laissant ravagée et traumatisée. Certains ne s'en remettent jamais complètement."
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu élèves la voix, et ta démence se glisse dans tes mots. Ceux qui t'écoutent basculent : certains entrent en frénésie et frappent tout ce qui bouge, d'autres sont saisis d'une terreur aveugle et fuient comme devant le feu. Les mortels n'ont aucune défense. Les vampires peuvent lutter, mais beaucoup cèdent. Le pouvoir n'épargne pas sa source : ta propre Bête entend aussi ces paroles, et tu risques de sombrer avec ton auditoire."
       },
       {
+        id: "dementation-5-total-insanity",
         level: 5,
         name: "Démence Totale",
-        bloodCost: 9,
-        duration: "permanent",
-        description: "Le pouvoir ultime de l'Aliénation. Touche quelqu'un et fracture définitivement son esprit en milliers de fragments. Sa psyché se brise comme un miroir, créant une psychose permanente et profonde. La victime développe des personnalités multiples, des hallucinations constantes, une dissociation complète de la réalité. Elle ne guérira jamais, même avec des années de thérapie. Les mortels finissent internés, les vampires deviennent dangereux et imprévisibles. C'est un destin pire que la mort : une éternité prisonnière d'un esprit brisé. Les Malkaviens utilisent ce pouvoir rarement, car c'est partager leur propre malédiction avec un autre."
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Tu captes toute l'attention de ta victime, et tu fais remonter d'un coup tout ce que son esprit enfouissait. Elle sombre dans une folie multiple : délires, obsessions, paranoïa, crises de terreur, voix qui lui parlent. L'effet dure de quelques instants à une année entière selon ta force. Une victime à la volonté solide peut s'en libérer plus tôt en luttant de toutes ses forces. Ceux qui en reviennent ne sont plus tout à fait les mêmes."
       },
       {
+        id: "dementation-6-lingering-malaise",
         level: 6,
         name: "Malaise Persistant",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "permanent",
-        description: "Tu ne te contentes pas de provoquer une émotion passagère, tu infectes l'âme. La victime développe une maladie mentale permanente : dépression suicidaire, manie furieuse, schizophrénie. Aucun traitement ne peut la guérir. Tu as brisé quelque chose de fondamental en elle."
+        description: "Il te suffit d'une conversation pour planter une graine qui ne mourra jamais. Tu choisis un trouble précis, et tu le décris à ta victime en parlant avec elle : une phobie, une obsession, une paranoïa, une voix. Ce trouble s'installe pour toujours. Les thérapies, les années, la volonté ne l'effacent pas. La victime se défend mieux si son esprit est solide. Tu ne peux accomplir ce travail qu'une fois par nuit, et il exige un vrai échange, pas un simple regard."
       },
       {
+        id: "dementation-6-shattered-mirror",
+        level: 6,
+        name: "Miroir Brisé",
+        bloodCost: 0,
+        duration: "prolonged",
+        description: "Tu croises le regard de ta victime et tu lui renvoies ta propre folie. Tous tes troubles, tes obsessions et tes failles mentales passent dans son esprit, comme un reflet dans un miroir fêlé. Elle se met à compter les fissures du plafond, à entendre tes voix, à trembler de tes peurs. L'effet dure d'une heure à une année. Une victime très lucide peut lutter, mais elle connaîtra désormais, de l'intérieur, ce que tu endures chaque nuit."
+      },
+      {
+        id: "dementation-7-restructure",
         level: 7,
         name: "Restructuration",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "permanent",
-        description: "Tu peux réécrire la personnalité de quelqu'un comme on réécrit un livre. Change ses convictions, ses amours, sa nature profonde. Transforme un saint en tueur en série, ou un lâche en héros, juste en tordant les connexions de son esprit. La victime devient une personne entièrement nouvelle, selon ton design."
+        description: "Tu plonges ton regard dans le sien et tu réécris le fondement de sa personnalité : sa Nature. Le loyal devient traître, le lâche devient fanatique, le rebelle devient conformiste. Le changement est permanent, et la victime le vit comme une évidence : elle a toujours été ainsi. Un esprit maître de lui résiste mieux. Et l'opération est dangereuse : si elle t'échappe, c'est toi qui prends la Nature de ta victime."
+      },
+      {
+        id: "dementation-8-personal-scourge",
+        level: 8,
+        name: "Fléau Personnel",
+        bloodCost: 3,
+        duration: "scene",
+        description: "D'un toucher ou d'un regard, tu retournes la volonté de ta victime contre son propre corps. Plus elle est déterminée, plus elle souffre : sa force mentale devient la lame qui la déchire de l'intérieur. Pendant ce temps, elle est incapable d'agir, tordue par une douleur que rien ne soulage. Ni la résistance physique ni la Force d'Âme ne la protègent : seule la force de son âme limite les dégâts."
+      },
+      {
+        id: "dementation-9-lunatic-eruption",
+        level: 9,
+        name: "Éruption Lunatique",
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu deviens une bombe psychique. Ta folie déferle autour de toi, sur un pâté de maisons ou une métropole entière selon ta puissance. Jusqu'à l'aube, les mortels s'émeutent, pillent, se battent dans les rues ; les vampires tombent en frénésie de faim. Les esprits les plus maîtres d'eux-mêmes résistent, mais la ville se souviendra de cette nuit comme d'une épidémie de démence."
+      },
+      {
+        id: "dementation-10-awakening-of-malkav",
+        level: 10,
+        name: "L'Éveil de Malkav",
+        bloodCost: 10,
+        duration: "prolonged",
+        description: "Tu ouvres l'esprit d'une ville entière à la folie de ton fondateur. Pendant des nuits, la réalité commune se fissure : les habitants voient la même vision, entendent les mêmes voix, croient ensemble à des vérités nouvelles et terribles. Les lois, les institutions, les croyances se réécrivent selon la logique de la démence que tu as libérée. Ce qui était raisonnable devient absurde, et l'absurde devient la règle. Quand la marée se retire, la ville n'est plus jamais tout à fait la même."
       }
     ]
   },
@@ -1102,9 +1263,10 @@ export const DISCIPLINES = {
   chimerstry: {
     id: "chimerstry",
     name: "Chimérie",
-    description: "La réalité est malléable pour ceux qui savent voir. Tisse des mensonges si convaincants que le monde lui-même y croit.",
+    description: "La réalité est malléable pour ceux qui savent voir. Tisse des mensonges si convaincants que le monde lui-même y croit. Tes illusions trompent les sens comme les caméras, mais elles tombent dès qu'on prouve leur fausseté, et un Auspex assez puissant peut les percer s'il les cherche.",
     powers: [
       {
+        id: "chimerstry-1-ignis-fatuus",
         level: 1,
         name: "Ignis Fatuus",
         bloodCost: 1,
@@ -1112,39 +1274,100 @@ export const DISCIPLINES = {
         description: "Crée une illusion simple affectant un seul sens. Fais apparaître une image : un visage dans la foule, un mur où il n'y a qu'un couloir, une silhouette menaçante dans l'ombre. Ou crée un son : des pas derrière quelqu'un, une voix appelant au secours, le clic d'une arme qu'on arme. Ou même une odeur : fumée d'incendie, parfum distinctif, odeur de cadavre. L'illusion est statique, comme une photographie ou un enregistrement en boucle, mais parfaitement convaincante pour le sens ciblé. Crée des distractions, sème la confusion, ou fais croire à une menace inexistante."
       },
       {
+        id: "chimerstry-2-fata-morgana",
         level: 2,
         name: "Fata Morgana",
         bloodCost: 1,
         duration: "scene",
-        description: "Maintenant tes illusions sont complètes : vue, son, odeur, même le toucher superficiel. Crée un mur solide en apparence, une personne convaincante qui respire et dégage de la chaleur, un feu qui crépite et sent la fumée. Les victimes peuvent toucher tes illusions et sentir de la résistance (mais pas de poids réel). Fais apparaître un ennemi pour détourner l'attention, crée un obstacle pour bloquer une poursuite, ou conjure un alibi visuel. L'illusion reste statique, mais elle est si détaillée que la tromper tous les sens à la fois."
+        description: "Tes illusions trompent désormais tous les sens à la fois : un mur de briques qu'on voit, qu'on entend résonner, dont on sent l'odeur de poussière ; un feu qui crépite et dégage de la fumée ; un inconnu qui respire et sent le tabac. L'illusion reste immobile, comme un décor de théâtre, et elle n'a aucune substance : une main tendue passe à travers, et l'illusion se dissipe pour celui qui a compris. Il te faut connaître ce que tu imites pour le rendre convaincant."
       },
       {
+        id: "chimerstry-3-apparition",
         level: 3,
         name: "Apparition",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "scene",
-        description: "Tes illusions prennent vie. Elles bougent, réagissent, interagissent de manière autonome selon des paramètres que tu définis. Crée un garde illusoire qui patrouille, un double de toi-même qui marche dans une direction pendant que tu files dans une autre, un monstre qui poursuit tes ennemis. Les illusions suivent des routines simples ou répondent à des déclencheurs : attaquer celui qui entre, fuir si on lui tire dessus, converser de manière basique. Elles semblent vivantes, pensantes, réelles. Seul un examen très attentif ou des sens surnaturels peuvent révéler la supercherie."
+        description: "Tes illusions prennent vie. Une silhouette marche, un chien aboie, une foule s'agite, un double de toi s'enfuit dans une direction pendant que tu files dans l'autre. Tant que tu es là pour la diriger, l'illusion se meut comme tu le veux. Une fois que tu t'éloignes, elle ne fait plus que répéter un mouvement simple, comme une boucle : un garde qui fait les cent pas, une ombre qui passe à la fenêtre. Elle ne peut toujours rien toucher."
       },
       {
+        id: "chimerstry-4-permanency",
         level: 4,
         name: "Permanence",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "prolonged",
         description: "Tes illusions persistent maintenant sans que tu aies besoin de te concentrer. Crée une scène complète - un bureau luxueux, un mur de briques cachant un passage secret, un cadavre sanglant - et elle reste en place pendant des heures ou des jours, même quand tu es parti. Tu peux créer des repaires illusoires, des preuves de crimes qui n'ont jamais eu lieu, des personnes qui continuent leur vie apparente. Les illusions ne disparaissent que si tu le décides, si quelqu'un les détruit (révélant le vide dessous), ou après plusieurs jours. Tu peux maintenir plusieurs illusions permanentes simultanément."
       },
       {
+        id: "chimerstry-5-horrid-reality",
         level: 5,
-        name: "Réalité Illusoire",
-        bloodCost: 9,
+        name: "Réalité Horrible",
+        bloodCost: 3,
         duration: "scene",
-        description: "La frontière entre illusion et réalité s'efface. Tes créations deviennent horriblement réelles pour ceux qui y croient. Le feu illusoire brûle vraiment, la balle illusoire blesse vraiment, le mur illusoire arrête vraiment - mais seulement pour ceux qui sont convaincus. Si tu crois que le feu te consume, ton corps développe de vraies brûlures psychosomatiques. Si tu crois que l'assassin t'a poignardé, tu saignes. Les dégâts sont réels, potentiellement mortels. Mais si quelqu'un réalise la supercherie, l'illusion perd son pouvoir sur lui. C'est la réalité façonnée par la croyance, le mensonge ultime qui devient vérité."
+        description: "Tu plonges une seule victime dans une hallucination qui n'existe que pour elle, mais à laquelle elle croit de toute son âme. Le feu qu'elle voit la brûle vraiment, la lame imaginaire l'entaille, le mur la retient. Ses blessures sont réelles pour son corps. Le pouvoir ne tue pas : au pire, la victime s'effondre, inconsciente, ou sombre en torpeur. Et si quelqu'un parvient à la convaincre que tout était faux avant la nuit suivante, ses blessures disparaissent."
       },
       {
+        id: "chimerstry-6-false-resonance",
+        level: 6,
+        name: "Fausse Résonance",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Tes illusions trompent maintenant ceux qui voient au-delà des apparences. Elles portent une aura crédible, des émotions, des pensées simples, si bien que celui qui sonde leur esprit croit trouver un être réel. Un garde illusoire semble s'ennuyer, un ennemi imaginaire déborde de haine. Seuls les sens les plus aiguisés perçoivent encore que quelque chose sonne faux."
+      },
+      {
+        id: "chimerstry-6-fatuus-mastery",
         level: 6,
         name: "Maîtrise du Fatuus",
-        bloodCost: 9,
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Les illusions simples ne te coûtent plus rien. Tu crées des mirages, des décors et des silhouettes animées sans effort, et tu en diriges plusieurs à la fois sans y penser, comme on respire. Tu peux même les maintenir à bonne distance de toi, à plusieurs rues ou plusieurs kilomètres. Tu peux peupler un château vide de serviteurs illusoires qui vaquent à leurs tâches, mais ils restent des images : ils ne touchent rien et tombent si on les démasque."
+      },
+      {
+        id: "chimerstry-6-shared-nightmare",
+        level: 6,
+        name: "Cauchemar Partagé",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tu étends ta Réalité Horrible à toute une foule. Chacun voit le même cauchemar et y croit : la salle prend feu, le plafond s'effondre, une créature se jette sur eux. Chacun en subit les blessures selon sa propre crédulité. Les esprits plus forts s'en sortent mieux, et celui qu'on parvient à convaincre que tout était faux guérit de ses plaies. Comme pour une seule victime, le cauchemar ne tue pas : il terrasse."
+      },
+      {
+        id: "chimerstry-7-far-fatuus",
+        level: 7,
+        name: "Fatuus Lointain",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu n'as plus besoin d'être présent pour tromper. Tu projettes tes illusions dans un lieu que tu as déjà vu, ou que tu visualises d'après une photographie ou une description. Une apparition surgit dans le bureau d'un ennemi à l'autre bout de la ville, une fausse alarme retentit dans un entrepôt lointain. Plus le lieu t'est familier, plus l'illusion y sera fidèle. Un lieu connu seulement par une description floue te laisse peu de prise."
+      },
+      {
+        id: "chimerstry-7-suspension-of-disbelief",
+        level: 7,
+        name: "Suspension d'Incrédulité",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu forces les esprits à accepter l'impossible. Un dragon cracheur de feu au milieu d'une gare, un mort qui revient saluer sa veuve : les témoins y croient, malgré l'absurdité. Plus ta force est grande, plus ils sont nombreux à se laisser convaincre. Tu peux aussi faire l'inverse : rendre le réel invraisemblable, et convaincre une foule que l'incendie bien réel n'est qu'un mirage."
+      },
+      {
+        id: "chimerstry-8-synesthesia",
+        level: 8,
+        name: "Synesthésie",
+        bloodCost: 3,
         duration: "prolonged",
-        description: "Tes illusions n'ont plus besoin d'entretien. Tu les poses dans le monde et elles y restent, évoluant et changeant dynamiquement sans ton attention constante. Tu peux peupler un château vide de serviteurs illusoires qui vivront leur fausse vie éternellement."
+        description: "Tu mélanges les sens de ta victime. Elle entend les couleurs, voit les sons, goûte la texture des objets, sent les odeurs comme des caresses. Le monde devient un chaos incompréhensible. Sur une seule personne, l'effet dure d'une semaine à toujours. Sur une foule entière, il est moins profond mais dure jusqu'à l'aube, et transforme une salle de concert ou un marché en asile."
+      },
+      {
+        id: "chimerstry-9-mayaparisatya",
+        level: 9,
+        name: "Mayaparisatya",
+        bloodCost: 9,
+        duration: "scene",
+        description: "L'illusion devient réelle. Pour une scène, tu altères ou crées vraiment des objets et des êtres : une arme qui ne blesse plus, de la fumée devenue solide, une porte là où il n'y en avait pas. Avec une concentration extrême, tu peux même effacer définitivement un objet de la réalité. Sur un être vivant, tu peux tordre sa chair et la blesser sans recours. Ce pouvoir te coûte une part de ton âme : chaque usage t'épuise profondément."
+      },
+      {
+        id: "chimerstry-10-maya-creation",
+        level: 10,
+        name: "Création de Maya",
+        bloodCost: 10,
+        duration: "permanent",
+        description: "Tu ne trompes plus le monde : tu le rêves, et il obéit. Tu fais naître un palais sur un terrain vague, une forêt au milieu d'une ville, une créature qui respire, parle et se souvient. Ce que tu crées ainsi devient aussi vrai que la pierre, et ne disparaît plus à l'aube ni quand on le démasque. Les mortels qui y vivent ne savent pas que leur monde est né d'un mensonge. Tu es devenu ce que les Ravnos craignent et vénèrent : un faiseur de réalité."
       }
     ]
   },

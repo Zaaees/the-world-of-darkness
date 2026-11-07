@@ -93,7 +93,10 @@ describe('Disciplines Data Logic', () => {
 
 // Disciplines déjà réécrites d'après V20 (narratif, niveaux 1 à 10).
 // La liste grandit à chaque lot ; à la fin, elle couvre toutes les disciplines.
-const REWRITTEN = ['celerity', 'fortitude', 'potence', 'protean'];
+const REWRITTEN = [
+    'celerity', 'fortitude', 'potence', 'protean',
+    'auspex', 'dominate', 'presence', 'dementation', 'chimerstry',
+];
 const DURATIONS = ['instant', 'scene', 'prolonged', 'permanent'];
 const BLOOD_COSTS = [0, 1, 3, 9, 10];
 
