@@ -3,6 +3,8 @@
  * Utilisées dans l'interface web de création de personnage
  */
 
+import { CLAN_ALIASES } from './disciplines';
+
 export const CLAN_DESCRIPTIONS = {
   brujah: {
     name: "Brujah",
@@ -36,7 +38,7 @@ export const CLAN_DESCRIPTIONS = {
     shortDesc: "Prophètes déments, maudits par la folie",
     description: "Les Malkaviens portent la folie comme une malédiction et un don. Ils voient ce que les autres ne peuvent pas voir, perçoivent les vérités cachées sous le voile de la réalité. Certains les appellent fous. D'autres, prophètes. Souvent, les deux sont vrais.",
     quote: "« Tu ne vois que ce qu'ils veulent que tu voies. Mais moi, j'entends leurs secrets hurler dans le silence. »",
-    specificities: "• Disciplines : Auspex, Domination, Occultation\n• Aliénation mentale transmise par l'Étreinte\n• Connectés via le Réseau de la Folie (Cobweb)",
+    specificities: "• Disciplines : Auspex, Aliénation, Occultation\n• Aliénation mentale transmise par l'Étreinte\n• Connectés via le Réseau de la Folie (Cobweb)",
     bane: "La Fracture",
     baneDescription: "L'Étreinte Malkavienne brise quelque chose dans l'esprit de chaque infant. Tous les Malkaviens souffrent d'au moins une forme d'aliénation mentale permanente et incurable : paranoïa dévorante, hallucinations vivaces, personnalités multiples, obsessions compulsives, synesthésie chaotique, voix incessantes... Cette folie ne peut être guérie, seulement gérée. Elle influence leur perception de la réalité et leurs interactions avec le monde. Parfois, cette fracture leur permet de voir des vérités cachées aux esprits sains.",
     transformationDescription: "La réalité se fissure autour de toi. Les certitudes deviennent des illusions, la logique une prison. Tu perçois des connexions invisibles aux autres, des vérités qui hurlent dans le silence. La paranoïa devient une forme de clairvoyance, la folie une lucidité extrême. Tu vois le monde tel qu'il est vraiment : chaotique, absurde, et terrifiantement honnête. Les frontières entre passé, présent et futur s'estompent, chaque instant devenant une prophétie en marche.",
@@ -114,7 +116,7 @@ export const CLAN_DESCRIPTIONS = {
     shortDesc: "Façonneurs de chair, nobles terrifiants",
     description: "Les Tzimisce sont des artistes de l'horreur, sculptant la chair et l'os comme de l'argile vivante. Terrifiants et territoriaux, ils sont liés mystiquement à leurs terres ancestrales. Leur hospitalité est légendaire – mais refuse-la à tes risques et périls.",
     quote: "« La forme humaine n'est qu'une suggestion. Laisse-moi te montrer ton vrai potentiel. »",
-    specificities: "• Disciplines : Animalisme, Domination, Vicissitude\n• Liés mystiquement à leur terre natale\n• Traditions d'hospitalité sacrées et impitoyables",
+    specificities: "• Disciplines : Animalisme, Auspex, Vicissitude\n• Liés mystiquement à leur terre natale\n• Traditions d'hospitalité sacrées et impitoyables",
     bane: "Le Lien à la Terre",
     baneDescription: "Les Tzimisce sont mystiquement liés à leur terre. Pour se reposer correctement, ils doivent dormir entourés d'au moins deux poignées de sol provenant de leur lieu de naissance ou d'un territoire qu'ils ont fait leur. Sans cette terre, le sommeil du jour ne restaure pas – le Tzimisce se réveille épuisé, affaibli, incapable de guérir. Voyager devient une logistique complexe impliquant des cercueils remplis de terre. Perdre sa terre, c'est perdre tout ancrage.",
     transformationDescription: "Le contrôle devient une obsession chirurgicale. La perfection devient une malédiction. Tu perçois chaque imperfection comme une insulte personnelle, chaque chaos comme une erreur à corriger. La beauté devient une contrainte, l'ordre une obsession. Tu vois le monde comme une sculpture inachevée que tu dois remodeler. La chair devient un matériau malléable, la douleur un outil de création. Tu deviens incapable d'accepter l'imperfection, chaque désordre devenant une provocation à ta volonté de maîtrise.",
@@ -127,7 +129,7 @@ export const CLAN_DESCRIPTIONS = {
     shortDesc: "Nomades trompeurs, maîtres de l'illusion",
     description: "Les Ravnos sont des vagabonds éternels, créateurs d'illusions si réelles qu'elles peuvent tromper tous les sens. Presque anéantis durant la Semaine des Cauchemars, les survivants errent, incapables de rester en place, tissant mensonges et merveilles.",
     quote: "« La vérité ? Ennuyeuse. L'illusion ? Un art. Choisis celle qui raconte la meilleure histoire. »",
-    specificities: "• Disciplines : Animalisme, Chimerstry, Présence\n• Incapables de rester longtemps au même endroit\n• Clan décimé par la Semaine des Cauchemars",
+    specificities: "• Disciplines : Animalisme, Chimerstry, Force d'âme\n• Incapables de rester longtemps au même endroit\n• Clan décimé par la Semaine des Cauchemars",
     bane: "L'Errance Maudite",
     baneDescription: "Les Ravnos ne peuvent pas rester en place. Après quelques nuits au même endroit, une compulsion irrésistible les pousse à partir, à bouger, à chercher de nouveaux horizons. Résister à cette envie devient de plus en plus difficile – l'anxiété monte, le repos devient impossible, les illusions commencent à se manifester involontairement. Aucun havre permanent, aucune stabilité, aucune racine. L'errance est leur malédiction et, pour certains, leur liberté.",
     transformationDescription: "L'errance devient une obsession. Le mensonge devient une langue maternelle. Tu perçois chaque lieu comme temporaire, chaque relation comme éphémère. La vérité devient une contrainte, la loyauté une chaîne. Tu vois le monde comme une toile à peindre, chaque interaction comme un tableau à créer. Le confort devient une menace, la stabilité une prison. Tu deviens incapable de rester en place, chaque espace clos te comprimant comme une cage. Les autres deviennent des rôles dans ta pièce, jamais des alliés permanents.",
@@ -179,7 +181,7 @@ export const CLAN_DESCRIPTIONS = {
     shortDesc: "Créations des Tremere, sentinelles ailées",
     description: "Les Gargouilles ne sont pas nées – elles ont été créées. Façonnées par les Tremere à partir d'autres vampires, ces monstres de pierre et de chair servent de gardiens et de guerriers. Certains ont gagné leur liberté. Tous portent les cicatrices de l'esclavage.",
     quote: "« Nous n'avons pas été invités dans cette non-vie. Nous y avons été forgés. »",
-    specificities: "• Disciplines : Force d'âme, Puissance, Visceratika\n• Capacité de vol et peau quasi-minérale\n• Créés artificiellement par les Tremere",
+    specificities: "• Disciplines : Force d'âme, Puissance, Visceratika, Vol\n• Capacité de vol et peau quasi-minérale\n• Créés artificiellement par les Tremere",
     bane: "L'Esprit Servile",
     baneDescription: "Les Gargouilles ont été créées pour obéir. Cette programmation est gravée dans leur sang. Les ordres directs, surtout de figures d'autorité, sont difficiles à ignorer – une partie d'eux veut se soumettre. L'initiative personnelle ne vient pas naturellement ; elles attendent souvent des instructions avant d'agir. Les Gargouilles libérées luttent constamment contre cet instinct de servitude, cherchant à définir leur propre volonté dans un esprit conçu pour l'esclavage.",
     transformationDescription: "Tu es un outil qui a pris conscience. Créé pour servir, tu cherches maintenant un but. Les ordres viennent naturellement. Tu perçois chaque demande comme un ordre implicite, chaque suggestion comme une directive. L'initiative devient une peur, l'autonomie une angoisse. Tu vois le monde comme une hiérarchie rigide où chaque être a sa place. La liberté devient une responsabilité effrayante, chaque décision devenant une charge. Tu deviens incapable d'agir sans validation, chaque action nécessitant une approbation extérieure.",
@@ -231,7 +233,7 @@ export const CLAN_DESCRIPTIONS = {
     shortDesc: "Guérisseurs maudits, chassés et rares",
     description: "Les Salubri étaient autrefois des guérisseurs et des guerriers saints. Aujourd'hui presque éteints, chassés par les Tremere qui ont volé leur place, les derniers Salubri sont des reliques vivantes d'une époque révolue. Leur troisième œil est malédiction et bénédiction.",
     quote: "« Nous ne cherchons pas la vengeance. Seulement la vérité. Mais la vérité, parfois, exige le sang. »",
-    specificities: "• Disciplines : Auspex, Force d'âme, Valeren/Obeah\n• Troisième œil s'ouvrant lors des pouvoirs\n• Clan presque exterminé par les Tremere",
+    specificities: "• Disciplines : Auspex, Force d'âme, Présence\n• Troisième œil s'ouvrant lors des pouvoirs\n• Clan presque exterminé par les Tremere",
     bane: "L'Œil Révélateur",
     baneDescription: "Tous les Salubri possèdent un troisième œil au milieu du front. Cet œil s'ouvre et saigne visiblement chaque fois qu'ils utilisent leurs disciplines – impossible à cacher ou dissimuler. Dans un monde où les Tremere ont convaincu la Camarilla que les Salubri sont des diabolistes, ce stigmate est une sentence de mort ambulante. Chaque utilisation de pouvoir révèle leur nature au monde. Les Salubri survivants ont appris à utiliser leurs dons avec une parcimonie extrême.",
     transformationDescription: "La vérité devient une obsession douloureuse. Tu perçois chaque mensonge comme une blessure, chaque hypocrisie comme une trahison. La compassion devient une faiblesse, la méfiance une seconde nature. Tu vois le monde à travers le prisme de la souffrance, chaque interaction comme une opportunité de guérir ou de blesser. La survie devient une obsession, chaque regard comme une menace potentielle. Tu deviens incapable de faire confiance, chaque geste de bonté devenant une ruse possible.",
@@ -240,10 +242,21 @@ export const CLAN_DESCRIPTIONS = {
 };
 
 /**
+ * Ramène un identifiant de clan stocké (clé canonique du bot : setite, banu_haqim…)
+ * ou un ancien nom (hecata, assamite…) à la clé de CLAN_DESCRIPTIONS.
+ */
+export function resolveClanId(clanId) {
+  const key = (clanId || '').toLowerCase().trim().replace(/[ -]/g, '_');
+  if (CLAN_DESCRIPTIONS[key]) return key;
+  const alias = CLAN_ALIASES[key];
+  return alias && CLAN_DESCRIPTIONS[alias] ? alias : key;
+}
+
+/**
  * Récupère la description d'un clan
  */
 export function getClanDescription(clanId) {
-  return CLAN_DESCRIPTIONS[clanId?.toLowerCase()];
+  return CLAN_DESCRIPTIONS[resolveClanId(clanId)];
 }
 
 /**

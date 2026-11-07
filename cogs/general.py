@@ -10,7 +10,7 @@ from discord.ext import commands
 from data.blood_potency import get_blood_potency_info
 from data.clans import CLANS
 from data.auspices import AUSPICES
-from data.config import ROLE_VAMPIRE, ROLE_LOUP_GAROU
+from data.config import ROLE_VAMPIRE, ROLE_LOUP_GAROU, VALIDATION_CHANNEL_ID
 from utils.database import (
     get_player,
     delete_player,
@@ -21,6 +21,7 @@ from utils.database import (
     save_to_google_sheets,
     add_player_ritual,
     delete_player_rituals,
+    delete_pending_actions,
 )
 from utils.sheet_manager import delete_discord_sheet, delete_google_sheet_character
 
@@ -131,6 +132,30 @@ class GeneralCog(commands.Cog, name="Général"):
         except Exception as e:
             logger.error(f"RESET ERROR (Rituals): {e}")
 
+        # Demandes d'action de Vitae en attente : sans cela, un MJ pourrait encore
+        # valider une scène et créditer le personnage réinitialisé.
+        # Limite : la file « ActionsEnAttente » de Google Sheets n'a pas d'action
+        # Apps Script pour être vidée par joueur. Une demande que le bot n'a pas
+        # encore relevée (sondage toutes les 15 s) y reste en attente ; elle est
+        # ignorée tant que le personnage est vide (Puissance du Sang 0).
+        cancelled_actions = 0
+        try:
+            removed = await delete_pending_actions(member.id, ctx.guild.id)
+            cancelled_actions = len(removed)
+            channel = ctx.guild.get_channel(VALIDATION_CHANNEL_ID)
+            for action in removed:
+                if not channel or not action.get("message_id"):
+                    continue
+                try:
+                    message = await channel.fetch_message(action["message_id"])
+                    await message.edit(
+                        content="❌ Demande annulée : personnage réinitialisé (`!reset`).", view=None
+                    )
+                except Exception as e:
+                    logger.warning(f"RESET WARNING (Validation message {action['message_id']}): {e}")
+        except Exception as e:
+            logger.error(f"RESET ERROR (Pending actions): {e}")
+
         try:
             # Clean Google Sheet separately if possible? 
             # delete_player does both Local + Google Sheets.
@@ -155,6 +180,7 @@ class GeneralCog(commands.Cog, name="Général"):
         description += "• Suppression des données locales (Werewolf/Vampire)\n"
         description += "• Nettoyage de la base de données\n"
         description += "• Tentative de nettoyage Google Sheets\n"
+        description += f"• Demandes d'action de Vitae annulées : {cancelled_actions}\n"
 
         if roles_removed:
             description += f"\n**Rôles retirés :** {', '.join(roles_removed)}"

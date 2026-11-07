@@ -18,7 +18,7 @@ import FilterContent from '../features/rituals/components/FilterContent'; // Use
 
 import { API_URL } from '../../../config';
 
-export default function RitualsTab({ userId, guildId, isCainMode, character }) {
+export default function RitualsTab({ userId, guildId, isCainMode, isGm = false, character }) {
     useSiteContent();
     // We use the store for rituals state
     const updateCharacterRituals = useGrimoireStore(state => state.updateCharacterRituals);
@@ -26,6 +26,7 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
     const setSelectedRitual = useGrimoireStore(state => state.setSelectedRitual);
     const setRituals = useGrimoireStore(state => state.setRituals);
     const setViewMode = useGrimoireStore(state => state.setViewMode);
+    const setCanViewLibrary = useGrimoireStore(state => state.setCanViewLibrary);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -53,8 +54,9 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
                 const allRituals = rawRituals.filter(r => r && typeof r === 'object' && r.id);
                 console.log(`RitualsTab: Valid rituals loaded: ${allRituals.length}/${rawRituals.length}`);
 
-                // Enforce View Mode based on permission
+                // Enforce View Mode based on permission: only GMs and Caïn may open the library.
                 // This ensures the filtering logic in the store knows the context
+                setCanViewLibrary(Boolean(isCainMode || isGm));
                 setViewMode(isCainMode ? 'GM' : 'PLAYER');
 
                 setRituals(allRituals);
@@ -137,7 +139,7 @@ export default function RitualsTab({ userId, guildId, isCainMode, character }) {
         };
 
         fetchRituals();
-    }, [userId, guildId, isCainMode, character, setRituals, updateCharacterRituals, setViewMode]);
+    }, [userId, guildId, isCainMode, isGm, character, setRituals, updateCharacterRituals, setViewMode, setCanViewLibrary]);
 
     if (loading) {
         return <div className="text-center py-10 text-stone-500 animate-pulse"><SiteText contentKey="vampire.text.01317" /></div>;

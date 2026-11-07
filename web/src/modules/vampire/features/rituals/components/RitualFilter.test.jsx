@@ -8,6 +8,8 @@ describe('RitualFilter', () => {
         act(() => {
             useGrimoireStore.setState({
                 filters: { disciplines: [], levels: [] },
+                canViewLibrary: true,
+                viewMode: 'GM',
                 rituals: [
                     { id: 1, name: 'R1', discipline: 'Thaumaturgy', level: 1 },
                     { id: 2, name: 'R2', discipline: 'Necromancy', level: 2 },
@@ -89,5 +91,17 @@ describe('RitualFilter', () => {
 
         // Check UI Update (re-render)
         expect(screen.getByText('Grimoire (Joueur)')).toBeDefined();
+    });
+
+    it('hides the GM library toggle from players', () => {
+        act(() => {
+            useGrimoireStore.getState().setCanViewLibrary(false);
+        });
+        render(<RitualFilter />);
+
+        expect(screen.queryByRole('button', { name: /Bibliothèque \(MJ\)/i })).toBeNull();
+        expect(useGrimoireStore.getState().viewMode).toBe('PLAYER');
+        // Level filters belong to the GM view
+        expect(screen.queryByText('5')).toBeNull();
     });
 });

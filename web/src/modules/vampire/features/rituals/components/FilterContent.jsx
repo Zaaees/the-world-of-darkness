@@ -19,7 +19,7 @@ const LEVELS = [1, 2, 3, 4, 5];
 export default function FilterContent({ onFilterChange }) {
     useSiteContent();
     // Consolidated store access with useShallow to prevent unnecessary re-renders
-    const { rituals, filters, addFilter, removeFilter, clearFilters, viewMode, toggleViewMode } = useGrimoireStore(
+    const { rituals, filters, addFilter, removeFilter, clearFilters, viewMode, toggleViewMode, canViewLibrary } = useGrimoireStore(
         useShallow(state => ({
             rituals: state.rituals,
             filters: state.filters,
@@ -27,7 +27,8 @@ export default function FilterContent({ onFilterChange }) {
             removeFilter: state.removeFilter,
             clearFilters: state.clearFilters,
             viewMode: state.viewMode,
-            toggleViewMode: state.toggleViewMode
+            toggleViewMode: state.toggleViewMode,
+            canViewLibrary: state.canViewLibrary
         }))
     );    // Extract unique disciplines from available rituals
     const uniqueDisciplines = useMemo(() => {
@@ -64,7 +65,8 @@ export default function FilterContent({ onFilterChange }) {
     return (
         <div className="space-y-6 font-serif">
 
-            {/* View Mode Toggle */}
+            {/* View Mode Toggle - GMs and Caïn mode only */}
+            {canViewLibrary && (
             <div className="pb-4 border-b border-stone-800">
                 <div className="flex bg-stone-950 p-1 rounded-lg border border-stone-800/50">
                     <button
@@ -89,6 +91,7 @@ export default function FilterContent({ onFilterChange }) {
                     </button>
                 </div>
             </div>
+            )}
 
             {/* Search Section */}
             <div className="space-y-3">

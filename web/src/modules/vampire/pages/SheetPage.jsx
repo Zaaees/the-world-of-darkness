@@ -995,7 +995,7 @@ export default function VampireSheet() {
                 >
                   <Sparkles size={16} /><SiteText contentKey="vampire.text.01594" /></button>
 
-                {(['tremere', 'hecata', 'giovanni', 'banu_haqim', 'assamite'].includes(activeChar.clan?.toLowerCase()) || activeChar.disciplines?.thaumaturgy || activeChar.disciplines?.necromancy || hasRituals || isCainMode) && (
+                {(['tremere', 'giovanni', 'banu_haqim'].includes(normalizeClan(activeChar.clan || '')) || activeChar.disciplines?.thaumaturgy || activeChar.disciplines?.necromancy || hasRituals || isCainMode) && (
                   <button
                     onClick={() => setActiveTab('rituals')}
                     className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-serif uppercase tracking-wider transition-all border-b-2 ${activeTab === 'rituals'
@@ -1196,6 +1196,7 @@ export default function VampireSheet() {
                 guildId={guildId}
                 clan={activeChar.clan}
                 isCainMode={npcCharacter?.id === 'cain_legendary'}
+                isGm={Boolean(vampireProfile?.is_gm)}
                 character={activeChar} // Passer le character pour que le composant puisse vérifier les rituels
               />
             )}
