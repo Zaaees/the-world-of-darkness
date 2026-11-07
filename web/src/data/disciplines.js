@@ -14,9 +14,10 @@ export const DISCIPLINES = {
   animalism: {
     id: "animalism",
     name: "Animalisme",
-    description: "Ta Bête reconnaît ses semblables. Les créatures sauvages sentent la prédation dans ton regard et s'y soumettent.",
+    description: "Ta Bête reconnaît ses semblables. Les créatures sauvages sentent la prédation dans ton regard et s'y soumettent. Elles ne se laissent pourtant pas pousser contre leur nature : aucun animal ne se jettera dans la mort parce que tu le lui demandes.",
     powers: [
       {
+        id: "animalism-1-feral-whispers",
         level: 1,
         name: "Murmures Fauves",
         bloodCost: 0,
@@ -24,67 +25,92 @@ export const DISCIPLINES = {
         description: "Croise le regard d'un animal et parle-lui comme à un égal. Le chien de garde comprendra ta requête, le rat d'égout te décrira ce qu'il a vu, le corbeau te guidera vers ta proie. Les animaux te répondent par leurs comportements et leurs sons que tu comprends instinctivement. Tu peux demander un service simple ou obtenir des informations sur ce qui se passe dans leur territoire."
       },
       {
+        id: "animalism-2-beckoning",
         level: 2,
         name: "L'Appel",
         bloodCost: 1,
         duration: "scene",
-        description: "Pousse un hurlement, un cri ou un sifflement silencieux dans la nuit. Tous les animaux d'un type que tu choisis (corbeaux, rats, chiens errants, chats de gouttière) dans un rayon de plusieurs pâtés de maisons ressentent ton appel irrésistible. Ils accourent par dizaines, prêts à t'obéir. Parfait pour créer une diversion, espionner un quartier entier, ou submerger un ennemi sous une marée de créatures furieuses."
+        description: "Tu pousses un hurlement, un cri ou un sifflement que seules les bêtes comprennent. Les animaux de l'espèce que tu imites, à portée de ton appel, ressentent le besoin de venir à toi : un seul rat, ou tous les rats du quartier, selon ta force. Ils arrivent bien disposés à ton égard, curieux, prêts à t'écouter. Mais ils ne t'obéissent pas d'office : pour les diriger, il te faut encore leur parler et les convaincre. Parfait pour réunir des espions ou créer une diversion."
       },
       {
+        id: "animalism-3-quell-the-beast",
         level: 3,
-        name: "Dompter la Bête",
-        bloodCost: 3,
-        duration: "instant",
-        description: "Ta propre Bête reconnaît celle des autres. D'un regard chargé de volonté, tu peux calmer un vampire en pleine frénésie, apaisant sa rage comme on dompte un animal sauvage. Ou au contraire, libère la terreur primordiale : fixe un vampire et réveille son Rötschreck, cette peur ancestrale du feu et du soleil qui le force à fuir comme une bête traquée."
+        name: "Apaiser la Bête",
+        bloodCost: 1,
+        duration: "scene",
+        description: "D'un regard ou d'un contact, tu éteins la Bête d'un mortel. Par la peur ou par une douceur hypnotique, selon ton choix, ses émotions fortes s'effacent : il cesse de lutter, de fuir, de crier, et sombre dans une apathie docile. Il n'a plus la force de résister à quoi que ce soit, ni à toi ni aux autres. Ce pouvoir n'a pas de prise sur les vampires, à une exception près : une voix apaisante peut aider un Caïnite à sortir de la frénésie."
       },
       {
+        id: "animalism-4-subsume-the-spirit",
         level: 4,
         name: "Communion Spirituelle",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "prolonged",
-        description: "Ferme les yeux et projette ton esprit dans le corps d'un animal que tu as touché. Pendant que ton corps de vampire tombe en torpeur, tu vois par les yeux du faucon planant au-dessus de la ville, tu cours dans les rues avec le corps du loup, tu te faufiles dans les conduits avec celui du rat. Tu contrôles totalement l'animal, gardant ton intelligence et ta perception. L'espionnage parfait, personne ne soupçonne l'oiseau sur le rebord de la fenêtre."
+        description: "Tu plonges ton regard dans celui d'un animal et tu projettes ton esprit dans son corps. Pendant que ta propre chair tombe dans un sommeil inerte, tu vois par les yeux du faucon, tu cours avec le loup, tu te faufiles dans les conduits avec le rat. Plus ta maîtrise est grande, plus tu emportes de tes pouvoirs avec toi. Mais les blessures de l'animal deviennent les tiennes, et s'il meurt avant que tu n'aies regagné ton corps, tu sombres en torpeur."
       },
       {
+        id: "animalism-5-drawing-out-the-beast",
         level: 5,
         name: "Libérer la Bête",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Quand la frénésie monte en toi, projette-la violemment dans une victime proche. Ta Bête bondit de ta poitrine vers la sienne, et c'est elle qui sombre dans la rage animale tandis que tu deviens étrangement vide, froid, incapable d'émotions pendant quelques heures. Tu peux diriger ta Bête vers un ennemi pour qu'il se transforme en monstre enragé, ou vers un innocent pour t'en débarrasser. Quand ta Bête reviendra, elle se souviendra de ce que tu lui as fait."
+        description: "Quand ta Bête gronde, tu peux la jeter hors de toi sur une victime à portée de vue. Elle bondit de ta poitrine vers la sienne, et c'est elle qui sombre dans une frénésie furieuse pendant que tu restes étrangement calme et vide. Le pouvoir est dangereux : s'il échoue, ta Bête te revient décuplée et tu entres dans une frénésie pire encore. Et si tu t'éloignes avant qu'elle ne te revienne, tu risques de la perdre pour de bon, et avec elle une part de toi-même."
       },
       {
+        id: "animalism-6-animal-succulence",
         level: 6,
-        name: "L'Innocence du Berger",
-        bloodCost: 9,
-        duration: "scene",
-        description: "Tu dégages une aura de pureté naturelle qui apaise même les prédateurs les plus féroces. Les animaux ne te craignent plus, ils t'adorent. Ils viennent se frotter contre toi, te protègent et refusent de t'attaquer, même contraints par la magie. Tu es le roi de la jungle, non par la force, mais par le droit divin."
+        name: "Succulence Animale",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Le sang des bêtes te nourrit comme jamais. Chaque gorgée de sang animal te rassasie deux fois plus qu'avant, si bien qu'un cerf ou un chien suffisent là où il fallait plusieurs proies. Mais ce festin a un revers cruel : plus tu te nourris de bêtes, plus ta faim de sang humain s'aiguise. Tu ne peux pas vivre éternellement de ce régime, et un jour ta Bête réclamera ce qu'elle désire vraiment."
       },
       {
+        id: "animalism-6-shared-soul",
+        level: 6,
+        name: "Âme Partagée",
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Tu poses la main sur un animal et vos esprits se mêlent. Tu revis ses souvenirs, tu vois ce qu'il a vu cette nuit, tu sens ce qu'il a senti : l'odeur du meurtrier dans la ruelle, le visage de l'homme qui l'a battu. Le lien est complet et mutuel, et il peut être difficile de s'en arracher. Prolonger l'union t'épuise, et chaque communion laisse une trace : un réflexe animal, une manie, un goût nouveau qui ne t'appartient pas."
+      },
+      {
+        id: "animalism-6-species-speech",
+        level: 6,
+        name: "Langage des Espèces",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu ne parles plus à un animal, tu parles à toute une espèce. Tous les chiens du quartier, tous les corbeaux du parc, tous les rats des égouts présents autour de toi t'entendent et t'écoutent en même temps. Tu peux leur donner un ordre commun, et ils agissent comme une meute. Le pouvoir ne touche qu'une espèce à la fois, même si tu peux l'étendre avec effort à une espèce proche."
+      },
+      {
+        id: "animalism-7-conquer-the-beast",
         level: 7,
         name: "Conquérir la Bête",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Tu as dompté le monstre en toi. Lorsque la Frénésie te gagne, tu ne perds pas le contrôle. Tu deviens une machine à tuer froide, lucide et terrifiante, utilisant la rage de la Bête avec la précision d'un chirurgien. La peur et la colère ne sont plus des maîtres, mais des carburants."
+        description: "Tu as dompté le monstre en toi. Tu peux entrer en frénésie à volonté et y garder ta lucidité : tu choisis tes cibles, tu épargnes tes alliés, tu utilises la rage de la Bête avec la précision d'un chirurgien. Et quand une frénésie te saisit malgré toi, tu peux en reprendre les rênes au prix d'un effort constant. Ce contrôle reste fragile : s'il t'échappe, la Bête prend tout, et elle se souviendra de la laisse que tu lui as passée."
       },
       {
+        id: "animalism-8-taunt-the-caged-beast",
         level: 8,
-        name: "Esprits Jumeaux",
-        bloodCost: 9,
-        duration: "prolonged",
-        description: "Tu n'es plus limité à un seul corps. Ton esprit peut habiter et contrôler un animal tout en gardant une conscience totale de ta forme vampirique. Tu es à la fois le maître dans son trône et le loup dans la forêt, agissant simultanément en deux lieux, coordonnant tes propres actions avec une synergie parfaite."
+        name: "Provoquer la Bête en Cage",
+        bloodCost: 3,
+        duration: "instant",
+        description: "D'un simple toucher, tu réveilles la Bête qui dort chez autrui. Ta cible sent la rage monter, et si sa maîtrise d'elle-même ne suffit pas, elle bascule en frénésie sur-le-champ. Le pouvoir fonctionne même sur les mortels, qui n'ont pas de Bête au sens où l'entendent les Caïnites, mais une colère animale enfouie. Un garde du corps devient soudain un fauve qui se retourne contre son maître."
       },
       {
+        id: "animalism-9-unchain-the-beast",
         level: 9,
-        name: "Lien de Chair",
+        name: "Déchaîner la Bête",
         bloodCost: 9,
-        duration: "permanent",
-        description: "La frontière entre toi et ta ghoule animale s'efface. Tu peux absorber son corps dans le tien, fusionnant vos chairs et vos esprits. Elle vit en toi, renforçant ton corps de sa vigueur, prête à être 'expulsée' pour combattre à tes côtés à tout moment. Vous êtes une légion dans un seul corps."
+        duration: "instant",
+        description: "D'un regard, tu libères la Bête de ta victime contre son propre corps. La créature enfouie en elle se met à la déchirer de l'intérieur : sa chair se lacère, ses os craquent, ses entrailles se tordent comme sous les griffes d'un fauve. Les blessures sont terribles et ne guérissent qu'avec peine, et plus la Bête de la victime est sauvage, plus le carnage est grand. Ce pouvoir exige une maîtrise absolue : s'il échoue, c'est ta propre Bête qui te déchire."
       },
       {
+        id: "animalism-10-army-of-beasts",
         level: 10,
         name: "Armée de Bêtes",
         bloodCost: 10,
         duration: "scene",
-        description: "Un cri mental suffit. Chaque animal, du rat d'égout à l'oiseau de proie, dans un rayon de plusieurs kilomètres, répond à ton appel. Tu ne commandes pas une meute, tu diriges un écosystème entier qui se soulève pour dévorer tes ennemis. La nature elle-même part en guerre sur ton ordre."
+        description: "Un cri muet suffit. Chaque animal, du rat d'égout à l'oiseau de proie, du chien errant au loup des collines, sur toute une région, répond à ton appel et t'obéit sans réserve, même au prix de sa vie. Tu ne commandes pas une meute, tu diriges un écosystème entier qui se soulève pour dévorer tes ennemis : les nuées de corbeaux obscurcissent le ciel, les rats submergent les rues, les chiens assiègent les portes. Les Lupins eux-mêmes sentent la Bête de la nature se tourner vers toi. Tant que dure la scène, la nature elle-même part en guerre sur ton ordre."
       }
     ]
   },
@@ -492,9 +518,10 @@ export const DISCIPLINES = {
   obfuscate: {
     id: "obfuscate",
     name: "Occultation",
-    description: "Tu plies la perception comme d'autres plient la lumière. Les regards glissent sur toi, les esprits t'oublient instantanément.",
+    description: "Tu plies la perception comme d'autres plient la lumière. Les regards glissent sur toi, les esprits t'oublient instantanément. Le voile ne trompe que les esprits proches : une caméra enregistre ton image, même si le garde devant l'écran ne la remarque pas. Les enfants, les animaux et l'Auspex peuvent percer ton masque.",
     powers: [
       {
+        id: "obfuscate-1-cloak-of-shadows",
         level: 1,
         name: "Cape d'Ombre",
         bloodCost: 0,
@@ -502,6 +529,7 @@ export const DISCIPLINES = {
         description: "Fonds-toi dans l'ombre d'un recoin, d'une colonne, d'une alcôve. Reste immobile et tu deviens... rien. Pas invisible : les gens pourraient techniquement te voir si ils regardaient directement, mais leur cerveau refuse d'enregistrer ta présence. Leur regard glisse sur toi comme l'eau sur du verre. Tu es juste un détail sans importance, un morceau du décor, un rien. Bouge trop vite et le charme se brise. Parfait pour écouter des conversations ou attendre le moment parfait pour frapper."
       },
       {
+        id: "obfuscate-2-unseen-presence",
         level: 2,
         name: "Présence Invisible",
         bloodCost: 0,
@@ -509,46 +537,92 @@ export const DISCIPLINES = {
         description: "Maintenant tu peux marcher parmi eux. Traverse une foule, longe un couloir, suis ta cible dans la rue. Les gens te voient subconsciemment et s'écartent sans savoir pourquoi, comme on évite un poteau. Les caméras de surveillance enregistrent ton passage mais l'opérateur qui regarde l'écran ne remarque rien. Tu peux fouiller un bureau pendant que le propriétaire travaille à son bureau, voler des clés dans la poche de quelqu'un, passer devant un garde. Ne fais rien pour attirer l'attention et tu restes invisible."
       },
       {
+        id: "obfuscate-3-mask-of-a-thousand-faces",
         level: 3,
         name: "Masque aux Mille Visages",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "scene",
-        description: "Au lieu de disparaître, projette une autre image : un visage différent, des vêtements différents, une corpulence différente. Tu ne changes pas physiquement, mais tous ceux qui te regardent voient ce que tu veux qu'ils voient. Deviens ce PDG pour entrer dans l'immeuble, prends les traits de son garde du corps, ou apparais comme un parfait inconnu. Les photos et vidéos montreront ton vrai visage, mais les témoins oculaires jureront avoir vu quelqu'un d'autre. Change d'apparence en un instant pour semer tes poursuivants."
+        description: "Au lieu de disparaître, tu montres un autre visage : des traits inventés, une autre corpulence, d'autres vêtements. Tu ne changes pas physiquement, mais tous ceux qui te regardent voient ce que tu veux qu'ils voient. Pour copier quelqu'un de précis, il te faut l'avoir bien observé, et ses proches remarqueront peut-être un détail qui cloche. Paraître plus beau que tu ne l'es demande un effort supplémentaire. Change de visage en un instant pour semer tes poursuivants, ou deviens le garde dont tu as volé l'uniforme."
       },
       {
+        id: "obfuscate-4-vanish",
         level: 4,
         name: "Disparition",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "scene",
-        description: "En pleine conversation, en pleine course, en plein combat : disparais. Un instant tu es là, l'instant suivant tu n'y es plus, évaporé comme de la fumée. Même ceux qui te regardaient directement clignent des yeux, confus, se demandant où tu es passé. Même les sens vampiriques et l'Auspex ont du mal à te détecter - tu es devenu un trou dans la réalité. Réapparais derrière ton adversaire, échappe-toi d'une pièce verrouillée en marchant devant les gardes stupéfaits, ou observe une scène en étant physiquement présent mais totalement imperceptible."
+        description: "En pleine conversation, en pleine course, sous les yeux de ceux qui te fixent : tu disparais. Un instant tu es là, l'instant suivant il n'y a plus que le vide. Les témoins clignent des yeux, désorientés. Les esprits les plus faibles vont plus loin encore : ils oublient jusqu'à ta présence, et ne se rappellent même plus avoir parlé à quelqu'un. Les esprits forts, eux, savent qu'il y avait quelqu'un, même s'ils ne te voient plus. Disparaître ainsi devant une foule reste une provocation dangereuse pour la Mascarade."
       },
       {
+        id: "obfuscate-5-cloak-the-gathering",
         level: 5,
         name: "Voile Collectif",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Étends ton pouvoir comme un manteau. Touche tes compagnons et ils disparaissent avec toi, un groupe fantôme qui se déplace dans la ville sans être vu. Dissimule ta voiture pour passer des barrages routiers, cache un groupe de goules armées, ou fais disparaître des preuves compromettantes sous les yeux des enquêteurs. Plus le groupe est large, plus c'est difficile : si l'un d'eux attire l'attention, le voile se déchire pour tous. Mais un groupe discipliné peut traverser un aéroport bondé comme des spectres."
+        description: "Tu étends ton pouvoir comme un manteau sur ceux qui t'entourent. Tes compagnons proches profitent de ton voile : ils disparaissent avec toi, traversent un hall surveillé ou portent un nouveau visage, selon le pouvoir que tu partages. Plus le groupe est nombreux, plus l'effort est grand. Chacun doit rester discret : si l'un d'eux attaque ou attire l'attention, il se révèle. Et si c'est toi qui te trahis, le voile se déchire pour tout le monde à la fois."
       },
       {
+        id: "obfuscate-6-conceal",
+        level: 6,
+        name: "Dissimulation",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu étends ton voile sur un objet inanimé, d'un simple carnet à une maison entière avec tout ce qu'elle contient. Ta voiture devient invisible au barrage, ton refuge n'est plus qu'un terrain vague aux yeux des passants. L'objet doit avoir une signification personnelle pour toi, et tu dois rester assez proche pour maintenir le voile. Ceux qui heurtent l'objet ou entrent dans la maison peuvent briser l'illusion pour eux-mêmes."
+      },
+      {
+        id: "obfuscate-6-mind-blank",
         level: 6,
         name: "Esprit Vide",
-        bloodCost: 9,
-        duration: "prolonged",
-        description: "Tu ne caches pas seulement ton corps, mais ton esprit. Tu deviens un trou noir psychique. Aucune télépathie, aucun Auspex, aucune détection magique ne peut te trouver. Même si on te regarde en face, on ne perçoit aucune pensée, aucune aura, aucune âme. Tu es un vide dans la réalité."
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Tu caches tes pensées aussi bien que ton corps. Celui qui tente de lire ton esprit, de sonder tes souvenirs ou d'écouter tes pensées doit d'abord trouver le chemin vers elles, et ce chemin est obscur. Même s'il le trouve, il n'en tire que des fragments. Ce pouvoir protège ton esprit des intrusions, pas ton corps des regards : on te voit toujours, mais personne n'entend ce que tu penses."
       },
       {
+        id: "obfuscate-6-soul-mask",
+        level: 6,
+        name: "Masque de l'Âme",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Ton aura n'est plus ton aura. Tu choisis les couleurs que verront ceux qui la sondent : celle d'un mortel paisible, d'une goule anxieuse, d'un vampire sans histoire, ou aucune aura du tout. Le masque reste en place sans effort, même quand tu dors. Tu peux apprendre plusieurs masques et passer de l'un à l'autre. C'est le déguisement parfait contre les Tremere et les Malkaviens qui croient tout voir."
+      },
+      {
+        id: "obfuscate-7-cache",
         level: 7,
         name: "Cache",
-        bloodCost: 9,
-        duration: "permanent",
-        description: "Tu peux effacer un lieu entier de la mémoire du monde. Ta maison devient invisible et inatteignable. Les gens passent devant sans la voir, les GPS l'évitent, et ceux qui y entrent oublient pourquoi ils sont là dès qu'ils franchissent le seuil. Tu vis dans un angle mort de l'univers."
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu n'as plus besoin de rester près de ce que tu caches. Une fois ton voile posé sur toi, un compagnon, un objet ou une maison, tu peux t'éloigner et vaquer à tes affaires : la dissimulation tient d'elle-même jusqu'à l'aube. Ta coterie attend invisible dans un entrepôt pendant que tu négocies à l'autre bout de la ville. Tu dois tout de même rester à une distance raisonnable, et si tu t'éloignes trop, le voile se déchire."
       },
       {
+        id: "obfuscate-7-veil-of-blissful-ignorance",
+        level: 7,
+        name: "Voile de Bienheureuse Ignorance",
+        bloodCost: 1,
+        duration: "scene",
+        description: "D'un toucher, tu jettes ton voile sur quelqu'un qui ne l'a pas demandé. Ta victime devient invisible aux yeux des autres : elle crie, personne ne l'entend ; elle saisit un bras, la personne frissonne sans comprendre. Elle ne peut pas mettre fin à l'effet, qui dure de quelques instants à une nuit entière. Le pouvoir ne fonctionne pas sur celui qui accepte d'être caché : il faut qu'il le subisse."
+      },
+      {
+        id: "obfuscate-8-old-friend",
         level: 8,
         name: "Vieil Ami",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Tu n'as plus besoin de te cacher. Tout le monde te voit, mais tout le monde te voit comme quelqu'un en qui ils ont une confiance absolue. Pour le garde, tu es son collègue préféré. Pour le Prince, tu es son plus fidèle conseiller. Tu peux assassiner quelqu'un en plein jour, et les témoins jureront que c'était un accident malheureux, car tu ne ferais jamais ça."
+        description: "Tu plonges dans l'esprit de ta victime et tu prends les traits de la personne en qui elle a le plus confiance, vivante ou morte : une mère disparue, un mentor, un amant, un vieux camarade d'armes. Elle te voit, t'entend et te parle comme à cet être aimé. Tu ignores toi-même qui elle voit, et tu dois le deviner à ses réactions. Le pouvoir ne trompe qu'une personne à la fois : ceux qui assistent à la scène voient ton vrai visage."
+      },
+      {
+        id: "obfuscate-9-create-name",
+        level: 9,
+        name: "Créer un Nom",
+        bloodCost: 9,
+        duration: "permanent",
+        description: "Tu ne portes plus un masque, tu deviens quelqu'un d'autre. Sur plusieurs nuits de concentration, tu bâtis une identité complète : un visage, une voix, une aura, une Nature, des pensées de surface cohérentes. Même ceux qui sondent ton âme trouvent la personne que tu as inventée. Seul un Auspex de maître, ou une incohérence dans tes compétences, peut révéler l'imposture. Tu peux vivre des siècles sous ce nom, pendant que ton vrai visage dort dans les mémoires."
+      },
+      {
+        id: "obfuscate-10-oblivion-of-the-world",
+        level: 10,
+        name: "L'Oubli du Monde",
+        bloodCost: 10,
+        duration: "permanent",
+        description: "Tu effaces ton existence de la mémoire du monde. Ceux qui te connaissaient oublient ton nom et ton visage, les archives qui te mentionnaient se perdent, les photographies montrent une pièce vide. Ton refuge devient un angle mort : les passants ne le voient plus, les cartes l'omettent, ceux qui y entrent oublient pourquoi ils sont venus. Tu peux aussi effacer ainsi un autre être ou un lieu entier. Seuls ceux que tu choisis se souviennent encore."
       }
     ]
   },
@@ -860,9 +934,10 @@ export const DISCIPLINES = {
   obtenebration: {
     id: "obtenebration",
     name: "Obténébration",
-    description: "L'Abysse répond à ton appel. Les ténèbres t'obéissent comme des serviteurs, et dans ton ombre quelque chose de terrible attend.",
+    description: "L'Abysse répond à ton appel. Les ténèbres t'obéissent comme des serviteurs, et dans ton ombre quelque chose de terrible attend. Tu vois à travers tes propres ténèbres ; les autres, vampires compris, y sont aveugles. Le feu et le soleil restent tes ennemis.",
     powers: [
       {
+        id: "obtenebration-1-shadow-play",
         level: 1,
         name: "Jeu d'Ombres",
         bloodCost: 0,
@@ -870,6 +945,7 @@ export const DISCIPLINES = {
         description: "Les ombres autour de toi s'animent à ton contact. Fais danser ton ombre sur le mur, étire celle d'un arbre pour couvrir une fenêtre, assombris un coin de la pièce pour te cacher. Les ombres que tu manipules deviennent plus sombres, plus denses, presque palpables. Éteins une lampe sans la toucher en l'enveloppant d'obscurité, fais croire à quelqu'un qu'une silhouette se déplace dans l'ombre, ou crée des zones d'obscurité pour faciliter ta fuite. C'est subtil, mais terriblement efficace pour créer la peur et la confusion."
       },
       {
+        id: "obtenebration-2-shroud-of-night",
         level: 2,
         name: "Linceul de la Nuit",
         bloodCost: 1,
@@ -877,39 +953,76 @@ export const DISCIPLINES = {
         description: "Invoque une sphère de ténèbres absolues qui avale toute lumière. À l'intérieur : obscurité totale, même pour ceux qui peuvent voir dans le noir. Les lampes torches y meurent, les sorts de lumière s'éteignent. Pire encore, le Linceul étouffe le son, transformant les cris en murmures étouffés. Les victimes prisonnières sont aveugles, sourdes, désorientées, paniquées. Toi, tu te déplaces dans ces ténèbres comme chez toi. Crée le chaos dans un combat, couvre ta fuite, ou isole une victime pour l'éliminer sans témoins."
       },
       {
+        id: "obtenebration-3-arms-of-the-abyss",
         level: 3,
         name: "Bras des Abysses",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "scene",
         description: "Ton ombre se soulève et des tentacules d'obscurité solide en jaillissent comme des serpents. Ces membres d'ombre sont froids au toucher, solides comme de la chair mais faits de ténèbres vivantes. Ils agrippent, frappent, étranglent selon ta volonté. Emprisonne un adversaire dans une étreinte glaciale, gifle une arme hors d'une main, soulève quelqu'un et projette-le contre un mur. Les tentacules peuvent aussi servir à manipuler des objets à distance. Les victimes paniquent souvent, horrifiées de se faire toucher par l'Abysse elle-même."
       },
       {
+        id: "obtenebration-4-black-metamorphosis",
         level: 4,
+        name: "Métamorphose Noire",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tu appelles l'Abysse en toi et ton corps devient un hybride d'ombre et de chair. Ta peau se couvre de ténèbres mouvantes, et quatre tentacules d'obscurité jaillissent de ton dos et de tes flancs. Tu frappes plus souvent et plus fort, tu vois dans le noir absolu, et le simple contact de tes tentacules glace et affaiblit tes adversaires. Ton aspect est terrifiant : les mortels fuient en hurlant, et même les vampires hésitent. Impossible de passer inaperçu sous cette forme."
+      },
+      {
+        id: "obtenebration-5-tenebrous-form",
+        level: 5,
         name: "Forme Ténébreuse",
         bloodCost: 3,
         duration: "scene",
-        description: "Dissous ton corps en ombre vivante, une silhouette sombre et mouvante à peine discernable dans la pénombre. Sous cette forme, tu es bidimensionnel : glisse le long des murs, coule sur le sol, rampe au plafond. Les armes physiques te traversent sans effet, les balles passent à travers toi comme à travers de la fumée. Seule la lumière intense te blesse, te forçant à fuir vers les ténèbres. Tu peux te faufiler sous les portes, à travers les grilles, dans les conduits. Tu es devenu l'ombre incarnée, une chose d'obscurité et de terreur."
+        description: "Ton corps se dissout en une flaque d'ombre vivante, sans masse ni épaisseur. Tu glisses le long des murs, coules sous les portes, rampes au plafond, te faufiles par la moindre fissure. Les armes physiques te traversent sans effet. Tu peux envelopper une victime de ton obscurité pour l'aveugler et l'oppresser, mais tu ne peux pas la frapper. Le feu et le soleil te blessent toujours, et une lumière vive te force à fuir vers les ténèbres."
       },
       {
-        level: 5,
+        id: "obtenebration-6-the-darkness-within",
+        level: 6,
         name: "Ténèbres Intérieures",
-        bloodCost: 9,
-        duration: "scene",
-        description: "Ouvre ton âme et libère l'Abysse qui sommeille en toi. Un puits de ténèbres absolues jaillit de ta bouche, de tes yeux, de ta poitrine, s'étendant comme une tache d'encre vivante. Cette obscurité dévore tout : la lumière, le son, la chaleur, l'espoir. Ceux qui y sont pris ressentent un froid glacial, une terreur viscérale, comme s'ils tombaient dans un gouffre sans fond. L'obscurité peut consumer les objets, dissoudre les murs, aspirer les victimes dans un néant temporaire. Même les autres vampires reculent devant cette manifestation pure de l'Abysse. C'est l'arme ultime du Lasombra, mais l'utiliser trop longtemps, c'est risquer que les ténèbres ne te consument aussi."
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu ouvres la bouche et tu vomis une nuée de ténèbres qui s'abat sur ta cible. L'obscurité l'engloutit, se glisse dans ses veines et lui siphonne son sang, goutte après goutte. Une victime robuste peut résister un temps. Quand tu rappelles la nuée, elle te rend une partie du sang volé. Mais ce sang porte la trace de sa victime, et le boire ainsi peut te lier à elle d'un lien de sang."
       },
       {
+        id: "obtenebration-6-shadowstep",
         level: 6,
         name: "Pas d'Ombre",
-        bloodCost: 9,
+        bloodCost: 1,
         duration: "instant",
-        description: "Tu peux entrer dans n'importe quelle ombre et ressortir instantanément par une autre, n'importe où à portée de vue (ou plus loin selon ta puissance). C'est une téléportation immédiate via l'Abysse. Tu ne traverses pas l'espace, tu le contournes par les ténèbres."
+        description: "Tu entres dans une ombre et tu ressors d'une autre, toute proche. Tu ne traverses pas l'espace, tu le contournes par l'Abysse : un mur, une porte blindée, même une barrière mystique ne t'arrêtent pas. Le saut reste court, d'une pièce à la suivante ou d'un trottoir à l'autre, et il te faut une ombre au départ comme à l'arrivée. Un saut mal maîtrisé peut te laisser un instant prisonnier de l'Abysse, ce qui est une expérience que personne ne souhaite revivre."
       },
       {
+        id: "obtenebration-7-shadow-twin",
+        level: 7,
+        name: "Jumeau d'Ombre",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu arraches une ombre à son propriétaire et tu lui donnes vie : la tienne, ou celle d'un autre. Elle se dresse, se détache du mur et obéit à tes ordres, espionne, attaque, porte des messages. Elle ne possède qu'une partie des forces de son propriétaire, et retourne à lui au plus tard à l'aube. Si elle est détruite, celui à qui elle appartient perd une grande part de sa volonté, et la terreur du feu le guette."
+      },
+      {
+        id: "obtenebration-8-oubliette",
         level: 8,
+        name: "Oubliette",
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Tu refermes les ténèbres autour d'une seule cible comme un poing. Elle se retrouve prisonnière d'une cellule d'obscurité totale, sans air ni lumière. Un mortel y suffoque en quelques minutes. Un vampire y reste suspendu, coupé du monde et de ses Disciplines, jusqu'à ce que tu le libères. Une victime agile peut tenter d'esquiver au moment où le piège se forme. La prison se dissout au premier contact du soleil."
+      },
+      {
+        id: "obtenebration-9-ahrimans-demesne",
+        level: 9,
+        name: "Domaine d'Ahriman",
+        bloodCost: 9,
+        duration: "instant",
+        description: "Après un long moment de concentration, tu ouvres une main et le néant en jaillit. Un vide d'obscurité absolue s'étend autour de toi sur une large zone, et frappe d'un seul coup tout ce qui s'y trouve, amis comme ennemis. Les vampires y subissent des blessures qui ne guérissent qu'avec peine, et les plus faibles n'en ressortent pas. Puis l'Abysse se retire en emportant les corps de ceux qu'il a tués. Il ne reste rien à enterrer."
+      },
+      {
+        id: "obtenebration-10-eclipse-the-sun",
+        level: 10,
         name: "Éclipser le Soleil",
         bloodCost: 10,
         duration: "scene",
-        description: "Le rêve ultime du clan Lasombra. Tu craches des ténèbres si massives qu'elles montent au ciel et obscurcissent le soleil lui-même sur toute une région. Le jour devient nuit. Les vampires peuvent marcher dehors à midi sous ta protection. C'est un acte de guerre contre Dieu."
+        description: "Le rêve ultime du clan Lasombra. Tu craches des ténèbres si massives qu'elles montent au ciel et voilent le soleil lui-même sur toute une région. Le jour devient nuit : les vampires peuvent marcher dehors à midi sous ta protection, et les mortels lèvent les yeux vers un ciel noir qu'aucune science n'explique. Tant que dure la scène, l'astre qui condamne ta race est ton prisonnier. C'est un acte de guerre contre Dieu, et le monde entier en parlera."
       }
     ]
   },
