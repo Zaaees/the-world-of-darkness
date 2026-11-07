@@ -62,22 +62,35 @@ async def offer_blood(guild_id: int, regnant_id: int, regnant_name: str, regnant
     if regnant_id == thrall_id:
         raise ValueError("Tu ne peux pas te lier à toi-même.")
     ref = str(regnant_id)
+    # Vérifications, prélèvement et écriture dans une seule transaction : deux gorgées simultanées
+    # s'enchaînent, et une écriture qui échoue ne coûte aucune Vitae.
     async with aiosqlite.connect(database.DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
         if await _full_bond_elsewhere(db, guild_id, thrall_id, "player", ref):
             raise ValueError("Son cœur appartient déjà à un autre.")
         cursor = await db.execute(
             "SELECT stage FROM vampire_blood_bonds WHERE guild_id=? AND thrall_id=? AND regnant_kind='player' AND regnant_ref=?",
             (guild_id, thrall_id, ref))
         row = await cursor.fetchone()
-    if row and row[0] >= MAX_STAGE:
-        raise ValueError("Le lien est déjà complet.")
-    if row:
-        stage = row[0] + 1
-    else:
-        stage = TREMERE_FIRST_STAGE if canonical_clan_key(regnant_clan) == "tremere" else 1
-    # Le prélèvement vient en dernier : un refus ne coûte rien, une réserve vide lève ici.
-    vitae = await database.modify_vitae(regnant_id, guild_id, -DRAUGHT_COST)
-    async with aiosqlite.connect(database.DATABASE_PATH) as db:
+        if row and row[0] >= MAX_STAGE:
+            raise ValueError("Le lien est déjà complet.")
+        if row:
+            stage = row[0] + 1
+        else:
+            stage = TREMERE_FIRST_STAGE if canonical_clan_key(regnant_clan) == "tremere" else 1
+        # Le prélèvement vient en dernier : un refus ne coûte rien, une réserve vide lève ici.
+        cursor = await db.execute(
+            "SELECT soif_level, blood_potency FROM vampire_soif WHERE user_id=? AND guild_id=?", (regnant_id, guild_id))
+        soif = await cursor.fetchone()
+        current, bp = (soif[0], soif[1]) if soif else (0, 1)
+        if current - DRAUGHT_COST < 0:
+            raise ValueError("Réserve de Vitae insuffisante. Aucune dépense effectuée.")
+        vitae = min(current - DRAUGHT_COST, database.get_max_vitae(bp))
+        await db.execute(
+            """INSERT INTO vampire_soif (user_id, guild_id, soif_level, blood_potency, saturation_points, last_updated)
+               VALUES (?, ?, ?, ?, 0, CURRENT_TIMESTAMP)
+               ON CONFLICT(user_id, guild_id) DO UPDATE SET soif_level=excluded.soif_level, last_updated=CURRENT_TIMESTAMP""",
+            (regnant_id, guild_id, vitae, bp))
         await db.execute(
             """INSERT INTO vampire_blood_bonds
                    (guild_id, thrall_id, thrall_name, regnant_kind, regnant_ref, regnant_name, stage)
@@ -150,6 +163,7 @@ async def gm_create_npc_bond(guild_id: int, thrall_id: int, thrall_name: str, np
         raise ValueError("Rang invalide (1 à 5).")
     ref = npc_id or "name:" + npc_name.strip().casefold()
     async with aiosqlite.connect(database.DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
         cursor = await db.execute(
             "SELECT 1 FROM vampire_blood_bonds WHERE guild_id=? AND thrall_id=? AND regnant_kind='npc' AND regnant_ref=?",
             (guild_id, thrall_id, ref))
@@ -171,6 +185,7 @@ async def gm_set_stage(guild_id: int, bond_id: int, stage: int) -> dict | None:
     """Change le stade d'un lien ; None si le lien n'est pas de ce serveur."""
     _check_stage(stage)
     async with aiosqlite.connect(database.DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
         cursor = await db.execute(
             "SELECT thrall_id, regnant_kind, regnant_ref FROM vampire_blood_bonds WHERE id=? AND guild_id=?",
             (bond_id, guild_id))

@@ -116,7 +116,7 @@ def test_defy_npc_rank_and_poor_reserve(db):
     run(bonds.gm_create_npc_bond(G, THRALL, 'T', None, 'Le Prince', 5, 3))
     assert run(bonds.defy_bond(G, THRALL))['cost'] == 5
     run(database.set_vampire_soif(THRALL, G, 3))
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match='Réserve de Vitae insuffisante'):
         run(bonds.defy_bond(G, THRALL))
     assert vitae(THRALL) == 3
 
@@ -191,3 +191,39 @@ def test_guild_vampires_list_names(db):
             await conn.commit()
         return await bonds.list_guild_vampires(G)
     assert run(go()) == [{'id': 1, 'name': 'Aurore'}, {'id': 2, 'name': 'Vampire inconnu'}]
+
+
+def test_a_full_npc_bond_blocks_a_players_draught(db):
+    seed(REGNANT)
+    run(bonds.gm_create_npc_bond(G, THRALL, 'T', None, 'Le Prince', 5, 3))
+    with pytest.raises(ValueError, match='Son cœur appartient déjà à un autre.'):
+        offer()
+    assert vitae(REGNANT) == 12
+
+
+def test_concurrent_draughts_charge_once_per_stage_gained(db):
+    seed(REGNANT, vitae=12)
+
+    async def race():
+        return await asyncio.gather(*[
+            bonds.offer_blood(G, REGNANT, 'R', 'Ventrue', THRALL, 'T') for _ in range(5)], return_exceptions=True)
+    results = run(race())
+    won = [r for r in results if isinstance(r, dict)]
+    assert len(won) == 3 and sorted(r['stage'] for r in won) == [1, 2, 3]
+    assert all(isinstance(r, ValueError) for r in results if not isinstance(r, dict))
+    assert vitae(REGNANT) == 12 - 3
+    assert run(bonds.get_bonds(G, THRALL))['bound_to'][0]['stage'] == 3
+
+
+def test_two_regnants_racing_cannot_both_reach_stage_three(db):
+    seed(REGNANT)
+    seed(OTHER)
+
+    async def race():
+        calls = [bonds.offer_blood(G, r, f'R{r}', 'Ventrue', THRALL, 'T') for r in (REGNANT, OTHER) for _ in range(3)]
+        return await asyncio.gather(*calls, return_exceptions=True)
+    run(race())
+    held = run(bonds.get_bonds(G, THRALL))['bound_to']
+    assert sum(1 for b in held if b['stage'] == 3) <= 1
+    spent = (12 - vitae(REGNANT)) + (12 - vitae(OTHER))
+    assert spent == sum(b['stage'] for b in held)
