@@ -4,27 +4,22 @@ the admin commands and the rules. The website keeps the same titles (SheetPage.j
 BLOOD_POTENCY_INFO = {
     1: {
         "titre": "Sang Fluide",
-        "rang": "Néonate",
         "description": "Votre sang est encore proche de celui des mortels.",
     },
     2: {
         "titre": "Sang Vif",
-        "rang": "Ancilla Mineur",
         "description": "Le sang s'épaissit. Seul le sang humain peut vous soutenir.",
     },
     3: {
         "titre": "Sang Fort",
-        "rang": "Ancilla Majeur",
         "description": "Vous êtes un prédateur abouti. La Soif est plus pressante.",
     },
     4: {
         "titre": "Sang Puissant",
-        "rang": "Ancien",
         "description": "Votre sang est sombre et visqueux. Il vous faut la chaleur de la vie.",
     },
     5: {
         "titre": "Zénith Sanguin",
-        "rang": "Sommité",
         "description": "L'apogée. Pour être rassasié, vous devez tuer ou boire le sang de vampires.",
     },
 }

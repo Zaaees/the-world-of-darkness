@@ -55,7 +55,7 @@ export default function RulesTab({ setActiveTab }) {
                     </div>
 
                     <div className="space-y-4">
-                        <p className="leading-relaxed"><SiteText contentKey="vampire.text.01329" /><strong className="text-stone-200"><SiteText contentKey="vampire.text.01330" /></strong> (<code className="bg-stone-900 px-1 py-0.5 rounded text-red-400 text-sm">{siteText("vampire.text.01331")}</code><SiteText contentKey="vampire.text.01332" /><strong className="text-stone-200"><SiteText contentKey="vampire.text.01333" /></strong><SiteText contentKey="vampire.text.01334" /></p>
+                        <p className="leading-relaxed"><SiteText contentKey="vampire.text.01329" /><strong className="text-stone-200"><SiteText contentKey="vampire.text.01330" /></strong> (<code className="bg-stone-900 px-1 py-0.5 rounded text-red-400 text-sm">{siteText("vampire.text.01331")}</code><SiteText contentKey="vampire.text.02996" /><strong className="text-stone-200"><SiteText contentKey="vampire.text.01333" /></strong><SiteText contentKey="vampire.text.02997" /></p>
                         <p className="leading-relaxed"><SiteText contentKey="vampire.text.01329" /><strong className="text-stone-200"><SiteText contentKey="vampire.text.01333" /></strong><SiteText contentKey="vampire.text.01335" /></p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
@@ -65,6 +65,7 @@ export default function RulesTab({ setActiveTab }) {
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><FileText size={16} /><SiteText contentKey="vampire.text.01336" /></h3>
                                 <p className="text-sm text-stone-400"><SiteText contentKey="vampire.text.01337" /><em><SiteText contentKey="vampire.text.01338" /></em>.</p>
+                                <p className="text-sm text-stone-500 mt-2 italic"><SiteText contentKey="vampire.text.02998" /></p>
                             </button>
 
                             <button type="button"
@@ -88,7 +89,7 @@ export default function RulesTab({ setActiveTab }) {
                                 className="bg-stone-900/30 border border-stone-800 p-4 rounded cursor-pointer hover:border-red-900/30 hover:bg-stone-900/50 transition-all"
                             >
                                 <h3 className="text-red-500 font-serif mb-2 flex items-center gap-2"><Book size={16} /><SiteText contentKey="vampire.text.01343" /></h3>
-                                <p className="text-sm text-stone-400"><strong><SiteText contentKey="vampire.text.01344" /></strong><SiteText contentKey="vampire.text.01345" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01346" /></strong><SiteText contentKey="vampire.text.01347" /></p>
+                                <p className="text-sm text-stone-400"><strong><SiteText contentKey="vampire.text.02999" /></strong><SiteText contentKey="vampire.text.01345" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01346" /></strong><SiteText contentKey="vampire.text.03000" /></p>
                             </button>
 
                             <button type="button"
@@ -114,8 +115,8 @@ export default function RulesTab({ setActiveTab }) {
                             <p><SiteText contentKey="vampire.text.01354" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01355" /></strong><SiteText contentKey="vampire.text.01356" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01357" /></strong><SiteText contentKey="vampire.text.01358" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01359" /></strong><SiteText contentKey="vampire.text.01360" /></p>
                             <p><SiteText contentKey="vampire.text.01361" /></p>
                             <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01362" /></strong><SiteText contentKey="vampire.text.01363" /></p>
-                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01364" /></strong><SiteText contentKey="vampire.text.01365" /></p>
-                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01366" /></strong><SiteText contentKey="vampire.text.01367" /></p>
+                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01364" /></strong><SiteText contentKey="vampire.text.03001" /></p>
+                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01366" /></strong><SiteText contentKey="vampire.text.03002" /></p>
                         </div>
                     </div>
                 </section>
@@ -132,11 +133,11 @@ export default function RulesTab({ setActiveTab }) {
                         <div className="flex gap-6 mt-6 flex-col md:flex-row">
                             <div className="flex-1 bg-red-950/20 border border-red-900/40 p-4 rounded text-center">
                                 <h3 className="text-red-500 font-serif uppercase tracking-widest mb-2 font-bold"><SiteText contentKey="vampire.text.01372" /></h3>
-                                <p className="text-xs text-stone-400"><SiteText contentKey="vampire.text.01373" /></p>
+                                <p className="text-xs text-stone-400"><SiteText contentKey="vampire.text.03003" /></p>
                             </div>
                             <div className="flex-1 bg-green-950/20 border border-green-900/40 p-4 rounded text-center">
                                 <h3 className="text-green-600 font-serif uppercase tracking-widest mb-2 font-bold"><SiteText contentKey="vampire.text.01374" /></h3>
-                                <p className="text-xs text-stone-400"><SiteText contentKey="vampire.text.01375" /></p>
+                                <p className="text-xs text-stone-400"><SiteText contentKey="vampire.text.03004" /></p>
                             </div>
                         </div>
                     </div>
@@ -155,7 +156,7 @@ export default function RulesTab({ setActiveTab }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-stone-900 p-6 rounded border border-stone-800 hover:border-stone-700 transition-colors">
                             <h3 className="text-stone-200 font-serif mb-2 text-lg"><SiteText contentKey="vampire.text.01380" /></h3>
-                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.text.01381" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01382" /></strong><SiteText contentKey="vampire.text.01383" /></p>
+                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.text.01381" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01382" /></strong><SiteText contentKey="vampire.text.03005" /></p>
                         </div>
 
                         <div className="bg-stone-900 p-6 rounded border border-stone-800 hover:border-stone-700 transition-colors">
@@ -190,8 +191,8 @@ export default function RulesTab({ setActiveTab }) {
 
                     <p className="leading-relaxed text-stone-400 mb-4"><SiteText contentKey="vampire.text.01399" /><strong className="text-stone-200"><SiteText contentKey="vampire.text.01400" /></strong><SiteText contentKey="vampire.text.01401" /></p>
 
-                    <h3 className="font-serif text-lg text-stone-300 mb-2"><SiteText contentKey="vampire.text.01402" /></h3>
-                    <p className="text-sm text-stone-500 mb-4"><SiteText contentKey="vampire.text.01403" /></p>
+                    <h3 className="font-serif text-lg text-stone-300 mb-2"><SiteText contentKey="vampire.text.03006" /></h3>
+                    <p className="text-sm text-stone-500 mb-4"><SiteText contentKey="vampire.text.03007" /></p>
 
                     <div className="overflow-hidden rounded-lg border border-stone-800 mb-8 bg-stone-900/50">
                         <table className="w-full text-left text-sm text-stone-400">
@@ -203,23 +204,23 @@ export default function RulesTab({ setActiveTab }) {
                             </thead>
                             <tbody className="divide-y divide-stone-800">
                                 <tr className="bg-stone-950/30">
-                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01406" /></td>
+                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01406" /><span className="block text-xs text-stone-500"><SiteText contentKey="vampire.text.03008" /></span></td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">5</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01407" /></td>
+                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01407" /><span className="block text-xs text-stone-500"><SiteText contentKey="vampire.text.03009" /></span></td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">8</td>
                                 </tr>
                                 <tr className="bg-stone-950/30">
-                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01408" /></td>
+                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01408" /><span className="block text-xs text-stone-500"><SiteText contentKey="vampire.text.03010" /></span></td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">12</td>
                                 </tr>
                                 <tr>
-                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01409" /></td>
+                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01409" /><span className="block text-xs text-stone-500"><SiteText contentKey="vampire.text.03011" /></span></td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">18</td>
                                 </tr>
                                 <tr className="bg-stone-950/30">
-                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01410" /></td>
+                                    <td className="px-4 py-2"><SiteText contentKey="vampire.text.01410" /><span className="block text-xs text-stone-500"><SiteText contentKey="vampire.text.03012" /></span></td>
                                     <td className="px-4 py-2 text-right text-red-500 font-bold">25</td>
                                 </tr>
                             </tbody>
@@ -232,8 +233,8 @@ export default function RulesTab({ setActiveTab }) {
                         <ol className="list-decimal list-inside space-y-2 text-sm text-stone-400">
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01413" /></strong><SiteText contentKey="vampire.text.01414" /><strong><SiteText contentKey="vampire.text.01415" /></strong><SiteText contentKey="vampire.text.01416" /></li>
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01417" /></strong><SiteText contentKey="vampire.text.01418" /></li>
-                            <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01419" /></strong><SiteText contentKey="vampire.text.01420" /></li>
-                            <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01421" /></strong><SiteText contentKey="vampire.text.01422" /></li>
+                            <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.03013" /></strong><SiteText contentKey="vampire.text.03014" /></li>
+                            <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01421" /></strong><SiteText contentKey="vampire.text.03015" /></li>
                         </ol>
                     </div>
 
@@ -263,7 +264,7 @@ export default function RulesTab({ setActiveTab }) {
                         </div>
 
                         <p className="text-sm text-red-400/80 mt-2 font-serif bg-red-950/30 p-2 rounded">
-                            <strong className="font-bold"><SiteText contentKey="vampire.text.01439" /></strong><SiteText contentKey="vampire.text.01440" /></p>
+                            <strong className="font-bold"><SiteText contentKey="vampire.text.01439" /></strong><SiteText contentKey="vampire.text.03016" /></p>
                     </div>
                 </section>
 
@@ -282,7 +283,8 @@ export default function RulesTab({ setActiveTab }) {
                             <p className="text-sm text-stone-400"><SiteText contentKey="vampire.text.01444" /></p>
                             <ul className="text-sm text-stone-400 space-y-2 list-disc list-inside">
                                 <li><SiteText contentKey="vampire.text.01445" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01446" /></strong>.</li>
-                                <li><SiteText contentKey="vampire.text.01447" /></li>
+                                <li><SiteText contentKey="vampire.text.03017" /></li>
+                                <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.03018" /></strong><SiteText contentKey="vampire.text.03019" /></li>
                             </ul>
                         </div>
 
@@ -297,13 +299,14 @@ export default function RulesTab({ setActiveTab }) {
 
                     <div className="mt-8 space-y-6">
                         <h3 className="font-serif text-stone-300 text-xl"><SiteText contentKey="vampire.text.01454" /></h3>
+                        <p className="text-sm text-stone-400"><SiteText contentKey="vampire.text.03020" /></p>
 
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-4 p-4 bg-stone-900/40 rounded border border-stone-800/50">
                                 <div className="w-24 text-center font-bold text-green-500 font-mono text-lg shrink-0">100-80%</div>
                                 <div>
                                     <strong className="text-green-400 block mb-1"><SiteText contentKey="vampire.text.01455" /></strong>
-                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.01456" /></span>
+                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.03021" /></span>
                                 </div>
                             </div>
 
@@ -311,7 +314,7 @@ export default function RulesTab({ setActiveTab }) {
                                 <div className="w-24 text-center font-bold text-yellow-500 font-mono text-lg shrink-0">80-40%</div>
                                 <div>
                                     <strong className="text-yellow-400 block mb-1"><SiteText contentKey="vampire.text.01457" /></strong>
-                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.01458" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01459" /></strong><SiteText contentKey="vampire.text.01460" /></span>
+                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.03022" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01459" /></strong><SiteText contentKey="vampire.text.03023" /></span>
                                 </div>
                             </div>
 
@@ -327,7 +330,7 @@ export default function RulesTab({ setActiveTab }) {
                                 <div className="w-24 text-center font-bold text-red-500 font-mono text-lg shrink-0">20-0%</div>
                                 <div>
                                     <strong className="text-red-400 block mb-1"><SiteText contentKey="vampire.text.02991" /></strong>
-                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.02992" /></span>
+                                    <span className="text-sm text-stone-400"><SiteText contentKey="vampire.text.03024" /></span>
                                 </div>
                             </div>
                         </div>

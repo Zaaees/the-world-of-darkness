@@ -2202,7 +2202,7 @@
       "hints": [
         "Engagez votre parole, acquittez une dette coûteuse ou réclamez une faveur dont le règlement transforme durablement votre relation avec un autre Damné."
       ],
-      "points": 4,
+      "points": 3,
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
@@ -2221,7 +2221,7 @@
       "hints": [
         "Vérifiez un secret compromettant, identifiez ceux qu’il menace et échangez votre silence ou sa révélation contre un accès, une protection ou une concession réelle."
       ],
-      "points": 4,
+      "points": 3,
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
@@ -2240,7 +2240,7 @@
       "hints": [
         "Dénouez une rivalité, négociez un accord ou mobilisez une dette pour résoudre un conflit dont l’issue engage réellement les vampires concernés."
       ],
-      "points": 5,
+      "points": 3,
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
@@ -2259,7 +2259,7 @@
       "hints": [
         "Obtenez une reconnaissance explicite, surmontez une contestation ou réunissez les soutiens qui rendent votre droit, votre territoire ou votre position effectifs."
       ],
-      "points": 5,
+      "points": 3,
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
@@ -2278,7 +2278,7 @@
       "hints": [
         "Sacrifiez un avantage précieux, assumez une dette ou exposez-vous à une menace concrète pour sauver un compagnon ou protéger un refuge, un secret ou une ressource commune."
       ],
-      "points": 5,
+      "points": 3,
       "minBp": 1,
       "maxBp": 4,
       "scaling": {

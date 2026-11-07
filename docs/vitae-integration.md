@@ -10,7 +10,7 @@ La proposition évoquait un gel au niveau d'ouverture de la scène. Le système 
 
 Les niveaux acquis et l'historique restent inchangés. Les anciennes expériences de frénésie, goule et lien déjà complétées empêchent de réclamer leur nouvelle équivalence. Les demandes en attente correspondant à des actions retirées ne sont pas récompensées : le MJ peut les refuser puis orienter vers un objectif actuel. Les anciens délais stockés ne bloquent plus les cartes du nouveau catalogue.
 
-Les seuils partagés sont 30/60/120/250. Le bot reporte l'excédent et n'impose plus d'incubation. Les règles du site et l'exemple Apps Script ont été alignés.
+Les seuils partagés sont 30/60/120/200. Le bot reporte l'excédent et n'impose plus d'incubation. Les règles du site et l'exemple Apps Script ont été alignés.
 
 ## Publication
 
@@ -18,7 +18,7 @@ Publier le site et le bot ensemble : l'ancien bot ne connaît pas les nouveaux i
 
 `docs/google-apps-script.js` reste une copie locale : sa modification ne met pas à jour un déploiement Google existant. Le chemin courant de soumission conserve son contrat existant ; la validation utilisée par Discord calcule la progression en Python. Si une installation appelle directement la fonction Apps Script `validateAction`, elle doit recevoir aussi la version mise à jour pour conserver les excédents et supprimer les anciens délais.
 
-Pour régénérer les textes depuis la proposition et les annotations éditoriales : `node tools/build_vitae_catalog.cjs`. Les tests vérifient la couverture des lignées, les aliases, les gains, l'excédent et les interactions des cartes.
+Pour régénérer les textes depuis la proposition et les annotations éditoriales : `node tools/build_vitae_catalog.cjs` (il reproduit le catalogue actuel, équilibrage du 7 novembre 2026 compris). Les tests vérifient la couverture des lignées, les aliases, les gains, l'excédent et les interactions des cartes.
 
 ## Économie de sang et équilibrage (7 novembre 2026)
 

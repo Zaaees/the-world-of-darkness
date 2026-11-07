@@ -7,6 +7,7 @@ import logging
 import discord
 from discord.ext import commands
 
+from data.blood_potency import get_blood_potency_info
 from data.clans import CLANS
 from data.auspices import AUSPICES
 from data.config import ROLE_VAMPIRE, ROLE_LOUP_GAROU
@@ -215,19 +216,11 @@ class GeneralCog(commands.Cog, name="Général"):
         character["saturationPoints"] = 0  # Reset saturation on manual BP change
         await save_to_google_sheets(member.id, character)
 
-        # Descriptions des niveaux
-        bp_titles = {
-            1: "Nouveau-né",
-            2: "Néonate",
-            3: "Ancilla",
-            4: "Ancien",
-            5: "Mathusalem",
-        }
-
         embed = discord.Embed(
             title="🩸 Puissance du Sang Modifiée",
             description=(
-                f"**{member.display_name}** est maintenant un **{bp_titles[level]}**.\n\n"
+                f"Le sang de **{member.display_name}** est désormais : "
+                f"**{get_blood_potency_info(level)['titre']}**.\n\n"
                 f"• Niveau précédent : {old_bp}\n"
                 f"• Nouveau niveau : **{level}**\n"
                 f"• Points de saturation réinitialisés"
