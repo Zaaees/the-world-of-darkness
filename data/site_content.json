@@ -23321,7 +23321,7 @@
   "vampire.text.02610": {
     "scope": "vampire",
     "source": "data/blood_actions.json",
-    "default": "Protégez une Pierre de touche, préservez une relation mortelle ou respectez une Conviction alors que la faim, la Mascarade ou la politique de la nuit vous poussaient à l’abandonner.",
+    "default": "Protégez une personne qui vous rattache à votre humanité, préservez une relation mortelle ou respectez une Conviction alors que la faim, la Mascarade ou la politique de la nuit vous poussaient à l’abandonner.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
