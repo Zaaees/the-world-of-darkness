@@ -1163,7 +1163,9 @@ CLAN_DISCIPLINES = {
     "ventrue": ["dominate", "fortitude", "presence"],
     "lasombra": ["dominate", "obtenebration", "potence"],
     "tzimisce": ["animalism", "auspex", "vicissitude"],
-    "hecata": ["auspex", "fortitude", "necromancy"],
+    "giovanni": ["dominate", "necromancy", "potence"],
+    "hecata": ["dominate", "necromancy", "potence"],
+    "setite": ["obfuscate", "presence", "serpentis"],
     "ministry": ["obfuscate", "presence", "serpentis"],
     "banu_haqim": ["celerity", "obfuscate", "quietus"],
     "ravnos": ["animalism", "chimerstry", "fortitude"]

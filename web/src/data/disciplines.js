@@ -1308,7 +1308,7 @@ export const CLAN_DISCIPLINES = {
   ventrue: ["dominate", "fortitude", "presence"],
   lasombra: ["dominate", "obtenebration", "potence"],
   tzimisce: ["animalism", "auspex", "vicissitude"],
-  giovanni: ["auspex", "fortitude", "necromancy"],
+  giovanni: ["dominate", "necromancy", "potence"],
   setites: ["obfuscate", "presence", "serpentis"],
   assamites: ["celerity", "obfuscate", "quietus"],
   ravnos: ["animalism", "chimerstry", "fortitude"],
@@ -1324,6 +1324,19 @@ export const CLAN_DISCIPLINES = {
     "protean", "quietus", "serpentis", "thaumaturgy", "thanatosis",
     "vicissitude", "visceratika"
   ]
+};
+
+// Identifiants de clan stockés sur les fiches (data/clans.py) ou anciens noms V5,
+// ramenés aux clés de CLAN_DISCIPLINES.
+const CLAN_ALIASES = {
+  setite: "setites",
+  ministry: "setites",
+  banu_haqim: "assamites",
+  assamite: "assamites",
+  hecata: "giovanni",
+  daughters_cacophony: "daughters_of_cacophony",
+  gargouilles: "gargoyles",
+  malkavien: "malkavian"
 };
 
 // Niveau maximum de discipline selon la Puissance du Sang
@@ -1344,7 +1357,8 @@ export const MAX_DISCIPLINE_LEVEL = {
  * Récupère les disciplines disponibles pour un clan et un niveau de BP
  */
 export function getAvailableDisciplines(clan, bloodPotency) {
-  const clanLower = clan?.toLowerCase();
+  const clanKey = clan?.toLowerCase();
+  const clanLower = CLAN_ALIASES[clanKey] || clanKey;
 
   // Safe validation check
   if (!CLAN_DISCIPLINES || !DISCIPLINES) {
