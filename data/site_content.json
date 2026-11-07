@@ -11667,6 +11667,123 @@
     "catalog": false,
     "variables": []
   },
+  "vampire.bonds.title": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Liens de sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.boundTo": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Vous êtes lié à",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.drankFromMe": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Ont bu votre sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.stage": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Stade {v0}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.stage1": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "{v0} occupe vos pensées plus que de raison.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.stage2": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "{v0} compte plus que quiconque ; vous le protégez sans y penser.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.stage3": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "{v0} passe avant tout, même avant vous.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.defy": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Chaque action contre {v0} vous coûte {v1} Vitae : déclarez-la avec « Défier le lien » du panneau.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0", "v1"]
+  },
+  "vampire.bonds.empty": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Aucun lien de sang ne vous enchaîne, et nul n'a bu votre sang.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.loading": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Lecture des liens…",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.npc": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.ghoulBound": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/GhoulsTab.jsx",
+    "default": "Liée au stade 3",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.ghoulMind": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/GhoulsTab.jsx",
+    "default": "Sans lien de sang : tenue par la Domination",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
   "vampire.text.01472": {
     "scope": "vampire",
     "source": "modules/vampire/components/SceneSubmission.jsx",
@@ -12790,7 +12907,7 @@
   "vampire.text.01596": {
     "scope": "vampire",
     "source": "modules/vampire/pages/SheetPage.jsx",
-    "default": "Goules",
+    "default": "Goules & Liens",
     "maxLength": 12000,
     "public": false,
     "catalog": false,

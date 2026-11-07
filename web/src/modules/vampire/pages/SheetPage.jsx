@@ -12,6 +12,7 @@ import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown,
 import DisciplinesTab from '../components/DisciplinesTab';
 
 import GhoulsTab from '../components/GhoulsTab';
+import BloodBondsSection from '../components/BloodBondsSection';
 import RitualsTab from '../components/RitualsTab';
 import RulesTab from '../components/RulesTab';
 import CharacterSheet from '../components/CharacterSheet';
@@ -1213,6 +1214,9 @@ export default function VampireSheet() {
                   return saveCharacter(updated);
                 }}
               />
+            )}
+            {activeTab === 'ghouls' && guildId && !npcCharacter && !isCainMode && (
+              <BloodBondsSection discordUserId={discordUser.id} guildId={guildId.toString()} />
             )}
 
           </main>

@@ -47,6 +47,15 @@ describe('Préparation du RP', () => {
     expect(screen.getByDisplayValue('Guide')).toBeInTheDocument();
   });
 
+  it("distingue goules de sang liées et goules de l'esprit", () => {
+    render(<GhoulsTab clan="salubri" bloodPotency={5} ghouls={[
+      {id:'a', name:'Marcus', type:'blood'},
+      {id:'b', name:'Esprit', type:'mind'},
+    ]} onUpdateGhouls={vi.fn()}/>);
+    expect(screen.getByText('Liée au stade 3')).toBeInTheDocument();
+    expect(screen.getByText('Sans lien de sang : tenue par la Domination')).toBeInTheDocument();
+  });
+
   it('ouvre une demande accessible et permet de la fermer au clavier', () => {
     const close = vi.fn();
     render(<SceneSubmission action={{name:'Une épreuve'}} onClose={close} onSubmit={vi.fn()}/>);
