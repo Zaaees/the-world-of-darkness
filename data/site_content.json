@@ -10578,28 +10578,10 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01332": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": ") est votre premier outil narratif. Cette commande vous donne accès à la gestion de votre Soif ainsi qu'au ",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01333": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "Vis Vitae",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01334": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": ", votre deuxième outil narratif, qui vous permet de gérer les aspects techniques de votre personnage.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10686,15 +10668,6 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01344": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Tremere & Giovanni",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01345": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
@@ -10708,15 +10681,6 @@
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "Vous commencez votre non-vie avec un grimoire vide.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01347": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Ces arts occultes ne s'improvisent pas : pour acquérir de nouveaux rituels, vous devrez mener l'enquête en jeu, trouver des mentors ou déchiffrer des textes anciens.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10875,28 +10839,10 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01365": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " La Camarilla laisse aux vampires la liberté de définir leurs domaines. Toutefois, elle n'autorise pas un vampire à posséder plusieurs territoires géographiquement éloignés. Votre domaine doit former un ensemble cohérent et contigu.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01366": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "Souveraineté et conflits :",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01367": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Selon les traditions de la Mascarade, vous êtes souverain sur votre territoire. Nul ne peut y chasser sans votre permission. Cependant, d'autres vampires peuvent convoiter vos possessions. Les guerres de domaine sont monnaie courante — soyez prêt à défendre ce qui vous appartient.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -10947,28 +10893,10 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01373": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Le menu déroulant du panneau liste vos pouvoirs accessibles et les dépenses du règlement (exploit, régénération) : choisir un pouvoir prélève automatiquement son coût. Le bouton « Soif » reste pour les dépenses libres (résistance mentale, coût convenu avec le MJ). Plus votre réserve baisse, plus la Bête se rapproche, imposant des contraintes croissantes sur votre RP.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01374": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "Boutons « Chasse en off » et « Scène de chasse »",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01375": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "La chasse en off rend une part fixe de votre réserve (40 %, soit 2 / 4 / 5 / 8 Vitae selon le rang), une fois par nuit réelle, et seulement tant que la réserve est encore à 40 % ou plus. En dessous, seule une scène de chasse jouée (son lien Discord est demandé) remplit la réserve. Au rang 5, seul le sang de vampire vous rassasie : plus de chasse en off, chaque repas est une scène jouée, et elle remplit toute la réserve. Les nuits qui passent sans ouvrir le panneau coûtent aussi un peu de sang (1 Vitae tous les deux jours, au plus 3 d’un coup). Une mutation agrandit la réserve sans la remplir.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11032,15 +10960,6 @@
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "0, 1, 3 ou 9 Vitae selon le niveau",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01383": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": ") est prélevé automatiquement. Le niveau 5, apogée du jeu, coûte toujours 9 : un seul usage fait tomber un vampire au Zénith de « rassasié » à la faim, deux l’amènent au bord du danger.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11208,24 +11127,6 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01402": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Capacité en Vitae par Rang",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01403": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Votre rang détermine votre réserve, pas votre âge, votre titre politique ni l'autorité sur un autre personnage.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01404": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
@@ -11361,37 +11262,10 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01419": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Saturation :",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01420": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Les récompenses varient selon l’action et votre niveau. Plusieurs accomplissements indépendants peuvent se cumuler dans une scène, sans plafond ni délai de récupération. Un même résultat ne se rémunère pas deux fois. Répéter la même action au même rang rapporte 100 %, puis 75 %, puis 50 % de sa valeur : la variété paie, la routine non. Le MJ peut ajuster le montant à la validation.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01421": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "Progression :",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01422": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Les passages coûtent respectivement 30, 60, 120 et 200 points. L’excédent est conservé au niveau suivant, sans incubation imposée. Chaque seuil demande une clé : la voie de votre clan du rang courant doit avoir été validée, sinon vos points attendent et la mutation survient à sa validation. Au niveau 5, les objectifs d’héritage poursuivent votre récit sans nouveaux points.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11550,15 +11424,6 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01440": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": " Un défenseur de BP supérieure est immunisé, sans dépense. Sinon, il doit pouvoir payer le coût entier pour résister (minimum 1 Vitae si le pouvoir est gratuit). Une réserve insuffisante ne permet pas cette résistance ; appliquez alors l'effet dans ses limites et dans le cadre convenu entre joueurs, avec arbitrage MJ en cas de désaccord.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01441": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
@@ -11608,15 +11473,6 @@
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "trois nuits distinctes",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01447": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Le lien de sang se renforce à chaque étape. Ce n’est qu’à la troisième ingestion que la transformation physiologique et psychologique est complète. Lier une goule coûte 3 Vitae, prélevés à la création dans le registre ; le nombre de goules de sang est limité par le rang (1 / 2 / 3 / 5 / 8), les goules de l’esprit aussi (1 au rang 4, 2 au rang 5).",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -11694,15 +11550,6 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01456": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Nourrissez-vous en off, entre deux scènes, sans mise en scène particulière (bouton « Chasse en off »). Vous êtes calme.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01457": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
@@ -11712,28 +11559,10 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01458": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Alimentation en off encore possible tant que la réserve reste à 40 % ou plus, mais une scène est ",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01459": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
     "default": "fortement suggérée",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
-  "vampire.text.01460": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": ". La compulsion de votre clan est présente et commence à être visible par les autres dans votre comportement (tics, obsessions, regards).",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -25324,15 +25153,6 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.02992": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Alimentation en scène obligatoire. La Bête prend le contrôle : vous viderez intégralement votre victime de son sang, provoquant sa mort dans l’acte du Baiser. À zéro, la frénésie est annoncée publiquement. Convenez des conséquences avant la scène ; une limite personnelle autorise toujours une ellipse. Cette règle ne permet pas de tuer un PJ sans accord.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.02993": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -25358,6 +25178,267 @@
     "maxLength": 12000,
     "public": false,
     "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02996": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": ") est votre premier outil narratif : il tient votre Soif et vous ouvre les portes du ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02997": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": ", votre second outil, où vit tout le reste de votre personnage.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02998": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Votre clan se choisit une fois pour toutes : on ne renie pas le sang de son Sire.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02999": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Lignées occultes",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03000": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Ces arts ne s'improvisent pas : il faut un mentor, un texte ancien ou une enquête menée en jeu. Le MJ inscrit chaque rituel dans votre grimoire lorsque vous l'avez découvert.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03001": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " La Camarilla vous laisse définir librement votre domaine, à une condition : qu'il forme un seul ensemble contigu, sans territoires éparpillés aux quatre coins de la ville.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03002": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Selon les traditions de la Mascarade, vous êtes souverain sur votre territoire : nul n'y chasse sans votre permission. Mais d'autres convoitent ce qui vous appartient, et les guerres de domaine sont monnaie courante. Soyez prêt à défendre vos terres.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03003": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Choisir un pouvoir, un exploit ou une régénération dans le menu prélève aussitôt son prix. Le bouton « Soif » sert aux dépenses libres : résistance mentale, prix convenu avec le MJ. Si votre réserve ne suffit pas, l'acte vous est refusé et rien n'est prélevé. Plus votre réserve baisse, plus la Bête se rapproche.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03004": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La chasse en off rend une part de votre réserve, une fois par nuit, tant qu'elle est encore à 40 % ou plus. En dessous, seule une scène de chasse jouée (son lien vous est demandé) la remplit. Au Zénith, plus de chasse en off : chaque repas se joue en scène. Même au repos, votre corps mort brûle lentement son sang au fil des nuits.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03005": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": ") est prélevé automatiquement. Un pouvoir de niveau 5 coûte toujours 9 : au Zénith, un seul usage vous arrache à la satiété, deux vous mènent au bord du gouffre.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03006": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Les Rangs du Sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03007": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Plus votre sang s'épaissit, plus votre réserve grandit, et plus le sang qui peut encore vous nourrir se fait rare. Votre rang ne dit ni votre âge, ni votre titre politique, ni votre autorité sur un autre personnage.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03008": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le sang animal suffit encore à vous soutenir.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03009": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le sang animal n'a plus de goût : seul le sang humain vous nourrit.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03010": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le sang humain, toujours ; la Soif se fait plus pressante.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03011": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le sang froid des poches médicales ne vous nourrit plus : il vous faut la chaleur de la vie.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03012": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Pour être rassasié, vous devez tuer votre proie ou boire le sang d'un autre vampire, toujours en scène.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03013": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Valeur des actes :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03014": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Chaque épreuve rapporte selon votre rang. Plusieurs accomplissements distincts d'une même scène se cumulent, mais un même résultat ne se paie qu'une fois. Répéter une épreuve au même rang rapporte 100 %, puis 75 %, puis 50 % : la routine n'épaissit pas le sang. Certains actes, comme l'Étreinte ou la Diablerie, ne comptent qu'une seule fois et doivent naître du récit. Le MJ peut ajuster le montant à la validation.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03015": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Les passages coûtent respectivement 30, 60, 120 et 200 points, et l'excédent vous suit au rang suivant. Chaque seuil demande aussi une clé : la voie de votre clan au rang actuel. Sans elle, vos points attendent ; la mutation survient dès sa validation. Votre réserve grandit alors, sans se remplir. Au Zénith, les objectifs d'héritage poursuivent votre récit sans nouveaux points.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03016": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Il faut pouvoir payer le prix entier pour résister (au moins 1 Vitae si le pouvoir est gratuit). Faute de sang, l'effet s'applique dans le cadre convenu entre joueurs ; le MJ tranche en cas de désaccord.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03017": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le lien se resserre à chaque gorgée ; à la troisième, la transformation est accomplie. Lier une goule coûte 3 Vitae, versés à sa création dans le registre, et la libérer ne vous rend pas ce sang. Le nombre de goules dépend de votre rang (1 / 2 / 3 / 5 / 8).",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03018": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Goules de l'esprit :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03019": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " dès le Sang Puissant, les clans maîtres de la Domination peuvent asservir un mortel par la seule volonté (une au rang 4, deux au Zénith). Elles ne coûtent pas de sang, mais n'héritent d'aucune discipline.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03020": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Sous 80 %, la compulsion de votre clan s'éveille, et elle s'aggrave à chaque palier que vous perdez. Le panneau vous en donne le nom et la directive de jeu à suivre.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03021": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La Bête est calme. Vous pouvez vous nourrir en off, entre deux scènes, sans mise en scène particulière (sauf au Zénith).",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03022": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La chasse en off reste possible, mais une scène est ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03023": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": ". Votre compulsion de clan est présente et se lit dans votre comportement : tics, obsessions, regards.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03024": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Alimentation en scène obligatoire. La Bête prend le contrôle : vous viderez votre victime de son sang jusqu'à la mort. À zéro, votre frénésie est annoncée publiquement. Convenez des conséquences avant la scène ; une limite personnelle autorise toujours une ellipse, et cette règle ne permet jamais de tuer un PJ sans accord.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
     "variables": []
   }
 }

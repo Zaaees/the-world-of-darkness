@@ -1666,11 +1666,11 @@ def get_max_vitae(blood_potency: int) -> int:
     """Calcule la capacité maximale de Vitae selon la Blood Potency.
 
     Réserve par rang (noms : data/blood_potency.py) :
-    - BP 1 : 5 (Sang Fluide, Néonate)
-    - BP 2 : 8 (Sang Vif, Ancilla Mineur)
-    - BP 3 : 12 (Sang Fort, Ancilla Majeur)
-    - BP 4 : 18 (Sang Puissant, Ancien)
-    - BP 5 : 25 (Zénith Sanguin, Sommité)
+    - BP 1 : 5 (Sang Fluide)
+    - BP 2 : 8 (Sang Vif)
+    - BP 3 : 12 (Sang Fort)
+    - BP 4 : 18 (Sang Puissant)
+    - BP 5 : 25 (Zénith Sanguin)
     """
     max_vitae_by_bp = {1: 5, 2: 8, 3: 12, 4: 18, 5: 25}
     return max_vitae_by_bp.get(blood_potency, 5)

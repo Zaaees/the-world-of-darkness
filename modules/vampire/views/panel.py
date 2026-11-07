@@ -388,7 +388,6 @@ class VampirePanel(ui.View):
 
         embed = discord.Embed(
             title=f"🧛 Panneau Vampire — {clan_name}",
-            description=f"*{bp_info['rang']}*",
             color=colors.get(state_level, discord.Color.dark_red()),
         )
 
