@@ -227,3 +227,129 @@ def test_two_regnants_racing_cannot_both_reach_stage_three(db):
     assert sum(1 for b in held if b['stage'] == 3) <= 1
     spent = (12 - vitae(REGNANT)) + (12 - vitae(OTHER))
     assert spent == sum(b['stage'] for b in held)
+
+
+# ---------------------------------------------------------------------------
+# Panneau /vampire
+# ---------------------------------------------------------------------------
+
+from types import SimpleNamespace
+from unittest.mock import AsyncMock, MagicMock
+
+from modules.vampire.views import bonds as bond_views
+from modules.vampire.views.panel import PowerSelect, VampirePanel
+
+
+def bond(name='Lucrezia', stage=1, cost=3, kind='player', ref='10'):
+    return {'id': 1, 'guild_id': G, 'thrall_id': THRALL, 'thrall_name': name, 'regnant_kind': kind,
+            'regnant_ref': ref, 'regnant_name': name, 'regnant_potency': None, 'stage': stage,
+            'defy_cost': cost}
+
+
+def test_bond_fields_show_stage_directive_and_regnant_list():
+    assert bond_views.bond_fields({'bound_to': [], 'drank_from_me': []}) == []
+    fields = dict(bond_views.bond_fields({'bound_to': [bond(stage=3, cost=4)], 'drank_from_me': []}))
+    assert 'stade 3' in fields['⛓️ Liens de sang'] and '**Lucrezia**' in fields['⛓️ Liens de sang']
+    assert 'Directive de Jeu' in fields and '4 Vitae' in fields['Directive de Jeu']
+    assert 'Directive de Jeu' not in dict(bond_views.bond_fields({'bound_to': [bond(stage=2)], 'drank_from_me': []}))
+
+    drank = [bond(name=f'Vassal{i}') for i in range(7)]
+    value = dict(bond_views.bond_fields({'bound_to': [], 'drank_from_me': drank}))['🩸 Ont bu ton sang']
+    assert value.count('Vassal') == 5 and '…et 2 autres' in value
+
+    huge = bond(name='X' * 2000, stage=3)
+    for _, text in bond_views.bond_fields({'bound_to': [huge], 'drank_from_me': [huge]}):
+        assert len(text) <= 1024
+
+
+def test_defy_option_comes_first_even_with_many_powers():
+    assert bond_views.defy_option({'bound_to': [bond(stage=2)], 'drank_from_me': []}) is None
+    panel = VampirePanel(THRALL, G, 5, 'tremere', 12, 5,
+                         bonds={'bound_to': [bond(stage=3, cost=4)], 'drank_from_me': []})
+    select = next(item for item in panel.children if isinstance(item, PowerSelect))
+    assert select.options[0].value == bond_views.DEFY_OPTION
+    assert select.options[0].label == 'Défier le lien envers Lucrezia (4 Vitae)'
+    assert len(select.options) <= 25
+
+
+def discord_interaction(user_id=THRALL):
+    channel = SimpleNamespace(id=5, send=AsyncMock(return_value=SimpleNamespace(id=99)))
+    guild = SimpleNamespace(id=G, get_channel_or_thread=MagicMock(return_value=channel), fetch_channel=AsyncMock())
+    user = SimpleNamespace(id=user_id, display_name='Moi', mention=f'<@{user_id}>')
+    response = SimpleNamespace(edit_message=AsyncMock(), send_message=AsyncMock())
+    return SimpleNamespace(guild=guild, user=user, channel=channel, response=response), channel
+
+
+def test_offer_refuses_a_member_without_vampire(db, monkeypatch):
+    spend = AsyncMock()
+    monkeypatch.setattr(database, 'modify_vitae', spend)
+    monkeypatch.setattr(bond_views, 'get_player', AsyncMock(return_value={'race': 'humain', 'clan': None}))
+    seed(REGNANT)
+
+    async def go():
+        panel = VampirePanel(REGNANT, G, 5, 'ventrue', 12, 3, bonds={'bound_to': [], 'drank_from_me': []})
+        view = bond_views.OfferBloodView(panel)
+        select = next(item for item in view.children if isinstance(item, bond_views.OfferUserSelect))
+        inter, channel = discord_interaction(REGNANT)
+        for target in (SimpleNamespace(id=77, bot=True, display_name='Bot', mention='<@77>'),
+                       SimpleNamespace(id=78, bot=False, display_name='Mortel', mention='<@78>')):
+            monkeypatch.setattr(type(select), 'values', [target], raising=False)
+            await select.callback(inter)
+        return inter, channel
+    inter, channel = run(go())
+    assert inter.response.send_message.await_count == 2
+    for call in inter.response.send_message.await_args_list:
+        assert call.args[0] == "Ce membre n'a pas de personnage vampire."
+        assert call.kwargs['ephemeral'] is True
+    spend.assert_not_awaited()
+    channel.send.assert_not_awaited()
+    assert vitae(REGNANT) == 12
+
+
+def test_offer_binds_posts_the_card_and_returns_to_the_panel(db, monkeypatch):
+    seed(REGNANT)
+    seed(THRALL)
+    monkeypatch.setattr(bond_views, 'get_player', AsyncMock(return_value={'race': 'vampire', 'clan': 'ventrue'}))
+
+    async def go():
+        panel = VampirePanel(REGNANT, G, 5, 'ventrue', 12, 3, bonds={'bound_to': [], 'drank_from_me': []})
+        select = bond_views.OfferUserSelect(panel)
+        inter, channel = discord_interaction(REGNANT)
+        target = SimpleNamespace(id=THRALL, bot=False, display_name='Cadet', mention='<@20>')
+        monkeypatch.setattr(type(select), 'values', [target], raising=False)
+        await select.callback(inter)
+        return inter, channel
+    inter, channel = run(go())
+    assert channel.send.await_args.kwargs['content'] == '<@20>'
+    assert 'noue' in channel.send.await_args.kwargs['embed'].description
+    kwargs = inter.response.edit_message.await_args.kwargs
+    assert 'lien au stade 1' in kwargs['embed'].footer.text
+    assert kwargs['view'].bonds['drank_from_me'][0]['stage'] == 1
+    assert vitae(REGNANT) == 11
+
+
+def test_zenith_feeding_text_says_it_does_not_bind():
+    def feeding(bp):
+        embed = VampirePanel(THRALL, G, 5, 'ventrue', 12, bp).create_embed()
+        return next(f.value for f in embed.fields if f.name == '🍷 Alimentation')
+    assert '(cette chasse ne te lie pas)' in feeding(5)
+    assert 'ne te lie pas' not in feeding(3)
+
+
+def test_defying_from_the_panel_spends_the_regnants_rank(db):
+    seed(REGNANT, bp=3, vitae=12)
+    seed(THRALL, bp=2, vitae=12)
+    for _ in range(3):
+        offer()
+    before = vitae(THRALL)
+
+    async def go():
+        panel = VampirePanel(THRALL, G, 5, 'ventrue', before, 2, bonds=await bonds.get_bonds(G, THRALL))
+        select = next(item for item in panel.children if isinstance(item, PowerSelect))
+        inter, _ = discord_interaction(THRALL)
+        select._values = [bond_views.DEFY_OPTION]
+        await select.callback(inter)
+        return inter
+    inter = run(go())
+    assert vitae(THRALL) == before - 3  # rang 3 du régnant
+    assert '⛓️ Tu défies ton lien envers R10 : 3 Vitae versés.' == inter.response.edit_message.await_args.kwargs['embed'].footer.text

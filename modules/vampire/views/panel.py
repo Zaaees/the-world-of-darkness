@@ -12,6 +12,7 @@ from data.blood_potency import BLOOD_POTENCY_INFO, STANDARD_VITAE_COSTS
 from data.clans import get_clan, get_compulsion, CLANS
 from data.disciplines import get_usable_powers
 from data.frenzy import DRAWING_OUT_THE_BEAST, leaves_beast_mark
+from modules.vampire.views.bonds import DEFY_OPTION, OfferBloodView, bond_fields, defy_option, offer_embed
 from modules.vampire.views.frenzy import (
     CalmView,
     TriggerView,
@@ -23,6 +24,7 @@ from modules.vampire.views.frenzy import (
     handle_empty_reserve,
     parse_scene_link,
 )
+from utils.blood_bonds import clear_blood_bonds, defy_bond, get_bonds
 from utils.database import (
     clear_frenzy_data,
     get_player,
@@ -81,6 +83,7 @@ class ClanSelectMenu(ui.Select):
             # Réinitialiser toutes les données vampire (mort/nouveau personnage)
             await reset_vampire_data(interaction.user.id, interaction.guild.id)
             await clear_frenzy_data(interaction.user.id, interaction.guild.id)
+            await clear_blood_bonds(interaction.guild.id, interaction.user.id)
 
         # Sauvegarder le nouveau clan
         await set_player(
@@ -235,6 +238,9 @@ class PowerSelect(ui.Select):
     def __init__(self, panel_view: "VampirePanel"):
         self.panel_view = panel_view
         options = []
+        defy = defy_option(panel_view.bonds)
+        if defy:
+            options.append(defy)
         for power in get_usable_powers(panel_view.clan, panel_view.blood_potency):
             cost = power["bloodCost"]
             options.append(discord.SelectOption(
@@ -257,7 +263,12 @@ class PowerSelect(ui.Select):
         choice = self.values[0]
         before = self.panel_view.soif_level
         try:
-            if choice in STANDARD_VITAE_COSTS:
+            note = None
+            if choice == DEFY_OPTION:
+                result = await defy_bond(interaction.guild.id, interaction.user.id)
+                new_vitae, cost = result["vitae"], result["cost"]
+                note = f"⛓️ Tu défies ton lien envers {result['regnant_name']} : {cost} Vitae versés."
+            elif choice in STANDARD_VITAE_COSTS:
                 item = STANDARD_VITAE_COSTS[choice]
                 new_vitae = await modify_vitae(interaction.user.id, interaction.guild.id, -item["cost"])
                 label, cost = item["label"], item["cost"]
@@ -270,7 +281,9 @@ class PowerSelect(ui.Select):
             await interaction.response.send_message(str(exc), ephemeral=True)
             return
         self.panel_view.soif_level = new_vitae
-        self.panel_view.note = (f"🩸 {label} : {cost} Vitae versés." if cost else f"✨ {label} : pouvoir passif, rien à verser.")
+        if note is None:
+            note = f"🩸 {label} : {cost} Vitae versés." if cost else f"✨ {label} : pouvoir passif, rien à verser."
+        self.panel_view.note = note
         # Libérer la Bête : la frénésie passe sur une autre victime.
         if choice == DRAWING_OUT_THE_BEAST and self.panel_view.frenzy:
             calmed = await calm_beast(interaction, self.panel_view, "transferee")
@@ -296,6 +309,7 @@ class VampirePanel(ui.View):
         upkeep_lost: int = 0,
         frenzy: Optional[dict] = None,
         beast_marks: Optional[list] = None,
+        bonds: Optional[dict] = None,
     ):
         super().__init__(timeout=300)
         self.user_id = user_id
@@ -308,6 +322,8 @@ class VampirePanel(ui.View):
         # Frénésie en cours (rattachée à sa scène) et marques laissées par la Bête (Gangrel).
         self.frenzy = frenzy
         self.beast_marks = list(beast_marks or [])
+        # Liens de sang : ceux que le personnage subit et ceux qu'il a noués.
+        self.bonds = bonds
         # Dernière opération affichée sous la jauge (dépense, chasse, entretien).
         self.note = (f"🌙 Les nuits ont passé : −{upkeep_lost} Vitae d'entretien." if upkeep_lost else None)
         self.add_item(PowerSelect(self))
@@ -319,6 +335,7 @@ class VampirePanel(ui.View):
         fresh = VampirePanel(
             self.user_id, self.guild_id, self.channel_id, self.clan, self.soif_level,
             self.blood_potency, self.saturation_points, frenzy=self.frenzy, beast_marks=self.beast_marks,
+            bonds=self.bonds,
         )
         fresh.note = note if note is not None else self.note
         self.stop()
@@ -469,6 +486,8 @@ class VampirePanel(ui.View):
         else:
             feeding = (f"Réserve sous {floor}/{max_vitae} : **alimentation en scène obligatoire**. "
                        f"Joue ta chasse, puis donne son lien.")
+        if self.blood_potency >= 5:
+            feeding += " (cette chasse ne te lie pas)"
         embed.add_field(name="🍷 Alimentation", value=feeding, inline=False)
         if self.note:
             embed.set_footer(text=self.note)
@@ -499,6 +518,9 @@ class VampirePanel(ui.View):
                     inline=False,
                 )
 
+        for name, value in bond_fields(self.bonds):
+            embed.add_field(name=name, value=value, inline=False)
+
         if self.beast_marks and leaves_beast_mark(self.clan):
             shown = self.beast_marks[-BEAST_MARKS_SHOWN:]
             hidden = len(self.beast_marks) - len(shown)
@@ -514,6 +536,7 @@ class VampirePanel(ui.View):
         # Au rang où seul le sang de vampire rassasie, la chasse en off n'existe plus.
         self.quick_feed_button.disabled = requires_scene_feeding(self.blood_potency)
         # Un seul bouton pour la Bête : la déclarer, ou la congédier quand elle tient les rênes.
+        self.offer_button.disabled = self.soif_level == 0
         if self.frenzy:
             self.beast_button.label, self.beast_button.emoji = "La Bête se retire", "🌒"
             self.beast_button.style = discord.ButtonStyle.success
@@ -574,3 +597,13 @@ class VampirePanel(ui.View):
             await interaction.response.edit_message(embed=calm_embed(self), view=CalmView(self))
         else:
             await interaction.response.edit_message(embed=awaken_embed(), view=TriggerView(self))
+
+    @ui.button(label="Offrir mon sang", style=discord.ButtonStyle.secondary, emoji="🩸", row=2)
+    async def offer_button(self, interaction: discord.Interaction, button: ui.Button):
+        """Offrir une gorgée de son sang à un autre vampire : le lien de sang se noue."""
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message(
+                "Ce panneau ne t'appartient pas.", ephemeral=True
+            )
+            return
+        await interaction.response.edit_message(embed=offer_embed(), view=OfferBloodView(self))

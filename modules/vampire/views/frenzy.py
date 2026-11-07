@@ -124,13 +124,14 @@ async def _scene_channel(guild: discord.Guild, channel_id: Optional[int]):
     return channel if hasattr(channel, "send") else None
 
 
-async def post_card(guild: discord.Guild, channel_id: int, embed: discord.Embed) -> Optional[int]:
-    """Poste l'annonce ; renvoie l'id du message, ou None si le salon est inaccessible."""
+async def post_card(guild: discord.Guild, channel_id: int, embed: discord.Embed,
+                    content: Optional[str] = None) -> Optional[int]:
+    """Poste l'annonce (`content` prévient un membre) ; renvoie l'id du message, ou None si le salon est inaccessible."""
     channel = await _scene_channel(guild, channel_id)
     if channel is None:
         return None
     try:
-        message = await channel.send(embed=embed)
+        message = await channel.send(content=content, embed=embed)
     except discord.HTTPException:
         logger.warning("Annonce de frénésie impossible dans le salon %s", channel_id)
         return None
