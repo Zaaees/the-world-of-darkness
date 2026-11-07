@@ -31,16 +31,17 @@ Table SQLite `vampire_blood_bonds` (même base que la Frénésie), créée au d�
 | `id` | entier, clé primaire |
 | `guild_id` | serveur |
 | `thrall_id` | ID Discord du lié |
+| `thrall_name` | nom affiché du lié, instantané mis à jour à chaque gorgée |
 | `regnant_kind` | `player` ou `npc` |
 | `regnant_ref` | ID Discord du régnant (`player`), ID du registre PNJ ou nom libre normalisé (`npc`) |
-| `regnant_name` | nom affiché (PNJ ; instantané de secours pour un joueur) |
+| `regnant_name` | nom affiché du régnant (PNJ, ou instantané mis à jour à chaque gorgée pour un joueur) |
 | `regnant_potency` | rang du régnant PNJ (1 à 5) ; nul pour un joueur, dont on lit le rang actuel |
 | `stage` | 1 à 3 |
 | `created_at`, `updated_at` | horodatage |
 
 Unicité : (`guild_id`, `thrall_id`, `regnant_kind`, `regnant_ref`). Côté site, tous les IDs Discord circulent en chaînes.
 
-Noms affichés d'un joueur : nom du personnage (fiche du site), sinon nom Discord, sinon « Vampire inconnu ».
+Noms affichés d'un joueur : nom du personnage (fiche du site), sinon nom Discord, sinon « Vampire inconnu ». Le panneau les fige dans la ligne à chaque gorgée ; site et CAIN lisent ces instantanés.
 
 ## Règles appliquées par le code
 
