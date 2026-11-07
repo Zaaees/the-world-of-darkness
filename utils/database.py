@@ -98,6 +98,37 @@ async def init_database():
             except Exception:
                 pass  # Colonne existe déjà
 
+        # Frénésie en cours (une au plus par vampire), rattachée à sa scène et à son annonce.
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS vampire_frenzy (
+                user_id INTEGER,
+                guild_id INTEGER NOT NULL,
+                frenzy_type TEXT NOT NULL,
+                trigger_id TEXT NOT NULL,
+                channel_id INTEGER,
+                message_id INTEGER,
+                started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (user_id, guild_id)
+            )
+        """)
+        # Historique : Bête ravalée ou frénésie terminée (raison, marque Gangrel).
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS vampire_frenzy_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                frenzy_type TEXT NOT NULL,
+                trigger_id TEXT NOT NULL,
+                outcome TEXT NOT NULL,
+                cost INTEGER DEFAULT 0,
+                channel_id INTEGER,
+                exit_reason TEXT,
+                mark TEXT,
+                started_at TIMESTAMP,
+                ended_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
         # Table de la Rage (Loups-Garous) - liée à une scène (salon)
         await db.execute("""
             CREATE TABLE IF NOT EXISTS werewolf_rage (
@@ -1378,6 +1409,118 @@ async def spend_vitae_for_power(user_id: int, guild_id: int, clan: str, blood_po
     cost = int(power["bloodCost"])
     vitae = await modify_vitae(user_id, guild_id, -cost) if cost else await get_vampire_soif(user_id, guild_id)
     return {"vitae": vitae, "max_vitae": get_max_vitae(blood_potency), "cost": cost, "power": power}
+
+
+# ============================================
+# Frénésie (Règlement, section VII ; règles dans data/frenzy.py)
+# ============================================
+
+_FRENZY_COLUMNS = ("frenzy_type", "trigger_id", "channel_id", "message_id", "started_at")
+
+
+async def get_frenzy(user_id: int, guild_id: int) -> Optional[dict]:
+    """Frénésie en cours, ou None."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            f"SELECT {', '.join(_FRENZY_COLUMNS)} FROM vampire_frenzy WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id))
+        row = await cursor.fetchone()
+    return dict(zip(_FRENZY_COLUMNS, row)) if row else None
+
+
+async def start_frenzy(user_id: int, guild_id: int, frenzy_type: str, trigger_id: str, channel_id: int) -> dict:
+    """La Bête prend les rênes dans la scène donnée ; une seule frénésie à la fois."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
+        cursor = await db.execute(
+            "SELECT 1 FROM vampire_frenzy WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        if await cursor.fetchone():
+            raise ValueError("Ta Bête tient déjà les rênes : congédie d'abord ta frénésie en cours.")
+        await db.execute(
+            """INSERT INTO vampire_frenzy (user_id, guild_id, frenzy_type, trigger_id, channel_id, started_at)
+               VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)""",
+            (user_id, guild_id, frenzy_type, trigger_id, channel_id))
+        await db.commit()
+    return await get_frenzy(user_id, guild_id)
+
+
+async def update_frenzy(user_id: int, guild_id: int, **fields) -> Optional[dict]:
+    """Modifie la frénésie en cours (annonce publiée, ou Faim qui l'emporte à zéro)."""
+    allowed = {key: value for key, value in fields.items() if key in ("frenzy_type", "trigger_id", "message_id")}
+    if allowed:
+        assignments = ", ".join(f"{key} = ?" for key in allowed)
+        async with aiosqlite.connect(DATABASE_PATH) as db:
+            await db.execute(
+                f"UPDATE vampire_frenzy SET {assignments} WHERE user_id = ? AND guild_id = ?",
+                (*allowed.values(), user_id, guild_id))
+            await db.commit()
+    return await get_frenzy(user_id, guild_id)
+
+
+async def end_frenzy(user_id: int, guild_id: int, reason: str, mark: Optional[str] = None) -> Optional[dict]:
+    """La Bête se retire : la frénésie passe à l'historique. Renvoie la frénésie close, ou None."""
+    mark = (mark or "").strip() or None
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
+        cursor = await db.execute(
+            f"SELECT {', '.join(_FRENZY_COLUMNS)} FROM vampire_frenzy WHERE user_id = ? AND guild_id = ?",
+            (user_id, guild_id))
+        row = await cursor.fetchone()
+        if not row:
+            await db.commit()
+            return None
+        frenzy = dict(zip(_FRENZY_COLUMNS, row))
+        await db.execute(
+            """INSERT INTO vampire_frenzy_log
+               (user_id, guild_id, frenzy_type, trigger_id, outcome, channel_id, exit_reason, mark, started_at)
+               VALUES (?, ?, ?, ?, 'cedee', ?, ?, ?, ?)""",
+            (user_id, guild_id, frenzy["frenzy_type"], frenzy["trigger_id"], frenzy["channel_id"],
+             reason, mark, frenzy["started_at"]))
+        await db.execute("DELETE FROM vampire_frenzy WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        await db.commit()
+    return {**frenzy, "exit_reason": reason, "mark": mark}
+
+
+async def resist_frenzy(user_id: int, guild_id: int, frenzy_type: str, trigger_id: str,
+                        cost: int, channel_id: Optional[int] = None) -> int:
+    """Ravaler la Bête : payer le prix entier sans verser sa dernière goutte. Renvoie la réserve."""
+    if cost < 1:
+        raise ValueError("Le prix pour ravaler la Bête est d'au moins 1 Vitae.")
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("BEGIN IMMEDIATE")
+        cursor = await db.execute(
+            "SELECT soif_level FROM vampire_soif WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        row = await cursor.fetchone()
+        current = (row[0] or 0) if row else 0
+        if current - cost < 1:
+            raise ValueError("Ta réserve ne suffit plus : ta dernière goutte ne retient pas la Bête.")
+        await db.execute(
+            "UPDATE vampire_soif SET soif_level = ?, last_updated = CURRENT_TIMESTAMP WHERE user_id = ? AND guild_id = ?",
+            (current - cost, user_id, guild_id))
+        await db.execute(
+            """INSERT INTO vampire_frenzy_log
+               (user_id, guild_id, frenzy_type, trigger_id, outcome, cost, channel_id, started_at)
+               VALUES (?, ?, ?, ?, 'ravalee', ?, ?, CURRENT_TIMESTAMP)""",
+            (user_id, guild_id, frenzy_type, trigger_id, cost, channel_id))
+        await db.commit()
+    return current - cost
+
+
+async def get_beast_marks(user_id: int, guild_id: int) -> list[str]:
+    """Marques laissées par la Bête (Gangrel), de la plus ancienne à la plus récente."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        cursor = await db.execute(
+            "SELECT mark FROM vampire_frenzy_log WHERE user_id = ? AND guild_id = ? AND mark IS NOT NULL ORDER BY id",
+            (user_id, guild_id))
+        return [row[0] for row in await cursor.fetchall()]
+
+
+async def clear_frenzy_data(user_id: int, guild_id: int):
+    """Nouveau personnage : frénésie en cours, historique et marques disparaissent."""
+    async with aiosqlite.connect(DATABASE_PATH) as db:
+        await db.execute("DELETE FROM vampire_frenzy WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        await db.execute("DELETE FROM vampire_frenzy_log WHERE user_id = ? AND guild_id = ?", (user_id, guild_id))
+        await db.commit()
 
 
 # Alias pour la compatibilité (mais déprécié logiquement)

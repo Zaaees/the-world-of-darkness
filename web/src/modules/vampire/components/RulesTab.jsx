@@ -3,7 +3,7 @@ import CatalogText from '../../../core/content/CatalogText';
 import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
 import React from 'react';
-import { ScrollText, Droplet, Book, Users, Skull, Activity, Shield, Crown, FileText, Sparkles } from 'lucide-react';
+import { ScrollText, Droplet, Book, Users, Skull, Activity, Shield, Crown, FileText, Sparkles, Flame } from 'lucide-react';
 
 export default function RulesTab({ setActiveTab }) {
     useSiteContent();
@@ -32,6 +32,7 @@ export default function RulesTab({ setActiveTab }) {
                     { id: 'vitae', icon: Activity, label: 'IV. Utilisation de la Vitae' },
                     { id: 'bloodpotency', icon: Crown, label: 'V. Puissance de Sang' },
                     { id: 'hunting', icon: Skull, label: 'VI. Alimentation & Goules' },
+                    { id: 'beast', icon: Flame, label: 'VII. La Bête & la Frénésie' },
                 ].map((item) => (
                     <button
                         key={item.id}
@@ -344,6 +345,37 @@ export default function RulesTab({ setActiveTab }) {
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01468" /></strong><SiteText contentKey="vampire.text.01469" /><em><SiteText contentKey="vampire.text.01470" /></em>.</li>
                         </ul>
                         <p className="text-sm text-stone-500 mt-2 italic"><SiteText contentKey="vampire.text.01471" /></p>
+                    </div>
+                </section>
+
+                {/* VII. LA BÊTE ET LA FRÉNÉSIE */}
+                <section id="beast" className="space-y-6">
+                    <div className="flex items-center gap-3 mb-6">
+                        <h2 className="text-2xl font-serif text-red-700"><SiteText contentKey="vampire.text.03025" /></h2>
+                        <div className="h-px bg-red-900/30 flex-1"></div>
+                    </div>
+                    <p className="leading-relaxed text-stone-400"><SiteText contentKey="vampire.text.03026" /></p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-stone-900 p-5 rounded border border-stone-800">
+                            <h3 className="text-red-500 font-serif mb-2 text-lg"><SiteText contentKey="vampire.text.03027" /></h3>
+                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.text.03028" /></p>
+                        </div>
+                        <div className="bg-stone-900 p-5 rounded border border-stone-800">
+                            <h3 className="text-orange-500 font-serif mb-2 text-lg"><SiteText contentKey="vampire.text.03029" /></h3>
+                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.text.03030" /></p>
+                        </div>
+                        <div className="bg-stone-900 p-5 rounded border border-stone-800">
+                            <h3 className="text-amber-500 font-serif mb-2 text-lg"><SiteText contentKey="vampire.text.03031" /></h3>
+                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.text.03032" /></p>
+                        </div>
+                    </div>
+
+                    <div className="bg-red-950/10 p-5 rounded border border-red-900/20 space-y-4">
+                        <h3 className="font-serif text-lg text-red-500"><SiteText contentKey="vampire.text.03033" /></h3>
+                        <p className="text-sm text-stone-400 leading-relaxed"><SiteText contentKey="vampire.text.03034" /></p>
+                        <p className="text-sm text-red-400/80 font-serif bg-red-950/30 p-2 rounded">
+                            <strong className="font-bold"><SiteText contentKey="vampire.text.01439" /></strong><SiteText contentKey="vampire.text.03035" /></p>
                     </div>
                 </section>
 

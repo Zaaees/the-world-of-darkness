@@ -2,8 +2,10 @@
 Clans Vampiriques et leurs Compulsions
 Basé sur Vampire: The Masquerade 5th Edition
 
-Chaque clan a des compulsions progressives selon le niveau de Soif (1-5).
+Chaque clan a des compulsions progressives selon le niveau de Soif (1-4).
 Les compulsions deviennent de plus en plus impératives à mesure que la Soif augmente.
+Le niveau 5 est la manière dont la Bête du clan se déchaîne en frénésie : le type de
+frénésie (Faim, Rage, Terreur, voir data/frenzy.py) fixe le but, le clan colore la manière.
 """
 
 from data.blood_actions import normalize_clan
@@ -34,9 +36,9 @@ CLANS = {
                 "directive": "Tu dois répondre à toute provocation par la force. Tu ne peux pas te retenir si quelqu'un te manque de respect. La violence verbale ou physique est ta seule réponse."
             },
             5: {
-                "nom": "FRÉNÉSIE DE RAGE",
+                "nom": "Le Sang des Rebelles",
                 "description": "🩸 LE SANG PREND LE CONTRÔLE 🩸\nTu n'es plus qu'instinct et fureur. La Bête Brujah s'est éveillée.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois attaquer la source de ta frustration la plus proche. Tu ne peux pas parler, seulement grogner et frapper. Seul le sang ou l'épuisement t'arrêtera."
+                "directive": "Ta Bête frappe d'abord et frappe fort. Pas de ruse ni de détour : tu grognes, tu brises, et même en fuyant tu renverses tout sur ton passage."
             }
         }
     },
@@ -65,9 +67,9 @@ CLANS = {
                 "directive": "Tu dois t'exprimer de manière primitive. Phrases courtes, grognements, langage corporel animal. La civilisation te devient étrangère."
             },
             5: {
-                "nom": "FRÉNÉSIE BESTIALE",
+                "nom": "La Bête Fauve",
                 "description": "🐺 LA BÊTE PREND LE CONTRÔLE 🐺\nTu n'es plus humain. Tu es le prédateur ultime.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois fuir vers un endroit sauvage ou attaquer comme un animal. Griffes, crocs, instinct pur. Tu ne reconnais plus ami ou ennemi."
+                "directive": "Ta Bête redevient animal : griffes, crocs, instinct pur. Tu chasses ou tu fuis comme une bête sauvage, sans plus reconnaître ami ni ennemi."
             }
         }
     },
@@ -96,9 +98,9 @@ CLANS = {
                 "directive": "Tu dois agir selon une réalité différente. Parle à des personnes absentes, réagis à des événements qui ne se sont pas encore produits, ou revit un trauma passé."
             },
             5: {
-                "nom": "FRÉNÉSIE DE DÉMENCE",
+                "nom": "Le Réseau de la Folie",
                 "description": "🌀 LA FOLIE PREND LE CONTRÔLE 🌀\nLe Réseau de la Folie te submerge. Mille voix hurlent dans ta tête.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois agir de manière complètement incohérente. Tu ne distingues plus le réel de l'imaginaire. Tes actions n'ont aucune logique apparente."
+                "directive": "Ta Bête parle avec mille voix. Tes actes perdent toute logique apparente : tu frappes une ombre, tu fuis un murmure, tu ris au milieu du carnage."
             }
         }
     },
@@ -127,9 +129,9 @@ CLANS = {
                 "directive": "Tu dois rappeler à quelqu'un ta vraie nature. Laisse entrevoir le monstre, fais-leur peur, montre-leur qu'ils ne sont que des proies."
             },
             5: {
-                "nom": "FRÉNÉSIE DE TERREUR",
+                "nom": "Le Cauchemar Incarné",
                 "description": "👁️ L'HORREUR PREND LE CONTRÔLE 👁️\nQu'ils voient. Qu'ils hurlent. Qu'ils sachent ce que tu es vraiment.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois terroriser. Révèle-toi pleinement, pourchasse, fais comprendre à tous que tu es leur cauchemar incarné."
+                "directive": "Ta Bête veut qu'on la voie. Tu montres ton vrai visage sans plus te soucier des regards : sur ton passage, chacun comprend quel cauchemar le frôle."
             }
         }
     },
@@ -158,9 +160,9 @@ CLANS = {
                 "directive": "Tu dois tenter d'acquérir ou de posséder l'objet de ta fascination, qu'il s'agisse d'une œuvre d'art ou d'une personne."
             },
             5: {
-                "nom": "FRÉNÉSIE D'OBSESSION",
+                "nom": "La Passion Dévorante",
                 "description": "💋 LA PASSION PREND LE CONTRÔLE 💋\nRien d'autre n'existe. Seulement cette perfection absolue.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu es complètement hypnotisé par quelque chose de beau. Tu ne réagis plus au monde extérieur. Tu défendrais cette beauté jusqu'à la mort finale."
+                "directive": "Ta Bête reste esthète jusque dans la fureur. Elle se fige devant ce qui est beau, le protège ou s'en empare, et s'acharne sur ce qui l'enlaidit."
             }
         }
     },
@@ -189,9 +191,9 @@ CLANS = {
                 "directive": "Tu dois démontrer ta supériorité intellectuelle. Corrige les erreurs des autres, affiche ton savoir, rabaisse les ignorants."
             },
             5: {
-                "nom": "FRÉNÉSIE DE POUVOIR",
+                "nom": "Le Sang Sorcier",
                 "description": "🔮 LA SOIF DE SAVOIR PREND LE CONTRÔLE 🔮\nPlus de limites. Plus de règles. Le pouvoir absolu est à portée de main.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois utiliser tes pouvoirs sans retenue. Démontre ta puissance, peu importe les conséquences. La Mascarade, la prudence, tout cela est pour les faibles."
+                "directive": "Ta Bête jette ton sang dans tes sorts. Tu uses de tes pouvoirs sans retenue ni prudence : la Mascarade et tes serments ne comptent plus."
             }
         }
     },
@@ -220,9 +222,9 @@ CLANS = {
                 "directive": "Tu dois forcer tous les présents à reconnaître ton autorité. Menaces, punitions, humiliations. L'obéissance n'est pas négociable."
             },
             5: {
-                "nom": "FRÉNÉSIE DE DOMINATION",
+                "nom": "Le Roi Tyran",
                 "description": "👑 LE ROI PREND LE CONTRÔLE 👑\nTu es le maître absolu. Tous doivent ramper devant toi.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois soumettre tous ceux qui t'entourent. Violence, Domination mentale, terreur pure. Quiconque te défie doit être détruit."
+                "directive": "Ta Bête exige l'obéissance. Tu écrases, tu soumets, tu ordonnes à tous de plier : quiconque te défie ou te barre la route doit être brisé."
             }
         }
     },
@@ -251,9 +253,9 @@ CLANS = {
                 "directive": "Tu dois activement saboter ou affaiblir un rival potentiel. Leur perte est ton gain. La compétition est permanente."
             },
             5: {
-                "nom": "FRÉNÉSIE DES ABYSSES",
+                "nom": "Les Ténèbres de l'Abysse",
                 "description": "🖤 LES TÉNÈBRES PRENNENT LE CONTRÔLE 🖤\nL'Abysse t'appelle. Tu es les ténèbres incarnées.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois démontrer ta supériorité absolue en écrasant tous ceux qui t'entourent. Les ombres sont tes armes, la terreur est ton outil."
+                "directive": "Ta Bête se drape d'ombre. Les ténèbres deviennent tes griffes et ton refuge : tu frappes depuis l'obscurité et tu écrases les faibles sur ta route."
             }
         }
     },
@@ -282,9 +284,9 @@ CLANS = {
                 "directive": "Tu dois exprimer un désir de modifier quelqu'un ou quelque chose physiquement. Tes mains te démangent de sculpter la chair."
             },
             5: {
-                "nom": "FRÉNÉSIE DU DRAGON",
+                "nom": "Le Dragon",
                 "description": "🐉 LE DRAGON PREND LE CONTRÔLE 🐉\nTu es le maître de la chair et du territoire. Tous sont argile entre tes mains.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois remodeler violemment la chair de tes ennemis ou transformer radicalement ton propre corps. La Vicissitude se déchaîne."
+                "directive": "Ta Bête veut façonner la chair. Tu laboures celle de tes ennemis ou tu tords la tienne : ton corps se déforme au gré de ta faim, de ta fureur ou de ta peur."
             }
         }
     },
@@ -313,9 +315,9 @@ CLANS = {
                 "directive": "Tu dois semer le chaos et la confusion. Détruis les plans des autres, crée des conflits, regarde le monde brûler."
             },
             5: {
-                "nom": "FRÉNÉSIE D'ILLUSION",
+                "nom": "Le Grand Trompeur",
                 "description": "🎭 LE TROMPEUR PREND LE CONTRÔLE 🎭\nQu'est-ce qui est réel ? Même toi, tu ne sais plus.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois créer le chaos absolu par tes illusions et mensonges. La réalité et l'illusion se confondent. Tu ne distingues plus tes propres tromperies."
+                "directive": "Ta Bête ment, même à toi. Tes illusions jaillissent sans contrôle et brouillent le réel : tu ne distingues plus tes tromperies du monde."
             }
         }
     },
@@ -344,9 +346,9 @@ CLANS = {
                 "directive": "Tu dois créer un lien de dépendance avec quelqu'un. Qu'ils aient besoin de toi, de ce que tu offres. Tu es leur seul salut."
             },
             5: {
-                "nom": "FRÉNÉSIE DU SERPENT",
+                "nom": "Le Serpent",
                 "description": "🐍 SET PREND LE CONTRÔLE 🐍\nTu es le Tentateur. Tu es la Libération. Tu es le Serpent.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois corrompre tout le monde autour de toi. Révèle leurs désirs les plus sombres, brise leurs inhibitions, fais-les ramper vers leurs vices."
+                "directive": "Ta Bête rampe et séduit. Elle frappe comme un serpent, par surprise, et pousse chacun autour de toi à céder à ses vices."
             }
         }
     },
@@ -375,9 +377,9 @@ CLANS = {
                 "directive": "Tu dois démontrer ton pouvoir sur les morts. Menace d'invoquer des esprits, parle de ce que les fantômes t'ont révélé sur les présents."
             },
             5: {
-                "nom": "FRÉNÉSIE MORTUAIRE",
+                "nom": "Le Linceul Déchiré",
                 "description": "💀 LA MORT PREND LE CONTRÔLE 💀\nLe Linceul se déchire. Les morts marchent.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois invoquer les morts ou créer des morts. La frontière entre les vivants et les défunts s'effondre autour de toi."
+                "directive": "Ta Bête appelle la mort. Les défunts murmurent autour de toi et la frontière se brouille : tu sèmes des cadavres ou tu fuis parmi eux."
             }
         }
     },
@@ -406,9 +408,9 @@ CLANS = {
                 "directive": "Tu dois menacer quelqu'un de mort pour ses péchés. Tu es le juge, le jury et l'exécuteur. Leur sentence approche."
             },
             5: {
-                "nom": "FRÉNÉSIE DU CHASSEUR",
+                "nom": "La Soif du Chasseur",
                 "description": "⚔️ LA LOI DU SANG PREND LE CONTRÔLE ⚔️\nTu es la Loi. Tu es la Mort. Le coupable doit mourir.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois tuer et boire le sang d'un vampire. La Diablerie t'appelle. Seul le sang des damnés peut te satisfaire."
+                "directive": "Ta Bête a soif de Caïnites. Tu traques le sang des vampires plus que tout autre, avec la froide précision d'un assassin : la Diablerie t'appelle."
             }
         }
     },
@@ -437,9 +439,9 @@ CLANS = {
                 "directive": "Tu dois rejeter violemment tout ordre direct. La rage contre tes créateurs, contre tous les maîtres, bouillonne. Tu n'es plus un esclave."
             },
             5: {
-                "nom": "FRÉNÉSIE DE PIERRE",
+                "nom": "La Fureur de Pierre",
                 "description": "🗿 LA GARGOUILLE SE DÉCHAÎNE 🗿\nTu es la sentinelle. Tu es la muraille. Et les murailles écrasent.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois détruire toute menace perçue avec une violence implacable. Tu es pierre et fureur. Rien ne passe. Rien ne survit."
+                "directive": "Ta Bête est pierre et fureur. Tu écrases toute menace perçue avec une violence implacable : rien ne passe, rien ne résiste."
             }
         }
     },
@@ -468,9 +470,9 @@ CLANS = {
                 "directive": "Tu dois agir comme un cadavre conscient. Immobilité soudaine, regard vide, paroles d'outre-tombe. Tu es plus mort que vivant."
             },
             5: {
-                "nom": "FRÉNÉSIE CADAVÉRIQUE",
+                "nom": "La Tombe Ouverte",
                 "description": "💀 LA TOMBE PREND LE CONTRÔLE 💀\nTu es la Mort incarnée. Le Baron Samedi marche parmi eux.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois répandre la mort et la terreur. Ton corps est une arme de dégoût. Ceux qui te voient doivent connaître l'horreur absolue de la tombe."
+                "directive": "Ta Bête porte l'odeur de la tombe. Ta chair pourrissante devient une arme de dégoût et d'effroi pour quiconque croise ta route."
             }
         }
     },
@@ -499,9 +501,9 @@ CLANS = {
                 "directive": "Tu dois laisser échapper des sons discordants, des notes impossibles. Ta voix devient incontrôlable, oscillant entre beauté et horreur sonore."
             },
             5: {
-                "nom": "FRÉNÉSIE DE LA SIRÈNE",
+                "nom": "La Sirène",
                 "description": "🎵 LA CACOPHONIE PREND LE CONTRÔLE 🎵\nTon chant devient tempête. Tous doivent entendre. Tous doivent souffrir.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois chanter à pleine puissance, un son qui brise les esprits et fait saigner les oreilles. Ta voix est arme, torture, et extase mêlées."
+                "directive": "Ta Bête chante. Ta voix éclate à pleine puissance, un son qui brise les esprits et fait saigner les oreilles, que tu frappes ou que tu fuies."
             }
         }
     },
@@ -530,9 +532,9 @@ CLANS = {
                 "directive": "Tu dois faire référence à tes maîtres démoniaques ou accomplir un petit rituel en leur honneur. Murmures infernaux, symboles tracés dans l'ombre."
             },
             5: {
-                "nom": "FRÉNÉSIE INFERNALE",
+                "nom": "L'Avatar Infernal",
                 "description": "😈 LES TÉNÈBRES PRIMORDIALES PRENNENT LE CONTRÔLE 😈\nLes Seigneurs Sombres parlent à travers toi. L'Apocalypse commence.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Tu dois répandre la corruption et la destruction au nom de tes maîtres démoniaques. Possession, violence sacrificielle, horreur indicible. Tu es leur avatar."
+                "directive": "Ta Bête sert les Seigneurs Sombres. Corruption, profanation et violence sacrificielle marquent ton passage."
             }
         }
     },
@@ -561,9 +563,9 @@ CLANS = {
                 "directive": "Tu dois exprimer ta peur d'être découvert et détruit. Surveille les ombres, méfie-toi de tous. Tu es le dernier de ton espèce."
             },
             5: {
-                "nom": "FRÉNÉSIE DU CYCLOPE",
+                "nom": "L'Œil Ancien",
                 "description": "👁️ L'ŒIL ANCIEN S'ÉVEILLE 👁️\nLa souffrance du monde te submerge. Ou la rage du guerrier sacré explose.",
-                "directive": "⚠️ FRÉNÉSIE ⚠️ Soit tu absorbes toute la douleur autour de toi jusqu'à l'effondrement, soit le Guerrier Salubri s'éveille et tu deviens destruction sacrée contre ceux qui menacent les innocents."
+                "directive": "Ta Bête s'éveille en guerrier sacré ou en martyr : tu deviens destruction contre ceux qui menacent les innocents, ou tu absorbes la douleur autour de toi jusqu'à l'effondrement."
             }
         }
     },
@@ -620,6 +622,11 @@ def get_compulsion(clan_name: str, soif_level: int) -> dict | None:
     if clan and 1 <= soif_level <= 5:
         return clan["compulsions"].get(soif_level)
     return None
+
+
+def get_frenzy_colouring(clan_name: str) -> dict | None:
+    """Manière dont la Bête du clan se déchaîne, quel que soit le type de frénésie."""
+    return get_compulsion(clan_name, 5)
 
 
 def list_clans() -> list[str]:
