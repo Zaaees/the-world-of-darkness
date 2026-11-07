@@ -298,6 +298,18 @@ export default function RulesTab({ setActiveTab }) {
                         </div>
                     </div>
 
+                    <div className="mt-8 bg-stone-900 p-6 rounded border border-stone-800">
+                        <h3 className="font-serif text-stone-300 text-xl mb-4"><SiteText contentKey="vampire.rules.bond.title" /></h3>
+                        <p className="text-sm text-stone-400 mb-2"><SiteText contentKey="vampire.rules.bond.intro" /></p>
+                        <ul className="text-sm text-stone-400 space-y-2 list-disc list-inside">
+                            <li><SiteText contentKey="vampire.rules.bond.01a" /><strong className="text-stone-300"><SiteText contentKey="vampire.rules.bond.01b" /></strong><SiteText contentKey="vampire.rules.bond.01c" /></li>
+                            <li><SiteText contentKey="vampire.rules.bond.02" /></li>
+                            <li><strong className="text-stone-300"><SiteText contentKey="vampire.rules.bond.03a" /></strong><SiteText contentKey="vampire.rules.bond.03b" /></li>
+                            <li><SiteText contentKey="vampire.rules.bond.04" /></li>
+                        </ul>
+                        <p className="text-sm text-stone-500 mt-2 italic"><strong className="font-bold"><SiteText contentKey="vampire.rules.bond.noteLabel" /></strong><SiteText contentKey="vampire.rules.bond.note" /></p>
+                    </div>
+
                     <div className="mt-8 space-y-6">
                         <h3 className="font-serif text-stone-300 text-xl"><SiteText contentKey="vampire.text.01454" /></h3>
                         <p className="text-sm text-stone-400"><SiteText contentKey="vampire.text.03020" /></p>

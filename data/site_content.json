@@ -11937,6 +11937,105 @@
     "catalog": false,
     "variables": []
   },
+  "vampire.rules.bond.title": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le Lien de sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.intro": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Boire le sang d'un vampire, c'est commencer à l'aimer.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.01a": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Chaque gorgée resserre le lien d'un cran ; à la ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.01b": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "troisième",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.01c": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": ", vous êtes lié : votre régnant, celui dont vous avez bu le sang, passe avant tout, même avant vous.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.02": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Seul celui qui donne son sang le déclare, en scène, avec « Offrir mon sang » du panneau. Chaque gorgée lui coûte 1 Vitae. Le sang Tremere est plus traître : sa première gorgée lie déjà au deuxième stade.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.03a": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Lié, vous n'avez qu'un maître",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.03b": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " : aucun autre sang ne vous prend tant que le lien tient. Agir contre lui reste possible, mais chaque action vous coûte autant de Vitae que son rang, avec « Défier le lien » du panneau.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.04": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le temps n'use pas le lien. Seul le récit le défait : une Vaulderie, un rituel, une laisse brisée. Le MJ l'efface alors.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.noteLabel": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Note :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.note": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " une goule de sang est liée au troisième stade dès sa création ; une goule de l'esprit ne l'est pas. Au Zénith, boire un autre vampire vous nourrit sans vous lier.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
   "vampire.text.01473": {
     "scope": "vampire",
     "source": "modules/vampire/components/SceneSubmission.jsx",
