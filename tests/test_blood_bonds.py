@@ -375,3 +375,125 @@ def test_offer_that_empties_the_reserve_triggers_the_hunger(db, monkeypatch):
     footer = inter.response.edit_message.await_args.kwargs['embed'].footer.text
     assert 'lien au stade 1' in footer and 'À sec : la Faim.' in footer
     assert vitae(REGNANT) == 0
+
+
+# --- API joueur et MJ ---------------------------------------------------------------------------
+import json as _json
+from types import SimpleNamespace
+
+from data.config import ROLE_MJ_VAMPIRE, ROLE_VAMPIRE
+from modules.vampire import api as bonds_api
+
+BIG_ID = 123456789012345678
+
+
+class FakeRequest(dict):
+    def __init__(self, user_id=1, guild_id=G, roles=(ROLE_MJ_VAMPIRE,), body=None, match_info=None):
+        super().__init__(verified_user_id=user_id, verified_guild_id=guild_id,
+                         verified_member=SimpleNamespace(roles=[SimpleNamespace(id=r) for r in roles]))
+        self.match_info = match_info or {}
+        self._body = body
+        self.app = {}
+
+    async def json(self):
+        return self._body
+
+
+def call(handler, **kwargs):
+    response = run(handler(FakeRequest(**kwargs)))
+    return response.status, _json.loads(response.text)
+
+
+def add_vampire(user_id, name, guild_id=G):
+    async def go():
+        async with aiosqlite.connect(database.DATABASE_PATH) as conn:
+            await conn.execute("INSERT INTO players (user_id, guild_id, race, clan) VALUES (?, ?, 'vampire', 'ventrue')",
+                               (user_id, guild_id))
+            await conn.execute("INSERT INTO character_sheets (user_id, guild_id, name) VALUES (?, ?, ?)",
+                               (user_id, guild_id, name))
+            await conn.commit()
+    run(go())
+
+
+def add_npc(npc_id, name, potency, guild_id=G):
+    async def go():
+        async with aiosqlite.connect(database.DATABASE_PATH) as conn:
+            await conn.execute("INSERT INTO npcs (id, guild_id, name, blood_potency) VALUES (?, ?, ?, ?)",
+                               (npc_id, guild_id, name, potency))
+            await conn.commit()
+    run(go())
+    return {'id': npc_id}
+
+
+def test_player_route_returns_string_ids(db):
+    run(bonds.gm_create_npc_bond(G, BIG_ID, 'T', 'npc_1', 'Le Prince', 5, 2))
+    status, body = call(bonds_api.player_bonds_handler, user_id=BIG_ID, roles=(ROLE_VAMPIRE,))
+    assert status == 200 and body['success'] is True
+    bond = body['bound_to'][0]
+    assert bond['thrall_id'] == str(BIG_ID) and isinstance(bond['thrall_id'], str)
+    assert isinstance(bond['regnant_ref'], str) and isinstance(bond['id'], int)
+    assert body['drank_from_me'] == []
+
+
+def test_gm_routes_refuse_players(db):
+    bond = run(bonds.gm_create_npc_bond(G, THRALL, 'T', None, 'Le Prince', 5, 1))
+    info = {'bond_id': str(bond['id'])}
+    kwargs = dict(roles=(ROLE_VAMPIRE,), body={'stage': 2, 'thrallId': str(THRALL)}, match_info=info)
+    for handler in (bonds_api.gm_bonds_list_handler, bonds_api.gm_bonds_create_handler,
+                    bonds_api.gm_bond_update_handler, bonds_api.gm_bond_delete_handler):
+        assert call(handler, **kwargs)[0] == 403
+    assert len(run(bonds.list_guild_bonds(G))) == 1
+
+
+def test_gm_lists_bonds_vampires_and_npcs(db):
+    add_vampire(BIG_ID, 'Aurore')
+    add_npc('npc_a', 'Le Prince', 4)
+    run(bonds.gm_create_npc_bond(G, BIG_ID, 'Aurore', None, 'Le Prince', 4, 1))
+    status, body = call(bonds_api.gm_bonds_list_handler)
+    assert status == 200
+    assert body['vampires'] == [{'id': str(BIG_ID), 'name': 'Aurore'}]
+    assert body['npcs'][0]['name'] == 'Le Prince' and body['npcs'][0]['blood_potency'] == 4
+    assert body['bonds'][0]['thrall_id'] == str(BIG_ID)
+
+
+def test_gm_creates_npc_bond_from_registry_with_its_rank(db):
+    add_vampire(THRALL, 'Aurore')
+    npc = add_npc('npc_a', 'Le Prince', 4)
+    status, body = call(bonds_api.gm_bonds_create_handler,
+                        body={'thrallId': str(THRALL), 'npcId': npc['id'], 'stage': 2, 'potency': 1, 'npcName': 'Autre'})
+    assert status == 201
+    assert body['bond']['defy_cost'] == 4 and body['bond']['regnant_name'] == 'Le Prince'
+    assert body['bond']['regnant_ref'] == npc['id']
+    other = add_npc('npc_b', 'Étranger', 2, guild_id=2)
+    status, _ = call(bonds_api.gm_bonds_create_handler, body={'thrallId': str(THRALL), 'npcId': other['id'], 'stage': 1})
+    assert status == 404
+
+
+def test_gm_creates_free_name_bond_and_validates(db):
+    add_vampire(THRALL, 'Aurore')
+    ok = {'thrallId': str(THRALL), 'npcName': 'Un Ancien', 'potency': 3, 'stage': 1}
+    status, body = call(bonds_api.gm_bonds_create_handler, body=ok)
+    assert status == 201 and body['bond']['defy_cost'] == 3
+    cases = [({**ok, 'npcName': '  '}, "Le nom du PNJ est requis."),
+             ({**ok, 'npcName': 'X', 'potency': 9}, 'Rang invalide'),
+             ({**ok, 'npcName': 'Y', 'stage': 7}, 'Stade invalide'),
+             ({**ok, 'thrallId': '999'}, "Ce membre n'a pas de personnage vampire."),
+             ({**ok, 'thrallId': 'abc'}, "Ce membre n'a pas de personnage vampire."),
+             ({**ok, 'npcName': 'Z', 'potency': None}, 'Rang invalide')]
+    for body_in, message in cases:
+        status, body = call(bonds_api.gm_bonds_create_handler, body=body_in)
+        assert status == 400 and message in body['error'], (body_in, body)
+
+
+def test_gm_update_and_delete_are_guild_scoped(db):
+    bond = run(bonds.gm_create_npc_bond(3, THRALL, 'T', None, 'Le Prince', 5, 1))
+    info = {'bond_id': str(bond['id'])}
+    assert call(bonds_api.gm_bond_update_handler, guild_id=2, body={'stage': 2}, match_info=info)[0] == 404
+    assert call(bonds_api.gm_bond_delete_handler, guild_id=2, match_info=info)[0] == 404
+    assert run(bonds.list_guild_bonds(3))[0]['stage'] == 1
+    status, body = call(bonds_api.gm_bond_update_handler, guild_id=3, body={'stage': 2}, match_info=info)
+    assert status == 200 and body['bond']['stage'] == 2
+    assert call(bonds_api.gm_bond_update_handler, guild_id=3, body={'stage': 9}, match_info=info)[0] == 400
+    assert call(bonds_api.gm_bond_delete_handler, guild_id=3, match_info=info)[0] == 200
+    assert run(bonds.list_guild_bonds(3)) == []
+    assert call(bonds_api.gm_bond_delete_handler, guild_id=3, match_info={'bond_id': 'abc'})[0] == 404
