@@ -353,3 +353,25 @@ def test_defying_from_the_panel_spends_the_regnants_rank(db):
     inter = run(go())
     assert vitae(THRALL) == before - 3  # rang 3 du régnant
     assert '⛓️ Tu défies ton lien envers R10 : 3 Vitae versés.' == inter.response.edit_message.await_args.kwargs['embed'].footer.text
+
+
+def test_offer_that_empties_the_reserve_triggers_the_hunger(db, monkeypatch):
+    seed(REGNANT, bp=3, vitae=1)
+    seed(THRALL)
+    monkeypatch.setattr(bond_views, 'get_player', AsyncMock(return_value={'race': 'vampire', 'clan': 'ventrue'}))
+    empty = AsyncMock(return_value='🩸 À sec : la Faim.')
+    monkeypatch.setattr(bond_views, 'handle_empty_reserve', empty)
+
+    async def go():
+        panel = VampirePanel(REGNANT, G, 5, 'ventrue', 1, 3, bonds={'bound_to': [], 'drank_from_me': []})
+        select = bond_views.OfferUserSelect(panel)
+        inter, _ = discord_interaction(REGNANT)
+        target = SimpleNamespace(id=THRALL, bot=False, display_name='Cadet', mention='<@20>')
+        monkeypatch.setattr(type(select), 'values', [target], raising=False)
+        await select.callback(inter)
+        return inter
+    inter = run(go())
+    empty.assert_awaited_once()
+    footer = inter.response.edit_message.await_args.kwargs['embed'].footer.text
+    assert 'lien au stade 1' in footer and 'À sec : la Faim.' in footer
+    assert vitae(REGNANT) == 0

@@ -11,7 +11,9 @@ import discord
 from discord import ui
 
 from data.blood_bonds import CARD_TEXT, DIRECTIVE, MAX_STAGE, STAGE_TEXT
-from modules.vampire.views.frenzy import BackButton, _owner_only, _refuse, back_to_panel, post_card
+from modules.vampire.views.frenzy import (
+    BackButton, _owner_only, _refuse, back_to_panel, handle_empty_reserve, post_card,
+)
 from utils.blood_bonds import get_bonds, offer_blood
 from utils.database import get_character_sheet, get_player
 
@@ -94,11 +96,16 @@ class OfferUserSelect(ui.UserSelect):
             color=discord.Color.dark_red(),
         )
         message_id = await post_card(interaction.guild, self.panel.channel_id, card, content=member.mention)
+        before = self.panel.soif_level
         self.panel.soif_level = result["vitae"]
         self.panel.bonds = await get_bonds(guild_id, interaction.user.id)
         note = f"🩸 Tu offres ton sang à {thrall_name} : lien au stade {result['stage']}."
         if not message_id:
             note += " (annonce impossible dans ce salon : préviens la scène toi-même)"
+        # À sec en pleine scène : la Faim l'emporte aussitôt, comme pour toute autre dépense.
+        if result["vitae"] == 0 and before > 0:
+            empty = await handle_empty_reserve(interaction, self.panel)
+            note = f"{note} {empty}" if empty else note
         await back_to_panel(interaction, self.panel, note)
 
 
