@@ -16,7 +16,8 @@ from data.config import VALIDATION_CHANNEL_ID
 import discord
 from discord.ext import commands, tasks
 
-from data.blood_actions import get_action_by_id, get_action_points, is_action_available, normalize_clan
+from data.blood_actions import (count_previous_awards, diminished_points, get_action_by_id, get_action_points,
+                                is_action_available, is_once, normalize_clan)
 from utils.database import (
     init_blood_actions_tables,
     create_pending_action,
@@ -141,12 +142,14 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
                 logger.warning("Action de Vitae indisponible pour ce personnage")
                 return
             completed = character.get("completedActions", [])
-            if action_info["category"] == "unique" and any(
+            if is_once(action_info) and any(
                 key in completed for key in [action_id, *action_info.get("legacyCompletedIds", [])]
             ):
                 return
-            # Freeze server-calculated points when the request is registered.
-            points = get_action_points(action_info, potency)
+            # Freeze server-calculated points when the request is registered: the catalog value,
+            # reduced when the same feat was already rewarded at this rank (no calendar lock).
+            base_points = get_action_points(action_info, potency)
+            points = diminished_points(base_points, count_previous_awards(character.get("history"), action_id, potency))
 
             context = "\n".join(str(action_data.get(field, '')) for field in
                 ('sceneLink', 'obstacle', 'outcome', 'participants'))
@@ -159,6 +162,7 @@ class BloodActionsCog(commands.Cog, name="BloodActions"):
                 points=points,
                 category=action_info.get("category", "unknown"),
                 description=context, submission_id=f"sheets:{row_id}",
+                base_points=base_points,
             )
 
             registered = await get_pending_action(action_db_id)

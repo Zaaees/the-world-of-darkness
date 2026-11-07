@@ -10,5 +10,5 @@ export const normalizeClan = (clan = '') => {
 export const getClanActions = clan => BLOOD_ACTIONS.filter(action => action.clan === normalizeClan(clan));
 export const getActionPoints = (action, level) => level >= 5 ? 0 : (action.scaling?.[level] ?? action.points);
 export const isActionVisible = (action, level) => level >= action.minBp && level <= action.maxBp;
-export const isActionCompleted = (action, completed = []) => action.category === 'unique' &&
+export const isActionCompleted = (action, completed = []) => (action.category === 'unique' || Boolean(action.once)) &&
   [action.id, ...(action.legacyCompletedIds || [])].some(id => completed.includes(id));

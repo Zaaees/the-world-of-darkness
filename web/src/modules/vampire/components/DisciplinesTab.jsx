@@ -216,7 +216,7 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
 };
 
 // Composant principal
-export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
+export default function DisciplinesTab({ clan, bloodPotency, isCainMode, vitae = null, maxVitae = null, onUsePower = null }) {
   // Allow up to 10 for Cain Mode, otherwise respect blood potency
   const maxLevel = isCainMode ? 10 : (MAX_DISCIPLINE_LEVEL[bloodPotency] || 2);
   const [selectedPower, setSelectedPower] = useState(null);
@@ -256,11 +256,16 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
           </div>
           <div>
             <h2 className="font-serif text-2xl text-stone-100 tracking-wide"><SiteText contentKey="vampire.text.01259" /></h2>
-            <div className="flex items-center gap-2 text-xs text-stone-500 mt-1">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500 mt-1">
               <span className="px-2 py-0.5 rounded bg-stone-800/50 border border-stone-700/50 text-stone-400"><SiteText contentKey="vampire.text.01260" />{bloodPotency}
               </span>
               <span>→</span>
               <span className="text-stone-400"><SiteText contentKey="vampire.text.01261" />{maxLevel}</span>
+              {vitae !== null && (
+                <span className="px-2 py-0.5 rounded bg-red-950/30 border border-red-900/40 text-red-200 flex items-center gap-1">
+                  <Droplet size={10} className="text-red-500 fill-red-500/20" />{siteText("vampire.text.02985", { v0: vitae, v1: maxVitae })}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -315,6 +320,9 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
         power={selectedPower}
         icon={selectedPower ? DISCIPLINE_ICONS[disciplines.find(d => d.powers.includes(selectedPower))?.id] : null}
         onClose={() => setSelectedPower(null)}
+        vitae={vitae}
+        maxVitae={maxVitae}
+        onUse={onUsePower}
       />
     </div>
   );

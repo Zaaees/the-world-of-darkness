@@ -29,6 +29,22 @@ VALIDATION_ROLES = [ROLE_FONDATEUR, ROLE_MJ_VAMPIRE]
 MENTION_ROLE_VALIDATION = ROLE_MJ_VAMPIRE
 
 
+# === ÉCONOMIE DE SANG (Vitae) ===
+
+# Chasse en off : autorisée seulement si la réserve est au moins à cette part du maximum,
+# rend cette même part (arrondie au supérieur), au plus une fois par fenêtre.
+VITAE_QUICK_FEED_RATIO = 0.4
+VITAE_QUICK_FEED_COOLDOWN_HOURS = 20
+
+# Entretien paresseux : à l'ouverture du panneau, perte de 1 Vitae par tranche de jours
+# réels écoulés depuis la dernière vérification, plafonnée par ouverture.
+VITAE_UPKEEP_INTERVAL_DAYS = 2
+VITAE_UPKEEP_MAX_PER_CHECK = 3
+
+# Coût en Vitae pour lier une goule de sang (trois nuits de sang en règle).
+GHOUL_BLOOD_COST = 3
+
+
 # === SALONS ===
 
 # Salon de validation des actions de Puissance du Sang

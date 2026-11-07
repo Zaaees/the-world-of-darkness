@@ -2,7 +2,7 @@ import CatalogText from '../../../core/content/CatalogText';
 // site-content: migrated
 import { siteText, useSiteContent } from '../../../core/content/store';
 import SiteText from '../../../core/content/SiteText';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Clock, Droplet } from 'lucide-react';
 
@@ -20,9 +20,26 @@ const DURATION_NOTES = {
     permanent: "vampire.text.02974"
 };
 
-const DisciplineDetailModal = ({ power, icon, onClose }) => {
+const DisciplineDetailModal = ({ power, icon, onClose, vitae = null, maxVitae = null, onUse = null }) => {
     useSiteContent();
     const modalRef = useRef(null);
+    const [busy, setBusy] = useState(false);
+    const [feedback, setFeedback] = useState(null);
+    useEffect(() => { setFeedback(null); setBusy(false); }, [power]);
+    const cost = power?.bloodCost || 0;
+    const canPay = vitae === null || vitae >= cost;
+    const useNow = async () => {
+        if (!onUse || busy) return;
+        setBusy(true);
+        try {
+            const result = await onUse(power);
+            setFeedback({ ok: true, text: cost ? siteText("vampire.text.02986", { v0: power.name, v1: result?.cost ?? cost }) : siteText("vampire.text.02984") });
+        } catch (err) {
+            setFeedback({ ok: false, text: err.message || siteText("vampire.text.02982", { v0: vitae, v1: maxVitae }) });
+        } finally {
+            setBusy(false);
+        }
+    };
 
     // Close on Escape key
     useEffect(() => {
@@ -132,6 +149,11 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                                 <Clock size={12} className="text-stone-500" />
                                 <span><SiteText contentKey="vampire.text.01252" /><CatalogText scope={"vampire"} value={DURATION_LABELS[power.duration] || power.duration} /></span>
                             </div>
+                            {vitae !== null && (
+                                <div className={`flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium tracking-wide whitespace-nowrap ${canPay ? 'bg-stone-900 border-stone-800 text-stone-300' : 'bg-red-950/40 border-red-900/50 text-red-300'}`}>
+                                    <span>{siteText("vampire.text.02983", { v0: vitae, v1: maxVitae })}</span>
+                                </div>
+                            )}
                         </div>
 
                         {/* Body / Description */}
@@ -146,8 +168,19 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                         {DURATION_NOTES[power.duration] && (
                             <p className="px-6 pb-4 text-sm italic text-stone-500"><SiteText contentKey={DURATION_NOTES[power.duration]} /></p>
                         )}
-                        {/* Footer (Optional) */}
-                        <div className="p-4 border-t border-stone-800 bg-stone-950/30 shrink-0 flex justify-end">
+                        {feedback && (
+                            <p className={`px-6 pb-3 text-sm ${feedback.ok ? 'text-green-400' : 'text-red-400'}`} role="status">{feedback.text}</p>
+                        )}
+                        {/* Footer */}
+                        <div className="p-4 border-t border-stone-800 bg-stone-950/30 shrink-0 flex flex-wrap justify-end gap-3">
+                            {onUse && cost > 0 && (
+                                <button
+                                    onClick={useNow}
+                                    disabled={busy || !canPay}
+                                    title={!canPay ? siteText("vampire.text.02982", { v0: vitae, v1: maxVitae }) : undefined}
+                                    className={`px-4 py-2 rounded transition-colors text-sm border ${canPay ? 'bg-red-900/50 hover:bg-red-900/70 border-red-800 text-red-100' : 'bg-stone-900 border-stone-800 text-stone-600 cursor-not-allowed'}`}
+                                >{siteText("vampire.text.02981", { v0: cost })}</button>
+                            )}
                             <button
                                 onClick={onClose}
                                 className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded transition-colors text-sm"

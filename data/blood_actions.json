@@ -27,7 +27,7 @@
     },
     "irreversible": {
       "name": "Les actes sans retour",
-      "description": "Certains choix marquent le sang, la lignée et l’âme elle-même. Ils ne se réclament pas : ils doivent naître de l’histoire.",
+      "description": "Certains choix marquent le sang, la lignée et l’âme elle-même. Ils ne se réclament pas : ils doivent naître de l’histoire, et ne s’éveillent qu’une fois dans votre existence.",
       "icon": "💀",
       "warning": "⚠ Ces actes ne peuvent être soumis que lorsqu’ils émergent naturellement du récit et entraînent des conséquences durables. Sous validation stricte du MJ"
     }
@@ -37,7 +37,7 @@
     "1": 30,
     "2": 60,
     "3": 120,
-    "4": 250
+    "4": 200
   },
   "aliases": {
     "hecata": "giovanni",
@@ -1962,7 +1962,7 @@
         "1": 5,
         "2": 5,
         "3": 4,
-        "4": 3
+        "4": 5
       },
       "legacyCompletedIds": []
     },
@@ -2000,7 +2000,7 @@
         "1": 6,
         "2": 6,
         "3": 6,
-        "4": 5
+        "4": 6
       },
       "legacyCompletedIds": []
     },
@@ -2019,7 +2019,7 @@
         "1": 5,
         "2": 5,
         "3": 4,
-        "4": 3
+        "4": 5
       },
       "legacyCompletedIds": []
     },
@@ -2038,7 +2038,7 @@
         "1": 8,
         "2": 8,
         "3": 8,
-        "4": 6
+        "4": 8
       },
       "legacyCompletedIds": []
     },
@@ -2095,7 +2095,8 @@
         "3": 8,
         "4": 6
       },
-      "legacyCompletedIds": []
+      "legacyCompletedIds": [],
+      "once": true
     },
     {
       "id": "vitae_diablerie",
@@ -2114,7 +2115,8 @@
         "3": 8,
         "4": 6
       },
-      "legacyCompletedIds": []
+      "legacyCompletedIds": [],
+      "once": true
     },
     {
       "id": "vitae_mortal_link",
@@ -2204,10 +2206,10 @@
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
-        "1": 4,
-        "2": 4,
-        "3": 3,
-        "4": 2
+        "1": 3,
+        "2": 3,
+        "3": 2,
+        "4": 1
       },
       "legacyCompletedIds": []
     },
@@ -2223,10 +2225,10 @@
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
-        "1": 4,
-        "2": 4,
-        "3": 3,
-        "4": 2
+        "1": 3,
+        "2": 3,
+        "3": 2,
+        "4": 1
       },
       "legacyCompletedIds": []
     },
@@ -2242,10 +2244,10 @@
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
-        "1": 5,
-        "2": 5,
-        "3": 4,
-        "4": 3
+        "1": 3,
+        "2": 3,
+        "3": 2,
+        "4": 2
       },
       "legacyCompletedIds": []
     },
@@ -2261,10 +2263,10 @@
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
-        "1": 5,
-        "2": 5,
-        "3": 4,
-        "4": 3
+        "1": 3,
+        "2": 3,
+        "3": 2,
+        "4": 2
       },
       "legacyCompletedIds": []
     },
@@ -2280,12 +2282,24 @@
       "minBp": 1,
       "maxBp": 4,
       "scaling": {
-        "1": 5,
-        "2": 5,
-        "3": 4,
-        "4": 3
+        "1": 3,
+        "2": 3,
+        "3": 2,
+        "4": 2
       },
       "legacyCompletedIds": []
     }
-  ]
+  ],
+  "repeat": {
+    "factors": [
+      1,
+      0.75,
+      0.5
+    ],
+    "note": "Même action, même rang : 100 %, 75 %, puis 50 % (arrondi au supérieur)."
+  },
+  "rankKey": {
+    "pattern": "vitae_{clan}_{level}",
+    "note": "Franchir un seuil exige la voie de clan du rang courant."
+  }
 }

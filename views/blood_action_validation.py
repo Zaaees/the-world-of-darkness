@@ -9,7 +9,7 @@ import asyncio
 import discord
 from discord import ui
 import logging
-from data.blood_actions import get_action_by_id
+from data.blood_actions import SATURATION_THRESHOLDS, advance_saturation, get_action_by_id, rank_key_action_id
 from utils.site_content import action_display
 
 from data.config import (
@@ -65,6 +65,36 @@ def has_validation_permission(member: discord.Member) -> bool:
     return any(role.id in VALIDATION_ROLES for role in member.roles)
 
 
+def pending_id_from(message) -> str:
+    """The request id travels in the embed footer of the validation message."""
+    embed = message.embeds[0] if message and message.embeds else None
+    if not embed or not embed.footer or not embed.footer.text:
+        return ""
+    return embed.footer.text.replace("ID: ", "").strip()
+
+
+class AdjustPointsModal(ui.Modal, title="Valider avec ajustement"):
+    """Le MJ corrige le montant (double compte, réussite partielle) avant de valider."""
+
+    points = ui.TextInput(label="Épaississement accordé", min_length=1, max_length=3, required=True)
+
+    def __init__(self, view: "PersistentActionValidationView", message: discord.Message, default: int):
+        super().__init__()
+        self.view_ref, self.message = view, message
+        self.points.default = str(default)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        try:
+            value = int(self.points.value)
+            if value < 0:
+                raise ValueError
+        except ValueError:
+            await interaction.followup.send("Indique un nombre de points positif ou nul.", ephemeral=True)
+            return
+        await self.view_ref.finish_validation(interaction, self.message, points_awarded=value)
+
+
 class PersistentActionValidationView(ui.View):
     """Vue persistante pour valider/refuser les actions de sang."""
 
@@ -73,7 +103,7 @@ class PersistentActionValidationView(ui.View):
 
     @ui.button(label="Valider", style=discord.ButtonStyle.success, emoji="✅", custom_id="blood_action_validate")
     async def validate_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Valide l'action."""
+        """Valide l'action au montant figé (rendement décroissant recalculé par le script)."""
         # Différer la réponse pour éviter le timeout (3s)
         await interaction.response.defer()
 
@@ -83,20 +113,28 @@ class PersistentActionValidationView(ui.View):
                 ephemeral=True,
             )
             return
+        await self.finish_validation(interaction, interaction.message)
 
-        # Récupérer l'ID de l'action depuis le footer de l'embed
-        embed = interaction.message.embeds[0] if interaction.message.embeds else None
-        if not embed or not embed.footer or not embed.footer.text:
+    @ui.button(label="Ajuster", style=discord.ButtonStyle.secondary, emoji="✏️", custom_id="blood_action_adjust")
+    async def adjust_button(self, interaction: discord.Interaction, button: ui.Button):
+        """Valide avec un montant corrigé par le MJ."""
+        if not has_validation_permission(interaction.user):
+            await interaction.response.send_message(
+                "❌ Seuls les **MJ Vampire** et **Fondateurs** peuvent valider les actions.", ephemeral=True)
+            return
+        action = await get_pending_action(pending_id_from(interaction.message))
+        if not action or action['guild_id'] != interaction.guild_id or action['status'] != 'pending':
+            await interaction.response.send_message("Action introuvable ou déjà traitée.", ephemeral=True)
+            return
+        await interaction.response.send_modal(AdjustPointsModal(self, interaction.message, action['points']))
+
+    async def finish_validation(self, interaction: discord.Interaction, message: discord.Message, points_awarded=None):
+        """Shared tail of both validation paths; the interaction is already deferred."""
+        embed = message.embeds[0] if message.embeds else None
+        action_db_id = pending_id_from(message)
+        if not embed or not action_db_id:
             await interaction.followup.send(
                 "❌ Impossible de trouver l'ID de l'action.",
-                ephemeral=True,
-            )
-            return
-
-        action_db_id = embed.footer.text.replace("ID: ", "").strip()
-        if not action_db_id:
-            await interaction.followup.send(
-                "❌ ID d'action invalide.",
                 ephemeral=True,
             )
             return
@@ -106,7 +144,7 @@ class PersistentActionValidationView(ui.View):
             await interaction.followup.send("Action introuvable sur ce serveur.", ephemeral=True)
             return
         try:
-            action_result = await validate_action(action_db_id, interaction.user.id)
+            action_result = await validate_action(action_db_id, interaction.user.id, points_awarded)
         except Exception:
             logger.exception("Validation interrompue; demande conservée")
             await interaction.followup.send("Service indisponible. La demande est conservée : réessayez la validation.", ephemeral=True)
@@ -123,11 +161,11 @@ class PersistentActionValidationView(ui.View):
             if "déjà traitée" in reason:
                 for child in self.children:
                     child.disabled = True
-                await interaction.message.edit(view=self)
+                await message.edit(view=self)
             return
 
         # Récupérer les infos de mutation depuis le résultat de validation
-        # (add_saturation_points a déjà été appelé dans validate_action)
+        # (award_action a déjà été appelé dans validate_action)
         result = action_result["mutation"]
 
         # Progression and idempotency were saved together by award_action.
@@ -135,7 +173,10 @@ class PersistentActionValidationView(ui.View):
         # Mettre à jour l'embed
         await refresh_action_fields(embed, action['action_id'], interaction.guild_id)
         embed.color = discord.Color.green()
-        embed.set_footer(text=f"✅ Validé par {interaction.user.display_name}")
+        awarded = action_result["points_awarded"]
+        suffix = f" (+{awarded}" + (", ajusté" if points_awarded is not None else
+                                   (f" sur {action['points']}" if awarded != action['points'] else "")) + ")"
+        embed.set_footer(text=f"✅ Validé par {interaction.user.display_name}{suffix}")
 
         if result.get("mutated"):
             embed.add_field(
@@ -143,12 +184,19 @@ class PersistentActionValidationView(ui.View):
                 value=f"Le vampire a atteint la **Puissance du Sang {result['new_bp']}** !",
                 inline=False,
             )
+        elif result.get("blocked_by_key"):
+            embed.add_field(
+                name="🔑 Seuil atteint, clé manquante",
+                value=f"Le seuil est franchi mais la voie de clan `{result['blocked_by_key']}` n'est pas encore accomplie : "
+                      f"la mutation se produira à sa validation.",
+                inline=False,
+            )
 
         # Désactiver les boutons
         for child in self.children:
             child.disabled = True
 
-        await interaction.message.edit(embed=embed, view=self)
+        await message.edit(embed=embed, view=self)
 
         # Notifier le joueur par DM (non-bloquant)
         async def notify_player():
@@ -164,6 +212,12 @@ class PersistentActionValidationView(ui.View):
                         notify_embed.add_field(
                             name="🩸 MUTATION !",
                             value=f"Votre sang a atteint la **Puissance {result['new_bp']}** !",
+                            inline=False,
+                        )
+                    elif result.get("blocked_by_key"):
+                        notify_embed.add_field(
+                            name="🔑 Le seuil attend sa clé",
+                            value="Accomplissez la voie de votre clan au rang actuel pour que la mutation s'accomplisse.",
                             inline=False,
                         )
                     await member.send(embed=notify_embed)
@@ -189,17 +243,10 @@ class PersistentActionValidationView(ui.View):
 
         # Récupérer l'ID de l'action depuis le footer
         embed = interaction.message.embeds[0] if interaction.message.embeds else None
-        if not embed or not embed.footer or not embed.footer.text:
+        action_db_id = pending_id_from(interaction.message)
+        if not embed or not action_db_id:
             await interaction.followup.send(
                 "❌ Impossible de trouver l'ID de l'action.",
-                ephemeral=True,
-            )
-            return
-
-        action_db_id = embed.footer.text.replace("ID: ", "").strip()
-        if not action_db_id:
-            await interaction.followup.send(
-                "❌ ID d'action invalide.",
                 ephemeral=True,
             )
             return
@@ -346,18 +393,22 @@ async def send_validation_request(
         inline=True,
     )
 
-    # Progression actuelle
+    # Progression actuelle (seuils partagés avec le catalogue ; l'excédent est reporté)
     current_sat = vampire_data.get("saturation_points", 0)
     bp = vampire_data.get("blood_potency", 1)
-    thresholds = {1: 30, 2: 60, 3: 120, 4: 250, 5: None}
-    threshold = thresholds.get(bp)
+    threshold = SATURATION_THRESHOLDS.get(bp)
 
-    if threshold:
-        new_sat = current_sat + points
-        will_mutate = new_sat >= threshold
-        progress_text = f"{current_sat}/{threshold} → {min(new_sat, threshold)}/{threshold}"
-        if will_mutate:
-            progress_text += " ⚠️ **MUTATION**"
+    if bp < 5 and threshold:
+        new_bp, new_sat = advance_saturation(bp, current_sat, points)
+        if new_bp > bp:
+            next_threshold = SATURATION_THRESHOLDS.get(new_bp)
+            progress_text = (f"{current_sat}/{threshold} → ⚠️ **MUTATION vers {new_bp}**"
+                             + (f" ({new_sat}/{next_threshold} reportés)" if new_bp < 5 else ""))
+            clan_key = player.get("clan") if player else None
+            if clan_key:
+                progress_text += f"\n🔑 Requiert la voie de clan `{rank_key_action_id(clan_key, bp)}` déjà validée."
+        else:
+            progress_text = f"{current_sat}/{threshold} → {new_sat}/{threshold}"
         embed.add_field(
             name="Progression",
             value=progress_text,

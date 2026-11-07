@@ -5,7 +5,7 @@ import SiteText from '../../../core/content/SiteText';
 import { beginOAuthState } from '../../../core/auth/authUtils';
 import SceneSubmission from '../components/SceneSubmission';
 import { apiFetch } from '../../../core/api';
-import { BLOOD_ACTIONS, BLOOD_ACTION_CATEGORIES, SATURATION_THRESHOLDS, getClanActions } from '../../../data/bloodActions';
+import { BLOOD_ACTIONS, BLOOD_ACTION_CATEGORIES, SATURATION_THRESHOLDS, getClanActions, normalizeClan } from '../../../data/bloodActions';
 import { ActionCategory } from '../components/BloodActions';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Droplet, Activity, User, Crown, Shield, Flame, HeartPulse, ChevronDown, ChevronUp, Save, RefreshCw, LogIn, LogOut, Clock, Check, Star, Heart, Zap, Moon, Sparkles, ScrollText, Users, Skull, FileText, Book, ArrowLeft, Share2, Eye } from 'lucide-react';
@@ -205,6 +205,7 @@ export default function VampireSheet() {
 
   const [activeTab, setActiveTab] = useState('character'); // 'sheet', 'disciplines', 'ghouls', 'rituals'
   const [hasRituals, setHasRituals] = useState(false);
+  const [vitaeState, setVitaeState] = useState(null); // { vitae, max_vitae } du bot, null hors personnage joueur
   const [isCainMode, setIsCainMode] = useState(false);
 
   const [npcCharacter, setNpcCharacter] = useState(null); // PNJ sélectionné en mode GM
@@ -552,6 +553,7 @@ export default function VampireSheet() {
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.error || siteText("vampire.text.02569"));
       setCharacter(prev => ({ ...prev, ghouls: result.ghouls }));
+      if (typeof result.vitae === 'number') setVitaeState(prev => prev ? { ...prev, vitae: result.vitae } : prev);
       setLastSaved(new Date());
       return result;
     } catch (err) {
@@ -562,6 +564,37 @@ export default function VampireSheet() {
       setSaving(false);
     }
   }, [discordUser, npcCharacter, guildId]); // Ajouter npcCharacter et guildId aux dépendances
+
+  // Réserve de Vitae (SQLite du bot) : lue à l'ouverture de l'onglet Disciplines, l'entretien s'y applique.
+  useEffect(() => {
+    if (!discordUser || !guildId || npcCharacter || isCainMode || activeTab !== 'disciplines') return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await apiFetch(`${API_URL}/api/vampire/vitae`, {
+          headers: { 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': guildId.toString() },
+        });
+        const data = await response.json();
+        if (!cancelled && response.ok && data.success) setVitaeState({ vitae: data.vitae, max_vitae: data.max_vitae });
+      } catch (err) {
+        console.error('Erreur lecture Vitae:', err);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [discordUser, guildId, npcCharacter, isCainMode, activeTab]);
+
+  // Activer un pouvoir : le serveur prélève son coût, la réserve affichée suit.
+  const usePower = useCallback(async (power) => {
+    const response = await apiFetch(`${API_URL}/api/vampire/vitae`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Discord-User-ID': discordUser.id, 'X-Discord-Guild-ID': guildId.toString() },
+      body: JSON.stringify({ powerId: power.id }),
+    });
+    const data = await response.json();
+    if (!response.ok || !data.success) throw new Error(data.error || siteText("vampire.text.02982", { v0: '?', v1: '?' }));
+    setVitaeState({ vitae: data.vitae, max_vitae: data.max_vitae });
+    return data;
+  }, [discordUser, guildId]);
 
   // Rafraîchissement automatique toutes les 30 secondes pour détecter les validations MJ
   useEffect(() => {
@@ -1036,6 +1069,17 @@ export default function VampireSheet() {
                 {/* JAUGE & NARRATION */}
                 <section>
                   <BloodGauge current={activeChar.saturationPoints} max={maxPoints} isMutating={false} level={activeChar.bloodPotency} />
+                  {effectiveBP < 5 && !npcCharacter && (() => {
+                    // Clé de rang : la voie de clan du rang courant ouvre le seuil ; les points s'accumulent en attendant.
+                    const keyId = `vitae_${normalizeClan(activeChar.clan || '')}_${effectiveBP}`;
+                    const hasKey = (activeChar.history || []).some(h => h && h.reward && !h.refused && h.actionId === keyId);
+                    return (
+                      <p className={`-mt-4 mb-6 text-xs flex items-center gap-2 ${hasKey ? 'text-green-500/80' : 'text-amber-400/80'}`}>
+                        <span aria-hidden="true">🔑</span>
+                        {siteText(hasKey ? "vampire.text.02989" : "vampire.text.02990", { v0: effectiveBP })}
+                      </p>
+                    );
+                  })()}
 
                   <div className="vp-blood-story bg-gradient-to-br from-stone-900/40 to-stone-950/40 rounded border border-stone-800 p-6 mt-4 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
@@ -1139,6 +1183,9 @@ export default function VampireSheet() {
                 clan={activeChar.clan}
                 bloodPotency={isCainMode && !npcCharacter ? 5 : activeChar.bloodPotency}
                 isCainMode={npcCharacter?.id === 'cain_legendary'}
+                vitae={vitaeState ? vitaeState.vitae : null}
+                maxVitae={vitaeState ? vitaeState.max_vitae : null}
+                onUsePower={vitaeState ? usePower : null}
               />
             )}
 

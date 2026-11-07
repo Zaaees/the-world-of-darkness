@@ -1,0 +1,1975 @@
+{
+  "disciplines": {
+    "animalism": {
+      "name": "Animalisme",
+      "powers": [
+        {
+          "id": "animalism-1-feral-whispers",
+          "level": 1,
+          "name": "Murmures Fauves",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "animalism-2-beckoning",
+          "level": 2,
+          "name": "L'Appel",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "animalism-3-quell-the-beast",
+          "level": 3,
+          "name": "Apaiser la Bête",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "animalism-4-subsume-the-spirit",
+          "level": 4,
+          "name": "Communion Spirituelle",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "animalism-5-drawing-out-the-beast",
+          "level": 5,
+          "name": "Libérer la Bête",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "animalism-6-animal-succulence",
+          "level": 6,
+          "name": "Succulence Animale",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "animalism-6-shared-soul",
+          "level": 6,
+          "name": "Âme Partagée",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "animalism-6-species-speech",
+          "level": 6,
+          "name": "Langage des Espèces",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "animalism-7-conquer-the-beast",
+          "level": 7,
+          "name": "Conquérir la Bête",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "animalism-8-taunt-the-caged-beast",
+          "level": 8,
+          "name": "Provoquer la Bête en Cage",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "animalism-9-unchain-the-beast",
+          "level": 9,
+          "name": "Déchaîner la Bête",
+          "bloodCost": 9,
+          "duration": "instant"
+        },
+        {
+          "id": "animalism-10-army-of-beasts",
+          "level": 10,
+          "name": "Armée de Bêtes",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "auspex": {
+      "name": "Auspex",
+      "powers": [
+        {
+          "id": "auspex-1-heightened-senses",
+          "level": 1,
+          "name": "Sens Accrus",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "auspex-2-aura-perception",
+          "level": 2,
+          "name": "Perception de l'Aura",
+          "bloodCost": 0,
+          "duration": "instant"
+        },
+        {
+          "id": "auspex-3-spirits-touch",
+          "level": 3,
+          "name": "Toucher de l'Esprit",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "auspex-4-telepathy",
+          "level": 4,
+          "name": "Télépathie",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "auspex-5-psychic-projection",
+          "level": 5,
+          "name": "Projection Psychique",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "auspex-6-clairvoyance",
+          "level": 6,
+          "name": "Clairvoyance",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "auspex-6-prediction",
+          "level": 6,
+          "name": "Prémonition",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "auspex-6-telepathic-communication",
+          "level": 6,
+          "name": "Communication Télépathique",
+          "bloodCost": 0,
+          "duration": "prolonged"
+        },
+        {
+          "id": "auspex-7-karmic-sight",
+          "level": 7,
+          "name": "Vision Karmique",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "auspex-7-mirror-reflex",
+          "level": 7,
+          "name": "Réflexe du Miroir",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "auspex-8-psychic-assault",
+          "level": 8,
+          "name": "Assaut Psychique",
+          "bloodCost": 9,
+          "duration": "instant"
+        },
+        {
+          "id": "auspex-9-false-slumber",
+          "level": 9,
+          "name": "Faux Sommeil",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "auspex-10-chorus-of-minds",
+          "level": 10,
+          "name": "Le Chœur des Esprits",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "celerity": {
+      "name": "Célérité",
+      "powers": [
+        {
+          "id": "celerity-1-feline-grace",
+          "level": 1,
+          "name": "Grâce Féline",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "celerity-2-rapidity",
+          "level": 2,
+          "name": "Rapidité",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "celerity-3-fulgurance",
+          "level": 3,
+          "name": "Fulgurance",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "celerity-4-flurry",
+          "level": 4,
+          "name": "Rafale",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "celerity-5-slowed-world",
+          "level": 5,
+          "name": "Le Monde au Ralenti",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "celerity-6-projectile",
+          "level": 6,
+          "name": "Projectile",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "celerity-7-flower-of-death",
+          "level": 7,
+          "name": "Fleur de Mort",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "celerity-8-zephyr",
+          "level": 8,
+          "name": "Zéphyr",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "celerity-9-time-dilation",
+          "level": 9,
+          "name": "Dilatation Temporelle",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "celerity-10-outside-time",
+          "level": 10,
+          "name": "Hors du Temps",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "dominate": {
+      "name": "Domination",
+      "powers": [
+        {
+          "id": "dominate-1-command",
+          "level": 1,
+          "name": "Commandement",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "dominate-2-mesmerize",
+          "level": 2,
+          "name": "Mesmérisme",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dominate-3-forgetful-mind",
+          "level": 3,
+          "name": "L'Esprit Oublieux",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "dominate-4-conditioning",
+          "level": 4,
+          "name": "Conditionnement",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "dominate-5-possession",
+          "level": 5,
+          "name": "Possession",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dominate-6-chain-the-psyche",
+          "level": 6,
+          "name": "Enchaîner la Psyché",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dominate-6-loyalty",
+          "level": 6,
+          "name": "Loyauté",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "dominate-6-obedience",
+          "level": 6,
+          "name": "Obéissance",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "dominate-7-mass-manipulation",
+          "level": 7,
+          "name": "Manipulation de Masse",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "dominate-7-still-mortal-flesh",
+          "level": 7,
+          "name": "Figer la Chair Mortelle",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "dominate-8-far-mastery",
+          "level": 8,
+          "name": "Maîtrise Lointaine",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "dominate-9-speak-through-the-blood",
+          "level": 9,
+          "name": "Parole du Sang",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dominate-10-sovereign-will",
+          "level": 10,
+          "name": "Volonté Souveraine",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "fortitude": {
+      "name": "Force d'Âme",
+      "powers": [
+        {
+          "id": "fortitude-1-resilience",
+          "level": 1,
+          "name": "Résilience",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "fortitude-2-endurance",
+          "level": 2,
+          "name": "Endurance",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "fortitude-3-resistance",
+          "level": 3,
+          "name": "Résistance",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "fortitude-4-unshakable",
+          "level": 4,
+          "name": "Inébranlable",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "fortitude-5-invulnerability",
+          "level": 5,
+          "name": "Invulnérabilité",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "fortitude-6-personal-armor",
+          "level": 6,
+          "name": "Armure Personnelle",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "fortitude-7-shared-strength",
+          "level": 7,
+          "name": "Force Partagée",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "fortitude-8-adamantine",
+          "level": 8,
+          "name": "Adamantin",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "fortitude-9-immutable-flesh",
+          "level": 9,
+          "name": "Chair Immuable",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "fortitude-10-indestructible",
+          "level": 10,
+          "name": "Indestructible",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "obfuscate": {
+      "name": "Occultation",
+      "powers": [
+        {
+          "id": "obfuscate-1-cloak-of-shadows",
+          "level": 1,
+          "name": "Cape d'Ombre",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-2-unseen-presence",
+          "level": 2,
+          "name": "Présence Invisible",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-3-mask-of-a-thousand-faces",
+          "level": 3,
+          "name": "Masque aux Mille Visages",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-4-vanish",
+          "level": 4,
+          "name": "Disparition",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-5-cloak-the-gathering",
+          "level": 5,
+          "name": "Voile Collectif",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-6-conceal",
+          "level": 6,
+          "name": "Dissimulation",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-6-mind-blank",
+          "level": 6,
+          "name": "Esprit Vide",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "obfuscate-6-soul-mask",
+          "level": 6,
+          "name": "Masque de l'Âme",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "obfuscate-7-cache",
+          "level": 7,
+          "name": "Cache",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "obfuscate-7-veil-of-blissful-ignorance",
+          "level": 7,
+          "name": "Voile de Bienheureuse Ignorance",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-8-old-friend",
+          "level": 8,
+          "name": "Vieil Ami",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "obfuscate-9-create-name",
+          "level": 9,
+          "name": "Créer un Nom",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "obfuscate-10-oblivion-of-the-world",
+          "level": 10,
+          "name": "L'Oubli du Monde",
+          "bloodCost": 10,
+          "duration": "permanent"
+        }
+      ]
+    },
+    "potence": {
+      "name": "Puissance",
+      "powers": [
+        {
+          "id": "potence-1-vigor",
+          "level": 1,
+          "name": "Vigueur",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "potence-2-prowess",
+          "level": 2,
+          "name": "Prouesse",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "potence-3-brutality",
+          "level": 3,
+          "name": "Brutalité",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "potence-4-fury",
+          "level": 4,
+          "name": "Fureur",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "potence-5-titanic-strength",
+          "level": 5,
+          "name": "Force Titanesque",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "potence-6-imprint",
+          "level": 6,
+          "name": "Empreinte",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "potence-7-earthshock",
+          "level": 7,
+          "name": "Onde Tellurique",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "potence-8-flick",
+          "level": 8,
+          "name": "Pichenette",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "potence-9-primal-strength",
+          "level": 9,
+          "name": "Force Primordiale",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "potence-10-earthquake",
+          "level": 10,
+          "name": "Séisme",
+          "bloodCost": 10,
+          "duration": "instant"
+        }
+      ]
+    },
+    "presence": {
+      "name": "Présence",
+      "powers": [
+        {
+          "id": "presence-1-awe",
+          "level": 1,
+          "name": "Fascination",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "presence-2-dread-gaze",
+          "level": 2,
+          "name": "Regard Terrifiant",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "presence-3-entrancement",
+          "level": 3,
+          "name": "Envoûtement",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "presence-4-summon",
+          "level": 4,
+          "name": "Convocation",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "presence-5-majesty",
+          "level": 5,
+          "name": "Majesté",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "presence-6-love",
+          "level": 6,
+          "name": "Amour",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "presence-6-paralyzing-glance",
+          "level": 6,
+          "name": "Regard Paralysant",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "presence-6-spark-of-rage",
+          "level": 6,
+          "name": "Étincelle de Rage",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "presence-7-cooperation",
+          "level": 7,
+          "name": "Coopération",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "presence-8-ironclad-command",
+          "level": 8,
+          "name": "Commandement de Fer",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "presence-9-pulse-of-the-city",
+          "level": 9,
+          "name": "Pouls de la Cité",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "presence-10-divinity",
+          "level": 10,
+          "name": "Divinité",
+          "bloodCost": 10,
+          "duration": "prolonged"
+        }
+      ]
+    },
+    "protean": {
+      "name": "Protéisme",
+      "powers": [
+        {
+          "id": "protean-1-eyes-of-the-beast",
+          "level": 1,
+          "name": "Yeux de la Bête",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-2-feral-claws",
+          "level": 2,
+          "name": "Griffes de la Bête",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-3-earth-meld",
+          "level": 3,
+          "name": "Fusion avec la Terre",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "protean-4-shape-of-the-beast",
+          "level": 4,
+          "name": "Forme de la Bête",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-5-mist-form",
+          "level": 5,
+          "name": "Forme de Brume",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-6-earth-control",
+          "level": 6,
+          "name": "Maîtrise de la Terre",
+          "bloodCost": 0,
+          "duration": "prolonged"
+        },
+        {
+          "id": "protean-6-flesh-of-marble",
+          "level": 6,
+          "name": "Chair de Marbre",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-7-restore-mortal-visage",
+          "level": 7,
+          "name": "Visage Mortel Restauré",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-7-beasts-wrath",
+          "level": 7,
+          "name": "Colère de la Bête",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-7-spectral-body",
+          "level": 7,
+          "name": "Corps Spectral",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "protean-8-purify-impaled-beast",
+          "level": 8,
+          "name": "Purifier la Bête Empalée",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "protean-9-inward-focus",
+          "level": 9,
+          "name": "Concentration Intérieure",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "protean-10-mythic-form",
+          "level": 10,
+          "name": "Forme Mythique",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "obtenebration": {
+      "name": "Obténébration",
+      "powers": [
+        {
+          "id": "obtenebration-1-shadow-play",
+          "level": 1,
+          "name": "Jeu d'Ombres",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "obtenebration-2-shroud-of-night",
+          "level": 2,
+          "name": "Linceul de la Nuit",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "obtenebration-3-arms-of-the-abyss",
+          "level": 3,
+          "name": "Bras des Abysses",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "obtenebration-4-black-metamorphosis",
+          "level": 4,
+          "name": "Métamorphose Noire",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "obtenebration-5-tenebrous-form",
+          "level": 5,
+          "name": "Forme Ténébreuse",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "obtenebration-6-the-darkness-within",
+          "level": 6,
+          "name": "Ténèbres Intérieures",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "obtenebration-6-shadowstep",
+          "level": 6,
+          "name": "Pas d'Ombre",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "obtenebration-7-shadow-twin",
+          "level": 7,
+          "name": "Jumeau d'Ombre",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "obtenebration-8-oubliette",
+          "level": 8,
+          "name": "Oubliette",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "obtenebration-9-ahrimans-demesne",
+          "level": 9,
+          "name": "Domaine d'Ahriman",
+          "bloodCost": 9,
+          "duration": "instant"
+        },
+        {
+          "id": "obtenebration-10-eclipse-the-sun",
+          "level": 10,
+          "name": "Éclipser le Soleil",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "thaumaturgy": {
+      "name": "Thaumaturgie",
+      "powers": [
+        {
+          "id": "thaumaturgy-1-a-taste-for-blood",
+          "level": 1,
+          "name": "Goût du Sang",
+          "bloodCost": 0,
+          "duration": "instant"
+        },
+        {
+          "id": "thaumaturgy-2-blood-rage",
+          "level": 2,
+          "name": "Rage du Sang",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "thaumaturgy-3-blood-of-potency",
+          "level": 3,
+          "name": "Puissance du Sang",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "thaumaturgy-4-theft-of-vitae",
+          "level": 4,
+          "name": "Vol de Vitae",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "thaumaturgy-5-cauldron-of-blood",
+          "level": 5,
+          "name": "Chaudron de Sang",
+          "bloodCost": 9,
+          "duration": "instant"
+        },
+        {
+          "id": "thaumaturgy-6-scarlet-thread",
+          "level": 6,
+          "name": "Le Fil Écarlate",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "thaumaturgy-7-seal-the-vitae",
+          "level": 7,
+          "name": "Sceller la Vitae",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "thaumaturgy-8-break-the-bond",
+          "level": 8,
+          "name": "Briser le Lien",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "thaumaturgy-9-curse-of-lineage",
+          "level": 9,
+          "name": "Malédiction de Lignée",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "thaumaturgy-10-apotheosis-of-blood",
+          "level": 10,
+          "name": "Apothéose du Sang",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "vicissitude": {
+      "name": "Vicissitude",
+      "powers": [
+        {
+          "id": "vicissitude-1-malleable-visage",
+          "level": 1,
+          "name": "Modelage Mineur",
+          "bloodCost": 1,
+          "duration": "permanent"
+        },
+        {
+          "id": "vicissitude-2-fleshcraft",
+          "level": 2,
+          "name": "Sculpture de Chair",
+          "bloodCost": 1,
+          "duration": "permanent"
+        },
+        {
+          "id": "vicissitude-3-bonecraft",
+          "level": 3,
+          "name": "Sculpture d'Os",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "vicissitude-4-horrid-form",
+          "level": 4,
+          "name": "Forme Horrible",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "vicissitude-5-bloodform",
+          "level": 5,
+          "name": "Forme de Sang",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "vicissitude-6-chiropteran-marauder",
+          "level": 6,
+          "name": "Maraudeur Chiroptère",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "vicissitude-6-blood-of-acid",
+          "level": 6,
+          "name": "Sang d'Acide",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "vicissitude-7-cocoon",
+          "level": 7,
+          "name": "Cocon",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "vicissitude-8-breath-of-the-dragon",
+          "level": 8,
+          "name": "Souffle du Dragon",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "vicissitude-9-earths-vast-haven",
+          "level": 9,
+          "name": "Le Vaste Refuge de la Terre",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "vicissitude-10-forge-the-vozhd",
+          "level": 10,
+          "name": "Forger le Vozhd",
+          "bloodCost": 10,
+          "duration": "permanent"
+        }
+      ]
+    },
+    "necromancy": {
+      "name": "Nécromancie : La Voie des Os",
+      "powers": [
+        {
+          "id": "necromancy-1-tremens",
+          "level": 1,
+          "name": "Tremens",
+          "bloodCost": 0,
+          "duration": "instant"
+        },
+        {
+          "id": "necromancy-2-apprentices-brooms",
+          "level": 2,
+          "name": "Balais de l'Apprenti",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "necromancy-3-shambling-hordes",
+          "level": 3,
+          "name": "Hordes Chancelantes",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "necromancy-4-soul-stealing",
+          "level": 4,
+          "name": "Vol d'Âme",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "necromancy-5-daemonic-possession",
+          "level": 5,
+          "name": "Possession Démoniaque",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "necromancy-6-voice-of-the-departed",
+          "level": 6,
+          "name": "Voix des Trépassés",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "necromancy-7-chains-of-the-soul",
+          "level": 7,
+          "name": "Chaînes de l'Âme",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "necromancy-8-living-ossuary",
+          "level": 8,
+          "name": "Ossuaire Vivant",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "necromancy-9-cross-the-shroud",
+          "level": 9,
+          "name": "Franchir le Linceul",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "necromancy-10-the-great-awakening",
+          "level": 10,
+          "name": "Le Grand Réveil",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "quietus": {
+      "name": "Quietus",
+      "powers": [
+        {
+          "id": "quietus-1-silence-of-death",
+          "level": 1,
+          "name": "Silence de la Mort",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "quietus-2-scorpions-touch",
+          "level": 2,
+          "name": "Toucher du Scorpion",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "quietus-3-dagons-call",
+          "level": 3,
+          "name": "Appel de Dagon",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "quietus-4-baals-caress",
+          "level": 4,
+          "name": "Caresse de Baal",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "quietus-5-taste-of-death",
+          "level": 5,
+          "name": "Goût de la Mort",
+          "bloodCost": 9,
+          "duration": "instant"
+        },
+        {
+          "id": "quietus-6-blood-sweat",
+          "level": 6,
+          "name": "Sueur de Sang",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "quietus-6-selective-silence",
+          "level": 6,
+          "name": "Silence Sélectif",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "quietus-6-ripples-of-the-heart",
+          "level": 6,
+          "name": "Ondes du Cœur",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "quietus-6-purification",
+          "level": 6,
+          "name": "Purification",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "quietus-7-baals-bloody-talons",
+          "level": 7,
+          "name": "Serres Sanglantes de Baal",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "quietus-7-poison-the-well-of-life",
+          "level": 7,
+          "name": "Empoisonner le Puits de Vie",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "quietus-8-songs-of-distant-vitae",
+          "level": 8,
+          "name": "Chants de la Vitae Lointaine",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "quietus-9-condemn-the-sins-of-the-father",
+          "level": 9,
+          "name": "Condamner les Péchés du Père",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "quietus-10-judgment-of-haqim",
+          "level": 10,
+          "name": "Le Jugement de Haqim",
+          "bloodCost": 10,
+          "duration": "permanent"
+        }
+      ]
+    },
+    "serpentis": {
+      "name": "Serpentis",
+      "powers": [
+        {
+          "id": "serpentis-1-eyes-of-the-serpent",
+          "level": 1,
+          "name": "Regard Hypnotique",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-2-tongue-of-the-asp",
+          "level": 2,
+          "name": "Langue de l'Aspic",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-3-skin-of-the-adder",
+          "level": 3,
+          "name": "Peau de Vipère",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-4-form-of-the-cobra",
+          "level": 4,
+          "name": "Forme du Cobra",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-5-heart-of-darkness",
+          "level": 5,
+          "name": "Cœur des Ténèbres",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "serpentis-6-cobra-fangs",
+          "level": 6,
+          "name": "Crocs du Cobra",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-7-divine-image",
+          "level": 7,
+          "name": "Image Divine",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-8-heart-thief",
+          "level": 8,
+          "name": "Voleur de Cœur",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "serpentis-9-shadow-of-apep",
+          "level": 9,
+          "name": "Ombre d'Apep",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "serpentis-10-avatar-of-set",
+          "level": 10,
+          "name": "Avatar de Set",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "dementation": {
+      "name": "Aliénation",
+      "powers": [
+        {
+          "id": "dementation-1-passion",
+          "level": 1,
+          "name": "Passion",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dementation-2-the-haunting",
+          "level": 2,
+          "name": "La Hantise",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dementation-3-eyes-of-chaos",
+          "level": 3,
+          "name": "Yeux du Chaos",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "dementation-4-voice-of-madness",
+          "level": 4,
+          "name": "Voix de la Folie",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "dementation-5-total-insanity",
+          "level": 5,
+          "name": "Démence Totale",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dementation-6-lingering-malaise",
+          "level": 6,
+          "name": "Malaise Persistant",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "dementation-6-shattered-mirror",
+          "level": 6,
+          "name": "Miroir Brisé",
+          "bloodCost": 0,
+          "duration": "prolonged"
+        },
+        {
+          "id": "dementation-7-restructure",
+          "level": 7,
+          "name": "Restructuration",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "dementation-8-personal-scourge",
+          "level": 8,
+          "name": "Fléau Personnel",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "dementation-9-lunatic-eruption",
+          "level": 9,
+          "name": "Éruption Lunatique",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "dementation-10-awakening-of-malkav",
+          "level": 10,
+          "name": "L'Éveil de Malkav",
+          "bloodCost": 10,
+          "duration": "prolonged"
+        }
+      ]
+    },
+    "chimerstry": {
+      "name": "Chimérie",
+      "powers": [
+        {
+          "id": "chimerstry-1-ignis-fatuus",
+          "level": 1,
+          "name": "Ignis Fatuus",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-2-fata-morgana",
+          "level": 2,
+          "name": "Fata Morgana",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-3-apparition",
+          "level": 3,
+          "name": "Apparition",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-4-permanency",
+          "level": 4,
+          "name": "Permanence",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "chimerstry-5-horrid-reality",
+          "level": 5,
+          "name": "Réalité Horrible",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-6-false-resonance",
+          "level": 6,
+          "name": "Fausse Résonance",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "chimerstry-6-fatuus-mastery",
+          "level": 6,
+          "name": "Maîtrise du Fatuus",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "chimerstry-6-shared-nightmare",
+          "level": 6,
+          "name": "Cauchemar Partagé",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-7-far-fatuus",
+          "level": 7,
+          "name": "Fatuus Lointain",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-7-suspension-of-disbelief",
+          "level": 7,
+          "name": "Suspension d'Incrédulité",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-8-synesthesia",
+          "level": 8,
+          "name": "Synesthésie",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "chimerstry-9-mayaparisatya",
+          "level": 9,
+          "name": "Mayaparisatya",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "chimerstry-10-maya-creation",
+          "level": 10,
+          "name": "Création de Maya",
+          "bloodCost": 10,
+          "duration": "permanent"
+        }
+      ]
+    },
+    "flight": {
+      "name": "Vol",
+      "powers": [
+        {
+          "id": "flight-1-feather",
+          "level": 1,
+          "name": "Plume",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "flight-2-glide",
+          "level": 2,
+          "name": "Planer",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "flight-3-night-wings",
+          "level": 3,
+          "name": "Ailes de Nuit",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "flight-4-swift-flight",
+          "level": 4,
+          "name": "Vol Rapide",
+          "bloodCost": 0,
+          "duration": "permanent"
+        },
+        {
+          "id": "flight-5-master-of-the-sky",
+          "level": 5,
+          "name": "Maître du Ciel",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "flight-6-raptors-dive",
+          "level": 6,
+          "name": "Piqué du Rapace",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "flight-7-silent-wings",
+          "level": 7,
+          "name": "Ailes Silencieuses",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "flight-8-carry-the-storm",
+          "level": 8,
+          "name": "Porter la Tempête",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "flight-9-beyond-the-clouds",
+          "level": 9,
+          "name": "Au-delà des Nuages",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "flight-10-lord-of-the-winds",
+          "level": 10,
+          "name": "Seigneur des Vents",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "visceratika": {
+      "name": "Visceratika",
+      "powers": [
+        {
+          "id": "visceratika-1-skin-of-the-chameleon",
+          "level": 1,
+          "name": "Peau de Caméléon",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "visceratika-2-scry-the-hearthstone",
+          "level": 2,
+          "name": "Cœur de Pierre",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "visceratika-3-bond-with-the-mountain",
+          "level": 3,
+          "name": "Lien avec la Montagne",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "visceratika-4-armor-of-terra",
+          "level": 4,
+          "name": "Armure de la Terre",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "visceratika-5-flow-within-the-mountain",
+          "level": 5,
+          "name": "Couler dans la Montagne",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "visceratika-6-heart-of-stone",
+          "level": 6,
+          "name": "Cœur de Roche",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "visceratika-7-swim-in-the-mountain",
+          "level": 7,
+          "name": "Nager dans la Montagne",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "visceratika-8-stone-guardians",
+          "level": 8,
+          "name": "Gardiens de Pierre",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "visceratika-9-soul-of-the-city",
+          "level": 9,
+          "name": "Âme de la Cité",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "visceratika-10-awakening-of-the-mountain",
+          "level": 10,
+          "name": "Le Réveil de la Montagne",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "thanatosis": {
+      "name": "Thanatosis",
+      "powers": [
+        {
+          "id": "thanatosis-1-hags-wrinkles",
+          "level": 1,
+          "name": "Rides de la Sorcière",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "thanatosis-2-putrefaction",
+          "level": 2,
+          "name": "Putrescence",
+          "bloodCost": 1,
+          "duration": "prolonged"
+        },
+        {
+          "id": "thanatosis-3-ashes-to-ashes",
+          "level": 3,
+          "name": "Cendres aux Cendres",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "thanatosis-4-withering",
+          "level": 4,
+          "name": "Flétrissement",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "thanatosis-5-necrosis",
+          "level": 5,
+          "name": "Nécrose",
+          "bloodCost": 9,
+          "duration": "instant"
+        },
+        {
+          "id": "thanatosis-6-creeping-infection",
+          "level": 6,
+          "name": "Infection Rampante",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "thanatosis-7-dust-to-dust",
+          "level": 7,
+          "name": "Poussière à la Poussière",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "thanatosis-8-putrescent-servitude",
+          "level": 8,
+          "name": "Servitude Putride",
+          "bloodCost": 3,
+          "duration": "permanent"
+        },
+        {
+          "id": "thanatosis-9-mask-of-the-grave",
+          "level": 9,
+          "name": "Masque de la Tombe",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "thanatosis-10-the-black-plague",
+          "level": 10,
+          "name": "La Peste Noire",
+          "bloodCost": 10,
+          "duration": "prolonged"
+        }
+      ]
+    },
+    "melpominee": {
+      "name": "Melpominée",
+      "powers": [
+        {
+          "id": "melpominee-1-the-missing-voice",
+          "level": 1,
+          "name": "La Voix Manquante",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "melpominee-2-phantom-speaker",
+          "level": 2,
+          "name": "Le Murmure Fantôme",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "melpominee-3-madrigal",
+          "level": 3,
+          "name": "Madrigal",
+          "bloodCost": 1,
+          "duration": "scene"
+        },
+        {
+          "id": "melpominee-4-sirens-beckoning",
+          "level": 4,
+          "name": "Le Chant de la Sirène",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "melpominee-5-virtuosa",
+          "level": 5,
+          "name": "Virtuose",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "melpominee-6-shattering-crescendo",
+          "level": 6,
+          "name": "Crescendo Brisé",
+          "bloodCost": 3,
+          "duration": "instant"
+        },
+        {
+          "id": "melpominee-7-persistent-echo",
+          "level": 7,
+          "name": "Écho Persistant",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "melpominee-8-endless-voice",
+          "level": 8,
+          "name": "La Voix Sans Fin",
+          "bloodCost": 3,
+          "duration": "prolonged"
+        },
+        {
+          "id": "melpominee-9-song-of-the-soul",
+          "level": 9,
+          "name": "Chant de l'Âme",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "melpominee-10-the-lost-note",
+          "level": 10,
+          "name": "La Note Perdue",
+          "bloodCost": 10,
+          "duration": "scene"
+        }
+      ]
+    },
+    "daimoinon": {
+      "name": "Daimoinon",
+      "powers": [
+        {
+          "id": "daimoinon-1-sense-the-sin",
+          "level": 1,
+          "name": "Perception du Péché",
+          "bloodCost": 0,
+          "duration": "scene"
+        },
+        {
+          "id": "daimoinon-2-fear-of-the-void-below",
+          "level": 2,
+          "name": "Peur du Vide",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "daimoinon-3-conflagration",
+          "level": 3,
+          "name": "Flammes de l'Enfer",
+          "bloodCost": 1,
+          "duration": "instant"
+        },
+        {
+          "id": "daimoinon-4-psychomachia",
+          "level": 4,
+          "name": "Psychomachia",
+          "bloodCost": 3,
+          "duration": "scene"
+        },
+        {
+          "id": "daimoinon-5-condemnation",
+          "level": 5,
+          "name": "Condamnation",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "daimoinon-6-concordance",
+          "level": 6,
+          "name": "Concordance",
+          "bloodCost": 9,
+          "duration": "permanent"
+        },
+        {
+          "id": "daimoinon-7-summon-the-herald-of-topheth",
+          "level": 7,
+          "name": "Invoquer le Héraut de Topheth",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "daimoinon-8-contagion",
+          "level": 8,
+          "name": "Contagion",
+          "bloodCost": 9,
+          "duration": "prolonged"
+        },
+        {
+          "id": "daimoinon-9-call-the-great-beast",
+          "level": 9,
+          "name": "Appeler la Grande Bête",
+          "bloodCost": 9,
+          "duration": "scene"
+        },
+        {
+          "id": "daimoinon-10-open-the-abyss",
+          "level": 10,
+          "name": "Ouvrir l'Abîme",
+          "bloodCost": 10,
+          "duration": "prolonged"
+        }
+      ]
+    }
+  },
+  "clanDisciplines": {
+    "brujah": [
+      "celerity",
+      "potence",
+      "presence"
+    ],
+    "gangrel": [
+      "animalism",
+      "fortitude",
+      "protean"
+    ],
+    "malkavian": [
+      "auspex",
+      "dementation",
+      "obfuscate"
+    ],
+    "nosferatu": [
+      "animalism",
+      "obfuscate",
+      "potence"
+    ],
+    "toreador": [
+      "auspex",
+      "celerity",
+      "presence"
+    ],
+    "tremere": [
+      "auspex",
+      "dominate",
+      "thaumaturgy"
+    ],
+    "ventrue": [
+      "dominate",
+      "fortitude",
+      "presence"
+    ],
+    "lasombra": [
+      "dominate",
+      "obtenebration",
+      "potence"
+    ],
+    "tzimisce": [
+      "animalism",
+      "auspex",
+      "vicissitude"
+    ],
+    "giovanni": [
+      "dominate",
+      "necromancy",
+      "potence"
+    ],
+    "setites": [
+      "obfuscate",
+      "presence",
+      "serpentis"
+    ],
+    "assamites": [
+      "celerity",
+      "obfuscate",
+      "quietus"
+    ],
+    "ravnos": [
+      "animalism",
+      "chimerstry",
+      "fortitude"
+    ],
+    "gargoyles": [
+      "flight",
+      "fortitude",
+      "potence",
+      "visceratika"
+    ],
+    "samedi": [
+      "fortitude",
+      "obfuscate",
+      "thanatosis"
+    ],
+    "daughters_of_cacophony": [
+      "fortitude",
+      "melpominee",
+      "presence"
+    ],
+    "baali": [
+      "daimoinon",
+      "obfuscate",
+      "presence"
+    ],
+    "salubri": [
+      "auspex",
+      "fortitude",
+      "presence"
+    ],
+    "cain": [
+      "animalism",
+      "auspex",
+      "celerity",
+      "chimerstry",
+      "daimoinon",
+      "dementation",
+      "dominate",
+      "flight",
+      "fortitude",
+      "melpominee",
+      "necromancy",
+      "obfuscate",
+      "obtenebration",
+      "potence",
+      "presence",
+      "protean",
+      "quietus",
+      "serpentis",
+      "thaumaturgy",
+      "thanatosis",
+      "vicissitude",
+      "visceratika"
+    ]
+  },
+  "clanAliases": {
+    "setite": "setites",
+    "ministry": "setites",
+    "banu_haqim": "assamites",
+    "assamite": "assamites",
+    "hecata": "giovanni",
+    "daughters_cacophony": "daughters_of_cacophony",
+    "gargouilles": "gargoyles",
+    "malkavien": "malkavian"
+  },
+  "maxLevel": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10
+  }
+}

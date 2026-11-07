@@ -3,53 +3,28 @@ Panneau interactif pour les Vampires.
 Affiche un embed avec des boutons pour gérer la Soif.
 """
 
+import re
+
 import discord
 from discord import ui
 
+from data.blood_potency import BLOOD_POTENCY_INFO, STANDARD_VITAE_COSTS
 from data.clans import get_clan, get_compulsion, CLANS
+from data.disciplines import get_usable_powers
 from utils.database import (
     get_player,
     set_player,
-    get_soif,
-    set_soif,
     modify_vitae,
-    get_vampire_data,
-    set_vampire_data,
     get_max_vitae,
     get_saturation_threshold,
     reset_vampire_data,
-    SATURATION_THRESHOLDS,
+    feed_vampire,
+    quick_feed_amount,
+    quick_feed_floor,
+    spend_vitae_for_power,
 )
 
-# Descriptions narratives des niveaux de Puissance du Sang
-BLOOD_POTENCY_INFO = {
-    1: {
-        "titre": "Sang Fluide",
-        "rang": "Néonate",
-        "description": "Votre sang est encore proche de celui des mortels.",
-    },
-    2: {
-        "titre": "Sang Vif",
-        "rang": "Ancilla Mineur",
-        "description": "Le sang s'épaissit. Seul le sang humain peut vous soutenir.",
-    },
-    3: {
-        "titre": "Sang Fort",
-        "rang": "Ancilla Majeur",
-        "description": "Vous êtes un prédateur abouti. La Soif est plus pressante.",
-    },
-    4: {
-        "titre": "Sang Puissant",
-        "rang": "Ancien",
-        "description": "Votre sang est sombre et visqueux. Il vous faut la chaleur de la vie.",
-    },
-    5: {
-        "titre": "Zénith Sanguin",
-        "rang": "Sommité",
-        "description": "L'apogée. Pour être rassasié, vous devez tuer ou boire le sang de vampires.",
-    },
-}
-
+SCENE_LINK = re.compile(r"https://(?:canary\.|ptb\.)?discord\.com/channels/(\d+)/\d+(?:/\d+)?")
 
 class ClanSelectMenu(ui.Select):
     """Menu déroulant pour sélectionner un clan."""
@@ -90,7 +65,7 @@ class ClanSelectMenu(ui.Select):
                         pass
 
             # Réinitialiser toutes les données vampire (mort/nouveau personnage)
-            await reset_vampire_data(interaction.user.id, interaction.guild.id, clan_key)
+            await reset_vampire_data(interaction.user.id, interaction.guild.id)
 
         # Sauvegarder le nouveau clan
         await set_player(
@@ -156,7 +131,7 @@ class VitaeSpendModal(ui.Modal, title="Dépenser de la Vitae"):
 
     amount = ui.TextInput(
         label="Quantité de sang à verser",
-        placeholder="Entrez un nombre (ex: 1, 3, 5...)",
+        placeholder="Résistance mentale, coût exceptionnel… (ex : 3, 6, 9)",
         min_length=1,
         max_length=2,
         required=True,
@@ -202,6 +177,85 @@ class VitaeSpendModal(ui.Modal, title="Dépenser de la Vitae"):
         )
 
 
+class HuntSceneModal(ui.Modal, title="Scène de chasse"):
+    """Alimentation jouée en scène : le lien Discord de la scène remplit la réserve."""
+
+    scene_link = ui.TextInput(
+        label="Lien de la scène de chasse",
+        placeholder="https://discord.com/channels/…/…/…",
+        min_length=20,
+        max_length=200,
+        required=True,
+    )
+
+    def __init__(self, panel_view: "VampirePanel"):
+        super().__init__()
+        self.panel_view = panel_view
+
+    async def on_submit(self, interaction: discord.Interaction):
+        match = SCENE_LINK.fullmatch(self.scene_link.value.strip())
+        if not match or int(match.group(1)) != interaction.guild.id:
+            await interaction.response.send_message(
+                "Indique un lien de scène Discord de ce serveur.", ephemeral=True
+            )
+            return
+        try:
+            result = await feed_vampire(interaction.user.id, interaction.guild.id, "scene")
+        except ValueError as exc:
+            await interaction.response.send_message(str(exc), ephemeral=True)
+            return
+        self.panel_view.soif_level = result["vitae"]
+        self.panel_view.note = f"🍷 Scène de chasse jouée : réserve pleine ({result['vitae']}/{result['max_vitae']})."
+        await interaction.response.edit_message(embed=self.panel_view.create_embed(), view=self.panel_view)
+
+
+class PowerSelect(ui.Select):
+    """Active un pouvoir de discipline (ou une dépense standard) en prélevant son coût."""
+
+    def __init__(self, panel_view: "VampirePanel"):
+        self.panel_view = panel_view
+        options = []
+        for power in get_usable_powers(panel_view.clan, panel_view.blood_potency):
+            cost = power["bloodCost"]
+            options.append(discord.SelectOption(
+                label=f"{power['name']} ({'gratuit' if cost == 0 else f'{cost} Vitae'})"[:100],
+                value=power["id"],
+                description=f"{power['discipline_name']} · niveau {power['level']}"[:100],
+            ))
+        for key, item in STANDARD_VITAE_COSTS.items():
+            if len(options) >= 25:
+                break
+            options.append(discord.SelectOption(
+                label=f"{item['label']} ({item['cost']} Vitae)"[:100], value=key, description="Règlement, section IV"))
+        super().__init__(placeholder="Utiliser un pouvoir…", min_values=1, max_values=1,
+                         options=options[:25], row=0)
+
+    async def callback(self, interaction: discord.Interaction):
+        if interaction.user.id != self.panel_view.user_id:
+            await interaction.response.send_message("Ce panneau ne t'appartient pas.", ephemeral=True)
+            return
+        choice = self.values[0]
+        before = self.panel_view.soif_level
+        try:
+            if choice in STANDARD_VITAE_COSTS:
+                item = STANDARD_VITAE_COSTS[choice]
+                new_vitae = await modify_vitae(interaction.user.id, interaction.guild.id, -item["cost"])
+                label, cost = item["label"], item["cost"]
+            else:
+                result = await spend_vitae_for_power(
+                    interaction.user.id, interaction.guild.id, self.panel_view.clan,
+                    self.panel_view.blood_potency, choice)
+                new_vitae, label, cost = result["vitae"], result["power"]["name"], result["cost"]
+        except ValueError as exc:
+            await interaction.response.send_message(str(exc), ephemeral=True)
+            return
+        self.panel_view.soif_level = new_vitae
+        self.panel_view.note = (f"🩸 {label} : {cost} Vitae versés." if cost else f"✨ {label} : pouvoir passif, rien à verser.")
+        if self.panel_view._get_soif_state_level() == 5 and self.panel_view._get_soif_state_level(before) < 5:
+            await self.panel_view._announce_frenzy(interaction)
+        await interaction.response.edit_message(embed=self.panel_view.create_embed(), view=self.panel_view)
+
+
 class VampirePanel(ui.View):
     """Panneau principal pour les Vampires."""
 
@@ -214,6 +268,7 @@ class VampirePanel(ui.View):
         soif_level: int,
         blood_potency: int = 1,
         saturation_points: int = 0,
+        upkeep_lost: int = 0,
     ):
         super().__init__(timeout=300)
         self.user_id = user_id
@@ -223,6 +278,9 @@ class VampirePanel(ui.View):
         self.soif_level = soif_level # Note: soif_level stocke maintenant la Vitae (de 0 à Max)
         self.blood_potency = blood_potency
         self.saturation_points = saturation_points
+        # Dernière opération affichée sous la jauge (dépense, chasse, entretien).
+        self.note = (f"🌙 Les nuits ont passé : −{upkeep_lost} Vitae d'entretien." if upkeep_lost else None)
+        self.add_item(PowerSelect(self))
         # Initialiser l'état des boutons (s'il y a besoin de disabling logic)
         self._update_buttons()
 
@@ -360,6 +418,18 @@ class VampirePanel(ui.View):
             inline=False,
         )
 
+        max_vitae = get_max_vitae(self.blood_potency)
+        floor = quick_feed_floor(self.blood_potency)
+        if self.soif_level >= floor:
+            feeding = (f"Chasse en off possible : +{quick_feed_amount(self.blood_potency)} Vitae, une fois par nuit. "
+                       f"Une scène de chasse (lien) remplit la réserve.")
+        else:
+            feeding = (f"Réserve sous {floor}/{max_vitae} : **alimentation en scène obligatoire**. "
+                       f"Joue ta chasse, puis donne son lien.")
+        embed.add_field(name="🍷 Alimentation", value=feeding, inline=False)
+        if self.note:
+            embed.set_footer(text=self.note)
+
         # Compulsion actuelle (si état > 0)
         # Note : Les compulsions sont basées sur le "State Level" (0-5), qui a été adapté.
         # Donc la logique reste valide : plus le state_level est haut, plus on a de problèmes.
@@ -427,23 +497,29 @@ class VampirePanel(ui.View):
         await interaction.response.send_modal(VitaeSpendModal(self))
 
 
-    @ui.button(label="Se nourrir", style=discord.ButtonStyle.success, emoji="🍷", row=1)
-    async def feed_button(self, interaction: discord.Interaction, button: ui.Button):
-        """Restaure la Vitae au maximum."""
+    @ui.button(label="Chasse en off", style=discord.ButtonStyle.success, emoji="🍷", row=1)
+    async def quick_feed_button(self, interaction: discord.Interaction, button: ui.Button):
+        """Alimentation hors scène : part fixe de la réserve, une fois par nuit, jamais sous le seuil critique."""
         if interaction.user.id != self.user_id:
             await interaction.response.send_message(
                 "Ce panneau ne t'appartient pas.", ephemeral=True
             )
             return
-
-        max_vitae = get_max_vitae(self.blood_potency)
-        
-        # On remplit à fond (plus de limite Elder Curse)
-        target_vitae = max_vitae
-
-        if self.soif_level < target_vitae:
-            await set_soif(self.user_id, self.guild_id, target_vitae) # set_soif est un alias de set_vampire_soif qui écrit dans la colonne "soif_level"
-            self.soif_level = target_vitae
-
-        # Mettre à jour l'embed
+        try:
+            result = await feed_vampire(self.user_id, self.guild_id, "quick")
+        except ValueError as exc:
+            await interaction.response.send_message(str(exc), ephemeral=True)
+            return
+        self.soif_level = result["vitae"]
+        self.note = f"🍷 Chasse en off : +{result['gained']} Vitae ({result['vitae']}/{result['max_vitae']})."
         await interaction.response.edit_message(embed=self.create_embed(), view=self)
+
+    @ui.button(label="Scène de chasse", style=discord.ButtonStyle.primary, emoji="🔗", row=1)
+    async def scene_feed_button(self, interaction: discord.Interaction, button: ui.Button):
+        """Alimentation jouée : demande le lien de la scène et remplit la réserve."""
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message(
+                "Ce panneau ne t'appartient pas.", ephemeral=True
+            )
+            return
+        await interaction.response.send_modal(HuntSceneModal(self))
