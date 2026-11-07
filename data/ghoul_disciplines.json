@@ -53,9 +53,9 @@
       "Vicissitude"
     ],
     "giovanni": [
-      "Auspex",
-      "Force d'Âme",
-      "Nécromancie"
+      "Domination",
+      "Nécromancie",
+      "Puissance"
     ],
     "ravnos": [
       "Animalisme",
@@ -107,21 +107,21 @@
     "Force d'Âme": "Résilience",
     "Occultation": "Cape d'Ombre",
     "Puissance": "Vigueur",
-    "Présence": "Crainte Révérencielle",
+    "Présence": "Fascination",
     "Protéisme": "Yeux de la Bête",
     "Obténébration": "Jeu d'Ombres",
     "Thaumaturgie": "Goût du Sang",
     "Vicissitude": "Modelage Mineur",
-    "Nécromancie": "Insight",
+    "Nécromancie": "Tremens",
     "Quietus": "Silence de la Mort",
     "Serpentis": "Regard Hypnotique",
     "Aliénation": "Passion",
     "Chimérie": "Ignis Fatuus",
-    "Vol": "Lévitation",
-    "Visceratika": "Peau de Marbre",
-    "Thanatosis": "Masque Cadavérique",
-    "Melpominée": "Voix Enchanteresse",
-    "Daimoinon": "Flammes de l'Enfer",
+    "Vol": "Plume",
+    "Visceratika": "Peau de Caméléon",
+    "Thanatosis": "Rides de la Sorcière",
+    "Melpominée": "La Voix Manquante",
+    "Daimoinon": "Perception du Péché",
     "Obeah": "Sens de la Vitalité"
   }
 }

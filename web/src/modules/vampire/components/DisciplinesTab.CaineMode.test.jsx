@@ -42,4 +42,21 @@ describe('DisciplinesTab - Caine Mode', () => {
         expect(level10Card.className).not.toContain('opacity-60');
         expect(level10Card.className).toContain('hover:shadow-lg');
     });
+
+    it('groups several powers of the same level under one label', () => {
+        render(<DisciplinesTab clan={mockClan} bloodPotency={mockBloodPotency} isCainMode={true} />);
+
+        // Protéisme a trois pouvoirs au niveau 7 (V20).
+        expect(screen.getAllByText('Niveau 7 · 3 pouvoirs, tous acquis à ce niveau').length).toBeGreaterThan(0);
+        expect(screen.getByText('Visage Mortel Restauré')).toBeTruthy();
+        expect(screen.getByText('Corps Spectral')).toBeTruthy();
+    });
+
+    it('hides grouped elder powers from a player below that level', () => {
+        render(<DisciplinesTab clan="gangrel" bloodPotency={3} isCainMode={false} />);
+
+        expect(screen.getByText('Fusion avec la Terre')).toBeTruthy();
+        expect(screen.queryByText('Corps Spectral')).toBeNull();
+    });
 });
+

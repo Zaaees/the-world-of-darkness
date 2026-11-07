@@ -128,6 +128,18 @@ const PowerCard = ({ power, isLocked, onClick }) => {
   );
 };
 
+// Regroupe les pouvoirs par niveau (aux niveaux 6 à 9, un niveau en compte plusieurs).
+const groupPowersByLevel = (powers) => {
+  const groups = new Map();
+  powers.forEach(power => {
+    if (!groups.has(power.level)) groups.set(power.level, []);
+    groups.get(power.level).push(power);
+  });
+  return [...groups.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([level, levelPowers]) => ({ level, powers: levelPowers }));
+};
+
 // Composant pour une discipline
 const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
     useSiteContent();
@@ -172,14 +184,29 @@ const DisciplineCard = ({ discipline, maxAccessibleLevel, onPowerClick }) => {
             className="overflow-hidden"
           >
             <div className="p-2 pt-4 pl-4 md:pl-8 grid grid-cols-1 md:grid-cols-2 gap-3 pb-6">
-              {allPowers.map(power => (
-                <PowerCard
-                  key={power.level}
-                  power={power}
-                  isLocked={power.level > maxAccessibleLevel}
-                  onClick={() => onPowerClick(power)}
-                />
-              ))}
+              {groupPowersByLevel(allPowers).map(({ level, powers }) => {
+                const isLocked = level > maxAccessibleLevel;
+                const cards = powers.map(power => (
+                  <PowerCard
+                    key={power.id || `${level}-${power.name}`}
+                    power={power}
+                    isLocked={isLocked}
+                    onClick={() => onPowerClick(power)}
+                  />
+                ));
+                if (powers.length === 1) return cards[0];
+                return (
+                  <div
+                    key={`level-${level}`}
+                    className={`md:col-span-2 rounded-lg border p-3 space-y-3 ${isLocked ? 'border-stone-900' : 'border-red-950/40 bg-red-950/5'}`}
+                  >
+                    <p className={`text-[11px] uppercase tracking-widest font-serif ${isLocked ? 'text-stone-700' : 'text-red-400/80'}`}>
+                      {siteText("vampire.text.02641", { v0: level, v1: powers.length })}
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">{cards}</div>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         )}

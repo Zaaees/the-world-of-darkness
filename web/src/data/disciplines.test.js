@@ -1,6 +1,6 @@
 
 import { describe, it, expect } from 'vitest';
-import { MAX_DISCIPLINE_LEVEL, getAvailableDisciplines } from './disciplines';
+import { DISCIPLINES, MAX_DISCIPLINE_LEVEL, getAvailableDisciplines } from './disciplines';
 
 describe('Disciplines Data Logic', () => {
 
@@ -70,6 +70,65 @@ describe('Disciplines Data Logic', () => {
                 expect(disc.maxLevel).toBe(1);
                 expect(disc.powers.every(p => p.level <= 1)).toBe(true);
             });
+        });
+    });
+
+    describe('clan aliases', () => {
+        it.each([
+            ['setite', 'serpentis'],
+            ['banu_haqim', 'quietus'],
+            ['daughters_cacophony', 'melpominee'],
+            ['hecata', 'necromancy'],
+        ])('%s gets its clan disciplines', (clan, expected) => {
+            const ids = getAvailableDisciplines(clan, 1).map(d => d.id);
+            expect(ids).toContain(expected);
+        });
+
+        it('gives Giovanni the V20 disciplines', () => {
+            const ids = getAvailableDisciplines('giovanni', 1).map(d => d.id);
+            expect(ids).toEqual(['dominate', 'necromancy', 'potence']);
+        });
+    });
+});
+
+// Toutes les disciplines suivent V20, adaptées au jeu narratif, du niveau 1 au niveau 10.
+const REWRITTEN = Object.keys(DISCIPLINES);
+const DURATIONS = ['instant', 'scene', 'prolonged', 'permanent'];
+const BLOOD_COSTS = [0, 1, 3, 9, 10];
+
+describe.each(REWRITTEN)('discipline %s (V20, 1 à 10)', (id) => {
+    const discipline = DISCIPLINES[id];
+    const powers = discipline.powers;
+
+    it('covers levels 1 to 10, one power at 1-5 and 10, at least one at 6-9', () => {
+        for (let level = 1; level <= 10; level++) {
+            const count = powers.filter(p => p.level === level).length;
+            if (level <= 5 || level === 10) expect(count, `niveau ${level}`).toBe(1);
+            else expect(count, `niveau ${level}`).toBeGreaterThanOrEqual(1);
+        }
+        expect(powers.every(p => p.level >= 1 && p.level <= 10)).toBe(true);
+    });
+
+    it('lists powers in level order', () => {
+        const levels = powers.map(p => p.level);
+        expect(levels).toEqual([...levels].sort((a, b) => a - b));
+    });
+
+    it('gives every power a unique id, a valid duration and a valid blood cost', () => {
+        const ids = powers.map(p => p.id);
+        expect(ids.every(Boolean)).toBe(true);
+        expect(new Set(ids).size).toBe(ids.length);
+        powers.forEach(p => {
+            expect(DURATIONS, p.id).toContain(p.duration);
+            expect(BLOOD_COSTS, p.id).toContain(p.bloodCost);
+        });
+    });
+
+    it('keeps descriptions narrative: no numbers, reasonable length', () => {
+        powers.forEach(p => {
+            expect(p.description, p.id).not.toMatch(/\d/);
+            expect(p.description.length, p.id).toBeGreaterThanOrEqual(300);
+            expect(p.description.length, p.id).toBeLessThanOrEqual(1000);
         });
     });
 });
