@@ -11784,6 +11784,150 @@
     "catalog": false,
     "variables": []
   },
+  "vampire.bonds.admin.tab": {
+    "scope": "vampire",
+    "source": "core/components/GmDashboard.jsx",
+    "default": "Liens de sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.empty": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Aucun lien de sang sur ce serveur.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.player": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Joueur",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.rank": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Rang {v0}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.admin.delete": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Effacer",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.confirmDelete": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Effacer ce lien ? Le récit l'a-t-il vraiment défait ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.formTitle": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Lier un joueur à un PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.thrall": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Vampire lié",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.fromRegistry": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "PNJ du registre",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.freeName": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Nom libre",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.npcName": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Nom du PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.potency": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Rang du PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.stageLabel": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Stade",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.submit": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Créer le lien",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.choose": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Choisir…",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.loadError": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Erreur de chargement des liens",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
   "vampire.text.01472": {
     "scope": "vampire",
     "source": "modules/vampire/components/SceneSubmission.jsx",
