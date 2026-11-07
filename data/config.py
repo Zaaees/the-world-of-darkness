@@ -36,6 +36,10 @@ MENTION_ROLE_VALIDATION = ROLE_MJ_VAMPIRE
 VITAE_QUICK_FEED_RATIO = 0.4
 VITAE_QUICK_FEED_COOLDOWN_HOURS = 20
 
+# À partir de ce rang, seul le sang d'autres vampires rassasie : pas de chasse en off,
+# toute alimentation passe par une scène jouée, qui remplit la réserve.
+VITAE_SCENE_ONLY_POTENCY = 5
+
 # Entretien paresseux : à l'ouverture du panneau, perte de 1 Vitae par tranche de jours
 # réels écoulés depuis la dernière vérification, plafonnée par ouverture.
 VITAE_UPKEEP_INTERVAL_DAYS = 2

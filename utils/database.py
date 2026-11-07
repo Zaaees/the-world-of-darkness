@@ -18,6 +18,7 @@ from data.blood_actions import SATURATION_THRESHOLDS, advance_saturation
 from data.config import (
     VITAE_QUICK_FEED_RATIO,
     VITAE_QUICK_FEED_COOLDOWN_HOURS,
+    VITAE_SCENE_ONLY_POTENCY,
     VITAE_UPKEEP_INTERVAL_DAYS,
     VITAE_UPKEEP_MAX_PER_CHECK,
 )
@@ -1538,10 +1539,16 @@ def quick_feed_floor(blood_potency: int) -> int:
     return math.ceil(get_max_vitae(blood_potency) * VITAE_QUICK_FEED_RATIO)
 
 
+def requires_scene_feeding(blood_potency: int) -> bool:
+    """At the top rank only vampire blood sates: every feed is a played scene."""
+    return blood_potency >= VITAE_SCENE_ONLY_POTENCY
+
+
 async def feed_vampire(user_id: int, guild_id: int, mode: str, now: Optional[datetime] = None) -> dict:
     """Feed in one transaction.
 
-    - 'quick': off-screen hunt, only while the reserve is still at least the floor, once per window;
+    - 'quick': off-screen hunt, only while the reserve is still at least the floor, once per window,
+      and never at the scene-only rank (vampire blood is needed);
     - 'scene': a played hunting scene (link checked by the caller), fills the reserve.
     An impossible feed changes nothing and raises ValueError with the reason.
     """
@@ -1557,6 +1564,9 @@ async def feed_vampire(user_id: int, guild_id: int, mode: str, now: Optional[dat
         current, bp, last_fed = row[0] or 0, row[1] or 1, _parse_timestamp(row[2])
         max_vitae = get_max_vitae(bp)
         if mode == "quick":
+            if requires_scene_feeding(bp):
+                raise ValueError(
+                    "À ton rang, seul le sang de vampire te rassasie : la chasse se joue en scène.")
             floor = quick_feed_floor(bp)
             if current < floor:
                 raise ValueError(
