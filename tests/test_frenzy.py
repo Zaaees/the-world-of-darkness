@@ -163,6 +163,35 @@ def test_an_unreachable_scene_still_starts_the_frenzy(db):
     asyncio.run(run())
 
 
+def test_declaring_the_beast_uses_the_panel_channel_without_any_link(db):
+    async def run():
+        from modules.vampire.views.panel import VampirePanel
+        await seed(bp=3)
+        inter, channel = interaction(channel_id=42)
+        inter.response = SimpleNamespace(edit_message=AsyncMock(), send_modal=AsyncMock(), send_message=AsyncMock())
+
+        async def pick(panel, trigger_id):
+            select = views.TriggerSelect(panel)
+            select._values = [trigger_id]
+            await select.callback(inter)
+
+        # Une cause ordinaire : le choix ravaler / céder s'affiche aussitôt, pour le salon du panneau.
+        await pick(VampirePanel(1, 2, 42, 'ventrue', 12, 3), 'rage_blessure')
+        choice = inter.response.edit_message.await_args.kwargs['view']
+        assert isinstance(choice, views.ChoiceView) and (choice.channel_id, choice.cost) == (42, 3)
+        inter.response.send_modal.assert_not_awaited()
+        # Un pouvoir : seule la fenêtre du prix s'ouvre, sans lien à saisir.
+        await pick(VampirePanel(1, 2, 42, 'ventrue', 12, 3), 'pouvoir_rage')
+        modal = inter.response.send_modal.await_args.args[0]
+        assert isinstance(modal, views.PowerPriceModal) and len(modal.children) == 1
+        # À sec : la Faim éclate et s'annonce dans le salon du panneau.
+        await database.set_vampire_soif(1, 2, 0)
+        await pick(VampirePanel(1, 2, 42, 'ventrue', 0, 3), 'faim_zero')
+        assert (await database.get_frenzy(1, 2))['channel_id'] == 42
+        channel.send.assert_awaited_once()
+    asyncio.run(run())
+
+
 def test_panel_shows_the_frenzy_instead_of_the_compulsion(db):
     async def run():
         from modules.vampire.views.panel import VampirePanel
