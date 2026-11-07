@@ -97,6 +97,7 @@ const REWRITTEN = [
     'celerity', 'fortitude', 'potence', 'protean',
     'auspex', 'dominate', 'presence', 'dementation', 'chimerstry',
     'obfuscate', 'obtenebration', 'animalism',
+    'thaumaturgy', 'necromancy', 'quietus', 'serpentis', 'vicissitude',
 ];
 const DURATIONS = ['instant', 'scene', 'prolonged', 'permanent'];
 const BLOOD_COSTS = [0, 1, 3, 9, 10];

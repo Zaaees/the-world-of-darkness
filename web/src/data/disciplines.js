@@ -1030,42 +1030,87 @@ export const DISCIPLINES = {
   thaumaturgy: {
     id: "thaumaturgy",
     name: "Thaumaturgie",
-    description: "Le sang est pouvoir, et tu en es le maître. La magie des Tremere plie la vitae à ta volonté, transformant le sang en arme.",
+    description: "Le sang est pouvoir, et tu en es le maître. La magie des Tremere plie la vitae à ta volonté, transformant le sang en arme. Les cinq premiers degrés suivent la Voie du Sang ; au-delà, seuls les plus anciens sorciers du clan osent explorer ce que devient le sang entre leurs mains.",
     powers: [
       {
+        id: "thaumaturgy-1-a-taste-for-blood",
         level: 1,
         name: "Goût du Sang",
         bloodCost: 0,
         duration: "instant",
-        description: "Une seule goutte sur ta langue et les secrets se révèlent. Goûte le sang de quelqu'un et tu sais instantanément : vampire ou mortel, quel clan, quelle génération, combien de fois il s'est nourri récemment. Si c'est un vampire, tu sens s'il a commis la diablerie, ce crime ultime qui laisse une trace indélébile dans la vitae. Tu peux analyser le sang d'une scène de crime pour identifier le coupable, vérifier l'identité d'un suspect, ou détecter un imposteur. Le sang parle, et toi seul l'entends."
+        description: "Une goutte sur ta langue, et le sang te livre ses secrets. Tu sais s'il vient d'un mortel, d'une goule ou d'un vampire, combien de vitae il reste à son propriétaire, quand il s'est nourri pour la dernière fois. Pour un vampire, tu devines à peu près la puissance de son sang et la génération dont il descend. Avec un peu plus de concentration, tu sens même la souillure laissée par la diablerie. Le sang d'une scène de crime devient un témoin qui ne ment jamais."
       },
       {
+        id: "thaumaturgy-2-blood-rage",
         level: 2,
         name: "Rage du Sang",
         bloodCost: 1,
-        duration: "scene",
-        description: "Pointe du doigt quelqu'un à distance de regard et concentre-toi. Son sang commence à chauffer, à bouillonner dans ses veines. La victime ressent une douleur atroce, comme si son corps brûlait de l'intérieur. Les mortels s'effondrent en hurlant, les vampires luttent contre la frénésie tandis que leur vitae se rebelle. La douleur est si intense qu'elle empêche toute concentration, tout mouvement coordonné. Paralyse un adversaire le temps de fuir, torture un prisonnier sans le toucher, ou force un vampire à dépenser sa précieuse vitae pour résister."
+        duration: "instant",
+        description: "Tu poses la main sur ta victime et tu prends le contrôle de son sang. Malgré elle, sa vitae brûle comme tu l'ordonnes : elle durcit ses muscles, accélère ses gestes, guérit des blessures qu'elle n'a pas choisi de soigner, et la laisse à sec au pire moment. Le sang ainsi forcé échauffe sa Bête, et la frénésie rôde. Il te faut toucher ta cible : ce pouvoir ne s'exerce pas à distance. Un ennemi vidé de son sang avant le combat ne fait plus peur à personne."
       },
       {
+        id: "thaumaturgy-3-blood-of-potency",
         level: 3,
         name: "Puissance du Sang",
         bloodCost: 3,
-        duration: "scene",
-        description: "Concentre ta vitae par un rituel rapide, forçant le pouvoir de ton sang à irriguer tes muscles, tes réflexes, ta résistance. Tant que tu maintiens cet état, tu deviens plus fort, plus rapide, plus résistant qu'aucun vampire de ton âge ne devrait l'être. Combats comme un Ancien alors que tu n'es qu'un néonate, accomplis des exploits physiques impossibles. Le prix ? Ta vitae brûle vite : 3 points par tour de maintien, te laissant affaibli et affamé quand l'effet se dissipe. Mais ces moments de puissance surnaturelle peuvent faire la différence entre la victoire et la destruction."
+        duration: "prolonged",
+        description: "Par un effort de concentration, tu épaissis ta propre vitae jusqu'à la rendre aussi puissante que celle d'un vampire plus proche de Caïn. Pendant une heure ou davantage, ton sang compte comme celui d'une génération plus ancienne : il résiste mieux à la Domination des autres, nourrit des pouvoirs plus forts, impressionne ceux qui le goûtent. Ce n'est pas un bonus de force ou de vitesse : c'est la nature même de ton sang qui change. Tu ne peux accomplir ce prodige qu'une fois par nuit."
       },
       {
+        id: "thaumaturgy-4-theft-of-vitae",
         level: 4,
         name: "Vol de Vitae",
         bloodCost: 3,
         duration: "instant",
-        description: "Tends la main vers une victime visible et invoque le sortilège. Son sang répond à ton appel, jaillissant de ses yeux, son nez, sa bouche, même à travers sa peau. La vitae vole à travers l'air en un jet écarlate pour se déverser dans ta bouche ouverte, ou dans un calice que tu tiens. C'est violent, spectaculaire, terrifiant : la victime se vide littéralement sous tes yeux tandis que tu te nourris à distance. Pas besoin de toucher, pas besoin de mordre. Le sang vient à toi. Les mortels meurent en quelques secondes, les vampires entrent en torpeur, vidés de leur vitae."
+        description: "Tends la main vers une victime que tu vois, à quelques pas, et son sang répond à ton appel. Il jaillit de ses pores, de ses yeux, de sa bouche, et vole vers toi en un ruban écarlate que tu bois sans la toucher. Plus ta force est grande, plus tu en prends. Ce sang volé ne crée pas de lien de sang. Mais le spectacle est impossible à confondre avec autre chose : l'utiliser devant des mortels est une violation flagrante de la Mascarade."
       },
       {
+        id: "thaumaturgy-5-cauldron-of-blood",
         level: 5,
         name: "Chaudron de Sang",
         bloodCost: 9,
         duration: "instant",
-        description: "Le sort le plus meurtrier de la Thaumaturgie. Fixe ta victime et prononce la formule. Son sang atteint le point d'ébullition instantanément. De l'intérieur, le corps explose : le sang bout, la chair se déchire, les os se fissurent sous la pression. Les mortels éclatent littéralement, leurs veines explosant dans une fontaine de sang et de vapeur. Les vampires hurlent et s'effondrent, leur corps se consumant de l'intérieur en dégâts aggravés massifs. Même les Anciens craignent ce pouvoir. Un seul mot, un seul geste, et ton ennemi se transforme en torche vivante de sang bouillonnant."
+        description: "Tu poses la main sur ta victime et tu fais bouillir son sang dans ses veines. Pour un vampire, c'est une agonie de l'intérieur : sa vitae se change en vapeur brûlante, et chaque goutte perdue laisse des blessures qui ne guérissent qu'avec peine. Pour un mortel, même un instant suffit à le tuer. Il te faut le contact : ce n'est pas un sort que l'on lance du fond d'une salle. Même les anciens craignent la main d'un Tremere posée sur leur poignet."
+      },
+      {
+        id: "thaumaturgy-6-scarlet-thread",
+        level: 6,
+        name: "Le Fil Écarlate",
+        bloodCost: 1,
+        duration: "prolonged",
+        description: "Une seule goutte de sang te suffit pour retrouver son propriétaire où qu'il soit. Tu sens un fil invisible qui part de la goutte et file vers lui, à travers la ville ou le continent, et tu sais dans quelle direction il se trouve et à quelle distance. Le fil te révèle aussi la lignée de ce sang : le sire, et le sire de ce sire, jusqu'aux ancêtres les plus lointains. Tant que la goutte existe, ta proie ne peut pas te fuir."
+      },
+      {
+        id: "thaumaturgy-7-seal-the-vitae",
+        level: 7,
+        name: "Sceller la Vitae",
+        bloodCost: 3,
+        duration: "scene",
+        description: "D'un contact, tu poses un sceau sur le sang d'un vampire. Pour la scène, sa vitae se fige dans ses veines : il ne peut plus la dépenser, ni pour guérir, ni pour nourrir ses Disciplines, ni pour renforcer son corps. Il reste un cadavre ordinaire, privé de tout ce qui faisait sa puissance. Une volonté très forte peut fissurer le sceau. Les Tremere s'en servent pour les interrogatoires et les exécutions."
+      },
+      {
+        id: "thaumaturgy-8-break-the-bond",
+        level: 8,
+        name: "Briser le Lien",
+        bloodCost: 9,
+        duration: "permanent",
+        description: "Tu plonges ta conscience dans le sang d'un vampire ou d'une goule et tu touches les chaînes qui le lient à un autre. Tu peux dissoudre un lien de sang que rien d'autre ne briserait, libérant un esclave de la dévotion qu'il éprouvait. Ou tu peux l'inverser et le forger toi-même, liant une âme à la personne de ton choix sans qu'elle ait bu une goutte. Le rituel demande du temps et l'immobilité de ta cible. Et celui qui perd son esclave saura tôt ou tard qui le lui a volé."
+      },
+      {
+        id: "thaumaturgy-9-curse-of-lineage",
+        level: 9,
+        name: "Malédiction de Lignée",
+        bloodCost: 9,
+        duration: "permanent",
+        description: "Tu maudis le sang d'un vampire, et la malédiction descend dans sa lignée. Son sang devient amer à boire, ses infants héritent de la même souillure, et les infants de ses infants après eux. Tu choisis la nature du mal : une faiblesse face au feu, une soif plus cruelle, une Bête plus proche de la surface. La malédiction ne s'éteint qu'avec toi, ou quand un sorcier plus puissant la défait. Les Tremere murmurent que c'est ainsi qu'un clan entier peut tomber."
+      },
+      {
+        id: "thaumaturgy-10-apotheosis-of-blood",
+        level: 10,
+        name: "Apothéose du Sang",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu deviens le maître de tout sang à portée de ta volonté. Dans une ville entière, chaque goutte de vitae et chaque veine mortelle t'obéissent : tu fais bouillir le sang d'une armée, tu arrêtes celui d'un ancien dans ses veines, tu fais converger vers toi des rivières de vitae volée. Tu peux même arracher à un vampire la puissance de son sang et la prendre pour toi, comme Tremere le fit autrefois pour devenir l'un des Antédiluviens. Après cette nuit, plus personne ne te regardera comme un sorcier : on te regardera comme un dieu du sang."
       }
     ]
   },
@@ -1073,9 +1118,10 @@ export const DISCIPLINES = {
   vicissitude: {
     id: "vicissitude",
     name: "Vicissitude",
-    description: "Chair et os sont ton argile, la forme humaine juste une suggestion. Sculpte la viande vivante selon ta vision tordue.",
+    description: "Chair et os sont ton argile, la forme humaine juste une suggestion. Sculpte la viande vivante selon ta vision tordue. Il te faut toucher la peau nue. Tes œuvres sont permanentes sur les mortels, les goules et les vampires plus jeunes que toi, mais un sang plus ancien peut les effacer comme une blessure.",
     powers: [
       {
+        id: "vicissitude-1-malleable-visage",
         level: 1,
         name: "Modelage Mineur",
         bloodCost: 1,
@@ -1083,6 +1129,7 @@ export const DISCIPLINES = {
         description: "Touche ton visage et la chair répond, malléable sous tes doigts comme de la cire chaude. Change la forme de ton nez, la couleur de tes yeux, la structure de ta mâchoire. Deviens plus beau, plus ordinaire, ou grotesque selon tes besoins. Les changements sont permanents jusqu'à ce que tu les modifies à nouveau. Efface les cicatrices, change ton apparence pour échapper aux poursuivants, ou crée un déguisement parfait. La transformation est lente, méthodique, presque artistique. Les Tzimisce voient cela comme de la sculpture vivante, l'expression ultime de la domination sur la chair."
       },
       {
+        id: "vicissitude-2-fleshcraft",
         level: 2,
         name: "Sculpture de Chair",
         bloodCost: 1,
@@ -1090,6 +1137,7 @@ export const DISCIPLINES = {
         description: "Pose tes mains sur la peau nue de quelqu'un d'autre et modèle sa chair comme de l'argile. Déforme son visage, allonge ses membres, crée des bosses et des creux. Les victimes non consentantes hurlent pendant que tu les remodèles, sentant leur chair se tordre et se reformer. Tu peux créer de la beauté ou de l'horreur : embellir un serviteur fidèle, ou transformer un ennemi en aberration défigurée. Les changements sont permanents. Les Tzimisce punissent souvent les traîtres en les transformant en monstruosités, des avertissements vivants pour les autres."
       },
       {
+        id: "vicissitude-3-bonecraft",
         level: 3,
         name: "Sculpture d'Os",
         bloodCost: 3,
@@ -1097,32 +1145,68 @@ export const DISCIPLINES = {
         description: "Maintenant tu maîtrises le squelette. Fais jaillir des pointes d'os de tes mains comme des lames, crée des plaques osseuses sous ta peau comme une armure naturelle, déforme les os de tes victimes pour les paralyser ou les déformer de façon grotesque. Tu peux façonner des armes vivantes : des griffes d'os en spirale, des cornes sur ton crâne, des épines le long de ta colonne vertébrale. Ou torture tes ennemis en faisant pousser leurs os dans de mauvaises directions, créant des angles impossibles qui déchirent leur chair de l'intérieur."
       },
       {
+        id: "vicissitude-4-horrid-form",
         level: 4,
         name: "Forme Horrible",
         bloodCost: 3,
         duration: "scene",
-        description: "Libère le monstre en toi. Ton corps se tord dans une transformation agonisante : tu grandis jusqu'à 2m50, ta peau devient noire et cireuse, des plaques d'os jaillissent pour former une armure naturelle, tes doigts s'allongent en griffes dentelées, ta mâchoire se déforme en gueule pleine de crocs. Tu deviens la Bête incarnée, une créature de cauchemar conçue pour le carnage. Ta force et ta résistance augmentent drastiquement. Les mortels fuient en hurlant, même les vampires reculent. Tu es devenu le monstre que les enfants craignent dans le noir."
+        description: "Libère le monstre en toi. Ton corps se tord dans une transformation agonisante : tu grandis bien au-dessus de la taille d'un homme, ta peau devient grise et cireuse, des plaques d'os jaillissent pour former une armure, tes doigts s'allongent en griffes dentelées, ta mâchoire se déforme en gueule pleine de crocs. Ta force, ta vitesse et ta résistance explosent. Mais il ne reste rien de toi qui puisse parler, séduire ou convaincre : tu ne sais plus qu'effrayer. Les mortels fuient en hurlant, et même les vampires reculent."
       },
       {
+        id: "vicissitude-5-bloodform",
         level: 5,
         name: "Forme de Sang",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Dissous complètement ton corps en une flaque de vitae sentiente, une mare de sang qui pense et bouge. Tu t'étales sur le sol, te coules sous les portes, à travers les grilles, dans les fissures. Sous cette forme, tu es presque invulnérable aux dégâts physiques : les balles font juste des éclaboussures, les lames te traversent sans effet. Tu peux t'étaler pour couvrir une large zone, ou te concentrer en un petit point. Engloutis un adversaire, le noyant dans ta substance, ou infiltre-toi dans des lieux impossibles. Seuls le feu et le soleil peuvent te blesser sous cette forme - et le soleil reste mortel, évaporant ta vitae comme l'eau d'une flaque. Tu es devenu l'essence même de la monstruosité vampirique."
+        description: "Tu changes tout ou partie de ton corps en vitae consciente. Une main devient une flaque de sang qui s'étire sous une porte ; ton corps entier devient une mare qui pense et qui rampe. Sous cette forme, on ne peut ni te frapper, ni te couper, ni t'empaler. Tu peux t'infiltrer partout où le sang peut couler. Mais le feu et le soleil restent mortels, et ton sang reste du sang : si quelqu'un le boit tout entier ou le détruit, c'est la Mort Ultime."
       },
       {
+        id: "vicissitude-6-chiropteran-marauder",
         level: 6,
         name: "Maraudeur Chiroptère",
         bloodCost: 3,
         duration: "scene",
-        description: "Tu ne te transformes pas en chauve-souris, mais en un homme-chauve-souris grotesque et létal. Tes os se creusent, des ailes membraneuses poussent de tes flancs, tes sens deviennent sonar. Tu es le prédateur aérien parfait, capable de voler à vitesse transsonique et de décapiter une proie au passage."
+        description: "Tu pousses la Forme Horrible plus loin encore : des ailes de cuir jaillissent de ton dos, tes os se creusent, tes oreilles s'allongent. Tu deviens un homme-chauve-souris monstrueux, capable de voler aussi vite qu'une voiture lancée sur une route de campagne. Les griffes de tes ailes déchirent la chair des vampires. Ton ouïe devient prodigieuse, mais ta vue baisse. Comme sous la Forme Horrible, tu n'as plus rien d'humain avec qui négocier."
       },
       {
+        id: "vicissitude-6-blood-of-acid",
+        level: 6,
+        name: "Sang d'Acide",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Ton sang devient un acide qui ronge tout ce qu'il touche. Quiconque te mord, te blesse ou boit ta vitae se brûle atrocement, et une goutte crachée suffit à défigurer un mortel. Ce don est définitif et a un prix terrible : tu ne peux plus créer de goules, ni d'infants, ni nourrir qui que ce soit de ton sang. En échange, personne ne pourra jamais commettre la diablerie sur toi : ton âme est protégée par ta propre corrosion."
+      },
+      {
+        id: "vicissitude-7-cocoon",
         level: 7,
         name: "Cocon",
-        bloodCost: 5,
+        bloodCost: 3,
         duration: "prolonged",
-        description: "Tu sécrètes des fluides qui durcissent pour former une coque blanche impénétrable autour de toi. À l'intérieur, tu es en sécurité absolue, protégé même du soleil ou du feu pendant un temps. C'est l'ultime refuge pour guérir, hiberner, ou survivre à une explosion nucléaire."
+        description: "Tu sécrètes des fluides blancs qui durcissent en quelques minutes en une coque épaisse autour de toi. À l'intérieur, tu es protégé entièrement du soleil, et la coque encaisse une grande part des coups, du feu et des chocs qui la frappent. C'est le refuge ultime pour dormir dehors, guérir ou attendre que le danger passe. Le cocon ne protège que toi, et tu peux le dissoudre quand tu le désires pour en sortir."
+      },
+      {
+        id: "vicissitude-8-breath-of-the-dragon",
+        level: 8,
+        name: "Souffle du Dragon",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu ouvres la bouche et tu craches un torrent de flammes. Le feu jaillit de ta gorge sur quelques pas, embrase ce qu'il touche et laisse des brûlures que même les vampires ne guérissent qu'avec peine. Les rideaux, les vêtements, les meubles prennent feu. Ces flammes ne te brûlent pas toi-même, mais l'incendie qu'elles allument, lui, n'a aucune loyauté envers toi."
+      },
+      {
+        id: "vicissitude-9-earths-vast-haven",
+        level: 9,
+        name: "Le Vaste Refuge de la Terre",
+        bloodCost: 9,
+        duration: "prolonged",
+        description: "Tu te dissous dans le sol comme de l'eau dans du sable. Une fois fondu dans la terre, tu es hors de portée de presque tout : seule une explosion d'une violence inouïe pourrait t'atteindre. Du coucher au lever du soleil, tu perçois tout ce qui se passe autour de ton refuge, et tu peux parler à l'esprit de ceux qui marchent au-dessus de toi. Les Tzimisce disent que c'est ainsi que les plus anciens d'entre eux dorment sous leurs terres natales."
+      },
+      {
+        id: "vicissitude-10-forge-the-vozhd",
+        level: 10,
+        name: "Forger le Vozhd",
+        bloodCost: 10,
+        duration: "permanent",
+        description: "Tu prends des dizaines de corps, vivants ou morts, et tu les fonds en une seule créature de guerre. Os, muscles et chair se mêlent sous tes mains pour donner naissance à un Vozhd : une montagne de chair haute comme une maison, aux bras multiples, qui obéit à ta seule volonté. Elle écrase les murailles, dévore des escouades entières et ne connaît ni peur ni fatigue. Tu peux même sculpter ta propre chair à cette échelle et devenir toi-même le titan. Les légendes des Carpates racontent que des guerres entières se gagnaient ainsi."
       }
     ]
   },
@@ -1133,13 +1217,15 @@ export const DISCIPLINES = {
     description: "Les morts sont des outils. La chair est une ressource. L'âme est une pile.",
     powers: [
       {
+        id: "necromancy-1-tremens",
         level: 1,
         name: "Tremens",
         bloodCost: 0,
         duration: "instant",
-        description: "Tu murmures aux cadavres et ils tressaillent. Tu peux faire bouger un corps inanimé un court instant : une main qui se serre, des yeux qui s'ouvrent brusquement, un doigt qui pointe. Suffisant pour terrifier des intrus ou faire lâcher un objet à un mort que l'on fouille."
+        description: "Tu murmures aux cadavres et ils tressaillent. Tu peux faire accomplir un seul mouvement à un corps sans vie : une main qui se serre, des yeux qui s'ouvrent brusquement, un doigt qui se tend vers le coupable, un cadavre qui s'assoit sur la table de la morgue. Le geste peut aussi attendre un déclencheur, comme l'arrivée d'un intrus. Ce n'est qu'un spasme, sans force ni volonté : le mort ne se lève pas et ne combat pas. Mais un seul geste au bon moment suffit à terrifier un intrus ou à faire lâcher prise à celui qui fouille le corps."
       },
       {
+        id: "necromancy-2-apprentices-brooms",
         level: 2,
         name: "Balais de l'Apprenti",
         bloodCost: 1,
@@ -1147,6 +1233,7 @@ export const DISCIPLINES = {
         description: "Tu insuffles une animation basique dans un cadavre. Il se lève et peut effectuer des tâches simples : creuser, porter des caisses, marcher devant pour déclencher les pièges. Il n'a aucune intelligence, ne sait pas se battre, mais il obéira jusqu'à ce qu'il tombe en poussière. La main d'œuvre parfaite."
       },
       {
+        id: "necromancy-3-shambling-hordes",
         level: 3,
         name: "Hordes Chancelantes",
         bloodCost: 1,
@@ -1154,18 +1241,60 @@ export const DISCIPLINES = {
         description: "Tu deviens un véritable seigneur des morts. Tu peux lever des cadavres pour le combat. Ils sont lents et stupides, mais ils gardent la force qu'ils avaient de leur vivant. Lève un soldat d'élite, et tu auras un tueur ; lève un enfant, et tu auras une distraction. Ils n'ont ni peur ni douleur et avanceront sous les balles pour déchirer tes ennemis. Une armée jetable qui ne pose jamais de questions."
       },
       {
+        id: "necromancy-4-soul-stealing",
         level: 4,
         name: "Vol d'Âme",
-        bloodCost: 1,
-        duration: "scene",
-        description: "Ton pouvoir s'étend aux vivants. Tu peux, par un effort de volonté, arracher l'âme d'un mortel de son corps. Le corps s'effondre comme une poupée de chiffon, vivant mais vide, tandis que l'esprit se retrouve projeté hors de sa chair, errant sans défense, à la merci des spectres... ou de toi."
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Ton pouvoir s'étend aux vivants. Par un effort de volonté, tu arraches l'âme d'un mortel hors de son corps. La chair s'effondre comme une poupée de chiffon, vivante mais vide, tandis que l'esprit se retrouve projeté dans le monde des fantômes, sans défense, à la merci des spectres... ou de toi. L'exil dure quelques heures, selon ta force, puis l'âme retrouve le chemin de son corps. Une volonté solide peut s'accrocher à sa chair et te résister. Et pendant que le corps reste vide, une autre âme pourrait bien s'y installer."
       },
       {
+        id: "necromancy-5-daemonic-possession",
         level: 5,
         name: "Possession Démoniaque",
         bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu prends une âme sans corps et tu la fais entrer dans un cadavre encore frais, mort depuis moins d'une demi-heure. Le corps se relève, non comme un zombie stupide, mais avec toute l'intelligence et la vivacité de l'esprit qui l'habite. L'âme doit accepter ce nouveau logis : tu ne peux pas y enfermer un esprit qui refuse. Et la chair morte ne tient pas longtemps : au bout d'une semaine, le corps se décompose et l'âme est de nouveau libre. Tu crées ainsi un messager, un espion, ou une seconde chance pour un allié mort."
+      },
+      {
+        id: "necromancy-6-voice-of-the-departed",
+        level: 6,
+        name: "Voix des Trépassés",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Les morts cessent d'être muets pour toi. Tu vois les fantômes qui hantent un lieu, tu entends leurs murmures et tu peux leur répondre. Avec le nom d'un défunt et un objet qui lui tenait à cœur, tu l'appelles hors de l'Outremonde pour qu'il vienne converser avec toi jusqu'à la fin de la scène. Un mort ne doit rien à celui qui l'appelle : il peut mentir, se taire ou exiger un prix. Mais beaucoup ont des choses à dire que personne d'autre n'écoute."
+      },
+      {
+        id: "necromancy-7-chains-of-the-soul",
+        level: 7,
+        name: "Chaînes de l'Âme",
+        bloodCost: 3,
         duration: "permanent",
-        description: "L'art ultime. Tu prends une âme errante (ou la tienne) et tu l'enfonces de force dans un cadavre frais. Le corps se réveille, non pas comme un zombie stupide, mais avec toute l'intelligence et la rapidité de l'esprit qui l'habite. Tu crées un serviteur parfait : l'agilité et l'esprit d'un vivant dans un corps mort qui ne craint pas la douleur."
+        description: "Tu passes une chaîne invisible autour d'un fantôme et tu le lies à ta volonté. Tu peux l'attacher à un lieu pour qu'il le hante, à un objet pour qu'il le garde, ou à toi-même pour en faire ton serviteur. Un esprit fort résiste longtemps avant de céder. Une fois lié, il obéit, mais il n'oublie pas : les morts sont patients, et un fantôme enchaîné attend toujours le jour où sa chaîne se rompra."
+      },
+      {
+        id: "necromancy-8-living-ossuary",
+        level: 8,
+        name: "Ossuaire Vivant",
+        bloodCost: 3,
+        duration: "permanent",
+        description: "Tu façonnes les os des morts comme un sculpteur façonne l'argile. Les squelettes d'un cimetière se défont et se recomposent en ce que tu désires : un rempart d'ossements, une bête de guerre aux mâchoires multiples, un trône, une cage qui se referme sur tes ennemis. Ces créations obéissent à tes ordres et ne craignent ni la douleur ni la peur. Elles restent des os : le feu, les masses et la lumière du soleil finissent par les réduire en poussière."
+      },
+      {
+        id: "necromancy-9-cross-the-shroud",
+        level: 9,
+        name: "Franchir le Linceul",
+        bloodCost: 9,
+        duration: "prolonged",
+        description: "Tu traces une porte de craie ou de sang, et tu la franchis en chair et en os. Tu entres dans l'Outremonde, le royaume gris des morts, où les fantômes sont aussi tangibles que toi et où le monde des vivants n'est plus qu'un reflet pâle. Tu peux y chercher une âme perdue, y négocier avec les seigneurs des morts, y cacher un secret. Mais l'Outremonde n'aime pas les intrus : les Spectres y rôdent, et celui qui s'égare dans ses tempêtes n'en revient jamais."
+      },
+      {
+        id: "necromancy-10-the-great-awakening",
+        level: 10,
+        name: "Le Grand Réveil",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu ouvres les tombeaux d'une ville entière. Dans chaque cimetière, chaque crypte, chaque fosse oubliée, les morts se relèvent et marchent vers toi. Les fantômes traversent le Linceul par milliers et prennent forme dans le monde des vivants. Pour une nuit, la frontière entre la vie et la mort n'existe plus, et tu commandes à cette marée de cadavres et d'âmes comme un empereur à son armée. Les Giovanni appellent cela la Fin du Linceul. Ils en rêvent, et ils en ont peur."
       }
     ]
   },
@@ -1176,6 +1305,7 @@ export const DISCIPLINES = {
     description: "Tu es l'assassin silencieux, juge et bourreau. Ton sang est poison, ta présence est la mort qui ne fait aucun bruit.",
     powers: [
       {
+        id: "quietus-1-silence-of-death",
         level: 1,
         name: "Silence de la Mort",
         bloodCost: 1,
@@ -1183,39 +1313,108 @@ export const DISCIPLINES = {
         description: "Active ce pouvoir et une bulle de silence absolu t'enveloppe. Aucun son ne peut entrer ou sortir : tes pas sont inaudibles, tes armes ne font aucun bruit, les cris de tes victimes sont étouffés avant même de quitter leur gorge. Tue en plein milieu d'une foule sans que personne n'entende, brise une fenêtre sans un tintement, tire une arme sans détonation. Les autres te voient bouger les lèvres sans entendre un mot. C'est l'arme parfaite de l'assassin : dans le silence, tu es mortel, fantôme parmi les vivants."
       },
       {
+        id: "quietus-2-scorpions-touch",
         level: 2,
         name: "Toucher du Scorpion",
         bloodCost: 1,
         duration: "prolonged",
-        description: "Concentre ta vitae et transforme-la en poison mortel. Quelques gouttes de ton sang suffisent : enduis une lame, verse-le dans un verre, ou mêle-le à de la nourriture. Quand la victime absorbe le poison, son corps se paralyse progressivement, ses muscles se figent, sa respiration devient laborieuse. Les mortels s'effondrent, incapables de bouger. Les vampires luttent, mais leur corps trahit aussi. Le poison dure plusieurs heures, laissant la victime consciente mais totalement impuissante. Parfait pour capturer quelqu'un vivant ou le laisser mourant mais conscient de son sort."
+        description: "Tu changes un peu de ta vitae en venin. Une lame enduite, un verre de vin, un baiser, une goutte crachée au visage : le poison entre dans le corps de ta victime et lui vole sa vigueur. Ses muscles faiblissent, son souffle se fait court, sa résistance s'effondre. Selon ta force, l'effet dure quelques instants ou ne s'efface jamais. Une victime vidée de toute vigueur est condamnée si elle est mortelle, et sombre en torpeur si c'est un vampire. Un corps robuste peut résister au venin."
       },
       {
+        id: "quietus-3-dagons-call",
         level: 3,
         name: "Appel de Dagon",
         bloodCost: 3,
-        duration: "concentration",
-        description: "Fixe ta victime et invoque le pouvoir. Son sang se rebelle, remontant dans sa gorge comme une marée rouge. Elle s'étouffe sur son propre sang, crachant, suffoquant, incapable de respirer. Les mortels se noient de l'intérieur en quelques minutes atroces. Les vampires toussent de la vitae, affaiblis et paniqués. C'est silencieux, horrible, et terriblement efficace. La victime meurt sans une marque extérieure, juste du sang coulant de sa bouche et son nez. L'arme parfaite pour un meurtre qui ressemble à une mort naturelle."
+        duration: "instant",
+        description: "D'abord, tu touches ta cible : une poignée de main, une épaule effleurée dans la foule. Ensuite, à tout moment dans l'heure qui suit, tu peux l'achever sans même la voir. Son sang se rebelle et remonte dans sa gorge comme une marée rouge : elle s'étouffe et se noie de l'intérieur. Un mortel en meurt, un vampire en ressort gravement blessé. La victime peut lutter de toute sa vigueur. Aucune marque extérieure : seulement du sang au coin des lèvres, et un alibi parfait pour toi."
       },
       {
+        id: "quietus-4-baals-caress",
         level: 4,
         name: "Caresse de Baal",
-        bloodCost: 3,
-        duration: "instant",
-        description: "Ton sang devient acide corrosif au contact de l'air. Ouvre une veine et ton sang jaillit, brûlant tout ce qu'il touche comme de l'acide concentré. La peau se dissout, le métal se corrode, le bois fume et se décompose. Asperge un ennemi et regarde sa chair se consumer. Utilise-le pour détruire des preuves, dissoudre des serrures, ou torturer des victimes. Même les autres vampires hurlent quand ton sang acide les brûle, infligeant des dégâts aggravés qui ne guérissent pas facilement. Mais attention : chaque utilisation te coûte de la précieuse vitae."
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu passes ta lame dans ta paume ouverte, et ton sang la change en arme sacrée des assassins. Chaque coup porté avec elle laisse des blessures qui brûlent comme le feu et ne guérissent qu'avec peine, même chez un vampire. Il te faut renouveler l'enduit à chaque touche, au prix de ta propre vitae. Le pouvoir ne fonctionne qu'avec une arme tranchante ou perçante que tu tiens toi-même."
       },
       {
+        id: "quietus-5-taste-of-death",
         level: 5,
         name: "Goût de la Mort",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "instant",
-        description: "Le pouvoir ultime du Quietus. Crache ton sang comme un serpent crache son venin. Un jet d'acide écarlate jaillit de ta bouche, traversant plusieurs mètres pour frapper ta cible. Tout ce que le jet touche se consume : chair, os, vêtements, métal. Les victimes hurlent pendant que l'acide les dévore vivantes, leur corps se dissolvant en fumée toxique. C'est spectaculaire, brutal, définitif. Les Assamites utilisent ce pouvoir comme jugement final, une exécution qui ne laisse presque rien de la victime. Ton sang est devenu l'incarnation de la mort elle-même."
+        description: "Tu craches ton sang comme un serpent crache son venin. Un jet d'acide écarlate jaillit de ta bouche et frappe ta cible à quelques pas : chair, os et vêtements se consument en fumée. Plus tu y verses de vitae, plus les brûlures sont profondes, et elles ne guérissent qu'avec peine, même chez un vampire. La portée dépend de ta force. Le spectacle est brutal, définitif, et impossible à confondre avec autre chose."
       },
       {
+        id: "quietus-6-blood-sweat",
+        level: 6,
+        name: "Sueur de Sang",
+        bloodCost: 3,
+        duration: "instant",
+        description: "Tu te concentres un long moment sur ta victime, et elle se met à suer son sang. Des perles rouges coulent de son front, de ses paumes, de son cou, et sa précieuse vitae s'échappe goutte après goutte. Pendant ce temps, une émotion la submerge : un remords insupportable qui la pousse à avouer, ou une vantardise qui lui délie la langue. Une volonté forte résiste mieux. Ce pouvoir est rare et peu connu, même parmi les fils de Haqim."
+      },
+      {
+        id: "quietus-6-selective-silence",
+        level: 6,
+        name: "Silence Sélectif",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tu ne fais plus taire une zone entière : tu choisis. Une personne précise ne peut plus crier, l'arme d'un garde ne fait plus de bruit, un téléphone ne sonne plus, pendant que tout le reste de la pièce garde ses sons. Plus ta maîtrise est grande, plus tu peux choisir de cibles à la fois. L'effet dure quelques minutes et ne porte que sur ce qui est proche de toi."
+      },
+      {
+        id: "quietus-6-ripples-of-the-heart",
         level: 6,
         name: "Ondes du Cœur",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu bois un peu du sang d'un mortel, puis tu le touches un moment, et tu déposes une émotion dans ses veines : la peur, la mélancolie, la colère, l'amour. Le mortel ne ressent rien. Mais le prochain vampire qui se nourrira de lui avalera cette émotion avec son sang et en sera submergé pendant des semaines. Un vampire maître de lui peut résister. Tu peux ainsi préparer le repas d'un rival et le briser à distance, sans qu'il sache jamais d'où vient son mal."
+      },
+      {
+        id: "quietus-6-purification",
+        level: 6,
+        name: "Purification",
+        bloodCost: 3,
+        duration: "permanent",
+        description: "Tu poses la main sur le front de quelqu'un et tu chasses de son esprit les influences étrangères. La Domination qui le tenait s'efface, une folie implantée se dissipe, l'emprise d'une Présence d'ancien se rompt. Le rite demande plusieurs minutes de concentration et coûte d'autant plus de sang que la personne a une volonté forte. Il ne brise pas les liens de sang : ceux-là restent hors de portée."
+      },
+      {
+        id: "quietus-7-baals-bloody-talons",
+        level: 7,
+        name: "Serres Sanglantes de Baal",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tu enduis une arme blanche d'un venin plus puissant encore que la Caresse de Baal. Chaque coup frappe plus fort et laisse des blessures qui ne guérissent qu'avec peine. Mais ce venin dévore aussi l'arme qui le porte : à chaque échange, elle perd de sa force, se ronge, et finit par se briser dans ta main. Une lame précieuse ne survit pas à ce pouvoir."
+      },
+      {
+        id: "quietus-7-poison-the-well-of-life",
+        level: 7,
+        name: "Empoisonner le Puits de Vie",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu touches un mortel et tu changes son sang en poison pour les vampires. Lui ne sent rien et vit sa vie comme avant. Mais le vampire qui le mord boit sa propre ruine : chaque gorgée le brûle de l'intérieur et laisse des blessures qui ne guérissent qu'avec peine. Le poison dure des mois. Tu peux ainsi transformer la goule favorite d'un rival, ou le troupeau entier d'un Prince, en piège mortel."
+      },
+      {
+        id: "quietus-8-songs-of-distant-vitae",
+        level: 8,
+        name: "Chants de la Vitae Lointaine",
+        bloodCost: 3,
+        duration: "scene",
+        description: "D'un toucher, tu réveilles dans le sang de ta victime le souvenir de toutes ses proies. Elle revit leur terreur, leurs cris, leur agonie, comme si elle était chacune d'elles. Une victime faible tombe en torpeur sous le poids de ces souvenirs, et en garde des cicatrices dans l'esprit. Une volonté forte peut résister. Les vampires qui ont beaucoup tué sont les plus vulnérables à ce pouvoir."
+      },
+      {
+        id: "quietus-9-condemn-the-sins-of-the-father",
+        level: 9,
+        name: "Condamner les Péchés du Père",
         bloodCost: 9,
-        duration: "instant",
-        description: "Tu manipules le flux sanguin pour provoquer des émotions violentes ou des arrêts cardiaques à distance. En synchronisant ta vitae avec celle de ta cible, tu peux faire exploser son cœur dans sa poitrine ou la submerger d'une panique physiologique incontrôlable."
+        duration: "permanent",
+        description: "Tu viens de frapper un vampire avec un pouvoir de Quietus, et tu étends ce châtiment à toute sa descendance. Ses infants, et les infants de ses infants, subissent le même poison, la même noyade, la même terreur, où qu'ils soient dans le monde. Tu peux épargner quelques individus de ton choix. Le sacrifice est immense et te coûte une part de ton âme. Les Assamites racontent que c'est ainsi que des lignées entières ont été effacées des mémoires de la Camarilla."
+      },
+      {
+        id: "quietus-10-judgment-of-haqim",
+        level: 10,
+        name: "Le Jugement de Haqim",
+        bloodCost: 10,
+        duration: "permanent",
+        description: "Tu prononces le nom d'un vampire et tu fixes l'heure de sa mort. Où qu'il se cache, quelles que soient ses gardes et ses protections, à l'heure dite son sang se change en cendre dans ses veines et il tombe en poussière. Tu n'as besoin ni de le toucher, ni de le voir, ni même de savoir où il se trouve : son nom suffit. Les Assamites disent que Haqim lui-même jugeait ainsi les Caïnites coupables. Une telle sentence ne se prononce pas à la légère : chaque vampire qui l'apprend saura que tu es le bourreau."
       }
     ]
   },
@@ -1226,53 +1425,84 @@ export const DISCIPLINES = {
     description: "Le serpent du jardin coule dans tes veines. Tentation, transformation, et l'impossible don d'échapper à la mort du pieu.",
     powers: [
       {
+        id: "serpentis-1-eyes-of-the-serpent",
         level: 1,
         name: "Regard Hypnotique",
-        bloodCost: 1,
-        duration: "scene",
-        description: "Fixe quelqu'un dans les yeux. Tes pupilles deviennent verticales, reptiliennes, captivantes. La victime est paralysée, incapable de détourner le regard, son esprit pris dans un piège hypnotique. Elle reste debout, consciente mais totalement sans défense, fascinée par le prédateur qu'elle voit en toi. Tu peux bouger autour d'elle, lui parler, même la toucher sans briser le charme. Le contact visuel rompu, elle cligne des yeux, désorientée. Parfait pour neutraliser un adversaire sans violence, ou pour t'approcher d'une proie sans alarme."
-      },
-      {
-        level: 2,
-        name: "Langue du Serpent",
         bloodCost: 0,
         duration: "scene",
-        description: "Ta langue s'allonge hors de ta bouche, devenant un appendice fourchu de près d'un mètre, couvert d'écailles et étonnamment fort. Utilise-la comme un bras supplémentaire : saisis des objets hors de portée, fouette-la comme un fouet pour frapper ou désarmer, ou goûte l'air pour suivre une piste comme un serpent. Tu peux aussi l'utiliser pendant le baiser, ta langue serpentine glissant dans la plaie pour aspirer le sang plus efficacement. C'est perturbant, alien, et terriblement pratique. La langue se rétracte instantanément quand tu le désires."
+        description: "Tes yeux deviennent dorés, aux pupilles verticales, et celui qui croise ton regard ne peut plus s'en détacher. Un mortel reste figé sur place, conscient mais sans défense, tant que tu le fixes. Tu peux t'approcher, lui parler, le toucher : il ne bougera pas. Les êtres surnaturels résistent bien mieux, et peuvent s'arracher au charme si on les attaque. Dès que le contact visuel est rompu, la victime cligne des yeux, désorientée, sans comprendre ce qui vient de se passer."
       },
       {
+        id: "serpentis-2-tongue-of-the-asp",
+        level: 2,
+        name: "Langue de l'Aspic",
+        bloodCost: 0,
+        duration: "scene",
+        description: "Ta langue s'allonge hors de ta bouche, fine, fourchue, longue comme un avant-bras. C'est une arme : elle frappe vite et laisse des blessures qui ne guérissent qu'avec peine, même chez un vampire. Une fois plantée dans la chair, elle peut boire le sang comme le feraient tes crocs. Elle goûte aussi l'air et sent les vibrations dans le noir, ce qui t'aide à chasser sans lumière. Le spectacle est profondément inhumain, et aucun mortel ne l'oublie."
+      },
+      {
+        id: "serpentis-3-skin-of-the-adder",
         level: 3,
         name: "Peau de Vipère",
-        bloodCost: 0,
-        duration: "scene",
-        description: "Ta peau se transforme, développant des écailles dures et brillantes comme celles d'un python. Ces écailles forment une armure naturelle qui dévie les lames, ralentit les balles, absorbe les coups. Ta peau devient difficile à percer, résistante aux coupures. Les écailles peuvent être de n'importe quelle couleur : vert sombre, noir brillant, même des motifs complexes. Tu peux choisir de ne transformer qu'une partie de ton corps ou de te couvrir entièrement. Sous cette forme, tu ressembles à un hybride homme-reptile, beau et terrible à la fois."
-      },
-      {
-        level: 4,
-        name: "Forme du Cobra",
         bloodCost: 3,
         duration: "scene",
-        description: "Ton corps se liquéfie et se reforme en un serpent massif de 3 à 4 mètres de long : un cobra royal, un python, ou une vipère géante. Tu gardes ton intelligence et ta conscience, mais gains les sens du serpent : vision thermique, détection des vibrations, et bien sûr des crocs venimeux. Glisse-toi dans des espaces impossibles, grimpe les murs avec aisance, ou frappe avec une vitesse surhumaine. Ton venin est mortel pour les mortels, paralysant pour les vampires. Tu peux aussi mordre pour te nourrir sous cette forme, ton morsure serpentine étant plus discrète qu'une morsure humaine."
+        description: "Ta peau se couvre d'écailles marbrées et ton corps devient souple comme celui d'un serpent. Les coups glissent sur toi, les crocs et les griffes ont du mal à t'entamer, et ta propre morsure s'élargit. Tu peux te faufiler par une ouverture à peine plus large que ta tête : un soupirail, une canalisation, une fenêtre entrouverte. Mais toute beauté te quitte : sous cette forme, tu es une créature écailleuse que nul ne trouve séduisante."
       },
       {
+        id: "serpentis-4-form-of-the-cobra",
+        level: 4,
+        name: "Forme du Cobra",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Ton corps se tord et se reforme en un cobra noir gigantesque, aussi lourd qu'un homme et long de plusieurs mètres. Tu gardes ton esprit, et tu gagnes les sens du serpent : tu sens la chaleur des corps, les vibrations du sol, l'odeur de la peur. Ta morsure porte un venin qui tue les mortels. Tu peux te glisser dans des espaces impossibles et conserver cette forme jusqu'à l'aube. La plupart de tes pouvoirs restent à ta portée, sauf ceux qui exigent des mains."
+      },
+      {
+        id: "serpentis-5-heart-of-darkness",
         level: 5,
         name: "Cœur des Ténèbres",
         bloodCost: 9,
         duration: "permanent",
-        description: "Le rituel le plus étrange du Serpentis. Plonge ta main dans ta propre poitrine et arrache ton cœur. Il bat toujours dans ta paume, noir et luisant. Tu peux le cacher n'importe où : enterré, dans un coffre, au fond d'un lac. Tant que ton cœur est séparé de ton corps, tu es immunisé au pieu dans la poitrine - il n'y a rien à embrocher. Tu deviens extrêmement difficile à détruire définitivement. Mais attention : si quelqu'un trouve ton cœur caché et le détruit, tu meurs instantanément, où que tu sois. Ce pouvoir est la liberté ultime, ou la vulnérabilité ultime, selon qui détient ton cœur."
+        description: "Lors d'une nuit de nouvelle lune, tu plonges la main dans ta poitrine et tu en retires ton cœur, noir et luisant. Tu le scelles dans une urne et tu le caches où bon te semble. Tant qu'il est loin de toi, aucun pieu ne peut te paralyser, et ta Bête te tient moins fermement. Mais ton cœur devient ta plus grande faiblesse : celui qui le trouve et y enfonce un pieu te plonge en torpeur, et celui qui le brûle ou l'expose au soleil te détruit, où que tu sois."
       },
       {
+        id: "serpentis-6-cobra-fangs",
         level: 6,
-        name: "Obsession",
-        bloodCost: 9,
-        duration: "prolonged",
-        description: "Tu deviens l'unique objet de désir et de pensée de ta victime. Elle ne peut plus manger, dormir ou penser à autre chose qu'à toi. Cette obsession divine la consume, la poussant à tout sacrifier pour un regard de ta part. C'est une dévotion qui mène à la folie et à la mort."
+        name: "Crocs du Cobra",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tes crocs s'allongent et se chargent de venin sans que tu aies besoin de changer de forme. Une morsure suffit : un mortel meurt en moins d'une minute, dans une agonie atroce. Un vampire n'en meurt pas, mais le poison le ronge et lui laisse des blessures qui ne guérissent qu'avec peine, à moins d'un corps exceptionnellement robuste. Un baiser de toi devient une condamnation."
       },
       {
+        id: "serpentis-7-divine-image",
         level: 7,
-        name: "Forme de l'Orage",
+        name: "Image Divine",
         bloodCost: 9,
         duration: "scene",
-        description: "Ton corps se dissout non pas en brume, mais en nuage d'orage sombre et crépitant. Tu deviens une tempête localisée, capable de lancer des éclairs, de générer des vents violents et de te mouvoir à la vitesse de la foudre. Tu es intouchable et dévastateur."
+        description: "Pour une scène, tu prends l'apparence d'un dieu de l'ancienne Égypte : tête de serpent, de chacal ou de faucon, corps sculpté dans le bronze. Ta force et ta résistance dépassent tout ce que ton sang devrait permettre, ta volonté se durcit, et ta seule présence impose le respect. Tu cesses pourtant d'être séduisant au sens humain : tu es un dieu, pas un amant. Les Disciples de Set racontent que c'est ainsi que leur fondateur marchait parmi les hommes."
+      },
+      {
+        id: "serpentis-8-heart-thief",
+        level: 8,
+        name: "Voleur de Cœur",
+        bloodCost: 3,
+        duration: "instant",
+        description: "D'un seul geste, plus rapide que la pensée, tu plonges la main dans la poitrine d'un vampire et tu en arraches le cœur. La blessure est terrible, mais ta victime survit, privée de son cœur exactement comme si elle avait accompli le Cœur des Ténèbres. Tu tiens désormais sa vie entre tes mains : un pieu dans ce cœur la paralyse, le feu la détruit. Le geste exige une précision parfaite et ne pardonne aucune hésitation."
+      },
+      {
+        id: "serpentis-9-shadow-of-apep",
+        level: 9,
+        name: "Ombre d'Apep",
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu deviens un serpent immense fait d'anti-lumière, une ombre vivante à l'image d'Apep, le grand dévoreur. Les armes ordinaires te traversent : seuls le feu, le soleil et la magie peuvent t'atteindre. Ta force, ta vitesse et ta résistance dépassent celles de ton sang, et ta morsure est terrible. Ce pouvoir est réservé aux plus proches du sang de Set : les autres Disciples n'en connaissent que la légende."
+      },
+      {
+        id: "serpentis-10-avatar-of-set",
+        level: 10,
+        name: "Avatar de Set",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu ouvres ton corps à Set lui-même. Pour une scène, tu deviens l'avatar du dieu des ténèbres : ta seule présence fait chanceler la foi des prêtres, corrompt les cœurs les plus purs et plonge les mortels dans une adoration terrifiée. Tes paroles deviennent des tentations auxquelles personne ne résiste, et les ombres s'inclinent sur ton passage. Les Disciples qui te voient reconnaissent leur dieu. Les autres Caïnites comprennent pourquoi les Setites n'ont jamais renoncé à le réveiller."
       }
     ]
   },
