@@ -3,7 +3,7 @@ Panneau interactif pour les Vampires.
 Affiche un embed avec des boutons pour gérer la Soif.
 """
 
-import re
+from typing import Optional
 
 import discord
 from discord import ui
@@ -11,7 +11,20 @@ from discord import ui
 from data.blood_potency import BLOOD_POTENCY_INFO, STANDARD_VITAE_COSTS
 from data.clans import get_clan, get_compulsion, CLANS
 from data.disciplines import get_usable_powers
+from data.frenzy import DRAWING_OUT_THE_BEAST, leaves_beast_mark
+from modules.vampire.views.frenzy import (
+    CalmView,
+    TriggerView,
+    awaken_embed,
+    beast_mark_input,
+    calm_beast,
+    calm_embed,
+    frenzy_panel_field,
+    handle_empty_reserve,
+    parse_scene_link,
+)
 from utils.database import (
+    clear_frenzy_data,
     get_player,
     set_player,
     modify_vitae,
@@ -25,7 +38,7 @@ from utils.database import (
     spend_vitae_for_power,
 )
 
-SCENE_LINK = re.compile(r"https://(?:canary\.|ptb\.)?discord\.com/channels/(\d+)/\d+(?:/\d+)?")
+BEAST_MARKS_SHOWN = 5
 
 class ClanSelectMenu(ui.Select):
     """Menu déroulant pour sélectionner un clan."""
@@ -67,6 +80,7 @@ class ClanSelectMenu(ui.Select):
 
             # Réinitialiser toutes les données vampire (mort/nouveau personnage)
             await reset_vampire_data(interaction.user.id, interaction.guild.id)
+            await clear_frenzy_data(interaction.user.id, interaction.guild.id)
 
         # Sauvegarder le nouveau clan
         await set_player(
@@ -162,15 +176,10 @@ class VitaeSpendModal(ui.Modal, title="Dépenser de la Vitae"):
             return
         
         self.panel_view.soif_level = new_vitae
-        
-        # Vérifier la frénésie (si on est tombé à 0)
-        old_state_level = self.panel_view._get_soif_state_level(self.panel_view.soif_level + value) # Etat avant dépense
-        new_state_level = self.panel_view._get_soif_state_level()
-
-        # Si on atteint le stade critique (0 vitae), on annonce potentiellement la frénésie
-        # Dans le nouveau système inversé : 0% de vitae = Danger Max
-        if new_state_level == 5 and old_state_level < 5:
-            await self.panel_view._announce_frenzy(interaction)
+        self.panel_view.note = f"🩸 {value} Vitae versés."
+        # À sec en pleine scène : la Faim l'emporte aussitôt.
+        if new_vitae == 0:
+            self.panel_view.note = await handle_empty_reserve(interaction, self.panel_view) or self.panel_view.note
 
         # Mettre à jour le panneau
         await interaction.response.edit_message(
@@ -192,10 +201,15 @@ class HuntSceneModal(ui.Modal, title="Scène de chasse"):
     def __init__(self, panel_view: "VampirePanel"):
         super().__init__()
         self.panel_view = panel_view
+        # Une frénésie de Faim s'achève avec ce repas ; chez les Gangrel, elle laisse sa marque.
+        self.ends_hunger = bool(panel_view.frenzy) and panel_view.frenzy["frenzy_type"] == "faim"
+        self.mark = None
+        if self.ends_hunger and leaves_beast_mark(panel_view.clan):
+            self.mark = beast_mark_input()
+            self.add_item(self.mark)
 
     async def on_submit(self, interaction: discord.Interaction):
-        match = SCENE_LINK.fullmatch(self.scene_link.value.strip())
-        if not match or int(match.group(1)) != interaction.guild.id:
+        if parse_scene_link(self.scene_link.value, interaction.guild.id) is None:
             await interaction.response.send_message(
                 "Indique un lien de scène Discord de ce serveur.", ephemeral=True
             )
@@ -207,8 +221,12 @@ class HuntSceneModal(ui.Modal, title="Scène de chasse"):
             return
         self.panel_view.soif_level = result["vitae"]
         prey = "Sang de vampire bu" if requires_scene_feeding(self.panel_view.blood_potency) else "Scène de chasse jouée"
-        self.panel_view.note = f"🍷 {prey} : réserve pleine ({result['vitae']}/{result['max_vitae']})."
-        await interaction.response.edit_message(embed=self.panel_view.create_embed(), view=self.panel_view)
+        note = f"🍷 {prey} : réserve pleine ({result['vitae']}/{result['max_vitae']})."
+        if self.ends_hunger:
+            calmed = await calm_beast(interaction, self.panel_view, "rassasie", self.mark.value if self.mark else None)
+            note = f"{note} {calmed or ''}".strip()
+        fresh = self.panel_view.clone(note)
+        await interaction.response.edit_message(embed=fresh.create_embed(), view=fresh)
 
 
 class PowerSelect(ui.Select):
@@ -253,8 +271,13 @@ class PowerSelect(ui.Select):
             return
         self.panel_view.soif_level = new_vitae
         self.panel_view.note = (f"🩸 {label} : {cost} Vitae versés." if cost else f"✨ {label} : pouvoir passif, rien à verser.")
-        if self.panel_view._get_soif_state_level() == 5 and self.panel_view._get_soif_state_level(before) < 5:
-            await self.panel_view._announce_frenzy(interaction)
+        # Libérer la Bête : la frénésie passe sur une autre victime.
+        if choice == DRAWING_OUT_THE_BEAST and self.panel_view.frenzy:
+            calmed = await calm_beast(interaction, self.panel_view, "transferee")
+            self.panel_view.note = f"{self.panel_view.note} {calmed or ''}".strip()
+        # À sec en pleine scène : la Faim l'emporte aussitôt.
+        if new_vitae == 0 and before > 0:
+            self.panel_view.note = await handle_empty_reserve(interaction, self.panel_view) or self.panel_view.note
         await interaction.response.edit_message(embed=self.panel_view.create_embed(), view=self.panel_view)
 
 
@@ -271,6 +294,8 @@ class VampirePanel(ui.View):
         blood_potency: int = 1,
         saturation_points: int = 0,
         upkeep_lost: int = 0,
+        frenzy: Optional[dict] = None,
+        beast_marks: Optional[list] = None,
     ):
         super().__init__(timeout=300)
         self.user_id = user_id
@@ -280,11 +305,24 @@ class VampirePanel(ui.View):
         self.soif_level = soif_level # Note: soif_level stocke maintenant la Vitae (de 0 à Max)
         self.blood_potency = blood_potency
         self.saturation_points = saturation_points
+        # Frénésie en cours (rattachée à sa scène) et marques laissées par la Bête (Gangrel).
+        self.frenzy = frenzy
+        self.beast_marks = list(beast_marks or [])
         # Dernière opération affichée sous la jauge (dépense, chasse, entretien).
         self.note = (f"🌙 Les nuits ont passé : −{upkeep_lost} Vitae d'entretien." if upkeep_lost else None)
         self.add_item(PowerSelect(self))
         # Initialiser l'état des boutons (s'il y a besoin de disabling logic)
         self._update_buttons()
+
+    def clone(self, note: Optional[str] = None) -> "VampirePanel":
+        """Panneau neuf au même état, pour revenir des écrans de la Frénésie (l'ancien peut avoir expiré)."""
+        fresh = VampirePanel(
+            self.user_id, self.guild_id, self.channel_id, self.clan, self.soif_level,
+            self.blood_potency, self.saturation_points, frenzy=self.frenzy, beast_marks=self.beast_marks,
+        )
+        fresh.note = note if note is not None else self.note
+        self.stop()
+        return fresh
 
     def _create_soif_bar(self) -> str:
         """Crée une barre visuelle de Vitae (Jauge inversée).
@@ -363,7 +401,7 @@ class VampirePanel(ui.View):
             2: "La Soif grandit. Tes sens s'aiguisent.",
             3: "Le sang t'appelle. La Bête gratte à la porte.",
             4: "Tu es affamé. La perte de contrôle est proche.",
-            5: "**FRÉNÉSIE IMMINENTE** — Ton corps est vide !",
+            5: "**À SEC** — Ton corps est vide, la Faim n'attend qu'une occasion.",
         }
         return states.get(state_level, "État inconnu")
 
@@ -388,7 +426,8 @@ class VampirePanel(ui.View):
 
         embed = discord.Embed(
             title=f"🧛 Panneau Vampire — {clan_name}",
-            color=colors.get(state_level, discord.Color.dark_red()),
+            color=(discord.Color.dark_purple() if self.frenzy
+                   else colors.get(state_level, discord.Color.dark_red())),
         )
 
         # Puissance du Sang
@@ -434,10 +473,19 @@ class VampirePanel(ui.View):
         if self.note:
             embed.set_footer(text=self.note)
 
-        # Compulsion actuelle (si état > 0)
-        # Note : Les compulsions sont basées sur le "State Level" (0-5), qui a été adapté.
-        # Donc la logique reste valide : plus le state_level est haut, plus on a de problèmes.
-        if state_level > 0:
+        # La frénésie prime sur la compulsion ; à sec, la Faim attend la scène où elle éclatera.
+        # Le niveau 5 des compulsions n'est que la manière du clan, montrée avec la frénésie.
+        if self.frenzy:
+            name, value = frenzy_panel_field(self.clan, self.frenzy)
+            embed.add_field(name=name, value=value, inline=False)
+        elif state_level == 5:
+            embed.add_field(
+                name="🩸 À sec",
+                value=("La Faim prendra le contrôle dans la scène où ton personnage se trouve à sec. "
+                       "Déclare-la avec « La Bête s'éveille »."),
+                inline=False,
+            )
+        elif state_level > 0:
             compulsion = get_compulsion(self.clan, state_level)
             if compulsion:
                 embed.add_field(
@@ -451,41 +499,27 @@ class VampirePanel(ui.View):
                     inline=False,
                 )
 
+        if self.beast_marks and leaves_beast_mark(self.clan):
+            shown = self.beast_marks[-BEAST_MARKS_SHOWN:]
+            hidden = len(self.beast_marks) - len(shown)
+            value = "\n".join(f"• {mark}" for mark in shown)
+            if hidden:
+                value = f"*…et {hidden} plus ancienne(s).*\n{value}"
+            embed.add_field(name="🐾 Marques de la Bête", value=value[:1024], inline=False)
+
         return embed
-
-    async def _announce_frenzy(self, interaction: discord.Interaction):
-        """Annonce publiquement l'état de Frénésie."""
-        clan_data = get_clan(self.clan)
-        clan_name = clan_data["nom"] if clan_data else "Vampire"
-
-        compulsion = get_compulsion(self.clan, 5)
-        frenzy_name = compulsion["nom"] if compulsion else "FRÉNÉSIE"
-
-        embed = discord.Embed(
-            title=f"🩸 LA BÊTE SE DÉCHAÎNE 🩸",
-            description=(
-                f"**{interaction.user.display_name}** a perdu le contrôle.\n\n"
-                f"Le sang du clan **{clan_name}** a pris le dessus. "
-                f"La créature devant vous n'est plus qu'instinct et faim.\n\n"
-                f"**{frenzy_name}**"
-            ),
-            color=discord.Color.dark_purple(),
-        )
-        embed.set_thumbnail(url=interaction.user.display_avatar.url)
-        embed.set_footer(text="Que Dieu ait pitié de vos âmes...")
-
-        # Envoyer dans le salon actuel
-        try:
-            channel = interaction.guild.get_channel(self.channel_id)
-            if channel:
-                await channel.send(embed=embed)
-        except discord.Forbidden:
-            pass
 
     def _update_buttons(self):
         """Met à jour l'état des boutons."""
         # Au rang où seul le sang de vampire rassasie, la chasse en off n'existe plus.
         self.quick_feed_button.disabled = requires_scene_feeding(self.blood_potency)
+        # Un seul bouton pour la Bête : la déclarer, ou la congédier quand elle tient les rênes.
+        if self.frenzy:
+            self.beast_button.label, self.beast_button.emoji = "La Bête se retire", "🌒"
+            self.beast_button.style = discord.ButtonStyle.success
+        else:
+            self.beast_button.label, self.beast_button.emoji = "La Bête s'éveille", "🐺"
+            self.beast_button.style = discord.ButtonStyle.secondary
 
     @ui.button(label="Soif", style=discord.ButtonStyle.danger, emoji="🩸", row=1)
     async def spend_button(
@@ -527,3 +561,16 @@ class VampirePanel(ui.View):
             )
             return
         await interaction.response.send_modal(HuntSceneModal(self))
+
+    @ui.button(label="La Bête s'éveille", style=discord.ButtonStyle.secondary, emoji="🐺", row=2)
+    async def beast_button(self, interaction: discord.Interaction, button: ui.Button):
+        """Déclarer ce qui réveille la Bête (ravaler ou céder), ou la congédier pendant une frénésie."""
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message(
+                "Ce panneau ne t'appartient pas.", ephemeral=True
+            )
+            return
+        if self.frenzy:
+            await interaction.response.edit_message(embed=calm_embed(self), view=CalmView(self))
+        else:
+            await interaction.response.edit_message(embed=awaken_embed(), view=TriggerView(self))

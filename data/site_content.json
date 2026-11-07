@@ -1424,7 +1424,7 @@
   "vampire.text.00160": {
     "scope": "vampire",
     "source": "data/clanDescriptions.js",
-    "default": "Les Assamites (surtout la caste Guerrière) souffrent d'une addiction surnaturelle à la vitae des autres vampires. Une fois qu'ils ont goûté au sang d'un autre Caïnite, ils doivent réussir un jet de Volonté pour ne pas tomber dans une frénésie de soif et le drainer jusqu'à la dernière goutte. Cette malédiction les pousse vers la diablerie, teintant leur aura de marques noires visibles par l'Auspex.",
+    "default": "Les Assamites (surtout la caste Guerrière) souffrent d'une addiction surnaturelle à la vitae des autres vampires. Goûter le sang d'un autre Caïnite réveille aussitôt leur Faim : s'ils ne la ravalent pas, ils le drainent jusqu'à la dernière goutte. Cette malédiction les pousse vers la diablerie, teintant leur aura de marques noires visibles par l'Auspex.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -25435,10 +25435,118 @@
   "vampire.text.03024": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "Alimentation en scène obligatoire. La Bête prend le contrôle : vous viderez votre victime de son sang jusqu'à la mort. À zéro, votre frénésie est annoncée publiquement. Convenez des conséquences avant la scène ; une limite personnelle autorise toujours une ellipse, et cette règle ne permet jamais de tuer un PJ sans accord.",
+    "default": "Alimentation en scène obligatoire. Le moindre sang versé réveille votre Faim, et à zéro la Bête prend le contrôle : vous viderez votre victime de son sang jusqu'à la mort.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03025": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "VII. La Bête et la Frénésie",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03026": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "En chaque vampire sommeille la Bête. La faim, la colère ou la peur peuvent la réveiller en scène : vous devez alors la ravaler ou lui céder, depuis le bouton « La Bête s'éveille » du panneau.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03027": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La Faim",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03028": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Votre réserve tombe à zéro, ou du sang coule sous vos yeux alors que vous êtes Affamé. Elle s'apaise quand vous êtes rassasié.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03029": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La Rage",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03030": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Une blessure grave, une humiliation publique, une menace contre ce que vous protégez. Elle s'apaise quand sa cause est détruite, en fuite ou hors d'atteinte.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03031": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La Terreur",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03032": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le feu qui vous brûle ou s'approche, le soleil. Elle s'apaise quand vous êtes à l'abri.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03033": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Ravaler ou céder",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03034": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Ravaler la Bête coûte autant de Vitae que votre rang (le double pour un Brujah face à la Rage) ; face à un pouvoir, son prix de résistance habituel. Votre dernière goutte ne la retient pas, et à zéro, la Faim l'emporte d'office. Céder ne coûte rien : la Bête joue votre personnage, selon la directive du panneau, jusqu'à ce que sa cause disparaisse ou qu'on vous apaise ou vous maîtrise. Congédiez-la alors avec « La Bête se retire ».",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03035": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Une même cause ne réveille la Bête qu'une fois par scène ; une contrariété, une bougie ou une goutte de sang ne suffisent pas.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.03036": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "VII. La Bête & la Frénésie",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
     "variables": []
   }
 }

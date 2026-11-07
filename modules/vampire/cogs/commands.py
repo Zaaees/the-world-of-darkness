@@ -14,7 +14,7 @@ from discord.ext import commands
 
 from data.clans import get_clan, list_clans
 from data.config import ROLE_VAMPIRE
-from utils.database import get_player, get_soif, get_vampire_data
+from utils.database import get_beast_marks, get_frenzy, get_player, get_soif, get_vampire_data
 from utils.rp_check import is_rp_channel
 
 # Import from the specific module view
@@ -147,6 +147,8 @@ class VampireCog(commands.Cog, name="Vampire"):
             soif_level=soif_level,
             blood_potency=blood_potency,
             saturation_points=saturation_points,
+            frenzy=await get_frenzy(interaction.user.id, interaction.guild.id),
+            beast_marks=await get_beast_marks(interaction.user.id, interaction.guild.id),
         )
 
         await interaction.followup.send(

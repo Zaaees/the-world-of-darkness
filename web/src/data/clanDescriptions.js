@@ -170,7 +170,7 @@ export const CLAN_DESCRIPTIONS = {
     quote: "« Ton sang appartient à Haqim. Je ne fais que le récolter. »",
     specificities: "• Disciplines : Célérité, Obfuscate, Quietus\n• Addiction au sang vampirique\n• Peau qui noircit avec l'âge et la diablerie",
     bane: "La Soif de Sang",
-    baneDescription: "Les Assamites (surtout la caste Guerrière) souffrent d'une addiction surnaturelle à la vitae des autres vampires. Une fois qu'ils ont goûté au sang d'un autre Caïnite, ils doivent réussir un jet de Volonté pour ne pas tomber dans une frénésie de soif et le drainer jusqu'à la dernière goutte. Cette malédiction les pousse vers la diablerie, teintant leur aura de marques noires visibles par l'Auspex.",
+    baneDescription: "Les Assamites (surtout la caste Guerrière) souffrent d'une addiction surnaturelle à la vitae des autres vampires. Goûter le sang d'un autre Caïnite réveille aussitôt leur Faim : s'ils ne la ravalent pas, ils le drainent jusqu'à la dernière goutte. Cette malédiction les pousse vers la diablerie, teintant leur aura de marques noires visibles par l'Auspex.",
     transformationDescription: "La justice devient une obsession meurtrière. Le jugement devient un réflexe. Tu perçois chaque transgression comme un crime, chaque faiblesse comme une trahison. La clémence devient une trahison, la pitié une faiblesse. Tu vois le monde à travers le prisme de la loi, chaque interaction comme un jugement à porter. L'équilibre devient une obsession, chaque désordre une offense personnelle. Tu deviens incapable de tolérer l'injustice, chaque déviation devenant une sentence à exécuter.",
     roleplay: "Le sang est la monnaie de l'âme. La loyauté au clan est absolue. Tu es l'épée dans les ténèbres."
   },
