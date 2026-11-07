@@ -125,7 +125,7 @@ export default function BloodBondsAdmin({ discordUser, guildId }) {
                                         : <SiteText contentKey="vampire.bonds.admin.player" />}
                                 </span>
                                 <span className="ml-2 text-xs text-stone-500">
-                                    {siteText('vampire.bonds.admin.rank', { v0: bond.regnant_potency })}
+                                    {siteText('vampire.bonds.admin.rank', { v0: bond.defy_cost })}
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">

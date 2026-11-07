@@ -217,9 +217,14 @@ async def _refuse(interaction: discord.Interaction):
     await interaction.response.send_message("Ce panneau ne t'appartient pas.", ephemeral=True)
 
 
-async def back_to_panel(interaction: discord.Interaction, panel, note: Optional[str] = None):
+async def back_to_panel(interaction: discord.Interaction, panel, note: Optional[str] = None,
+                        deferred: bool = False):
+    """Revient sur un panneau neuf ; `deferred` si l'interaction a déjà été différée."""
     fresh = panel.clone(note)
-    await interaction.response.edit_message(embed=fresh.create_embed(), view=fresh)
+    if deferred:
+        await interaction.edit_original_response(embed=fresh.create_embed(), view=fresh)
+    else:
+        await interaction.response.edit_message(embed=fresh.create_embed(), view=fresh)
 
 
 class BackButton(ui.Button):

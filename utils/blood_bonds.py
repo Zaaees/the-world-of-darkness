@@ -138,7 +138,7 @@ async def list_guild_bonds(guild_id: int) -> list[dict]:
 
 
 async def list_guild_vampires(guild_id: int) -> list[dict]:
-    """Vampires du serveur (race vampire et clan), nommés d'après leur fiche."""
+    """Vampires du serveur (race vampire et clan) ; `name` vide si la fiche n'a pas de nom."""
     async with aiosqlite.connect(database.DATABASE_PATH) as db:
         cursor = await db.execute(
             """SELECT p.user_id, c.name FROM players p
@@ -146,8 +146,7 @@ async def list_guild_vampires(guild_id: int) -> list[dict]:
                WHERE p.guild_id = ? AND p.race = 'vampire' AND p.clan IS NOT NULL AND p.clan != ''""",
             (guild_id,))
         rows = await cursor.fetchall()
-    vampires = [{"id": uid, "name": (name or "").strip() or "Vampire inconnu"} for uid, name in rows]
-    return sorted(vampires, key=lambda v: v["name"].casefold())
+    return [{"id": uid, "name": (name or "").strip()} for uid, name in rows]
 
 
 def _check_stage(stage: int) -> None:

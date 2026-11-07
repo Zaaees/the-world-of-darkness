@@ -136,7 +136,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
 
             <div className="max-w-4xl mx-auto">
                 {/* Navigation */}
-                <div className="flex gap-4 border-b border-stone-800 mb-6">
+                <div className="flex flex-wrap gap-x-4 border-b border-stone-800 mb-6">
                     <button
                         onClick={() => setActiveTab('list')}
                         className={`pb-3 px-4 text-sm font-serif uppercase tracking-widest transition-colors ${activeTab === 'list'

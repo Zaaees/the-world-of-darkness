@@ -172,6 +172,19 @@ async def player_bonds_handler(request):
     return web.json_response({'success': True, **{key: [serialize_bond(b) for b in value] for key, value in bonds.items()}})
 
 
+async def _named_vampires(request, guild_id: int) -> list[dict]:
+    """Vampires du serveur : nom de la fiche, sinon pseudo Discord, sinon « Vampire inconnu »."""
+    guild = getattr(request.get('verified_member'), 'guild', None)
+    named = []
+    for v in await blood_bonds.list_guild_vampires(guild_id):
+        name = v['name']
+        if not name:
+            member = guild.get_member(v['id']) if guild else None
+            name = (getattr(member, 'display_name', '') or '').strip() or 'Vampire inconnu'
+        named.append({'id': v['id'], 'name': name})
+    return sorted(named, key=lambda v: v['name'].casefold())
+
+
 async def gm_bonds_list_handler(request):
     if not is_vampire_gm(request):
         return _error('Réservé aux MJ.', 403)
@@ -179,7 +192,7 @@ async def gm_bonds_list_handler(request):
     return web.json_response({
         'success': True,
         'bonds': [serialize_bond(b) for b in await blood_bonds.list_guild_bonds(guild_id)],
-        'vampires': [{'id': str(v['id']), 'name': v['name']} for v in await blood_bonds.list_guild_vampires(guild_id)],
+        'vampires': [{'id': str(v['id']), 'name': v['name']} for v in await _named_vampires(request, guild_id)],
         'npcs': [{'id': n['id'], 'name': n['name'], 'blood_potency': n['blood_potency']} for n in await get_npcs(guild_id)],
     })
 
@@ -192,7 +205,7 @@ async def gm_bonds_create_handler(request):
         payload = await request.json()
         if not isinstance(payload, dict):
             raise ValueError('Requête invalide.')
-        vampires = {str(v['id']): v['name'] for v in await blood_bonds.list_guild_vampires(guild_id)}
+        vampires = {str(v['id']): v['name'] for v in await _named_vampires(request, guild_id)}
         thrall_key = str(payload.get('thrallId'))
         if thrall_key not in vampires:
             raise ValueError("Ce membre n'a pas de personnage vampire.")

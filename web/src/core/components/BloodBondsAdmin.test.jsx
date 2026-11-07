@@ -30,7 +30,7 @@ afterEach(() => vi.restoreAllMocks());
 
 describe('Liens de sang (CAIN)', () => {
   it('liste les liens du serveur', async () => {
-    serve({get: listing([bond(), bond({id: 2, regnant_kind: 'player', regnant_name: 'Victor', stage: 3})])});
+    serve({get: listing([bond(), bond({id: 2, regnant_kind: 'player', regnant_name: 'Victor', regnant_potency: null, stage: 3, defy_cost: 2})])});
     render(<BloodBondsAdmin discordUser={user} guildId="99"/>);
     expect(await screen.findByText('Prince Marcus')).toBeInTheDocument();
     expect(screen.getByText('Victor')).toBeInTheDocument();
@@ -38,6 +38,8 @@ describe('Liens de sang (CAIN)', () => {
     expect(screen.getByText('PNJ')).toBeInTheDocument();
     expect(screen.getByText('Joueur')).toBeInTheDocument();
     expect(screen.getAllByText('Rang 4').length).toBeGreaterThan(0);
+    expect(screen.getByText('Rang 2')).toBeInTheDocument();
+    expect(screen.queryByText(/null/)).toBeNull();
     const [url, options] = apiFetch.mock.calls[0];
     expect(url).toMatch(/\/api\/gm\/bonds$/);
     expect(options.headers).toEqual({'X-Discord-User-ID': '1', 'X-Discord-Guild-ID': '99'});

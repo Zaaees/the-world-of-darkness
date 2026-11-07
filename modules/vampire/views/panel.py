@@ -12,7 +12,7 @@ from data.blood_potency import BLOOD_POTENCY_INFO, STANDARD_VITAE_COSTS
 from data.clans import get_clan, get_compulsion, CLANS
 from data.disciplines import get_usable_powers
 from data.frenzy import DRAWING_OUT_THE_BEAST, leaves_beast_mark
-from modules.vampire.views.bonds import DEFY_OPTION, OfferBloodView, bond_fields, defy_option, offer_embed
+from modules.vampire.views.bonds import DEFY_OPTION, OfferBloodView, bond_fields, defy_option, defy_option_bond, offer_embed
 from modules.vampire.views.frenzy import (
     CalmView,
     TriggerView,
@@ -278,7 +278,13 @@ class PowerSelect(ui.Select):
                     self.panel_view.blood_potency, choice)
                 new_vitae, label, cost = result["vitae"], result["power"]["name"], result["cost"]
         except ValueError as exc:
-            await interaction.response.send_message(str(exc), ephemeral=True)
+            message = str(exc)
+            if choice == DEFY_OPTION and "insuffisante" in message:
+                full = defy_option_bond(self.panel_view.bonds)
+                if full:
+                    message = (f"Ta réserve ne suffit pas : tu ne peux pas agir contre "
+                               f"{full['regnant_name']} ({full['defy_cost']} Vitae).")
+            await interaction.response.send_message(message, ephemeral=True)
             return
         self.panel_view.soif_level = new_vitae
         if note is None:

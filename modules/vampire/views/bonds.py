@@ -58,6 +58,11 @@ def bond_fields(bonds: Optional[dict]) -> list[tuple[str, str]]:
     return fields
 
 
+def defy_option_bond(bonds: Optional[dict]) -> Optional[dict]:
+    """Le lien complet que « Défier le lien » viserait, s'il y en a un."""
+    return _full_bond(bonds)
+
+
 def defy_option(bonds: Optional[dict]) -> Optional[discord.SelectOption]:
     """Entrée « Défier le lien » du menu des pouvoirs, seulement au stade 3."""
     full = _full_bond(bonds)
@@ -83,16 +88,19 @@ class OfferUserSelect(ui.UserSelect):
         if not target or target.get("race") != "vampire" or not target.get("clan"):
             await interaction.response.send_message(NO_VAMPIRE, ephemeral=True)
             return
+        # Plusieurs requêtes suivent : on diffère pour tenir la fenêtre de 3 s sans payer deux fois.
+        await interaction.response.defer()
         regnant_name = await character_name(guild_id, interaction.user)
         thrall_name = await character_name(guild_id, member)
         try:
             result = await offer_blood(guild_id, interaction.user.id, regnant_name, self.panel.clan,
                                        member.id, thrall_name)
         except ValueError as exc:
-            await interaction.response.send_message(str(exc), ephemeral=True)
+            await interaction.followup.send(str(exc), ephemeral=True)
             return
+        card_stage = 1 if result["first"] and result["stage"] < MAX_STAGE else result["stage"]
         card = discord.Embed(
-            description=CARD_TEXT[result["stage"]].format(thrall=thrall_name, regnant=regnant_name),
+            description=CARD_TEXT[card_stage].format(thrall=thrall_name, regnant=regnant_name),
             color=discord.Color.dark_red(),
         )
         message_id = await post_card(interaction.guild, self.panel.channel_id, card, content=member.mention)
@@ -106,7 +114,7 @@ class OfferUserSelect(ui.UserSelect):
         if result["vitae"] == 0 and before > 0:
             empty = await handle_empty_reserve(interaction, self.panel)
             note = f"{note} {empty}" if empty else note
-        await back_to_panel(interaction, self.panel, note)
+        await back_to_panel(interaction, self.panel, note, deferred=True)
 
 
 class OfferBloodView(ui.View):

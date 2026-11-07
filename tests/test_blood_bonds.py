@@ -190,7 +190,7 @@ def test_guild_vampires_list_names(db):
             await conn.execute("INSERT INTO character_sheets (user_id, guild_id, name) VALUES (1, ?, 'Aurore')", (G,))
             await conn.commit()
         return await bonds.list_guild_vampires(G)
-    assert run(go()) == [{'id': 1, 'name': 'Aurore'}, {'id': 2, 'name': 'Vampire inconnu'}]
+    assert run(go()) == [{'id': 1, 'name': 'Aurore'}, {'id': 2, 'name': ''}]
 
 
 def test_a_full_npc_bond_blocks_a_players_draught(db):
@@ -276,8 +276,9 @@ def discord_interaction(user_id=THRALL):
     channel = SimpleNamespace(id=5, send=AsyncMock(return_value=SimpleNamespace(id=99)))
     guild = SimpleNamespace(id=G, get_channel_or_thread=MagicMock(return_value=channel), fetch_channel=AsyncMock())
     user = SimpleNamespace(id=user_id, display_name='Moi', mention=f'<@{user_id}>')
-    response = SimpleNamespace(edit_message=AsyncMock(), send_message=AsyncMock())
-    return SimpleNamespace(guild=guild, user=user, channel=channel, response=response), channel
+    response = SimpleNamespace(edit_message=AsyncMock(), send_message=AsyncMock(), defer=AsyncMock())
+    return SimpleNamespace(guild=guild, user=user, channel=channel, response=response,
+                           followup=SimpleNamespace(send=AsyncMock()), edit_original_response=AsyncMock()), channel
 
 
 def test_offer_refuses_a_member_without_vampire(db, monkeypatch):
@@ -306,6 +307,89 @@ def test_offer_refuses_a_member_without_vampire(db, monkeypatch):
     assert vitae(REGNANT) == 12
 
 
+def test_first_tremere_draught_card_says_the_bond_is_tied(db, monkeypatch):
+    seed(REGNANT)
+    seed(THRALL)
+    monkeypatch.setattr(bond_views, 'get_player', AsyncMock(return_value={'race': 'vampire', 'clan': 'tremere'}))
+
+    async def go():
+        panel = VampirePanel(REGNANT, G, 5, 'tremere', 12, 3, bonds={'bound_to': [], 'drank_from_me': []})
+        select = bond_views.OfferUserSelect(panel)
+        inter, channel = discord_interaction(REGNANT)
+        target = SimpleNamespace(id=THRALL, bot=False, display_name='Cadet', mention='<@20>')
+        monkeypatch.setattr(type(select), 'values', [target], raising=False)
+        await select.callback(inter)
+        return inter, channel
+    inter, channel = run(go())
+    assert 'Le lien se noue' in channel.send.await_args.kwargs['embed'].description
+    assert 'lien au stade 2' in inter.edit_original_response.await_args.kwargs['embed'].footer.text
+
+
+def test_offer_refusal_after_defer_goes_to_followup(db, monkeypatch):
+    seed(REGNANT, vitae=0)
+    seed(THRALL)
+    monkeypatch.setattr(bond_views, 'get_player', AsyncMock(return_value={'race': 'vampire', 'clan': 'ventrue'}))
+
+    async def go():
+        panel = VampirePanel(REGNANT, G, 5, 'ventrue', 0, 3, bonds={'bound_to': [], 'drank_from_me': []})
+        select = bond_views.OfferUserSelect(panel)
+        inter, _ = discord_interaction(REGNANT)
+        target = SimpleNamespace(id=THRALL, bot=False, display_name='Cadet', mention='<@20>')
+        monkeypatch.setattr(type(select), 'values', [target], raising=False)
+        await select.callback(inter)
+        return inter
+    inter = run(go())
+    assert 'Réserve de Vitae insuffisante' in inter.followup.send.await_args.args[0]
+    assert inter.followup.send.await_args.kwargs['ephemeral'] is True
+    inter.edit_original_response.assert_not_awaited()
+
+
+def test_defy_with_a_poor_reserve_names_the_regnant_and_spends_nothing(db):
+    seed(REGNANT, bp=3, vitae=12)
+    seed(THRALL, bp=2, vitae=12)
+    for _ in range(3):
+        offer()
+    seed(THRALL, bp=2, vitae=2)
+
+    async def go():
+        panel = VampirePanel(THRALL, G, 5, 'ventrue', 2, 2, bonds=await bonds.get_bonds(G, THRALL))
+        select = next(item for item in panel.children if isinstance(item, PowerSelect))
+        inter, _ = discord_interaction(THRALL)
+        select._values = [bond_views.DEFY_OPTION]
+        await select.callback(inter)
+        return inter
+    inter = run(go())
+    assert inter.response.send_message.await_args.args[0] == \
+        'Ta réserve ne suffit pas : tu ne peux pas agir contre R10 (3 Vitae).'
+    assert vitae(THRALL) == 2
+
+
+def test_reset_command_erases_blood_bonds(db):
+    from unittest.mock import patch
+    from cogs.general import GeneralCog
+
+    seed(REGNANT)
+    seed(THRALL)
+    offer()
+    offer(regnant=THRALL, thrall=OTHER)
+    guild = SimpleNamespace(id=G, roles=[], get_role=lambda _: None, get_channel=lambda _: None)
+    ctx = SimpleNamespace(guild=guild, author=SimpleNamespace(id=7), send=AsyncMock())
+    member = SimpleNamespace(id=THRALL, roles=[], display_name='Theo')
+    patches = [patch(f'cogs.general.{name}', AsyncMock()) for name in (
+        'get_player', 'delete_discord_sheet', 'delete_player_rituals', 'delete_player', 'delete_google_sheet_character')]
+    patches += [patch('cogs.general.delete_pending_actions', AsyncMock(return_value=[])),
+                patch('modules.werewolf.models.store.get_werewolf_data', AsyncMock(return_value=None)),
+                patch('modules.werewolf.models.store.delete_werewolf_data', AsyncMock(return_value=False))]
+    for p in patches:
+        p.start()
+    try:
+        run(GeneralCog.reset_command.callback(GeneralCog(SimpleNamespace()), ctx, member))
+    finally:
+        for p in patches:
+            p.stop()
+    assert run(bonds.list_guild_bonds(G)) == []
+
+
 def test_offer_binds_posts_the_card_and_returns_to_the_panel(db, monkeypatch):
     seed(REGNANT)
     seed(THRALL)
@@ -322,7 +406,9 @@ def test_offer_binds_posts_the_card_and_returns_to_the_panel(db, monkeypatch):
     inter, channel = run(go())
     assert channel.send.await_args.kwargs['content'] == '<@20>'
     assert 'noue' in channel.send.await_args.kwargs['embed'].description
-    kwargs = inter.response.edit_message.await_args.kwargs
+    inter.response.defer.assert_awaited_once()
+    inter.response.edit_message.assert_not_awaited()
+    kwargs = inter.edit_original_response.await_args.kwargs
     assert 'lien au stade 1' in kwargs['embed'].footer.text
     assert kwargs['view'].bonds['drank_from_me'][0]['stage'] == 1
     assert vitae(REGNANT) == 11
@@ -372,7 +458,7 @@ def test_offer_that_empties_the_reserve_triggers_the_hunger(db, monkeypatch):
         return inter
     inter = run(go())
     empty.assert_awaited_once()
-    footer = inter.response.edit_message.await_args.kwargs['embed'].footer.text
+    footer = inter.edit_original_response.await_args.kwargs['embed'].footer.text
     assert 'lien au stade 1' in footer and 'À sec : la Faim.' in footer
     assert vitae(REGNANT) == 0
 
@@ -454,6 +540,25 @@ def test_gm_lists_bonds_vampires_and_npcs(db):
     assert body['vampires'] == [{'id': str(BIG_ID), 'name': 'Aurore'}]
     assert body['npcs'][0]['name'] == 'Le Prince' and body['npcs'][0]['blood_potency'] == 4
     assert body['bonds'][0]['thrall_id'] == str(BIG_ID)
+
+
+def test_gm_vampire_names_fall_back_to_discord_name(db):
+    add_vampire(THRALL, 'Aurore')
+    add_vampire(OTHER, '')
+    add_vampire(40, '')
+    members = {OTHER: SimpleNamespace(display_name='Bob')}
+    guild = SimpleNamespace(get_member=lambda uid: members.get(uid))
+
+    def named(handler, **kwargs):
+        request = FakeRequest(**kwargs)
+        request['verified_member'].guild = guild
+        response = run(handler(request))
+        return response.status, _json.loads(response.text)
+    status, body = named(bonds_api.gm_bonds_list_handler)
+    assert [v['name'] for v in body['vampires']] == ['Aurore', 'Bob', 'Vampire inconnu']
+    status, body = named(bonds_api.gm_bonds_create_handler,
+                         body={'thrallId': str(OTHER), 'npcName': 'Un Ancien', 'potency': 3, 'stage': 1})
+    assert status == 201 and body['bond']['thrall_name'] == 'Bob'
 
 
 def test_gm_creates_npc_bond_from_registry_with_its_rank(db):

@@ -23,6 +23,7 @@ from utils.database import (
     delete_player_rituals,
     delete_pending_actions,
 )
+from utils.blood_bonds import clear_blood_bonds
 from utils.sheet_manager import delete_discord_sheet, delete_google_sheet_character
 
 logger = logging.getLogger(__name__)
@@ -118,6 +119,10 @@ class GeneralCog(commands.Cog, name="Général"):
 
         # Vampire Data (implied by delete_player cleaning vampire_soif, but good to be explicit if we had a service)
         # Currently handled by delete_player's table cleanup.
+        try:
+            await clear_blood_bonds(ctx.guild.id, member.id)
+        except Exception as e:
+            logger.error(f"RESET ERROR (Blood bonds): {e}", exc_info=True)
         
         # 3. SUPPRIMER DONNEES GENERIQUES & GOOGLE SHEETS
         try:
