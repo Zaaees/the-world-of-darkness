@@ -1,16 +1,13 @@
 /**
- * Disciplines de Vampire: The Masquerade V20
+ * Disciplines de Vampire: The Masquerade V20, adaptées au jeu narratif (sans jets de dés).
  *
- * Chaque discipline a 5 niveaux de pouvoir.
- * L'accès dépend du clan (disciplines de clan) et du niveau de Puissance du Sang.
+ * Chaque discipline va du niveau 1 au niveau 10 :
+ * - niveaux 1 à 5 : un pouvoir par niveau ;
+ * - niveaux 6 à 9 : tous les pouvoirs d'ancien que V20 place à ce niveau ;
+ *   le personnage qui atteint le niveau les possède tous ;
+ * - niveau 10 : pouvoir mythique (absent de V20, créé pour la chronique).
  *
- * Accès par Puissance du Sang:
- * - BP 1: Niveau 1
- * - BP 2: Niveaux 1-2
- * - BP 3: Niveaux 1-3
- * - BP 4: Niveaux 1-4
- * - BP 5: Niveaux 1-5
- * - BP 6+: Niveaux 1-6+ (Accès Elder)
+ * Le niveau accessible dépend de la Puissance du Sang (PS N = niveaux 1 à N).
  */
 
 export const DISCIPLINES = {
@@ -173,9 +170,10 @@ export const DISCIPLINES = {
   celerity: {
     id: "celerity",
     name: "Célérité",
-    description: "Le sang mort dans tes veines pulse d'une énergie explosive. Le monde ralentit autour de toi tandis que tu deviens l'éclair.",
+    description: "Le sang mort dans tes veines pulse d'une énergie explosive. Le monde ralentit autour de toi tandis que tu deviens l'éclair. Cette vitesse ne sert que le corps : elle ne fait pas penser plus vite.",
     powers: [
       {
+        id: "celerity-1-feline-grace",
         level: 1,
         name: "Grâce Féline",
         bloodCost: 0,
@@ -183,6 +181,7 @@ export const DISCIPLINES = {
         description: "Ton corps réagit avant même que ton esprit ne commande. Plus qu'une vitesse brute, c'est un équilibre parfait et surnaturel. Tu ne trébuches jamais, tu rattrapes un verre qui tombe avant qu'une goutte ne s'en échappe, tu esquives un coup que tu n'avais même pas vu venir. Tu es perpétuellement en état d'alerte physiologique parfaite."
       },
       {
+        id: "celerity-2-rapidity",
         level: 2,
         name: "Rapidité",
         bloodCost: 1,
@@ -190,6 +189,7 @@ export const DISCIPLINES = {
         description: "Tes membres deviennent flous. Ce n'est pas encore courir vite, c'est agir vite. Tu peux dégainer, tirer et rengainer avant qu'un mortel ne cligne des yeux. Tu peux porter trois coups de couteau dans le temps qu'il en faut pour respirer. Pour un observateur, tu sembles avoir simplement sauté une étape dans la réalité."
       },
       {
+        id: "celerity-3-fulgurance",
         level: 3,
         name: "Fulgurance",
         bloodCost: 1,
@@ -197,47 +197,60 @@ export const DISCIPLINES = {
         description: "La distance n'a plus de sens. Tu peux traverser une pièce bondée sans bousculer personne, simplement en passant dans les 'interstices' de leur attention. Tu es ici, et la seconde d'après tu es derrière ton ennemi à l'autre bout de la rue. Tu deviens le cauchemar qui frappe et disparaît avant même que le son de l'impact ne parvienne aux témoins."
       },
       {
+        id: "celerity-4-flurry",
         level: 4,
-        name: "Lenteur du Monde",
+        name: "Rafale",
         bloodCost: 1,
         duration: "scene",
-        description: "Ce n'est plus toi qui vas vite, c'est le monde qui s'arrête. Tu marches tranquillement entre les gouttes de pluie suspendues dans l'air. Tu as le temps de composer un poème pendant qu'une explosion se déploie au ralenti à côté de toi. Tu ne te contentes pas de réagir, tu planifies et exécutes avec une précision chirurgicale pendant que tes ennemis sont figés comme des statues de cire."
+        description: "Ton sang brûle et tes gestes s'enchaînent plus vite que la pensée d'un mortel. Là où un homme frappe une fois, tu frappes, tu esquives, tu désarmes et tu frappes encore. Tu vides un chargeur avant que la première douille ne touche le sol, tu fouilles un bureau entier pendant qu'un garde tourne la tête. Pour les témoins, tu n'es qu'un flou, une rafale de mouvements sans transition. Mais cette vitesse ne vaut que pour le corps : tu ne réfléchis pas plus vite, et tes pouvoirs de l'esprit ne se démultiplient pas. Chaque élan te coûte un peu de vitae."
       },
       {
+        id: "celerity-5-slowed-world",
         level: 5,
-        name: "Projection Éclair",
-
-        bloodCost: 3,
-        duration: "instant",
-        description: "La gravité et l'inertie ne s'appliquent plus à toi. Tu deviens une force cinétique pure capable de courir à la verticale sur la façade d'un gratte-ciel ou de traverser une étendue d'eau sans t'y enfoncer. Ton passage crée un souffle d'air violent, et tu peux t'arrêter net depuis une vitesse supersonique sans ressentir l'impact. Tu n'es plus un corps, tu es un projectile vivant."
+        name: "Le Monde au Ralenti",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Le monde semble s'engluer autour de toi. Les balles deviennent des traits lents que tu vois venir, les éclats de verre d'une vitre brisée flottent assez longtemps pour que tu passes entre eux. Tu esquives une volée de coups sans en recevoir un seul, tu traverses une fusillade pour arracher l'arme des mains du tireur. Tu restes pourtant soumis à la pesanteur : tu cours vite, mais toujours sur le sol. Et ton corps paie le prix de cette violence : un mur heurté à cette vitesse te brise comme n'importe quel projectile."
       },
       {
+        id: "celerity-6-projectile",
         level: 6,
         name: "Projectile",
-        bloodCost: 9,
+        bloodCost: 1,
         duration: "instant",
-        description: "Tu transfères ta vitesse surnaturelle à un objet que tu lances. Une simple pièce de monnaie devient une balle traversant l'acier, un couteau de lancer frappe avec la force d'un canon. L'objet ne se contente pas de voler vite, il devient un missile cinétique dévastateur."
+        description: "Tu transmets ta vitesse surnaturelle à ce que tu lances ou tires. Une simple pièce de monnaie traverse une portière, un couteau de lancer s'enfonce jusqu'à la garde dans un torse, la balle de ton revolver frappe avec la violence d'un obus. Le pouvoir ne rend pas le tir plus précis : il faut toujours toucher sa cible, et seul le coup que tu prépares en bénéficie. Toute la vitesse que tu y verses te manque ensuite pour te mouvoir, le temps d'un battement de cœur."
       },
       {
+        id: "celerity-7-flower-of-death",
         level: 7,
         name: "Fleur de Mort",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Tu te déplaces si vite que tu sembles être partout à la fois. Tu deviens une tempête de lames et de coups, frappant chaque ennemi dans la pièce avant que le premier corps ne touche le sol. Ce n'est pas un combat, c'est une exécution simultanée de masse."
+        description: "Tu cesses de séparer la vitesse de la frappe. Pour toute la scène, chacun de tes coups au corps à corps porte l'élan de ta Célérité : ton poing, ta lame, ta griffe arrivent avant que l'adversaire ait compris le geste, et frappent avec la force d'un train lancé. Un combat qui devrait durer une minute se termine en un souffle. La floraison ne concerne que le contact : armes à feu et projectiles n'en profitent pas. Et le pouvoir dévore ton sang à une vitesse effrayante."
       },
       {
+        id: "celerity-8-zephyr",
         level: 8,
         name: "Zéphyr",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "La gravité ne s'applique plus à toi. Tu cours sur l'eau sans créer d'ondulations, tu marches sur les murs comme si c'était le sol, tu peux même courir sur des fils de pêche ou des nuages de fumée si tu es assez rapide. Tu es devenu insaisissable, une force pure en mouvement."
+        description: "Tu cours si vite que la pesanteur n'a plus prise sur toi. Tu traverses un lac sans y enfoncer le pied, tu remontes la façade d'un immeuble au pas de course, tu passes même un instant sur le plafond d'un couloir. Ceux qui te voient passer ne distinguent qu'une traînée, un coup de vent. Le prix est la concentration : lancé ainsi, tu ne peux pas attaquer, et toute autre action te coûte un effort de volonté qui risque de briser ta course."
       },
       {
+        id: "celerity-9-time-dilation",
         level: 9,
         name: "Dilatation Temporelle",
         bloodCost: 9,
         duration: "scene",
-        description: "Le temps n'est plus une rivière, c'est un lac gelé. Entre deux battements de cœur d'un mortel, tu as vécu une éternité. Tu marches calmement au milieu des explosions figées, tu déplaces tes ennemis comme des mannequins inertes. Pour eux, tu n'as pas bougé : tu es simplement devenu la mort instantanée."
+        description: "Entre deux battements de cœur d'un mortel, tu vis une scène entière. Tu désarmes une pièce pleine de gardes, tu sors trois personnes d'un immeuble en flammes, tu lis un dossier et le remets en place avant que la porte ne se soit refermée. Pour les autres, tu n'as pas bougé : les choses ont simplement changé autour de toi. Ton corps reste de chair morte : les chocs, les chutes et le feu te blessent comme avant, et la soif qui suit cet effort est terrible."
+      },
+      {
+        id: "celerity-10-outside-time",
+        level: 10,
+        name: "Hors du Temps",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu sors du temps lui-même. Autour de toi, le monde s'arrête : la pluie reste suspendue, les flammes sont figées comme du verre, une balle attend dans l'air à un pas du front de sa cible. Toi seul te meus dans ce silence absolu. Tu peux traverser une ville, déplacer chaque combattant d'une bataille, réécrire une scène entière avant que le temps ne reprenne son cours. Quand il repart, tout ce que tu as changé est devenu vrai d'un seul coup. Seuls les êtres les plus anciens perçoivent qu'un instant leur a été volé."
       }
     ]
   },
@@ -316,9 +329,10 @@ export const DISCIPLINES = {
   fortitude: {
     id: "fortitude",
     name: "Force d'Âme",
-    description: "Ton corps mort est plus résistant que l'acier vivant. Balles, lames et flammes se brisent contre ta chair de cadavre.",
+    description: "Ton corps mort est plus résistant que l'acier vivant. Balles, lames et flammes se brisent contre ta chair de cadavre. Même le feu et le soleil, qui consument les autres vampires, doivent lutter pour t'entamer.",
     powers: [
       {
+        id: "fortitude-1-resilience",
         level: 1,
         name: "Résilience",
         bloodCost: 0,
@@ -326,6 +340,7 @@ export const DISCIPLINES = {
         description: "La douleur existe toujours, mais elle est... lointaine. Les coups qui feraient tomber un mortel te font à peine ciller. Une batte de baseball sur l'épaule ? Tu tournes la tête, agacé. Un coup de poing dans le ventre ? Tu expires calmement. Ton corps absorbe les impacts comme un sac de sable, sans broncher, sans reculer. Tu n'es pas encore invulnérable, mais tu es terriblement difficile à faire tomber."
       },
       {
+        id: "fortitude-2-endurance",
         level: 2,
         name: "Endurance",
         bloodCost: 0,
@@ -333,6 +348,7 @@ export const DISCIPLINES = {
         description: "Les balles entrent, mais elles ne t'arrêtent pas. Le couteau plonge dans ta chair, et tu continues d'avancer. Ce qui tuerait un mortel ne fait que te ralentir légèrement. Tu peux combattre avec une lame plantée dans le ventre, courir avec une balle dans la jambe. Les blessures sont là, visibles, mais elles semblent... optionnelles. Tu décideras de t'en occuper plus tard."
       },
       {
+        id: "fortitude-3-resistance",
         level: 3,
         name: "Résistance",
         bloodCost: 0,
@@ -340,6 +356,7 @@ export const DISCIPLINES = {
         description: "Même les choses qui devraient te détruire peinent à t'entamer. Le feu te brûle, mais lentement, te laissant le temps de fuir. Les griffes d'un loup-garou déchirent ta chair, mais ne la consument pas comme elles le devraient. Tu peux plonger ta main dans les flammes pour récupérer un objet, traverser un brasier pour t'échapper. La destruction elle-même doit négocier avec toi."
       },
       {
+        id: "fortitude-4-unshakable",
         level: 4,
         name: "Inébranlable",
         bloodCost: 0,
@@ -347,32 +364,52 @@ export const DISCIPLINES = {
         description: "Ton bras est arraché. Tu te relèves. Ta colonne vertébrale est brisée. Tu rampes vers ton ennemi. La moitié de ton corps est en feu. Tu continues de frapper. La douleur n'est plus qu'un bruit de fond lointain, un concept abstrait qui ne te concerne pas. Ton corps refuse simplement d'abandonner, même quand toute logique dit qu'il devrait s'effondrer. Tu es la chose qui ne reste pas à terre."
       },
       {
+        id: "fortitude-5-invulnerability",
         level: 5,
         name: "Invulnérabilité",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tu es ce dont les chasseurs de vampires font des cauchemars. Les balles rebondissent sur ta peau comme sur du blindage. Les lames se tordent contre tes os. Le soleil lui-même te consume au ralenti là où il devrait t'incinérer en un instant. Tu peux traverser un immeuble en flammes, encaisser l'explosion d'une grenade, te relever après avoir été percuté par un camion. Tu n'es pas immortel. Mais tu es la chose qui s'en approche le plus."
+        description: "Tu es ce dont les chasseurs de vampires font des cauchemars. Les balles entrent à peine dans ta chair, les lames y laissent des entailles qui se referment avant la fin du combat. Tu traverses un immeuble en flammes en serrant les dents, tu te relèves après avoir été percuté par une voiture. Le soleil lui-même te consume lentement là où il réduirait un autre vampire en cendres en quelques instants, ce qui t'accorde peut-être le temps de fuir. Tu n'es pas immortel : le feu, le soleil et les crocs finissent toujours par passer. Mais tu tiens bien plus longtemps que les autres."
       },
       {
+        id: "fortitude-6-personal-armor",
         level: 6,
         name: "Armure Personnelle",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Ta peau change de texture, devenant plus dure que le diamant. Les armes de corps à corps se brisent littéralement à l'impact contre ta chair. Frapper ton visage, c'est comme frapper un mur de béton armé. Tu brises les lames de tes ennemis avec ton cou."
+        description: "Pour la scène, ta chair durcit comme de l'acier trempé. Les couteaux se brisent sur tes côtes, la batte éclate sur ton épaule, le sabre se fend en deux contre ton cou. Celui qui te frappe à mains nues se blesse lui-même contre ton corps. Mais ne te crois pas intouchable : un coup qui porte te blesse quand même, même si l'arme ne s'en relève pas. Et les armes enchantées ou anciennes peuvent résister à ta peau."
       },
       {
+        id: "fortitude-7-shared-strength",
         level: 7,
         name: "Force Partagée",
-        bloodCost: 9,
-        duration: "scene",
-        description: "Tu peux étendre ton invulnérabilité. Touche un allié et donne-lui ta résistance légendaire. Pendant quelques instants, il devient aussi indestructible que toi. Tu es le bouclier qui protège la coterie contre l'apocalypse."
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu poses ton pouce ensanglanté sur le front de quelqu'un et tu lui prêtes ta résistance. Un mortel encaisse soudain les balles comme un ancien, ta goule traverse un incendie sans mourir. La protection dure de quelques instants à une année entière, selon ce que tu y investis, et tu peux la reprendre quand tu le veux. La cible n'a pas besoin d'être consentante. Mais une goutte de ton sang reste visible sur son front tant que dure le don, et tu ne peux jamais prêter plus de force que tu n'en possèdes."
       },
       {
+        id: "fortitude-8-adamantine",
         level: 8,
         name: "Adamantin",
-        bloodCost: 9,
+        bloodCost: 3,
+        duration: "scene",
+        description: "Ton armure de chair atteint la perfection. Pour la scène, les armes qui se brisent sur toi ne te laissent plus la moindre marque : la lame éclate, la balle s'écrase, et ta peau reste intacte sous le tissu déchiré. Les témoins voient un homme encaisser une rafale sans même reculer. Cette protection ne vaut que contre les coups et les projectiles : le feu, le soleil et la magie gardent leur prise sur toi."
+      },
+      {
+        id: "fortitude-9-immutable-flesh",
+        level: 9,
+        name: "Chair Immuable",
+        bloodCost: 0,
         duration: "permanent",
-        description: "Tu as dépassé le concept de blessure. La plupart des sources de dégâts conventionnels (balles, chutes, écrasements) ne t'affectent simplement plus. Tu peux marcher sous une presse hydraulique et la bloquer. Seules les destructions magiques ou massives peuvent espérer t'égratigner."
+        description: "Ton corps a cessé de croire à la blessure ordinaire. Une chute du haut d'une tour, un accident de camion, une rafale de fusil d'assaut : tu te relèves, tu époussettes tes vêtements et tu reprends ta route. La violence des mortels ne t'atteint presque plus. Les griffes des loups, le feu et le soleil te blessent encore, mais lentement, comme une pluie froide plutôt qu'une flamme. Tu pourrais survivre aux premiers rayons de l'aube le temps de trouver un abri."
+      },
+      {
+        id: "fortitude-10-indestructible",
+        level: 10,
+        name: "Indestructible",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Pour une nuit, la Mort Ultime renonce à toi. Le soleil de midi te brûle sans te consumer, une explosion te laisse debout au centre du cratère, un incendie entier ne parvient qu'à noircir ta peau. Tu marches à travers un bûcher dressé pour toi, tu restes debout face à une armée de chasseurs et tu les regardes épuiser leurs armes. Rien de ce que le monde peut t'opposer ne parvient à te détruire. Quand l'effet retombe, tu es affamé, épuisé, mais toujours là."
       }
     ]
   },
@@ -444,9 +481,10 @@ export const DISCIPLINES = {
   potence: {
     id: "potence",
     name: "Puissance",
-    description: "Tes muscles morts contiennent la force de la damnation. Ce qui résiste, tu le brises. Ce qui s'oppose, tu l'écrases.",
+    description: "Tes muscles morts contiennent la force de la damnation. Ce qui résiste, tu le brises. Ce qui s'oppose, tu l'écrases. Cette force ne sert que le corps : elle rend tes coups terribles, pas plus adroits.",
     powers: [
       {
+        id: "potence-1-vigor",
         level: 1,
         name: "Vigueur",
         bloodCost: 0,
@@ -454,6 +492,7 @@ export const DISCIPLINES = {
         description: "Ta poigne est un étau. Tes muscles ne tremblent jamais sous l'effort, ne fatiguent jamais. Tu peux tenir une prise toute la nuit, serrer une main jusqu'à ce que les os craquent sans même forcer. Ce n'est pas encore de la force explosive, c'est une fondation inébranlable : tu es l'ancre que rien ne peut déplacer, le roc contre lequel les vagues se brisent."
       },
       {
+        id: "potence-2-prowess",
         level: 2,
         name: "Prouesse",
         bloodCost: 0,
@@ -461,6 +500,7 @@ export const DISCIPLINES = {
         description: "Les objets du monde mortel ne sont plus que des jouets fragiles. Tu plies les barreaux comme des branches mortes, tu enfonces les portes comme du carton, tu arraches les serrures avec tes doigts. Là où les autres utilisent des outils, tu n'as besoin que de tes mains. Le métal cède, le bois éclate, la pierre s'effrite sous ta prise."
       },
       {
+        id: "potence-3-brutality",
         level: 3,
         name: "Brutalité",
         bloodCost: 0,
@@ -468,6 +508,7 @@ export const DISCIPLINES = {
         description: "Chaque coup est une détonation. Un poing qui traverse un torse, une gifle qui brise une nuque, un coup de pied qui envoie un corps voler sur dix mètres. Tu ne frappes plus, tu détruis. Les mortels touchés par ta violence ne se relèvent pas. Les vampires réfléchissent à deux fois avant de croiser ta route. Ton corps est devenu une arme de démolition."
       },
       {
+        id: "potence-4-fury",
         level: 4,
         name: "Fureur",
         bloodCost: 0,
@@ -475,6 +516,7 @@ export const DISCIPLINES = {
         description: "Tu ne te mesures plus aux hommes, mais aux structures. Renverse une voiture d'une main, arrache un lampadaire du trottoir pour t'en servir comme gourdin, fais s'effondrer un mur porteur d'un coup d'épaule. Tes adversaires ne sont plus seulement les vivants, mais les bâtiments eux-mêmes. Tu es le tremblement de terre qui marche."
       },
       {
+        id: "potence-5-titanic-strength",
         level: 5,
         name: "Force Titanesque",
         bloodCost: 0,
@@ -482,25 +524,44 @@ export const DISCIPLINES = {
         description: "Les lois de la physique te regardent avec incrédulité. Arrête un camion lancé à pleine vitesse en te plantant sur son chemin. Soulève un pylône électrique comme un javelot. Enfonce tes doigts dans le béton armé comme dans du beurre. Tu appartiens aux légendes maintenant, aux récits des anciens sur les géants et les titans. Ceux qui te voient à l'œuvre ne parlent plus de monstre, mais de dieu."
       },
       {
+        id: "potence-6-imprint",
         level: 6,
-        name: "Onde de Choc",
-        bloodCost: 9,
-        duration: "instant",
-        description: "Frappe tes mains l'une contre l'autre ou frappe le sol : l'impact crée une onde de choc cinétique qui renverse tout le monde dans la pièce. Les vitres explosent, les meubles volent, et tes ennemis sont projetés comme des poupées de chiffon. Tu es l'épicentre du tremblement de terre."
+        name: "Empreinte",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Pour la scène, tes doigts s'enfoncent dans la matière la plus dure comme dans de l'argile. Tu escalades un mur lisse en y creusant tes propres prises, tu laisses l'empreinte de ta main dans la portière d'acier d'une voiture en guise d'avertissement, tu perces une cloison mince pour atteindre ce qui se cache derrière. La profondeur dépend de la matière et de son épaisseur : le béton armé cède moins vite que le bois. Mais la marque reste, et quiconque la voit comprend à quoi il a affaire."
       },
       {
+        id: "potence-7-earthshock",
         level: 7,
-        name: "Séisme",
-        bloodCost: 9,
+        name: "Onde Tellurique",
+        bloodCost: 3,
         duration: "instant",
-        description: "Une simple frappe au sol suffit à fissurer la route, faire s'effondrer des fondations ou créer des crevasses. Tu ne combats plus des hommes, tu combats le terrain lui-même. Tu peux faire s'écrouler un tunnel ou démolir un bâtiment d'un seul coup bien placé."
+        description: "Tu frappes le sol de toutes tes forces, et le coup voyage sous la terre. Il ressort plus loin, sous les pieds de ta cible, en un geyser de pierre et de terre qui la projette en l'air. Esquiver est difficile, car le coup vient d'en dessous. Tu ne peux frapper qu'un endroit que tu vois, et la distance reste limitée. Mal maîtrisé, le coup jaillit au mauvais endroit, et un geste raté peut même t'ensevelir sous les débris que tu as soulevés."
       },
       {
+        id: "potence-8-flick",
         level: 8,
         name: "Pichenette",
-        bloodCost: 9,
+        bloodCost: 1,
         duration: "instant",
-        description: "Ta maîtrise de la force est totale. Un simple claquement de doigts sur le front d'un ennemi suffit à lui briser le crâne. Une tape amicale peut disloquer une épaule. Tu n'as plus besoin d'élan ou de levier ; le moindre de tes mouvements porte la force d'un marteau-pilon."
+        description: "Tu n'as plus besoin de toucher pour frapper. Un claquement de doigts, un geste du menton, un baiser soufflé : à l'autre bout de la pièce, ou aussi loin que porte ton regard, ta cible encaisse le coup comme si ton poing l'avait atteinte. Toute ta force y passe, et elle suffit à briser une mâchoire ou à projeter un homme contre un mur. Il te faut pourtant un geste, même infime : les mains liées et la tête immobilisée, tu ne peux rien. Et le coup ne porte pas plus loin que ce que tes sens perçoivent."
+      },
+      {
+        id: "potence-9-primal-strength",
+        level: 9,
+        name: "Force Primordiale",
+        bloodCost: 0,
+        duration: "permanent",
+        description: "Tu portes la force des géants des anciennes légendes. Tu arraches la porte d'une chambre forte de ses gonds, tu soulèves un camion au-dessus de ta tête et tu le lances sur ceux qui te poursuivent, tu traverses le mur porteur d'un immeuble comme une feuille de papier. Au corps à corps, chacun de tes coups frappe comme un bélier. Ta force n'a pas de prix en vitae : elle fait simplement partie de toi. Mais elle se voit, et un tel prodige devant des mortels menace la Mascarade."
+      },
+      {
+        id: "potence-10-earthquake",
+        level: 10,
+        name: "Séisme",
+        bloodCost: 10,
+        duration: "instant",
+        description: "Tu poses le poing sur le sol, et le quartier entier tremble. Les rues se fendent, les façades s'écroulent, les tunnels du métro s'effondrent sur eux-mêmes, les conduites d'eau éclatent en geysers. Ce n'est plus un coup, c'est un tremblement de terre qui obéit à ta colère. Tu peux viser un bâtiment précis et le raser jusqu'aux fondations, ou laisser la secousse courir sous toute une partie de la ville. Le monde des mortels appellera cela une catastrophe naturelle. Les Caïnites, eux, sauront."
       }
     ]
   },
@@ -565,16 +626,18 @@ export const DISCIPLINES = {
   protean: {
     id: "protean",
     name: "Protéisme",
-    description: "Ta chair est argile, tes os sont fluides. La nature sauvage coule dans tes veines et tu peux prendre les formes de la Bête.",
+    description: "Ta chair est argile, tes os sont fluides. La nature sauvage coule dans tes veines et tu peux prendre les formes de la Bête. Ce pouvoir ne change que toi : tu ne transformes ni autrui ni les objets, et un pieu dans le cœur te fige.",
     powers: [
       {
+        id: "protean-1-eyes-of-the-beast",
         level: 1,
         name: "Yeux de la Bête",
         bloodCost: 0,
         duration: "scene",
-        description: "Tes yeux brillent d'une lueur rouge sang dans l'obscurité, comme ceux d'un loup ou d'un chat. L'obscurité totale devient claire comme le jour : tu vois chaque détail dans les tunnels d'égouts, les forêts sans lune, les caves sans fenêtres. Les mortels qui croisent ton regard dans le noir voient deux orbes écarlates flottant dans les ténèbres et comprennent qu'ils sont face à un prédateur. Même la lumière ne te gêne plus : tes yeux s'adaptent instantanément, passant de la vision nocturne à la vision diurne sans aveuglement."
+        description: "Tes yeux s'embrasent d'une lueur rouge sang, comme ceux d'un loup surpris par des phares. L'obscurité totale devient claire comme le jour : tu vois chaque détail dans les égouts, les forêts sans lune, les caves sans fenêtre. Mais ce regard ne se cache pas. Les mortels qui croisent tes yeux dans le noir voient deux braises flotter dans les ténèbres et comprennent qu'ils sont face à un prédateur. Tant que tes yeux brillent, parler, séduire ou rassurer un mortel devient difficile, sauf derrière des lunettes noires."
       },
       {
+        id: "protean-2-feral-claws",
         level: 2,
         name: "Griffes de la Bête",
         bloodCost: 1,
@@ -582,53 +645,92 @@ export const DISCIPLINES = {
         description: "Tes ongles s'allongent et s'épaississent, devenant des griffes d'os noir et brillant, dures comme de l'acier trempé et aiguisées comme des rasoirs. Elles poussent en quelques secondes dans un craquement d'os. Ces griffes ne sont pas de simples armes : elles infligent des blessures aggravées qui ne guérissent pas facilement, déchirant la chair vampirique comme du papier. Lacère un ennemi, déchire une gorge, éviscère d'un geste. Ou utilise-les pour escalader : plante-les dans la pierre, le béton, même l'acier, et grimpe comme une araignée."
       },
       {
+        id: "protean-3-earth-meld",
         level: 3,
         name: "Fusion avec la Terre",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "prolonged",
-        description: "Agenouille-toi et touche la terre nue. Ton corps se liquéfie partiellement, s'enfonçant dans le sol comme dans de l'eau. En quelques secondes, tu disparais complètement, fusionnant avec la terre, le béton, même l'asphalte. Pendant le jour, tu reposes dans les entrailles de la terre, totalement protégé du soleil. Tu es conscient de ce qui se passe au-dessus : les vibrations des pas, les voix. Si quelqu'un creuse jusqu'à toi, tu te réveilles instantanément. Au crépuscule, émerge du sol comme un cadavre surgissant de sa tombe. Impossible à trouver, impossible à atteindre."
+        description: "Agenouille-toi sur la terre nue et laisse-toi couler en elle comme dans une eau sombre. En quelques instants, tu disparais sous le sol, à l'abri du jour et des regards. Tu y dors d'un sommeil proche de la torpeur, conscient seulement des vibrations au-dessus de toi : si quelqu'un creuse jusqu'à toi, tu te réveilles. Il te faut de la vraie terre : le béton, l'asphalte et le carrelage te restent fermés, et tu ne peux pas te déplacer une fois enfoui. Au crépuscule, tu émerges du sol comme un mort quittant sa tombe."
       },
       {
+        id: "protean-4-shape-of-the-beast",
         level: 4,
         name: "Forme de la Bête",
-        bloodCost: 3,
+        bloodCost: 1,
         duration: "scene",
-        description: "Ton corps se tord, se reforme, les os craquent et la chair coule. En quelques secondes de transformation douloureuse, tu deviens un loup massif aux yeux rouges ou une chauve-souris géante. Tu gardes ton intelligence et ta personnalité, mais gains les sens et capacités de l'animal : vitesse et morsure du loup, vol et écholocation de la chauve-souris. Chasse dans les rues comme un prédateur naturel, vole au-dessus de la ville pour espionner, ou utilise ta forme animale pour échapper aux poursuivants. Les vêtements et petits objets se fondent dans la transformation."
+        description: "Ton corps se tord, les os craquent et la chair coule. En quelques instants de transformation douloureuse, tu deviens un loup massif aux yeux rouges, ou une chauve-souris qui file dans la nuit. Tu gardes ton esprit, mais tu gagnes les sens et les armes de l'animal : la vitesse et les crocs du loup, le vol et l'écholocation de la chauve-souris. Tes vêtements et tes petits objets se fondent dans la transformation. Tu peux rester ainsi jusqu'à l'aube. Sous cette forme, la sorcellerie du sang t'est fermée : ni Thaumaturgie, ni Nécromancie, ni Serpentis, ni Vicissitude."
       },
       {
+        id: "protean-5-mist-form",
         level: 5,
         name: "Forme de Brume",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Ton corps se dissout en brume spectrale, un nuage de vapeur pâle à peine visible. Tu deviens intangible : les balles te traversent, les lames ne font que disperser temporairement ton essence. Glisse-toi sous les portes, à travers les grilles, les fissures dans les murs. Flotte au-dessus des obstacles, échappe à toute contrainte physique. Tu peux même te disperser complètement pour éviter un danger, te reformant plus loin. Le vent peut te pousser mais pas te blesser. Seuls le feu et le soleil peuvent te nuire sous cette forme, mais même eux causent moins de dégâts. Tu es devenu l'essence même du vampire : ni mort ni vivant, entre deux états."
+        description: "Ton corps se dissout en une brume pâle, à peine visible. Les balles te traversent, les lames ne font que disperser ton essence un instant. Tu glisses sous les portes, à travers les grilles et les fissures, tu flottes au-dessus des obstacles. Le feu, le soleil et les pouvoirs surnaturels peuvent encore t'atteindre, et un vent violent te pousse où il veut. Sous cette forme, tu ne peux ni frapper ni utiliser un pouvoir qui exige ton regard. Tu n'es plus qu'une présence froide qui passe."
       },
       {
+        id: "protean-6-earth-control",
+        level: 6,
+        name: "Maîtrise de la Terre",
+        bloodCost: 0,
+        duration: "prolonged",
+        description: "La terre n'est plus un tombeau, c'est un océan. Une fois fondu dans le sol, tu peux t'y mouvoir au pas d'un homme qui marche, glisser sous un champ, remonter sous les pieds de tes ennemis et en surgir au moment choisi. Tu perçois ce qui t'entoure sous la terre comme un nageur sent l'eau. Le pouvoir ne t'ouvre toujours que la terre nue : une dalle de béton ou une route goudronnée t'arrête comme un mur."
+      },
+      {
+        id: "protean-6-flesh-of-marble",
         level: 6,
         name: "Chair de Marbre",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Ta peau devient une substance surnaturelle, flexible comme la soie mais dure comme la pierre enchantée. Les coups ricoorent, les balles s'aplatissent. C'est plus qu'une armure, c'est une négation de la blessure. Pour te blesser, il faut une force capable de briser une montagne."
+        description: "Pour la scène, ta peau prend la dureté du marbre sans perdre sa souplesse. Les coups perdent l'essentiel de leur force contre toi, les balles s'aplatissent, et tu peux saisir une lame à mains nues pour l'écarter de ta gorge. Cette pierre ne protège que des attaques physiques : le feu, le soleil et les pouvoirs surnaturels la traversent comme si elle n'existait pas."
       },
       {
+        id: "protean-7-restore-mortal-visage",
+        level: 7,
+        name: "Visage Mortel Restauré",
+        bloodCost: 3,
+        duration: "scene",
+        description: "La Bête a marqué ton corps de ses frénésies : poils, crocs, regard de fauve. Par un effort de volonté, tu effaces tout cela et tu retrouves pour une scène le visage que tu avais avant l'Étreinte. Ta famille pourrait te reconnaître, un vieil ami te saluer dans la rue. Ce n'est qu'un masque de chair : tu restes pâle, froid et mort. Et quand la scène s'achève, chaque trace de la Bête revient à sa place."
+      },
+      {
+        id: "protean-7-beasts-wrath",
         level: 7,
         name: "Colère de la Bête",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Tu dépasses le loup et la chauve-souris. Tu deviens une monstruosité hybride, un cauchemar de griffes, de crocs et de muscles qui défie toute description biologique. Sous cette forme, tu es une machine de guerre pure, faite pour le massacre de masse, capable de déchiqueter un tank."
+        description: "Tu dépasses le loup et la chauve-souris pour devenir la Bête elle-même : une monstruosité hybride, toute en muscles, en crocs et en griffes. Ta force, ta vitesse et ta résistance explosent, et tes morsures déchirent la chair des vampires. Mais il ne reste rien de toi qui puisse parler, séduire ou négocier : tu ne sais plus qu'effrayer. Et la frénésie rôde au bord de ta conscience, plus proche que jamais."
       },
       {
+        id: "protean-7-spectral-body",
+        level: 7,
+        name: "Corps Spectral",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Ton corps reste visible, mais il cesse d'être solide. Pour une nuit, tu traverses les murs, les portes blindées et les barreaux, les balles passent à travers toi sans rien toucher. Le feu et le soleil te mordent moins qu'à l'ordinaire. Cette liberté a son revers : tu ne peux rien saisir, rien frapper, rien porter. Tu es un fantôme de chair, présent partout mais incapable d'agir sur le monde."
+      },
+      {
+        id: "protean-8-purify-impaled-beast",
         level: 8,
-        name: "Purifier la Bête",
-        bloodCost: 9,
+        name: "Purifier la Bête Empalée",
+        bloodCost: 3,
         duration: "instant",
-        description: "Ton corps rejette tout ce qui est étranger. Tu peux expulser violemment les pieux, les balles, les poisons ou même les esprits intrus. Le bois pourri jaillit de ton cœur, les plaies se referment instantanément après avoir craché le plomb. Tu ne peux pas être contenu."
+        description: "Ton corps rejette avec violence tout ce qui lui est étranger. Les balles jaillissent de tes plaies, les éclats de verre sortent de ta chair, et même le pieu enfoncé dans ton cœur est éjecté comme un projectile. C'est la seule réponse connue à la paralysie du bois : il faut pourtant une volonté de fer pour l'accomplir alors que ton corps est figé. Les blessures restent ouvertes : tu as chassé l'intrus, pas réparé les dégâts."
       },
       {
+        id: "protean-9-inward-focus",
         level: 9,
-        name: "Forme Mythique",
+        name: "Concentration Intérieure",
         bloodCost: 9,
         duration: "scene",
-        description: "Tu te transformes en créature de légende. Dragon, Griffon, Hydre... Tu incarnes un mythe vivant avec tous ses pouvoirs supposés. Tu voles sans ailes, tu craches peut-être du feu (métaphorique ou réel), tu inspires une terreur ancestrale. Tu n'es plus un vampire, tu es un monstre de l'ancien monde."
+        description: "Tu retournes toute ta métamorphose vers l'intérieur. Ton corps devient une machine de guerre parfaite : tu agis plusieurs fois là où d'autres agissent une seule, tes coups frappent avec une violence accrue, et les blessures qu'on t'inflige perdent une grande part de leur gravité. Cet état s'ajoute à ta Célérité, ta Force d'Âme et ta Puissance plutôt que de les remplacer. Il dévore ton sang à chaque instant où tu le maintiens."
+      },
+      {
+        id: "protean-10-mythic-form",
+        level: 10,
+        name: "Forme Mythique",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Ta chair oublie qu'elle a été humaine et prend la forme d'une créature de légende : dragon aux ailes de cuir, griffon, serpent de mer, loup géant des sagas. Tu incarnes le mythe avec tous ses pouvoirs : tu voles sans effort au-dessus des nuages, ton souffle embrase une forêt, tes écailles repoussent les canons et ta seule silhouette fait fuir une ville entière. Tu n'es plus un vampire qui se transforme, mais le monstre de l'ancien monde dont les hommes ont gardé le souvenir terrifié. Quand tu reprends forme humaine, les témoins parleront de cette nuit pendant des générations."
       }
     ]
   },

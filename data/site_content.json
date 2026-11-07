@@ -23596,5 +23596,17 @@
     "public": false,
     "catalog": true,
     "variables": []
+  },
+  "vampire.text.02641": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplinesTab.jsx",
+    "default": "Niveau {v0} · {v1} pouvoirs, tous acquis à ce niveau",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": [
+      "v0",
+      "v1"
+    ]
   }
 }
