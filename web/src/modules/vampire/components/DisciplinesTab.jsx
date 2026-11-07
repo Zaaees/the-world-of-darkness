@@ -265,6 +265,8 @@ export default function DisciplinesTab({ clan, bloodPotency, isCainMode }) {
           </div>
         </div>
 
+        <p className="relative z-10 mt-4 font-serif text-sm italic leading-relaxed text-stone-400"><SiteText contentKey="vampire.text.02975" /></p>
+
         {/* Légende - Carte de Référence */}
         <div className="bg-stone-950/30 rounded-xl border border-stone-800/50 flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-stone-800/50 text-xs mt-4">
           {/* Colonne Coûts */}

@@ -30,7 +30,7 @@ export const DISCIPLINES = {
         name: "L'Appel",
         bloodCost: 1,
         duration: "scene",
-        description: "Tu pousses un hurlement, un cri ou un sifflement que seules les bêtes comprennent. Les animaux de l'espèce que tu imites, à portée de ton appel, ressentent le besoin de venir à toi : un seul rat, ou tous les rats du quartier, selon ta force. Ils arrivent bien disposés à ton égard, curieux, prêts à t'écouter. Mais ils ne t'obéissent pas d'office : pour les diriger, il te faut encore leur parler et les convaincre. Parfait pour réunir des espions ou créer une diversion."
+        description: "Tu pousses un hurlement, un cri ou un sifflement que seules les bêtes comprennent. Les animaux de l'espèce que tu imites ressentent le besoin de venir à toi, et c'est toi qui décides jusqu'où porte ton appel. Un sifflement discret ne fera sortir que le rat tapi derrière la poubelle ; un hurlement à pleine gorge rameutera tous les rats du quartier, mais tout le voisinage l'entendra aussi. Ils arrivent bien disposés à ton égard, curieux, prêts à t'écouter. Mais ils ne t'obéissent pas d'office : pour les diriger, il te faut encore leur parler et les convaincre. Parfait pour réunir des espions ou créer une diversion."
       },
       {
         id: "animalism-3-quell-the-beast",
@@ -742,7 +742,7 @@ export const DISCIPLINES = {
         name: "Envoûtement",
         bloodCost: 3,
         duration: "prolonged",
-        description: "Tu parles à quelqu'un quelques minutes, et tu tisses autour de lui un réseau d'affection surnaturelle. Il devient ton serviteur dévoué, cherche à te plaire, te rend des services, te couvre. Il garde pourtant sa personnalité et son imagination : il te sert avec intelligence, pas comme un pantin. L'envoûtement est temporaire, d'une heure à une année selon ta force, et le relancer pendant qu'il agit ne sert à rien. Quand il prend fin, ton serviteur se souvient de tout, et certains ne le pardonnent jamais."
+        description: "Tu parles à quelqu'un quelques minutes, et tu tisses autour de lui un réseau d'affection surnaturelle. Il devient ton serviteur dévoué, cherche à te plaire, te rend des services, te couvre. Il garde pourtant sa personnalité et son imagination : il te sert avec intelligence, pas comme un pantin. C'est toi qui fixes la durée du lien en le tissant, d'une heure à une année, et le relancer pendant qu'il agit ne sert à rien. Quand il prend fin, ton serviteur se souvient de tout ; plus le lien a duré, moins il te le pardonne."
       },
       {
         id: "presence-4-summon",
@@ -1246,7 +1246,7 @@ export const DISCIPLINES = {
         name: "Vol d'Âme",
         bloodCost: 3,
         duration: "prolonged",
-        description: "Ton pouvoir s'étend aux vivants. Par un effort de volonté, tu arraches l'âme d'un mortel hors de son corps. La chair s'effondre comme une poupée de chiffon, vivante mais vide, tandis que l'esprit se retrouve projeté dans le monde des fantômes, sans défense, à la merci des spectres... ou de toi. L'exil dure quelques heures, selon ta force, puis l'âme retrouve le chemin de son corps. Une volonté solide peut s'accrocher à sa chair et te résister. Et pendant que le corps reste vide, une autre âme pourrait bien s'y installer."
+        description: "Ton pouvoir s'étend aux vivants. Par un effort de volonté, tu arraches l'âme d'un mortel hors de son corps. La chair s'effondre comme une poupée de chiffon, vivante mais vide, tandis que l'esprit se retrouve projeté dans le monde des fantômes, sans défense, à la merci des spectres... ou de toi. Tu la tiens hors de sa chair aussi longtemps que tu le veux, quelques heures au plus, puis elle retrouve le chemin de son corps. Une volonté solide peut s'accrocher à sa chair et te résister. Et pendant que le corps reste vide, une autre âme pourrait bien s'y installer."
       },
       {
         id: "necromancy-5-daemonic-possession",
@@ -1518,7 +1518,7 @@ export const DISCIPLINES = {
         name: "Passion",
         bloodCost: 0,
         duration: "prolonged",
-        description: "Tu parles à quelqu'un et tu tournes le cadran de ses émotions. Tu ne choisis pas ce qu'il ressent : tu amplifies ou tu éteins ce qui est déjà là. Une pointe d'agacement devient une rage froide, une tristesse discrète un désespoir écrasant, une peur vague une panique. Ou au contraire, la colère du garde retombe et il oublie pourquoi il s'emportait. L'effet dure de quelques instants à plusieurs mois selon ta force, et la victime ne comprend jamais d'où lui vient ce changement."
+        description: "Tu parles à quelqu'un et tu tournes le cadran de ses émotions. Tu ne choisis pas ce qu'il ressent : tu amplifies ou tu éteins ce qui est déjà là. Une pointe d'agacement devient une rage froide, une tristesse discrète un désespoir écrasant, une peur vague une panique. Ou au contraire, la colère du garde retombe et il oublie pourquoi il s'emportait. Tu choisis combien de temps l'émotion tient : un éclat de quelques instants, ou une humeur qui s'installe pour des mois. Et la victime ne comprend jamais d'où lui vient ce changement."
       },
       {
         id: "dementation-2-the-haunting",
@@ -1550,7 +1550,7 @@ export const DISCIPLINES = {
         name: "Démence Totale",
         bloodCost: 1,
         duration: "prolonged",
-        description: "Tu captes toute l'attention de ta victime, et tu fais remonter d'un coup tout ce que son esprit enfouissait. Elle sombre dans une folie multiple : délires, obsessions, paranoïa, crises de terreur, voix qui lui parlent. L'effet dure de quelques instants à une année entière selon ta force. Une victime à la volonté solide peut s'en libérer plus tôt en luttant de toutes ses forces. Ceux qui en reviennent ne sont plus tout à fait les mêmes."
+        description: "Tu captes toute l'attention de ta victime, et tu fais remonter d'un coup tout ce que son esprit enfouissait. Elle sombre dans une folie multiple : délires, obsessions, paranoïa, crises de terreur, voix qui lui parlent. Tu décides combien de temps elle reste perdue : quelques instants, quelques nuits, ou une année entière. Une victime à la volonté solide peut s'en libérer plus tôt en luttant de toutes ses forces. Ceux qui en reviennent ne sont plus tout à fait les mêmes."
       },
       {
         id: "dementation-6-lingering-malaise",
@@ -1590,7 +1590,7 @@ export const DISCIPLINES = {
         name: "Éruption Lunatique",
         bloodCost: 9,
         duration: "scene",
-        description: "Tu deviens une bombe psychique. Ta folie déferle autour de toi, sur un pâté de maisons ou une métropole entière selon ta puissance. Jusqu'à l'aube, les mortels s'émeutent, pillent, se battent dans les rues ; les vampires tombent en frénésie de faim. Les esprits les plus maîtres d'eux-mêmes résistent, mais la ville se souviendra de cette nuit comme d'une épidémie de démence."
+        description: "Tu deviens une bombe psychique. Ta folie déferle autour de toi, aussi loin que tu la laisses aller : un pâté de maisons, un quartier, ou la métropole entière. Jusqu'à l'aube, les mortels s'émeutent, pillent, se battent dans les rues ; les vampires tombent en frénésie de faim. Les esprits les plus maîtres d'eux-mêmes résistent, mais la ville se souviendra de cette nuit comme d'une épidémie de démence."
       },
       {
         id: "dementation-10-awakening-of-malkav",

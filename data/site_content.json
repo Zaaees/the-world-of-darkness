@@ -9890,15 +9890,6 @@
     "catalog": false,
     "variables": []
   },
-  "vampire.text.01253": {
-    "scope": "vampire",
-    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
-    "default": "Décrivez une intention et laissez la cible répondre. Les effets restent soumis à la résistance mentale, aux limites du pouvoir et aux accords de la scène. « Scène » dure jusqu'à la conclusion convenue de l'enjeu ; une pause ne réinitialise pas l'effet.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": false,
-    "variables": []
-  },
   "vampire.text.01254": {
     "scope": "vampire",
     "source": "modules/vampire/components/DisciplinesTab.jsx",
@@ -22250,15 +22241,6 @@
     "catalog": true,
     "variables": []
   },
-  "vampire.text.02643": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Tu pousses un hurlement, un cri ou un sifflement que seules les bêtes comprennent. Les animaux de l'espèce que tu imites, à portée de ton appel, ressentent le besoin de venir à toi : un seul rat, ou tous les rats du quartier, selon ta force. Ils arrivent bien disposés à ton égard, curieux, prêts à t'écouter. Mais ils ne t'obéissent pas d'office : pour les diriger, il te faut encore leur parler et les convaincre. Parfait pour réunir des espions ou créer une diversion.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
   "vampire.text.02644": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -23177,15 +23159,6 @@
     "catalog": true,
     "variables": []
   },
-  "vampire.text.02746": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Tu parles à quelqu'un quelques minutes, et tu tisses autour de lui un réseau d'affection surnaturelle. Il devient ton serviteur dévoué, cherche à te plaire, te rend des services, te couvre. Il garde pourtant sa personnalité et son imagination : il te sert avec intelligence, pas comme un pantin. L'envoûtement est temporaire, d'une heure à une année selon ta force, et le relancer pendant qu'il agit ne sert à rien. Quand il prend fin, ton serviteur se souvient de tout, et certains ne le pardonnent jamais.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
   "vampire.text.02747": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -23861,15 +23834,6 @@
     "catalog": true,
     "variables": []
   },
-  "vampire.text.02822": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Ton pouvoir s'étend aux vivants. Par un effort de volonté, tu arraches l'âme d'un mortel hors de son corps. La chair s'effondre comme une poupée de chiffon, vivante mais vide, tandis que l'esprit se retrouve projeté dans le monde des fantômes, sans défense, à la merci des spectres... ou de toi. L'exil dure quelques heures, selon ta force, puis l'âme retrouve le chemin de son corps. Une volonté solide peut s'accrocher à sa chair et te résister. Et pendant que le corps reste vide, une autre âme pourrait bien s'y installer.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
   "vampire.text.02823": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -24311,15 +24275,6 @@
     "catalog": true,
     "variables": []
   },
-  "vampire.text.02872": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Tu parles à quelqu'un et tu tournes le cadran de ses émotions. Tu ne choisis pas ce qu'il ressent : tu amplifies ou tu éteins ce qui est déjà là. Une pointe d'agacement devient une rage froide, une tristesse discrète un désespoir écrasant, une peur vague une panique. Ou au contraire, la colère du garde retombe et il oublie pourquoi il s'emportait. L'effet dure de quelques instants à plusieurs mois selon ta force, et la victime ne comprend jamais d'où lui vient ce changement.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
   "vampire.text.02873": {
     "scope": "vampire",
     "source": "data/disciplines.js",
@@ -24351,15 +24306,6 @@
     "scope": "vampire",
     "source": "data/disciplines.js",
     "default": "Tu élèves la voix, et ta démence se glisse dans tes mots. Ceux qui t'écoutent basculent : certains entrent en frénésie et frappent tout ce qui bouge, d'autres sont saisis d'une terreur aveugle et fuient comme devant le feu. Les mortels n'ont aucune défense. Les vampires peuvent lutter, mais beaucoup cèdent. Le pouvoir n'épargne pas sa source : ta propre Bête entend aussi ces paroles, et tu risques de sombrer avec ton auditoire.",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
-  "vampire.text.02877": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Tu captes toute l'attention de ta victime, et tu fais remonter d'un coup tout ce que son esprit enfouissait. Elle sombre dans une folie multiple : délires, obsessions, paranoïa, crises de terreur, voix qui lui parlent. L'effet dure de quelques instants à une année entière selon ta force. Une victime à la volonté solide peut s'en libérer plus tôt en luttant de toutes ses forces. Ceux qui en reviennent ne sont plus tout à fait les mêmes.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -24423,15 +24369,6 @@
     "scope": "vampire",
     "source": "data/disciplines.js",
     "default": "Éruption Lunatique",
-    "maxLength": 12000,
-    "public": false,
-    "catalog": true,
-    "variables": []
-  },
-  "vampire.text.02885": {
-    "scope": "vampire",
-    "source": "data/disciplines.js",
-    "default": "Tu deviens une bombe psychique. Ta folie déferle autour de toi, sur un pâté de maisons ou une métropole entière selon ta puissance. Jusqu'à l'aube, les mortels s'émeutent, pillent, se battent dans les rues ; les vampires tombent en frénésie de faim. Les esprits les plus maîtres d'eux-mêmes résistent, mais la ville se souviendra de cette nuit comme d'une épidémie de démence.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
@@ -25188,6 +25125,105 @@
     "scope": "vampire",
     "source": "data/disciplines.js",
     "default": "Tu déchires le voile entre le monde et les Ténèbres Extérieures. Une porte s'ouvre au cœur de la ville, et l'abîme s'y déverse : les ombres prennent vie, les morts parlent avec des voix qui ne sont pas les leurs, les démons marchent dans les rues. Le ciel se teinte d'une lueur malade et la foi elle-même vacille dans le cœur des croyants. La porte reste ouverte tant que tu la tiens, et ce qui en sort ne retourne pas toujours d'où il vient. C'est le rêve des Baali, et la terreur de tous les autres.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02970": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu pousses un hurlement, un cri ou un sifflement que seules les bêtes comprennent. Les animaux de l'espèce que tu imites ressentent le besoin de venir à toi, et c'est toi qui décides jusqu'où porte ton appel. Un sifflement discret ne fera sortir que le rat tapi derrière la poubelle ; un hurlement à pleine gorge rameutera tous les rats du quartier, mais tout le voisinage l'entendra aussi. Ils arrivent bien disposés à ton égard, curieux, prêts à t'écouter. Mais ils ne t'obéissent pas d'office : pour les diriger, il te faut encore leur parler et les convaincre. Parfait pour réunir des espions ou créer une diversion.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02971": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "Le pouvoir frappe, puis s'efface.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02972": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "L'effet tient jusqu'à ce que la scène se dénoue, même si la partie s'interrompt entre-temps.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02973": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "L'effet dure aussi longtemps que le pouvoir le décrit.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02974": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplineDetailModal.jsx",
+    "default": "Ce qui est fait ne se défait pas.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02975": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/DisciplinesTab.jsx",
+    "default": "Tes pouvoirs imposent, ils ne racontent pas à la place des autres. Quand une Discipline frappe un autre personnage, décris ce que tu fais et laisse son joueur dire ce qu'il ressent. Une volonté de fer peut plier sans rompre.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.text.02976": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu parles à quelqu'un quelques minutes, et tu tisses autour de lui un réseau d'affection surnaturelle. Il devient ton serviteur dévoué, cherche à te plaire, te rend des services, te couvre. Il garde pourtant sa personnalité et son imagination : il te sert avec intelligence, pas comme un pantin. C'est toi qui fixes la durée du lien en le tissant, d'une heure à une année, et le relancer pendant qu'il agit ne sert à rien. Quand il prend fin, ton serviteur se souvient de tout ; plus le lien a duré, moins il te le pardonne.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02977": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Ton pouvoir s'étend aux vivants. Par un effort de volonté, tu arraches l'âme d'un mortel hors de son corps. La chair s'effondre comme une poupée de chiffon, vivante mais vide, tandis que l'esprit se retrouve projeté dans le monde des fantômes, sans défense, à la merci des spectres... ou de toi. Tu la tiens hors de sa chair aussi longtemps que tu le veux, quelques heures au plus, puis elle retrouve le chemin de son corps. Une volonté solide peut s'accrocher à sa chair et te résister. Et pendant que le corps reste vide, une autre âme pourrait bien s'y installer.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02978": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu parles à quelqu'un et tu tournes le cadran de ses émotions. Tu ne choisis pas ce qu'il ressent : tu amplifies ou tu éteins ce qui est déjà là. Une pointe d'agacement devient une rage froide, une tristesse discrète un désespoir écrasant, une peur vague une panique. Ou au contraire, la colère du garde retombe et il oublie pourquoi il s'emportait. Tu choisis combien de temps l'émotion tient : un éclat de quelques instants, ou une humeur qui s'installe pour des mois. Et la victime ne comprend jamais d'où lui vient ce changement.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02979": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu captes toute l'attention de ta victime, et tu fais remonter d'un coup tout ce que son esprit enfouissait. Elle sombre dans une folie multiple : délires, obsessions, paranoïa, crises de terreur, voix qui lui parlent. Tu décides combien de temps elle reste perdue : quelques instants, quelques nuits, ou une année entière. Une victime à la volonté solide peut s'en libérer plus tôt en luttant de toutes ses forces. Ceux qui en reviennent ne sont plus tout à fait les mêmes.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": true,
+    "variables": []
+  },
+  "vampire.text.02980": {
+    "scope": "vampire",
+    "source": "data/disciplines.js",
+    "default": "Tu deviens une bombe psychique. Ta folie déferle autour de toi, aussi loin que tu la laisses aller : un pâté de maisons, un quartier, ou la métropole entière. Jusqu'à l'aube, les mortels s'émeutent, pillent, se battent dans les rues ; les vampires tombent en frénésie de faim. Les esprits les plus maîtres d'eux-mêmes résistent, mais la ville se souviendra de cette nuit comme d'une épidémie de démence.",
     "maxLength": 12000,
     "public": false,
     "catalog": true,
