@@ -1718,42 +1718,87 @@ export const DISCIPLINES = {
   flight: {
     id: "flight",
     name: "Vol",
-    description: "Tes ailes ne sont pas décoratives. Tu apprends à maîtriser cette anatomie monstrueuse pour conquérir le ciel.",
+    description: "Tes ailes ne sont pas décoratives. Tu apprends à maîtriser cette anatomie monstrueuse pour conquérir le ciel. Elles se voient de loin : voler devant des mortels menace toujours la Mascarade.",
     powers: [
       {
+        id: "flight-1-feather",
         level: 1,
         name: "Plume",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tes ailes sont encore faibles pour le vol réel, mais tu sais instinctivement les utiliser pour freiner une chute. Peu importe la hauteur, tu atterris avec la légèreté d'une plume, sans bruit et sans dégâts. Tu peux aussi faire des bonds prodigieux, tes ailes te donnant une portance supplémentaire."
+        description: "Tes ailes sont encore trop faibles pour un vol véritable, mais tu sais instinctivement les déployer pour freiner une chute. Peu importe la hauteur, tu touches le sol avec la légèreté d'une plume, sans bruit et sans blessure. Tes ailes te portent aussi lors de bonds prodigieux, d'un toit à l'autre ou par-dessus un mur d'enceinte. Elles fatiguent pourtant vite : pour l'instant, tu ne fais que tomber avec grâce."
       },
       {
+        id: "flight-2-glide",
         level: 2,
         name: "Planer",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tu as appris à lire les courants d'air invisibles. Lance-toi d'un point élevé et tu peux planer sur de longues distances, silencieux comme une chouette. Tu ne peux pas encore gagner de l'altitude, mais tu peux traverser la ville de toit en toit sans jamais toucher le sol."
+        description: "Tu as appris à lire les courants d'air invisibles. Lance-toi d'un point élevé et tu peux planer sur de longues distances, silencieux comme une chouette. Tu ne gagnes pas encore d'altitude par toi-même : chaque vol commence en hauteur et finit plus bas. Mais tu traverses la ville de toit en toit sans jamais toucher le sol, et un vent favorable peut te porter très loin."
       },
       {
+        id: "flight-3-night-wings",
         level: 3,
         name: "Ailes de Nuit",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tes muscles dorsaux sont enfin assez puissants. Tu peux décoller du sol par ta seule force et voler réellement. Ton vol est peut-être lourd et bruyant au début, mais le ciel t'appartient désormais. Tu peux faire du surplace, effectuer des virages serrés, et fondre sur tes proies depuis les airs."
+        description: "Tes muscles dorsaux sont enfin assez puissants. Tu peux décoller du sol par ta seule force et voler réellement. Ton vol est encore lourd et bruyant, et un vent violent te malmène, mais le ciel t'appartient désormais. Tu peux faire du surplace, effectuer des virages serrés et fondre sur tes proies depuis les airs. Porter quelqu'un reste un effort épuisant."
       },
       {
+        id: "flight-4-swift-flight",
         level: 4,
-        name: "Vol Supersonique",
+        name: "Vol Rapide",
         bloodCost: 0,
         duration: "permanent",
-        description: "Tu ne voles plus, tu files. Tu deviens un missile vivant, capable d'atteindre des vitesses qui rivalisent avec les véhicules modernes. Le vent hurle à tes oreilles, la ville défile floue sous tes yeux. Idéal pour les interceptions, les fuites éclairs, ou pour frapper avec une énergie cinétique dévastatrice."
+        description: "Tu ne voles plus, tu files. Tu traverses le ciel aussi vite qu'une voiture lancée sur l'autoroute, et le vent hurle à tes oreilles pendant que la ville défile sous toi. Tu rattrapes une proie qui fuit en voiture, tu échappes à des poursuivants à pied en un battement d'ailes, tu fonds sur ta cible avec une violence qui transforme l'impact en arme. À cette vitesse, chaque obstacle devient un danger pour toi aussi."
       },
       {
+        id: "flight-5-master-of-the-sky",
         level: 5,
         name: "Maître du Ciel",
         bloodCost: 0,
         duration: "permanent",
         description: "Les lois de l'aérodynamisme ne s'appliquent plus à toi. Vole par tempête majeure, porte des charges lourdes (comme un autre vampire en armure) sans ralentir, effectue des manœuvres impossibles à angle droit. Tu es le prédateur ultime des cieux, plus agile qu'un oiseau, plus rapide qu'une chauve-souris."
+      },
+      {
+        id: "flight-6-raptors-dive",
+        level: 6,
+        name: "Piqué du Rapace",
+        bloodCost: 1,
+        duration: "instant",
+        description: "Tu replies tes ailes et tu tombes du ciel comme un faucon. Toute ta vitesse et ton poids se changent en un seul coup : tu brises une colonne vertébrale, tu arraches une proie du sol et l'emportes dans les airs, tu renverses une voiture d'un impact. Le piqué demande de la hauteur et une cible que tu vois. Mal calculé, il te fait percuter le sol avec la même violence que celle que tu destinais à ta victime."
+      },
+      {
+        id: "flight-7-silent-wings",
+        level: 7,
+        name: "Ailes Silencieuses",
+        bloodCost: 1,
+        duration: "scene",
+        description: "Tes ailes battent sans un bruit, et ta silhouette se fond dans le ciel nocturne. Pour la scène, ceux qui sont au sol ne te voient pas passer au-dessus d'eux, à moins de te chercher et d'avoir des yeux surnaturels. Tu suis une proie de toit en toit, tu survoles une propriété gardée, tu te poses sur un rebord sans qu'un seul garde ne lève la tête. Le pouvoir ne t'efface pas : une lumière vive ou un projecteur te révèlent."
+      },
+      {
+        id: "flight-8-carry-the-storm",
+        level: 8,
+        name: "Porter la Tempête",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tes ailes soulèvent des vents qui t'obéissent. D'un battement, tu crées une bourrasque qui renverse les hommes, éteint les torches, arrache les toitures légères. Tu peux voler au cœur d'un orage sans être déporté et entraîner la tempête dans ton sillage. Tu portes sans effort un autre vampire, ou plusieurs mortels, à travers les airs. Les vents que tu soulèves ne reconnaissent pourtant personne : tes alliés au sol les subissent aussi."
+      },
+      {
+        id: "flight-9-beyond-the-clouds",
+        level: 9,
+        name: "Au-delà des Nuages",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu montes plus haut que les nuages, là où l'air est froid et le monde silencieux. À cette altitude, tu voyages d'une ville à l'autre en une seule nuit, invisible depuis le sol. Le froid et le vent n'ont plus de prise sur ta chair morte. Tu dois pourtant calculer ta route : si l'aube te surprend au-dessus de l'océan ou d'une plaine sans abri, le ciel devient ton bûcher."
+      },
+      {
+        id: "flight-10-lord-of-the-winds",
+        level: 10,
+        name: "Seigneur des Vents",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Le ciel tout entier t'appartient. Tu commandes aux vents d'une région : tu fais naître une tempête qui couvre une ville, tu arrêtes les avions en vol, tu rabats les nuages pour plonger le jour dans la pénombre. Tu voles plus vite que le son, et ta seule silhouette sur fond d'éclairs suffit à faire croire aux mortels que les anges ou les démons sont revenus. Tant que dure la scène, aucune créature ailée, aucun appareil, aucun nuage ne bouge sans ton accord."
       }
     ]
   },
@@ -1761,9 +1806,10 @@ export const DISCIPLINES = {
   visceratika: {
     id: "visceratika",
     name: "Visceratika",
-    description: "Tu es la sentinelle de la pierre. Tu ne fais qu'un avec le bâtiment que tu protèges, partageant sa solidité et ses secrets.",
+    description: "Tu es la sentinelle de la pierre. Tu ne fais qu'un avec le bâtiment que tu protèges, partageant sa solidité et ses secrets. Ce don ne parle qu'à la pierre et au béton : le métal, le bois et le verre lui restent étrangers.",
     powers: [
       {
+        id: "visceratika-1-skin-of-the-chameleon",
         level: 1,
         name: "Peau de Caméléon",
         bloodCost: 1,
@@ -1771,6 +1817,7 @@ export const DISCIPLINES = {
         description: "En restant immobile contre une surface minérale (pierre, brique, béton), ta peau en adopte instantanément la couleur et la texture. Tu deviens quasiment invisible, une simple protubérance architecturale. Tant que tu ne bouges pas, il faut des sens surnaturels pour te distinguer de la pierre. La cachette parfaite pour une embuscade ou une surveillance."
       },
       {
+        id: "visceratika-2-scry-the-hearthstone",
         level: 2,
         name: "Cœur de Pierre",
         bloodCost: 1,
@@ -1778,6 +1825,7 @@ export const DISCIPLINES = {
         description: "Tu entres en communion avec le bâtiment. En touchant un mur, tu perçois tout ce qui se passe à l'intérieur de la structure : les pas dans les couloirs, les portes qui s'ouvrent, les battements de cœur des intrus. Le bâtiment devient une extension de ton propre corps sensoriel. Tu sais exactement où se trouve l'ennemi dans 'ton' territoire."
       },
       {
+        id: "visceratika-3-bond-with-the-mountain",
         level: 3,
         name: "Lien avec la Montagne",
         bloodCost: 3,
@@ -1785,6 +1833,7 @@ export const DISCIPLINES = {
         description: "Tu peux fusionner physiquement avec la pierre. Comme le pouvoir de Protéisme avec la terre, mais avec la roche ou le béton. Tu t'enfonces dans un mur ou un sol et y disparais. C'est le refuge ultime pour passer la journée ou échapper à un combat qui tourne mal. Tu es conscient de ton environnement immédiat, mais intouchable tant que la pierre n'est pas détruite."
       },
       {
+        id: "visceratika-4-armor-of-terra",
         level: 4,
         name: "Armure de la Terre",
         bloodCost: 3,
@@ -1792,25 +1841,52 @@ export const DISCIPLINES = {
         description: "Ta peau ne fait pas que ressembler à la pierre, elle en acquiert la dureté. Tu deviens une statue vivante. Ta résistance aux dégâts augmente considérablement, surtout contre le feu qui glisse sur toi comme sur du granit. Contrairement à la Force d'Âme, cette protection est visible : ta peau devient grise et craquelée, tes mouvements produisent un bruit de frottement minéral."
       },
       {
+        id: "visceratika-5-flow-within-the-mountain",
         level: 5,
         name: "Couler dans la Montagne",
         bloodCost: 3,
         duration: "scene",
-        description: "La pierre n'est plus un obstacle. Tu peux traverser les murs, les plafonds et les sols en pierre ou béton comme s'ils étaient de la fumée. Tu marches à travers les défenses d'un bunker, tu traverses un immeuble de part en part en ligne droite. Tu peux même emmener quelqu'un avec toi si tu le tiens, ou tirer un ennemi à moitié dans un mur et le laisser là, solidifié."
+        description: "La pierre n'est plus un obstacle. Tu traverses les murs, les plafonds et les sols de pierre ou de béton comme s'ils étaient faits de brume. Tu marches à travers les défenses d'un bunker, tu passes d'une pièce à l'autre sans ouvrir une seule porte. Tu peux emmener un compagnon que tu tiens fermement. Mais la traversée demande du temps et de la concentration, et si la pierre cède ou explose pendant que tu y es, tu en subis les conséquences dans ta chair."
       },
       {
+        id: "visceratika-6-heart-of-stone",
         level: 6,
         name: "Cœur de Roche",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
-        description: "Ton corps devient dur comme le granit. Ce n'est plus seulement une armure extérieure, c'est une transmutation de ta chair en pierre vivante. Les dégâts contondants et tranchants sont divises par deux (arrondi à l'inférieur) avant même de calculer l'encaissement."
+        description: "Pour la scène, ta chair devient du granit vivant. Ce n'est plus une armure posée sur toi, c'est ton corps entier qui change de nature : les coups, les lames et les balles perdent l'essentiel de leur force contre toi, et tu supportes des chocs qui fendraient un mur. Ta peau grise et tes mouvements lourds trahissent ta nature à qui te regarde. Le feu et le soleil te blessent toujours, et un marteau assez lourd peut encore te fissurer."
       },
       {
+        id: "visceratika-7-swim-in-the-mountain",
         level: 7,
         name: "Nager dans la Montagne",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "scene",
         description: "Tu ne fais pas que traverser la pierre, tu y nages avec aisance et rapidité, totalement indétectable. Tu peux rester immergé indéfiniment, te déplacer à ta vitesse de course, et surprendre tes ennemis en surgissant du sol ou du plafond. Tant que tu es dans la pierre, tu es immunisé à presque toutes les attaques."
+      },
+      {
+        id: "visceratika-8-stone-guardians",
+        level: 8,
+        name: "Gardiens de Pierre",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu poses la main sur une statue, une gargouille sculptée ou un pilier orné, et tu lui insuffles une vie de pierre. Elle se détache de la façade et obéit à tes ordres : elle garde un toit, surveille une rue, frappe les intrus avec la force d'un rocher. Elle ne parle pas et n'a pas d'initiative, mais elle ne dort jamais. Elle reprend sa place et son immobilité à l'aube. Une cathédrale entière peut ainsi devenir ta garde rapprochée."
+      },
+      {
+        id: "visceratika-9-soul-of-the-city",
+        level: 9,
+        name: "Âme de la Cité",
+        bloodCost: 9,
+        duration: "prolonged",
+        description: "Ton lien avec la pierre s'étend à toute une ville. Chaque mur, chaque pavé, chaque fondation te transmet ce qu'il sent : les pas, les voix, les vibrations des moteurs et des cœurs. Tu sais qui entre dans tel immeuble, qui descend dans tel tunnel, où se cache celui qui te fuit, pour peu qu'il marche sur la pierre. Le métal et le bois restent muets, et ceux qui voyagent par les airs ou par l'eau t'échappent. Mais dans une cité de pierre, rien de ce qui touche le sol ne t'est caché."
+      },
+      {
+        id: "visceratika-10-awakening-of-the-mountain",
+        level: 10,
+        name: "Le Réveil de la Montagne",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu réveilles la pierre elle-même. Une falaise se lève et marche, une cathédrale se dresse sur ses fondations et avance dans la ville, un pont de pierre se tord pour écraser ceux qui le traversent. La roche t'obéit à une échelle que nul n'a vue depuis les légendes : remparts qui se déplacent, montagnes qui grondent, géants de granit aussi hauts que des immeubles. Tant que dure la scène, chaque pierre de la région est ton armée. Les Gargouilles racontent que c'était là le rêve de leurs ancêtres prisonniers."
       }
     ]
   },
@@ -1818,16 +1894,18 @@ export const DISCIPLINES = {
   thanatosis: {
     id: "thanatosis",
     name: "Thanatosis",
-    description: "La mort n'est pas une fin, c'est une arme.",
+    description: "La mort n'est pas une fin, c'est une arme. Ce savoir appartient aux Samedi, mais d'autres Caïnites peuvent l'apprendre : leur chair se met alors à porter les replis et les marques de la tombe.",
     powers: [
       {
+        id: "thanatosis-1-hags-wrinkles",
         level: 1,
         name: "Rides de la Sorcière",
         bloodCost: 0,
         duration: "scene",
-        description: "Ta chair morte est comme de la pâte à modeler. Tu peux creuser des rides, créer des cicatrices, ou étirer ta peau pour changer de visage. Tu peux aussi créer des poches secrètes dans ton propre corps, glissant un objet sous un pli de peau qui se referme sans trace. Le déguisement grotesque parfait."
+        description: "Ta chair morte est comme de la pâte à modeler. Tu peux creuser des rides, faire apparaître des cicatrices ou étirer ta peau pour changer de visage. Tu peux aussi créer des poches secrètes dans ton propre corps, et y glisser un objet sous un pli de peau qui se referme sans laisser de trace : une lame, un document, une clé. Le déguisement est grotesque plutôt que séduisant, et les replis de chair restent visibles à qui sait regarder. Mais aucune fouille ne trouve ce que tu caches en toi."
       },
       {
+        id: "thanatosis-2-putrefaction",
         level: 2,
         name: "Putrescence",
         bloodCost: 1,
@@ -1835,13 +1913,15 @@ export const DISCIPLINES = {
         description: "Tu forces le cycle naturel de la décomposition sur autrui. D'un simple contact ou regard concentré, la chair de ta victime commence à se gâter. La peau se couvre de pustules, les muscles s'atrophient, l'odeur devient insupportable. La victime perd sa beauté et sa force, rongée par une pourriture accélérée qui la fait souffrir le martyre."
       },
       {
+        id: "thanatosis-3-ashes-to-ashes",
         level: 3,
         name: "Cendres aux Cendres",
         bloodCost: 1,
         duration: "scene",
-        description: "Pour échapper au danger, tu peux t'effondrer sur toi-même, te transformant instantanément en un tas de cendres ou de poussière visqueuse. Sous cette forme, tu es immobile mais invulnérable aux balles, aux couteaux et au feu. Tu peux rester ainsi des heures, tas de poussière conscient, attendant que la menace passe. Attention aux vents violents qui pourraient te disperser."
+        description: "Pour échapper au danger, tu t'effondres sur toi-même et tu deviens un tas de cendres grises. Sous cette forme, les balles et les lames te traversent sans effet, et tu peux rester ainsi des heures, conscient, à attendre que la menace passe. Tu ne peux pas bouger : il faut qu'on te déplace, ou que le vent le fasse. Prends garde à ceux qui voudraient te balayer, t'enfermer dans une urne ou disperser ta poussière aux quatre vents. Le feu et le soleil, eux, restent tes ennemis."
       },
       {
+        id: "thanatosis-4-withering",
         level: 4,
         name: "Flétrissement",
         bloodCost: 1,
@@ -1849,11 +1929,52 @@ export const DISCIPLINES = {
         description: "Tu touches un membre et tu lui voles sa vitalité. Saisis un bras, et il se dessèche instantanément comme celui d'une momie millénaire, la peau collée à l'os, inutile. Touche une jambe, et elle se recroqueville, rendant la victime infirme. C'est une mutilation mystique terrifiante qui transforme les guerriers en vieillards impotents en quelques secondes."
       },
       {
+        id: "thanatosis-5-necrosis",
         level: 5,
         name: "Nécrose",
         bloodCost: 3,
         duration: "instant",
         description: "Tu ordonnes à la mort de prendre ce qui lui appartient. En touchant une victime, tu provoques une décomposition massive et brutale de la zone. La chair noircit et tombe en lambeaux, l'os se désagrège. Ce n'est pas une mort instantanée propre, c'est une gangrène foudroyante qui dévore un torse ou arrache un visage, laissant la victime hurler dans une agonie absolue."
+      },
+      {
+        id: "thanatosis-6-creeping-infection",
+        level: 6,
+        name: "Infection Rampante",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu poses ta main sur quelqu'un et tu laisses en lui une graine de mort qui ne germera que plus tard. Tu choisis le moment, ou la condition : une semaine précise, une trahison, une parole rompue. Jusque-là, rien ne se voit. Puis la chair pourrit d'un coup, comme sous ta Putrescence ou ta Nécrose. Les Samedi s'en servent pour garantir les contrats : celui qui ne paie pas sa dette finit toujours par la payer."
+      },
+      {
+        id: "thanatosis-7-dust-to-dust",
+        level: 7,
+        name: "Poussière à la Poussière",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Ta forme de cendres n'est plus une prison. Tu deviens une nuée de poussière grise qui se déplace à ta volonté : tu glisses sous les portes, tu montes par les conduits, tu traverses une salle sans être vu dans un rayon de lumière. Tu peux te reformer où tu le désires. Les armes ordinaires ne te touchent toujours pas, mais un vent violent te disperse, et le feu comme le soleil restent mortels."
+      },
+      {
+        id: "thanatosis-8-putrescent-servitude",
+        level: 8,
+        name: "Servitude Putride",
+        bloodCost: 3,
+        duration: "permanent",
+        description: "Tu relèves les morts et tu en fais tes serviteurs. Les cadavres se dressent, pourris mais obéissants, et accomplissent tes ordres sans fatigue ni peur : porter, creuser, garder, tuer. Ils suivent tes instructions à la lettre, sans initiative. Leur chair continue de se décomposer, et l'odeur qui les accompagne ne laisse aucun doute sur leur nature. Un Samedi entouré de ses zombies n'a jamais besoin de goules."
+      },
+      {
+        id: "thanatosis-9-mask-of-the-grave",
+        level: 9,
+        name: "Masque de la Tombe",
+        bloodCost: 3,
+        duration: "scene",
+        description: "Tu deviens un vrai cadavre. Ton corps se refroidit, se raidit, se marbre de taches de décomposition, et plus aucun sens ni aucun pouvoir ne peut te distinguer d'un mort. L'Auspex ne voit qu'une absence, le sang ne parle plus, l'odeur est celle de la tombe. Tu restes pourtant conscient, et tu peux reprendre vie quand bon te semble. Le mort que l'on enterre, que l'on dépose à la morgue ou que l'on oublie dans un fossé, c'est peut-être toi qui attends."
+      },
+      {
+        id: "thanatosis-10-the-black-plague",
+        level: 10,
+        name: "La Peste Noire",
+        bloodCost: 10,
+        duration: "prolonged",
+        description: "Tu libères la mort sur une ville entière. Une épidémie de pourriture se répand de rue en rue : la chair des mortels se couvre de pustules, les corps tombent dans les maisons, les hôpitaux débordent. Les vampires eux-mêmes n'y échappent pas : leur sang devient amer, leur chair se décompose. Tu choisis qui est épargné, et toi seul peux arrêter la peste. Tant qu'elle court, la ville entière devient ton cimetière, et chaque mort de plus est un serviteur potentiel."
       }
     ]
   },
@@ -1861,9 +1982,10 @@ export const DISCIPLINES = {
   melpominee: {
     id: "melpominee",
     name: "Melpominée",
-    description: "La musique n'adoucit pas les mœurs, elle les contrôle.",
+    description: "La musique n'adoucit pas les mœurs, elle les contrôle. Ta voix touche l'âme et non l'oreille : même les sourds l'entendent. Elle doit être vivante, présente : un enregistrement ne transmet aucun pouvoir. Et ton chant ne vaut jamais plus que ton art.",
     powers: [
       {
+        id: "melpominee-1-the-missing-voice",
         level: 1,
         name: "La Voix Manquante",
         bloodCost: 0,
@@ -1871,6 +1993,7 @@ export const DISCIPLINES = {
         description: "Tu deviens le ventriloque ultime. Tu peux projeter ta voix pour qu'elle semble venir de n'importe où : d'un coin sombre, de derrière une porte, ou même de la gorge de quelqu'un d'autre. Une phrase chuchotée à l'oreille d'un garde depuis l'autre bout de la pièce, un ordre crié par le capitaine qui n'a pourtant pas ouvert la bouche. La confusion est ton premier instrument."
       },
       {
+        id: "melpominee-2-phantom-speaker",
         level: 2,
         name: "Le Murmure Fantôme",
         bloodCost: 1,
@@ -1878,6 +2001,7 @@ export const DISCIPLINES = {
         description: "La matière n'arrête plus tes paroles. Tu peux parler à travers les murs de pierre, chuchoter à une personne spécifique au milieu d'une foule bruyante sans que personne d'autre n'entende, ou tenir trois conversations différentes simultanément. Ta voix ignore les obstacles physiques pour atteindre directement l'oreille de ta cible."
       },
       {
+        id: "melpominee-3-madrigal",
         level: 3,
         name: "Madrigal",
         bloodCost: 1,
@@ -1885,32 +2009,60 @@ export const DISCIPLINES = {
         description: "Ton chant tisse des émotions pures. Tu ne manipules pas l'esprit, tu touches l'âme. Une mélodie mélancolique peut faire pleurer une armée, un hymne guerrier transformer des lâches en berserkers. L'émotion que tu chantes devient la réalité de tous ceux qui t'écoutent, balayant leur propre état d'esprit comme un fétu de paille."
       },
       {
+        id: "melpominee-4-sirens-beckoning",
         level: 4,
         name: "Le Chant de la Sirène",
-        bloodCost: 1,
-        duration: "scene",
-        description: "Ta voix capture l'esprit. Tant que tu chantes, ceux qui t'écoutent sont piégés dans une transe hypnotique, incapables de détacher leur attention de toi. Ils oublient le danger, le devoir, la soif. Ils sont spectateurs de ta performance, marionnettes suspendues à tes lèvres, prêts à se laisser mourir de faim plutôt que de manquer une note."
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Tu chantes pour une seule personne, et ta mélodie s'insinue dans sa raison comme de l'eau dans une fissure. Les notes se mettent à tourner dans sa tête, elle les entend encore quand tu t'es tue, puis elles se changent en obsession, en voix, en délire. Si sa volonté cède, elle sombre dans une folie durable que les médecins ne savent pas guérir. Une âme forte peut résister au chant. C'est le pouvoir qui a donné aux Filles de la Cacophonie leur réputation de muses dangereuses."
       },
       {
+        id: "melpominee-5-virtuosa",
         level: 5,
         name: "Virtuose",
         bloodCost: 3,
-        duration: "instant",
-        description: "Ta voix atteint des fréquences qui déchirent la réalité. Tu peux chanter une note si pure et si puissante qu'elle devient une arme physique. Brise les os d'un homme à dix mètres, fais éclater le verre d'un immeuble entier, ou liquéfie les organes internes d'un ennemi par simple résonance. Tu es un orchestre de destruction, ta voix est un canon."
+        duration: "scene",
+        description: "Ton art atteint une maîtrise telle que tes chants touchent tous ceux qui t'écoutent à la fois. Le Madrigal qui remuait un cœur bouleverse une salle de concert entière, le Chant de la Sirène emporte un public au lieu d'une seule victime. Tu ne chantes plus pour quelqu'un, tu chantes pour une foule, et elle t'appartient le temps de la scène. Seuls ceux qui ne peuvent pas t'entendre, ou dont l'âme est assez forte pour lutter, échappent à ta voix."
       },
       {
+        id: "melpominee-6-shattering-crescendo",
         level: 6,
         name: "Crescendo Brisé",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "instant",
-        description: "Un cri sonique dévastateur capable de briser la pierre et de liquéfier les os. Les dégâts sont massifs et couvrent une large zone conique devant le vampire. Les objets fragiles explosent instantanément."
+        description: "Tu concentres toute ta voix sur une seule cible et tu lances une note si pure qu'elle devient une arme. Le verre éclate, les tympans se déchirent, les os se fissurent, les organes se rompent sous la résonance. Un mortel peut en mourir sur-le-champ, et même un vampire en ressort gravement blessé. Le chant ne vise qu'une personne à la fois et demande que tu puisses chanter librement : une main sur ta bouche suffit à le briser."
       },
       {
+        id: "melpominee-7-persistent-echo",
         level: 7,
         name: "Écho Persistant",
-        bloodCost: 9,
+        bloodCost: 3,
         duration: "prolonged",
-        description: "Ton chant continue de résonner et d'affecter la zone longtemps après ton départ ou ton silence. L'effet émotionnel ou surnaturel de ta dernière chanson imprègne les lieux, affectant quiconque y entre pendant des heures."
+        description: "Tu laisses une chanson suspendue dans un lieu, comme un piège. Elle attend, silencieuse, qu'un intrus franchisse le seuil, puis se réveille et le frappe du pouvoir que tu y as enfermé : une émotion, une folie, une note qui brise. L'écho peut attendre des heures ou des nuits entières. Personne n'entend rien avant qu'il ne soit trop tard, et il ne touche que celui pour qui tu l'as tendu, ou le premier qui passe."
+      },
+      {
+        id: "melpominee-8-endless-voice",
+        level: 8,
+        name: "La Voix Sans Fin",
+        bloodCost: 3,
+        duration: "prolonged",
+        description: "Ta voix ne s'arrête plus aux murs ni aux distances. Tous ceux qui t'ont déjà entendue chanter peuvent t'entendre de nouveau, où qu'ils soient, quand tu le décides. Tu chantes dans ta loge, et un ancien public dispersé dans le monde entier ressent ta mélodie au même instant, avec tous les pouvoirs qu'elle porte. Celui qui ne t'a jamais entendue reste hors de portée. Ta voix devient une chaîne invisible qui relie chacun de tes auditeurs à toi."
+      },
+      {
+        id: "melpominee-9-song-of-the-soul",
+        level: 9,
+        name: "Chant de l'Âme",
+        bloodCost: 9,
+        duration: "permanent",
+        description: "Tu chantes à quelqu'un la chanson de sa propre vie, et en la chantant tu la réécris. Tu peux effacer le souvenir d'un deuil, changer la couleur d'un amour, transformer une haine ancienne en tendresse ou un souvenir heureux en cauchemar. L'âme qui t'écoute ressort changée pour toujours, sans comprendre comment. Une volonté forte résiste mieux, et tu dois chanter longtemps, en tête-à-tête. Mais quand tu as fini, ta victime ne se souvient plus d'avoir été une autre."
+      },
+      {
+        id: "melpominee-10-the-lost-note",
+        level: 10,
+        name: "La Note Perdue",
+        bloodCost: 10,
+        duration: "scene",
+        description: "Tu retrouves la note que certains anciens croient être le premier son de la création. En la chantant, tu fais vibrer la réalité elle-même : la pierre se fend, l'acier tremble, la nuit se tait. Ceux qui l'entendent sont refaits selon ta volonté, corps et âme, comme une mélodie qu'on réécrit. Tu peux défaire un bâtiment, apaiser une ville entière, briser une armée ou rendre une voix à celui qui n'en a jamais eu. Les Filles de la Cacophonie disent que la Note Perdue fut chantée une fois, et que le monde ne s'en est jamais remis."
       }
     ]
   },
@@ -1918,9 +2070,10 @@ export const DISCIPLINES = {
   daimoinon: {
     id: "daimoinon",
     name: "Daimoinon",
-    description: "La tentation est une arme, la corruption un art.",
+    description: "La tentation est une arme, la corruption un art. Ces arts noirs puisent dans les Ténèbres Extérieures, et chaque usage rapproche ton âme de ceux qui t'écoutent depuis l'abîme. Les symboles de la foi, portés par un cœur sincère, te brûlent plus que tout autre vampire.",
     powers: [
       {
+        id: "daimoinon-1-sense-the-sin",
         level: 1,
         name: "Perception du Péché",
         bloodCost: 0,
@@ -1928,6 +2081,7 @@ export const DISCIPLINES = {
         description: "Ton regard perce l'âme d'autrui pour y dénicher la souillure. En te concentrant sur une personne, tu entends murmurer ses vices cachés, ses hontes secrètes, ses désirs inavouables. Tu sais instinctivement sur quel bouton appuyer pour la corrompre ou la briser. Il n'y a pas de saint, seulement des pécheurs qui s'ignorent."
       },
       {
+        id: "daimoinon-2-fear-of-the-void-below",
         level: 2,
         name: "Peur du Vide",
         bloodCost: 1,
@@ -1935,6 +2089,7 @@ export const DISCIPLINES = {
         description: "Tu ouvres une fraction de seconde la porte de ton esprit vers les Abysses. Ceux qui croisent ton regard à cet instant voient l'horreur du néant infini, la vérité glaciale de l'enfer qui les attend. La terreur est si pure qu'elle paralyse, figeant le cœur des mortels et faisant reculer d'effroi même les vampires les plus anciens."
       },
       {
+        id: "daimoinon-3-conflagration",
         level: 3,
         name: "Flammes de l'Enfer",
         bloodCost: 1,
@@ -1942,6 +2097,7 @@ export const DISCIPLINES = {
         description: "Tu invoques le feu maudit qui brûle au fond de ton âme. Des flammes d'un vert maladif ou d'un noir profond jaillissent de tes mains. Ce feu ne produit aucune chaleur naturelle mais consume la chair et l'esprit avec une voracité terrifiante, laissant des cicatrices que le temps peine à effacer. C'est le feu de la géhenne, répondant à ton appel."
       },
       {
+        id: "daimoinon-4-psychomachia",
         level: 4,
         name: "Psychomachia",
         bloodCost: 3,
@@ -1949,18 +2105,52 @@ export const DISCIPLINES = {
         description: "Tu donnes forme aux cauchemars. En puisant dans l'esprit de ta victime, tu forces ses peurs les plus intimes à se matérialiser dans le monde réel. Son reflet sort du miroir pour l'étrangler, les ombres prennent la forme de son père abusif. La victime affronte ses propres démons, littéralement, tandis que tu observes le spectacle."
       },
       {
+        id: "daimoinon-5-condemnation",
         level: 5,
-        name: "Résonance Infernale",
+        name: "Condamnation",
         bloodCost: 3,
-        duration: "scene",
-        description: "Tu deviens un diapason pour la corruption pure. Tu émettes une onde de choc spirituelle qui brise les volontés autour de toi. Les pieux deviennent cruels, les courageux lâches, les fidèles traîtres. L'atmosphère s'alourdit d'une pression insoutenable, et les esprits les plus faibles s'effondrent en hurlant ou cèdent à leurs pulsions les plus viles instantanément."
+        duration: "permanent",
+        description: "Tu prononces une malédiction, et l'abîme l'exauce. Tu choisis la forme du mal : une main qui tremble à jamais, une malchance qui s'acharne, un sommeil sans repos, une voix qui se brise dès qu'on veut dire la vérité. La victime le porte jusqu'à ce que tu le lèves, ou qu'un pouvoir sacré l'en délivre. Plus la condamnation est cruelle, plus elle te coûte. Et chaque malédiction que tu jettes est une dette que les Ténèbres Extérieures noteront."
       },
       {
+        id: "daimoinon-6-concordance",
         level: 6,
-        name: "Investiture Infernale",
+        name: "Concordance",
         bloodCost: 9,
         duration: "permanent",
-        description: "Un pacte sombre ou une harmonie parfaite avec tes démons intérieurs transforme ton corps. Tu gagnes des traits démoniaques permanents : des ailes membraneuses fonctionnelles, une peau écailleuse résistante au feu, ou des griffes brûlantes. Tu es devenu un avatar de l'enfer sur terre."
+        description: "Tu conclus un pacte avec les puissances qui t'écoutent, et ton corps en porte la marque. Tu gagnes un trait démoniaque permanent, choisi lors du pacte : des ailes de cuir fonctionnelles, une peau écailleuse qui méprise le feu, des griffes brûlantes, des yeux qui voient dans le noir de l'âme. Ce don ne se reprend pas, et il ne se cache pas facilement. Les Baali disent que chaque marque est un pas de plus vers la forme que l'abîme te destine."
+      },
+      {
+        id: "daimoinon-7-summon-the-herald-of-topheth",
+        level: 7,
+        name: "Invoquer le Héraut de Topheth",
+        bloodCost: 9,
+        duration: "prolonged",
+        description: "Au terme d'une invocation impie, tu appelles un serviteur des Ténèbres Extérieures : une entité de fumée, d'ombre et de cendres, qui porte la puanteur des bûchers de Topheth. Le Héraut espionne, tue, transmet tes messages, garde ton repaire. Il t'obéit, mais il n'est pas ton esclave : il sert ceux qui l'ont envoyé, et il te rappelle à chaque ordre que tu leur es redevable. Le congédier mal est le plus sûr moyen d'attirer son attention sur toi."
+      },
+      {
+        id: "daimoinon-8-contagion",
+        level: 8,
+        name: "Contagion",
+        bloodCost: 9,
+        duration: "prolonged",
+        description: "Tu choisis un vice et tu le laisses courir comme une épidémie. La haine, l'avidité, la luxure ou le désespoir se répandent de personne en personne dans tout un quartier, puis toute une ville. Les crimes se multiplient, les familles se déchirent, les mortels cèdent à ce qu'ils avaient toujours refusé. Rien ne semble surnaturel : seuls un Auspex puissant ou un pouvoir capable de percevoir les démons distinguent l'aura souillée qui recouvre la cité."
+      },
+      {
+        id: "daimoinon-9-call-the-great-beast",
+        level: 9,
+        name: "Appeler la Grande Bête",
+        bloodCost: 9,
+        duration: "scene",
+        description: "Tu tentes l'impossible : appeler une puissance majeure des Ténèbres Extérieures dans le monde des vivants. Les Baali eux-mêmes ne parlent de ce rite qu'à voix basse, et la plupart doutent qu'il ait jamais réussi. Si tu y parviens, une ombre immense franchit le seuil, et ce qu'elle accomplit dépasse toute volonté mortelle ou immortelle. Mais une telle créature ne se laisse pas commander : au mieux, elle accepte un marché. Au pire, tu es le premier à disparaître."
+      },
+      {
+        id: "daimoinon-10-open-the-abyss",
+        level: 10,
+        name: "Ouvrir l'Abîme",
+        bloodCost: 10,
+        duration: "prolonged",
+        description: "Tu déchires le voile entre le monde et les Ténèbres Extérieures. Une porte s'ouvre au cœur de la ville, et l'abîme s'y déverse : les ombres prennent vie, les morts parlent avec des voix qui ne sont pas les leurs, les démons marchent dans les rues. Le ciel se teinte d'une lueur malade et la foi elle-même vacille dans le cœur des croyants. La porte reste ouverte tant que tu la tiens, et ce qui en sort ne retourne pas toujours d'où il vient. C'est le rêve des Baali, et la terreur de tous les autres."
       }
     ]
   }
