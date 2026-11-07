@@ -180,6 +180,11 @@ export default function RulesTab({ setActiveTab }) {
                                 <li className="flex justify-between"><span><SiteText contentKey="vampire.text.01396" /></span> <span className="text-red-500 font-bold"><SiteText contentKey="vampire.text.01397" /></span></li>
                             </ul>
                         </div>
+
+                        <div className="bg-stone-900 p-6 rounded border border-stone-800 hover:border-stone-700 transition-colors md:col-span-2">
+                            <h3 className="text-stone-200 font-serif mb-2 text-lg"><SiteText contentKey="vampire.rules.blush.title" /></h3>
+                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.rules.blush.body" /><strong className="text-stone-300"><SiteText contentKey="vampire.rules.blush.cost" /></strong><SiteText contentKey="vampire.rules.blush.end" /></p>
+                        </div>
                     </div>
                 </section>
 
@@ -237,6 +242,7 @@ export default function RulesTab({ setActiveTab }) {
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.03013" /></strong><SiteText contentKey="vampire.text.03014" /></li>
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01421" /></strong><SiteText contentKey="vampire.text.03015" /></li>
                         </ol>
+                        <p className="text-sm text-stone-400"><strong className="text-stone-300"><SiteText contentKey="vampire.rules.diablerie.label" /></strong><SiteText contentKey="vampire.rules.diablerie.body" /></p>
                     </div>
 
                     <div className="bg-red-950/10 p-5 rounded border border-red-900/20 mt-6 space-y-4">

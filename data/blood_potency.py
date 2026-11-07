@@ -30,6 +30,7 @@ STANDARD_VITAE_COSTS = {
     "std:heal_minor": {"label": "Régénérer une blessure mineure", "cost": 1},
     "std:heal_serious": {"label": "Régénérer une blessure grave", "cost": 3},
     "std:heal_major": {"label": "Régénérer un démembrement", "cost": 9},
+    "std:blush": {"label": "Souffle de vie (une scène)", "cost": 1},
 }
 
 
