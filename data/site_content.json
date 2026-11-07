@@ -25243,6 +25243,33 @@
     "catalog": false,
     "variables": []
   },
+  "vampire.rules.territory.huntingNews": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Il est logique qu'un seigneur finisse par apprendre qu'on chasse sur ses terres, par ses goules, ses informateurs ou les rumeurs du quartier, mais il l'apprend par le récit, jamais par le salon. Libre à lui d'en faire une affaire, de fermer les yeux ou d'en tirer une faveur.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.vigilance.label": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La Vigilance des mortels :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.vigilance.body": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Chaque forum garde la mémoire de ce que ses mortels n'auraient pas dû voir : c'est sa Vigilance. Chaque brèche de la Mascarade commise dans une scène du secteur, avouée par son auteur ou relevée par un MJ, la fait passer du Calme aux Rumeurs, puis à l'Enquête, puis à la Traque. En Enquête, policiers, journalistes et curieux rôdent, et chaque scène de chasse dans le quartier devient un risque. En Traque, chasseurs et Seconde Inquisition y patrouillent : nul ne s'y nourrit plus en off, et le seigneur du domaine en répond devant le Prince. Le temps n'efface rien. Seuls des actes font retomber la Vigilance d'un cran : une scène qui étouffe l'affaire, Recoudre le voile ou Les yeux du jour.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
   "vampire.text.03003": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",

@@ -117,7 +117,8 @@ export default function RulesTab({ setActiveTab }) {
                             <p><SiteText contentKey="vampire.text.01361" /></p>
                             <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01362" /></strong><SiteText contentKey="vampire.text.01363" /></p>
                             <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01364" /></strong><SiteText contentKey="vampire.text.03001" /></p>
-                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01366" /></strong><SiteText contentKey="vampire.text.03002" /></p>
+                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.rules.vigilance.label" /></strong><SiteText contentKey="vampire.rules.vigilance.body" /></p>
+                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01366" /></strong><SiteText contentKey="vampire.text.03002" /><SiteText contentKey="vampire.rules.territory.huntingNews" /></p>
                         </div>
                     </div>
                 </section>
