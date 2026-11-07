@@ -2,7 +2,8 @@
 Frénésie dans le panneau Vampire : déclarer la Bête, la ravaler ou lui céder, la congédier.
 
 Tout se joue dans le message du panneau : chaque étape remplace son contenu, puis rend
-un panneau neuf. L'annonce publique part dans la scène liée et est modifiée à la fin
+un panneau neuf. La scène est le salon où le panneau a été ouvert : l'annonce publique
+y part, et elle est modifiée à la fin
 de la frénésie, au lieu d'un second message.
 """
 
@@ -204,7 +205,7 @@ def beast_mark_input() -> ui.TextInput:
 
 
 # ---------------------------------------------------------------------------
-# La Bête s'éveille : choix de la cause, lien de scène, ravaler ou céder
+# La Bête s'éveille : choix de la cause, ravaler ou céder (dans le salon du panneau)
 # ---------------------------------------------------------------------------
 
 def _owner_only(panel, interaction: discord.Interaction) -> bool:
@@ -267,9 +268,18 @@ class TriggerSelect(ui.Select):
         super().__init__(placeholder="Ce qui réveille ta Bête…", min_values=1, max_values=1, options=options, row=0)
 
     async def callback(self, interaction: discord.Interaction):
+        """La scène est le salon où le panneau a été ouvert : rien à saisir, sauf le prix d'un pouvoir."""
         if not _owner_only(self.panel, interaction):
             return await _refuse(interaction)
-        await interaction.response.send_modal(SceneModal(self.panel, self.values[0]))
+        trigger_id = self.values[0]
+        trigger = TRIGGERS[trigger_id]
+        if trigger["resist"] == "power":
+            await interaction.response.send_modal(PowerPriceModal(self.panel, trigger_id))
+        elif trigger["resist"] is None:
+            await yield_to_beast(interaction, self.panel, trigger_id)
+        else:
+            await show_choice(interaction, self.panel, trigger_id,
+                              resist_cost(trigger_id, self.panel.blood_potency, self.panel.clan))
 
 
 class TriggerView(ui.View):
@@ -279,50 +289,42 @@ class TriggerView(ui.View):
         self.add_item(BackButton(panel))
 
 
-class SceneModal(ui.Modal, title="La Bête s'éveille"):
-    """Lien de la scène (et prix du pouvoir si un pouvoir réveille la Bête)."""
+async def show_choice(interaction: discord.Interaction, panel, trigger_id: str, cost: int):
+    view = ChoiceView(panel, trigger_id, panel.channel_id, cost)
+    await interaction.response.edit_message(embed=view.embed(), view=view)
+
+
+async def yield_to_beast(interaction: discord.Interaction, panel, trigger_id: str):
+    """Céder : la frénésie éclate dans le salon du panneau, puis le panneau revient."""
+    try:
+        note = await unleash(interaction, panel, trigger_id, panel.channel_id)
+    except ValueError as exc:
+        await interaction.response.send_message(str(exc), ephemeral=True)
+        return
+    await back_to_panel(interaction, panel, note)
+
+
+class PowerPriceModal(ui.Modal, title="Un pouvoir réveille la Bête"):
+    """Prix de résistance du pouvoir, calculé selon la règle de la section V."""
 
     def __init__(self, panel, trigger_id: str):
         super().__init__()
         self.panel = panel
         self.trigger_id = trigger_id
-        self.scene_link = ui.TextInput(
-            label="Lien de la scène", placeholder="https://discord.com/channels/…/…/…",
-            min_length=20, max_length=200, required=True)
-        self.add_item(self.scene_link)
-        self.power_price = None
-        if TRIGGERS[trigger_id]["resist"] == "power":
-            self.power_price = ui.TextInput(
-                label="Prix de résistance du pouvoir (Vitae)", placeholder="Ex : 3, 6, 9",
-                min_length=1, max_length=2, required=True)
-            self.add_item(self.power_price)
+        self.power_price = ui.TextInput(
+            label="Prix de résistance du pouvoir (Vitae)", placeholder="Ex : 3, 6, 9",
+            min_length=1, max_length=2, required=True)
+        self.add_item(self.power_price)
 
     async def on_submit(self, interaction: discord.Interaction):
-        channel_id = parse_scene_link(self.scene_link.value, interaction.guild.id)
-        if channel_id is None:
-            await interaction.response.send_message("Indique un lien de scène Discord de ce serveur.", ephemeral=True)
+        try:
+            cost = int(self.power_price.value)
+            if cost < 1:
+                raise ValueError
+        except ValueError:
+            await interaction.response.send_message("Le prix du pouvoir doit être un nombre positif.", ephemeral=True)
             return
-        trigger = TRIGGERS[self.trigger_id]
-        if trigger["resist"] is None:
-            try:
-                note = await unleash(interaction, self.panel, self.trigger_id, channel_id)
-            except ValueError as exc:
-                await interaction.response.send_message(str(exc), ephemeral=True)
-                return
-            await back_to_panel(interaction, self.panel, note)
-            return
-        if self.power_price is not None:
-            try:
-                cost = int(self.power_price.value)
-                if cost < 1:
-                    raise ValueError
-            except ValueError:
-                await interaction.response.send_message("Le prix du pouvoir doit être un nombre positif.", ephemeral=True)
-                return
-        else:
-            cost = resist_cost(self.trigger_id, self.panel.blood_potency, self.panel.clan)
-        view = ChoiceView(self.panel, self.trigger_id, channel_id, cost)
-        await interaction.response.edit_message(embed=view.embed(), view=view)
+        await show_choice(interaction, self.panel, self.trigger_id, cost)
 
 
 class ChoiceView(ui.View):
@@ -379,12 +381,7 @@ class ChoiceView(ui.View):
     async def yield_button(self, interaction: discord.Interaction, button: ui.Button):
         if not _owner_only(self.panel, interaction):
             return await _refuse(interaction)
-        try:
-            note = await unleash(interaction, self.panel, self.trigger_id, self.channel_id)
-        except ValueError as exc:
-            await interaction.response.send_message(str(exc), ephemeral=True)
-            return
-        await back_to_panel(interaction, self.panel, note)
+        await yield_to_beast(interaction, self.panel, self.trigger_id)
 
 
 # ---------------------------------------------------------------------------
