@@ -13,6 +13,13 @@ const DURATION_LABELS = {
     permanent: "Permanente"
 };
 
+const DURATION_NOTES = {
+    instant: "vampire.text.02971",
+    scene: "vampire.text.02972",
+    prolonged: "vampire.text.02973",
+    permanent: "vampire.text.02974"
+};
+
 const DisciplineDetailModal = ({ power, icon, onClose }) => {
     useSiteContent();
     const modalRef = useRef(null);
@@ -136,7 +143,9 @@ const DisciplineDetailModal = ({ power, icon, onClose }) => {
                             </div>
                         </div>
 
-                        <p className="px-6 pb-4 text-sm text-stone-400"><SiteText contentKey="vampire.text.01253" /></p>
+                        {DURATION_NOTES[power.duration] && (
+                            <p className="px-6 pb-4 text-sm italic text-stone-500"><SiteText contentKey={DURATION_NOTES[power.duration]} /></p>
+                        )}
                         {/* Footer (Optional) */}
                         <div className="p-4 border-t border-stone-800 bg-stone-950/30 shrink-0 flex justify-end">
                             <button
