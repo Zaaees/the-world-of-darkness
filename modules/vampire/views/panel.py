@@ -21,6 +21,7 @@ from utils.database import (
     feed_vampire,
     quick_feed_amount,
     quick_feed_floor,
+    requires_scene_feeding,
     spend_vitae_for_power,
 )
 
@@ -205,7 +206,8 @@ class HuntSceneModal(ui.Modal, title="Scène de chasse"):
             await interaction.response.send_message(str(exc), ephemeral=True)
             return
         self.panel_view.soif_level = result["vitae"]
-        self.panel_view.note = f"🍷 Scène de chasse jouée : réserve pleine ({result['vitae']}/{result['max_vitae']})."
+        prey = "Sang de vampire bu" if requires_scene_feeding(self.panel_view.blood_potency) else "Scène de chasse jouée"
+        self.panel_view.note = f"🍷 {prey} : réserve pleine ({result['vitae']}/{result['max_vitae']})."
         await interaction.response.edit_message(embed=self.panel_view.create_embed(), view=self.panel_view)
 
 
@@ -226,7 +228,7 @@ class PowerSelect(ui.Select):
             if len(options) >= 25:
                 break
             options.append(discord.SelectOption(
-                label=f"{item['label']} ({item['cost']} Vitae)"[:100], value=key, description="Règlement, section IV"))
+                label=f"{item['label']} ({item['cost']} Vitae)"[:100], value=key))
         super().__init__(placeholder="Utiliser un pouvoir…", min_values=1, max_values=1,
                          options=options[:25], row=0)
 
@@ -420,7 +422,10 @@ class VampirePanel(ui.View):
 
         max_vitae = get_max_vitae(self.blood_potency)
         floor = quick_feed_floor(self.blood_potency)
-        if self.soif_level >= floor:
+        if requires_scene_feeding(self.blood_potency):
+            feeding = ("Seul le **sang de vampire** te rassasie : **alimentation en scène obligatoire**. "
+                       "Joue la scène où tu bois un autre vampire, puis donne son lien : la réserve se remplit.")
+        elif self.soif_level >= floor:
             feeding = (f"Chasse en off possible : +{quick_feed_amount(self.blood_potency)} Vitae, une fois par nuit. "
                        f"Une scène de chasse (lien) remplit la réserve.")
         else:
@@ -480,8 +485,8 @@ class VampirePanel(ui.View):
 
     def _update_buttons(self):
         """Met à jour l'état des boutons."""
-        # On pourrait désactiver le bouton dépenser si Vitae = 0, mais on laisse le joueur essayer pour voir le message d'erreur ou juste rien faire.
-        pass
+        # Au rang où seul le sang de vampire rassasie, la chasse en off n'existe plus.
+        self.quick_feed_button.disabled = requires_scene_feeding(self.blood_potency)
 
     @ui.button(label="Soif", style=discord.ButtonStyle.danger, emoji="🩸", row=1)
     async def spend_button(

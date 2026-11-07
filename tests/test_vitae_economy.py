@@ -42,6 +42,19 @@ def test_quick_feed_is_partial_once_per_night_and_needs_a_healthy_reserve(db):
     asyncio.run(run())
 
 
+def test_rank_five_only_feeds_on_vampire_blood_in_a_scene(db):
+    async def run():
+        await seed(bp=5, vitae=24)  # healthy reserve, never fed: still no off-screen hunt
+        with pytest.raises(ValueError, match='sang de vampire'):
+            await database.feed_vampire(1, 2, 'quick', now=NOW)
+        assert await database.get_vampire_soif(1, 2) == 24  # nothing changed
+        await database.set_vampire_soif(1, 2, 3)
+        scene = await database.feed_vampire(1, 2, 'scene', now=NOW)
+        assert (scene['gained'], scene['vitae']) == (22, 25)  # the whole reserve, not +10
+        assert database.requires_scene_feeding(5) and not database.requires_scene_feeding(4)
+    asyncio.run(run())
+
+
 def test_quick_feed_amounts_follow_the_reserve():
     assert [database.quick_feed_amount(n) for n in range(1, 6)] == [2, 4, 5, 8, 10]
     assert [database.quick_feed_floor(n) for n in range(1, 6)] == [2, 4, 5, 8, 10]

@@ -10968,7 +10968,7 @@
   "vampire.text.01375": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
-    "default": "La chasse en off rend une part fixe de votre réserve (40 %, soit 2 / 4 / 5 / 8 / 10 Vitae selon le rang), une fois par nuit réelle, et seulement tant que la réserve est encore à 40 % ou plus. En dessous, seule une scène de chasse jouée (son lien Discord est demandé) remplit la réserve. Les nuits qui passent sans ouvrir le panneau coûtent aussi un peu de sang (1 Vitae tous les deux jours, au plus 3 d’un coup). Une mutation agrandit la réserve sans la remplir.",
+    "default": "La chasse en off rend une part fixe de votre réserve (40 %, soit 2 / 4 / 5 / 8 Vitae selon le rang), une fois par nuit réelle, et seulement tant que la réserve est encore à 40 % ou plus. En dessous, seule une scène de chasse jouée (son lien Discord est demandé) remplit la réserve. Au rang 5, seul le sang de vampire vous rassasie : plus de chasse en off, chaque repas est une scène jouée, et elle remplit toute la réserve. Les nuits qui passent sans ouvrir le panneau coûtent aussi un peu de sang (1 Vitae tous les deux jours, au plus 3 d’un coup). Une mutation agrandit la réserve sans la remplir.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
