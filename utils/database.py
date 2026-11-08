@@ -226,6 +226,9 @@ async def init_database():
         except Exception:
             pass
 
+        from utils.blood_bonds import init_blood_bonds_table  # import tardif : ce module importe database
+        await init_blood_bonds_table(db)
+
         await db.commit()
         logger.info("Base de données initialisée avec succès")
 

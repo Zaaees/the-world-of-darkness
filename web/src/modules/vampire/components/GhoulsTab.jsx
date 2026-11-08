@@ -386,6 +386,14 @@ function GhoulCard({ ghoul, isEditing, onEdit, onSave, onCancel, onDelete }) {
         <p className="text-sm text-stone-400 mb-3 leading-relaxed">{ghoul.description}</p>
       )}
 
+      <div className="mb-3">
+        {isMindGhoul ? (
+          <span className="inline-block text-[10px] uppercase tracking-wider text-purple-300 bg-purple-900/20 border border-purple-900/40 rounded px-2 py-0.5"><SiteText contentKey="vampire.bonds.ghoulMind" /></span>
+        ) : (
+          <span className="inline-block text-[10px] uppercase tracking-wider text-red-300 bg-red-900/30 border border-red-800 rounded px-2 py-0.5"><SiteText contentKey="vampire.bonds.ghoulBound" /></span>
+        )}
+      </div>
+
       <div className="flex items-center gap-4 pt-3 border-t border-stone-800/50">
         {!isMindGhoul && ghoul.discipline_name && ghoul.discipline_power && (
           <div className="flex items-center gap-2">

@@ -117,7 +117,8 @@ export default function RulesTab({ setActiveTab }) {
                             <p><SiteText contentKey="vampire.text.01361" /></p>
                             <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01362" /></strong><SiteText contentKey="vampire.text.01363" /></p>
                             <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01364" /></strong><SiteText contentKey="vampire.text.03001" /></p>
-                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01366" /></strong><SiteText contentKey="vampire.text.03002" /></p>
+                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.rules.vigilance.label" /></strong><SiteText contentKey="vampire.rules.vigilance.body" /></p>
+                            <p><strong className="text-stone-300"><SiteText contentKey="vampire.text.01366" /></strong><SiteText contentKey="vampire.text.03002" /><SiteText contentKey="vampire.rules.territory.huntingNews" /></p>
                         </div>
                     </div>
                 </section>
@@ -180,6 +181,11 @@ export default function RulesTab({ setActiveTab }) {
                                 <li className="flex justify-between"><span><SiteText contentKey="vampire.text.01396" /></span> <span className="text-red-500 font-bold"><SiteText contentKey="vampire.text.01397" /></span></li>
                             </ul>
                         </div>
+
+                        <div className="bg-stone-900 p-6 rounded border border-stone-800 hover:border-stone-700 transition-colors md:col-span-2">
+                            <h3 className="text-stone-200 font-serif mb-2 text-lg"><SiteText contentKey="vampire.rules.blush.title" /></h3>
+                            <p className="text-sm text-stone-500"><SiteText contentKey="vampire.rules.blush.body" /><strong className="text-stone-300"><SiteText contentKey="vampire.rules.blush.cost" /></strong><SiteText contentKey="vampire.rules.blush.end" /></p>
+                        </div>
                     </div>
                 </section>
 
@@ -237,6 +243,7 @@ export default function RulesTab({ setActiveTab }) {
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.03013" /></strong><SiteText contentKey="vampire.text.03014" /></li>
                             <li><strong className="text-stone-300"><SiteText contentKey="vampire.text.01421" /></strong><SiteText contentKey="vampire.text.03015" /></li>
                         </ol>
+                        <p className="text-sm text-stone-400"><strong className="text-stone-300"><SiteText contentKey="vampire.rules.diablerie.label" /></strong><SiteText contentKey="vampire.rules.diablerie.body" /></p>
                     </div>
 
                     <div className="bg-red-950/10 p-5 rounded border border-red-900/20 mt-6 space-y-4">
@@ -296,6 +303,18 @@ export default function RulesTab({ setActiveTab }) {
                                 <li><SiteText contentKey="vampire.text.01449" /><strong className="text-stone-300"><SiteText contentKey="vampire.text.01452" /></strong><SiteText contentKey="vampire.text.01453" /></li>
                             </ul>
                         </div>
+                    </div>
+
+                    <div className="mt-8 bg-stone-900 p-6 rounded border border-stone-800">
+                        <h3 className="font-serif text-stone-300 text-xl mb-4"><SiteText contentKey="vampire.rules.bond.title" /></h3>
+                        <p className="text-sm text-stone-400 mb-2"><SiteText contentKey="vampire.rules.bond.intro" /></p>
+                        <ul className="text-sm text-stone-400 space-y-2 list-disc list-inside">
+                            <li><SiteText contentKey="vampire.rules.bond.01a" /><strong className="text-stone-300"><SiteText contentKey="vampire.rules.bond.01b" /></strong><SiteText contentKey="vampire.rules.bond.01c" /></li>
+                            <li><SiteText contentKey="vampire.rules.bond.02" /></li>
+                            <li><strong className="text-stone-300"><SiteText contentKey="vampire.rules.bond.03a" /></strong><SiteText contentKey="vampire.rules.bond.03b" /></li>
+                            <li><SiteText contentKey="vampire.rules.bond.04" /></li>
+                        </ul>
+                        <p className="text-sm text-stone-500 mt-2 italic"><strong className="font-bold"><SiteText contentKey="vampire.rules.bond.noteLabel" /></strong><SiteText contentKey="vampire.rules.bond.note" /></p>
                     </div>
 
                     <div className="mt-8 space-y-6">

@@ -124,13 +124,14 @@ async def _scene_channel(guild: discord.Guild, channel_id: Optional[int]):
     return channel if hasattr(channel, "send") else None
 
 
-async def post_card(guild: discord.Guild, channel_id: int, embed: discord.Embed) -> Optional[int]:
-    """Poste l'annonce ; renvoie l'id du message, ou None si le salon est inaccessible."""
+async def post_card(guild: discord.Guild, channel_id: int, embed: discord.Embed,
+                    content: Optional[str] = None) -> Optional[int]:
+    """Poste l'annonce (`content` prévient un membre) ; renvoie l'id du message, ou None si le salon est inaccessible."""
     channel = await _scene_channel(guild, channel_id)
     if channel is None:
         return None
     try:
-        message = await channel.send(embed=embed)
+        message = await channel.send(content=content, embed=embed)
     except discord.HTTPException:
         logger.warning("Annonce de frénésie impossible dans le salon %s", channel_id)
         return None
@@ -216,9 +217,14 @@ async def _refuse(interaction: discord.Interaction):
     await interaction.response.send_message("Ce panneau ne t'appartient pas.", ephemeral=True)
 
 
-async def back_to_panel(interaction: discord.Interaction, panel, note: Optional[str] = None):
+async def back_to_panel(interaction: discord.Interaction, panel, note: Optional[str] = None,
+                        deferred: bool = False):
+    """Revient sur un panneau neuf ; `deferred` si l'interaction a déjà été différée."""
     fresh = panel.clone(note)
-    await interaction.response.edit_message(embed=fresh.create_embed(), view=fresh)
+    if deferred:
+        await interaction.edit_original_response(embed=fresh.create_embed(), view=fresh)
+    else:
+        await interaction.response.edit_message(embed=fresh.create_embed(), view=fresh)
 
 
 class BackButton(ui.Button):

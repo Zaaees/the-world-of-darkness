@@ -11667,10 +11667,370 @@
     "catalog": false,
     "variables": []
   },
+  "vampire.bonds.title": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Liens de sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.boundTo": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Vous êtes lié à",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.drankFromMe": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Ont bu votre sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.stage": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Stade {v0}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.stage1": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "{v0} occupe vos pensées plus que de raison.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.stage2": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "{v0} compte plus que quiconque ; vous le protégez sans y penser.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.stage3": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "{v0} passe avant tout, même avant vous.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.defy": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Chaque action contre {v0} vous coûte {v1} Vitae : déclarez-la avec « Défier le lien » du panneau.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0", "v1"]
+  },
+  "vampire.bonds.empty": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Aucun lien de sang ne vous enchaîne, et nul n'a bu votre sang.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.loading": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "Lecture des liens…",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.npc": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/BloodBondsSection.jsx",
+    "default": "PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.ghoulBound": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/GhoulsTab.jsx",
+    "default": "Liée au stade 3",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.ghoulMind": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/GhoulsTab.jsx",
+    "default": "Sans lien de sang : tenue par la Domination",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.tab": {
+    "scope": "vampire",
+    "source": "core/components/GmDashboard.jsx",
+    "default": "Liens de sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.empty": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Aucun lien de sang sur ce serveur.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.player": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Joueur",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.rank": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Rang {v0}",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": ["v0"]
+  },
+  "vampire.bonds.admin.delete": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Effacer",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.confirmDelete": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Effacer ce lien ? Le récit l'a-t-il vraiment défait ?",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.formTitle": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Lier un joueur à un PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.thrall": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Vampire lié",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.fromRegistry": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "PNJ du registre",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.freeName": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Nom libre",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.npcName": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Nom du PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.potency": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Rang du PNJ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.stageLabel": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Stade",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.submit": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Créer le lien",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.choose": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Choisir…",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.bonds.admin.loadError": {
+    "scope": "vampire",
+    "source": "core/components/BloodBondsAdmin.jsx",
+    "default": "Erreur de chargement des liens",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
   "vampire.text.01472": {
     "scope": "vampire",
     "source": "modules/vampire/components/SceneSubmission.jsx",
     "default": "Soumettre : ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.title": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le Lien de sang",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.intro": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Boire le sang d'un vampire, c'est commencer à l'aimer.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.01a": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Chaque gorgée resserre le lien d'un cran ; à la ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.01b": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "troisième",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.01c": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": ", vous êtes lié : votre régnant, celui dont vous avez bu le sang, passe avant tout, même avant vous.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.02": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Seul celui qui donne son sang le déclare, en scène, avec « Offrir mon sang » du panneau. Chaque gorgée lui coûte 1 Vitae. Le sang Tremere est plus traître : sa première gorgée lie déjà au deuxième stade.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.03a": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Lié, vous n'avez qu'un maître",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.03b": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " : aucun autre sang ne vous prend tant que le lien tient. Agir contre lui reste possible, mais chaque action vous coûte autant de Vitae que son rang, avec « Défier le lien » du panneau.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.04": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le temps n'use pas le lien. Seul le récit le défait : une Vaulderie, un rituel, une laisse brisée. Le MJ l'efface alors.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.noteLabel": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Note :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.bond.note": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " une goule de sang est liée au troisième stade dès sa création ; une goule de l'esprit ne l'est pas. Au Zénith, boire un autre vampire vous nourrit sans vous lier.",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -12790,7 +13150,7 @@
   "vampire.text.01596": {
     "scope": "vampire",
     "source": "modules/vampire/pages/SheetPage.jsx",
-    "default": "Goules",
+    "default": "Goules & Liens",
     "maxLength": 12000,
     "public": false,
     "catalog": false,
@@ -25243,6 +25603,33 @@
     "catalog": false,
     "variables": []
   },
+  "vampire.rules.territory.huntingNews": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Il est logique qu'un seigneur finisse par apprendre qu'on chasse sur ses terres, par ses goules, ses informateurs ou les rumeurs du quartier, mais il l'apprend par le récit, jamais par le salon. Libre à lui d'en faire une affaire, de fermer les yeux ou d'en tirer une faveur.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.vigilance.label": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "La Vigilance des mortels :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.vigilance.body": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Chaque forum garde la mémoire de ce que ses mortels n'auraient pas dû voir : c'est sa Vigilance. Chaque brèche de la Mascarade commise dans une scène du secteur, avouée par son auteur ou relevée par un MJ, la fait passer du Calme aux Rumeurs, puis à l'Enquête, puis à la Traque. En Enquête, policiers, journalistes et curieux rôdent, et chaque scène de chasse dans le quartier devient un risque. En Traque, chasseurs et Seconde Inquisition y patrouillent : nul ne s'y nourrit plus en off, et le seigneur du domaine en répond devant le Prince. Le temps n'efface rien. Seuls des actes font retomber la Vigilance d'un cran : une scène qui étouffe l'affaire, Recoudre le voile ou Les yeux du jour.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
   "vampire.text.03003": {
     "scope": "vampire",
     "source": "modules/vampire/components/RulesTab.jsx",
@@ -25547,6 +25934,60 @@
     "maxLength": 12000,
     "public": false,
     "catalog": true,
+    "variables": []
+  },
+  "vampire.rules.blush.title": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Le Souffle de Vie",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.blush.body": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Forcez votre sang à imiter la vie : un teint rosé, une peau tiède, un cœur qui bat. Vous pouvez manger, boire ou partager un lit sans trahir votre nature ; la nourriture devra être rendue avant l'aube. ",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.blush.cost": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Coût : 1 point de Vitae",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.blush.end": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " pour toute la scène.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.diablerie.label": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": "Diablerie :",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
+    "variables": []
+  },
+  "vampire.rules.diablerie.body": {
+    "scope": "vampire",
+    "source": "modules/vampire/components/RulesTab.jsx",
+    "default": " Boire l'âme d'un Caïnite laisse une marque. Des stries noires veinent votre aura, visibles de qui sait lire les âmes, et certains pouvoirs seuls savent les masquer. Elles ne s'effacent pas d'elles-mêmes : seul le MJ décide, au fil du récit, qu'elles ont pâli.",
+    "maxLength": 12000,
+    "public": false,
+    "catalog": false,
     "variables": []
   }
 }

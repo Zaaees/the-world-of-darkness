@@ -4,15 +4,16 @@ import SiteText from '../content/SiteText';
 import { apiFetch } from '../api';
 import { openContentEditor } from '../content/store';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Users, UserPlus, Shield, Search, RefreshCw, Trash2, Edit, Save, Share2, ArrowLeft } from 'lucide-react';
+import { Users, UserPlus, Shield, Search, RefreshCw, Trash2, Edit, Save, Share2, ArrowLeft, Link } from 'lucide-react';
 import { CLAN_DESCRIPTIONS as CLANS } from '../../data/clanDescriptions';
 
 // API CONSTANTS
 import { API_URL } from '../../config';
+import BloodBondsAdmin from './BloodBondsAdmin';
 
 export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
     useSiteContent();
-    const [activeTab, setActiveTab] = useState('list'); // 'list', 'create'
+    const [activeTab, setActiveTab] = useState('list'); // 'list', 'create', 'bonds'
     const [npcs, setNpcs] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -135,7 +136,7 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
 
             <div className="max-w-4xl mx-auto">
                 {/* Navigation */}
-                <div className="flex gap-4 border-b border-stone-800 mb-6">
+                <div className="flex flex-wrap gap-x-4 border-b border-stone-800 mb-6">
                     <button
                         onClick={() => setActiveTab('list')}
                         className={`pb-3 px-4 text-sm font-serif uppercase tracking-widest transition-colors ${activeTab === 'list'
@@ -155,6 +156,16 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                     >
                         <div className="flex items-center gap-2">
                             <UserPlus size={16} /><SiteText contentKey="vampire.text.00013" /></div>
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('bonds')}
+                        className={`pb-3 px-4 text-sm font-serif uppercase tracking-widest transition-colors ${activeTab === 'bonds'
+                            ? 'text-red-500 border-b-2 border-red-500'
+                            : 'text-stone-500 hover:text-stone-300'
+                            }`}
+                    >
+                        <div className="flex items-center gap-2">
+                            <Link size={16} /><SiteText contentKey="vampire.bonds.admin.tab" /></div>
                     </button>
                 </div>
 
@@ -267,6 +278,8 @@ export default function GmDashboard({ discordUser, guildId, onSelectNpc }) {
                         )}
                     </div>
                 )}
+
+                {activeTab === 'bonds' && <BloodBondsAdmin discordUser={discordUser} guildId={guildId} />}
 
                 {/* CONTENU CRÉATION */}
                 {activeTab === 'create' && (
